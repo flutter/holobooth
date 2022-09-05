@@ -29,7 +29,7 @@ class _AnimatedFadeInState extends State<AnimatedFadeIn> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() => _isVisible = true);
     });
   }
