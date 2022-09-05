@@ -17,12 +17,12 @@ dependencies:
   firebase_storage: ^8.0.4
   analytics:
     path: packages/analytics
-  bloc: ^7.0.0
+  bloc: ^8.1.0
   camera:
     path: packages/camera/camera
   cross_file: ^0.3.1
   equatable: ^2.0.0
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^8.1.1
   rxdart: ^0.26.0
   image_compositor:
     path: packages/image_compositor
@@ -40,9 +40,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^8.0.0
-  mocktail: ^0.1.2
-  mocktail_image_network: ^0.1.0
+  bloc_test: ^9.1.0
+  mocktail: ^0.3.0
+  mocktail_image_network: ^0.3.1
 
 flutter:
   uses-material-design: true
