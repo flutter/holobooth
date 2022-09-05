@@ -8,7 +8,6 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
-import 'package:provider/provider.dart';
 
 class ShareButton extends StatelessWidget {
   ShareButton({

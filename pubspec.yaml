@@ -21,9 +21,9 @@ dependencies:
   camera:
     path: packages/camera/camera
   cross_file: ^0.3.3+1
-  equatable: ^2.0.0
+  equatable: ^2.0.5
   flutter_bloc: ^7.0.0
-  rxdart: ^0.26.0
+  rxdart: ^0.27.5
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
@@ -34,7 +34,7 @@ dependencies:
     path: packages/authentication_repository
   photobooth_ui:
     path: packages/photobooth_ui
-  uuid: ^3.0.3
+  uuid: ^3.0.6
   very_good_analysis: ^2.0.4
 
 dev_dependencies:
