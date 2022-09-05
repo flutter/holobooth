@@ -10,16 +10,16 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../helpers/helpers.dart';
 
-class FakeStickersEvent extends Fake implements StickersEvent {}
+class _FakeStickersEvent extends Fake implements StickersEvent {}
 
-class FakeStickersState extends Fake implements StickersState {}
+class _FakeStickersState extends Fake implements StickersState {}
 
 class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
+class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -28,10 +28,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue<StickersEvent>(_FakeStickersEvent());
+    registerFallbackValue<StickersState>(_FakeStickersState());
+    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
   });
 
   group('StickersDrawerLayer', () {

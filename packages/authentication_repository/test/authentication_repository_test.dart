@@ -9,7 +9,7 @@ class _MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
 class _MockUserCredential extends Mock implements firebase_auth.UserCredential {
 }
 
-class FakeAuthCredential extends Fake implements firebase_auth.AuthCredential {}
+class _FakeAuthCredential extends Fake implements firebase_auth.AuthCredential {}
 
 void main() {
   group('AuthenticationRepository', () {
@@ -17,7 +17,7 @@ void main() {
     late AuthenticationRepository authenticationRepository;
 
     setUpAll(() {
-      registerFallbackValue<firebase_auth.AuthCredential>(FakeAuthCredential());
+      registerFallbackValue<firebase_auth.AuthCredential>(_FakeAuthCredential());
     });
 
     setUp(() {

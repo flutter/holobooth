@@ -8,7 +8,7 @@ class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class FakeCameraOptions extends Fake implements CameraOptions {}
+class _FakeCameraOptions extends Fake implements CameraOptions {}
 
 void main() {
   const textureId = 1;
@@ -16,7 +16,7 @@ void main() {
     late CameraPlatform platform;
 
     setUpAll(() {
-      registerFallbackValue<CameraOptions>(FakeCameraOptions());
+      registerFallbackValue<CameraOptions>(_FakeCameraOptions());
     });
 
     setUp(() {

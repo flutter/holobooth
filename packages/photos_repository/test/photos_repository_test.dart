@@ -20,7 +20,7 @@ class _MockUploadTask extends Mock implements firebase_storage.UploadTask {}
 
 class _MockTaskSnapshot extends Mock implements firebase_storage.TaskSnapshot {}
 
-class FakeSettableMetadata extends Fake
+class _FakeSettableMetadata extends Fake
     implements firebase_storage.SettableMetadata {}
 
 typedef UploadTaskSnapshot = FutureOr<firebase_storage.TaskSnapshot> Function(
@@ -33,7 +33,7 @@ void main() {
     registerFallbackValue<firebase_storage.UploadTask>(_MockUploadTask());
     registerFallbackValue<firebase_storage.TaskSnapshot>(_MockTaskSnapshot());
     registerFallbackValue<firebase_storage.SettableMetadata>(
-      FakeSettableMetadata(),
+      _FakeSettableMetadata(),
     );
     registerFallbackValue<UploadTaskSnapshot>((_) async => _MockTaskSnapshot());
   });

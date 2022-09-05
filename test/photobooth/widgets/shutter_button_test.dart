@@ -13,7 +13,7 @@ class _MockCanvas extends Mock implements Canvas {}
 
 class _MockPaint extends Mock implements Paint {}
 
-class RectFake extends Fake implements Rect {}
+class _RectFake extends Fake implements Rect {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
@@ -76,7 +76,7 @@ void main() {
       animation = _MockAnimationController();
       registerFallbackValue<Paint>(Paint());
       registerFallbackValue<Offset>(const Offset(200, 200));
-      registerFallbackValue<Rect>(RectFake());
+      registerFallbackValue<Rect>(_RectFake());
     });
 
     test('verifies should not repaint', () async {

@@ -22,7 +22,7 @@ class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class FakeCameraOptions extends Fake implements CameraOptions {}
+class _FakeCameraOptions extends Fake implements CameraOptions {}
 
 class _MockImage extends Mock implements ui.Image {}
 
@@ -31,18 +31,18 @@ class _MockCameraImage extends Mock implements CameraImage {}
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
+class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class FakeDragUpdate extends Fake implements DragUpdate {}
+class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue<CameraOptions>(FakeCameraOptions());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<DragUpdate>(FakeDragUpdate());
+    registerFallbackValue<CameraOptions>(_FakeCameraOptions());
+    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
+    registerFallbackValue<DragUpdate>(_FakeDragUpdate());
   });
 
   const cameraId = 1;

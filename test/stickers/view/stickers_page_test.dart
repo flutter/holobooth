@@ -19,28 +19,28 @@ import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakeStickersEvent extends Fake implements StickersEvent {}
+class _FakeStickersEvent extends Fake implements StickersEvent {}
 
-class FakeStickersState extends Fake implements StickersState {}
+class _FakeStickersState extends Fake implements StickersState {}
 
 class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
+class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class FakeShareEvent extends Fake implements ShareEvent {}
+class _FakeShareEvent extends Fake implements ShareEvent {}
 
-class FakeShareState extends Fake implements ShareState {}
+class _FakeShareState extends Fake implements ShareState {}
 
 class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
     implements ShareBloc {}
 
-class FakeDragUpdate extends Fake implements DragUpdate {}
+class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
@@ -54,12 +54,12 @@ void main() {
   final image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue<StickersEvent>(_FakeStickersEvent());
+    registerFallbackValue<StickersState>(_FakeStickersState());
+    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
+    registerFallbackValue<ShareEvent>(_FakeShareEvent());
+    registerFallbackValue<ShareState>(_FakeShareState());
   });
 
   group('StickersPage', () {
@@ -274,7 +274,7 @@ void main() {
       tester
           .widget<DraggableResizable>(find.byType(DraggableResizable))
           .onUpdate
-          ?.call(FakeDragUpdate());
+          ?.call(_FakeDragUpdate());
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoStickerDragged>())),
       );
