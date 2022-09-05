@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.0
+  equatable: ^2.0.5
 
   firebase_core: "^1.0.4"
   firebase_auth: ^1.1.1
