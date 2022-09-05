@@ -22,16 +22,16 @@ class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
-class MockPhotosRepository extends Mock implements PhotosRepository {}
+class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
-class MockXFile extends Mock implements XFile {}
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -54,8 +54,8 @@ void main() {
   });
 
   setUp(() {
-    file = MockXFile();
-    photosRepository = MockPhotosRepository();
+    file = _MockXFile();
+    photosRepository = _MockPhotosRepository();
     when(
       () => photosRepository.composite(
         width: width,
@@ -65,7 +65,7 @@ void main() {
         aspectRatio: any(named: 'aspectRatio'),
       ),
     ).thenAnswer((_) async => Uint8List.fromList([]));
-    photoboothBloc = MockPhotoboothBloc();
+    photoboothBloc = _MockPhotoboothBloc();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
 
     shareBloc = MockShareBloc();
@@ -352,7 +352,7 @@ void main() {
 
     group('GoToGoogleIOButton', () {
       testWidgets('opens link when tapped', (tester) async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         const url = googleIOExternalLink;
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);

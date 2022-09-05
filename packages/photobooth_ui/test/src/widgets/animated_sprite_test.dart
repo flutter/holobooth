@@ -13,9 +13,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockImages extends Mock implements Images {}
+class __MockImages extends Mock implements Images {}
 
-class MockImage extends Mock implements ui.Image {}
+class _MockImage extends Mock implements ui.Image {}
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ void main() async {
     late Images images;
 
     setUp(() {
-      images = MockImages();
+      images = __MockImages();
       Flame.images = images;
     });
 
@@ -50,7 +50,7 @@ void main() async {
     testWidgets('renders SpriteAnimationWidget when asset is loaded (loop)',
         (tester) async {
       await tester.runAsync(() async {
-        final images = MockImages();
+        final images = __MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
         await tester.pumpWidget(MaterialApp(
@@ -73,7 +73,7 @@ void main() async {
     testWidgets('renders SpriteAnimationWidget when asset is loaded (oneTime)',
         (tester) async {
       await tester.runAsync(() async {
-        final images = MockImages();
+        final images = __MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
         await tester.pumpWidget(MaterialApp(

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockCameraPlatform extends Mock
+class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
@@ -20,7 +20,7 @@ void main() {
     });
 
     setUp(() {
-      platform = MockCameraPlatform();
+      platform = _MockCameraPlatform();
       when(() => platform.init()).thenAnswer((_) async => {});
       when(() => platform.create(any())).thenAnswer((_) async => textureId);
       CameraPlatform.instance = platform;

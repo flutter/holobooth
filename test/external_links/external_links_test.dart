@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
@@ -12,7 +12,7 @@ void main() {
   group('External links', () {
     group('launchGoogleIOLink', () {
       test('launches correct link', () async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(() => mock.launch(
@@ -41,7 +41,7 @@ void main() {
 
     group('launchFlutterDevLink', () {
       test('launches correct link', () async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(() => mock.launch(
@@ -70,7 +70,7 @@ void main() {
 
     group('launchFirebaseLink', () {
       test('launches correct link', () async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(() => mock.launch(
@@ -99,7 +99,7 @@ void main() {
 
     group('launchPhotoboothEmail', () {
       test('launches correct link', () async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(() => mock.launch(
@@ -128,7 +128,7 @@ void main() {
 
     group('launchOpenSourceLink', () {
       test('launches correct link', () async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(() => mock.launch(

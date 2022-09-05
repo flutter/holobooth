@@ -7,21 +7,21 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockAnimationController extends Mock implements AnimationController {}
+class _MockAnimationController extends Mock implements AnimationController {}
 
-class MockCanvas extends Mock implements Canvas {}
+class _MockCanvas extends Mock implements Canvas {}
 
-class MockPaint extends Mock implements Paint {}
+class _MockPaint extends Mock implements Paint {}
 
 class RectFake extends Fake implements Rect {}
 
-class MockAudioPlayer extends Mock implements AudioPlayer {}
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 void main() {
   late AudioPlayer audioPlayer;
 
   setUp(() {
-    audioPlayer = MockAudioPlayer();
+    audioPlayer = _MockAudioPlayer();
     when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.load()).thenAnswer((_) async {});
     when(() => audioPlayer.play()).thenAnswer((_) async {});
@@ -73,7 +73,7 @@ void main() {
     late AnimationController animation;
 
     setUp(() {
-      animation = MockAnimationController();
+      animation = _MockAnimationController();
       registerFallbackValue<Paint>(Paint());
       registerFallbackValue<Offset>(const Offset(200, 200));
       registerFallbackValue<Rect>(RectFake());
@@ -105,7 +105,7 @@ void main() {
     test('verify paints correctly', () {
       when(() => animation.value).thenReturn(2);
 
-      final canvas = MockCanvas();
+      final canvas = _MockCanvas();
 
       TimerPainter(animation: animation, countdown: 3)
           .paint(canvas, const Size(200, 200));

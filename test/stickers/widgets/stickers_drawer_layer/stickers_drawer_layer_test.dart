@@ -14,14 +14,14 @@ class FakeStickersEvent extends Fake implements StickersEvent {}
 
 class FakeStickersState extends Fake implements StickersState {}
 
-class MockStickersBloc extends MockBloc<StickersEvent, StickersState>
+class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
 class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
 void main() {
@@ -39,8 +39,8 @@ void main() {
     late StickersBloc stickersBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
-      stickersBloc = MockStickersBloc();
+      photoboothBloc = _MockPhotoboothBloc();
+      stickersBloc = _MockStickersBloc();
     });
 
     group('DesktopStickersDrawer', () {

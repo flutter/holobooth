@@ -9,7 +9,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockPhotoAsset extends Mock implements PhotoAsset {}
+class _MockPhotoAsset extends Mock implements PhotoAsset {}
 
 void main() {
   const shareUrl = 'http://share-url.com';

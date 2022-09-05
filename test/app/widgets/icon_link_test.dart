@@ -10,14 +10,14 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
 void main() {
   group('IconLink', () {
     testWidgets('opens link when tapped', (tester) async {
-      final mock = MockUrlLauncher();
+      final mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(() => mock.launch(

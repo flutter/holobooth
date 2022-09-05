@@ -13,7 +13,7 @@ class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
 class FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
 void main() {
@@ -30,7 +30,7 @@ void main() {
     });
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
     });
 
     testWidgets('displays selected sticker assets', (tester) async {

@@ -7,11 +7,11 @@ import 'package:flutter/widgets.dart' show Widget;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockWindow extends Mock implements Window {}
+class _MockWindow extends Mock implements Window {}
 
-class MockNavigator extends Mock implements Navigator {}
+class _MockNavigator extends Mock implements Navigator {}
 
-class MockMediaDevices extends Mock implements MediaDevices {}
+class _MockMediaDevices extends Mock implements MediaDevices {}
 
 void main() {
   group('Camera', () {
@@ -22,9 +22,9 @@ void main() {
     late VideoElement videoElement;
 
     setUp(() async {
-      window = MockWindow();
-      navigator = MockNavigator();
-      mediaDevices = MockMediaDevices();
+      window = _MockWindow();
+      navigator = _MockNavigator();
+      mediaDevices = _MockMediaDevices();
       videoElement = VideoElement()
         ..src = 'https://www.w3schools.com/tags/mov_bbb.mp4'
         ..preload = 'true'

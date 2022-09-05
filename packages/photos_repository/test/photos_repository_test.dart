@@ -9,16 +9,16 @@ import 'package:image_compositor/image_compositor.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photos_repository/photos_repository.dart';
 
-class MockImageCompositor extends Mock implements ImageCompositor {}
+class _MockImageCompositor extends Mock implements ImageCompositor {}
 
-class MockFirebaseStorage extends Mock
+class _MockFirebaseStorage extends Mock
     implements firebase_storage.FirebaseStorage {}
 
-class MockReference extends Mock implements firebase_storage.Reference {}
+class _MockReference extends Mock implements firebase_storage.Reference {}
 
-class MockUploadTask extends Mock implements firebase_storage.UploadTask {}
+class _MockUploadTask extends Mock implements firebase_storage.UploadTask {}
 
-class MockTaskSnapshot extends Mock implements firebase_storage.TaskSnapshot {}
+class _MockTaskSnapshot extends Mock implements firebase_storage.TaskSnapshot {}
 
 class FakeSettableMetadata extends Fake
     implements firebase_storage.SettableMetadata {}
@@ -30,12 +30,12 @@ typedef UploadTaskSnapshot = FutureOr<firebase_storage.TaskSnapshot> Function(
 void main() {
   setUpAll(() {
     registerFallbackValue<Uint8List>(Uint8List(0));
-    registerFallbackValue<firebase_storage.UploadTask>(MockUploadTask());
-    registerFallbackValue<firebase_storage.TaskSnapshot>(MockTaskSnapshot());
+    registerFallbackValue<firebase_storage.UploadTask>(_MockUploadTask());
+    registerFallbackValue<firebase_storage.TaskSnapshot>(_MockTaskSnapshot());
     registerFallbackValue<firebase_storage.SettableMetadata>(
       FakeSettableMetadata(),
     );
-    registerFallbackValue<UploadTaskSnapshot>((_) async => MockTaskSnapshot());
+    registerFallbackValue<UploadTaskSnapshot>((_) async => _MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {
@@ -66,15 +66,15 @@ void main() {
     const shareText = 'Share text';
 
     setUp(() {
-      imageCompositor = MockImageCompositor();
-      firebaseStorage = MockFirebaseStorage();
+      imageCompositor = _MockImageCompositor();
+      firebaseStorage = _MockFirebaseStorage();
       photosRepository = PhotosRepository(
         firebaseStorage: firebaseStorage,
       );
 
-      reference = MockReference();
-      uploadTask = MockUploadTask();
-      taskSnapshot = MockTaskSnapshot();
+      reference = _MockReference();
+      uploadTask = _MockUploadTask();
+      taskSnapshot = _MockTaskSnapshot();
 
       when(() => firebaseStorage.ref(any())).thenReturn(reference);
       when(() => reference.putData(any())).thenAnswer((_) => uploadTask);

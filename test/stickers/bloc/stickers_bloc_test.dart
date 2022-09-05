@@ -6,7 +6,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockAsset extends Mock implements Asset {}
+class _MockAsset extends Mock implements Asset {}
 
 void main() {
   group('StickersBloc', () {
