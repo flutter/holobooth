@@ -39,10 +39,10 @@ class FakeDragUpdate extends Fake implements DragUpdate {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue<CameraOptions>(FakeCameraOptions());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<DragUpdate>(FakeDragUpdate());
+    registerFallbackValue(FakeCameraOptions());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
+    registerFallbackValue(FakeDragUpdate());
   });
 
   const cameraId = 1;

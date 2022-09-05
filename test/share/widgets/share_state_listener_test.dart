@@ -31,8 +31,8 @@ void main() {
   late XFile file;
 
   setUpAll(() {
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
   });
 
   setUp(() {

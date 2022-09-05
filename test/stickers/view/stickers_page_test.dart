@@ -54,12 +54,12 @@ void main() {
   final image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeStickersEvent());
+    registerFallbackValue(FakeStickersState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
   });
 
   group('StickersPage', () {

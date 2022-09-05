@@ -16,7 +16,7 @@ void main() {
     late CameraPlatform platform;
 
     setUpAll(() {
-      registerFallbackValue<CameraOptions>(FakeCameraOptions());
+      registerFallbackValue(FakeCameraOptions());
     });
 
     setUp(() {

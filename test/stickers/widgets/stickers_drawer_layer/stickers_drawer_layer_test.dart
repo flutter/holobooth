@@ -28,10 +28,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue(FakeStickersEvent());
+    registerFallbackValue(FakeStickersState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
   });
 
   group('StickersDrawerLayer', () {

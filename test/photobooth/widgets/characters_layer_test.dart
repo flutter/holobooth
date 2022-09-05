@@ -24,8 +24,8 @@ void main() {
   late PhotoboothBloc photoboothBloc;
   group('CharactersLayer', () {
     setUpAll(() {
-      registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-      registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+      registerFallbackValue(FakePhotoboothEvent());
+      registerFallbackValue(FakePhotoboothState());
     });
 
     setUp(() {

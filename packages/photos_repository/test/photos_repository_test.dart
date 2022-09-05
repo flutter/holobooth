@@ -29,13 +29,11 @@ typedef UploadTaskSnapshot = FutureOr<firebase_storage.TaskSnapshot> Function(
 
 void main() {
   setUpAll(() {
-    registerFallbackValue<Uint8List>(Uint8List(0));
-    registerFallbackValue<firebase_storage.UploadTask>(MockUploadTask());
-    registerFallbackValue<firebase_storage.TaskSnapshot>(MockTaskSnapshot());
-    registerFallbackValue<firebase_storage.SettableMetadata>(
-      FakeSettableMetadata(),
-    );
-    registerFallbackValue<UploadTaskSnapshot>((_) async => MockTaskSnapshot());
+    registerFallbackValue(Uint8List(0));
+    registerFallbackValue(MockUploadTask());
+    registerFallbackValue(MockTaskSnapshot());
+    registerFallbackValue(FakeSettableMetadata());
+    registerFallbackValue((_) async => MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {

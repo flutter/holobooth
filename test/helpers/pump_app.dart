@@ -34,11 +34,11 @@ extension PumpApp on WidgetTester {
     PhotoboothBloc? photoboothBloc,
     ShareBloc? shareBloc,
   }) async {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue(FakePhotoboothEvent());
+    registerFallbackValue(FakePhotoboothState());
 
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(FakeShareState());
 
     return mockNetworkImages(() async {
       return pumpWidget(
