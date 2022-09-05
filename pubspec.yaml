@@ -16,7 +16,7 @@ dependencies:
   camera:
     path: packages/camera/camera
   cross_file: ^0.3.1
-  equatable: ^2.0.0
+  equatable: ^2.0.5
   firebase_auth: ^1.1.1
   firebase_core: ^1.0.4
   firebase_storage: ^8.0.4
@@ -34,7 +34,7 @@ dependencies:
   photos_repository:
     path: packages/photos_repository
   rxdart: ^0.26.0
-  uuid: ^3.0.3
+  uuid: ^3.0.6
   very_good_analysis: ^2.0.4
 
 dev_dependencies:

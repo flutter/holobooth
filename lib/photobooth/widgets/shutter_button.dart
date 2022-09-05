@@ -29,7 +29,7 @@ class _ShutterButtonState extends State<ShutterButton>
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
 
-  void _onAnimationStatusChanged(AnimationStatus status) async {
+  Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
       widget.onCountdownComplete();
     }
@@ -60,7 +60,7 @@ class _ShutterButtonState extends State<ShutterButton>
     super.dispose();
   }
 
-  void _onShutterPressed() async {
+  Future<void> _onShutterPressed() async {
     await audioPlayer.seek(null);
     unawaited(audioPlayer.play());
     unawaited(controller.reverse(from: 1));

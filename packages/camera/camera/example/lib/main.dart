@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-const _cameraOptions = CameraOptions(audio: AudioConstraints(enabled: false));
+const _cameraOptions = CameraOptions(audio: AudioConstraints());
 
 void main() => runApp(const App());
 
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     _initializeCameraController();
   }
 
-  void _initializeCameraController() async {
+  Future<void> _initializeCameraController() async {
     _controller = CameraController(options: _cameraOptions);
     await _controller.initialize();
     await _controller.play();
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _onSnapPressed() async {
+  Future<void> _onSnapPressed() async {
     final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
