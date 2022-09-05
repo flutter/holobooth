@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/typography/typography.dart';
 
 const _smallTextScaleFactor = 0.80;
 
