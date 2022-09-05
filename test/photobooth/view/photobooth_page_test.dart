@@ -24,8 +24,6 @@ class _MockCameraPlatform extends Mock
 
 class _FakeCameraOptions extends Fake implements CameraOptions {}
 
-class _MockImage extends Mock implements ui.Image {}
-
 class _MockCameraImage extends Mock implements CameraImage {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>

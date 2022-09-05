@@ -11,8 +11,6 @@ class _MockAnimationController extends Mock implements AnimationController {}
 
 class _MockCanvas extends Mock implements Canvas {}
 
-class _MockPaint extends Mock implements Paint {}
-
 class _RectFake extends Fake implements Rect {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}

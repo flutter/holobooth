@@ -37,12 +37,7 @@ class _FakeShareEvent extends Fake implements ShareEvent {}
 
 class _FakeShareState extends Fake implements ShareState {}
 
-class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
-
 class _FakeDragUpdate extends Fake implements DragUpdate {}
-
-class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
