@@ -34,7 +34,7 @@ dependencies:
     path: packages/authentication_repository
   photobooth_ui:
     path: packages/photobooth_ui
-  uuid: ^3.0.3
+  uuid: ^3.0.6
   very_good_analysis: ^2.0.4
 
 dev_dependencies:
