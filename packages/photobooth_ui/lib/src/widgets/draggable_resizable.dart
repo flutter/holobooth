@@ -413,11 +413,9 @@ class _ResizePoint extends StatelessWidget {
     Key? key,
     required this.onDrag,
     required this.type,
-    this.onScale,
   }) : super(key: key);
 
   final ValueSetter<Offset> onDrag;
-  final ValueSetter<double>? onScale;
   final _ResizePointType type;
 
   MouseCursor get _cursor {
@@ -431,7 +429,6 @@ class _ResizePoint extends StatelessWidget {
       child: _DraggablePoint(
         mode: _PositionMode.local,
         onDrag: onDrag,
-        onScale: onScale,
         child: Container(
           width: _cornerDiameter,
           height: _cornerDiameter,
