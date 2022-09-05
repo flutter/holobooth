@@ -20,7 +20,6 @@ class ShareErrorBottomSheet extends StatelessWidget {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 32),
                 Padding(

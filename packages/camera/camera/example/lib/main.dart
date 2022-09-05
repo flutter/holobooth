@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-const _cameraOptions = CameraOptions(audio: AudioConstraints(enabled: false));
+const _cameraOptions = CameraOptions(audio: AudioConstraints());
 
 void main() => runApp(const App());
 

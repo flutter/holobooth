@@ -47,9 +47,7 @@ void main() {
       testWidgets(
           'does not render DesktopStickersDrawer when '
           'drawer is inactive', (tester) async {
-        when(() => stickersBloc.state).thenReturn(
-          StickersState(isDrawerActive: false),
-        );
+        when(() => stickersBloc.state).thenReturn(StickersState());
         await tester.pumpApp(
           BlocProvider.value(
             value: stickersBloc,
@@ -183,7 +181,7 @@ void main() {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
-          initialState: StickersState(isDrawerActive: false),
+          initialState: StickersState(),
         );
         tester.setSmallDisplaySize();
 
@@ -204,7 +202,7 @@ void main() {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
-          initialState: StickersState(isDrawerActive: false),
+          initialState: StickersState(),
         );
         tester.setLandscapeDisplaySize();
 
@@ -230,7 +228,7 @@ void main() {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
-          initialState: StickersState(isDrawerActive: false),
+          initialState: StickersState(),
         );
         tester.setSmallDisplaySize();
 
@@ -254,7 +252,7 @@ void main() {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
-          initialState: StickersState(isDrawerActive: false),
+          initialState: StickersState(),
         );
         tester.setSmallDisplaySize();
 
@@ -283,7 +281,7 @@ void main() {
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),
-          initialState: StickersState(isDrawerActive: false),
+          initialState: StickersState(),
         );
         tester.setSmallDisplaySize();
 

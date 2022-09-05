@@ -23,7 +23,6 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     required this.shareText,
     bool isSharingEnabled = const bool.fromEnvironment(
       'SHARING_ENABLED',
-      defaultValue: false,
     ),
   })  : _photosRepository = photosRepository,
         _isSharingEnabled = isSharingEnabled,

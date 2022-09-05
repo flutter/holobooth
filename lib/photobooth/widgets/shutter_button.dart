@@ -96,7 +96,6 @@ class CountdownTimer extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.center,
             child: Text(
               '$seconds',
               style: theme.textTheme.headline1?.copyWith(

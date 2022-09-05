@@ -49,15 +49,11 @@ void main() {
 
       when(() => photoAsset.asset).thenReturn(asset);
       when(() => photoAsset.angle).thenReturn(0.0);
-      when(() => photoAsset.constraint).thenReturn(
-        PhotoConstraint(width: 1, height: 1),
-      );
+      when(() => photoAsset.constraint).thenReturn(PhotoConstraint());
       when(() => photoAsset.position).thenReturn(
         PhotoAssetPosition(dx: 1, dy: 1),
       );
-      when(() => photoAsset.size).thenReturn(
-        PhotoAssetSize(width: 1, height: 1),
-      );
+      when(() => photoAsset.size).thenReturn(PhotoAssetSize());
       shareBloc = ShareBloc(
         photosRepository: photosRepository,
         imageId: imageId,
@@ -93,7 +89,6 @@ void main() {
           ShareState(compositeStatus: ShareStatus.loading),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.initial,
           ),
         ],
       );
@@ -134,7 +129,6 @@ void main() {
           assets: [photoAsset],
           shareText: shareText,
           aspectRatio: aspectRatio,
-          isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnTwitterTapped()),
         expect: () => [],
@@ -265,7 +259,6 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.initial,
             isUploadRequested: true,
             shareUrl: ShareUrl.twitter,
           ),
@@ -397,7 +390,6 @@ void main() {
           assets: [photoAsset],
           shareText: shareText,
           aspectRatio: aspectRatio,
-          isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnFacebookTapped()),
         expect: () => [],
@@ -528,7 +520,6 @@ void main() {
           ),
           ShareState(
             compositeStatus: ShareStatus.failure,
-            uploadStatus: ShareStatus.initial,
             isUploadRequested: true,
             shareUrl: ShareUrl.facebook,
           ),

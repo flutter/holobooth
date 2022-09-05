@@ -44,7 +44,6 @@ void main() {
         'sets link in the clipboard', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
@@ -56,7 +55,6 @@ void main() {
         'sets copied to true', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
@@ -73,7 +71,6 @@ void main() {
         (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
@@ -93,7 +90,6 @@ void main() {
         'hides copy button for suspendDuration time', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
@@ -107,7 +103,6 @@ void main() {
         'reveals copied button for suspendDuration time', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       expect(find.byKey(Key('shareCopyableLink_copiedButton')), findsNothing);
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -123,7 +118,6 @@ void main() {
         'resets copied to false', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
@@ -142,7 +136,6 @@ void main() {
     testWidgets('timer is closed when widget is disposed', (tester) async {
       await tester.pumpApp(ShareCopyableLink(
         link: link,
-        suspendDuration: suspendDuration,
       ));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
