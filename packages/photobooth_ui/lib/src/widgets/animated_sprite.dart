@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flame/components.dart' hide Timer;
-import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template sprites}
