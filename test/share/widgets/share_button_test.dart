@@ -6,7 +6,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';

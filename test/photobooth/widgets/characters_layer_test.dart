@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}

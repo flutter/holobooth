@@ -6,7 +6,6 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:provider/provider.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
 class SharePage extends StatelessWidget {

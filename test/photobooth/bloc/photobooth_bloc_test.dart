@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MockCameraImage extends Mock implements CameraImage {}

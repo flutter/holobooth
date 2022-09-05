@@ -413,7 +413,7 @@ void main() {
       });
 
       testWidgets(
-          'delete button does not render when'
+          'delete button does not render when '
           'there is delete callback', (tester) async {
         await tester.pumpWidget(
           MaterialApp(

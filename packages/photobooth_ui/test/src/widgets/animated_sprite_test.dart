@@ -3,10 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flame/assets.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -17,7 +15,7 @@ class MockImages extends Mock implements Images {}
 
 class MockImage extends Mock implements ui.Image {}
 
-void main() async {
+Future<void> main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   final image = await decodeImageFromList(Uint8List.fromList(transparentImage));
   group('AnimatedSprite', () {
