@@ -1,18 +1,13 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 part 'photobooth_event.dart';
 part 'photobooth_state.dart';
 
 typedef UuidGetter = String Function();
-
-const _debounceDuration = Duration(milliseconds: 16);
 
 class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
   PhotoboothBloc([UuidGetter? uuid])
@@ -73,7 +68,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
     if (characterExists) {
       characters.removeAt(index);
-      emit(state.copyWith(characters: characters));
+      return emit(state.copyWith(characters: characters));
     }
 
     final newCharacter = PhotoAsset(id: uuid(), asset: asset);
