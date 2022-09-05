@@ -81,7 +81,7 @@ class CameraPlugin extends CameraPlatform {
       final devices =
           await html.window.navigator.mediaDevices?.enumerateDevices() ?? [];
       for (var deviceIndex = 0; deviceIndex < devices.length; deviceIndex++) {
-        dynamic device = devices[deviceIndex];
+        final dynamic device = devices[deviceIndex];
         if (device is html.MediaDeviceInfo && device.kind == 'videoinput') {
           videoDevices.add(
               MediaDeviceInfo(deviceId: device.deviceId, label: device.label));
