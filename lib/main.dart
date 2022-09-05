@@ -18,7 +18,7 @@ import 'package:very_good_analysis/very_good_analysis.dart';
 import 'landing/loading_indicator_io.dart'
     if (dart.library.html) 'landing/loading_indicator_web.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {

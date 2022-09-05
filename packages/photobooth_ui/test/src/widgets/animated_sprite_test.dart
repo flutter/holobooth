@@ -15,7 +15,7 @@ class MockImages extends Mock implements Images {}
 
 class MockImage extends Mock implements ui.Image {}
 
-void main() async {
+Future<void> main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   final image = await decodeImageFromList(Uint8List.fromList(transparentImage));
   group('AnimatedSprite', () {
