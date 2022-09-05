@@ -100,7 +100,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
     super.dispose();
   }
 
-  void _loadAnimation() async {
+  Future<void> _loadAnimation() async {
     try {
       _spriteSheet = SpriteSheet(
         image: await Flame.images.load(widget.sprites.asset),
