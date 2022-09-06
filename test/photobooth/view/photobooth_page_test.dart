@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
