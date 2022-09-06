@@ -48,7 +48,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     unawaited(
       _composite().then(
         (value) => add(_ShareCompositeSucceeded(bytes: value)),
-        onError: (_) => add(const _ShareCompositeFailed()),
+        onError: (dynamic _) => add(const _ShareCompositeFailed()),
       ),
     );
   }
@@ -89,7 +89,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
       unawaited(
         _composite().then(
           (value) => add(_ShareCompositeSucceeded(bytes: value)),
-          onError: (_) => add(const _ShareCompositeFailed()),
+          onError: (dynamic _) => add(const _ShareCompositeFailed()),
         ),
       );
     } else if (state.compositeStatus.isSuccess) {

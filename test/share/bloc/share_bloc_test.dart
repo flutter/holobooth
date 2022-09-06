@@ -7,6 +7,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
@@ -136,7 +137,7 @@ void main() {
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnTwitterTapped()),
-        expect: () => [],
+        expect: () => <ShareState>[],
       );
 
       blocTest<ShareBloc, ShareState>(
@@ -399,7 +400,7 @@ void main() {
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnFacebookTapped()),
-        expect: () => [],
+        expect: () => <ShareState>[],
       );
 
       blocTest<ShareBloc, ShareState>(

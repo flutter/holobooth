@@ -33,7 +33,7 @@ void main() {
     registerFallbackValue(MockUploadTask());
     registerFallbackValue(MockTaskSnapshot());
     registerFallbackValue(FakeSettableMetadata());
-    registerFallbackValue((_) async => MockTaskSnapshot());
+    registerFallbackValue((dynamic _) async => MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {

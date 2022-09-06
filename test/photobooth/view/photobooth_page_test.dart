@@ -12,6 +12,7 @@ import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -54,13 +55,13 @@ void main() {
     CameraPlatform.instance = cameraPlatform;
     when(() => cameraImage.width).thenReturn(4);
     when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => {});
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
     when(
       () => cameraPlatform.create(any()),
     ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
     when(() => cameraPlatform.takePicture(any()))
         .thenAnswer((_) async => cameraImage);
   });

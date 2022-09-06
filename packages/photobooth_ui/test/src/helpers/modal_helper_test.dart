@@ -20,7 +20,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 portraitChild: const Text('portrait'),
                 landscapeChild: const Text('landscape'),
@@ -41,7 +41,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -64,7 +64,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -88,7 +88,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),

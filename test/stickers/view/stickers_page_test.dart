@@ -12,6 +12,7 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:platform_helper/platform_helper.dart';
@@ -285,7 +286,7 @@ void main() {
         builder: (context) {
           return ElevatedButton(
             key: initialPage,
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context).push<void>(
               MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                   providers: [
@@ -330,7 +331,7 @@ void main() {
         builder: (context) {
           return ElevatedButton(
             key: initialPage,
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context).push<void>(
               MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                   providers: [
