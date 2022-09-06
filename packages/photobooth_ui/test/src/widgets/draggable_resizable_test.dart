@@ -502,7 +502,8 @@ void main() {
         );
 
         await tester.tap(
-            find.byKey(Key('draggableResizable_rotate_floatingActionIcon')));
+          find.byKey(Key('draggableResizable_rotate_floatingActionIcon')),
+        );
         await tester.pumpAndSettle();
 
         expect(tester.takeException(), isNull);

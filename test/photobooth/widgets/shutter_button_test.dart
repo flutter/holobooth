@@ -54,10 +54,12 @@ void main() {
     testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
         (tester) async {
       await tester.runAsync(() async {
-        await tester.pumpApp(ShutterButton(
-          onCountdownComplete: () {},
-          audioPlayer: () => audioPlayer,
-        ));
+        await tester.pumpApp(
+          ShutterButton(
+            onCountdownComplete: () {},
+            audioPlayer: () => audioPlayer,
+          ),
+        );
         await tester.tap(find.byType(CameraButton));
         await tester.pump();
         expect(find.byType(CountdownTimer), findsOneWidget);
