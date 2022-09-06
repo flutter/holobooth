@@ -7,16 +7,17 @@ import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockPhotosRepository extends Mock implements PhotosRepository {}
+class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
-class MockPhotoAsset extends Mock implements PhotoAsset {}
+class _MockPhotoAsset extends Mock implements PhotoAsset {}
 
-class MockAsset extends Mock implements Asset {}
+class _MockAsset extends Mock implements Asset {}
 
 void main() {
   final data = 'data:image/png,${base64.encode(transparentImage)}';
@@ -40,14 +41,14 @@ void main() {
     });
 
     setUp(() {
-      photosRepository = MockPhotosRepository();
-      asset = MockAsset();
+      photosRepository = _MockPhotosRepository();
+      asset = _MockAsset();
 
       when(() => asset.path).thenReturn('assets/path/asset.png');
-      photoAsset = MockPhotoAsset();
+      photoAsset = _MockPhotoAsset();
 
       when(() => photoAsset.asset).thenReturn(asset);
-      when(() => photoAsset.angle).thenReturn(0.0);
+      when(() => photoAsset.angle).thenReturn(0);
       when(() => photoAsset.constraint).thenReturn(
         PhotoConstraint(width: 1, height: 1),
       );
@@ -136,7 +137,7 @@ void main() {
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnTwitterTapped()),
-        expect: () => [],
+        expect: () => <ShareState>[],
       );
 
       blocTest<ShareBloc, ShareState>(
@@ -399,7 +400,7 @@ void main() {
           isSharingEnabled: false,
         ),
         act: (bloc) => bloc.add(ShareOnFacebookTapped()),
-        expect: () => [],
+        expect: () => <ShareState>[],
       );
 
       blocTest<ShareBloc, ShareState>(

@@ -12,7 +12,7 @@ void main() {
           data: '',
           width: 1,
           height: 1,
-          layers: [],
+          layers: <dynamic>[],
           aspectRatio: 1,
         ),
         throwsUnsupportedError,

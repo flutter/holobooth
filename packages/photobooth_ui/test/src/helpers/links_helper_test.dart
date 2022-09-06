@@ -4,7 +4,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
@@ -12,7 +12,7 @@ void main() {
   late UrlLauncherPlatform mock;
 
   setUp(() {
-    mock = MockUrlLauncher();
+    mock = _MockUrlLauncher();
     UrlLauncherPlatform.instance = mock;
   });
 

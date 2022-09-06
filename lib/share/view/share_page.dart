@@ -12,7 +12,7 @@ class SharePage extends StatelessWidget {
   const SharePage({Key? key}) : super(key: key);
 
   static Route route() {
-    return AppPageRoute(builder: (_) => const SharePage());
+    return AppPageRoute<void>(builder: (_) => const SharePage());
   }
 
   @override
@@ -76,12 +76,12 @@ class _ShareRetakeButton extends StatelessWidget {
         child: AppTooltipButton(
           key: const Key('sharePage_retake_appTooltipButton'),
           onPressed: () async {
-            final confirmed = await showAppModal(
+            final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _ConfirmationDialogContent(),
               portraitChild: const _ConfirmationBottomSheet(),
             );
-            if (confirmed) {
+            if (confirmed != null && confirmed) {
               context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
               unawaited(
                 Navigator.of(context).pushReplacement(PhotoboothPage.route()),

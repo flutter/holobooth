@@ -13,11 +13,15 @@ class CameraOptions {
 
   Future<Map<String, dynamic>> toJson() async {
     final videoConstraints = await video.toJson();
-    return {'audio': audio.toJson(), 'video': videoConstraints};
+    return <String, dynamic>{
+      'audio': audio.toJson(),
+      'video': videoConstraints
+    };
   }
 }
 
 enum CameraType { rear, user }
+
 enum Constrain { exact, ideal }
 
 class FacingMode {

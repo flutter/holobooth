@@ -12,36 +12,32 @@ import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockCameraPlatform extends Mock
+class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class FakeCameraOptions extends Fake implements CameraOptions {}
+class _FakeCameraOptions extends Fake implements CameraOptions {}
 
-class MockImage extends Mock implements ui.Image {}
+class _MockCameraImage extends Mock implements CameraImage {}
 
-class MockCameraImage extends Mock implements CameraImage {}
-
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
-
-class FakeDragUpdate extends Fake implements DragUpdate {}
+class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue<CameraOptions>(FakeCameraOptions());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<DragUpdate>(FakeDragUpdate());
+    registerFallbackValue(_FakeCameraOptions());
+    registerFallbackValue(_FakePhotoboothEvent());
+    registerFallbackValue(_FakeDragUpdate());
   });
 
   const cameraId = 1;
@@ -49,18 +45,18 @@ void main() {
   late CameraImage cameraImage;
 
   setUp(() {
-    cameraImage = MockCameraImage();
-    cameraPlatform = MockCameraPlatform();
+    cameraImage = _MockCameraImage();
+    cameraPlatform = _MockCameraPlatform();
     CameraPlatform.instance = cameraPlatform;
     when(() => cameraImage.width).thenReturn(4);
     when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => {});
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
     when(
       () => cameraPlatform.create(any()),
     ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => {});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => {});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => {});
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
     when(() => cameraPlatform.takePicture(any()))
         .thenAnswer((_) async => cameraImage);
   });
@@ -82,7 +78,7 @@ void main() {
     late PhotoboothBloc photoboothBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
     });
 
@@ -326,7 +322,7 @@ void main() {
     late PhotoboothBloc photoboothBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
     });
 

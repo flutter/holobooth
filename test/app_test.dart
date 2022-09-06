@@ -9,18 +9,18 @@ import 'package:photos_repository/photos_repository.dart';
 
 import 'helpers/helpers.dart';
 
-class MockAuthenticationRepository extends Mock
+class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
-class MockPhotosRepository extends Mock implements PhotosRepository {}
+class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 void main() {
   group('App', () {
     testWidgets('uses default theme on large devices', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
       await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
+        authenticationRepository: _MockAuthenticationRepository(),
+        photosRepository: _MockPhotosRepository(),
       ));
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
@@ -32,8 +32,8 @@ void main() {
     testWidgets('uses small theme on small devices', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 500));
       await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
+        authenticationRepository: _MockAuthenticationRepository(),
+        photosRepository: _MockPhotosRepository(),
       ));
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
@@ -44,8 +44,8 @@ void main() {
 
     testWidgets('renders LandingPage', (tester) async {
       await tester.pumpWidget(App(
-        authenticationRepository: MockAuthenticationRepository(),
-        photosRepository: MockPhotosRepository(),
+        authenticationRepository: _MockAuthenticationRepository(),
+        photosRepository: _MockPhotosRepository(),
       ));
       expect(find.byType(LandingPage), findsOneWidget);
     });
