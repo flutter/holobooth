@@ -5,8 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockAsset extends Mock implements Asset {}
-
 void main() {
   group('StickersBloc', () {
     test('initial state is StickersState()', () {

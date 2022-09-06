@@ -7,7 +7,7 @@ import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraImage extends Mock implements CameraImage {}
 
 void main() {
   group('PhotoboothBloc', () {
@@ -20,7 +20,7 @@ void main() {
 
     setUp(() {
       id = '0';
-      image = MockCameraImage();
+      image = _MockCameraImage();
     });
 
     test('initial state is PhotoboothState', () {

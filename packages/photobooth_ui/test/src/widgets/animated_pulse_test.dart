@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockAnimationController extends Mock implements AnimationController {}
+class _MockAnimationController extends Mock implements AnimationController {}
 
 void main() {
   group('AnimatedPulse', () {
@@ -48,7 +48,7 @@ void main() {
 
   group('PulsePainter', () {
     test('verifies should repaint', () async {
-      final pulsePainter = PulsePainter(MockAnimationController());
+      final pulsePainter = PulsePainter(_MockAnimationController());
       expect(pulsePainter.shouldRepaint(pulsePainter), true);
     });
   });
