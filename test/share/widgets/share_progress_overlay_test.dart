@@ -9,7 +9,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockXFile extends Mock implements XFile {}
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   final bytes = Uint8List.fromList([]);
@@ -23,7 +23,7 @@ void main() {
 
   setUp(() {
     shareBloc = MockShareBloc();
-    file = MockXFile();
+    file = _MockXFile();
     when(() => shareBloc.state).thenReturn(ShareState());
   });
 

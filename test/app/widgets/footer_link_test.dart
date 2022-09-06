@@ -10,7 +10,7 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
@@ -35,7 +35,7 @@ bool tapTextSpan(RichText richText, String text) {
 void main() {
   group('FooterLink', () {
     testWidgets('opens link when tapped', (tester) async {
-      final mock = MockUrlLauncher();
+      final mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(() => mock.launch(
@@ -70,7 +70,7 @@ void main() {
       late UrlLauncherPlatform mock;
 
       setUp(() {
-        mock = MockUrlLauncher();
+        mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
       });
 

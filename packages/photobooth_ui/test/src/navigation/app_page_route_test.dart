@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockBuildContext extends Mock implements BuildContext {}
+class _MockBuildContext extends Mock implements BuildContext {}
 
-class MockAnimation extends Mock implements Animation<double> {}
+class _MockAnimation extends Mock implements Animation<double> {}
 
 void main() {
   group('AppPageRoute', () {
@@ -18,9 +18,9 @@ void main() {
       const child = SizedBox();
       final route = AppPageRoute<void>(builder: (_) => child);
       final transition = route.buildTransitions(
-        MockBuildContext(),
-        MockAnimation(),
-        MockAnimation(),
+        _MockBuildContext(),
+        _MockAnimation(),
+        _MockAnimation(),
         child,
       );
       expect(transition, equals(child));

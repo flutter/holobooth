@@ -6,14 +6,14 @@ import 'package:analytics/src/analytics_web.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockJsObject extends Mock implements JsObject {}
+class _MockJsObject extends Mock implements JsObject {}
 
 void main() {
   group('trackEvent', () {
     late JsObject context;
 
     setUp(() {
-      context = MockJsObject();
+      context = _MockJsObject();
       testContext = context;
     });
 

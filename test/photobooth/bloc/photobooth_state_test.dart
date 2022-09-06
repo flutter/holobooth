@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:test/test.dart';
 
-class MockAsset extends Mock implements Asset {}
+class _MockAsset extends Mock implements Asset {}
 
 void main() {
   group('PhotoboothState', () {
@@ -16,8 +16,8 @@ void main() {
   group('PhotoAsset', () {
     group('copyWith', () {
       test('updates asset', () {
-        final assetA = MockAsset();
-        final assetB = MockAsset();
+        final assetA = _MockAsset();
+        final assetB = _MockAsset();
         expect(
           PhotoAsset(id: '0', asset: assetA).copyWith(asset: assetB).asset,
           equals(assetB),

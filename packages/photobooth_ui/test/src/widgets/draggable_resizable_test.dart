@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +16,7 @@ void main() {
 
   group('DraggableResizable', () {
     setUp(() {
-      platformHelper = MockPlatformHelper();
+      platformHelper = _MockPlatformHelper();
 
       when(() => platformHelper.isMobile).thenReturn(true);
     });

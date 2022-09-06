@@ -3,13 +3,10 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-
-class MockPhotoAsset extends Mock implements PhotoAsset {}
 
 void main() {
   const shareUrl = 'http://share-url.com';

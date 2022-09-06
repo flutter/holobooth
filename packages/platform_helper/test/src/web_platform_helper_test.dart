@@ -4,9 +4,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/src/web.dart';
 import 'package:test/test.dart';
 
-class MockWindow extends Mock implements html.Window {}
+class _MockWindow extends Mock implements html.Window {}
 
-class MockNavigator extends Mock implements html.Navigator {}
+class _MockNavigator extends Mock implements html.Navigator {}
 
 void main() {
   group('WebPlatformHelper', () {
@@ -14,8 +14,8 @@ void main() {
     late html.Navigator navigator;
 
     setUp(() {
-      window = MockWindow();
-      navigator = MockNavigator();
+      window = _MockWindow();
+      navigator = _MockNavigator();
 
       when(() => window.navigator).thenReturn(navigator);
       when(() => navigator.userAgent).thenReturn('iphone');

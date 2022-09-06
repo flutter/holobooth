@@ -19,32 +19,27 @@ import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakeStickersEvent extends Fake implements StickersEvent {}
+class _FakeStickersEvent extends Fake implements StickersEvent {}
 
-class FakeStickersState extends Fake implements StickersState {}
+class _FakeStickersState extends Fake implements StickersState {}
 
-class MockStickersBloc extends MockBloc<StickersEvent, StickersState>
+class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
+class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class FakeShareEvent extends Fake implements ShareEvent {}
+class _FakeShareEvent extends Fake implements ShareEvent {}
 
-class FakeShareState extends Fake implements ShareState {}
+class _FakeShareState extends Fake implements ShareState {}
 
-class MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
+class _FakeDragUpdate extends Fake implements DragUpdate {}
 
-class FakeDragUpdate extends Fake implements DragUpdate {}
-
-class MockPlatformHelper extends Mock implements PlatformHelper {}
-
-class MockPhotosRepository extends Mock implements PhotosRepository {}
+class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -54,19 +49,19 @@ void main() {
   final image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
-    registerFallbackValue(FakeStickersEvent());
-    registerFallbackValue(FakeStickersState());
-    registerFallbackValue(FakePhotoboothEvent());
-    registerFallbackValue(FakePhotoboothState());
-    registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
+    registerFallbackValue(_FakeStickersEvent());
+    registerFallbackValue(_FakeStickersState());
+    registerFallbackValue(_FakePhotoboothEvent());
+    registerFallbackValue(_FakePhotoboothState());
+    registerFallbackValue(_FakeShareEvent());
+    registerFallbackValue(_FakeShareState());
   });
 
   group('StickersPage', () {
     late PhotoboothBloc photoboothBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
       when(() => photoboothBloc.state).thenReturn(PhotoboothState(
         image: image,
       ));
@@ -102,11 +97,11 @@ void main() {
     late StickersBloc stickersBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(image: image),
       );
-      stickersBloc = MockStickersBloc();
+      stickersBloc = _MockStickersBloc();
       when(() => stickersBloc.state).thenReturn(StickersState());
     });
 
@@ -274,7 +269,7 @@ void main() {
       tester
           .widget<DraggableResizable>(find.byType(DraggableResizable))
           .onUpdate
-          ?.call(FakeDragUpdate());
+          ?.call(_FakeDragUpdate());
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoStickerDragged>())),
       );
@@ -444,7 +439,7 @@ void main() {
     });
 
     testWidgets('tapping next + confirm routes to SharePage', (tester) async {
-      final photosRepository = MockPhotosRepository();
+      final photosRepository = _MockPhotosRepository();
       when(
         () => photosRepository.composite(
           width: any(named: 'width'),
