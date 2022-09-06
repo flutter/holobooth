@@ -8,36 +8,37 @@ environment:
   flutter: 2.10.0
 
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  firebase_core: ^1.0.4
-  firebase_auth: ^1.1.1
-  firebase_storage: ^8.0.4
   analytics:
     path: packages/analytics
+  authentication_repository:
+    path: packages/authentication_repository
   bloc: ^8.1.0
   camera:
     path: packages/camera/camera
   cross_file: ^0.3.1
   equatable: ^2.0.5
+  firebase_auth: ^1.1.1
+  firebase_core: ^1.0.4
+  firebase_storage: ^8.0.4
+  flutter:
+    sdk: flutter
   flutter_bloc: ^8.1.1
-  rxdart: ^0.27.5
+  flutter_localizations:
+    sdk: flutter
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
   just_audio: ^0.7.4
-  photos_repository:
-    path: packages/photos_repository
-  authentication_repository:
-    path: packages/authentication_repository
   photobooth_ui:
     path: packages/photobooth_ui
+  photos_repository:
+    path: packages/photos_repository
+  rxdart: ^0.26.0
   uuid: ^3.0.6
   very_good_analysis: ^2.0.4
 
 dev_dependencies:
+  bloc_test: ^8.0.0
   flutter_test:
     sdk: flutter
   bloc_test: ^9.1.0
