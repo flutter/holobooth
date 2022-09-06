@@ -39,8 +39,9 @@ class _OffscreenCompositor {
   static const _frameBorderSize = 15;
 
   Future<List<int>> composite() async {
-    final layers =
-        rawLayers.map((l) => CompositeLayer.fromJson(l as Map)).toList();
+    final layers = rawLayers
+        .map((dynamic l) => CompositeLayer.fromJson(l as Map))
+        .toList();
 
     final imageFutures = <Future<HtmlImage>>[];
 
