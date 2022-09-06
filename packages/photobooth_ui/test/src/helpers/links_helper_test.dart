@@ -19,42 +19,51 @@ void main() {
   group('openLink', () {
     test('launches the link', () async {
       when(() => mock.canLaunch('url')).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
+      when(
+        () => mock.launch(
+          'url',
+          useSafariVC: false,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).thenAnswer((_) async => true);
       await openLink('url');
-      verify(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(
+        () => mock.launch(
+          'url',
+          useSafariVC: false,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).called(1);
     });
 
     test('executes the onError callback when it cannot launch', () async {
       var wasCalled = false;
       when(() => mock.canLaunch('url')).thenAnswer((_) async => false);
-      when(() => mock.launch(
-            'url',
-            useSafariVC: false,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
-      await openLink('url', onError: () {
-        wasCalled = true;
-      });
+      when(
+        () => mock.launch(
+          'url',
+          useSafariVC: false,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).thenAnswer((_) async => true);
+      await openLink(
+        'url',
+        onError: () {
+          wasCalled = true;
+        },
+      );
       await expectLater(wasCalled, isTrue);
     });
   });

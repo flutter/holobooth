@@ -38,32 +38,38 @@ void main() {
       final mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            any(),
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
-      await tester.pumpApp(FooterLink(
-        link: 'https://example.com',
-        text: 'Link',
-      ));
+      when(
+        () => mock.launch(
+          any(),
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).thenAnswer((_) async => true);
+      await tester.pumpApp(
+        FooterLink(
+          link: 'https://example.com',
+          text: 'Link',
+        ),
+      );
 
       await tester.tap(find.byType(FooterLink));
       await tester.pumpAndSettle();
 
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(
+        () => mock.launch(
+          'https://example.com',
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).called(1);
     });
 
     group('MadeWith', () {
@@ -76,15 +82,17 @@ void main() {
 
       testWidgets('opens the Flutter website when tapped', (tester) async {
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(
+          () => mock.launch(
+            any(),
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -93,28 +101,32 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              flutterDevExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launch(
+            flutterDevExternalLink,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        );
       });
 
       testWidgets('opens the Firebase website when tapped', (tester) async {
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(
+          () => mock.launch(
+            any(),
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -123,15 +135,17 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              firebaseExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launch(
+            firebaseExternalLink,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        );
       });
     });
 
