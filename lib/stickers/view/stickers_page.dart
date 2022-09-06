@@ -182,15 +182,17 @@ class _RetakeButton extends StatelessWidget {
       child: AppTooltipButton(
         key: const Key('stickersPage_retake_appTooltipButton'),
         onPressed: () async {
+          final photoboothBloc = context.read<PhotoboothBloc>();
+          final navigator = Navigator.of(context);
           final confirmed = await showAppModal<bool>(
             context: context,
             landscapeChild: const _RetakeConfirmationDialogContent(),
             portraitChild: const _RetakeConfirmationBottomSheet(),
           );
           if (confirmed != null && confirmed) {
-            context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+            photoboothBloc.add(const PhotoClearAllTapped());
             unawaited(
-              Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+              navigator.pushReplacement(PhotoboothPage.route()),
             );
           }
         },
@@ -219,6 +221,7 @@ class _NextButton extends StatelessWidget {
         child: InkWell(
           key: const Key('stickersPage_next_inkWell'),
           onTap: () async {
+            final navigator = Navigator.of(context);
             final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _NextConfirmationDialogContent(),
@@ -226,7 +229,7 @@ class _NextButton extends StatelessWidget {
             );
             if (confirmed != null && confirmed) {
               unawaited(
-                Navigator.of(context).pushReplacement(SharePage.route()),
+                navigator.pushReplacement(SharePage.route()),
               );
             }
           },

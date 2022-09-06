@@ -83,13 +83,14 @@ class _PhotoboothViewState extends State<PhotoboothView> {
   }
 
   Future<void> _onSnapPressed({required double aspectRatio}) async {
+    final photoboothBloc = context.read<PhotoboothBloc>();
+    final navigator = Navigator.of(context);
     final picture = await _controller.takePicture();
-    context
-        .read<PhotoboothBloc>()
-        .add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
+
+    photoboothBloc.add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
     final stickersPage = StickersPage.route();
     await _stop();
-    unawaited(Navigator.of(context).pushReplacement(stickersPage));
+    unawaited(navigator.pushReplacement(stickersPage));
   }
 
   @override
