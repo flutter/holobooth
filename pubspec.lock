@@ -21,7 +21,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.7.2"
   args:
     dependency: transitive
     description:
@@ -641,7 +641,7 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.17.8"
+    version: "1.17.9"
   test_api:
     dependency: transitive
     description:
@@ -655,7 +655,7 @@ packages:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.28"
+    version: "0.3.29"
   typed_data:
     dependency: transitive
     description:
@@ -777,4 +777,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.13.0 <3.0.0"
-  flutter: ">=2.3.0-1.0.pre.227"
+  flutter: ">=2.4.0-4.2.pre"
