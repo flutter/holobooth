@@ -16,7 +16,7 @@ class LandingTakePhotoButton extends StatelessWidget {
           action: 'click-start-photobooth',
           label: 'start-photobooth',
         );
-        Navigator.of(context).push(PhotoboothPage.route());
+        Navigator.of(context).push<void>(PhotoboothPage.route());
       },
       child: Text(l10n.landingPageTakePhotoButtonText),
     );

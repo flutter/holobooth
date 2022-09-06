@@ -12,29 +12,19 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
-
-class _FakeStickersEvent extends Fake implements StickersEvent {}
-
-class _FakeStickersState extends Fake implements StickersState {}
 
 class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
-
-class _FakeShareEvent extends Fake implements ShareEvent {}
-
-class _FakeShareState extends Fake implements ShareState {}
 
 class _FakeDragUpdate extends Fake implements DragUpdate {}
 
@@ -48,12 +38,7 @@ void main() {
   final image = CameraImage(width: width, height: height, data: data);
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(_FakeStickersEvent());
-    registerFallbackValue<StickersState>(_FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-    registerFallbackValue<ShareEvent>(_FakeShareEvent());
-    registerFallbackValue<ShareState>(_FakeShareState());
+    registerFallbackValue(_FakePhotoboothEvent());
   });
 
   group('StickersPage', () {
@@ -280,7 +265,7 @@ void main() {
         builder: (context) {
           return ElevatedButton(
             key: initialPage,
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context).push<void>(
               MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                   providers: [
@@ -325,7 +310,7 @@ void main() {
         builder: (context) {
           return ElevatedButton(
             key: initialPage,
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context).push<void>(
               MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                   providers: [

@@ -6,32 +6,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../../helpers/helpers.dart';
 
-class _FakeStickersEvent extends Fake implements StickersEvent {}
-
-class _FakeStickersState extends Fake implements StickersState {}
-
 class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
-
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() {
-    registerFallbackValue<StickersEvent>(_FakeStickersEvent());
-    registerFallbackValue<StickersState>(_FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-  });
 
   group('StickersDrawerLayer', () {
     late PhotoboothBloc photoboothBloc;
