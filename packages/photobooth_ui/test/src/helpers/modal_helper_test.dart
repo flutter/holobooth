@@ -5,14 +5,14 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 import '../helpers/helpers.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   late PlatformHelper platformHelper;
 
   group('showAppModal', () {
     setUp(() {
-      platformHelper = MockPlatformHelper();
+      platformHelper = _MockPlatformHelper();
     });
 
     testWidgets('renders without platform helper injected', (tester) async {
@@ -20,7 +20,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 portraitChild: const Text('portrait'),
                 landscapeChild: const Text('landscape'),
@@ -41,7 +41,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -64,7 +64,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),
@@ -88,7 +88,7 @@ void main() {
         MaterialApp(
           home: Builder(
             builder: (context) => TextButton(
-              onPressed: () => showAppModal(
+              onPressed: () => showAppModal<void>(
                 context: context,
                 platformHelper: platformHelper,
                 portraitChild: const Text('portrait'),

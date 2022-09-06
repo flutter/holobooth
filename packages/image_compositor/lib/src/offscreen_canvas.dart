@@ -55,10 +55,16 @@ class OffScreenCanvas {
     if (_offScreenCanvas != null) {
       _offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
-        fileReader.onLoad.listen((event) {
-          completer.complete(js_util.getProperty(
-              js_util.getProperty(event, 'target')!, 'result')!);
-        });
+        fileReader.onLoad.listen(
+          (event) {
+            completer.complete(
+              js_util.getProperty(
+                js_util.getProperty(event, 'target')! as Object,
+                'result',
+              )! as String,
+            );
+          },
+        );
         fileReader.readAsDataUrl(value);
       });
       return completer.future;
@@ -69,9 +75,9 @@ class OffScreenCanvas {
 
   /// Returns CanvasRenderContext2D or OffscreenCanvasRenderingContext2D to
   /// paint into.
-  Object? getContext2d() => _context ??= (_offScreenCanvas != null
+  Object? getContext2d() => _context ??= _offScreenCanvas != null
       ? _offScreenCanvas!.getContext('2d')
-      : _canvasElement!.getContext('2d'));
+      : _canvasElement!.getContext('2d');
 
   /// Proxy to `canvas.getContext('2d').save()`.
   void save() {
@@ -96,7 +102,10 @@ class OffScreenCanvas {
   /// Proxy to `canvas.getContext('2d').drawImage()`.
   void drawImage(Object image, int x, int y, int width, int height) {
     js_util.callMethod(
-        _context!, 'drawImage', <dynamic>[image, x, y, width, height]);
+      _context!,
+      'drawImage',
+      <dynamic>[image, x, y, width, height],
+    );
   }
 
   /// Creates a rectangular path whose starting point is at (x, y) and

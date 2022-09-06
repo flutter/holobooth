@@ -242,7 +242,7 @@ void main() {
           /// Swipe to the second page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
           await tester.pump();
@@ -284,7 +284,7 @@ void main() {
           /// Swipe to the second page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
           await tester.pump();
@@ -293,7 +293,7 @@ void main() {
           /// Swipe to the third page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
           await tester.pump();
@@ -335,7 +335,7 @@ void main() {
           /// Swipe to the second page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -345,7 +345,7 @@ void main() {
           /// Swipe to the third page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -355,7 +355,7 @@ void main() {
           /// Swipe to the fourth page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -399,7 +399,7 @@ void main() {
           /// Swipe to the second page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -409,7 +409,7 @@ void main() {
           /// Swipe to the third page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -419,7 +419,7 @@ void main() {
           /// Swipe to the fourth page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 
@@ -429,7 +429,7 @@ void main() {
           /// Swipe to the fifth page.
           await tester.fling(
             find.byType(StickersTabs),
-            const Offset(-200.0, 0.0),
+            const Offset(-200, 0),
             1000,
           );
 

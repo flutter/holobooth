@@ -11,10 +11,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class FakePhotoboothState extends Fake implements PhotoboothState {}
-
 void main() {
   const width = 1;
   const height = 1;
@@ -22,11 +18,6 @@ void main() {
   const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
-
-  setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-  });
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
@@ -36,7 +27,7 @@ void main() {
   group('AnimatedPhotoboothPhoto', () {
     group('portrait', () {
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait'
+          'displays AnimatedPhotoboothPhotoPortrait '
           'when aspect ratio is portrait '
           'and screen size is small', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -56,7 +47,7 @@ void main() {
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait'
+          'displays AnimatedPhotoboothPhotoPortrait '
           'when aspect ratio is portrait '
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -76,7 +67,7 @@ void main() {
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoPortrait'
+          'displays AnimatedPhotoboothPhotoPortrait '
           'when aspect ratio is portrait '
           'and screen size is xLarge', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -141,7 +132,7 @@ void main() {
 
     group('landscape', () {
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape'
+          'displays AnimatedPhotoboothPhotoLandscape '
           'when aspect ratio is landscape '
           'and screen size is small', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -160,7 +151,7 @@ void main() {
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape'
+          'displays AnimatedPhotoboothPhotoLandscape '
           'when aspect ratio is landscape '
           'and screen size is medium', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -179,7 +170,7 @@ void main() {
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape'
+          'displays AnimatedPhotoboothPhotoLandscape '
           'when aspect ratio is landscape '
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
@@ -198,7 +189,7 @@ void main() {
       });
 
       testWidgets(
-          'displays AnimatedPhotoboothPhotoLandscape'
+          'displays AnimatedPhotoboothPhotoLandscape '
           'when aspect ratio is landscape '
           'and screen size is xLarge', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(

@@ -141,8 +141,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopLeft(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = math.max((size.height - (2 * mid)), 0.0);
-          final newWidth = math.max(size.width - (2 * mid), 0.0);
+          final double newHeight = math.max(size.height - (2 * mid), 0);
+          final double newWidth = math.max(size.width - (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -159,8 +159,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragTopRight(Offset details) {
           final mid = (details.dx + (details.dy * -1)) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final double newHeight = math.max(size.height + (2 * mid), 0);
+          final double newWidth = math.max(size.width + (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -195,8 +195,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomRight(Offset details) {
           final mid = (details.dx + details.dy) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final double newHeight = math.max(size.height + (2 * mid), 0);
+          final double newWidth = math.max(size.width + (2 * mid), 0);
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
@@ -413,11 +413,9 @@ class _ResizePoint extends StatelessWidget {
     Key? key,
     required this.onDrag,
     required this.type,
-    this.onScale,
   }) : super(key: key);
 
   final ValueSetter<Offset> onDrag;
-  final ValueSetter<double>? onScale;
   final _ResizePointType type;
 
   MouseCursor get _cursor {
@@ -431,7 +429,6 @@ class _ResizePoint extends StatelessWidget {
       child: _DraggablePoint(
         mode: _PositionMode.local,
         onDrag: onDrag,
-        onScale: onScale,
         child: Container(
           width: _cornerDiameter,
           height: _cornerDiameter,
