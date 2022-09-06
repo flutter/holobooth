@@ -47,7 +47,7 @@ class PhotoboothView extends StatefulWidget {
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: const CameraOptions(
-      audio: AudioConstraints(enabled: false),
+      audio: AudioConstraints(),
       video: _videoConstraints,
     ),
   );

@@ -254,7 +254,6 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersRetakeConfirmationHeading,
@@ -343,7 +342,6 @@ class _NextConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersNextConfirmationHeading,
@@ -423,8 +421,6 @@ extension on PhotoAsset {
     return BoxConstraints(
       minWidth: asset.size.width * _minStickerScale,
       minHeight: asset.size.height * _minStickerScale,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
     );
   }
 }
@@ -459,7 +455,6 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
         },
         message: l10n.openStickersTooltip,
         verticalOffset: 50,
-        mode: TooltipMode.normal,
         child: Image.asset(
           'assets/icons/stickers_button_icon.png',
           height: 100,

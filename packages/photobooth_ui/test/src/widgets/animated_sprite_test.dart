@@ -25,9 +25,11 @@ Future<void> main() async {
 
     testWidgets('renders AppCircularProgressIndicator when loading asset',
         (tester) async {
-      await tester.pumpWidget(AnimatedSprite(
-        sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-      ));
+      await tester.pumpWidget(
+        AnimatedSprite(
+          sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+        ),
+      );
       expect(find.byType(AppCircularProgressIndicator), findsOneWidget);
     });
 
@@ -35,10 +37,12 @@ Future<void> main() async {
         'does not render AppCircularProgressIndicator'
         ' when loading asset and showLoadingIndicator is false',
         (tester) async {
-      await tester.pumpWidget(AnimatedSprite(
-        sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-        showLoadingIndicator: false,
-      ));
+      await tester.pumpWidget(
+        AnimatedSprite(
+          sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+          showLoadingIndicator: false,
+        ),
+      );
       expect(find.byType(AppCircularProgressIndicator), findsNothing);
     });
 
@@ -48,14 +52,16 @@ Future<void> main() async {
         final images = __MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.loop,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: AnimatedSprite(
+                sprites:
+                    Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+              ),
             ),
           ),
-        ));
+        );
         await tester.pump();
         final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
         final widget = tester.widget<SpriteAnimationWidget>(
@@ -71,14 +77,17 @@ Future<void> main() async {
         final images = __MockImages();
         when(() => images.load(any())).thenAnswer((_) async => image);
         Flame.images = images;
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: AnimatedSprite(
-              sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.oneTime,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: AnimatedSprite(
+                sprites:
+                    Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
+                mode: AnimationMode.oneTime,
+              ),
             ),
           ),
-        ));
+        );
         await tester.pump();
         final spriteAnimationFinder = find.byType(SpriteAnimationWidget);
         final widget = tester.widget<SpriteAnimationWidget>(

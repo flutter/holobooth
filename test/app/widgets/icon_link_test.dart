@@ -20,15 +20,17 @@ void main() {
       final mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            any(),
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
+      when(
+        () => mock.launch(
+          any(),
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).thenAnswer((_) async => true);
 
       await tester.pumpApp(
         IconLink(
@@ -40,15 +42,17 @@ void main() {
       await tester.tap(find.byType(IconLink));
       await tester.pumpAndSettle();
 
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(
+        () => mock.launch(
+          'https://example.com',
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).called(1);
     });
   });
 

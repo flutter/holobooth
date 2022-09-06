@@ -563,12 +563,14 @@ void main() {
     testWidgets('renders dash, sparky, dino, and android when all are selected',
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
-        PhotoboothState(characters: const [
-          PhotoAsset(id: '0', asset: Assets.android),
-          PhotoAsset(id: '1', asset: Assets.dash),
-          PhotoAsset(id: '2', asset: Assets.sparky),
-          PhotoAsset(id: '3', asset: Assets.dino),
-        ]),
+        PhotoboothState(
+          characters: const [
+            PhotoAsset(id: '0', asset: Assets.android),
+            PhotoAsset(id: '1', asset: Assets.dash),
+            PhotoAsset(id: '2', asset: Assets.sparky),
+            PhotoAsset(id: '3', asset: Assets.dino),
+          ],
+        ),
       );
       const preview = SizedBox();
 
@@ -634,9 +636,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(
-        const Key('photoboothView_dash_characterIconButton'),
-      ));
+      await tester.tap(
+        find.byKey(
+          const Key('photoboothView_dash_characterIconButton'),
+        ),
+      );
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
@@ -657,9 +661,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(
-        const Key('photoboothView_sparky_characterIconButton'),
-      ));
+      await tester.tap(
+        find.byKey(
+          const Key('photoboothView_sparky_characterIconButton'),
+        ),
+      );
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
@@ -680,9 +686,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(
-        const Key('photoboothView_android_characterIconButton'),
-      ));
+      await tester.tap(
+        find.byKey(
+          const Key('photoboothView_android_characterIconButton'),
+        ),
+      );
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
@@ -703,9 +711,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(
-        const Key('photoboothView_dino_characterIconButton'),
-      ));
+      await tester.tap(
+        find.byKey(
+          const Key('photoboothView_dino_characterIconButton'),
+        ),
+      );
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
@@ -724,9 +734,11 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(
-        const Key('photoboothPreview_background_gestureDetector'),
-      ));
+      await tester.tap(
+        find.byKey(
+          const Key('photoboothPreview_background_gestureDetector'),
+        ),
+      );
       expect(tester.takeException(), isNull);
       verify(() => photoboothBloc.add(PhotoTapped())).called(1);
     });
@@ -751,9 +763,11 @@ void main() {
         'does not render CharactersCaption on mobile when '
         'any character is selected', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState(
-        characters: const [PhotoAsset(id: '0', asset: Assets.android)],
-      ));
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+        ),
+      );
       const preview = SizedBox();
       await tester.pumpApp(
         BlocProvider.value(
