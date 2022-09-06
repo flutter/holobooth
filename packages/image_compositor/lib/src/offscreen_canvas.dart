@@ -56,8 +56,12 @@ class OffScreenCanvas {
       _offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
         fileReader.onLoad.listen((event) {
-          completer.complete(js_util.getProperty(
-              js_util.getProperty(event, 'target')!, 'result')!);
+          completer.complete(
+            js_util.getProperty(
+              js_util.getProperty(event, 'target')!,
+              'result',
+            )!,
+          );
         });
         fileReader.readAsDataUrl(value);
       });
@@ -96,7 +100,10 @@ class OffScreenCanvas {
   /// Proxy to `canvas.getContext('2d').drawImage()`.
   void drawImage(Object image, int x, int y, int width, int height) {
     js_util.callMethod(
-        _context!, 'drawImage', <dynamic>[image, x, y, width, height]);
+      _context!,
+      'drawImage',
+      <dynamic>[image, x, y, width, height],
+    );
   }
 
   /// Creates a rectangular path whose starting point is at (x, y) and
