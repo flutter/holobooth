@@ -64,7 +64,7 @@ void main() {
         final firstLocation = tester.getCenter(
           find.byKey(Key('draggableResizable_child_draggablePoint')),
         );
-        await tester.dragFrom(firstLocation, const Offset(200.0, 300.0));
+        await tester.dragFrom(firstLocation, const Offset(200, 300));
         await tester.pump(kThemeAnimationDuration);
         final destination = tester.getCenter(
           find.byKey(Key('draggableResizable_child_draggablePoint')),

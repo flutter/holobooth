@@ -158,7 +158,7 @@ class PhotoboothTheme {
     return const TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          width: 2.0,
+          width: 2,
           color: PhotoboothColors.blue,
         ),
       ),
