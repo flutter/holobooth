@@ -151,8 +151,8 @@ class _OffscreenCompositor {
       canvas
         ..save()
         ..translate(
-          (insideFrameX + assetDx).toDouble(),
-          (insideFrameY + assetDy).toDouble(),
+          insideFrameX + assetDx,
+          insideFrameY + assetDy,
         )
         ..translate(assetWidth / 2, assetHeight / 2)
         ..rotate(layer.angle)
