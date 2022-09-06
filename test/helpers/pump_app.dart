@@ -33,12 +33,6 @@ extension PumpApp on WidgetTester {
     PhotoboothBloc? photoboothBloc,
     ShareBloc? shareBloc,
   }) async {
-    registerFallbackValue(FakePhotoboothEvent());
-    registerFallbackValue(FakePhotoboothState());
-
-    registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
-
     return mockNetworkImages(() async {
       return pumpWidget(
         RepositoryProvider.value(
