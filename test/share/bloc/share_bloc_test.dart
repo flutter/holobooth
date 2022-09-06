@@ -47,7 +47,7 @@ void main() {
       photoAsset = _MockPhotoAsset();
 
       when(() => photoAsset.asset).thenReturn(asset);
-      when(() => photoAsset.angle).thenReturn(0.0);
+      when(() => photoAsset.angle).thenReturn(0);
       when(() => photoAsset.constraint).thenReturn(
         PhotoConstraint(width: 1, height: 1),
       );
