@@ -177,8 +177,8 @@ class _DraggableResizableState extends State<DraggableResizable> {
 
         void onDragBottomLeft(Offset details) {
           final mid = ((details.dx * -1) + details.dy) / 2;
-          final newHeight = math.max(size.height + (2 * mid), 0.0);
-          final newWidth = math.max(size.width + (2 * mid), 0.0);
+          final newHeight = math.max(size.height + (2 * mid), 0).toDouble();
+          final newWidth = math.max(size.width + (2 * mid), 0).toDouble();
           final updatedSize = Size(newWidth, newHeight);
 
           if (!widget.constraints.isSatisfiedBy(updatedSize)) return;
