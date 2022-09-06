@@ -31,15 +31,12 @@ class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 void main() {
   setUpAll(() {
     registerFallbackValue(_FakeCameraOptions());
     registerFallbackValue(_FakePhotoboothEvent());
-    registerFallbackValue(_FakePhotoboothState());
     registerFallbackValue(_FakeDragUpdate());
   });
 

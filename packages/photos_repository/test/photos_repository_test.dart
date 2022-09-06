@@ -32,9 +32,7 @@ void main() {
     registerFallbackValue(Uint8List(0));
     registerFallbackValue(_MockUploadTask());
     registerFallbackValue(_MockTaskSnapshot());
-    registerFallbackValue(
-      _FakeSettableMetadata(),
-    );
+    registerFallbackValue(_FakeSettableMetadata());
     registerFallbackValue(_MockTaskSnapshot());
   });
 

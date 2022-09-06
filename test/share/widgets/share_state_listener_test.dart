@@ -30,11 +30,6 @@ void main() {
   late PlatformHelper platformHelper;
   late XFile file;
 
-  setUpAll(() {
-    registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
-  });
-
   setUp(() {
     shareBloc = MockShareBloc();
     when(() => shareBloc.state).thenReturn(ShareState());

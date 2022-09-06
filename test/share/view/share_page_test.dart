@@ -20,8 +20,6 @@ import '../../helpers/helpers.dart';
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -47,10 +45,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
-    registerFallbackValue(_FakePhotoboothState());
-
     registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
   });
 
   setUp(() {

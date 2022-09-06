@@ -16,7 +16,6 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
   });
 
   setUp(() {
