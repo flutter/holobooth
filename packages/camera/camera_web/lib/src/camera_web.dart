@@ -79,7 +79,8 @@ class CameraPlugin extends CameraPlatform {
     final videoDevices = <MediaDeviceInfo>[];
     if (html.window.navigator.mediaDevices != null) {
       final devices =
-          await html.window.navigator.mediaDevices?.enumerateDevices() ?? [];
+          await html.window.navigator.mediaDevices?.enumerateDevices() ??
+              <dynamic>[];
       for (var deviceIndex = 0; deviceIndex < devices.length; deviceIndex++) {
         dynamic device = devices[deviceIndex];
         if (device is html.MediaDeviceInfo && device.kind == 'videoinput') {
@@ -133,7 +134,7 @@ class Camera {
     // ignore: avoid_dynamic_calls
     ui.platformViewRegistry.registerViewFactory(
       _getViewType(textureId),
-      (_) => divElement,
+      (dynamic _) => divElement,
     );
 
     final stream = await _getMediaStream();
