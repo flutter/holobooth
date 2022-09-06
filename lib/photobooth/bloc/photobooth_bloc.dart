@@ -26,26 +26,6 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   final UuidGetter uuid;
 
-  // TODO(alestiago): Consider using https://pub.dev/packages/bloc_concurrency
-  // bool _isDragEvent(PhotoboothEvent e) {
-  //   return e is PhotoCharacterDragged || e is PhotoStickerDragged;
-  // }
-
-  // bool _isNotDragEvent(PhotoboothEvent e) {
-  //   return e is! PhotoCharacterDragged && e is! PhotoStickerDragged;
-  // }
-
-  // @override
-  // Stream<Transition<PhotoboothEvent, PhotoboothState>> transformEvents(
-  //   Stream<PhotoboothEvent> events,
-  //   TransitionFunction<PhotoboothEvent, PhotoboothState> transitionFn,
-  // ) {
-  //   return Rx.merge([
-  //     events.where(_isDragEvent).debounceTime(_debounceDuration),
-  //     events.where(_isNotDragEvent),
-  //   ]).asyncExpand(transitionFn);
-  // }
-
   void _onPhotoCaptured(PhotoCaptured event, Emitter emit) {
     emit(
       state.copyWith(
