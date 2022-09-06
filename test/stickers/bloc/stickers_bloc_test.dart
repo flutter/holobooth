@@ -3,8 +3,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
   group('StickersBloc', () {
@@ -36,7 +34,6 @@ void main() {
         'emits isDrawerActive: true when isDrawerActive: false',
         build: () => StickersBloc(),
         seed: () => StickersState(
-          isDrawerActive: false,
           shouldDisplayPropsReminder: false,
         ),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
@@ -58,7 +55,6 @@ void main() {
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(
-            isDrawerActive: false,
             shouldDisplayPropsReminder: false,
           ),
         ],
@@ -67,10 +63,7 @@ void main() {
       blocTest<StickersBloc, StickersState>(
         'emits shouldDisplayPropsReminder:false when StickersDrawerToggled',
         build: () => StickersBloc(),
-        seed: () => StickersState(
-          isDrawerActive: false,
-          shouldDisplayPropsReminder: true,
-        ),
+        seed: () => StickersState(),
         act: (bloc) => bloc.add(StickersDrawerToggled()),
         expect: () => [
           StickersState(

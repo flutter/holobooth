@@ -99,7 +99,6 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
-              canTransform: false,
               size: size,
               child: child,
             ),
@@ -179,7 +178,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -261,7 +259,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -343,7 +340,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -399,7 +395,6 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
-              canTransform: false,
               onDelete: () {},
               size: size,
               child: child,
@@ -502,7 +497,8 @@ void main() {
         );
 
         await tester.tap(
-            find.byKey(Key('draggableResizable_rotate_floatingActionIcon')));
+          find.byKey(Key('draggableResizable_rotate_floatingActionIcon')),
+        );
         await tester.pumpAndSettle();
 
         expect(tester.takeException(), isNull);

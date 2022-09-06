@@ -19,7 +19,6 @@ class ClearStickersDialog extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               l10n.clearStickersDialogHeading,

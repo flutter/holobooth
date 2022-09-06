@@ -39,21 +39,25 @@ Future<void> main() async {
     ),
   );
 
-  unawaited(Future.wait([
-    Flame.images.load('android_spritesheet.png'),
-    Flame.images.load('dash_spritesheet.png'),
-    Flame.images.load('dino_spritesheet.png'),
-    Flame.images.load('sparky_spritesheet.png'),
-    Flame.images.load('photo_frame_spritesheet_landscape.jpg'),
-    Flame.images.load('photo_frame_spritesheet_portrait.png'),
-    Flame.images.load('photo_indicator_spritesheet.png'),
-  ]));
+  unawaited(
+    Future.wait([
+      Flame.images.load('android_spritesheet.png'),
+      Flame.images.load('dash_spritesheet.png'),
+      Flame.images.load('dino_spritesheet.png'),
+      Flame.images.load('sparky_spritesheet.png'),
+      Flame.images.load('photo_frame_spritesheet_landscape.jpg'),
+      Flame.images.load('photo_frame_spritesheet_portrait.png'),
+      Flame.images.load('photo_indicator_spritesheet.png'),
+    ]),
+  );
 
   runZonedGuarded(
-    () => runApp(App(
-      authenticationRepository: authenticationRepository,
-      photosRepository: photosRepository,
-    )),
+    () => runApp(
+      App(
+        authenticationRepository: authenticationRepository,
+        photosRepository: photosRepository,
+      ),
+    ),
     (error, stackTrace) {
       print(error.toString());
       print(stackTrace.toString());
