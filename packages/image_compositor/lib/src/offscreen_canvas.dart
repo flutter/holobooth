@@ -55,14 +55,16 @@ class OffScreenCanvas {
     if (_offScreenCanvas != null) {
       _offScreenCanvas!.convertToBlob().then((html.Blob value) {
         final fileReader = html.FileReader();
-        fileReader.onLoad.listen((event) {
-          completer.complete(
-            js_util.getProperty(
-              js_util.getProperty(event, 'target')!,
-              'result',
-            )!,
-          );
-        });
+        fileReader.onLoad.listen(
+          (event) {
+            completer.complete(
+              js_util.getProperty(
+                js_util.getProperty(event, 'target')! as Object,
+                'result',
+              )! as String,
+            );
+          },
+        );
         fileReader.readAsDataUrl(value);
       });
       return completer.future;
