@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class _MockCameraImage extends Mock implements CameraImage {}
@@ -34,9 +35,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
@@ -46,9 +45,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
     });
 

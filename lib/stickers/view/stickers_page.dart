@@ -17,7 +17,7 @@ class StickersPage extends StatelessWidget {
   }) : super(key: key);
 
   static Route route() {
-    return AppPageRoute(builder: (_) => const StickersPage());
+    return AppPageRoute<void>(builder: (_) => const StickersPage());
   }
 
   @override
@@ -182,12 +182,12 @@ class _RetakeButton extends StatelessWidget {
       child: AppTooltipButton(
         key: const Key('stickersPage_retake_appTooltipButton'),
         onPressed: () async {
-          final confirmed = await showAppModal(
+          final confirmed = await showAppModal<bool>(
             context: context,
             landscapeChild: const _RetakeConfirmationDialogContent(),
             portraitChild: const _RetakeConfirmationBottomSheet(),
           );
-          if (confirmed) {
+          if (confirmed != null && confirmed) {
             context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
             unawaited(
               Navigator.of(context).pushReplacement(PhotoboothPage.route()),
@@ -219,12 +219,12 @@ class _NextButton extends StatelessWidget {
         child: InkWell(
           key: const Key('stickersPage_next_inkWell'),
           onTap: () async {
-            final confirmed = await showAppModal(
+            final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _NextConfirmationDialogContent(),
               portraitChild: const _NextConfirmationBottomSheet(),
             );
-            if (confirmed) {
+            if (confirmed != null && confirmed) {
               unawaited(
                 Navigator.of(context).pushReplacement(SharePage.route()),
               );
@@ -254,7 +254,6 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersRetakeConfirmationHeading,
@@ -343,7 +342,6 @@ class _NextConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.stickersNextConfirmationHeading,
@@ -423,8 +421,6 @@ extension on PhotoAsset {
     return BoxConstraints(
       minWidth: asset.size.width * _minStickerScale,
       minHeight: asset.size.height * _minStickerScale,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
     );
   }
 }
@@ -459,7 +455,6 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
         },
         message: l10n.openStickersTooltip,
         verticalOffset: 50,
-        mode: TooltipMode.normal,
         child: Image.asset(
           'assets/icons/stickers_button_icon.png',
           height: 100,

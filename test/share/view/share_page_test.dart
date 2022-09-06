@@ -10,6 +10,7 @@ import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -18,8 +19,6 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 import '../../helpers/helpers.dart';
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -45,11 +44,8 @@ void main() {
   late XFile file;
 
   setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(_FakePhotoboothEvent());
+    registerFallbackValue(FakeShareEvent());
   });
 
   setUp(() {
@@ -221,7 +217,6 @@ void main() {
       when(() => shareBloc.state).thenReturn(
         ShareState(
           compositeStatus: ShareStatus.failure,
-          uploadStatus: ShareStatus.initial,
           file: file,
         ),
       );
@@ -272,7 +267,6 @@ void main() {
       when(() => shareBloc.state).thenReturn(
         ShareState(
           compositeStatus: ShareStatus.failure,
-          uploadStatus: ShareStatus.initial,
           file: file,
         ),
       );

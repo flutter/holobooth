@@ -21,7 +21,7 @@ class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({Key? key}) : super(key: key);
 
   static Route route() {
-    return AppPageRoute(builder: (_) => const PhotoboothPage());
+    return AppPageRoute<void>(builder: (_) => const PhotoboothPage());
   }
 
   @override
@@ -29,7 +29,7 @@ class PhotoboothPage extends StatelessWidget {
     return BlocProvider(
       create: (_) => PhotoboothBloc(),
       child: Navigator(
-        onGenerateRoute: (_) => AppPageRoute(
+        onGenerateRoute: (_) => AppPageRoute<void>(
           builder: (_) => const PhotoboothView(),
         ),
       ),
@@ -47,7 +47,7 @@ class PhotoboothView extends StatefulWidget {
 class _PhotoboothViewState extends State<PhotoboothView> {
   final _controller = CameraController(
     options: const CameraOptions(
-      audio: AudioConstraints(enabled: false),
+      audio: AudioConstraints(),
       video: _videoConstraints,
     ),
   );

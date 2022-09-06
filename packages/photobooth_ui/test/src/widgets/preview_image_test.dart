@@ -52,7 +52,7 @@ void main() {
     testWidgets('renders error with empty image', (tester) async {
       await tester.pumpWidget(PreviewImage(data: ''));
       await tester.pumpAndSettle();
-      final exception = tester.takeException();
+      final dynamic exception = tester.takeException();
       expect(exception, isNotNull);
       expect(find.byKey(const Key('previewImage_errorText')), findsOneWidget);
     });

@@ -45,7 +45,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -59,7 +58,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -78,7 +76,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -100,7 +97,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -116,7 +112,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       expect(find.byKey(Key('shareCopyableLink_copiedButton')), findsNothing);
@@ -134,7 +129,6 @@ void main() {
       await tester.pumpApp(
         ShareCopyableLink(
           link: link,
-          suspendDuration: suspendDuration,
         ),
       );
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
@@ -152,12 +146,7 @@ void main() {
     });
 
     testWidgets('timer is closed when widget is disposed', (tester) async {
-      await tester.pumpApp(
-        ShareCopyableLink(
-          link: link,
-          suspendDuration: suspendDuration,
-        ),
-      );
+      await tester.pumpApp(ShareCopyableLink(link: link));
       await tester.tap(find.byKey(Key('shareCopyableLink_copyButton')));
       await tester.pumpAndSettle();
       final state = tester.state<ShareCopyableLinkState>(

@@ -11,10 +11,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 void main() {
   const width = 1;
   const height = 1;
@@ -22,11 +18,6 @@ void main() {
   const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
-
-  setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-  });
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
@@ -161,7 +152,6 @@ void main() {
         when(() => photoboothBloc.state).thenReturn(
           PhotoboothState(
             image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
           ),
         );
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
@@ -183,7 +173,6 @@ void main() {
         when(() => photoboothBloc.state).thenReturn(
           PhotoboothState(
             image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
           ),
         );
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.medium, 800));
@@ -205,7 +194,6 @@ void main() {
         when(() => photoboothBloc.state).thenReturn(
           PhotoboothState(
             image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
           ),
         );
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
@@ -227,7 +215,6 @@ void main() {
         when(() => photoboothBloc.state).thenReturn(
           PhotoboothState(
             image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
           ),
         );
         tester.setDisplaySize(
@@ -254,7 +241,6 @@ void main() {
         when(() => photoboothBloc.state).thenReturn(
           PhotoboothState(
             image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
           ),
         );
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
@@ -275,10 +261,7 @@ void main() {
           'with isPhotoVisible true '
           'after 2 seconds', (tester) async {
         when(() => photoboothBloc.state).thenReturn(
-          PhotoboothState(
-            image: image,
-            aspectRatio: PhotoboothAspectRatio.landscape,
-          ),
+          PhotoboothState(image: image),
         );
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 

@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flame/assets.dart';
 import 'package:flame/widgets.dart';
@@ -59,7 +58,6 @@ Future<void> main() async {
               body: AnimatedSprite(
                 sprites:
                     Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-                mode: AnimationMode.loop,
               ),
             ),
           ),

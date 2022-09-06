@@ -76,9 +76,9 @@ void main() {
 
     setUp(() {
       animation = _MockAnimationController();
-      registerFallbackValue<Paint>(Paint());
-      registerFallbackValue<Offset>(const Offset(200, 200));
-      registerFallbackValue<Rect>(_RectFake());
+      registerFallbackValue(Paint());
+      registerFallbackValue(const Offset(200, 200));
+      registerFallbackValue(_RectFake());
     });
 
     test('verifies should not repaint', () async {

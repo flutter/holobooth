@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -23,11 +20,6 @@ void main() {
 
   late PhotoboothBloc photoboothBloc;
   group('StickersLayer', () {
-    setUpAll(() {
-      registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-      registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-    });
-
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
     });

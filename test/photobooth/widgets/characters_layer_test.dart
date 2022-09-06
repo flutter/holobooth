@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
-
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
@@ -21,12 +18,8 @@ void main() {
   const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
-  group('CharactersLayer', () {
-    setUpAll(() {
-      registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
-      registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
-    });
 
+  group('CharactersLayer', () {
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
     });
