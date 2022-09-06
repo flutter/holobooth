@@ -1,36 +1,21 @@
 name: image_compositor
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths:
       - "packages/image_compositor/**"
       - ".github/workflows/image_compositor.yaml"
+    branches:
+      - main
 
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: packages/image_compositor
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: subosito/flutter-action@v1.5.0
-        with:
-          channel: master
-
-      - name: Install Dependencies
-        run: flutter packages get
-
-      - name: Format
-        run: flutter format --set-exit-if-changed lib test
-
-      - name: Analyze
-        run: flutter analyze lib test
-
-      - name: Run tests chrome
-        run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
-
-      - name: Run tests
-        run: flutter test --no-pub --test-randomize-ordering-seed random
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_version: 2.4.0-4.2.pre
+      coverage_excludes: "**/*.gen.dart"
+      working_directory: packages/image_compositor
