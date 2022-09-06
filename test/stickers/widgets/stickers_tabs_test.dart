@@ -207,7 +207,8 @@ void main() {
           );
 
           final tabBarView = tester.widget<StickersTabBarView>(
-              find.byKey(Key('stickersTabs_googleTabBarView')));
+            find.byKey(Key('stickersTabs_googleTabBarView')),
+          );
           expect(tabBarView.stickers, equals(Assets.googleProps));
         });
       });
