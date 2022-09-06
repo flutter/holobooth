@@ -85,7 +85,8 @@ class CameraPlugin extends CameraPlatform {
         dynamic device = devices[deviceIndex];
         if (device is html.MediaDeviceInfo && device.kind == 'videoinput') {
           videoDevices.add(
-              MediaDeviceInfo(deviceId: device.deviceId, label: device.label));
+            MediaDeviceInfo(deviceId: device.deviceId, label: device.label),
+          );
         }
       }
     }

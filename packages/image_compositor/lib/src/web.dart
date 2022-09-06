@@ -26,8 +26,13 @@ class ImageCompositor {
 }
 
 class _OffscreenCompositor {
-  const _OffscreenCompositor(this.data, this.width, this.height, this.rawLayers,
-      this.targetAspectRatio);
+  const _OffscreenCompositor(
+    this.data,
+    this.width,
+    this.height,
+    this.rawLayers,
+    this.targetAspectRatio,
+  );
 
   final String data;
   final int width;
@@ -100,7 +105,11 @@ class _OffscreenCompositor {
 
       /// Clip to frame interior.
       ..clipRect(
-          insideFrameX, insideFrameY, insideFrameWidth, insideFrameHeight);
+        insideFrameX,
+        insideFrameY,
+        insideFrameWidth,
+        insideFrameHeight,
+      );
 
     /// Scale the image so the cropped portion will cover the inside of
     /// the frame.
@@ -115,8 +124,13 @@ class _OffscreenCompositor {
     final videoImageWidth = (image.width * imageScaleFactor).toInt();
     final videoImageHeight = (image.height * imageScaleFactor).toInt();
 
-    canvas.drawImage(image.imageElement, videoImageX, videoImageY,
-        videoImageWidth, videoImageHeight);
+    canvas.drawImage(
+      image.imageElement,
+      videoImageX,
+      videoImageY,
+      videoImageWidth,
+      videoImageHeight,
+    );
 
     for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
       final layer = layers[layerIndex];
@@ -136,13 +150,20 @@ class _OffscreenCompositor {
 
       canvas
         ..save()
-        ..translate((insideFrameX + assetDx).toDouble(),
-            (insideFrameY + assetDy).toDouble())
+        ..translate(
+          (insideFrameX + assetDx).toDouble(),
+          (insideFrameY + assetDy).toDouble(),
+        )
         ..translate(assetWidth / 2, assetHeight / 2)
         ..rotate(layer.angle)
         ..translate(-assetWidth / 2, -assetHeight / 2)
         ..drawImage(
-            asset.imageElement, 0, 0, assetWidth.toInt(), assetHeight.toInt())
+          asset.imageElement,
+          0,
+          0,
+          assetWidth.toInt(),
+          assetHeight.toInt(),
+        )
         ..restore();
     }
 
