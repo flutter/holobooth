@@ -37,7 +37,6 @@ class ShareDialog extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SharePreviewPhoto(image: image),
                     const SizedBox(height: 60),

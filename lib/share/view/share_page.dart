@@ -114,7 +114,6 @@ class _ConfirmationDialogContent extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 l10n.shareRetakeConfirmationHeading,

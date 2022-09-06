@@ -33,7 +33,6 @@ class ShareErrorDialog extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: 300,

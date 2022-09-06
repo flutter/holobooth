@@ -614,9 +614,7 @@ void main() {
     testWidgets(
         'renders StickersCaption when shouldDisplayPropsReminder is true',
         (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(shouldDisplayPropsReminder: true),
-      );
+      when(() => stickersBloc.state).thenReturn(StickersState());
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [

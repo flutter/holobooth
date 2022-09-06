@@ -53,7 +53,6 @@ Future<void> main() async {
           home: Scaffold(
             body: AnimatedSprite(
               sprites: Sprites(asset: 'test.png', size: Size(1, 1), frames: 1),
-              mode: AnimationMode.loop,
             ),
           ),
         ));

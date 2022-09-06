@@ -137,7 +137,6 @@ void main() {
           'and screen size is small', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
 
@@ -157,7 +156,6 @@ void main() {
           'and screen size is medium', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.medium, 800));
 
@@ -177,7 +175,6 @@ void main() {
           'and screen size is large', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
@@ -197,7 +194,6 @@ void main() {
           'and screen size is xLarge', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(
           PhotoboothBreakpoints.large + 100,
@@ -220,7 +216,6 @@ void main() {
           'with isPhotoVisible false', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 
@@ -240,7 +235,6 @@ void main() {
           'after 2 seconds', (tester) async {
         when(() => photoboothBloc.state).thenReturn(PhotoboothState(
           image: image,
-          aspectRatio: PhotoboothAspectRatio.landscape,
         ));
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
 

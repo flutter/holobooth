@@ -212,7 +212,6 @@ void main() {
         'when compositeStatus is failure', (tester) async {
       when(() => shareBloc.state).thenReturn(ShareState(
         compositeStatus: ShareStatus.failure,
-        uploadStatus: ShareStatus.initial,
         file: file,
       ));
       await tester.pumpApp(
@@ -259,7 +258,6 @@ void main() {
         'when compositeStatus is failure', (tester) async {
       when(() => shareBloc.state).thenReturn(ShareState(
         compositeStatus: ShareStatus.failure,
-        uploadStatus: ShareStatus.initial,
         file: file,
       ));
       await tester.pumpApp(
