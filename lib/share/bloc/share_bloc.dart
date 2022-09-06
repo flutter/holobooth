@@ -41,7 +41,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final bool _isSharingEnabled;
   final String shareText;
 
-  void _onShareViewLoaded(ShareViewLoaded _, Emitter emit) async {
+  void _onShareViewLoaded(ShareViewLoaded _, Emitter emit) {
     emit(state.copyWith(compositeStatus: ShareStatus.loading));
     unawaited(
       _composite().then(
@@ -51,7 +51,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     );
   }
 
-  void _onShareTapped(
+  Future<void> _onShareTapped(
     ShareTapped event,
     Emitter emit,
   ) async {
@@ -131,7 +131,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     }
   }
 
-  void _onShareCompositeSucceeded(
+  Future<void> _onShareCompositeSucceeded(
     _ShareCompositeSucceeded event,
     Emitter emit,
   ) async {
