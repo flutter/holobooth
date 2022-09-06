@@ -5,9 +5,9 @@ import 'package:pedantic/pedantic.dart' show unawaited;
 
 final bool _supportsDecode = js_util.getProperty(
       js_util.getProperty(
-        js_util.getProperty(html.window, 'Image'),
+        js_util.getProperty(html.window, 'Image') as Object,
         'prototype',
-      ),
+      ) as Object,
       'decode',
     ) !=
     null;
