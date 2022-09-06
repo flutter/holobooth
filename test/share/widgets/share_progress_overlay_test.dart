@@ -16,11 +16,6 @@ void main() {
   late ShareBloc shareBloc;
   late XFile file;
 
-  setUpAll(() {
-    registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(FakeShareState());
-  });
-
   setUp(() {
     shareBloc = MockShareBloc();
     file = _MockXFile();

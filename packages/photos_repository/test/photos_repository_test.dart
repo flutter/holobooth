@@ -35,7 +35,7 @@ void main() {
     registerFallbackValue(
       _FakeSettableMetadata(),
     );
-    registerFallbackValue _MockTaskSnapshot());
+    registerFallbackValue(_MockTaskSnapshot());
   });
 
   group('UploadPhotoException', () {

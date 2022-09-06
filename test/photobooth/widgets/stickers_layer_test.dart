@@ -9,10 +9,6 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -24,11 +20,6 @@ void main() {
 
   late PhotoboothBloc photoboothBloc;
   group('StickersLayer', () {
-    setUpAll(() {
-      registerFallbackValue(_FakePhotoboothEvent());
-      registerFallbackValue(_FakePhotoboothState());
-    });
-
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
     });

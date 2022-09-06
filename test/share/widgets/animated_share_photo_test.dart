@@ -11,10 +11,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class _FakePhotoboothState extends Fake implements PhotoboothState {}
-
 void main() {
   const width = 1;
   const height = 1;
@@ -22,11 +18,6 @@ void main() {
   const image = CameraImage(width: width, height: height, data: data);
 
   late PhotoboothBloc photoboothBloc;
-
-  setUpAll(() {
-    registerFallbackValue(_FakePhotoboothEvent());
-    registerFallbackValue(_FakePhotoboothState());
-  });
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
