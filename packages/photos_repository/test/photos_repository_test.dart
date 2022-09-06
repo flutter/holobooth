@@ -180,7 +180,7 @@ void main() {
       const height = 4;
       const layers = [
         CompositeLayer(
-          angle: 0.0,
+          angle: 0,
           assetPath: 'path',
           constraints: Vector2D(1, 2),
           position: Vector2D(3, 4),
