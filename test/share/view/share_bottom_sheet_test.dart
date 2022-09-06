@@ -10,9 +10,9 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
+class _FakePhotoboothState extends Fake implements PhotoboothState {}
 
 void main() {
   const width = 1;
@@ -24,8 +24,8 @@ void main() {
   late PhotoboothBloc photoboothBloc;
 
   setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
+    registerFallbackValue<PhotoboothEvent>(_FakePhotoboothEvent());
+    registerFallbackValue<PhotoboothState>(_FakePhotoboothState());
   });
 
   setUp(() {
