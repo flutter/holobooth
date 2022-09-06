@@ -92,7 +92,7 @@ class PulsePainter extends CustomPainter {
     final circleSize = rect.width / 2;
     final area = circleSize * circleSize;
     final radius = sqrt(area * _animation.value * 3);
-    final opacity = 1.0 - (_animation.value).clamp(0.0, 1.0);
+    final opacity = 1.0 - _animation.value.clamp(0.0, 1.0);
     final paint = Paint()..color = color.withOpacity(opacity);
     canvas.drawCircle(rect.center, radius, paint);
   }
