@@ -151,7 +151,7 @@ void main() {
         when(() => firebaseStorage.ref(any())).thenThrow(() => Exception());
 
         expect(
-          () async => await photosRepository.sharePhoto(
+          () async => photosRepository.sharePhoto(
             fileName: photoName,
             data: photoData,
             shareText: shareText,
@@ -165,7 +165,7 @@ void main() {
           'when reference.putData throws', () async {
         when(() => reference.putData(photoData)).thenThrow(() => Exception());
         expect(
-          () async => await photosRepository.sharePhoto(
+          () async => photosRepository.sharePhoto(
             fileName: photoName,
             data: photoData,
             shareText: shareText,
@@ -248,7 +248,7 @@ void main() {
           ),
         ).thenThrow(Exception('oops'));
         expect(
-          () async => await photosRepository.composite(
+          () async => photosRepository.composite(
             width: width,
             height: height,
             data: data,
