@@ -17,5 +17,4 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       flutter_version: 2.4.0-4.2.pre
-      coverage_excludes: "**/*.gen.dart"
       working_directory: packages/image_compositor
