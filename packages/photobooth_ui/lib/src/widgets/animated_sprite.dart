@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' as ui show Image;
 
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/sprite.dart';
@@ -80,7 +81,6 @@ extension on _AnimatedSpriteStatus {
 }
 
 class _AnimatedSpriteState extends State<AnimatedSprite> {
-  late SpriteSheet _spriteSheet;
   late SpriteAnimation _animation;
   Timer? _timer;
   var _status = _AnimatedSpriteStatus.loading;
@@ -99,28 +99,30 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
   }
 
   Future<void> _loadAnimation() async {
+    late ui.Image image;
     try {
-      _spriteSheet = SpriteSheet(
-        image: await Flame.images.load(widget.sprites.asset),
-        srcSize: Vector2(widget.sprites.size.width, widget.sprites.size.height),
-      );
-      _animation = _spriteSheet.createAnimation(
-        row: 0,
-        stepTime: widget.sprites.stepTime,
-        to: widget.sprites.frames,
-        loop: widget.mode == AnimationMode.loop,
-      );
-
-      setState(() {
-        _status = _AnimatedSpriteStatus.loaded;
-        if (widget.mode == AnimationMode.loop ||
-            widget.mode == AnimationMode.oneTime) {
-          _isPlaying = true;
-        }
-      });
+      image = await Flame.images.load(widget.sprites.asset);
     } catch (_) {
       setState(() => _status = _AnimatedSpriteStatus.failure);
     }
+
+    _animation = SpriteSheet(
+      image: image,
+      srcSize: Vector2(widget.sprites.size.width, widget.sprites.size.height),
+    ).createAnimation(
+      row: 0,
+      stepTime: widget.sprites.stepTime,
+      to: widget.sprites.frames,
+      loop: widget.mode == AnimationMode.loop,
+    );
+
+    setState(() {
+      _status = _AnimatedSpriteStatus.loaded;
+      if (widget.mode == AnimationMode.loop ||
+          widget.mode == AnimationMode.oneTime) {
+        _isPlaying = true;
+      }
+    });
   }
 
   @override
