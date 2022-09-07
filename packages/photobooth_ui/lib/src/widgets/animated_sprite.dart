@@ -69,7 +69,7 @@ class AnimatedSprite extends StatefulWidget {
   final Color loadingIndicatorColor;
 
   @override
-  _AnimatedSpriteState createState() => _AnimatedSpriteState();
+  State<AnimatedSprite> createState() => _AnimatedSpriteState();
 }
 
 enum _AnimatedSpriteStatus { loading, loaded, failure }

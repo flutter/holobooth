@@ -41,7 +41,7 @@ class PhotoboothView extends StatefulWidget {
   const PhotoboothView({Key? key}) : super(key: key);
 
   @override
-  _PhotoboothViewState createState() => _PhotoboothViewState();
+  State<PhotoboothView> createState() => _PhotoboothViewState();
 }
 
 class _PhotoboothViewState extends State<PhotoboothView> {

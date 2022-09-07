@@ -122,7 +122,7 @@ class StickersTab extends StatefulWidget {
   final String assetPath;
 
   @override
-  _StickersTabState createState() => _StickersTabState();
+  State<StickersTab> createState() => _StickersTabState();
 }
 
 class _StickersTabState extends State<StickersTab>

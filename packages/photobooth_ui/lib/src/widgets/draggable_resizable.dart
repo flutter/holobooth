@@ -75,7 +75,7 @@ class DraggableResizable extends StatefulWidget {
   final PlatformHelper platformHelper;
 
   @override
-  _DraggableResizableState createState() => _DraggableResizableState();
+  State<DraggableResizable> createState() => _DraggableResizableState();
 }
 
 class _DraggableResizableState extends State<DraggableResizable> {
