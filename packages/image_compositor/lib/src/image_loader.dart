@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:html' as html;
 import 'dart:js_util' as js_util;
-import 'package:pedantic/pedantic.dart' show unawaited;
 
 final bool _supportsDecode = js_util.getProperty(
       js_util.getProperty(
