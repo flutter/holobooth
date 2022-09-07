@@ -104,6 +104,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
       image = await Flame.images.load(widget.sprites.asset);
     } catch (_) {
       setState(() => _status = _AnimatedSpriteStatus.failure);
+      return;
     }
 
     _animation = SpriteSheet(
