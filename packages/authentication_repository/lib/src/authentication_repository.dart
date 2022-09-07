@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_auth/firebase_auth.dart';
 
 /// Thrown when signing in anonymously process fails.
 class SignInAnonymouslyException implements Exception {}
@@ -20,7 +21,15 @@ class AuthenticationRepository {
   Future<void> signInAnonymously() async {
     try {
       await _firebaseAuth.signInAnonymously();
-    } catch (_) {
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "operation-not-allowed":
+          print("Anonymous auth hasn't been enabled for this project.");
+          break;
+        default:
+          print("Unknown error.");
+      }
+
       throw SignInAnonymouslyException();
     }
   }
