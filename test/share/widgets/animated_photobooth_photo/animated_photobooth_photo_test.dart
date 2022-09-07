@@ -2,6 +2,7 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,33 +62,41 @@ void main() {
       String goldenPath(String fileName, {String useCase = ''}) =>
           'goldens/$useCase/$fileName.png';
 
+      late Clock fixedClock;
+
+      setUp(() {
+        fixedClock = Clock.fixed(DateTime.utc(2022));
+      });
+
       testWidgets(
         'animates when the aspect ratio is landscape',
         (tester) async {
-          final photoboothBloc = _MockPhotoboothBloc();
-          when(() => photoboothBloc.state).thenReturn(PhotoboothState());
+          await withClock(fixedClock, () async {
+            final photoboothBloc = _MockPhotoboothBloc();
+            when(() => photoboothBloc.state).thenReturn(PhotoboothState());
 
-          const sprite = AnimatedPhotoboothPhotoLandscape.sprite;
-          tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
-          final subject = AnimatedPhotoboothPhoto(
-            image: CameraImage(data: '', width: 1, height: 1),
-          );
-          await tester.pumpSubject(subject);
-
-          final frameDuration = Duration(
-            milliseconds:
-                (sprite.sprites.stepTime * Duration.millisecondsPerSecond)
-                    .round(),
-          );
-          for (var frame = 0; frame < sprite.sprites.frames; frame++) {
-            await tester.pump(frameDuration);
-            await expectLater(
-              find.byWidget(subject),
-              matchesGoldenFile(
-                goldenPath('frame$frame', useCase: 'landscape'),
-              ),
+            const sprite = AnimatedPhotoboothPhotoLandscape.sprite;
+            tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
+            final subject = AnimatedPhotoboothPhoto(
+              image: CameraImage(data: '', width: 1, height: 1),
             );
-          }
+            await tester.pumpSubject(subject);
+
+            final frameDuration = Duration(
+              milliseconds:
+                  (sprite.sprites.stepTime * Duration.millisecondsPerSecond)
+                      .round(),
+            );
+            for (var frame = 0; frame < sprite.sprites.frames; frame++) {
+              await tester.pump(frameDuration);
+              await expectLater(
+                find.byWidget(subject),
+                matchesGoldenFile(
+                  goldenPath('frame$frame', useCase: 'landscape'),
+                ),
+              );
+            }
+          });
         },
         tags: tags,
       );
@@ -95,35 +104,37 @@ void main() {
       testWidgets(
         'animates when the aspect ratio is portrait',
         (tester) async {
-          final photoboothBloc = _MockPhotoboothBloc();
-          when(() => photoboothBloc.state).thenReturn(
-            PhotoboothState(aspectRatio: PhotoboothAspectRatio.portrait),
-          );
-
-          const sprite = AnimatedPhotoboothPhotoPortrait.sprite;
-          tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
-          final subject = AnimatedPhotoboothPhoto(
-            image: CameraImage(data: '', width: 1, height: 1),
-          );
-          await tester.pumpSubject(
-            subject,
-            photoboothBloc: photoboothBloc,
-          );
-
-          final frameDuration = Duration(
-            milliseconds:
-                (sprite.sprites.stepTime * Duration.millisecondsPerSecond)
-                    .round(),
-          );
-          for (var frame = 0; frame < sprite.sprites.frames; frame++) {
-            await tester.pump(frameDuration);
-            await expectLater(
-              find.byWidget(subject),
-              matchesGoldenFile(
-                goldenPath('frame$frame', useCase: 'portrait'),
-              ),
+          await withClock(fixedClock, () async {
+            final photoboothBloc = _MockPhotoboothBloc();
+            when(() => photoboothBloc.state).thenReturn(
+              PhotoboothState(aspectRatio: PhotoboothAspectRatio.portrait),
             );
-          }
+
+            const sprite = AnimatedPhotoboothPhotoPortrait.sprite;
+            tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
+            final subject = AnimatedPhotoboothPhoto(
+              image: CameraImage(data: '', width: 1, height: 1),
+            );
+            await tester.pumpSubject(
+              subject,
+              photoboothBloc: photoboothBloc,
+            );
+
+            final frameDuration = Duration(
+              milliseconds:
+                  (sprite.sprites.stepTime * Duration.millisecondsPerSecond)
+                      .round(),
+            );
+            for (var frame = 0; frame < sprite.sprites.frames; frame++) {
+              await tester.pump(frameDuration);
+              await expectLater(
+                find.byWidget(subject),
+                matchesGoldenFile(
+                  goldenPath('frame$frame', useCase: 'portrait'),
+                ),
+              );
+            }
+          });
         },
         tags: tags,
       );
