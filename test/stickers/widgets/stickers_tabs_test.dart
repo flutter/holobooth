@@ -15,7 +15,7 @@ void main() {
 
   group('StickersTabs', () {
     testWidgets('onTabChanged is called with correct index', (tester) async {
-      var onTabChangedCalls = <int>[];
+      final onTabChangedCalls = <int>[];
       await tester.pumpApp(
         Scaffold(
           body: StickersTabs(
