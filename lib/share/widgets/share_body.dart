@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:analytics/analytics.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,15 @@ class ShareBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessHeading()
-                      : const ShareHeading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessHeading()
+                  else
+                    const ShareHeading(),
                   const SizedBox(height: 20),
-                  isUploadSuccess
-                      ? const ShareSuccessSubheading()
-                      : const ShareSubheading(),
+                  if (isUploadSuccess)
+                    const ShareSuccessSubheading()
+                  else
+                    const ShareSubheading(),
                   const SizedBox(height: 30),
                   if (isUploadSuccess)
                     Padding(
