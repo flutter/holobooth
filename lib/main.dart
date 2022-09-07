@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
+import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -25,17 +26,18 @@ Future<void> main() async {
     print(details.stack.toString());
   };
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   final authenticationRepository = AuthenticationRepository(
     firebaseAuth: FirebaseAuth.instance,
   );
+  // TODO(oscar): it does not work with current configuration
+  // await authenticationRepository.signInAnonymously();
+
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
-  );
-
-  unawaited(
-    Firebase.initializeApp().then(
-      (_) => authenticationRepository.signInAnonymously(),
-    ),
   );
 
   unawaited(
