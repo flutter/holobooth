@@ -43,10 +43,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onSnapPressed() async {
+    final navigator = Navigator.of(context);
     final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
-    await Navigator.of(context).push<void>(previewPageRoute);
+    await navigator.push<void>(previewPageRoute);
     await _controller.play();
   }
 

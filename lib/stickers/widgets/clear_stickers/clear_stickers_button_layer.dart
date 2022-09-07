@@ -17,12 +17,13 @@ class ClearStickersButtonLayer extends StatelessWidget {
     if (isHidden) return const SizedBox();
     return ClearStickersButton(
       onPressed: () async {
+        final photoboothBloc = context.read<PhotoboothBloc>();
         final confirmed = await showAppDialog<bool>(
           context: context,
           child: const ClearStickersDialog(),
         );
         if (confirmed != null && confirmed) {
-          context.read<PhotoboothBloc>().add(const PhotoClearStickersTapped());
+          photoboothBloc.add(const PhotoClearStickersTapped());
         }
       },
     );

@@ -76,15 +76,17 @@ class _ShareRetakeButton extends StatelessWidget {
         child: AppTooltipButton(
           key: const Key('sharePage_retake_appTooltipButton'),
           onPressed: () async {
+            final photoboothBloc = context.read<PhotoboothBloc>();
+            final navigator = Navigator.of(context);
             final confirmed = await showAppModal<bool>(
               context: context,
               landscapeChild: const _ConfirmationDialogContent(),
               portraitChild: const _ConfirmationBottomSheet(),
             );
             if (confirmed != null && confirmed) {
-              context.read<PhotoboothBloc>().add(const PhotoClearAllTapped());
+              photoboothBloc.add(const PhotoClearAllTapped());
               unawaited(
-                Navigator.of(context).pushReplacement(PhotoboothPage.route()),
+                navigator.pushReplacement(PhotoboothPage.route()),
               );
             }
           },
