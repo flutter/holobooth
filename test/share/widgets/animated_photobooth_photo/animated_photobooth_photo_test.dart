@@ -37,13 +37,6 @@ extension on WidgetTester {
 
 void main() {
   group('AnimatedPhotoboothPhoto', () {
-    late PhotoboothBloc photoboothBloc;
-
-    setUp(() {
-      photoboothBloc = _MockPhotoboothBloc();
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState());
-    });
-
     test('can be instantiated', () {
       expect(
         AnimatedPhotoboothPhoto(
@@ -75,6 +68,7 @@ void main() {
           when(() => photoboothBloc.state).thenReturn(PhotoboothState());
 
           const sprite = AnimatedPhotoboothPhotoLandscape.sprite;
+          tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
           final subject = AnimatedPhotoboothPhoto(
             image: CameraImage(data: '', width: 1, height: 1),
           );
@@ -107,10 +101,14 @@ void main() {
           );
 
           const sprite = AnimatedPhotoboothPhotoPortrait.sprite;
+          tester.binding.window.physicalSizeTestValue = sprite.sprites.size;
           final subject = AnimatedPhotoboothPhoto(
             image: CameraImage(data: '', width: 1, height: 1),
           );
-          await tester.pumpSubject(subject);
+          await tester.pumpSubject(
+            subject,
+            photoboothBloc: photoboothBloc,
+          );
 
           final frameDuration = Duration(
             milliseconds:
