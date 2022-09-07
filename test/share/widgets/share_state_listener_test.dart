@@ -7,19 +7,20 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/platform_helper.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
-class MockXFile extends Mock implements XFile {}
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   const shareUrl = 'http://share-url.com';
@@ -29,17 +30,12 @@ void main() {
   late PlatformHelper platformHelper;
   late XFile file;
 
-  setUpAll(() {
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
-  });
-
   setUp(() {
     shareBloc = MockShareBloc();
     when(() => shareBloc.state).thenReturn(ShareState());
 
-    file = MockXFile();
-    platformHelper = MockPlatformHelper();
+    file = _MockXFile();
+    platformHelper = _MockPlatformHelper();
   });
 
   group('ShareStateListener', () {
@@ -175,7 +171,7 @@ void main() {
       testWidgets(
           'opens share link '
           'when ShareBloc emits success', (tester) async {
-        final mock = MockUrlLauncher();
+        final mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(

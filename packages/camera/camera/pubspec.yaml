@@ -14,12 +14,12 @@ flutter:
         default_package: camera_web
 
 dependencies:
-  flutter:
-    sdk: flutter
   camera_platform_interface:
     path: ../camera_platform_interface
   camera_web:
     path: ../camera_web
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

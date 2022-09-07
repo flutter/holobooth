@@ -10,13 +10,13 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
 bool findTextAndTap(InlineSpan visitor, String text) {
   if (visitor is TextSpan && visitor.text == text) {
-    (visitor.recognizer as TapGestureRecognizer).onTap?.call();
+    (visitor.recognizer as TapGestureRecognizer?)?.onTap?.call();
 
     return false;
   }
@@ -35,10 +35,55 @@ bool tapTextSpan(RichText richText, String text) {
 void main() {
   group('FooterLink', () {
     testWidgets('opens link when tapped', (tester) async {
-      final mock = MockUrlLauncher();
+      final mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
+      when(
+        () => mock.launch(
+          any(),
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).thenAnswer((_) async => true);
+      await tester.pumpApp(
+        FooterLink(
+          link: 'https://example.com',
+          text: 'Link',
+        ),
+      );
+
+      await tester.tap(find.byType(FooterLink));
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mock.launch(
+          'https://example.com',
+          useSafariVC: true,
+          useWebView: false,
+          enableJavaScript: false,
+          enableDomStorage: false,
+          universalLinksOnly: false,
+          headers: const {},
+        ),
+      ).called(1);
+    });
+
+    group('MadeWith', () {
+      late UrlLauncherPlatform mock;
+
+      setUp(() {
+        mock = _MockUrlLauncher();
+        UrlLauncherPlatform.instance = mock;
+      });
+
+      testWidgets('opens the Flutter website when tapped', (tester) async {
+        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+        when(
+          () => mock.launch(
             any(),
             useSafariVC: true,
             useWebView: false,
@@ -46,45 +91,8 @@ void main() {
             enableDomStorage: false,
             universalLinksOnly: false,
             headers: const {},
-          )).thenAnswer((_) async => true);
-      await tester.pumpApp(FooterLink(
-        link: 'https://example.com',
-        text: 'Link',
-      ));
-
-      await tester.tap(find.byType(FooterLink));
-      await tester.pumpAndSettle();
-
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
-    });
-
-    group('MadeWith', () {
-      late UrlLauncherPlatform mock;
-
-      setUp(() {
-        mock = MockUrlLauncher();
-        UrlLauncherPlatform.instance = mock;
-      });
-
-      testWidgets('opens the Flutter website when tapped', (tester) async {
-        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+          ),
+        ).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -93,28 +101,32 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              flutterDevExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launch(
+            flutterDevExternalLink,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        );
       });
 
       testWidgets('opens the Firebase website when tapped', (tester) async {
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
+        when(
+          () => mock.launch(
+            any(),
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        ).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
         final flutterTextFinder = find.byWidgetPredicate(
@@ -123,15 +135,17 @@ void main() {
         await tester.tap(flutterTextFinder);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              firebaseExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launch(
+            firebaseExternalLink,
+            useSafariVC: true,
+            useWebView: false,
+            enableJavaScript: false,
+            enableDomStorage: false,
+            universalLinksOnly: false,
+            headers: const {},
+          ),
+        );
       });
     });
 

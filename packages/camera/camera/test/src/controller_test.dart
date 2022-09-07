@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockCameraPlatform extends Mock
+class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class FakeCameraOptions extends Fake implements CameraOptions {}
+class _FakeCameraOptions extends Fake implements CameraOptions {}
 
 void main() {
   const textureId = 1;
@@ -15,12 +15,12 @@ void main() {
     late CameraPlatform platform;
 
     setUpAll(() {
-      registerFallbackValue<CameraOptions>(FakeCameraOptions());
+      registerFallbackValue(_FakeCameraOptions());
     });
 
     setUp(() {
-      platform = MockCameraPlatform();
-      when(() => platform.init()).thenAnswer((_) async => {});
+      platform = _MockCameraPlatform();
+      when(() => platform.init()).thenAnswer((_) async => <void>{});
       when(() => platform.create(any())).thenAnswer((_) async => textureId);
       CameraPlatform.instance = platform;
     });
@@ -78,7 +78,7 @@ void main() {
       });
 
       test('invokes CameraPlatform.play', () {
-        when(() => platform.play(any())).thenAnswer((_) async => {});
+        when(() => platform.play(any())).thenAnswer((_) async => <void>{});
         expect(controller.play(), completes);
         verify(() => platform.play(textureId)).called(1);
       });
@@ -93,7 +93,7 @@ void main() {
       });
 
       test('invokes CameraPlatform.stop', () {
-        when(() => platform.stop(any())).thenAnswer((_) async => {});
+        when(() => platform.stop(any())).thenAnswer((_) async => <void>{});
         expect(controller.stop(), completes);
         verify(() => platform.stop(textureId)).called(1);
       });
@@ -119,7 +119,7 @@ void main() {
       test('invokes CameraPlatform.dispose', () async {
         final controller = CameraController();
         await controller.initialize();
-        when(() => platform.dispose(any())).thenAnswer((_) async => {});
+        when(() => platform.dispose(any())).thenAnswer((_) async => <void>{});
         await controller.dispose();
         verify(() => platform.dispose(textureId)).called(1);
         expect(controller.value.status, equals(CameraStatus.uninitialized));

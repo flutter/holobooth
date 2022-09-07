@@ -4,23 +4,18 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
+class _MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
 
-class MockUserCredential extends Mock implements firebase_auth.UserCredential {}
-
-class FakeAuthCredential extends Fake implements firebase_auth.AuthCredential {}
+class _MockUserCredential extends Mock implements firebase_auth.UserCredential {
+}
 
 void main() {
   group('AuthenticationRepository', () {
     late firebase_auth.FirebaseAuth firebaseAuth;
     late AuthenticationRepository authenticationRepository;
 
-    setUpAll(() {
-      registerFallbackValue<firebase_auth.AuthCredential>(FakeAuthCredential());
-    });
-
     setUp(() {
-      firebaseAuth = MockFirebaseAuth();
+      firebaseAuth = _MockFirebaseAuth();
 
       authenticationRepository = AuthenticationRepository(
         firebaseAuth: firebaseAuth,
@@ -31,7 +26,7 @@ void main() {
       setUp(() {
         when(
           () => firebaseAuth.signInAnonymously(),
-        ).thenAnswer((_) => Future.value(MockUserCredential()));
+        ).thenAnswer((_) => Future.value(_MockUserCredential()));
       });
 
       test('calls signInAnonymously', () async {

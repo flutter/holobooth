@@ -15,12 +15,12 @@ flutter:
         fileName: camera_web.dart
 
 dependencies:
+  camera_platform_interface:
+    path: ../camera_platform_interface
   flutter:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  camera_platform_interface:
-    path: ../camera_platform_interface
 
 dev_dependencies:
   flutter_test:

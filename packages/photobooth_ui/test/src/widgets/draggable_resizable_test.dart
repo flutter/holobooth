@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +16,7 @@ void main() {
 
   group('DraggableResizable', () {
     setUp(() {
-      platformHelper = MockPlatformHelper();
+      platformHelper = _MockPlatformHelper();
 
       when(() => platformHelper.isMobile).thenReturn(true);
     });
@@ -64,7 +64,7 @@ void main() {
         final firstLocation = tester.getCenter(
           find.byKey(Key('draggableResizable_child_draggablePoint')),
         );
-        await tester.dragFrom(firstLocation, const Offset(200.0, 300.0));
+        await tester.dragFrom(firstLocation, const Offset(200, 300));
         await tester.pump(kThemeAnimationDuration);
         final destination = tester.getCenter(
           find.byKey(Key('draggableResizable_child_draggablePoint')),
@@ -99,7 +99,6 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
-              canTransform: false,
               size: size,
               child: child,
             ),
@@ -179,7 +178,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -261,7 +259,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -343,7 +340,6 @@ void main() {
               children: [
                 DraggableResizable(
                   platformHelper: platformHelper,
-                  canTransform: false,
                   size: size,
                   child: child,
                 ),
@@ -399,7 +395,6 @@ void main() {
           MaterialApp(
             home: DraggableResizable(
               platformHelper: platformHelper,
-              canTransform: false,
               onDelete: () {},
               size: size,
               child: child,
@@ -502,7 +497,8 @@ void main() {
         );
 
         await tester.tap(
-            find.byKey(Key('draggableResizable_rotate_floatingActionIcon')));
+          find.byKey(Key('draggableResizable_rotate_floatingActionIcon')),
+        );
         await tester.pumpAndSettle();
 
         expect(tester.takeException(), isNull);

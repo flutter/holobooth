@@ -34,7 +34,7 @@ class ShareButton extends StatelessWidget {
           action: 'click-share-photo',
           label: 'share-photo',
         );
-        showAppModal(
+        showAppModal<void>(
           context: context,
           platformHelper: platformHelper,
           landscapeChild: MultiBlocProvider(

@@ -20,7 +20,7 @@ class AnimatedFadeIn extends StatefulWidget {
   final Duration duration;
 
   @override
-  _AnimatedFadeInState createState() => _AnimatedFadeInState();
+  State<AnimatedFadeIn> createState() => _AnimatedFadeInState();
 }
 
 class _AnimatedFadeInState extends State<AnimatedFadeIn> {

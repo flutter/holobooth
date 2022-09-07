@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -43,10 +43,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onSnapPressed() async {
+    final navigator = Navigator.of(context);
     final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
-    await Navigator.of(context).push(previewPageRoute);
+    await navigator.push<void>(previewPageRoute);
     await _controller.play();
   }
 
@@ -101,7 +102,7 @@ class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
   static Route route({required String image}) {
-    return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
+    return MaterialPageRoute<void>(builder: (_) => PreviewPage(image: image));
   }
 
   final String image;
