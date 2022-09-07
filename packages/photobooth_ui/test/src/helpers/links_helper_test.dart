@@ -8,56 +8,36 @@ class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 void main() {
-  late UrlLauncherPlatform mock;
-
-  setUp(() {
-    mock = _MockUrlLauncher();
-    UrlLauncherPlatform.instance = mock;
-  });
-
   group('openLink', () {
+    late UrlLauncherPlatform mock;
+
+    setUp(() {
+      mock = _MockUrlLauncher();
+      UrlLauncherPlatform.instance = mock;
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeLaunchOptions());
+    });
+
     test('launches the link', () async {
-      when(() => mock.canLaunch('url')).thenAnswer((_) async => true);
+      when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
-        () => mock.launch(
-          'url',
-          useSafariVC: false,
-          useWebView: false,
-          enableJavaScript: false,
-          enableDomStorage: false,
-          universalLinksOnly: false,
-          headers: const {},
-        ),
+        () => mock.launchUrl('url', any()),
       ).thenAnswer((_) async => true);
       await openLink('url');
       verify(
-        () => mock.launch(
-          'url',
-          useSafariVC: false,
-          useWebView: false,
-          enableJavaScript: false,
-          enableDomStorage: false,
-          universalLinksOnly: false,
-          headers: const {},
-        ),
+        () => mock.launchUrl('url', any()),
       ).called(1);
     });
 
     test('executes the onError callback when it cannot launch', () async {
       var wasCalled = false;
-      when(() => mock.canLaunch('url')).thenAnswer((_) async => false);
-      when(
-        () => mock.launch(
-          'url',
-          useSafariVC: false,
-          useWebView: false,
-          enableJavaScript: false,
-          enableDomStorage: false,
-          universalLinksOnly: false,
-          headers: const {},
-        ),
-      ).thenAnswer((_) async => true);
+      when(() => mock.canLaunch(any())).thenAnswer((_) async => false);
+
       await openLink(
         'url',
         onError: () {
