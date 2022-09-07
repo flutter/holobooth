@@ -241,22 +241,21 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
               child: sprite,
             ),
           ),
-          _image != null
-              ? Positioned(
-                  top: top * scale,
-                  left: left * scale,
-                  right: right * scale,
-                  bottom: bottom * scale,
-                  child: AnimatedOpacity(
-                    duration: const Duration(seconds: 2),
-                    opacity: isPhotoVisible ? 1 : 0,
-                    child: AspectRatio(
-                      aspectRatio: aspectRatio,
-                      child: PhotoboothPhoto(image: _image.data),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
+          if (_image != null)
+            Positioned(
+              top: top * scale,
+              left: left * scale,
+              right: right * scale,
+              bottom: bottom * scale,
+              child: AnimatedOpacity(
+                duration: const Duration(seconds: 2),
+                opacity: isPhotoVisible ? 1 : 0,
+                child: AspectRatio(
+                  aspectRatio: aspectRatio,
+                  child: PhotoboothPhoto(image: _image.data),
+                ),
+              ),
+            )
         ],
       ),
     );
