@@ -32,7 +32,7 @@ class AnimatedPulse extends StatefulWidget {
   final Duration timeBetweenPulses;
 
   @override
-  _AnimatedPulseState createState() => _AnimatedPulseState();
+  State<AnimatedPulse> createState() => _AnimatedPulseState();
 }
 
 class _AnimatedPulseState extends State<AnimatedPulse>

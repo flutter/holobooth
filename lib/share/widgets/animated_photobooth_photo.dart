@@ -15,7 +15,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
   final CameraImage? image;
 
   @override
-  _AnimatedPhotoboothPhotoState createState() =>
+  State<AnimatedPhotoboothPhoto> createState() =>
       _AnimatedPhotoboothPhotoState();
 }
 
