@@ -85,26 +85,20 @@ void main() {
       testWidgets('opens the Flutter website when tapped', (tester) async {
         await tester.pumpApp(FooterMadeWithLink());
 
-        final flutterTextFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Flutter'),
-        );
-
-        await tester.tap(flutterTextFinder);
+        final textSpan = tester.textSpanContaining('Flutter');
+        tester.tapTextSpan(textSpan);
         await tester.pumpAndSettle();
-        // TODO(Oscar): revisit this test after update of 3.0 since
-        //we will have better support to test RichText
+
         verify(
           () => mock.launchUrl(flutterDevExternalLink, any()),
-        );
+        ).called(1);
       });
 
       testWidgets('opens the Firebase website when tapped', (tester) async {
         await tester.pumpApp(FooterMadeWithLink());
 
-        final firebaseLinkFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Firebase'),
-        );
-        await tester.tap(firebaseLinkFinder);
+        final textSpan = tester.textSpanContaining('Firebase');
+        tester.tapTextSpan(textSpan);
         await tester.pumpAndSettle();
 
         verify(
