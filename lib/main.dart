@@ -33,8 +33,7 @@ Future<void> main() async {
   final authenticationRepository = AuthenticationRepository(
     firebaseAuth: FirebaseAuth.instance,
   );
-  // TODO(oscar): it does not work with current configuration
-  // await authenticationRepository.signInAnonymously();
+  await authenticationRepository.signInAnonymously();
 
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
