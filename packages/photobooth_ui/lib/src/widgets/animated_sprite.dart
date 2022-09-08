@@ -49,12 +49,12 @@ enum AnimationMode {
 class AnimatedSprite extends StatefulWidget {
   /// {@macro animated_sprite}
   const AnimatedSprite({
-    Key? key,
+    super.key,
     required this.sprites,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
     this.loadingIndicatorColor = PhotoboothColors.orange,
-  }) : super(key: key);
+  });
 
   /// The collection of sprites which will be animated.
   final Sprites sprites;
@@ -135,9 +135,7 @@ class _AnimatedSpriteState extends State<AnimatedSprite> {
               ),
             )
           : const SizedBox(),
-      secondChild: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
+      secondChild: SizedBox.expand(
         child: _status.isLoaded
             ? SpriteAnimationWidget(animation: _animation, playing: _isPlaying)
             : const SizedBox(),

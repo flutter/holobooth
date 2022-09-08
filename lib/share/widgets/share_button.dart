@@ -11,11 +11,10 @@ import 'package:platform_helper/platform_helper.dart';
 
 class ShareButton extends StatelessWidget {
   ShareButton({
-    Key? key,
+    super.key,
     required this.image,
     PlatformHelper? platformHelper,
-  })  : platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+  }) : platformHelper = platformHelper ?? PlatformHelper();
 
   /// Composited image
   final Uint8List image;

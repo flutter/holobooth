@@ -19,13 +19,13 @@ class AppTooltip extends StatelessWidget {
         );
 
   const AppTooltip._({
-    Key? key,
+    super.key,
     required this.message,
     required this.child,
     this.visible = false,
     this.padding,
     this.verticalOffset,
-  }) : super(key: key);
+  });
 
   /// {@macro app_tooltip}
   const AppTooltip.custom({

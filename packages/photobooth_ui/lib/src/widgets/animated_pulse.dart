@@ -16,11 +16,11 @@ const defaultTimeBetweenPulses = Duration(milliseconds: 800);
 class AnimatedPulse extends StatefulWidget {
   /// {@macro animated_pulse}
   const AnimatedPulse({
-    Key? key,
+    super.key,
     this.pulseDuration = defaultPulseDuration,
     this.timeBetweenPulses = defaultTimeBetweenPulses,
     required this.child,
-  }) : super(key: key);
+  });
 
   /// [Widget] that will have the pulse animation
   final Widget child;

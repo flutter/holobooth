@@ -6,7 +6,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {
-  const ShareDialog({Key? key, required this.image}) : super(key: key);
+  const ShareDialog({super.key, required this.image});
 
   final Uint8List image;
 
@@ -14,7 +14,7 @@ class ShareDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,

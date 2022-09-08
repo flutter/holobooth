@@ -39,7 +39,7 @@ const _floatingActionPadding = 100.0;
 class DraggableResizable extends StatefulWidget {
   /// {@macro draggable_resizable}
   DraggableResizable({
-    Key? key,
+    super.key,
     required this.child,
     required this.size,
     BoxConstraints? constraints,
@@ -48,8 +48,7 @@ class DraggableResizable extends StatefulWidget {
     this.canTransform = false,
     PlatformHelper? platformHelper,
   })  : constraints = constraints ?? BoxConstraints.loose(Size.infinite),
-        platformHelper = platformHelper ?? PlatformHelper(),
-        super(key: key);
+        platformHelper = platformHelper ?? PlatformHelper();
 
   /// The child which will be draggable/resizable.
   final Widget child;
@@ -410,10 +409,10 @@ const _cursorLookup = <_ResizePointType, MouseCursor>{
 
 class _ResizePoint extends StatelessWidget {
   const _ResizePoint({
-    Key? key,
+    super.key,
     required this.onDrag,
     required this.type,
-  }) : super(key: key);
+  });
 
   final ValueSetter<Offset> onDrag;
   final _ResizePointType type;
@@ -436,8 +435,8 @@ class _ResizePoint extends StatelessWidget {
             border: Border.all(color: PhotoboothColors.blue, width: 2),
             shape: BoxShape.circle,
           ),
-          child: Container(
-            decoration: const BoxDecoration(
+          child: const DecoratedBox(
+            decoration: BoxDecoration(
               color: PhotoboothColors.white,
               shape: BoxShape.circle,
             ),
@@ -452,14 +451,14 @@ enum _PositionMode { local, global }
 
 class _DraggablePoint extends StatefulWidget {
   const _DraggablePoint({
-    Key? key,
+    super.key,
     required this.child,
     this.onDrag,
     this.onScale,
     this.onRotate,
     this.onTap,
     this.mode = _PositionMode.global,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final _PositionMode mode;
@@ -528,10 +527,10 @@ class _DraggablePointState extends State<_DraggablePoint> {
 
 class _FloatingActionIcon extends StatelessWidget {
   const _FloatingActionIcon({
-    Key? key,
+    super.key,
     required this.iconData,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final IconData iconData;
   final VoidCallback? onTap;

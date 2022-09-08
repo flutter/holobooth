@@ -41,7 +41,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   final bool _isSharingEnabled;
   final String shareText;
 
-  void _onShareViewLoaded(ShareViewLoaded _, Emitter emit) {
+  void _onShareViewLoaded(ShareViewLoaded _, Emitter<ShareState> emit) {
     emit(state.copyWith(compositeStatus: ShareStatus.loading));
     unawaited(
       _composite().then(
@@ -53,7 +53,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
   Future<void> _onShareTapped(
     ShareTapped event,
-    Emitter emit,
+    Emitter<ShareState> emit,
   ) async {
     if (!_isSharingEnabled) return;
 
@@ -133,7 +133,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
   Future<void> _onShareCompositeSucceeded(
     _ShareCompositeSucceeded event,
-    Emitter emit,
+    Emitter<ShareState> emit,
   ) async {
     final file = XFile.fromData(
       event.bytes,
@@ -194,7 +194,10 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     }
   }
 
-  void _onShareCompositeFailed(_ShareCompositeFailed _, Emitter emit) {
+  void _onShareCompositeFailed(
+    _ShareCompositeFailed _,
+    Emitter<ShareState> emit,
+  ) {
     emit(
       state.copyWith(compositeStatus: ShareStatus.failure),
     );

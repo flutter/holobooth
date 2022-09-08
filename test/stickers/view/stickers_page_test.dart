@@ -85,7 +85,7 @@ void main() {
     });
 
     test('is routable', () {
-      expect(StickersPage.route(), isA<MaterialPageRoute>());
+      expect(StickersPage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('renders PreviewImage', (tester) async {

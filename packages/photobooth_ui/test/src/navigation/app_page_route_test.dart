@@ -11,7 +11,7 @@ void main() {
   group('AppPageRoute', () {
     testWidgets('is a MaterialPageRoute', (tester) async {
       final route = AppPageRoute<void>(builder: (_) => const SizedBox());
-      expect(route, isA<MaterialPageRoute>());
+      expect(route, isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('has no transition', (tester) async {

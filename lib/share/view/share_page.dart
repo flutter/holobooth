@@ -9,9 +9,9 @@ import 'package:photos_repository/photos_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage({Key? key}) : super(key: key);
+  const SharePage({super.key});
 
-  static Route route() {
+  static Route<void> route() {
     return AppPageRoute<void>(builder: (_) => const SharePage());
   }
 
@@ -36,7 +36,7 @@ class SharePage extends StatelessWidget {
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({Key? key}) : super(key: key);
+  const ShareView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class ShareView extends StatelessWidget {
 }
 
 class _ShareRetakeButton extends StatelessWidget {
-  const _ShareRetakeButton({Key? key}) : super(key: key);
+  const _ShareRetakeButton();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class _ShareRetakeButton extends StatelessWidget {
 }
 
 class _ConfirmationDialogContent extends StatelessWidget {
-  const _ConfirmationDialogContent({Key? key}) : super(key: key);
+  const _ConfirmationDialogContent();
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class _ConfirmationDialogContent extends StatelessWidget {
 }
 
 class _ConfirmationBottomSheet extends StatelessWidget {
-  const _ConfirmationBottomSheet({Key? key}) : super(key: key);
+  const _ConfirmationBottomSheet();
 
   @override
   Widget build(BuildContext context) {

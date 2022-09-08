@@ -62,7 +62,7 @@ void main() {
 
   group('PhotoboothPage', () {
     test('is routable', () {
-      expect(PhotoboothPage.route(), isA<MaterialPageRoute>());
+      expect(PhotoboothPage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('displays a PhotoboothView', (tester) async {

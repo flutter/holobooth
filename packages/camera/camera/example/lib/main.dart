@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -71,10 +71,10 @@ class _HomePageState extends State<HomePage> {
 
 class CameraFrame extends StatelessWidget {
   const CameraFrame({
-    Key? key,
+    super.key,
     required this.onSnapPressed,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final void Function() onSnapPressed;
@@ -97,9 +97,9 @@ class CameraFrame extends StatelessWidget {
 }
 
 class PreviewPage extends StatelessWidget {
-  const PreviewPage({Key? key, required this.image}) : super(key: key);
+  const PreviewPage({super.key, required this.image});
 
-  static Route route({required String image}) {
+  static Route<void> route({required String image}) {
     return MaterialPageRoute<void>(builder: (_) => PreviewPage(image: image));
   }
 
