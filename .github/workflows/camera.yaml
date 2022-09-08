@@ -1,20 +1,39 @@
 name: camera
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   pull_request:
     paths:
-      - "packages/camera/**"
+      - "packages/camera/camera/**"
       - ".github/workflows/camera.yaml"
-    branches:
-      - main
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-    with:
-      flutter_version: 3.3.1
-      working_directory: packages/camera
+    defaults:
+      run:
+        working-directory: packages/camera/camera
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.1"
+          channel: "stable"
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: packages/camera/camera/coverage/lcov.info
