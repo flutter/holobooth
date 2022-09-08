@@ -1,14 +1,52 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
 import '../../helpers/helpers.dart';
 
+class _FakeCameraOptions extends Fake implements CameraOptions {}
+
+class _MockCameraPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements CameraPlatform {}
+
+class _MockCameraImage extends Mock implements CameraImage {}
+
 void main() {
+  const cameraId = 1;
+  late CameraPlatform cameraPlatform;
+  late CameraImage cameraImage;
+
+  setUpAll(() {
+    registerFallbackValue(_FakeCameraOptions());
+  });
+
+  setUp(() {
+    cameraImage = _MockCameraImage();
+    cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+    when(() => cameraImage.width).thenReturn(4);
+    when(() => cameraImage.height).thenReturn(3);
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+    when(
+      () => cameraPlatform.create(any()),
+    ).thenAnswer((_) async => cameraId);
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => cameraImage);
+    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+  });
   group('LandingPage', () {
     testWidgets('renders landing view', (tester) async {
       await tester.pumpApp(const LandingPage());

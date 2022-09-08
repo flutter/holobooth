@@ -15,6 +15,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -30,15 +31,45 @@ class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
+class _FakeCameraOptions extends Fake implements CameraOptions {}
+
+class _MockCameraPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements CameraPlatform {}
+
+class _MockCameraImage extends Mock implements CameraImage {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const width = 1;
   const height = 1;
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: width, height: height, data: data);
+  const cameraId = 1;
+  late CameraPlatform cameraPlatform;
+  late CameraImage cameraImage;
 
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
+    registerFallbackValue(_FakeCameraOptions());
+  });
+
+  setUp(() {
+    cameraImage = _MockCameraImage();
+    cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+    when(() => cameraImage.width).thenReturn(4);
+    when(() => cameraImage.height).thenReturn(3);
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+    when(
+      () => cameraPlatform.create(any()),
+    ).thenAnswer((_) async => cameraId);
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => cameraImage);
+    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
   });
 
   group('StickersPage', () {
