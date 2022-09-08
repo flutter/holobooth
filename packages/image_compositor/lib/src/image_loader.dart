@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:js_util' as js_util;
 
-final bool _supportsDecode = js_util.getProperty(
-      js_util.getProperty(
-        js_util.getProperty(html.window, 'Image') as Object,
+final bool _supportsDecode = js_util.getProperty<Object?>(
+      js_util.getProperty<Object>(
+        js_util.getProperty<Object>(html.window, 'Image'),
         'prototype',
-      ) as Object,
+      ),
       'decode',
     ) !=
     null;

@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-const _cameraOptions = CameraOptions(audio: AudioConstraints());
-
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
@@ -31,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initializeCameraController() async {
-    _controller = CameraController(options: _cameraOptions);
+    _controller = CameraController();
     await _controller.initialize();
     await _controller.play();
   }
