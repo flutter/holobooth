@@ -162,7 +162,7 @@ class GoToGoogleIOButton extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: PhotoboothColors.white),
+      style: ElevatedButton.styleFrom(backgroundColor: PhotoboothColors.white),
       onPressed: launchGoogleIOLink,
       child: Text(
         l10n.goToGoogleIOButtonText,
