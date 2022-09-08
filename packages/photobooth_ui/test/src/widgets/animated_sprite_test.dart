@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
+import 'dart:ui' as ui show Image;
 
-import 'package:flame/assets.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,15 +13,16 @@ import '../../helpers/helpers.dart';
 
 class __MockImages extends Mock implements Images {}
 
-Future<void> main() async {
+void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  final image = await decodeImageFromList(Uint8List.fromList(transparentImage));
   group('AnimatedSprite', () {
     late Images images;
+    late ui.Image image;
 
-    setUp(() {
+    setUp(() async {
       images = __MockImages();
       Flame.images = images;
+      image = await decodeImageFromList(Uint8List.fromList(transparentImage));
     });
 
     testWidgets('renders AppCircularProgressIndicator when loading asset',

@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   equatable: ^2.0.5
-  flame: ^1.0.0-rc9
+  flame: ^1.3.0
   flutter:
     sdk: flutter
   platform_helper:
