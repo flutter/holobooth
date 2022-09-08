@@ -11,7 +11,7 @@ class PlatformBuilder extends StatelessWidget {
     required this.mobile,
     required this.desktop,
     PlatformHelper? platformHelper,
-  })  : _platformHelper = platformHelper ?? PlatformHelper();
+  }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   /// [Widget] for mobile.
   final Widget mobile;
