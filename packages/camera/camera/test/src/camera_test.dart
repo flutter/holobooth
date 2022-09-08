@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockCameraController extends Mock implements CameraController {}
+class _MockCameraController extends Mock implements CameraController {}
 
-class MockCameraPlatform extends Mock
+class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
@@ -16,9 +16,9 @@ void main() {
     late CameraController controller;
 
     setUp(() {
-      platform = MockCameraPlatform();
+      platform = _MockCameraPlatform();
       CameraPlatform.instance = platform;
-      controller = MockCameraController();
+      controller = _MockCameraController();
       when(() => platform.init()).thenAnswer((_) async {});
     });
 

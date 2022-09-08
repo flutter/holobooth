@@ -1,8 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-const _cameraOptions = CameraOptions(audio: AudioConstraints());
-
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
@@ -18,7 +16,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -31,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _initializeCameraController() async {
-    _controller = CameraController(options: _cameraOptions);
+    _controller = CameraController();
     await _controller.initialize();
     await _controller.play();
   }
@@ -43,10 +41,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onSnapPressed() async {
+    final navigator = Navigator.of(context);
     final image = await _controller.takePicture();
     final previewPageRoute = PreviewPage.route(image: image.data);
     await _controller.stop();
-    await Navigator.of(context).push(previewPageRoute);
+    await navigator.push<void>(previewPageRoute);
     await _controller.play();
   }
 
@@ -101,7 +100,7 @@ class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
   static Route route({required String image}) {
-    return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
+    return MaterialPageRoute<void>(builder: (_) => PreviewPage(image: image));
   }
 
   final String image;

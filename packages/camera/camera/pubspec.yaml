@@ -4,7 +4,7 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=2.0.0"
 
 flutter:
@@ -14,12 +14,12 @@ flutter:
         default_package: camera_web
 
 dependencies:
-  flutter:
-    sdk: flutter
   camera_platform_interface:
     path: ../camera_platform_interface
   camera_web:
     path: ../camera_web
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

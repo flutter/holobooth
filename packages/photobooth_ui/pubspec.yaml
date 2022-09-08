@@ -4,16 +4,16 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   equatable: ^2.0.5
   flame: ^1.0.0-rc9
-  url_launcher: ^6.0.3
+  flutter:
+    sdk: flutter
   platform_helper:
     path: ../platform_helper
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:

@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class FakePhotoboothState extends Fake implements PhotoboothState {}
-
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
 void main() {
@@ -23,13 +20,8 @@ void main() {
 
   late PhotoboothBloc photoboothBloc;
   group('StickersLayer', () {
-    setUpAll(() {
-      registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-      registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    });
-
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
     });
 
     testWidgets('displays selected sticker assets', (tester) async {

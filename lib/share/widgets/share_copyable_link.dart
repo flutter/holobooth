@@ -61,7 +61,7 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
           ),
           const SizedBox(width: 16),
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(6),
             child: copied
                 ? _CopiedButton(
                     key: const Key('shareCopyableLink_copiedButton'),

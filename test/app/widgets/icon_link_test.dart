@@ -10,25 +10,30 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 void main() {
   group('IconLink', () {
-    testWidgets('opens link when tapped', (tester) async {
-      final mock = MockUrlLauncher();
+    late UrlLauncherPlatform mock;
+
+    setUp(() {
+      mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeLaunchOptions());
+    });
+
+    testWidgets('opens link when tapped', (tester) async {
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            any(),
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
+      when(
+        () => mock.launchUrl(any(), any()),
+      ).thenAnswer((_) async => true);
 
       await tester.pumpApp(
         IconLink(
@@ -40,15 +45,9 @@ void main() {
       await tester.tap(find.byType(IconLink));
       await tester.pumpAndSettle();
 
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(
+        () => mock.launchUrl('https://example.com', any()),
+      ).called(1);
     });
   });
 

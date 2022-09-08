@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
@@ -21,7 +22,7 @@ class ShutterButton extends StatefulWidget {
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   @override
-  _ShutterButtonState createState() => _ShutterButtonState();
+  State<ShutterButton> createState() => _ShutterButtonState();
 }
 
 class _ShutterButtonState extends State<ShutterButton>
@@ -96,7 +97,6 @@ class CountdownTimer extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.center,
             child: Text(
               '$seconds',
               style: theme.textTheme.headline1?.copyWith(
