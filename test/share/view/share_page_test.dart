@@ -33,12 +33,23 @@ class _MockXFile extends Mock implements XFile {}
 
 class _FakeLaunchOptions extends Fake implements LaunchOptions {}
 
+class _FakeCameraOptions extends Fake implements CameraOptions {}
+
+class _MockCameraPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements CameraPlatform {}
+
+class _MockCameraImage extends Mock implements CameraImage {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const width = 1;
   const height = 1;
   const data = '';
   const image = CameraImage(width: width, height: height, data: data);
+  const cameraId = 1;
+  late CameraPlatform cameraPlatform;
+  late CameraImage cameraImage;
 
   late PhotosRepository photosRepository;
   late PhotoboothBloc photoboothBloc;
@@ -48,6 +59,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
     registerFallbackValue(FakeShareEvent());
+    registerFallbackValue(_FakeCameraOptions());
   });
 
   setUp(() {
@@ -71,6 +83,22 @@ void main() {
       Stream.fromIterable([ShareState()]),
       initialState: ShareState(),
     );
+
+    cameraImage = _MockCameraImage();
+    cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+    when(() => cameraImage.width).thenReturn(4);
+    when(() => cameraImage.height).thenReturn(3);
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+    when(
+      () => cameraPlatform.create(any()),
+    ).thenAnswer((_) async => cameraId);
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => cameraImage);
+    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
   });
 
   group('SharePage', () {
