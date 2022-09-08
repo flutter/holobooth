@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
 
-import 'package:flame/assets.dart';
+import 'package:flame/cache.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
