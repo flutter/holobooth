@@ -31,6 +31,8 @@ class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 class _MockXFile extends Mock implements XFile {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   const width = 1;
@@ -358,22 +360,22 @@ void main() {
     });
 
     group('GoToGoogleIOButton', () {
-      testWidgets('opens link when tapped', (tester) async {
-        final mock = _MockUrlLauncher();
-        const url = googleIOExternalLink;
+      late UrlLauncherPlatform mock;
+
+      setUp(() {
+        mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
         when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
         when(
-          () => mock.launch(
-            url,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
+          () => mock.launchUrl(any(), any()),
         ).thenAnswer((_) async => true);
+      });
+
+      setUpAll(() {
+        registerFallbackValue(_FakeLaunchOptions());
+      });
+
+      testWidgets('opens link when tapped', (tester) async {
         tester.setDisplaySize(Size(2500, 2500));
         await tester.pumpApp(
           ShareView(),
@@ -389,15 +391,7 @@ void main() {
         await tester.tap(find.byType(GoToGoogleIOButton, skipOffstage: false));
 
         verify(
-          () => mock.launch(
-            url,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
+          () => mock.launchUrl(googleIOExternalLink, any()),
         ).called(1);
       });
     });
