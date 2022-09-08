@@ -14,22 +14,25 @@ class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 void main() {
   group('IconLink', () {
-    testWidgets('opens link when tapped', (tester) async {
-      final mock = _MockUrlLauncher();
+    late UrlLauncherPlatform mock;
+
+    setUp(() {
+      mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeLaunchOptions());
+    });
+
+    testWidgets('opens link when tapped', (tester) async {
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
-        () => mock.launch(
-          any(),
-          useSafariVC: true,
-          useWebView: false,
-          enableJavaScript: false,
-          enableDomStorage: false,
-          universalLinksOnly: false,
-          headers: const {},
-        ),
+        () => mock.launchUrl(any(), any()),
       ).thenAnswer((_) async => true);
 
       await tester.pumpApp(
@@ -43,15 +46,7 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(
-        () => mock.launch(
-          'https://example.com',
-          useSafariVC: true,
-          useWebView: false,
-          enableJavaScript: false,
-          enableDomStorage: false,
-          universalLinksOnly: false,
-          headers: const {},
-        ),
+        () => mock.launchUrl('https://example.com', any()),
       ).called(1);
     });
   });

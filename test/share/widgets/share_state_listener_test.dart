@@ -16,6 +16,8 @@ import '../../helpers/helpers.dart';
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
@@ -39,6 +41,21 @@ void main() {
   });
 
   group('ShareStateListener', () {
+    late UrlLauncherPlatform mock;
+
+    setUp(() {
+      mock = _MockUrlLauncher();
+      UrlLauncherPlatform.instance = mock;
+      when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+      when(
+        () => mock.launchUrl(any(), any()),
+      ).thenAnswer((_) async => true);
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeLaunchOptions());
+    });
+
     group('error', () {
       testWidgets(
           'displays ShareErrorBottomSheet '
@@ -171,21 +188,6 @@ void main() {
       testWidgets(
           'opens share link '
           'when ShareBloc emits success', (tester) async {
-        final mock = _MockUrlLauncher();
-        UrlLauncherPlatform.instance = mock;
-        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(
-          () => mock.launch(
-            shareUrl,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
-        ).thenAnswer((_) async => true);
-
         whenListen(
           shareBloc,
           Stream.fromIterable([
@@ -211,19 +213,9 @@ void main() {
           ShareStateListener(child: SizedBox()),
           shareBloc: shareBloc,
         );
-
         await tester.pumpAndSettle();
-
         verify(
-          () => mock.launch(
-            shareUrl,
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          ),
+          () => mock.launchUrl(shareUrl, any()),
         ).called(1);
       });
     });
