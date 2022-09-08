@@ -74,7 +74,7 @@ class HtmlImageLoader {
     return completer.future;
   }
 
-  void _decodeUsingOnLoad(Completer completer) {
+  void _decodeUsingOnLoad(Completer<dynamic> completer) {
     StreamSubscription<html.Event>? loadSubscription;
     late StreamSubscription<html.Event> errorSubscription;
     final imgElement = html.ImageElement();

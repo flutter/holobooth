@@ -26,7 +26,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   final UuidGetter uuid;
 
-  void _onPhotoCaptured(PhotoCaptured event, Emitter emit) {
+  void _onPhotoCaptured(PhotoCaptured event, Emitter<PhotoboothState> emit) {
     emit(
       state.copyWith(
         aspectRatio: event.aspectRatio,
@@ -39,7 +39,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   void _onCharacterToggled(
     PhotoCharacterToggled event,
-    Emitter emit,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.character;
     final characters = List.of(state.characters);
@@ -63,7 +63,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   void _onCharacterDragged(
     PhotoCharacterDragged event,
-    Emitter emit,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.character;
     final characters = List.of(state.characters);
@@ -93,7 +93,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   void _onStickerTapped(
     PhotoStickerTapped event,
-    Emitter emit,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.sticker;
     final newSticker = PhotoAsset(id: uuid(), asset: asset);
@@ -107,7 +107,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   void _onStickerDragged(
     PhotoStickerDragged event,
-    Emitter emit,
+    Emitter<PhotoboothState> emit,
   ) {
     final asset = event.sticker;
     final stickers = List.of(state.stickers);
@@ -133,7 +133,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     emit(state.copyWith(stickers: stickers, selectedAssetId: asset.id));
   }
 
-  void _onPhotoClearStickersTapped(PhotoClearStickersTapped _, Emitter emit) {
+  void _onPhotoClearStickersTapped(
+    PhotoClearStickersTapped _,
+    Emitter<PhotoboothState> emit,
+  ) {
     emit(
       state.copyWith(
         stickers: const <PhotoAsset>[],
@@ -142,7 +145,10 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     );
   }
 
-  void _onPhotoClearAllTapped(PhotoClearAllTapped _, Emitter emit) {
+  void _onPhotoClearAllTapped(
+    PhotoClearAllTapped _,
+    Emitter<PhotoboothState> emit,
+  ) {
     emit(
       state.copyWith(
         characters: const <PhotoAsset>[],
@@ -154,7 +160,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
 
   void _onSelectedStickerTapped(
     PhotoDeleteSelectedStickerTapped _,
-    Emitter emit,
+    Emitter<PhotoboothState> emit,
   ) {
     final stickers = List.of(state.stickers);
     final index = stickers.indexWhere(
@@ -174,7 +180,7 @@ class PhotoboothBloc extends Bloc<PhotoboothEvent, PhotoboothState> {
     );
   }
 
-  void _onPhotoTapped(PhotoTapped event, Emitter emit) {
+  void _onPhotoTapped(PhotoTapped event, Emitter<PhotoboothState> emit) {
     emit(state.copyWith(selectedAssetId: emptyAssetId));
   }
 }

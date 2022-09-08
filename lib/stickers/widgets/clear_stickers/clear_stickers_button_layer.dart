@@ -6,7 +6,7 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ClearStickersButtonLayer extends StatelessWidget {
-  const ClearStickersButtonLayer({Key? key}) : super(key: key);
+  const ClearStickersButtonLayer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class ClearStickersButtonLayer extends StatelessWidget {
 
 class ClearStickersButton extends StatelessWidget {
   const ClearStickersButton({
-    Key? key,
+    super.key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 

@@ -10,7 +10,10 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
     on<StickersDrawerTabTapped>(_onDrawerTabTapped);
   }
 
-  void _onDrawerToggled(StickersDrawerToggled event, Emitter emit) {
+  void _onDrawerToggled(
+    StickersDrawerToggled event,
+    Emitter<StickersState> emit,
+  ) {
     emit(
       state.copyWith(
         isDrawerActive: !state.isDrawerActive,
@@ -19,7 +22,10 @@ class StickersBloc extends Bloc<StickersEvent, StickersState> {
     );
   }
 
-  void _onDrawerTabTapped(StickersDrawerTabTapped event, Emitter emit) {
+  void _onDrawerTabTapped(
+    StickersDrawerTabTapped event,
+    Emitter<StickersState> emit,
+  ) {
     emit(
       state.copyWith(tabIndex: event.index),
     );

@@ -9,9 +9,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 /// Overlay displayed on top of the [SharePage] when [ShareBloc] is
 /// in the in progress state.
 class ShareProgressOverlay extends StatelessWidget {
-  const ShareProgressOverlay({
-    Key? key,
-  }) : super(key: key);
+  const ShareProgressOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +25,11 @@ class ShareProgressOverlay extends StatelessWidget {
 }
 
 class _ShareProgressOverlay extends StatelessWidget {
-  const _ShareProgressOverlay({Key? key}) : super(key: key);
+  const _ShareProgressOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: PhotoboothColors.black.withOpacity(0.8),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
@@ -51,7 +49,7 @@ class _ShareProgressOverlay extends StatelessWidget {
 }
 
 class _DesktopShareProgressOverlay extends StatelessWidget {
-  const _DesktopShareProgressOverlay({Key? key}) : super(key: key);
+  const _DesktopShareProgressOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +86,7 @@ class _DesktopShareProgressOverlay extends StatelessWidget {
 }
 
 class _MobileShareProgressOverlay extends StatelessWidget {
-  const _MobileShareProgressOverlay({Key? key}) : super(key: key);
+  const _MobileShareProgressOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {

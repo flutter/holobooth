@@ -6,9 +6,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 /// the raw [image] took from the camera.
 class PhotoboothPhoto extends StatelessWidget {
   const PhotoboothPhoto({
-    Key? key,
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   final String image;
 

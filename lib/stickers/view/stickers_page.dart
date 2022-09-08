@@ -13,10 +13,10 @@ const _minStickerScale = 0.05;
 
 class StickersPage extends StatelessWidget {
   const StickersPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
-  static Route route() {
+  static Route<void> route() {
     return AppPageRoute<void>(builder: (_) => const StickersPage());
   }
 
@@ -30,7 +30,7 @@ class StickersPage extends StatelessWidget {
 }
 
 class StickersView extends StatelessWidget {
-  const StickersView({Key? key}) : super(key: key);
+  const StickersView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class StickersView extends StatelessWidget {
 }
 
 class _StickerReminderText extends StatelessWidget {
-  const _StickerReminderText({Key? key}) : super(key: key);
+  const _StickerReminderText();
   @override
   Widget build(BuildContext context) {
     final shouldDisplayPropsReminder = context.select(
@@ -125,7 +125,7 @@ class _StickerReminderText extends StatelessWidget {
 }
 
 class _DraggableStickers extends StatelessWidget {
-  const _DraggableStickers({Key? key}) : super(key: key);
+  const _DraggableStickers();
 
   @override
   Widget build(BuildContext context) {
@@ -154,9 +154,7 @@ class _DraggableStickers extends StatelessWidget {
                 .add(const PhotoDeleteSelectedStickerTapped()),
             size: sticker.asset.size * _initialStickerScale,
             constraints: sticker.getImageConstraints(),
-            child: SizedBox(
-              width: double.infinity,
-              height: double.infinity,
+            child: SizedBox.expand(
               child: Image.asset(
                 sticker.asset.path,
                 fit: BoxFit.fill,
@@ -170,7 +168,7 @@ class _DraggableStickers extends StatelessWidget {
 }
 
 class _RetakeButton extends StatelessWidget {
-  const _RetakeButton({Key? key}) : super(key: key);
+  const _RetakeButton();
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +203,7 @@ class _RetakeButton extends StatelessWidget {
 }
 
 class _NextButton extends StatelessWidget {
-  const _NextButton({Key? key}) : super(key: key);
+  const _NextButton();
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +242,7 @@ class _NextButton extends StatelessWidget {
 }
 
 class _RetakeConfirmationDialogContent extends StatelessWidget {
-  const _RetakeConfirmationDialogContent({Key? key}) : super(key: key);
+  const _RetakeConfirmationDialogContent();
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +302,7 @@ class _RetakeConfirmationDialogContent extends StatelessWidget {
 }
 
 class _RetakeConfirmationBottomSheet extends StatelessWidget {
-  const _RetakeConfirmationBottomSheet({Key? key}) : super(key: key);
+  const _RetakeConfirmationBottomSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +330,7 @@ class _RetakeConfirmationBottomSheet extends StatelessWidget {
 }
 
 class _NextConfirmationDialogContent extends StatelessWidget {
-  const _NextConfirmationDialogContent({Key? key}) : super(key: key);
+  const _NextConfirmationDialogContent();
 
   @override
   Widget build(BuildContext context) {
@@ -392,7 +390,7 @@ class _NextConfirmationDialogContent extends StatelessWidget {
 }
 
 class _NextConfirmationBottomSheet extends StatelessWidget {
-  const _NextConfirmationBottomSheet({Key? key}) : super(key: key);
+  const _NextConfirmationBottomSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -430,9 +428,9 @@ extension on PhotoAsset {
 
 class OpenStickersButton extends StatefulWidget {
   const OpenStickersButton({
-    Key? key,
+    super.key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 

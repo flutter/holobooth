@@ -103,7 +103,7 @@ void main() {
 
   group('SharePage', () {
     test('is routable', () {
-      expect(SharePage.route(), isA<MaterialPageRoute>());
+      expect(SharePage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('renders a ShareView', (tester) async {

@@ -35,7 +35,7 @@ dependencies:
     path: packages/photos_repository
   rxdart: ^0.26.0
   uuid: ^3.0.6
-  very_good_analysis: ^2.0.4
+  very_good_analysis: ^3.0.1
 
 dev_dependencies:
   bloc_test: ^9.1.0

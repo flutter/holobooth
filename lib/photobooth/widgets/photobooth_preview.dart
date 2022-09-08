@@ -12,10 +12,10 @@ const _minCharacterScale = 0.1;
 
 class PhotoboothPreview extends StatelessWidget {
   const PhotoboothPreview({
-    Key? key,
+    super.key,
     required this.preview,
     required this.onSnapPressed,
-  }) : super(key: key);
+  });
 
   final Widget preview;
   final VoidCallback onSnapPressed;
@@ -174,7 +174,7 @@ AnimatedSprite? _getAnimatedSprite(String name) {
 }
 
 class _AnimatedCharacter extends StatelessWidget {
-  const _AnimatedCharacter({Key? key, required this.name}) : super(key: key);
+  const _AnimatedCharacter({required this.name});
 
   final String name;
 
@@ -186,9 +186,9 @@ class _AnimatedCharacter extends StatelessWidget {
 
 class CharactersIconLayout extends StatelessWidget {
   const CharactersIconLayout({
-    Key? key,
+    super.key,
     required this.children,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 
@@ -204,9 +204,9 @@ class CharactersIconLayout extends StatelessWidget {
 @visibleForTesting
 class LandscapeCharactersIconLayout extends StatelessWidget {
   const LandscapeCharactersIconLayout({
-    Key? key,
+    super.key,
     required this.children,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 
@@ -237,9 +237,9 @@ class LandscapeCharactersIconLayout extends StatelessWidget {
 @visibleForTesting
 class PortraitCharactersIconLayout extends StatelessWidget {
   const PortraitCharactersIconLayout({
-    Key? key,
+    super.key,
     required this.children,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 

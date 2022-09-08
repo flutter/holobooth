@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  very_good_analysis: ^2.0.4
+  very_good_analysis: ^3.0.1
 
 flutter:
   uses-material-design: true

@@ -16,7 +16,7 @@ class ImageCompositor {
     required String data,
     required int width,
     required int height,
-    required List layers,
+    required List<dynamic> layers,
     required double aspectRatio,
   }) {
     return _OffscreenCompositor(data, width, height, layers, aspectRatio)
@@ -36,7 +36,7 @@ class _OffscreenCompositor {
   final String data;
   final int width;
   final int height;
-  final List rawLayers;
+  final List<dynamic> rawLayers;
   final double targetAspectRatio;
 
   /// Left, Top, Right border size.
@@ -44,7 +44,7 @@ class _OffscreenCompositor {
 
   Future<List<int>> composite() async {
     final layers = rawLayers
-        .map((dynamic l) => CompositeLayer.fromJson(l as Map))
+        .map((dynamic l) => CompositeLayer.fromJson(l as Map<String, dynamic>))
         .toList();
 
     final imageFutures = <Future<HtmlImage>>[];

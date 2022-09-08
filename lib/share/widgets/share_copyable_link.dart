@@ -10,10 +10,10 @@ const _textColor = Color(0xFF80858A);
 
 class ShareCopyableLink extends StatefulWidget {
   const ShareCopyableLink({
-    Key? key,
+    super.key,
     required this.link,
     this.suspendDuration = const Duration(seconds: 5),
-  }) : super(key: key);
+  });
 
   /// The link that will be stored in the [Clipboard]
   /// when [_CopyButton] is tapped.
@@ -38,7 +38,7 @@ class ShareCopyableLinkState extends State<ShareCopyableLink> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: _backgroundColor,
         borderRadius: BorderRadius.circular(10),
@@ -113,9 +113,9 @@ final _copyButtonsShape = MaterialStateProperty.all(
 
 class _CopyButton extends StatelessWidget {
   const _CopyButton({
-    Key? key,
+    super.key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 
@@ -136,9 +136,9 @@ class _CopyButton extends StatelessWidget {
 
 class _CopiedButton extends StatelessWidget {
   const _CopiedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 
