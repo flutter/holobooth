@@ -473,10 +473,12 @@ void main() {
         final childFinder = find.byKey(
           Key('draggableResizable_child_draggablePoint'),
         );
-        final transformFinder = find.ancestor(
-          of: childFinder,
-          matching: find.byType(Transform),
-        );
+        final transformFinder = find
+            .ancestor(
+              of: childFinder,
+              matching: find.byType(Transform),
+            )
+            .first;
         final transformWidget = tester.widget<Transform>(transformFinder);
         expect(
           transformWidget.transform,
@@ -610,10 +612,12 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        final transformFinder = find.ancestor(
-          of: childFinder,
-          matching: find.byType(Transform),
-        );
+        final transformFinder = find
+            .ancestor(
+              of: childFinder,
+              matching: find.byType(Transform),
+            )
+            .first;
         final transformWidget = tester.widget<Transform>(transformFinder);
         expect(
           transformWidget.transform,
@@ -656,10 +660,12 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        final transformFinder = find.ancestor(
-          of: childFinder,
-          matching: find.byType(Transform),
-        );
+        final transformFinder = find
+            .ancestor(
+              of: childFinder,
+              matching: find.byType(Transform),
+            )
+            .first;
         final transformA = tester.widget<Transform>(transformFinder).transform;
 
         gestureDetector.onScaleStart!(ScaleStartDetails(pointerCount: 2));
