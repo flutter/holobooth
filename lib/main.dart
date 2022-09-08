@@ -65,7 +65,7 @@ Future<void> main() async {
     },
   );
 
-  SchedulerBinding.instance!.addPostFrameCallback(
+  SchedulerBinding.instance.addPostFrameCallback(
     (_) => removeLoadingIndicator(),
   );
 }
