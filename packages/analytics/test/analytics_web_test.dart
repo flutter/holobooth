@@ -3,8 +3,8 @@
 import 'dart:js';
 
 import 'package:analytics/src/analytics_web.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:test/test.dart';
 
 class _MockJsObject extends Mock implements JsObject {}
 
