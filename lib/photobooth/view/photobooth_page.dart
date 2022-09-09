@@ -46,58 +46,68 @@ class PhotoboothView extends StatefulWidget {
   State<PhotoboothView> createState() => _PhotoboothViewState();
 }
 
-class _PhotoboothViewState extends State<PhotoboothView> {
-  late Future<void> _cameraInitialized;
-  late CameraController _controller;
+class _PhotoboothViewState extends State<PhotoboothView>
+    with WidgetsBindingObserver {
+  late final _cameraControllerCompleter = Completer<void>();
+  CameraController? _controller;
 
-  bool get _isCameraAvailable => _controller.value.isInitialized;
-
-  CameraException? _error;
+  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
 
   Future<void> _play() async {
     if (!_isCameraAvailable) return;
-    return _controller.resumePreview();
+    return _controller!.resumePreview();
   }
 
   Future<void> _stop() async {
     if (!_isCameraAvailable) return;
-    return _controller.pausePreview();
+    return _controller!.pausePreview();
   }
 
   @override
   void initState() {
     super.initState();
-    _cameraInitialized = _initializeCamera();
+    _initializeCamera();
   }
 
   Future<void> _initializeCamera() async {
-    final cameras = await availableCameras();
-    _controller = CameraController(cameras[0], ResolutionPreset.max);
-    try {
-      await _controller.initialize();
-      if (!mounted) return;
-      setState(() {});
-    } catch (error, stackTrace) {
-      if (error is CameraException) {
-        _error = error;
-        return;
-      }
+    if (_isCameraAvailable) return;
 
-      Error.throwWithStackTrace(error, stackTrace);
+    try {
+      final cameras = await availableCameras();
+      _controller = CameraController(cameras[0], ResolutionPreset.max);
+      await _controller!.initialize();
+      _cameraControllerCompleter.complete();
+    } catch (error) {
+      _cameraControllerCompleter.completeError(error);
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_controller == null || !_isCameraAvailable) {
+      return;
+    }
+
+    if (state == AppLifecycleState.inactive) {
+      _controller?.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      _initializeCamera();
+    }
+  }
+
   Future<void> _onSnapPressed({required double aspectRatio}) async {
+    if (!_isCameraAvailable) return;
+
     final photoboothBloc = context.read<PhotoboothBloc>();
     final navigator = Navigator.of(context);
-    final picture = await _controller.takePicture();
-    final previewSize = _controller.value.previewSize!;
+    final picture = await _controller!.takePicture();
+    final previewSize = _controller!.value.previewSize!;
 
     photoboothBloc.add(
       PhotoCaptured(
@@ -126,14 +136,17 @@ class _PhotoboothViewState extends State<PhotoboothView> {
         : PhotoboothAspectRatio.landscape;
 
     return FutureBuilder<void>(
-      future: _cameraInitialized,
+      future: _cameraControllerCompleter.future,
       builder: (context, snapshot) {
         late Widget camera;
-        if (_error != null) {
-          camera = PhotoboothError(error: _error!);
+        if (snapshot.hasError) {
+          final error = snapshot.error;
+          if (error is CameraException) {
+            camera = PhotoboothError(error: error);
+          }
         } else if (snapshot.connectionState == ConnectionState.done) {
           camera = PhotoboothPreview(
-            preview: _controller.buildPreview(),
+            preview: _controller!.buildPreview(),
             onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
           );
         } else {
