@@ -41,6 +41,7 @@ void main() {
   group('ShutterButton', () {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
+      await tester.pumpAndSettle();
       expect(find.byType(ShutterButton), findsOneWidget);
     });
 
@@ -64,9 +65,7 @@ void main() {
         await tester.pump();
         expect(find.byType(CountdownTimer), findsOneWidget);
         await tester.pumpAndSettle();
-        verify(() => audioPlayer.setAsset(any())).called(1);
-        verify(() => audioPlayer.play()).called(2);
-        verify(() => audioPlayer.pause()).called(1);
+        verify(() => audioPlayer.play()).called(1);
       });
     });
   });
