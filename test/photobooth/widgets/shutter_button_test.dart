@@ -54,33 +54,27 @@ void main() {
 
     testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
         (tester) async {
-      await tester.runAsync(() async {
-        await tester.pumpApp(
-          ShutterButton(
-            onCountdownComplete: () {},
-            audioPlayer: () => audioPlayer,
-          ),
-        );
-        await tester.tap(find.byType(CameraButton));
-        await tester.pump();
-        expect(find.byType(CountdownTimer), findsOneWidget);
-        await tester.pumpAndSettle();
-        verify(() => audioPlayer.play()).called(1);
-      });
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+          audioPlayer: () => audioPlayer,
+        ),
+      );
+      await tester.tap(find.byType(CameraButton));
+      await tester.pump();
+      expect(find.byType(CountdownTimer), findsOneWidget);
+      await tester.pumpAndSettle();
+      verify(() => audioPlayer.play()).called(1);
     });
 
     testWidgets(
       'calls stop on AppLifecycleState.paused',
       (WidgetTester tester) async {
-        await tester.runAsync(
-          () async {
-            await tester.pumpApp(
-              ShutterButton(
-                onCountdownComplete: () {},
-                audioPlayer: () => audioPlayer,
-              ),
-            );
-          },
+        await tester.pumpApp(
+          ShutterButton(
+            onCountdownComplete: () {},
+            audioPlayer: () => audioPlayer,
+          ),
         );
         tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
         await tester.pumpAndSettle();
