@@ -7,9 +7,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBottomSheet extends StatelessWidget {
   const ShareBottomSheet({
-    Key? key,
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   final Uint8List image;
 
@@ -34,7 +34,6 @@ class ShareBottomSheet extends StatelessWidget {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 60),
                   SharePreviewPhoto(image: image),

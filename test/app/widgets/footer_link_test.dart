@@ -10,13 +10,15 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockUrlLauncher extends Mock
+class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
+class _FakeLaunchOptions extends Fake implements LaunchOptions {}
+
 bool findTextAndTap(InlineSpan visitor, String text) {
   if (visitor is TextSpan && visitor.text == text) {
-    (visitor.recognizer as TapGestureRecognizer).onTap?.call();
+    (visitor.recognizer as TapGestureRecognizer?)?.onTap?.call();
 
     return false;
   }
@@ -34,104 +36,74 @@ bool tapTextSpan(RichText richText, String text) {
 
 void main() {
   group('FooterLink', () {
-    testWidgets('opens link when tapped', (tester) async {
-      final mock = MockUrlLauncher();
+    late UrlLauncherPlatform mock;
+
+    setUp(() {
+      mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-      when(() => mock.launch(
-            any(),
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).thenAnswer((_) async => true);
-      await tester.pumpApp(FooterLink(
-        link: 'https://example.com',
-        text: 'Link',
-      ));
+      when(
+        () => mock.launchUrl(any(), any()),
+      ).thenAnswer((_) async => true);
+    });
+
+    setUpAll(() {
+      registerFallbackValue(_FakeLaunchOptions());
+    });
+
+    testWidgets('opens link when tapped', (tester) async {
+      await tester.pumpApp(
+        FooterLink(
+          link: 'https://example.com',
+          text: 'Link',
+        ),
+      );
 
       await tester.tap(find.byType(FooterLink));
       await tester.pumpAndSettle();
-
-      verify(() => mock.launch(
-            'https://example.com',
-            useSafariVC: true,
-            useWebView: false,
-            enableJavaScript: false,
-            enableDomStorage: false,
-            universalLinksOnly: false,
-            headers: const {},
-          )).called(1);
+      verify(
+        () => mock.launchUrl('https://example.com', any()),
+      ).called(1);
     });
 
     group('MadeWith', () {
       late UrlLauncherPlatform mock;
 
       setUp(() {
-        mock = MockUrlLauncher();
+        mock = _MockUrlLauncher();
         UrlLauncherPlatform.instance = mock;
+        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
+        when(
+          () => mock.launchUrl(any(), any()),
+        ).thenAnswer((_) async => true);
+      });
+
+      setUpAll(() {
+        registerFallbackValue(_FakeLaunchOptions());
       });
 
       testWidgets('opens the Flutter website when tapped', (tester) async {
-        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
-        final flutterTextFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Flutter'),
-        );
-        await tester.tap(flutterTextFinder);
+        final textSpan = tester.textSpanContaining('Flutter');
+        tester.tapTextSpan(textSpan);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              flutterDevExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launchUrl(flutterDevExternalLink, any()),
+        ).called(1);
       });
 
       testWidgets('opens the Firebase website when tapped', (tester) async {
-        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(() => mock.launch(
-              any(),
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            )).thenAnswer((_) async => true);
         await tester.pumpApp(FooterMadeWithLink());
 
-        final flutterTextFinder = find.byWidgetPredicate(
-          (widget) => widget is RichText && tapTextSpan(widget, 'Firebase'),
-        );
-        await tester.tap(flutterTextFinder);
+        final textSpan = tester.textSpanContaining('Firebase');
+        tester.tapTextSpan(textSpan);
         await tester.pumpAndSettle();
 
-        verify(() => mock.launch(
-              firebaseExternalLink,
-              useSafariVC: true,
-              useWebView: false,
-              enableJavaScript: false,
-              enableDomStorage: false,
-              universalLinksOnly: false,
-              headers: const {},
-            ));
+        verify(
+          () => mock.launchUrl(firebaseExternalLink, any()),
+        ).called(1);
       });
     });
 

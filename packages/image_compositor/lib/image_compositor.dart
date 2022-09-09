@@ -8,7 +8,7 @@ class Vector2D {
   const Vector2D(this.x, this.y);
 
   /// Factory which returns a [Vector2D] based on the provided [json].
-  factory Vector2D.fromJson(Map json) {
+  factory Vector2D.fromJson(Map<String, dynamic> json) {
     return Vector2D(
       double.parse(json['x'] as String),
       double.parse(json['y'] as String),
@@ -41,13 +41,14 @@ class CompositeLayer {
   });
 
   /// Factory which returns a [CompositeLayer] based on the provided [json].
-  factory CompositeLayer.fromJson(Map json) {
+  factory CompositeLayer.fromJson(Map<String, dynamic> json) {
     return CompositeLayer(
       angle: double.parse(json['angle'] as String),
       assetPath: json['assetPath'] as String,
-      constraints: Vector2D.fromJson(json['constraints'] as Map),
-      position: Vector2D.fromJson(json['position'] as Map),
-      size: Vector2D.fromJson(json['size'] as Map),
+      constraints:
+          Vector2D.fromJson(json['constraints'] as Map<String, dynamic>),
+      position: Vector2D.fromJson(json['position'] as Map<String, dynamic>),
+      size: Vector2D.fromJson(json['size'] as Map<String, dynamic>),
     );
   }
 

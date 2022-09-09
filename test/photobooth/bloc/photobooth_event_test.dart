@@ -4,20 +4,20 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:test/test.dart';
 
-class MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraImage extends Mock implements CameraImage {}
 
-class MockAsset extends Mock implements Asset {}
+class _MockAsset extends Mock implements Asset {}
 
-class MockPhotoAsset extends Mock implements PhotoAsset {}
+class _MockPhotoAsset extends Mock implements PhotoAsset {}
 
-class MockDragUpdate extends Mock implements DragUpdate {}
+class _MockDragUpdate extends Mock implements DragUpdate {}
 
 void main() {
   group('PhotoboothEvent', () {
     group('PhotoCaptured', () {
       test('support value equality', () {
         const aspectRatio = PhotoboothAspectRatio.portrait;
-        final image = MockCameraImage();
+        final image = _MockCameraImage();
         final instanceA = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         final instanceB = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         expect(instanceA, equals(instanceB));
@@ -26,7 +26,7 @@ void main() {
 
     group('PhotoCharacterToggled', () {
       test('support value equality', () {
-        final character = MockAsset();
+        final character = _MockAsset();
         final instanceA = PhotoCharacterToggled(character: character);
         final instanceB = PhotoCharacterToggled(character: character);
         expect(instanceA, equals(instanceB));
@@ -35,8 +35,8 @@ void main() {
 
     group('PhotoCharacterDragged', () {
       test('support value equality', () {
-        final character = MockPhotoAsset();
-        final update = MockDragUpdate();
+        final character = _MockPhotoAsset();
+        final update = _MockDragUpdate();
         final instanceA = PhotoCharacterDragged(
           character: character,
           update: update,
@@ -51,7 +51,7 @@ void main() {
 
     group('PhotoStickerTapped', () {
       test('support value equality', () {
-        final sticker = MockAsset();
+        final sticker = _MockAsset();
         final instanceA = PhotoStickerTapped(sticker: sticker);
         final instanceB = PhotoStickerTapped(sticker: sticker);
         expect(instanceA, equals(instanceB));
@@ -60,8 +60,8 @@ void main() {
 
     group('PhotoStickerDragged', () {
       test('support value equality', () {
-        final sticker = MockPhotoAsset();
-        final update = MockDragUpdate();
+        final sticker = _MockPhotoAsset();
+        final update = _MockDragUpdate();
         final instanceA = PhotoStickerDragged(
           sticker: sticker,
           update: update,

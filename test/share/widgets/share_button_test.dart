@@ -11,14 +11,10 @@ import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
-
-class FakePhotoboothState extends Fake implements PhotoboothState {}
-
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 void main() {
   const width = 1;
@@ -30,15 +26,10 @@ void main() {
   late PhotoboothBloc photoboothBloc;
   late PlatformHelper platformHelper;
 
-  setUpAll(() {
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-  });
-
   setUp(() {
-    photoboothBloc = MockPhotoboothBloc();
+    photoboothBloc = _MockPhotoboothBloc();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
-    platformHelper = MockPlatformHelper();
+    platformHelper = _MockPlatformHelper();
   });
 
   group('ShareButton', () {

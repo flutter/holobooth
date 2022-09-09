@@ -15,36 +15,29 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:platform_helper/platform_helper.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakeStickersEvent extends Fake implements StickersEvent {}
-
-class FakeStickersState extends Fake implements StickersState {}
-
-class MockStickersBloc extends MockBloc<StickersEvent, StickersState>
+class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
     implements StickersBloc {}
 
-class FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
+class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
-class FakePhotoboothState extends Fake implements PhotoboothState {}
-
-class MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-class FakeShareEvent extends Fake implements ShareEvent {}
+class _FakeDragUpdate extends Fake implements DragUpdate {}
 
-class FakeShareState extends Fake implements ShareState {}
+class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
-class MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
+class _FakeCameraOptions extends Fake implements CameraOptions {}
 
-class FakeDragUpdate extends Fake implements DragUpdate {}
+class _MockCameraPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements CameraPlatform {}
 
-class MockPlatformHelper extends Mock implements PlatformHelper {}
-
-class MockPhotosRepository extends Mock implements PhotosRepository {}
+class _MockCameraImage extends Mock implements CameraImage {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -52,28 +45,47 @@ void main() {
   const height = 1;
   final data = 'data:image/png,${base64.encode(transparentImage)}';
   final image = CameraImage(width: width, height: height, data: data);
+  const cameraId = 1;
+  late CameraPlatform cameraPlatform;
+  late CameraImage cameraImage;
 
   setUpAll(() {
-    registerFallbackValue<StickersEvent>(FakeStickersEvent());
-    registerFallbackValue<StickersState>(FakeStickersState());
-    registerFallbackValue<PhotoboothEvent>(FakePhotoboothEvent());
-    registerFallbackValue<PhotoboothState>(FakePhotoboothState());
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(_FakePhotoboothEvent());
+    registerFallbackValue(_FakeCameraOptions());
+  });
+
+  setUp(() {
+    cameraImage = _MockCameraImage();
+    cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+    when(() => cameraImage.width).thenReturn(4);
+    when(() => cameraImage.height).thenReturn(3);
+    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+    when(
+      () => cameraPlatform.create(any()),
+    ).thenAnswer((_) async => cameraId);
+    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => cameraImage);
+    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
   });
 
   group('StickersPage', () {
     late PhotoboothBloc photoboothBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
-      when(() => photoboothBloc.state).thenReturn(PhotoboothState(
-        image: image,
-      ));
+      photoboothBloc = _MockPhotoboothBloc();
+      when(() => photoboothBloc.state).thenReturn(
+        PhotoboothState(
+          image: image,
+        ),
+      );
     });
 
     test('is routable', () {
-      expect(StickersPage.route(), isA<MaterialPageRoute>());
+      expect(StickersPage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets('renders PreviewImage', (tester) async {
@@ -102,11 +114,11 @@ void main() {
     late StickersBloc stickersBloc;
 
     setUp(() {
-      photoboothBloc = MockPhotoboothBloc();
+      photoboothBloc = _MockPhotoboothBloc();
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(image: image),
       );
-      stickersBloc = MockStickersBloc();
+      stickersBloc = _MockStickersBloc();
       when(() => stickersBloc.state).thenReturn(StickersState());
     });
 
@@ -206,8 +218,9 @@ void main() {
       );
       expect(find.byType(AnimatedPulse), findsOneWidget);
       tester
-          .widget<AppTooltipButton>(find
-              .byKey(Key('stickersView_openStickersButton_appTooltipButton')))
+          .widget<AppTooltipButton>(
+            find.byKey(Key('stickersView_openStickersButton_appTooltipButton')),
+          )
           .onPressed();
       await tester.pumpAndSettle();
       expect(find.byType(AnimatedPulse), findsNothing);
@@ -274,7 +287,7 @@ void main() {
       tester
           .widget<DraggableResizable>(find.byType(DraggableResizable))
           .onUpdate
-          ?.call(FakeDragUpdate());
+          ?.call(_FakeDragUpdate());
       verify(
         () => photoboothBloc.add(any(that: isA<PhotoStickerDragged>())),
       );
@@ -282,25 +295,27 @@ void main() {
 
     testWidgets('tapping on retake + close does nothing', (tester) async {
       const initialPage = Key('__target__');
-      await tester.pumpApp(Builder(
-        builder: (context) {
-          return ElevatedButton(
-            key: initialPage,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: photoboothBloc),
-                    BlocProvider.value(value: stickersBloc),
-                  ],
-                  child: StickersView(),
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return ElevatedButton(
+              key: initialPage,
+              onPressed: () => Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (_) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: photoboothBloc),
+                      BlocProvider.value(value: stickersBloc),
+                    ],
+                    child: StickersView(),
+                  ),
                 ),
               ),
-            ),
-            child: const SizedBox(),
-          );
-        },
-      ));
+              child: const SizedBox(),
+            );
+          },
+        ),
+      );
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
@@ -327,25 +342,27 @@ void main() {
 
     testWidgets('tapping on retake + cancel does nothing', (tester) async {
       const initialPage = Key('__target__');
-      await tester.pumpApp(Builder(
-        builder: (context) {
-          return ElevatedButton(
-            key: initialPage,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: photoboothBloc),
-                    BlocProvider.value(value: stickersBloc),
-                  ],
-                  child: StickersView(),
+      await tester.pumpApp(
+        Builder(
+          builder: (context) {
+            return ElevatedButton(
+              key: initialPage,
+              onPressed: () => Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (_) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: photoboothBloc),
+                      BlocProvider.value(value: stickersBloc),
+                    ],
+                    child: StickersView(),
+                  ),
                 ),
               ),
-            ),
-            child: const SizedBox(),
-          );
-        },
-      ));
+              child: const SizedBox(),
+            );
+          },
+        ),
+      );
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
 
@@ -444,7 +461,7 @@ void main() {
     });
 
     testWidgets('tapping next + confirm routes to SharePage', (tester) async {
-      final photosRepository = MockPhotosRepository();
+      final photosRepository = _MockPhotosRepository();
       when(
         () => photosRepository.composite(
           width: any(named: 'width'),
@@ -635,9 +652,7 @@ void main() {
     testWidgets(
         'renders StickersCaption when shouldDisplayPropsReminder is true',
         (tester) async {
-      when(() => stickersBloc.state).thenReturn(
-        StickersState(shouldDisplayPropsReminder: true),
-      );
+      when(() => stickersBloc.state).thenReturn(StickersState());
       await tester.pumpApp(
         MultiBlocProvider(
           providers: [

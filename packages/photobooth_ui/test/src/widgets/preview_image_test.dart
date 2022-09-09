@@ -12,20 +12,24 @@ void main() {
 
   group('PreviewImage', () {
     testWidgets('renders with height and width', (tester) async {
-      await tester.pumpWidget(PreviewImage(
-        data: data,
-        height: 100,
-        width: 100,
-      ));
+      await tester.pumpWidget(
+        PreviewImage(
+          data: data,
+          height: 100,
+          width: 100,
+        ),
+      );
       expect(find.byType(Image), findsOneWidget);
     });
 
     testWidgets('anti-aliasing is enabled', (tester) async {
-      await tester.pumpWidget(PreviewImage(
-        data: data,
-        height: 100,
-        width: 100,
-      ));
+      await tester.pumpWidget(
+        PreviewImage(
+          data: data,
+          height: 100,
+          width: 100,
+        ),
+      );
       final image = tester.widget<Image>(find.byType(Image));
       expect(image.isAntiAlias, isTrue);
     });
@@ -48,7 +52,7 @@ void main() {
     testWidgets('renders error with empty image', (tester) async {
       await tester.pumpWidget(PreviewImage(data: ''));
       await tester.pumpAndSettle();
-      final exception = tester.takeException();
+      final dynamic exception = tester.takeException();
       expect(exception, isNotNull);
       expect(find.byKey(const Key('previewImage_errorText')), findsOneWidget);
     });

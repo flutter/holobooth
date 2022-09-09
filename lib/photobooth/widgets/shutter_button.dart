@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
@@ -11,17 +12,16 @@ AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
-    Key? key,
+    super.key,
     required this.onCountdownComplete,
     ValueGetter<AudioPlayer>? audioPlayer,
-  })  : _audioPlayer = audioPlayer ?? _getAudioPlayer,
-        super(key: key);
+  }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
 
   final VoidCallback onCountdownComplete;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   @override
-  _ShutterButtonState createState() => _ShutterButtonState();
+  State<ShutterButton> createState() => _ShutterButtonState();
 }
 
 class _ShutterButtonState extends State<ShutterButton>
@@ -29,7 +29,7 @@ class _ShutterButtonState extends State<ShutterButton>
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
 
-  void _onAnimationStatusChanged(AnimationStatus status) async {
+  Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
       widget.onCountdownComplete();
     }
@@ -60,7 +60,7 @@ class _ShutterButtonState extends State<ShutterButton>
     super.dispose();
   }
 
-  void _onShutterPressed() async {
+  Future<void> _onShutterPressed() async {
     await audioPlayer.seek(null);
     unawaited(audioPlayer.play());
     unawaited(controller.reverse(from: 1));
@@ -80,7 +80,7 @@ class _ShutterButtonState extends State<ShutterButton>
 }
 
 class CountdownTimer extends StatelessWidget {
-  const CountdownTimer({Key? key, required this.controller}) : super(key: key);
+  const CountdownTimer({super.key, required this.controller});
 
   final AnimationController controller;
 
@@ -96,7 +96,6 @@ class CountdownTimer extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.center,
             child: Text(
               '$seconds',
               style: theme.textTheme.headline1?.copyWith(
@@ -117,7 +116,7 @@ class CountdownTimer extends StatelessWidget {
 }
 
 class CameraButton extends StatelessWidget {
-  const CameraButton({Key? key, required this.onPressed}) : super(key: key);
+  const CameraButton({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 

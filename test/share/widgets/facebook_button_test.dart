@@ -15,8 +15,7 @@ void main() {
   late ShareBloc shareBloc;
 
   setUpAll(() {
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
+    registerFallbackValue(FakeShareEvent());
   });
 
   setUp(() {

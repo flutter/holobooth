@@ -6,14 +6,14 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockXFile extends Mock implements XFile {}
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   group('DownloadButton', () {
     late XFile file;
 
     setUp(() {
-      file = MockXFile();
+      file = _MockXFile();
     });
 
     testWidgets('renders OutlinedButton', (tester) async {
