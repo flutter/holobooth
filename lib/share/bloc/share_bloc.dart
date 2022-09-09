@@ -35,7 +35,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
   final PhotosRepository _photosRepository;
   final String imageId;
-  final CameraImage image;
+  final PhotoImage image;
   final List<PhotoAsset> assets;
   final double aspectRatio;
   final bool _isSharingEnabled;
@@ -207,8 +207,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     final composite = await _photosRepository.composite(
       aspectRatio: aspectRatio,
       data: image.data,
-      width: image.width,
-      height: image.height,
+      width: image.constraint.width.floor(),
+      height: image.constraint.height.floor(),
       layers: [
         ...assets.map(
           (l) => CompositeLayer(
