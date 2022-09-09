@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@72a170b9eeb872d03d8d7de1d99876c304371fbc
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
       platform: "chrome,vm"
       working_directory: packages/analytics
