@@ -122,7 +122,7 @@ class _PhotoboothViewState extends State<PhotoboothView>
     return FutureBuilder<void>(
       future: _cameraControllerCompleter.future,
       builder: (context, snapshot) {
-        late Widget camera;
+        late final Widget camera;
         if (snapshot.hasError) {
           final error = snapshot.error;
           if (error is CameraException) {
