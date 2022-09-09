@@ -68,6 +68,25 @@ void main() {
         verify(() => audioPlayer.play()).called(1);
       });
     });
+
+    testWidgets(
+      'calls stop on AppLifecycleState.paused',
+      (WidgetTester tester) async {
+        await tester.runAsync(
+          () async {
+            await tester.pumpApp(
+              ShutterButton(
+                onCountdownComplete: () {},
+                audioPlayer: () => audioPlayer,
+              ),
+            );
+          },
+        );
+        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+        await tester.pumpAndSettle();
+        verify(() => audioPlayer.stop()).called(1);
+      },
+    );
   });
 
   group('TimerPainter', () {
