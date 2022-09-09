@@ -79,6 +79,9 @@ void main() {
         tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
         await tester.pumpAndSettle();
         verify(() => audioPlayer.stop()).called(1);
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpAndSettle();
       },
     );
   });
