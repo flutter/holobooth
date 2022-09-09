@@ -53,11 +53,6 @@ class _PhotoboothViewState extends State<PhotoboothView>
 
   bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
 
-  Future<void> _play() async {
-    if (!_isCameraAvailable) return;
-    return _controller!.resumePreview();
-  }
-
   Future<void> _stop() async {
     if (!_isCameraAvailable) return;
     return _controller!.pausePreview();
