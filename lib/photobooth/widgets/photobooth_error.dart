@@ -10,7 +10,7 @@ class PhotoboothError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (error.code == 'cameraPermission') {
+    if (error.code == 'CameraAccessDenied') {
       return const _PhotoboothCameraAccessDeniedError(
         key: Key('photoboothError_cameraAccessDenied'),
       );
