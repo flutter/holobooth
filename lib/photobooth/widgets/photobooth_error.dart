@@ -22,11 +22,11 @@ class PhotoboothError extends StatelessWidget {
       );
     }
 
-    // if (error is CameraNotSupportedException) {
-    //   return const _PhotoboothCameraNotSupportedError(
-    //     key: Key('photoboothError_cameraNotSupported'),
-    //   );
-    // }
+    if (error.code == 'cameraNotSupported') {
+      return const _PhotoboothCameraNotSupportedError(
+        key: Key('photoboothError_cameraNotSupported'),
+      );
+    }
 
     return const _PhotoboothCameraUnknownError(
       key: Key('photoboothError_unknown'),
