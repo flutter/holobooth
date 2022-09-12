@@ -1,4 +1,5 @@
-part of tensorflow_models_platform_interface;
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// The interface that implementations of tensorflow must implement.
 ///

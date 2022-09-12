@@ -1,4 +1,4 @@
-part of tensorflow_models_platform_interface;
+import 'dart:typed_data';
 
 class ModelConfig {
   const ModelConfig({
