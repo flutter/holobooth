@@ -35,7 +35,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
   final PhotosRepository _photosRepository;
   final String imageId;
-  final PhotoImage image;
+  final PhotoboothCameraImage image;
   final List<PhotoAsset> assets;
   final double aspectRatio;
   final bool _isSharingEnabled;

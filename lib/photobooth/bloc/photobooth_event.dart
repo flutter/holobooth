@@ -11,7 +11,7 @@ class PhotoCaptured extends PhotoboothEvent {
   const PhotoCaptured({required this.aspectRatio, required this.image});
 
   final double aspectRatio;
-  final PhotoImage image;
+  final PhotoboothCameraImage image;
 
   @override
   List<Object> get props => [aspectRatio, image];

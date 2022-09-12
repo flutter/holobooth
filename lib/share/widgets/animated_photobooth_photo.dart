@@ -12,7 +12,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
     required this.image,
   });
 
-  final PhotoImage? image;
+  final PhotoboothCameraImage? image;
 
   @override
   State<AnimatedPhotoboothPhoto> createState() =>
@@ -68,7 +68,7 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
     required this.isPhotoVisible,
   });
 
-  final PhotoImage? image;
+  final PhotoboothCameraImage? image;
   final bool isPhotoVisible;
 
   static const sprite = AnimatedSprite(
@@ -151,7 +151,7 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
     required this.isPhotoVisible,
   });
 
-  final PhotoImage? image;
+  final PhotoboothCameraImage? image;
   final bool isPhotoVisible;
 
   static const sprite = AnimatedSprite(
@@ -217,7 +217,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   final AnimatedSprite sprite;
   final bool isPhotoVisible;
   final double aspectRatio;
-  final PhotoImage? image;
+  final PhotoboothCameraImage? image;
   final double top;
   final double left;
   final double right;

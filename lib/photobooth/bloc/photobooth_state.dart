@@ -2,8 +2,8 @@ part of 'photobooth_bloc.dart';
 
 const emptyAssetId = '';
 
-class PhotoImage extends Equatable {
-  const PhotoImage({
+class PhotoboothCameraImage extends Equatable {
+  const PhotoboothCameraImage({
     required this.constraint,
     required this.data,
   });
@@ -110,7 +110,7 @@ class PhotoboothState extends Equatable {
   List<PhotoAsset> get assets => characters + stickers;
 
   final double aspectRatio;
-  final PhotoImage? image;
+  final PhotoboothCameraImage? image;
   final String imageId;
   final List<PhotoAsset> characters;
   final List<PhotoAsset> stickers;
@@ -128,7 +128,7 @@ class PhotoboothState extends Equatable {
 
   PhotoboothState copyWith({
     double? aspectRatio,
-    PhotoImage? image,
+    PhotoboothCameraImage? image,
     String? imageId,
     List<PhotoAsset>? characters,
     List<PhotoAsset>? stickers,

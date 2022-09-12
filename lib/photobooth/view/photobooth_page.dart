@@ -96,7 +96,7 @@ class _PhotoboothViewState extends State<PhotoboothView>
     photoboothBloc.add(
       PhotoCaptured(
         aspectRatio: aspectRatio,
-        image: PhotoImage(
+        image: PhotoboothCameraImage(
           data: picture.path,
           constraint: PhotoConstraint(
             width: previewSize.width,
