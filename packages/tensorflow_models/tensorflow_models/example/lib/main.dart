@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:tensorflow_models/posenet.dart' as posenet;
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 const List<int> kTransparentImage = <int>[
   0x89,
@@ -81,7 +79,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  posenet.PoseNet? _net;
+  Posenet? _net;
 
   @override
   void initState() {
