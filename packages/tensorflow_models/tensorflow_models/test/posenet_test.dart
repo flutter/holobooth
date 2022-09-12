@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:tensorflow_models/posenet.dart' as posenet;
 import 'package:tensorflow_models/tensorflow_models.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 class MockTensorflowModelsPlatform extends Mock
     with MockPlatformInterfaceMixin
@@ -29,7 +29,7 @@ void main() {
       test('invokes loadPosenet and returns correct PoseNet', () async {
         final net = MockPoseNet();
         when(() => platform.loadPosenet(any())).thenAnswer((_) async => net);
-        expect(await posenet.load(), equals(net));
+        expect(await load(), equals(net));
       });
     });
   });

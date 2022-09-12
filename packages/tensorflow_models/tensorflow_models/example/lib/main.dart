@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:tensorflow_models/tensorflow_models.dart';
 
 const List<int> kTransparentImage = <int>[
   0x89,
@@ -75,11 +78,11 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Posenet? _net;
+  PoseNet? _net;
 
   @override
   void initState() {
@@ -87,14 +90,16 @@ class _MyAppState extends State<MyApp> {
     _initializePosenet();
   }
 
-  void _initializePosenet() async {
+  Future<void> _initializePosenet() async {
     _net?.dispose();
-    _net = await posenet.load();
-    final pose = await _net!.estimateSinglePose(ImageData(
-      data: Uint8ClampedList.fromList(kTransparentImage),
-      width: 4,
-      height: 4,
-    ));
+    _net = await load();
+    final pose = await _net!.estimateSinglePose(
+      ImageData(
+        data: Uint8ClampedList.fromList(kTransparentImage),
+        width: 4,
+        height: 4,
+      ),
+    );
     print(pose.score);
     for (final keypoint in pose.keypoints) {
       print(keypoint.part);

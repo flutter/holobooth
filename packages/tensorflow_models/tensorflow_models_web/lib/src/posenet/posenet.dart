@@ -3,8 +3,9 @@ import 'dart:html' as html;
 import 'dart:js_util';
 
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:tensorflow_models_web/src/posenet/posenet_interop.dart'
+    as posenet;
 
-import 'posenet_interop.dart' as posenet;
 export 'posenet_interop.dart';
 
 Future<PoseNetWeb> load([posenet.ModelConfig? config]) async {
