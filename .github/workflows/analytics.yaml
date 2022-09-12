@@ -10,5 +10,6 @@ jobs:
   build:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
+      flutter_version: 3.3.1
       platform: "chrome,vm"
       working_directory: packages/analytics
