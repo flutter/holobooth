@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _videoConstraints = VideoConstraints(
   facingMode: FacingMode(
