@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:audio_session/audio_session.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _shutterCountdownDuration = Duration(seconds: 3);
 
