@@ -1,3 +1,4 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -15,8 +16,19 @@ class _RectFake extends Fake implements Rect {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
+class _MockAudioSession extends Mock implements AudioSession {}
+
+class _FakeAudioSessionConfiguration extends Fake
+    implements AudioSessionConfiguration {}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late AudioPlayer audioPlayer;
+  late AudioSession audioSession;
+
+  setUpAll(() {
+    registerFallbackValue(_FakeAudioSessionConfiguration());
+  });
 
   setUp(() {
     audioPlayer = _MockAudioPlayer();
@@ -36,18 +48,27 @@ void main() {
         ],
       ),
     );
+    audioSession = _MockAudioSession();
+    when(() => audioSession.configure(any()))
+        .thenAnswer((invocation) => Future.value());
   });
 
   group('ShutterButton', () {
     testWidgets('renders', (tester) async {
-      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+        ),
+      );
       await tester.pumpAndSettle();
       expect(find.byType(ShutterButton), findsOneWidget);
     });
 
     testWidgets('renders CameraButton when animation has not started',
         (tester) async {
-      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
+      await tester.pumpApp(ShutterButton(
+        onCountdownComplete: () {},
+      ));
       expect(find.byType(CameraButton), findsOneWidget);
       expect(find.byType(CountdownTimer), findsNothing);
     });
