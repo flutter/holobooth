@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
@@ -25,9 +26,16 @@ class ShutterButton extends StatefulWidget {
 }
 
 class _ShutterButtonState extends State<ShutterButton>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _init();
+  }
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
@@ -35,24 +43,30 @@ class _ShutterButtonState extends State<ShutterButton>
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = widget._audioPlayer()..setAsset('assets/audio/camera.mp3');
+  Future<void> _init() async {
+    audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
       duration: _shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
-    unawaited(audioPlayer.play());
-    audioPlayer.playerStateStream.listen((event) {
-      if (event.processingState == ProcessingState.ready) {
-        audioPlayer.pause();
-      }
-    });
+
+    final audioSession = await AudioSession.instance;
+    // Inform the operating system of our app's audio attributes etc.
+    // We pick a reasonable default for an app that plays speech.
+    try {
+      await audioSession.configure(const AudioSessionConfiguration.speech());
+    } catch (_) {}
+
+    // Try to load audio from a source and catch any errors.
+    try {
+      await audioPlayer.setAsset('assets/audio/camera.mp3');
+    } catch (_) {}
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
@@ -60,8 +74,17 @@ class _ShutterButtonState extends State<ShutterButton>
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // Release the player's resources when not in use. We use "stop" so that
+      // if the app resumes later, it will still remember what position to
+      // resume from.
+      audioPlayer.stop();
+    }
+  }
+
   Future<void> _onShutterPressed() async {
-    await audioPlayer.seek(null);
     unawaited(audioPlayer.play());
     unawaited(controller.reverse(from: 1));
   }
