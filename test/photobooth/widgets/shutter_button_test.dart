@@ -66,9 +66,11 @@ void main() {
 
     testWidgets('renders CameraButton when animation has not started',
         (tester) async {
-      await tester.pumpApp(ShutterButton(
-        onCountdownComplete: () {},
-      ));
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+        ),
+      );
       expect(find.byType(CameraButton), findsOneWidget);
       expect(find.byType(CountdownTimer), findsNothing);
     });
