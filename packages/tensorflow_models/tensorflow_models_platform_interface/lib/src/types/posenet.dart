@@ -1,4 +1,4 @@
-part of tensorflow_models_platform_interface;
+import 'dart:typed_data';
 
 class ModelConfig {
   const ModelConfig({
@@ -69,8 +69,7 @@ abstract class PoseNet {
 }
 
 class SinglePersonInterfaceConfig extends InferenceConfig {
-  const SinglePersonInterfaceConfig({bool? flipHorizontal})
-      : super(flipHorizontal: flipHorizontal);
+  const SinglePersonInterfaceConfig({super.flipHorizontal});
 }
 
 class InferenceConfig {

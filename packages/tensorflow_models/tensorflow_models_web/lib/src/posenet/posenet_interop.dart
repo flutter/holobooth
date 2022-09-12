@@ -86,6 +86,7 @@ class Vector2D {
 @JS()
 class Promise<T> {
   external Promise(void Function(T result) executor, void Function() reject);
+  // ignore: strict_raw_type
   external Promise then(
     void Function(T result) onFulfilled, [
     void Function() onRejected,
