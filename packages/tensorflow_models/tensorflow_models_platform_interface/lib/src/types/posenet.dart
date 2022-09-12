@@ -69,8 +69,7 @@ abstract class PoseNet {
 }
 
 class SinglePersonInterfaceConfig extends InferenceConfig {
-  const SinglePersonInterfaceConfig({bool? flipHorizontal})
-      : super(flipHorizontal: flipHorizontal);
+  const SinglePersonInterfaceConfig({super.flipHorizontal});
 }
 
 class InferenceConfig {
