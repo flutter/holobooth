@@ -50,16 +50,16 @@ class _ShutterButtonState extends State<ShutterButton>
       duration: _shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
-    // Try to load audio from a source and catch any errors.
-    try {
-      await audioPlayer.setAsset('assets/audio/camera.mp3');
-    } catch (_) {}
-
     final audioSession = await AudioSession.instance;
     // Inform the operating system of our app's audio attributes etc.
     // We pick a reasonable default for an app that plays speech.
     try {
       await audioSession.configure(const AudioSessionConfiguration.speech());
+    } catch (_) {}
+
+    // Try to load audio from a source and catch any errors.
+    try {
+      await audioPlayer.setAsset('assets/audio/camera.mp3');
     } catch (_) {}
   }
 

@@ -1,5 +1,5 @@
-import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,19 +16,9 @@ class _RectFake extends Fake implements Rect {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
-class _MockAudioSession extends Mock implements AudioSession {}
-
-class _FakeAudioSessionConfiguration extends Fake
-    implements AudioSessionConfiguration {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late AudioPlayer audioPlayer;
-  late AudioSession audioSession;
-
-  setUpAll(() {
-    registerFallbackValue(_FakeAudioSessionConfiguration());
-  });
 
   setUp(() {
     audioPlayer = _MockAudioPlayer();
@@ -48,12 +38,29 @@ void main() {
         ],
       ),
     );
-    audioSession = _MockAudioSession();
-    when(() => audioSession.configure(any()))
-        .thenAnswer((invocation) => Future.value());
+
+    const MethodChannel('com.ryanheise.audio_session')
+        .setMockMethodCallHandler((call) async {
+      if (call.method == 'getConfiguration') {
+        return {};
+      }
+    });
   });
 
   group('ShutterButton', () {
+    testWidgets(
+      'set asset correctly',
+      (WidgetTester tester) async {
+        await tester.pumpApp(
+          ShutterButton(
+            onCountdownComplete: () {},
+            audioPlayer: () => audioPlayer,
+          ),
+        );
+        await tester.pumpAndSettle();
+        verify(() => audioPlayer.setAsset(any())).called(1);
+      },
+    );
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         ShutterButton(
