@@ -37,7 +37,7 @@ class PhotoboothView extends StatefulWidget {
 
 class _PhotoboothViewState extends State<PhotoboothView>
     with WidgetsBindingObserver {
-  late final _cameraControllerCompleter = Completer<void>();
+  late Completer<void> _cameraControllerCompleter;
   CameraController? _controller;
 
   bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
@@ -50,12 +50,14 @@ class _PhotoboothViewState extends State<PhotoboothView>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initializeCamera();
   }
 
   Future<void> _initializeCamera() async {
     if (_isCameraAvailable) return;
 
+    _cameraControllerCompleter = Completer<void>();
     try {
       final cameras = await availableCameras();
       _controller = CameraController(
@@ -72,20 +74,19 @@ class _PhotoboothViewState extends State<PhotoboothView>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller?.dispose();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_controller == null || !_isCameraAvailable) {
-      return;
-    }
-
     if (state == AppLifecycleState.inactive) {
       _controller?.dispose();
-    } else if (state == AppLifecycleState.resumed) {
+      _controller = null;
+    } else if (state == AppLifecycleState.resumed && _controller == null) {
       _initializeCamera();
+      setState(() {});
     }
   }
 

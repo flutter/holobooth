@@ -297,6 +297,7 @@ void main() {
 
     group('didChangeAppLifecycleState', () {
       // TODO(alestiago): Make these test pass.
+      TestWidgetsFlutterBinding.ensureInitialized();
 
       testWidgets('disposes camera when inactice', (tester) async {
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
@@ -315,6 +316,8 @@ void main() {
       testWidgets('intializes camera again when resumed', (tester) async {
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
+
+        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
 
         tester.binding
             .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
