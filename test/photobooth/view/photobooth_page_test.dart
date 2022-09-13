@@ -151,8 +151,10 @@ void main() {
           when(() => cameraPlatform.availableCameras()).thenThrow(
             CameraException('cameraNotFound', ''),
           );
-          await tester.pumpApp(PhotoboothView(),
-              photoboothBloc: photoboothBloc);
+          await tester.pumpApp(
+            PhotoboothView(),
+            photoboothBloc: photoboothBloc,
+          );
           await tester.pumpAndSettle();
           expect(
             find.byKey(Key('photoboothError_cameraNotFound')),
@@ -212,7 +214,9 @@ void main() {
         final aspectRatio =
             tester.widget<AspectRatio>(find.byType(AspectRatio));
         expect(
-            aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.landscape));
+          aspectRatio.aspectRatio,
+          equals(PhotoboothAspectRatio.landscape),
+        );
       });
 
       testWidgets(
@@ -225,7 +229,9 @@ void main() {
           final aspectRatio =
               tester.widget<AspectRatio>(find.byType(AspectRatio));
           expect(
-              aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
+            aspectRatio.aspectRatio,
+            equals(PhotoboothAspectRatio.portrait),
+          );
         },
       );
     });
