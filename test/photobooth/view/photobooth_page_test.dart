@@ -112,188 +112,203 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(PhotoboothState());
     });
 
-    testWidgets('renders PhotoboothView', (tester) async {
-      final subject = PhotoboothView();
-      await tester.pumpApp(subject, photoboothBloc: photoboothBloc);
-      expect(find.byWidget(subject), findsOneWidget);
-    });
+    group('renders', () {
+      testWidgets('PhotoboothView', (tester) async {
+        final subject = PhotoboothView();
+        await tester.pumpApp(subject, photoboothBloc: photoboothBloc);
+        expect(find.byWidget(subject), findsOneWidget);
+      });
 
-    testWidgets('renders PhotoboothPreview', (tester) async {
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pump(Duration.zero);
-      expect(find.byType(PhotoboothPreview), findsOneWidget);
-    });
+      testWidgets('PhotoboothPreview', (tester) async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pump(Duration.zero);
+        expect(find.byType(PhotoboothPreview), findsOneWidget);
+      });
 
-    testWidgets('renders placeholder when initializing', (tester) async {
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      expect(find.byType(SizedBox), findsOneWidget);
-    });
+      testWidgets('placeholder when initializing', (tester) async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        expect(find.byType(SizedBox), findsOneWidget);
+      });
 
-    testWidgets('renders error when unavailable', (tester) async {
-      when(() => cameraPlatform.availableCameras()).thenThrow(
-        CameraException('', ''),
-      );
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(find.byType(PhotoboothError), findsOneWidget);
-    });
-
-    testWidgets(
-        'renders camera access denied error '
-        'when cameraPlatform throws CameraException '
-        'with code "CameraAccessDenied"', (tester) async {
-      when(() => cameraPlatform.availableCameras()).thenThrow(
-        CameraException('CameraAccessDenied', ''),
-      );
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(Key('photoboothError_cameraAccessDenied')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets(
-      'renders camera not found error '
-      'when cameraPlatform throws CameraException '
-      'with code "cameraNotFound"',
-      (tester) async {
+      testWidgets('error when unavailable', (tester) async {
         when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('cameraNotFound', ''),
+          CameraException('', ''),
+        );
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        expect(find.byType(PhotoboothError), findsOneWidget);
+      });
+
+      testWidgets(
+          'camera access denied error '
+          'when cameraPlatform throws CameraException '
+          'with code "CameraAccessDenied"', (tester) async {
+        when(() => cameraPlatform.availableCameras()).thenThrow(
+          CameraException('CameraAccessDenied', ''),
         );
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
         expect(
-          find.byKey(Key('photoboothError_cameraNotFound')),
+          find.byKey(Key('photoboothError_cameraAccessDenied')),
           findsOneWidget,
         );
-      },
-    );
+      });
 
-    testWidgets(
-        'renders camera not supported error '
+      testWidgets(
+        'camera not found error '
         'when cameraPlatform throws CameraException '
-        'with code "cameraNotSupported"', (tester) async {
-      when(() => cameraPlatform.availableCameras()).thenThrow(
-        CameraException('cameraNotSupported', ''),
-      );
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(Key('photoboothError_cameraNotSupported')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets(
-        'renders unknown error '
-        'when cameraPlatform throws CameraException '
-        'with unknown code', (tester) async {
-      when(() => cameraPlatform.availableCameras()).thenThrow(
-        CameraException('', ''),
-      );
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(Key('photoboothError_unknown')),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('renders preview when available', (tester) async {
-      const key = Key('__target__');
-      const preview = SizedBox(key: key);
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(PhotoboothPreview), findsOneWidget);
-      expect(find.byKey(key), findsOneWidget);
-    });
-
-    testWidgets('renders landscape camera when orientation is landscape',
+        'with code "cameraNotFound"',
         (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
-      await tester.pumpApp(PhotoboothPage());
-      await tester.pumpAndSettle();
+          when(() => cameraPlatform.availableCameras()).thenThrow(
+            CameraException('cameraNotFound', ''),
+          );
+          await tester.pumpApp(PhotoboothView(),
+              photoboothBloc: photoboothBloc);
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(Key('photoboothError_cameraNotFound')),
+            findsOneWidget,
+          );
+        },
+      );
 
-      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
-      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.landscape));
+      testWidgets(
+          'camera not supported error '
+          'when cameraPlatform throws CameraException '
+          'with code "cameraNotSupported"', (tester) async {
+        when(() => cameraPlatform.availableCameras()).thenThrow(
+          CameraException('cameraNotSupported', ''),
+        );
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        expect(
+          find.byKey(Key('photoboothError_cameraNotSupported')),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets(
+          'unknown error '
+          'when cameraPlatform throws CameraException '
+          'with unknown code', (tester) async {
+        when(() => cameraPlatform.availableCameras()).thenThrow(
+          CameraException('', ''),
+        );
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        expect(
+          find.byKey(Key('photoboothError_unknown')),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('preview when available', (tester) async {
+        const key = Key('__target__');
+        const preview = SizedBox(key: key);
+        when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
+
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+
+        expect(find.byType(PhotoboothPreview), findsOneWidget);
+        expect(find.byKey(key), findsOneWidget);
+      });
+
+      testWidgets('landscape camera when orientation is landscape',
+          (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
+        await tester.pumpApp(PhotoboothPage());
+        await tester.pumpAndSettle();
+
+        final aspectRatio =
+            tester.widget<AspectRatio>(find.byType(AspectRatio));
+        expect(
+            aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.landscape));
+      });
+
+      testWidgets(
+        'portrait camera when orientation is portrait',
+        (tester) async {
+          tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+          await tester.pumpApp(PhotoboothPage());
+          await tester.pumpAndSettle();
+
+          final aspectRatio =
+              tester.widget<AspectRatio>(find.byType(AspectRatio));
+          expect(
+              aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
+        },
+      );
     });
 
-    testWidgets(
-        'adds PhotoCaptured with landscape aspect ratio '
-        'when photo is snapped', (tester) async {
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
+    group('onSnapPressed', () {
+      testWidgets(
+          'adds PhotoCaptured with landscape aspect ratio '
+          'when photo is snapped', (tester) async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
 
-      final photoboothPreview = tester.widget<PhotoboothPreview>(
-        find.byType(PhotoboothPreview),
-      );
-      photoboothPreview.onSnapPressed();
+        final photoboothPreview = tester.widget<PhotoboothPreview>(
+          find.byType(PhotoboothPreview),
+        );
+        photoboothPreview.onSnapPressed();
 
-      await tester.pumpAndSettle();
+        await tester.pumpAndSettle();
 
-      verify(
-        () => photoboothBloc.add(
-          PhotoCaptured(
-            aspectRatio: PhotoboothAspectRatio.landscape,
-            image: image,
+        verify(
+          () => photoboothBloc.add(
+            PhotoCaptured(
+              aspectRatio: PhotoboothAspectRatio.landscape,
+              image: image,
+            ),
           ),
-        ),
-      ).called(1);
-    });
+        ).called(1);
+      });
 
-    testWidgets('renders portrait camera when orientation is portrait',
-        (tester) async {
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-      await tester.pumpApp(PhotoboothPage());
-      await tester.pumpAndSettle();
+      testWidgets(
+          'adds PhotoCaptured with portrait aspect ratio '
+          'when photo is snapped', (tester) async {
+        tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
 
-      final aspectRatio = tester.widget<AspectRatio>(find.byType(AspectRatio));
-      expect(aspectRatio.aspectRatio, equals(PhotoboothAspectRatio.portrait));
-    });
+        final photoboothPreview = tester.widget<PhotoboothPreview>(
+          find.byType(PhotoboothPreview),
+        );
 
-    testWidgets(
-        'adds PhotoCaptured with portrait aspect ratio '
-        'when photo is snapped', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
+        photoboothPreview.onSnapPressed();
 
-      final photoboothPreview = tester.widget<PhotoboothPreview>(
-        find.byType(PhotoboothPreview),
-      );
-
-      photoboothPreview.onSnapPressed();
-
-      await tester.pumpAndSettle();
-      verify(
-        () => photoboothBloc.add(
-          PhotoCaptured(
-            aspectRatio: PhotoboothAspectRatio.portrait,
-            image: image,
+        await tester.pumpAndSettle();
+        verify(
+          () => photoboothBloc.add(
+            PhotoCaptured(
+              aspectRatio: PhotoboothAspectRatio.portrait,
+              image: image,
+            ),
           ),
-        ),
-      ).called(1);
+        ).called(1);
+      });
+
+      testWidgets('navigates to StickersPage when photo is taken',
+          (tester) async {
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+
+        final photoboothPreview = tester.widget<PhotoboothPreview>(
+          find.byType(PhotoboothPreview),
+        );
+
+        photoboothPreview.onSnapPressed();
+
+        await tester.pumpAndSettle();
+
+        expect(find.byType(StickersPage), findsOneWidget);
+      });
     });
 
-    testWidgets('navigates to StickersPage when photo is taken',
-        (tester) async {
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-
-      final photoboothPreview = tester.widget<PhotoboothPreview>(
-        find.byType(PhotoboothPreview),
-      );
-
-      photoboothPreview.onSnapPressed();
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(StickersPage), findsOneWidget);
+    group('didChangeAppLifecycleState', () {
+      // TODO(alestiago): Add tests for didChangeAppLifecycleState.
+      testWidgets('returns normally', (tester) async {});
     });
   });
 
@@ -307,14 +322,10 @@ void main() {
 
     testWidgets('renders dash, sparky, dino, and android buttons',
         (tester) async {
-      const key = Key('__target__');
-      const preview = SizedBox(key: key);
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+          child: PhotoboothPreview(preview: SizedBox(), onSnapPressed: () {}),
         ),
       );
       await tester.pumpAndSettle();
@@ -323,14 +334,10 @@ void main() {
     });
 
     testWidgets('renders FlutterIconLink', (tester) async {
-      const key = Key('__target__');
-      const preview = SizedBox(key: key);
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+          child: PhotoboothPreview(preview: SizedBox(), onSnapPressed: () {}),
         ),
       );
       await tester.pumpAndSettle();
@@ -338,14 +345,10 @@ void main() {
     });
 
     testWidgets('renders FirebaseIconLink', (tester) async {
-      const key = Key('__target__');
-      const preview = SizedBox(key: key);
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-
       await tester.pumpApp(
         BlocProvider.value(
           value: photoboothBloc,
-          child: PhotoboothPreview(preview: preview, onSnapPressed: () {}),
+          child: PhotoboothPreview(preview: SizedBox(), onSnapPressed: () {}),
         ),
       );
       await tester.pumpAndSettle();
