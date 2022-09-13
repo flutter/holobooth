@@ -1,6 +1,6 @@
 import 'dart:js';
 
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 /// Exposed [JsObject] for testing purposes.
 @visibleForTesting

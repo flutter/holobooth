@@ -363,21 +363,21 @@ packages:
       name: just_audio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.5"
+    version: "0.9.28"
   just_audio_platform_interface:
     dependency: transitive
     description:
       name: just_audio_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "4.2.0"
   just_audio_web:
     dependency: transitive
     description:
       name: just_audio_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.2"
+    version: "0.4.7"
   logging:
     dependency: transitive
     description:
@@ -776,12 +776,12 @@ packages:
     source: hosted
     version: "2.1.2"
   very_good_analysis:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: very_good_analysis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   vm_service:
     dependency: transitive
     description:

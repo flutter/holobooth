@@ -16,7 +16,6 @@ import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

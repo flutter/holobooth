@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,6 +17,7 @@ class _RectFake extends Fake implements Rect {}
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late AudioPlayer audioPlayer;
 
   setUp(() {
@@ -36,39 +38,82 @@ void main() {
         ],
       ),
     );
+
+    const MethodChannel('com.ryanheise.audio_session')
+        .setMockMethodCallHandler((call) async {
+      if (call.method == 'getConfiguration') {
+        return {};
+      }
+    });
   });
 
   group('ShutterButton', () {
-    testWidgets('renders', (tester) async {
-      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
-      expect(find.byType(ShutterButton), findsOneWidget);
-    });
-
-    testWidgets('renders CameraButton when animation has not started',
-        (tester) async {
-      await tester.pumpApp(ShutterButton(onCountdownComplete: () {}));
-      expect(find.byType(CameraButton), findsOneWidget);
-      expect(find.byType(CountdownTimer), findsNothing);
-    });
-
-    testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
-        (tester) async {
-      await tester.runAsync(() async {
+    testWidgets(
+      'set asset correctly',
+      (WidgetTester tester) async {
         await tester.pumpApp(
           ShutterButton(
             onCountdownComplete: () {},
             audioPlayer: () => audioPlayer,
           ),
         );
-        await tester.tap(find.byType(CameraButton));
-        await tester.pump();
-        expect(find.byType(CountdownTimer), findsOneWidget);
         await tester.pumpAndSettle();
         verify(() => audioPlayer.setAsset(any())).called(1);
-        verify(() => audioPlayer.play()).called(2);
-        verify(() => audioPlayer.pause()).called(1);
-      });
+      },
+    );
+    testWidgets('renders', (tester) async {
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(ShutterButton), findsOneWidget);
     });
+
+    testWidgets('renders CameraButton when animation has not started',
+        (tester) async {
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+        ),
+      );
+      expect(find.byType(CameraButton), findsOneWidget);
+      expect(find.byType(CountdownTimer), findsNothing);
+    });
+
+    testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
+        (tester) async {
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownComplete: () {},
+          audioPlayer: () => audioPlayer,
+        ),
+      );
+      await tester.tap(find.byType(CameraButton));
+      await tester.pump();
+      expect(find.byType(CountdownTimer), findsOneWidget);
+      await tester.pumpAndSettle();
+      verify(() => audioPlayer.play()).called(1);
+    });
+
+    testWidgets(
+      'calls stop on AppLifecycleState.paused',
+      (WidgetTester tester) async {
+        await tester.pumpApp(
+          ShutterButton(
+            onCountdownComplete: () {},
+            audioPlayer: () => audioPlayer,
+          ),
+        );
+        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+        await tester.pumpAndSettle();
+        verify(() => audioPlayer.stop()).called(1);
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpAndSettle();
+      },
+    );
   });
 
   group('TimerPainter', () {

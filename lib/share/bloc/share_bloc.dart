@@ -8,7 +8,6 @@ import 'package:equatable/equatable.dart';
 import 'package:image_compositor/image_compositor.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 part 'share_event.dart';
 part 'share_state.dart';
