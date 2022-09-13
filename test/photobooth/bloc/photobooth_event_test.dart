@@ -1,10 +1,9 @@
-import 'package:camera/camera.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:test/test.dart';
 
-class _MockCameraImage extends Mock implements CameraImage {}
+class _MockPhotboothCameraImage extends Mock implements PhotoboothCameraImage {}
 
 class _MockAsset extends Mock implements Asset {}
 
@@ -17,7 +16,7 @@ void main() {
     group('PhotoCaptured', () {
       test('support value equality', () {
         const aspectRatio = PhotoboothAspectRatio.portrait;
-        final image = _MockCameraImage();
+        final image = _MockPhotboothCameraImage();
         final instanceA = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         final instanceB = PhotoCaptured(aspectRatio: aspectRatio, image: image);
         expect(instanceA, equals(instanceB));
