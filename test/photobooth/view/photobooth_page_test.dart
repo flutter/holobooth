@@ -296,9 +296,6 @@ void main() {
     });
 
     group('didChangeAppLifecycleState', () {
-      // TODO(alestiago): Make these test pass.
-      TestWidgetsFlutterBinding.ensureInitialized();
-
       testWidgets('disposes camera when inactice', (tester) async {
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
@@ -313,6 +310,7 @@ void main() {
         await tester.pumpAndSettle();
       });
 
+      // TODO(alestiago): Make this test pass.
       testWidgets('intializes camera again when resumed', (tester) async {
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
