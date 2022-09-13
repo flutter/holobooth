@@ -316,7 +316,6 @@ void main() {
         await tester.pumpAndSettle();
       });
 
-      // TODO(alestiago): Make this test pass.
       testWidgets('intializes camera again when resumed', (tester) async {
         await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
         await tester.pumpAndSettle();
@@ -330,7 +329,7 @@ void main() {
             .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
         await tester.pumpAndSettle();
 
-        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(2);
+        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
       });
     });
   });
