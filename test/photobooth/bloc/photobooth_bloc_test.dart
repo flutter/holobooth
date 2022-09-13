@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
@@ -8,20 +7,21 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class _MockCameraImage extends Mock implements CameraImage {}
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
 
 void main() {
   group('PhotoboothBloc', () {
     const aspectRatio = PhotoboothAspectRatio.landscape;
 
-    late CameraImage image;
+    late PhotoboothCameraImage image;
     late String id;
 
     String uuid() => id;
 
     setUp(() {
       id = '0';
-      image = _MockCameraImage();
+      image = _MockPhotoboothCameraImage();
     });
 
     test('initial state is PhotoboothState', () {
