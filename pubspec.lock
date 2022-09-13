@@ -93,7 +93,7 @@ packages:
     source: hosted
     version: "0.9.8+5"
   camera_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: camera_platform_interface
       url: "https://pub.dartlang.org"

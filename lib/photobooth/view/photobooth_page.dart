@@ -58,7 +58,11 @@ class _PhotoboothViewState extends State<PhotoboothView>
 
     try {
       final cameras = await availableCameras();
-      _controller = CameraController(cameras[0], ResolutionPreset.max);
+      _controller = CameraController(
+        cameras[0],
+        ResolutionPreset.max,
+        enableAudio: false,
+      );
       await _controller!.initialize();
       _cameraControllerCompleter.complete();
     } catch (error) {
