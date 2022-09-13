@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:math';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -43,15 +41,34 @@ void main() {
 
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
-  late CameraDescription cameraDescription;
   late XFile xfile;
+  late PhotoboothCameraImage image;
 
   setUp(() {
     xfile = _MockXFile();
+    when(() => xfile.path).thenReturn('');
+
     cameraPlatform = _MockCameraPlatform();
-    cameraDescription = _MockCameraDescription();
     CameraPlatform.instance = cameraPlatform;
 
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
+    image = PhotoboothCameraImage(
+      data: xfile.path,
+      constraint: PhotoConstraint(
+        width: event.previewWidth,
+        height: event.previewHeight,
+      ),
+    );
+
+    final cameraDescription = _MockCameraDescription();
     when(() => cameraPlatform.availableCameras())
         .thenAnswer((_) async => [cameraDescription]);
     when(
@@ -62,26 +79,17 @@ void main() {
     ).thenAnswer((_) async => 1);
     when(() => cameraPlatform.initializeCamera(cameraId))
         .thenAnswer((_) async => <void>{});
-    final event = CameraInitializedEvent(
-      cameraId,
-      1,
-      1,
-      ExposureMode.auto,
-      true,
-      FocusMode.auto,
-      true,
-    );
     when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
       (_) => Stream.value(event),
     );
     when(() => CameraPlatform.instance.onDeviceOrientationChanged())
         .thenAnswer((_) => Stream.empty());
-
     when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
     when(() => cameraPlatform.takePicture(any()))
         .thenAnswer((_) async => xfile);
-
     when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
+    when(() => cameraPlatform.pausePreview(cameraId))
+        .thenAnswer((_) => Future.value());
   });
 
   group('PhotoboothPage', () {
@@ -206,7 +214,6 @@ void main() {
 
     testWidgets('renders landscape camera when orientation is landscape',
         (tester) async {
-      when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
       await tester.pumpApp(PhotoboothPage());
       await tester.pumpAndSettle();
@@ -218,40 +225,24 @@ void main() {
     testWidgets(
         'adds PhotoCaptured with landscape aspect ratio '
         'when photo is snapped', (tester) async {
-      const preview = SizedBox();
-      // final image = CameraImage(
-      //   data: 'data:image/png,${base64.encode(transparentImage)}',
-      //   width: 1280,
-      //   height: 720,
-      // );
-      // tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 400));
-      // when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-      // when(
-      //   () => cameraPlatform.takePicture(cameraId),
-      // ).thenAnswer((_) async => image);
-      // when(() => photoboothBloc.state).thenReturn(
-      //   PhotoboothState(image: image),
-      // );
-
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
 
       final photoboothPreview = tester.widget<PhotoboothPreview>(
         find.byType(PhotoboothPreview),
       );
-
       photoboothPreview.onSnapPressed();
 
       await tester.pumpAndSettle();
 
-      // verify(
-      //   () => photoboothBloc.add(
-      //     PhotoCaptured(
-      //       aspectRatio: PhotoboothAspectRatio.landscape,
-      //       image: image,
-      //     ),
-      //   ),
-      // ).called(1);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCaptured(
+            aspectRatio: PhotoboothAspectRatio.landscape,
+            image: image,
+          ),
+        ),
+      ).called(1);
     });
 
     testWidgets('renders portrait camera when orientation is portrait',
@@ -268,21 +259,7 @@ void main() {
     testWidgets(
         'adds PhotoCaptured with portrait aspect ratio '
         'when photo is snapped', (tester) async {
-      const preview = SizedBox();
-      // final image = CameraImage(
-      //   data: 'data:image/png,${base64.encode(transparentImage)}',
-      //   width: 1280,
-      //   height: 720,
-      // );
-      // tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
-      // when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-      // when(
-      //   () => cameraPlatform.takePicture(cameraId),
-      // ).thenAnswer((_) async => image);
-      // when(() => photoboothBloc.state).thenReturn(
-      //   PhotoboothState(image: image),
-      // );
-
+      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
 
@@ -293,33 +270,18 @@ void main() {
       photoboothPreview.onSnapPressed();
 
       await tester.pumpAndSettle();
-      // verify(
-      //   () => photoboothBloc.add(
-      //     PhotoCaptured(
-      //       aspectRatio: PhotoboothAspectRatio.portrait,
-      //       image: image,
-      //     ),
-      //   ),
-      // ).called(1);
+      verify(
+        () => photoboothBloc.add(
+          PhotoCaptured(
+            aspectRatio: PhotoboothAspectRatio.portrait,
+            image: image,
+          ),
+        ),
+      ).called(1);
     });
 
     testWidgets('navigates to StickersPage when photo is taken',
         (tester) async {
-      const preview = SizedBox();
-      // final image = CameraImage(
-      //   data: 'data:image/png,${base64.encode(transparentImage)}',
-      //   width: 1280,
-      //   height: 720,
-      // );
-      // tester.setDisplaySize(const Size(2500, 2500));
-      // when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(preview);
-      // when(
-      //   () => cameraPlatform.takePicture(cameraId),
-      // ).thenAnswer((_) async => image);
-      // when(() => photoboothBloc.state).thenReturn(
-      //   PhotoboothState(image: image),
-      // );
-
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
 
