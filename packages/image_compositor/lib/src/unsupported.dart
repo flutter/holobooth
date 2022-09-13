@@ -16,6 +16,7 @@ class ImageCompositor {
     );
   }
 
+  /// Throws [UnsupportedError].
   Future<HtmlImage> getHtmlImage(String data) {
     throw UnsupportedError(
       'composite is not supported for the current host platform',

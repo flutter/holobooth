@@ -23,6 +23,7 @@ class ImageCompositor {
         .composite();
   }
 
+  /// Returns [HtmlImage] from data source
   Future<HtmlImage> getHtmlImage(String data) {
     return HtmlImageLoader(data).loadImage();
   }

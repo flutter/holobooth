@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:typed_data';
 
@@ -26,11 +28,6 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
   Future<void> _play() async {
     if (!_isCameraAvailable) return;
     return _controller.play();
-  }
-
-  Future<void> _stop() async {
-    if (!_isCameraAvailable) return;
-    return _controller.stop();
   }
 
   @override
@@ -100,8 +97,8 @@ class CameraFrame extends StatelessWidget {
           left: 0,
           right: 0,
           child: ElevatedButton(
-            child: const Text('Take Photo'),
             onPressed: onSnapPressed,
+            child: const Text('Take Photo'),
           ),
         ),
       ],
@@ -188,8 +185,8 @@ class _Results extends StatelessWidget {
     return Column(
       children: [
         for (final keypoint in pose.keypoints)
-          Text(
-              '${keypoint.part} in ${keypoint.position.toStringFormatted()} with accuracy ${keypoint.score.toPercentage()}')
+          Text('${keypoint.part} in ${keypoint.position.toStringFormatted()} '
+              'with accuracy ${keypoint.score.toPercentage()}')
       ],
     );
   }

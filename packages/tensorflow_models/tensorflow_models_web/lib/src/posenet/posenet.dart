@@ -51,6 +51,7 @@ extension on SinglePersonInterfaceConfig {
 }
 
 extension on ImageData {
+  // ignore: unused_element
   html.ImageData toJs() => html.ImageData(data, width, height);
 }
 
