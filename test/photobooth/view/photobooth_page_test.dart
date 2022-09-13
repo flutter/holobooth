@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,8 @@ class _FakeDragUpdate extends Fake implements DragUpdate {}
 class _MockXFile extends Mock implements XFile {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
     registerFallbackValue(_FakeDragUpdate());
@@ -58,8 +62,17 @@ void main() {
     ).thenAnswer((_) async => 1);
     when(() => cameraPlatform.initializeCamera(cameraId))
         .thenAnswer((_) async => <void>{});
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
     when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
-      (_) => Stream.empty(),
+      (_) => Stream.value(event),
     );
     when(() => CameraPlatform.instance.onDeviceOrientationChanged())
         .thenAnswer((_) => Stream.empty());
@@ -99,8 +112,8 @@ void main() {
 
     testWidgets('renders PhotoboothPreview', (tester) async {
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      // expect(find.byType(PhotoboothPreview), findsOneWidget);
+      await tester.pump(Duration.zero);
+      expect(find.byType(PhotoboothPreview), findsOneWidget);
     });
 
     testWidgets('renders placeholder when initializing', (tester) async {
@@ -109,86 +122,74 @@ void main() {
     });
 
     testWidgets('renders error when unavailable', (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraUnknownException());
+      when(() => cameraPlatform.availableCameras()).thenThrow(
+        CameraException('', ''),
+      );
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(find.byType(PhotoboothError), findsOneWidget);
-      // verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets(
         'renders camera access denied error '
-        'when cameraPlatform throws CameraNotAllowed exception',
-        (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraNotAllowedException());
+        'when cameraPlatform throws CameraException '
+        'with code "CameraAccessDenied"', (tester) async {
+      when(() => cameraPlatform.availableCameras()).thenThrow(
+        CameraException('CameraAccessDenied', ''),
+      );
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(
         find.byKey(Key('photoboothError_cameraAccessDenied')),
         findsOneWidget,
       );
-      // verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets(
-        'renders camera not found error '
-        'when cameraPlatform throws CameraNotFound exception', (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraNotFoundException());
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(Key('photoboothError_cameraNotFound')),
-        findsOneWidget,
-      );
-      // verifyNever(() => cameraPlatform.play(any()));
-    });
+      'renders camera not found error '
+      'when cameraPlatform throws CameraException '
+      'with code "cameraNotFound"',
+      (tester) async {
+        when(() => cameraPlatform.availableCameras()).thenThrow(
+          CameraException('cameraNotFound', ''),
+        );
+        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
+        await tester.pumpAndSettle();
+        expect(
+          find.byKey(Key('photoboothError_cameraNotFound')),
+          findsOneWidget,
+        );
+      },
+    );
 
     testWidgets(
         'renders camera not supported error '
-        'when cameraPlatform throws CameraNotSupported exception',
-        (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraNotSupportedException());
+        'when cameraPlatform throws CameraException '
+        'with code "cameraNotSupported"', (tester) async {
+      when(() => cameraPlatform.availableCameras()).thenThrow(
+        CameraException('cameraNotSupported', ''),
+      );
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(
         find.byKey(Key('photoboothError_cameraNotSupported')),
         findsOneWidget,
       );
-      // verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets(
         'renders unknown error '
-        'when cameraPlatform throws CameraUnknownException exception',
-        (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraUnknownException());
+        'when cameraPlatform throws CameraException '
+        'with unknown code', (tester) async {
+      when(() => cameraPlatform.availableCameras()).thenThrow(
+        CameraException('', ''),
+      );
       await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
       await tester.pumpAndSettle();
       expect(
         find.byKey(Key('photoboothError_unknown')),
         findsOneWidget,
       );
-      // verifyNever(() => cameraPlatform.play(any()));
-    });
-
-    testWidgets('renders error when not allowed', (tester) async {
-      // when(
-      //   () => cameraPlatform.create(any()),
-      // ).thenThrow(const CameraNotAllowedException());
-      await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-      await tester.pumpAndSettle();
-      expect(find.byType(PhotoboothError), findsOneWidget);
-      // verifyNever(() => cameraPlatform.play(any()));
     });
 
     testWidgets('renders preview when available', (tester) async {
