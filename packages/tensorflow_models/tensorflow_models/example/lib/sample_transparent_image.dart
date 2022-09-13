@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
@@ -95,13 +93,7 @@ class _MyAppState extends State<SampleTransparentImage> {
   Future<void> _initializePosenet() async {
     _net?.dispose();
     _net = await load();
-    final pose = await _net!.estimateSinglePose(
-      ImageData(
-        data: Uint8ClampedList.fromList(kTransparentImage),
-        width: 4,
-        height: 4,
-      ),
-    );
+    final pose = await _net!.estimateSinglePose('');
     print(pose.score);
     for (final keypoint in pose.keypoints) {
       print(keypoint.part);

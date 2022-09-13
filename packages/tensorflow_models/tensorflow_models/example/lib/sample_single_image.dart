@@ -126,8 +126,9 @@ class _PreviewPageState extends State<PreviewPage> {
   Keypoint? keypoint;
   PoseNet? _net;
   Uint8List? _bytes;
+  Pose? _poseAnalysis;
 
-  Future<void> _initializePosenet() async {
+  Future<void> _analyzeImage() async {
     _net?.dispose();
     _net = await load();
     final file = XFile(widget.image.data);
@@ -136,14 +137,13 @@ class _PreviewPageState extends State<PreviewPage> {
     setState(() {
       _bytes = bytes;
     });
-    final pose = await _net!.estimateSinglePose(
-      ImageData(
-        data: Uint8ClampedList.fromList(bytes),
-        width: widget.image.width,
-        height: widget.image.height,
-      ),
-    );
+
+    final pose = await _net!.estimateSinglePose(widget.image.data);
+    setState(() {
+      _poseAnalysis = pose;
+    });
     print(pose.score);
+
     for (final keypoint in pose.keypoints) {
       print(keypoint.part);
       print(keypoint.score);
@@ -153,26 +153,59 @@ class _PreviewPageState extends State<PreviewPage> {
   @override
   void initState() {
     super.initState();
-    _initializePosenet();
+    _analyzeImage();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview')),
-      body: Stack(
-        children: [
-          if (_bytes != null)
-            Positioned.fill(
-              child: Image.memory(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (_bytes != null)
+              Image.memory(
                 Uint8List.fromList(_bytes!),
                 errorBuilder: (context, error, stackTrace) {
                   return Text('Error, $error, $stackTrace');
                 },
               ),
-            ),
-        ],
+            if (_poseAnalysis != null) _Results(pose: _poseAnalysis!),
+          ],
+        ),
       ),
     );
+  }
+}
+
+class _Results extends StatelessWidget {
+  const _Results({Key? key, required this.pose}) : super(key: key);
+
+  final Pose pose;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (final keypoint in pose.keypoints)
+          Text(
+              '${keypoint.part} in ${keypoint.position.toStringFormatted()} with accuracy ${keypoint.score.toPercentage()}')
+      ],
+    );
+  }
+}
+
+extension on Vector2D {
+  String toStringFormatted() {
+    final x = this.x.toStringAsFixed(2);
+    final y = this.y.toStringAsFixed(2);
+    return '($x,$y)';
+  }
+}
+
+extension on num {
+  String toPercentage() {
+    final percentage = (this * 100).toStringAsFixed(2);
+    return '$percentage %';
   }
 }

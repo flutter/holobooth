@@ -18,6 +18,8 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  image_compositor:
+    path: ../../image_compositor
   tensorflow_models_platform_interface:
     path: ../tensorflow_models_platform_interface
 

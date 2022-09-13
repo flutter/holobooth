@@ -22,6 +22,10 @@ class ImageCompositor {
     return _OffscreenCompositor(data, width, height, layers, aspectRatio)
         .composite();
   }
+
+  Future<HtmlImage> getHtmlImage(String data) {
+    return HtmlImageLoader(data).loadImage();
+  }
 }
 
 class _OffscreenCompositor {
