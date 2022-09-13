@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:js_util';
 
-import 'package:image_compositor/image_compositor.dart' as compositor;
+import 'package:image_loader/image_loader.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:tensorflow_models_web/src/posenet/posenet_interop.dart'
     as posenet;
@@ -32,8 +32,7 @@ class PoseNetWeb implements PoseNet {
     String path, {
     SinglePersonInterfaceConfig? config,
   }) async {
-    final image = await compositor.ImageCompositor().getHtmlImage(path);
-
+    final image = await HtmlImageLoader(path).loadImage();
     final pose = await promiseToFuture<posenet.Pose>(
       _net.estimateSinglePose(image.imageElement, config?.toJs()),
     );

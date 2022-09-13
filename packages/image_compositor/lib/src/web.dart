@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:image_compositor/image_compositor.dart';
-import 'package:image_compositor/src/image_loader.dart';
 import 'package:image_compositor/src/offscreen_canvas.dart';
+import 'package:image_loader/image_loader.dart';
 
 /// {@macro image_compositor}
 class ImageCompositor {
