@@ -15,7 +15,6 @@ import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -24,6 +23,9 @@ class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
+
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -31,45 +33,12 @@ class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
-class _FakeCameraOptions extends Fake implements CameraOptions {}
-
-class _MockCameraPlatform extends Mock
-    with MockPlatformInterfaceMixin
-    implements CameraPlatform {}
-
-class _MockCameraImage extends Mock implements CameraImage {}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const width = 1;
-  const height = 1;
-  final data = 'data:image/png,${base64.encode(transparentImage)}';
-  final image = CameraImage(width: width, height: height, data: data);
-  const cameraId = 1;
-  late CameraPlatform cameraPlatform;
-  late CameraImage cameraImage;
+  late PhotoboothCameraImage image;
 
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
-    registerFallbackValue(_FakeCameraOptions());
-  });
-
-  setUp(() {
-    cameraImage = _MockCameraImage();
-    cameraPlatform = _MockCameraPlatform();
-    CameraPlatform.instance = cameraPlatform;
-    when(() => cameraImage.width).thenReturn(4);
-    when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
-    when(
-      () => cameraPlatform.create(any()),
-    ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.takePicture(any()))
-        .thenAnswer((_) async => cameraImage);
-    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
   });
 
   group('StickersPage', () {
@@ -77,6 +46,9 @@ void main() {
 
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
+      image = _MockPhotoboothCameraImage();
+      when(() => image.data).thenReturn('');
+      when(() => image.constraint).thenReturn(PhotoConstraint());
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           image: image,
