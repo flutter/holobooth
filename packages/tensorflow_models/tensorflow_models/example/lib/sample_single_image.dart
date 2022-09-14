@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
@@ -20,37 +19,50 @@ class SingleCapturePage extends StatefulWidget {
 }
 
 class _SingleCapturePageState extends State<SingleCapturePage> {
-  late CameraController _controller;
+  CameraController? _controller;
+  late Completer<void> _cameraControllerCompleter;
 
-  bool get _isCameraAvailable =>
-      _controller.value.status == CameraStatus.available;
+  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
 
-  Future<void> _play() async {
+  Future<void> _stop() async {
     if (!_isCameraAvailable) return;
-    return _controller.play();
+    return _controller!.pausePreview();
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeCameraController();
+    _initializeCamera();
+  }
+
+  Future<void> _initializeCamera() async {
+    if (_isCameraAvailable) return;
+
+    _cameraControllerCompleter = Completer<void>();
+    try {
+      final cameras = await availableCameras();
+      _controller = CameraController(
+        cameras[0],
+        ResolutionPreset.max,
+        enableAudio: false,
+      );
+      await _controller!.initialize();
+      _cameraControllerCompleter.complete();
+    } catch (error) {
+      _cameraControllerCompleter.completeError(error);
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
-  }
-
-  Future<void> _initializeCameraController() async {
-    _controller = CameraController();
-    await _controller.initialize();
-    await _play();
   }
 
   Future<void> _onSnapPressed() async {
     final navigator = Navigator.of(context);
-    final cameraImage = await _controller.takePicture();
+    final cameraImage = await _controller!.takePicture();
+    await _stop();
 
     final previewPageRoute = PreviewPage.route(image: cameraImage);
     unawaited(navigator.push(previewPageRoute));
@@ -58,26 +70,36 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Camera(
-          controller: _controller,
-          placeholder: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          preview: (context, preview) => CameraFrame(
-            onSnapPressed: _onSnapPressed,
-            child: preview,
-          ),
-          error: (context, error) => Center(child: Text(error.description)),
-        ),
-      ),
+    return FutureBuilder<void>(
+      future: _cameraControllerCompleter.future,
+      builder: (context, snapshot) {
+        late final Widget camera;
+        if (snapshot.hasError) {
+          final error = snapshot.error;
+          if (error is CameraException) {
+            camera = Text('${error.code} : ${error.description}');
+          }
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          camera = MaterialApp(
+            home: Scaffold(
+              body: _CameraFrame(
+                onSnapPressed: _onSnapPressed,
+                child: _controller!.buildPreview(),
+              ),
+            ),
+          );
+        } else {
+          camera = const CircularProgressIndicator();
+        }
+
+        return Scaffold(body: Center(child: camera));
+      },
     );
   }
 }
 
-class CameraFrame extends StatelessWidget {
-  const CameraFrame({
+class _CameraFrame extends StatelessWidget {
+  const _CameraFrame({
     Key? key,
     required this.onSnapPressed,
     required this.child,
@@ -108,11 +130,11 @@ class CameraFrame extends StatelessWidget {
 class PreviewPage extends StatefulWidget {
   const PreviewPage({Key? key, required this.image}) : super(key: key);
 
-  static Route<void> route({required CameraImage image}) {
+  static Route<void> route({required XFile image}) {
     return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
   }
 
-  final CameraImage image;
+  final XFile image;
 
   @override
   State<PreviewPage> createState() => _PreviewPageState();
@@ -127,14 +149,13 @@ class _PreviewPageState extends State<PreviewPage> {
   Future<void> _analyzeImage() async {
     _net?.dispose();
     _net = await load();
-    final file = XFile(widget.image.data);
 
-    final bytes = await file.readAsBytes();
+    final bytes = await widget.image.readAsBytes();
     setState(() {
       _bytes = bytes;
     });
 
-    final pose = await _net!.estimateSinglePose(widget.image.data);
+    final pose = await _net!.estimateSinglePose(widget.image.path);
     setState(() {
       _poseAnalysis = pose;
     });
