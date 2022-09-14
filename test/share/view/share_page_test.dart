@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -36,6 +37,12 @@ class _FakeLaunchOptions extends Fake implements LaunchOptions {}
 class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
 }
 
+class _MockCameraPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements CameraPlatform {}
+
+class _MockCameraDescription extends Mock implements CameraDescription {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -50,6 +57,48 @@ void main() {
     registerFallbackValue(_FakePhotoboothEvent());
     registerFallbackValue(FakeShareEvent());
   });
+
+  void setUpPhotoboothPage() {
+    const cameraId = 1;
+    final xfile = _MockXFile();
+    when(() => xfile.path).thenReturn('');
+
+    final cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
+
+    final cameraDescription = _MockCameraDescription();
+    when(cameraPlatform.availableCameras)
+        .thenAnswer((_) async => [cameraDescription]);
+    when(
+      () => cameraPlatform.createCamera(
+        cameraDescription,
+        ResolutionPreset.max,
+      ),
+    ).thenAnswer((_) async => 1);
+    when(() => cameraPlatform.initializeCamera(cameraId))
+        .thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
+      (_) => Stream.value(event),
+    );
+    when(() => CameraPlatform.instance.onDeviceOrientationChanged())
+        .thenAnswer((_) => Stream.empty());
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => xfile);
+    when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
+    when(() => cameraPlatform.pausePreview(cameraId))
+        .thenAnswer((_) => Future.value());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+  }
 
   setUp(() {
     file = _MockXFile();
@@ -76,6 +125,12 @@ void main() {
       Stream.fromIterable([ShareState()]),
       initialState: ShareState(),
     );
+
+    setUpPhotoboothPage();
+  });
+
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
   });
 
   group('SharePage', () {

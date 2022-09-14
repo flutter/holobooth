@@ -24,10 +24,6 @@ class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
 class _MockXFile extends Mock implements XFile {}
 
 void main() {
-  setUpAll(() {
-    registerFallbackValue(ResolutionPreset.max);
-  });
-
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
   late XFile xfile;
@@ -63,7 +59,7 @@ void main() {
     when(
       () => cameraPlatform.createCamera(
         cameraDescription,
-        any(),
+        ResolutionPreset.max,
       ),
     ).thenAnswer((_) async => 1);
     when(() => cameraPlatform.initializeCamera(cameraId))
@@ -73,12 +69,16 @@ void main() {
     );
     when(() => CameraPlatform.instance.onDeviceOrientationChanged())
         .thenAnswer((_) => Stream.empty());
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
     when(() => cameraPlatform.takePicture(any()))
         .thenAnswer((_) async => xfile);
     when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
     when(() => cameraPlatform.pausePreview(cameraId))
         .thenAnswer((_) => Future.value());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+  });
+
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
   });
 
   group('PhotoboothPage', () {
