@@ -53,7 +53,6 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
     final cameraImage = await _controller.takePicture();
 
     final previewPageRoute = PreviewPage.route(image: cameraImage);
-    //await _stop();
     unawaited(navigator.push(previewPageRoute));
   }
 
