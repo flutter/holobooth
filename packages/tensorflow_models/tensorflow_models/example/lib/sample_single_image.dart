@@ -80,13 +80,9 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
             camera = Text('${error.code} : ${error.description}');
           }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = MaterialApp(
-            home: Scaffold(
-              body: _CameraFrame(
-                onSnapPressed: _onSnapPressed,
-                child: _controller!.buildPreview(),
-              ),
-            ),
+          camera = _CameraFrame(
+            onSnapPressed: _onSnapPressed,
+            child: _controller!.buildPreview(),
           );
         } else {
           camera = const CircularProgressIndicator();
