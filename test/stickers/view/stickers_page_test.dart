@@ -43,7 +43,6 @@ class _MockXFile extends Mock implements XFile {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  late PhotoboothCameraImage image;
 
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
@@ -99,6 +98,7 @@ void main() {
 
   group('StickersPage', () {
     late PhotoboothBloc photoboothBloc;
+    late PhotoboothCameraImage image;
 
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
@@ -140,9 +140,13 @@ void main() {
   group('StickersView', () {
     late PhotoboothBloc photoboothBloc;
     late StickersBloc stickersBloc;
+    late PhotoboothCameraImage image;
 
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
+      image = _MockPhotoboothCameraImage();
+      when(() => image.data).thenReturn('');
+      when(() => image.constraint).thenReturn(PhotoConstraint());
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(image: image),
       );
