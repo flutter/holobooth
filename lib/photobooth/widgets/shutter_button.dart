@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:math' as math;
+
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:very_good_analysis/very_good_analysis.dart';
 
 const _shutterCountdownDuration = Duration(seconds: 3);
 
@@ -11,48 +13,60 @@ AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
-    Key? key,
+    super.key,
     required this.onCountdownComplete,
     ValueGetter<AudioPlayer>? audioPlayer,
-  })  : _audioPlayer = audioPlayer ?? _getAudioPlayer,
-        super(key: key);
+  }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
 
   final VoidCallback onCountdownComplete;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   @override
-  _ShutterButtonState createState() => _ShutterButtonState();
+  State<ShutterButton> createState() => _ShutterButtonState();
 }
 
 class _ShutterButtonState extends State<ShutterButton>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
 
-  void _onAnimationStatusChanged(AnimationStatus status) async {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _init();
+  }
+
+  Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
       widget.onCountdownComplete();
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = widget._audioPlayer()..setAsset('assets/audio/camera.mp3');
+  Future<void> _init() async {
+    audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
       duration: _shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
-    unawaited(audioPlayer.play());
-    audioPlayer.playerStateStream.listen((event) {
-      if (event.processingState == ProcessingState.ready) {
-        audioPlayer.pause();
-      }
-    });
+
+    final audioSession = await AudioSession.instance;
+    // Inform the operating system of our app's audio attributes etc.
+    // We pick a reasonable default for an app that plays speech.
+    try {
+      await audioSession.configure(const AudioSessionConfiguration.speech());
+    } catch (_) {}
+
+    // Try to load audio from a source and catch any errors.
+    try {
+      await audioPlayer.setAsset('assets/audio/camera.mp3');
+    } catch (_) {}
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
@@ -60,8 +74,17 @@ class _ShutterButtonState extends State<ShutterButton>
     super.dispose();
   }
 
-  void _onShutterPressed() async {
-    await audioPlayer.seek(null);
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // Release the player's resources when not in use. We use "stop" so that
+      // if the app resumes later, it will still remember what position to
+      // resume from.
+      audioPlayer.stop();
+    }
+  }
+
+  Future<void> _onShutterPressed() async {
     unawaited(audioPlayer.play());
     unawaited(controller.reverse(from: 1));
   }
@@ -80,7 +103,7 @@ class _ShutterButtonState extends State<ShutterButton>
 }
 
 class CountdownTimer extends StatelessWidget {
-  const CountdownTimer({Key? key, required this.controller}) : super(key: key);
+  const CountdownTimer({super.key, required this.controller});
 
   final AnimationController controller;
 
@@ -96,7 +119,6 @@ class CountdownTimer extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.center,
             child: Text(
               '$seconds',
               style: theme.textTheme.headline1?.copyWith(
@@ -117,7 +139,7 @@ class CountdownTimer extends StatelessWidget {
 }
 
 class CameraButton extends StatelessWidget {
-  const CameraButton({Key? key, required this.onPressed}) : super(key: key);
+  const CameraButton({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 

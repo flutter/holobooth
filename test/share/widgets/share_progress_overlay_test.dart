@@ -9,21 +9,16 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockXFile extends Mock implements XFile {}
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   final bytes = Uint8List.fromList([]);
   late ShareBloc shareBloc;
   late XFile file;
 
-  setUpAll(() {
-    registerFallbackValue<ShareEvent>(FakeShareEvent());
-    registerFallbackValue<ShareState>(FakeShareState());
-  });
-
   setUp(() {
     shareBloc = MockShareBloc();
-    file = MockXFile();
+    file = _MockXFile();
     when(() => shareBloc.state).thenReturn(ShareState());
   });
 

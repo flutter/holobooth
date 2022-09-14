@@ -1,0 +1,15 @@
+name: tensorflow_models_platform_interface
+description: A common platform interface for the tensorflow_models plugin.
+version: 0.0.1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+  flutter: 3.3.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.2
+
+dev_dependencies:
+  very_good_analysis: ^3.0.1

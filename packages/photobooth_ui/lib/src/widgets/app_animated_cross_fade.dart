@@ -8,11 +8,11 @@ class AppAnimatedCrossFade extends StatelessWidget {
   /// {@macro app_animated_cross_fade}
 
   const AppAnimatedCrossFade({
-    Key? key,
+    super.key,
     required this.firstChild,
     required this.secondChild,
     required this.crossFadeState,
-  }) : super(key: key);
+  });
 
   /// First [Widget] to display
   final Widget firstChild;
@@ -41,12 +41,10 @@ class AppAnimatedCrossFade extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Align(
-              alignment: Alignment.center,
               key: bottomChildKey,
               child: bottomChild,
             ),
             Align(
-              alignment: Alignment.center,
               key: topChildKey,
               child: topChild,
             ),

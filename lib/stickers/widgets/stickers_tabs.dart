@@ -4,11 +4,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatefulWidget {
   const StickersTabs({
-    Key? key,
+    super.key,
     required this.onStickerSelected,
     required this.onTabChanged,
     this.initialIndex = 0,
-  }) : super(key: key);
+  });
 
   final ValueSetter<Asset> onStickerSelected;
   final ValueSetter<int> onTabChanged;
@@ -115,14 +115,14 @@ class _StickersTabsState extends State<StickersTabs>
 @visibleForTesting
 class StickersTab extends StatefulWidget {
   const StickersTab({
-    Key? key,
+    super.key,
     required this.assetPath,
-  }) : super(key: key);
+  });
 
   final String assetPath;
 
   @override
-  _StickersTabState createState() => _StickersTabState();
+  State<StickersTab> createState() => _StickersTabState();
 }
 
 class _StickersTabState extends State<StickersTab>
@@ -148,24 +148,22 @@ class _StickersTabState extends State<StickersTab>
 @visibleForTesting
 class StickersTabBarView extends StatelessWidget {
   const StickersTabBarView({
-    Key? key,
+    super.key,
     required this.stickers,
     required this.onStickerSelected,
-  }) : super(key: key);
+  });
 
   final Set<Asset> stickers;
   final ValueSetter<Asset> onStickerSelected;
 
   static const _smallGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 100,
-    childAspectRatio: 1,
     mainAxisSpacing: 48,
     crossAxisSpacing: 24,
   );
 
   static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 150,
-    childAspectRatio: 1,
     mainAxisSpacing: 64,
     crossAxisSpacing: 42,
   );
@@ -195,10 +193,10 @@ class StickersTabBarView extends StatelessWidget {
 @visibleForTesting
 class StickerChoice extends StatelessWidget {
   const StickerChoice({
-    Key? key,
+    super.key,
     required this.asset,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final Asset asset;
   final VoidCallback onPressed;

@@ -8,7 +8,7 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraImage extends Mock implements CameraImage {}
 
 void main() {
   group('PhotoboothBloc', () {
@@ -21,7 +21,7 @@ void main() {
 
     setUp(() {
       id = '0';
-      image = MockCameraImage();
+      image = _MockCameraImage();
     });
 
     test('initial state is PhotoboothState', () {
@@ -35,9 +35,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
 
       blocTest<PhotoboothBloc, PhotoboothState>(
@@ -47,9 +45,7 @@ void main() {
         act: (bloc) => bloc.add(
           PhotoCaptured(aspectRatio: aspectRatio, image: image),
         ),
-        expect: () => [
-          PhotoboothState(aspectRatio: aspectRatio, image: image, imageId: id)
-        ],
+        expect: () => [PhotoboothState(image: image, imageId: id)],
       );
     });
 

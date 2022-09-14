@@ -4,7 +4,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareErrorBottomSheet extends StatelessWidget {
-  const ShareErrorBottomSheet({Key? key}) : super(key: key);
+  const ShareErrorBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,10 @@ class ShareErrorBottomSheet extends StatelessWidget {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 32),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 58.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 58),
                   child: Image.asset(
                     'assets/images/error_photo_mobile.png',
                   ),

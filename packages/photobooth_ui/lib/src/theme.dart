@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photobooth_ui/src/typography/typography.dart';
 
 const _smallTextScaleFactor = 0.80;
 
@@ -103,11 +102,11 @@ class PhotoboothTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
+        backgroundColor: PhotoboothColors.blue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),
-        primary: PhotoboothColors.blue,
         minimumSize: const Size(208, 54),
       ),
     );
@@ -116,12 +115,12 @@ class PhotoboothTheme {
   static OutlinedButtonThemeData get _outlinedButtonTheme {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
+        foregroundColor: PhotoboothColors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         side: const BorderSide(color: PhotoboothColors.white, width: 2),
         padding: const EdgeInsets.symmetric(vertical: 16),
-        primary: PhotoboothColors.white,
         minimumSize: const Size(208, 54),
       ),
     );
@@ -159,7 +158,7 @@ class PhotoboothTheme {
     return const TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          width: 2.0,
+          width: 2,
           color: PhotoboothColors.blue,
         ),
       ),
