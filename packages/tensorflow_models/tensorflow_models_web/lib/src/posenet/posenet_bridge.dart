@@ -4,27 +4,21 @@ import 'dart:js_util';
 
 import 'package:image_loader/image_loader.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
-import 'package:tensorflow_models_web/src/posenet/posenet_interop.dart'
-    as posenet;
+import 'package:tensorflow_models_web/src/posenet/interop/interop.dart'
+    as interop;
 
-export 'posenet_interop.dart';
-
-Future<PoseNetWeb> load([posenet.ModelConfig? config]) async {
-  return PoseNetWeb.fromJs(await promiseToFuture(posenet.load(config)));
+Future<PoseNetWeb> load([interop.ModelConfig? config]) async {
+  return PoseNetWeb.fromJs(await promiseToFuture(interop.load(config)));
 }
 
 class PoseNetWeb implements PoseNet {
-  factory PoseNetWeb.fromJs(posenet.PoseNet net) {
+  factory PoseNetWeb.fromJs(interop.PoseNet net) {
     return PoseNetWeb._(net);
   }
 
-  PoseNetWeb._(this._net)
-      : baseModel = _net.baseModel,
-        inputResolution = _net.inputResolution;
+  PoseNetWeb._(this._net);
 
-  final posenet.BaseModel baseModel;
-  final List<int> inputResolution;
-  final posenet.PoseNet _net;
+  final interop.PoseNet _net;
 
   /// Returns a pose estimation for an ImageData
   @override
@@ -33,7 +27,7 @@ class PoseNetWeb implements PoseNet {
     SinglePersonInterfaceConfig? config,
   }) async {
     final image = await HtmlImageLoader(path).loadImage();
-    final pose = await promiseToFuture<posenet.Pose>(
+    final pose = await promiseToFuture<interop.Pose>(
       _net.estimateSinglePose(image.imageElement, config?.toJs()),
     );
     return pose.fromJs();
@@ -44,8 +38,8 @@ class PoseNetWeb implements PoseNet {
 }
 
 extension on SinglePersonInterfaceConfig {
-  posenet.SinglePersonInterfaceConfig toJs() {
-    return posenet.SinglePersonInterfaceConfig(flipHorizontal: flipHorizontal);
+  interop.SinglePersonInterfaceConfig toJs() {
+    return interop.SinglePersonInterfaceConfig(flipHorizontal: flipHorizontal);
   }
 }
 
@@ -54,7 +48,7 @@ extension on ImageData {
   html.ImageData toJs() => html.ImageData(data, width, height);
 }
 
-extension on posenet.Pose {
+extension on interop.Pose {
   Pose fromJs() {
     return Pose(
       keypoints: keypoints.map((k) => k.fromJs()).toList(),
@@ -63,12 +57,12 @@ extension on posenet.Pose {
   }
 }
 
-extension on posenet.Keypoint {
+extension on interop.Keypoint {
   Keypoint fromJs() {
     return Keypoint(score: score, position: position.fromJs(), part: part);
   }
 }
 
-extension on posenet.Vector2D {
+extension on interop.Vector2D {
   Vector2D fromJs() => Vector2D(x: x, y: y);
 }
