@@ -9,7 +9,24 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["-d", "chrome", "--web-renderer", "html"]
+      "args": [
+        "-d",
+        "chrome",
+        "--web-renderer",
+        "html"
+      ]
+    },
+    {
+      "name": "Gallery Tensorflow",
+      "request": "launch",
+      "type": "dart",
+      "program": "packages/tensorflow_models/tensorflow_models/example/lib/main.dart",
+      "args": [
+        "-d",
+        "chrome",
+        "--web-renderer",
+        "html"
+      ]
     }
   ]
 }
