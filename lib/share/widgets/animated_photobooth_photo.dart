@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -12,7 +11,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
     required this.image,
   });
 
-  final CameraImage? image;
+  final PhotoboothCameraImage? image;
 
   @override
   State<AnimatedPhotoboothPhoto> createState() =>
@@ -68,7 +67,7 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
     required this.isPhotoVisible,
   });
 
-  final CameraImage? image;
+  final PhotoboothCameraImage? image;
   final bool isPhotoVisible;
 
   static const sprite = AnimatedSprite(
@@ -151,7 +150,7 @@ class AnimatedPhotoboothPhotoPortrait extends StatelessWidget {
     required this.isPhotoVisible,
   });
 
-  final CameraImage? image;
+  final PhotoboothCameraImage? image;
   final bool isPhotoVisible;
 
   static const sprite = AnimatedSprite(
@@ -217,7 +216,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   final AnimatedSprite sprite;
   final bool isPhotoVisible;
   final double aspectRatio;
-  final CameraImage? image;
+  final PhotoboothCameraImage? image;
   final double top;
   final double left;
   final double right;

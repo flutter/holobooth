@@ -13,8 +13,7 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.1.0
-  camera:
-    path: packages/camera/camera
+  camera: ^0.10.0+1
   cross_file: ^0.3.3+1
   equatable: ^2.0.5
   firebase_auth: ^3.8.0
@@ -38,6 +37,7 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.0
+  camera_platform_interface: ^2.2.0
   flutter_test:
     sdk: flutter
   mocktail: ^0.3.0

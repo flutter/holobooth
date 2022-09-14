@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:ui';
 
-import 'package:camera/camera.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -11,16 +11,20 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-void main() {
-  const width = 1;
-  const height = 1;
-  const data = '';
-  const image = CameraImage(width: width, height: height, data: data);
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
 
+class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
+    implements PhotoboothBloc {}
+
+void main() {
+  late PhotoboothCameraImage image;
   late PhotoboothBloc photoboothBloc;
 
   setUp(() {
-    photoboothBloc = MockPhotoboothBloc();
+    photoboothBloc = _MockPhotoboothBloc();
+    image = _MockPhotoboothCameraImage();
+    when(() => image.data).thenReturn('');
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
   });
 

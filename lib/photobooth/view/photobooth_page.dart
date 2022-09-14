@@ -7,15 +7,6 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _videoConstraints = VideoConstraints(
-  facingMode: FacingMode(
-    type: CameraType.user,
-    constrain: Constrain.ideal,
-  ),
-  width: VideoSize(ideal: 1920, maximum: 1920),
-  height: VideoSize(ideal: 1080, maximum: 1080),
-);
-
 class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({super.key});
 
@@ -43,52 +34,85 @@ class PhotoboothView extends StatefulWidget {
   State<PhotoboothView> createState() => _PhotoboothViewState();
 }
 
-class _PhotoboothViewState extends State<PhotoboothView> {
-  final _controller = CameraController(
-    options: const CameraOptions(
-      audio: AudioConstraints(),
-      video: _videoConstraints,
-    ),
-  );
+class _PhotoboothViewState extends State<PhotoboothView>
+    with WidgetsBindingObserver {
+  late Completer<void> _cameraControllerCompleter;
+  CameraController? _controller;
 
-  bool get _isCameraAvailable =>
-      _controller.value.status == CameraStatus.available;
-
-  Future<void> _play() async {
-    if (!_isCameraAvailable) return;
-    return _controller.play();
-  }
+  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
 
   Future<void> _stop() async {
     if (!_isCameraAvailable) return;
-    return _controller.stop();
+    return _controller!.pausePreview();
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeCameraController();
+    WidgetsBinding.instance.addObserver(this);
+    _initializeCamera();
+  }
+
+  Future<void> _initializeCamera() async {
+    if (_isCameraAvailable) return;
+
+    _cameraControllerCompleter = Completer<void>();
+    try {
+      final cameras = await availableCameras();
+      _controller = CameraController(
+        cameras[0],
+        ResolutionPreset.max,
+        enableAudio: false,
+      );
+      await _controller!.initialize();
+      _cameraControllerCompleter.complete();
+    } catch (error) {
+      _cameraControllerCompleter.completeError(error);
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    _controller?.dispose();
     super.dispose();
   }
 
-  Future<void> _initializeCameraController() async {
-    await _controller.initialize();
-    await _play();
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive) {
+      _controller?.dispose();
+      _controller = null;
+    } else if (state == AppLifecycleState.resumed && _controller == null) {
+      _initializeCamera();
+      setState(() {});
+    }
   }
 
   Future<void> _onSnapPressed({required double aspectRatio}) async {
+    if (!_isCameraAvailable) return;
+
     final photoboothBloc = context.read<PhotoboothBloc>();
     final navigator = Navigator.of(context);
-    final picture = await _controller.takePicture();
+    final picture = await _controller!.takePicture();
+    final previewSize = _controller!.value.previewSize!;
 
-    photoboothBloc.add(PhotoCaptured(aspectRatio: aspectRatio, image: picture));
-    final stickersPage = StickersPage.route();
+    photoboothBloc.add(
+      PhotoCaptured(
+        aspectRatio: aspectRatio,
+        image: PhotoboothCameraImage(
+          data: picture.path,
+          constraint: PhotoConstraint(
+            width: previewSize.width,
+            height: previewSize.height,
+          ),
+        ),
+      ),
+    );
     await _stop();
+
+    final stickersPage = StickersPage.route();
+
     unawaited(navigator.pushReplacement(stickersPage));
   }
 
@@ -98,19 +122,32 @@ class _PhotoboothViewState extends State<PhotoboothView> {
     final aspectRatio = orientation == Orientation.portrait
         ? PhotoboothAspectRatio.portrait
         : PhotoboothAspectRatio.landscape;
-    return Scaffold(
-      body: _PhotoboothBackground(
-        aspectRatio: aspectRatio,
-        child: Camera(
-          controller: _controller,
-          placeholder: (_) => const SizedBox(),
-          preview: (context, preview) => PhotoboothPreview(
-            preview: preview,
+
+    return FutureBuilder<void>(
+      future: _cameraControllerCompleter.future,
+      builder: (context, snapshot) {
+        late final Widget camera;
+        if (snapshot.hasError) {
+          final error = snapshot.error;
+          if (error is CameraException) {
+            camera = PhotoboothError(error: error);
+          }
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          camera = PhotoboothPreview(
+            preview: _controller!.buildPreview(),
             onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
+          );
+        } else {
+          camera = const SizedBox();
+        }
+
+        return Scaffold(
+          body: _PhotoboothBackground(
+            aspectRatio: aspectRatio,
+            child: camera,
           ),
-          error: (context, error) => PhotoboothError(error: error),
-        ),
-      ),
+        );
+      },
     );
   }
 }

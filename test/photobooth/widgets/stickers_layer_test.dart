@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/assets.g.dart';
@@ -12,16 +11,17 @@ import '../../helpers/helpers.dart';
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
-void main() {
-  const width = 1;
-  const height = 1;
-  const data = '';
-  const image = CameraImage(width: width, height: height, data: data);
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
 
+void main() {
+  late PhotoboothCameraImage image;
   late PhotoboothBloc photoboothBloc;
+
   group('StickersLayer', () {
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
+      image = _MockPhotoboothCameraImage();
     });
 
     testWidgets('displays selected sticker assets', (tester) async {
