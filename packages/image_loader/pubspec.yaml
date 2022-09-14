@@ -1,5 +1,5 @@
 name: image_loader
-description: A Very Good Project created by Very Good CLI.
+description: A Dart package that helps loading image based in Web models.
 version: 1.0.0+1
 publish_to: none
 
@@ -9,4 +9,4 @@ environment:
 dev_dependencies:
   mocktail: ^0.3.0
   test: ^1.19.2
-  very_good_analysis: ^3.0.1
+  very_good_analysis: ^3.0.2
