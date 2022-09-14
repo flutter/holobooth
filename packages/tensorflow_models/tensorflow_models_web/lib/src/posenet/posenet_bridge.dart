@@ -38,7 +38,9 @@ class PoseNetWeb implements PoseNet {
   Future<Pose> estimateSinglePoseFromVideoElement({
     SinglePersonInterfaceConfig? config,
   }) async {
-    final videoElement = html.querySelector('video');
+    final videoElement = html.querySelector('video') as html.VideoElement?;
+    videoElement?.setAttribute('height', 1200);
+    videoElement?.setAttribute('width', 850);
     final pose = await promiseToFuture<interop.Pose>(
       _net.estimateSinglePose(videoElement, config?.toJs()),
     );

@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +21,11 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
     with SingleTickerProviderStateMixin {
   CameraController? _controller;
   PoseNet? _net;
-  Pose? _poseAnalysis;
+  Vector2D? nosePosition;
   late Completer<void> _cameraControllerCompleter;
-
   bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
+  late final AnimationController animationController =
+      AnimationController(vsync: this, duration: Duration(seconds: 100));
 
   @override
   void initState() {
@@ -35,17 +35,27 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
 
   Future<void> _analyzeImage() async {
     _net?.dispose();
-    _net = await load();
-
-    final pose = await _net!.estimateSinglePoseFromVideoElement();
-    setState(() {
-      _poseAnalysis = pose;
+    _net = await load(ModelConfig(multiplier: 1));
+    animationController.addListener(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _analyze();
+      });
     });
-    print(pose.score);
+    await animationController.repeat();
+  }
 
+  Future<void> _analyze() async {
+    final pose = await _net!.estimateSinglePoseFromVideoElement(
+        config: SinglePersonInterfaceConfig());
     for (final keypoint in pose.keypoints) {
-      print(keypoint.part);
-      print(keypoint.score);
+      if (keypoint.part == 'nose') {
+        print(keypoint.part);
+        print(keypoint.position.toStringFormatted());
+        print(keypoint.score);
+        setState(() {
+          nosePosition = keypoint.position;
+        });
+      }
     }
   }
 
@@ -86,8 +96,17 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
             camera = Text('${error.code} : ${error.description}');
           }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _CameraFrame(
-            child: _controller!.buildPreview(),
+          camera = Stack(
+            children: [
+              _controller!.buildPreview(),
+              if (nosePosition != null)
+                Positioned(
+                  right: nosePosition!.x.toDouble() - 40,
+                  top: nosePosition!.y.toDouble() - 200,
+                  child: const Icon(Icons.flutter_dash,
+                      color: Colors.red, size: 100),
+                )
+            ],
           );
         } else {
           camera = const CircularProgressIndicator();
@@ -95,92 +114,6 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
 
         return Scaffold(body: Center(child: camera));
       },
-    );
-  }
-}
-
-class _CameraFrame extends StatelessWidget {
-  const _CameraFrame({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        child,
-      ],
-    );
-  }
-}
-
-class PreviewPage extends StatefulWidget {
-  const PreviewPage({Key? key, required this.image}) : super(key: key);
-
-  static Route<void> route({required XFile image}) {
-    return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
-  }
-
-  final XFile image;
-
-  @override
-  State<PreviewPage> createState() => _PreviewPageState();
-}
-
-class _PreviewPageState extends State<PreviewPage> {
-  Keypoint? keypoint;
-  PoseNet? _net;
-  Uint8List? _bytes;
-  Pose? _poseAnalysis;
-
-  Future<void> _analyzeImage() async {
-    _net?.dispose();
-    _net = await load();
-
-    final bytes = await widget.image.readAsBytes();
-    setState(() {
-      _bytes = bytes;
-    });
-
-    final pose = await _net!.estimateSinglePose(widget.image.path);
-    setState(() {
-      _poseAnalysis = pose;
-    });
-    print(pose.score);
-
-    for (final keypoint in pose.keypoints) {
-      print(keypoint.part);
-      print(keypoint.score);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _analyzeImage();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Preview')),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (_bytes != null)
-              Image.memory(
-                Uint8List.fromList(_bytes!),
-                errorBuilder: (context, error, stackTrace) {
-                  return Text('Error, $error, $stackTrace');
-                },
-              ),
-            if (_poseAnalysis != null) _Results(pose: _poseAnalysis!),
-          ],
-        ),
-      ),
     );
   }
 }
