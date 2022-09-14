@@ -4,7 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
-import 'package:tensorflow_models_web/src/posenet/posenet.dart' as posenet;
+import 'package:tensorflow_models_web/src/posenet/posenet_bridge.dart'
+    as posenet;
 import 'package:tensorflow_models_web/tensorflow_models_web.dart';
 
 class MockRegistrar extends Mock implements Registrar {}
