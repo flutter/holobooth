@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'package:example/sample_single_image.dart';
-import 'package:example/sample_transparent_image.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -21,21 +20,19 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(SampleTransparentImage.route());
-            },
-            child: const Text('Transparent image example'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(SingleCapturePage.route());
-            },
-            child: const Text('Single image example'),
-          )
-        ],
+      appBar: AppBar(title: const Text('Tensorflow Examples')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(SingleCapturePage.route());
+              },
+              child: const Text('Posenet - Single image'),
+            )
+          ],
+        ),
       ),
     );
   }
