@@ -14,7 +14,7 @@ import 'package:js/js.dart';
 /// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
-/// =============================================================================
+/// ============================================================================
 /// PoseNet supports using various convolution neural network models
 /// (e.g. ResNet and MobileNetV1) as its underlying base model.
 /// The following BaseModel interface defines a unified interface for
@@ -24,12 +24,14 @@ import 'package:js/js.dart';
 /// added to PoseNet.
 @JS()
 abstract class BaseModel {
+  external factory BaseModel(
+    dynamic model,
+    String /*'32'|'16'|'8'*/ outputStride,
+  );
   // @Ignore
   //BaseModel.fakeConstructor$();
   external dynamic get model;
   external String /*'32'|'16'|'8'*/ get outputStride;
-  external factory BaseModel(
-      dynamic model, String /*'32'|'16'|'8'*/ outputStride);
 
   /// Releases the CPU and GPU memory allocated by the model.
   external void dispose();

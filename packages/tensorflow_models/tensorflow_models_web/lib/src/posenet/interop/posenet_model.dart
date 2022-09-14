@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars, non_constant_identifier_names
+
 @JS('posenet')
 library posenet;
 
@@ -20,7 +22,7 @@ external Promise<PoseNet> load([ModelConfig? config]);
 /// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 /// See the License for the specific language governing permissions and
 /// limitations under the License.
-/// =============================================================================
+/// ============================================================================
 /// PoseNet model loading is configurable using the following config dictionary.
 /// `architecture`: PoseNetArchitecture. It determines wich PoseNet architecture
 /// to load. The supported architectures are: MobileNetV1 and ResNet.
@@ -71,9 +73,9 @@ abstract class ModelConfig {
 @anonymous
 @JS()
 abstract class InferenceConfig {
+  external factory InferenceConfig({bool flipHorizontal});
   external bool get flipHorizontal;
   external set flipHorizontal(bool v);
-  external factory InferenceConfig({bool flipHorizontal});
 }
 
 /// Single Person Inference Config
@@ -93,41 +95,45 @@ abstract class SinglePersonInterfaceConfig implements InferenceConfig {
 @anonymous
 @JS()
 abstract class MultiPersonInferenceConfig implements InferenceConfig {
+  external factory MultiPersonInferenceConfig({
+    num maxDetections,
+    num scoreThreshold,
+    num nmsRadius,
+    bool flipHorizontal,
+  });
   external num get maxDetections;
   external set maxDetections(num v);
   external num get scoreThreshold;
   external set scoreThreshold(num v);
   external num get nmsRadius;
   external set nmsRadius(num v);
-  external factory MultiPersonInferenceConfig(
-      {num maxDetections,
-      num scoreThreshold,
-      num nmsRadius,
-      bool flipHorizontal});
 }
 
 @anonymous
 @JS()
 abstract class LegacyMultiPersonInferenceConfig
     implements MultiPersonInferenceConfig {
+  external factory LegacyMultiPersonInferenceConfig({
+    String /*'multi-person'*/ decodingMethod,
+    num maxDetections,
+    num scoreThreshold,
+    num nmsRadius,
+    bool flipHorizontal,
+  });
   external String /*'multi-person'*/ get decodingMethod;
   external set decodingMethod(String /*'multi-person'*/ v);
-  external factory LegacyMultiPersonInferenceConfig(
-      {String /*'multi-person'*/ decodingMethod,
-      num maxDetections,
-      num scoreThreshold,
-      num nmsRadius,
-      bool flipHorizontal});
 }
 
 @anonymous
 @JS()
 abstract class LegacySinglePersonInferenceConfig
     implements SinglePersonInterfaceConfig {
+  external factory LegacySinglePersonInferenceConfig({
+    String /*'single-person'*/ decodingMethod,
+    bool flipHorizontal,
+  });
   external String /*'single-person'*/ get decodingMethod;
   external set decodingMethod(String /*'single-person'*/ v);
-  external factory LegacySinglePersonInferenceConfig(
-      {String /*'single-person'*/ decodingMethod, bool flipHorizontal});
 }
 
 @JS()
@@ -137,12 +143,14 @@ external MultiPersonInferenceConfig get MULTI_PERSON_INFERENCE_CONFIG;
 
 @JS('PoseNet')
 class PoseNet {
+  external factory PoseNet(
+    BaseModel net,
+    List<num> /*Tuple of <num,num>*/ inputResolution,
+  );
   // @Ignore
   //PoseNet.fakeConstructor$();
   external BaseModel get baseModel;
   external List<num> /*Tuple of <num,num>*/ get inputResolution;
-  external factory PoseNet(
-      BaseModel net, List<num> /*Tuple of <num,num>*/ inputResolution);
   external void dispose();
 
   /// Infer through PoseNet, and estimates a single pose using the outputs.
@@ -156,13 +164,18 @@ class PoseNet {
   /// the corresponding keypoint scores.  The positions of the keypoints are
   /// in the same scale as the original image
   external Promise<Pose> estimateSinglePose(
-      dynamic /*ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|tf.Tensor3D*/ input,
-      [SinglePersonInterfaceConfig? config]);
+    dynamic /*ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|tf.Tensor3D*/ input, [
+    SinglePersonInterfaceConfig? config,
+  ]);
 }
 
 @JS()
 abstract class Promise<T> {
   external factory Promise(
-      void executor(void resolve(T result), Function reject));
-  external Promise then(void onFulfilled(T result), [Function onRejected]);
+    void Function(void Function(T result) resolve, Function reject) executor,
+  );
+  external Promise<T> then(
+    void Function(T result) onFulfilled, [
+    Function onRejected,
+  ]);
 }
