@@ -64,6 +64,9 @@ abstract class PoseNet {
     String imagePath, {
     SinglePersonInterfaceConfig? config,
   });
+  Future<Pose> estimateSinglePoseFromVideoElement({
+    SinglePersonInterfaceConfig? config,
+  });
 
   void dispose();
 }

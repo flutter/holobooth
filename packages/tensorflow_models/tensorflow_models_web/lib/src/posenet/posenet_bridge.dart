@@ -33,6 +33,18 @@ class PoseNetWeb implements PoseNet {
     return pose.fromJs();
   }
 
+  /// Returns a pose estimation for an ImageData
+  @override
+  Future<Pose> estimateSinglePoseFromVideoElement({
+    SinglePersonInterfaceConfig? config,
+  }) async {
+    final videoElement = html.querySelector('video');
+    final pose = await promiseToFuture<interop.Pose>(
+      _net.estimateSinglePose(videoElement, config?.toJs()),
+    );
+    return pose.fromJs();
+  }
+
   @override
   void dispose() => _net.dispose();
 }
