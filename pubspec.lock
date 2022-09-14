@@ -336,6 +336,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  image_loader:
+    dependency: transitive
+    description:
+      path: "packages/image_loader"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   intl:
     dependency: "direct main"
     description:

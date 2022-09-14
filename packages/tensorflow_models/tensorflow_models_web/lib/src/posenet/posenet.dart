@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:js_util';
 
+import 'package:image_loader/image_loader.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:tensorflow_models_web/src/posenet/posenet_interop.dart'
     as posenet;
@@ -28,11 +29,12 @@ class PoseNetWeb implements PoseNet {
   /// Returns a pose estimation for an ImageData
   @override
   Future<Pose> estimateSinglePose(
-    ImageData imageData, {
+    String path, {
     SinglePersonInterfaceConfig? config,
   }) async {
+    final image = await HtmlImageLoader(path).loadImage();
     final pose = await promiseToFuture<posenet.Pose>(
-      _net.estimateSinglePose(imageData.toJs(), config?.toJs()),
+      _net.estimateSinglePose(image.imageElement, config?.toJs()),
     );
     return pose.fromJs();
   }
@@ -48,6 +50,7 @@ extension on SinglePersonInterfaceConfig {
 }
 
 extension on ImageData {
+  // ignore: unused_element
   html.ImageData toJs() => html.ImageData(data, width, height);
 }
 

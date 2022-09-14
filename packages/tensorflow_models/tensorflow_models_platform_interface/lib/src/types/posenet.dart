@@ -61,7 +61,7 @@ class ModelConfig {
 
 abstract class PoseNet {
   Future<Pose> estimateSinglePose(
-    ImageData imageData, {
+    String imagePath, {
     SinglePersonInterfaceConfig? config,
   });
 
