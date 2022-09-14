@@ -2,7 +2,6 @@
 import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -16,11 +15,11 @@ class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
+
 void main() {
-  const width = 1;
-  const height = 1;
-  const data = '';
-  const image = CameraImage(width: width, height: height, data: data);
+  late PhotoboothCameraImage image;
   final bytes = Uint8List.fromList(transparentImage);
 
   late PhotoboothBloc photoboothBloc;
@@ -28,6 +27,7 @@ void main() {
 
   setUp(() {
     photoboothBloc = _MockPhotoboothBloc();
+    image = _MockPhotoboothCameraImage();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
     platformHelper = _MockPlatformHelper();
   });

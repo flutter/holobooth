@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,6 +23,9 @@ class _MockStickersBloc extends MockBloc<StickersEvent, StickersState>
 
 class _FakePhotoboothEvent extends Fake implements PhotoboothEvent {}
 
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
+
 class _MockPhotoboothBloc extends MockBloc<PhotoboothEvent, PhotoboothState>
     implements PhotoboothBloc {}
 
@@ -31,52 +33,78 @@ class _FakeDragUpdate extends Fake implements DragUpdate {}
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
-class _FakeCameraOptions extends Fake implements CameraOptions {}
-
 class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraDescription extends Mock implements CameraDescription {}
+
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const width = 1;
-  const height = 1;
-  final data = 'data:image/png,${base64.encode(transparentImage)}';
-  final image = CameraImage(width: width, height: height, data: data);
-  const cameraId = 1;
-  late CameraPlatform cameraPlatform;
-  late CameraImage cameraImage;
 
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
-    registerFallbackValue(_FakeCameraOptions());
   });
 
-  setUp(() {
-    cameraImage = _MockCameraImage();
-    cameraPlatform = _MockCameraPlatform();
+  void setUpPhotoboothPage() {
+    const cameraId = 1;
+    final xfile = _MockXFile();
+    when(() => xfile.path).thenReturn('');
+
+    final cameraPlatform = _MockCameraPlatform();
     CameraPlatform.instance = cameraPlatform;
-    when(() => cameraImage.width).thenReturn(4);
-    when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
+
+    final cameraDescription = _MockCameraDescription();
+    when(cameraPlatform.availableCameras)
+        .thenAnswer((_) async => [cameraDescription]);
     when(
-      () => cameraPlatform.create(any()),
-    ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+      () => cameraPlatform.createCamera(
+        cameraDescription,
+        ResolutionPreset.max,
+      ),
+    ).thenAnswer((_) async => 1);
+    when(() => cameraPlatform.initializeCamera(cameraId))
+        .thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
+      (_) => Stream.value(event),
+    );
+    when(() => CameraPlatform.instance.onDeviceOrientationChanged())
+        .thenAnswer((_) => Stream.empty());
     when(() => cameraPlatform.takePicture(any()))
-        .thenAnswer((_) async => cameraImage);
-    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+        .thenAnswer((_) async => xfile);
+    when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
+    when(() => cameraPlatform.pausePreview(cameraId))
+        .thenAnswer((_) => Future.value());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+  }
+
+  setUp(setUpPhotoboothPage);
+
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
   });
 
   group('StickersPage', () {
     late PhotoboothBloc photoboothBloc;
+    late PhotoboothCameraImage image;
 
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
+      image = _MockPhotoboothCameraImage();
+      when(() => image.data).thenReturn('');
+      when(() => image.constraint).thenReturn(PhotoConstraint());
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           image: image,
@@ -112,9 +140,13 @@ void main() {
   group('StickersView', () {
     late PhotoboothBloc photoboothBloc;
     late StickersBloc stickersBloc;
+    late PhotoboothCameraImage image;
 
     setUp(() {
       photoboothBloc = _MockPhotoboothBloc();
+      image = _MockPhotoboothCameraImage();
+      when(() => image.data).thenReturn('');
+      when(() => image.constraint).thenReturn(PhotoConstraint());
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(image: image),
       );

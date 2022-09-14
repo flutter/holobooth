@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:typed_data';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -10,18 +9,19 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-void main() {
-  const width = 1;
-  const height = 1;
-  const data = '';
-  const image = CameraImage(width: width, height: height, data: data);
-  final bytes = Uint8List.fromList(transparentImage);
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
 
+void main() {
+  late PhotoboothCameraImage image;
   late PhotoboothBloc photoboothBloc;
+  late Uint8List bytes;
 
   setUp(() {
     photoboothBloc = MockPhotoboothBloc();
+    image = _MockPhotoboothCameraImage();
     when(() => photoboothBloc.state).thenReturn(PhotoboothState(image: image));
+    bytes = Uint8List.fromList(transparentImage);
   });
 
   group('ShareBottomSheet', () {

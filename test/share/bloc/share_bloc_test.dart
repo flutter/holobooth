@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -19,10 +17,12 @@ class _MockPhotoAsset extends Mock implements PhotoAsset {}
 
 class _MockAsset extends Mock implements Asset {}
 
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
+
 void main() {
-  final data = 'data:image/png,${base64.encode(transparentImage)}';
-  final image = CameraImage(width: 0, height: 0, data: data);
-  final imageData = Uint8List.fromList(transparentImage);
+  late PhotoboothCameraImage image;
+  late Uint8List imageData;
   const aspectRatio = PhotoboothAspectRatio.portrait;
   const imageId = 'image-name';
   const shareText = 'share-text';
@@ -38,6 +38,11 @@ void main() {
 
     setUpAll(() {
       registerFallbackValue(Uint8List(0));
+      image = _MockPhotoboothCameraImage();
+      when(() => image.data).thenReturn('');
+      when(() => image.constraint).thenReturn(PhotoConstraint());
+
+      imageData = Uint8List.fromList(transparentImage);
     });
 
     setUp(() {

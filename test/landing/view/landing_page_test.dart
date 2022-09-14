@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
 
-import 'package:camera/camera.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -13,40 +13,63 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
-class _FakeCameraOptions extends Fake implements CameraOptions {}
-
 class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraDescription extends Mock implements CameraDescription {}
+
+class _MockXFile extends Mock implements XFile {}
 
 void main() {
-  const cameraId = 1;
-  late CameraPlatform cameraPlatform;
-  late CameraImage cameraImage;
+  void setUpPhotoboothPage() {
+    const cameraId = 1;
+    final xfile = _MockXFile();
+    when(() => xfile.path).thenReturn('');
 
-  setUpAll(() {
-    registerFallbackValue(_FakeCameraOptions());
-  });
-
-  setUp(() {
-    cameraImage = _MockCameraImage();
-    cameraPlatform = _MockCameraPlatform();
+    final cameraPlatform = _MockCameraPlatform();
     CameraPlatform.instance = cameraPlatform;
-    when(() => cameraImage.width).thenReturn(4);
-    when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
+
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
+
+    final cameraDescription = _MockCameraDescription();
+    when(cameraPlatform.availableCameras)
+        .thenAnswer((_) async => [cameraDescription]);
     when(
-      () => cameraPlatform.create(any()),
-    ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+      () => cameraPlatform.createCamera(
+        cameraDescription,
+        ResolutionPreset.max,
+      ),
+    ).thenAnswer((_) async => 1);
+    when(() => cameraPlatform.initializeCamera(cameraId))
+        .thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
+      (_) => Stream.value(event),
+    );
+    when(() => CameraPlatform.instance.onDeviceOrientationChanged())
+        .thenAnswer((_) => Stream.empty());
     when(() => cameraPlatform.takePicture(any()))
-        .thenAnswer((_) async => cameraImage);
-    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+        .thenAnswer((_) async => xfile);
+    when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
+    when(() => cameraPlatform.pausePreview(cameraId))
+        .thenAnswer((_) => Future.value());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+  }
+
+  setUp(setUpPhotoboothPage);
+
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
   });
+
   group('LandingPage', () {
     testWidgets('renders landing view', (tester) async {
       await tester.pumpApp(const LandingPage());

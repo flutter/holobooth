@@ -2,8 +2,7 @@
 import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera/camera.dart';
-import 'package:cross_file/cross_file.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
@@ -33,23 +32,19 @@ class _MockXFile extends Mock implements XFile {}
 
 class _FakeLaunchOptions extends Fake implements LaunchOptions {}
 
-class _FakeCameraOptions extends Fake implements CameraOptions {}
+class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
+}
 
 class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _MockCameraImage extends Mock implements CameraImage {}
+class _MockCameraDescription extends Mock implements CameraDescription {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const width = 1;
-  const height = 1;
-  const data = '';
-  const image = CameraImage(width: width, height: height, data: data);
-  const cameraId = 1;
-  late CameraPlatform cameraPlatform;
-  late CameraImage cameraImage;
+
+  late PhotoboothCameraImage image;
 
   late PhotosRepository photosRepository;
   late PhotoboothBloc photoboothBloc;
@@ -59,17 +54,62 @@ void main() {
   setUpAll(() {
     registerFallbackValue(_FakePhotoboothEvent());
     registerFallbackValue(FakeShareEvent());
-    registerFallbackValue(_FakeCameraOptions());
   });
+
+  void setUpPhotoboothPage() {
+    const cameraId = 1;
+    final xfile = _MockXFile();
+    when(() => xfile.path).thenReturn('');
+
+    final cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+
+    final event = CameraInitializedEvent(
+      cameraId,
+      1,
+      1,
+      ExposureMode.auto,
+      true,
+      FocusMode.auto,
+      true,
+    );
+
+    final cameraDescription = _MockCameraDescription();
+    when(cameraPlatform.availableCameras)
+        .thenAnswer((_) async => [cameraDescription]);
+    when(
+      () => cameraPlatform.createCamera(
+        cameraDescription,
+        ResolutionPreset.max,
+      ),
+    ).thenAnswer((_) async => 1);
+    when(() => cameraPlatform.initializeCamera(cameraId))
+        .thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onCameraInitialized(cameraId)).thenAnswer(
+      (_) => Stream.value(event),
+    );
+    when(() => CameraPlatform.instance.onDeviceOrientationChanged())
+        .thenAnswer((_) => Stream.empty());
+    when(() => cameraPlatform.takePicture(any()))
+        .thenAnswer((_) async => xfile);
+    when(() => cameraPlatform.buildPreview(cameraId)).thenReturn(SizedBox());
+    when(() => cameraPlatform.pausePreview(cameraId))
+        .thenAnswer((_) => Future.value());
+    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+  }
 
   setUp(() {
     file = _MockXFile();
+    image = _MockPhotoboothCameraImage();
+    when(() => image.data).thenReturn('');
+    when(() => image.constraint).thenReturn(PhotoConstraint());
+
     photosRepository = _MockPhotosRepository();
     when(
       () => photosRepository.composite(
-        width: width,
-        height: height,
-        data: data,
+        width: image.constraint.width.floor(),
+        height: image.constraint.height.floor(),
+        data: image.data,
         layers: [],
         aspectRatio: any(named: 'aspectRatio'),
       ),
@@ -84,21 +124,11 @@ void main() {
       initialState: ShareState(),
     );
 
-    cameraImage = _MockCameraImage();
-    cameraPlatform = _MockCameraPlatform();
-    CameraPlatform.instance = cameraPlatform;
-    when(() => cameraImage.width).thenReturn(4);
-    when(() => cameraImage.height).thenReturn(3);
-    when(() => cameraPlatform.init()).thenAnswer((_) async => <void>{});
-    when(
-      () => cameraPlatform.create(any()),
-    ).thenAnswer((_) async => cameraId);
-    when(() => cameraPlatform.play(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.stop(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
-    when(() => cameraPlatform.takePicture(any()))
-        .thenAnswer((_) async => cameraImage);
-    when(() => cameraPlatform.buildView(cameraId)).thenReturn(SizedBox());
+    setUpPhotoboothPage();
+  });
+
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
   });
 
   group('SharePage', () {
