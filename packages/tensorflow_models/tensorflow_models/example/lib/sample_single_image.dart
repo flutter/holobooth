@@ -174,7 +174,7 @@ class _PreviewPageState extends State<PreviewPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview')),
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
             if (_bytes != null)
               Image.memory(
@@ -183,42 +183,37 @@ class _PreviewPageState extends State<PreviewPage> {
                   return Text('Error, $error, $stackTrace');
                 },
               ),
-            if (_poseAnalysis != null) _Results(pose: _poseAnalysis!),
+            if (_poseAnalysis != null)
+              for (final keypoint in _poseAnalysis!.keypoints)
+                if (keypoint.score > 0.5) ...[
+                  Positioned(
+                    left: keypoint.position.x.toDouble(),
+                    top: keypoint.position.y.toDouble(),
+                    child: Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.lerp(
+                          Colors.red,
+                          Colors.green,
+                          keypoint.score.toDouble(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: keypoint.position.x.toDouble(),
+                    top: keypoint.position.y.toDouble(),
+                    child: Text(
+                      keypoint.part,
+                      style: const TextStyle(fontSize: 20, color: Colors.blue),
+                    ),
+                  ),
+                ]
           ],
         ),
       ),
     );
-  }
-}
-
-class _Results extends StatelessWidget {
-  const _Results({Key? key, required this.pose}) : super(key: key);
-
-  final Pose pose;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (final keypoint in pose.keypoints)
-          Text('${keypoint.part} in ${keypoint.position.toStringFormatted()} '
-              'with accuracy ${keypoint.score.toPercentage()}')
-      ],
-    );
-  }
-}
-
-extension on Vector2D {
-  String toStringFormatted() {
-    final x = this.x.toStringAsFixed(2);
-    final y = this.y.toStringAsFixed(2);
-    return '($x,$y)';
-  }
-}
-
-extension on num {
-  String toPercentage() {
-    final percentage = (this * 100).toStringAsFixed(2);
-    return '$percentage %';
   }
 }
