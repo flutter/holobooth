@@ -1,45 +1,30 @@
-// ignore_for_file: avoid_print
-
-import 'package:example/sample_landmark.dart';
-import 'package:example/sample_single_image.dart';
+import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(
+      const MaterialApp(home: _App()),
+    );
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _App extends StatelessWidget {
+  const _App({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(home: App());
-  }
-}
-
-class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  static final _pages = <String, Route<void>>{
+    'Single Image': SingleCapturePage.route(),
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Tensorflow Examples')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(SingleCapturePage.route());
-              },
-              child: const Text('Posenet - Single image'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(SampleLandmark.route());
-              },
-              child: const Text('Landmark'),
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: _pages.length,
+        itemBuilder: (context, index) {
+          final page = _pages.entries.elementAt(index);
+          return ListTile(
+            title: Text(page.key),
+            onTap: () => Navigator.of(context).push(page.value),
+          );
+        },
       ),
     );
   }
