@@ -10,6 +10,7 @@ class _App extends StatelessWidget {
 
   static final _pages = <String, Route<void>>{
     'Single Image': SingleCapturePage.route(),
+    'Landmarks Single Image': LandmarksSingleImagePage.route(),
   };
 
   @override
