@@ -1,4 +1,4 @@
-@JS('face-landmarks-detection')
+@JS('faceLandmarksDetection')
 library face_landmarks_detector;
 
 import "package:js/js.dart";
