@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 import 'dart:js_util';
 
+import 'package:image_loader/image_loader.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:tensorflow_models_web/src/face-landmarks-detection/interop/interop.dart'
     as interop;
@@ -18,42 +19,50 @@ Future<FaceLandmarksDetectorWeb> createDetector([
   );
 }
 
+/// Web implementation of [FaceLandmarksDetector].
 class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
-  factory FaceLandmarksDetectorWeb.fromJs(interop.FaceLandmarksDetector net) {
-    return FaceLandmarksDetectorWeb._(net);
+  factory FaceLandmarksDetectorWeb.fromJs(
+    interop.FaceLandmarksDetector faceLandmarksDetector,
+  ) {
+    return FaceLandmarksDetectorWeb._(faceLandmarksDetector);
   }
-  FaceLandmarksDetectorWeb._(this._net);
-  final interop.FaceLandmarksDetector _net;
 
-  /// Returns faces
+  FaceLandmarksDetectorWeb._(this._faceLandmarksDetector);
+
+  final interop.FaceLandmarksDetector _faceLandmarksDetector;
+
+  /// Estimates [Faces] from an different sources.
+  ///
+  /// The supported sources are:
+  /// - [html.ImageElement] Raw html element that contains the image to process.
+  /// - [String] A string that contains the url of the image to process.
+  /// - [html.VideoElement] Raw html element that contains the image (last
+  /// frame) to process.
   @override
-  Future<List<Face>> estimateFaces() async {
-    final videoElement = html.querySelector('video') as html.VideoElement?;
-    videoElement?.setAttribute('height', 1200);
-    videoElement?.setAttribute('width', 850);
-    final config =
-        interop.EstimationConfig(flipHorizontal: true, staticImageMode: false);
-    final faces = await promiseToFuture<dynamic>(
-      _net.estimateFaces(videoElement, config),
+  Future<Faces> estimateFaces(dynamic object) async {
+    final config = interop.EstimationConfig(
+      flipHorizontal: true,
+      staticImageMode: false,
     );
-    return [];
-    //return faces.map((e) => e.fromJs()).toList();
+
+    if (object is html.VideoElement) {
+      return promiseToFuture<Faces>(
+        _faceLandmarksDetector.estimateFaces(object, config),
+      );
+    } else if (object is String) {
+      final image = await HtmlImageLoader(object).loadImage();
+      return promiseToFuture<Faces>(
+        _faceLandmarksDetector.estimateFaces(image.imageElement, config),
+      );
+    } else if (object is html.ImageElement) {
+      return promiseToFuture<Faces>(
+        _faceLandmarksDetector.estimateFaces(object, config),
+      );
+    }
+
+    throw Exception('Unsupported input type');
   }
 
   @override
-  void dispose() => _net.dispose();
-}
-
-extension on interop.Face {
-  Face fromJs() {
-    return Face(
-      keypoints.map((k) => k.fromJs()).toList(),
-    );
-  }
-}
-
-extension on interop.Keypoint {
-  Keypoint fromJs() {
-    return Keypoint(x, y, z, score, name);
-  }
+  void dispose() => _faceLandmarksDetector.dispose();
 }

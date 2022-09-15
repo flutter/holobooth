@@ -1,3 +1,5 @@
+typedef Faces = List<Face>;
+
 class Keypoint {
   Keypoint(this.x, this.y, this.z, this.score, this.name);
 
@@ -14,6 +16,7 @@ class Face {
 }
 
 abstract class FaceLandmarksDetector {
-  Future<List<Face>> estimateFaces();
+  Future<Faces> estimateFaces(dynamic object);
+
   void dispose();
 }
