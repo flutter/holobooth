@@ -32,7 +32,7 @@ class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
   Future<void> _onSnapPressed() async {
     final navigator = Navigator.of(context);
     final picture = await _cameraController.takePicture();
-    await navigator.push(_LandmarksSignleImageResults.route(picture: picture));
+    await navigator.push(_LandmarksSingleImageResults.route(picture: picture));
   }
 
   @override
@@ -117,11 +117,11 @@ class _CameraState extends State<_Camera> {
   }
 }
 
-class _LandmarksSignleImageResults extends StatelessWidget {
-  const _LandmarksSignleImageResults({required this.picture});
+class _LandmarksSingleImageResults extends StatelessWidget {
+  const _LandmarksSingleImageResults({required this.picture});
 
   static Route<void> route({required XFile picture}) => MaterialPageRoute(
-        builder: (_) => _LandmarksSignleImageResults(picture: picture),
+        builder: (_) => _LandmarksSingleImageResults(picture: picture),
       );
 
   final XFile picture;
