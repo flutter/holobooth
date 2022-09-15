@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
+  static final _samples = <String, Route<void>>{
+    'Posenet - Single Image': SingleCapturePage.route(),
+    'Posenet - Realtime': SampleRealtimePosenet.route(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,18 +31,11 @@ class App extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(SingleCapturePage.route());
-              },
-              child: const Text('Posenet - Single image'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(SampleRealtimePosenet.route());
-              },
-              child: const Text('Posenet - Realtime'),
-            )
+            for (final entry in _samples.entries)
+              TextButton(
+                onPressed: () => Navigator.of(context).push(entry.value),
+                child: Text(entry.key),
+              )
           ],
         ),
       ),
