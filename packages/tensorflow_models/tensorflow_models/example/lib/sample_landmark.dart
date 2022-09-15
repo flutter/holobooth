@@ -17,18 +17,11 @@ class SampleLandmark extends StatefulWidget {
 
 class _SampleLandmarkState extends State<SampleLandmark>
     with SingleTickerProviderStateMixin {
-  CameraController? _controller;
-  late Completer<void> _cameraControllerCompleter;
-  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
-  late final AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(seconds: 1));
+  late final AnimationController animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 1),
+  );
   FaceLandmarksDetector? faceLandmarksDetector;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeCamera();
-  }
 
   Future<void> _analyzeImage() async {
     faceLandmarksDetector?.dispose();
@@ -48,20 +41,46 @@ class _SampleLandmarkState extends State<SampleLandmark>
     await animationController.repeat();
   }
 
-  Future<void> _initializeCamera() async {
-    if (_isCameraAvailable) return;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Landmark'),
+      ),
+      body: _CameraPreview(),
+    );
+  }
+}
 
-    _cameraControllerCompleter = Completer<void>();
+class _CameraPreview extends StatefulWidget {
+  const _CameraPreview({Key? key}) : super(key: key);
+
+  @override
+  State<_CameraPreview> createState() => _CameraPreviewState();
+}
+
+class _CameraPreviewState extends State<_CameraPreview> {
+  late CameraController _cameraController;
+  final Completer<void> _cameraControllerCompleter = Completer<void>();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCamera();
+  }
+
+  Future<void> _initializeCamera() async {
+    if (_cameraControllerCompleter.isCompleted) return;
+
     try {
       final cameras = await availableCameras();
-      _controller = CameraController(
+      _cameraController = CameraController(
         cameras[0],
         ResolutionPreset.max,
         enableAudio: false,
       );
-      await _controller!.initialize();
+      await _cameraController.initialize();
       _cameraControllerCompleter.complete();
-      unawaited(_analyzeImage());
     } catch (error) {
       _cameraControllerCompleter.completeError(error);
     }
@@ -69,37 +88,29 @@ class _SampleLandmarkState extends State<SampleLandmark>
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _cameraController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Landmark'),
-        ),
-        body: FutureBuilder<void>(
-          future: _cameraControllerCompleter.future,
-          builder: (context, snapshot) {
-            late final Widget camera;
-            if (snapshot.hasError) {
-              final error = snapshot.error;
-              if (error is CameraException) {
-                camera = Text('${error.code} : ${error.description}');
-              }
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              camera = Stack(
-                children: [
-                  _controller!.buildPreview(),
-                ],
-              );
-            } else {
-              camera = const CircularProgressIndicator();
-            }
+    return FutureBuilder<void>(
+      future: _cameraControllerCompleter.future,
+      builder: (context, snapshot) {
+        late final Widget camera;
+        if (snapshot.hasError) {
+          final error = snapshot.error;
+          if (error is CameraException) {
+            camera = Text('${error.code} : ${error.description}');
+          }
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          camera = _cameraController.buildPreview();
+        } else {
+          camera = const CircularProgressIndicator();
+        }
 
-            return Scaffold(body: Center(child: camera));
-          },
-        ));
+        return Scaffold(body: Center(child: camera));
+      },
+    );
   }
 }
