@@ -3,7 +3,7 @@ import 'dart:js_util';
 
 import 'package:image_loader/image_loader.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
-import 'package:tensorflow_models_web/src/face-landmarks-detection/interop/interop.dart'
+import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart'
     as interop;
 
 Future<FaceLandmarksDetectorWeb> createDetector([
