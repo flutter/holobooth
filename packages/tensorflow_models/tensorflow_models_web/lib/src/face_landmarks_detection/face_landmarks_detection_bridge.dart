@@ -20,6 +20,10 @@ Future<FaceLandmarksDetectorWeb> createDetector([
 }
 
 /// Web implementation of [FaceLandmarksDetector].
+///
+/// See also:
+/// * [MediaPipe's FaceMesh documentation](https://google.github.io/mediapipe/solutions/face_mesh.html)
+/// * [Tensorflow's FaceLandmarkDetection source code](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection)
 class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   factory FaceLandmarksDetectorWeb.fromJs(
     interop.FaceLandmarksDetector faceLandmarksDetector,
