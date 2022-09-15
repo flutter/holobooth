@@ -9,7 +9,10 @@ Future<FaceLandmarksDetectorWeb> createDetector([
 ]) async {
   return FaceLandmarksDetectorWeb.fromJs(
     await promiseToFuture(
-      interop.createDetector('MediaPipeFaceMesh', config),
+      interop.createDetector(
+        'MediaPipeFaceMesh',
+        config,
+      ),
     ),
   );
 }

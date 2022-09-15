@@ -6,13 +6,18 @@ import 'package:tensorflow_models_web/src/common/common.dart';
 
 //import "mediapipe/types.dart" show MediaPipeFaceMeshMediaPipeEstimationConfig;
 //import "tfjs/types.dart" show MediaPipeFaceMeshTfjsEstimationConfig;
-import "types.dart" show Face, ModelConfig, SupportedModels;
+import "types.dart"
+    show
+        Face,
+        MediaPipeFaceMeshMediaPipeModelConfig,
+        ModelConfig,
+        SupportedModels;
 
 @JS()
 external Promise<FaceLandmarksDetector> createDetector(
-  dynamic model,
-  dynamic config,
-);
+  dynamic model, [
+  ModelConfig? config,
+]);
 
 /// @license
 /// Copyright 2021 Google LLC. All Rights Reserved.
@@ -29,7 +34,7 @@ external Promise<FaceLandmarksDetector> createDetector(
 /// User-facing interface for all face pose detectors.
 @anonymous
 @JS()
-abstract class FaceLandmarksDetector {
+class FaceLandmarksDetector {
   /// Dispose the underlying models from memory.
   external void dispose();
 
@@ -37,6 +42,7 @@ abstract class FaceLandmarksDetector {
   external void reset();
 
   external Promise<List<Face>> estimateFaces(
-      dynamic /*Tensor3D|ImageData|HTMLVideoElement|HTMLImageElement|HTMLCanvasElement|ImageBitmap*/ input,
-      [dynamic /*MediaPipeFaceMeshMediaPipeEstimationConfig|MediaPipeFaceMeshTfjsEstimationConfig*/ estimationConfig]);
+    dynamic /*Tensor3D|ImageData|HTMLVideoElement|HTMLImageElement|HTMLCanvasElement|ImageBitmap*/ input, [
+    dynamic /*MediaPipeFaceMeshMediaPipeEstimationConfig|MediaPipeFaceMeshTfjsEstimationConfig*/ estimationConfig,
+  ]);
 }

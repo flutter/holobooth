@@ -63,3 +63,66 @@ abstract class Face {
   external List<Keypoint> get keypoints;
   external set keypoints(List<Keypoint> v);
 }
+
+/// @license
+/// Copyright 2021 Google LLC. All Rights Reserved.
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+/// https://www.apache.org/licenses/LICENSE-2.0
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+/// =============================================================================
+/// Common MediaPipeFaceMesh model config.
+@anonymous
+@JS()
+abstract class MediaPipeFaceMeshModelConfig implements ModelConfig {
+  external String /*'mediapipe'|'tfjs'*/ get runtime;
+  external set runtime(String /*'mediapipe'|'tfjs'*/ v);
+  external bool get refineLandmarks;
+  external set refineLandmarks(bool v);
+  external factory MediaPipeFaceMeshModelConfig(
+      {String /*'mediapipe'|'tfjs'*/ runtime,
+      bool refineLandmarks,
+      num maxFaces});
+}
+
+@anonymous
+@JS()
+abstract class MediaPipeFaceMeshEstimationConfig implements EstimationConfig {
+  external factory MediaPipeFaceMeshEstimationConfig(
+      {bool flipHorizontal, bool staticImageMode});
+}
+
+/// Model parameters for MediaPipeFaceMesh MediaPipe runtime
+/// `runtime`: Must set to be 'mediapipe'.
+/// `refineLandmarks`: If set to true, refines the landmark coordinates around
+/// the eyes and lips, and output additional landmarks around the irises.
+/// `solutionPath`: Optional. The path to where the wasm binary and model files
+/// are located.
+@anonymous
+@JS()
+abstract class MediaPipeFaceMeshMediaPipeModelConfig
+    implements MediaPipeFaceMeshModelConfig {
+  external String /*'mediapipe'*/ get runtime;
+  external set runtime(String /*'mediapipe'*/ v);
+  external String get solutionPath;
+  external set solutionPath(String v);
+  external factory MediaPipeFaceMeshMediaPipeModelConfig(
+      {String /*'mediapipe'*/ runtime,
+      String solutionPath,
+      bool refineLandmarks,
+      num maxFaces});
+}
+
+/// Face estimation parameters for MediaPipeFaceMesh MediaPipe runtime.
+@anonymous
+@JS()
+abstract class MediaPipeFaceMeshMediaPipeEstimationConfig
+    implements MediaPipeFaceMeshEstimationConfig {
+  external factory MediaPipeFaceMeshMediaPipeEstimationConfig(
+      {bool flipHorizontal, bool staticImageMode});
+}
