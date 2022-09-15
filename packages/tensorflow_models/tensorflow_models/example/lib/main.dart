@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:example/sample_landmark.dart';
 import 'package:example/sample_single_image.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,13 @@ class App extends StatelessWidget {
                 Navigator.of(context).push(SingleCapturePage.route());
               },
               child: const Text('Posenet - Single image'),
-            )
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(SampleLandmark.route());
+              },
+              child: const Text('Landmark'),
+            ),
           ],
         ),
       ),

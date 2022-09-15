@@ -93,12 +93,12 @@ class ImageData {
 class Pose {
   const Pose({required this.keypoints, required this.score});
 
-  final List<Keypoint> keypoints;
+  final List<KeypointOld> keypoints;
   final num score;
 }
 
-class Keypoint {
-  const Keypoint({
+class KeypointOld {
+  const KeypointOld({
     required this.score,
     required this.position,
     required this.part,

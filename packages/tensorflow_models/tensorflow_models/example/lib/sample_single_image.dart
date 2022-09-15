@@ -137,7 +137,7 @@ class PreviewPage extends StatefulWidget {
 }
 
 class _PreviewPageState extends State<PreviewPage> {
-  Keypoint? keypoint;
+  KeypointOld? keypoint;
   PoseNet? _net;
   Uint8List? _bytes;
   Pose? _poseAnalysis;
