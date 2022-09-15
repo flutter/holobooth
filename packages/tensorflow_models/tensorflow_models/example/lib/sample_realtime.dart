@@ -20,12 +20,17 @@ class SampleRealtimePosenet extends StatefulWidget {
 class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
     with SingleTickerProviderStateMixin {
   CameraController? _controller;
-  tf.PoseNet? _poseNet;
-  tf.Vector2D? nosePosition;
   late Completer<void> _cameraControllerCompleter;
+
+  tf.PoseNet? _poseNet;
+  tf.Keypoint? noseKeypoint;
+
+  late final AnimationController animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 100),
+  );
+
   bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
-  late final AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(seconds: 100));
 
   @override
   void initState() {
@@ -50,11 +55,8 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
     );
     for (final keypoint in pose.keypoints) {
       if (keypoint.part == 'nose') {
-        print(keypoint.part);
-        print(keypoint.position.toStringFormatted());
-        print(keypoint.score);
         setState(() {
-          nosePosition = keypoint.position;
+          noseKeypoint = keypoint;
         });
       }
     }
@@ -87,6 +89,8 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
 
   @override
   Widget build(BuildContext context) {
+    const minimumKeypointScore = 0.9;
+
     return FutureBuilder<void>(
       future: _cameraControllerCompleter.future,
       builder: (context, snapshot) {
@@ -100,13 +104,21 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
           camera = Stack(
             children: [
               _controller!.buildPreview(),
-              if (nosePosition != null)
+              if (noseKeypoint != null &&
+                  noseKeypoint!.score > minimumKeypointScore)
                 Positioned(
-                  right: nosePosition!.x.toDouble() - 40,
-                  top: nosePosition!.y.toDouble() - 200,
-                  child: const Icon(Icons.flutter_dash,
-                      color: Colors.red, size: 100),
-                )
+                  right: noseKeypoint!.position.x.toDouble() - 40,
+                  top: noseKeypoint!.position.y.toDouble() - 200,
+                  child: const Icon(
+                    Icons.flutter_dash,
+                    color: Colors.red,
+                    size: 100,
+                  ),
+                ),
+              Text(
+                'Nose: ${noseKeypoint?.position.toStringFormatted()} '
+                ' (${noseKeypoint?.score.percentage()})',
+              ),
             ],
           );
         } else {
@@ -124,5 +136,11 @@ extension on tf.Vector2D {
     final x = this.x.toStringAsFixed(2);
     final y = this.y.toStringAsFixed(2);
     return '($x,$y)';
+  }
+}
+
+extension on num {
+  String percentage() {
+    return '${(this * 100).toStringAsFixed(2)}%';
   }
 }
