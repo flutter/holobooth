@@ -61,7 +61,9 @@ abstract class EstimationConfig {
 abstract class Face {
   external factory Face({List<Keypoint> keypoints, dynamic box});
   external List<Keypoint> get keypoints;
+  external dynamic get box;
   external set keypoints(List<Keypoint> v);
+  external set box(dynamic v);
 }
 
 /// @license

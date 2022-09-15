@@ -14,6 +14,6 @@ class Face {
 }
 
 abstract class FaceLandmarksDetector {
-  Future<List<Face>> estimateFaces(dynamic input);
+  Future<List<Face>> estimateFaces();
   void dispose();
 }

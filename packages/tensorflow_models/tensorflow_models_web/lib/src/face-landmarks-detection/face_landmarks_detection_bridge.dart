@@ -1,3 +1,4 @@
+import 'dart:html' as html;
 import 'dart:js_util';
 
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
@@ -26,11 +27,17 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
 
   /// Returns faces
   @override
-  Future<List<Face>> estimateFaces(dynamic input) async {
-    final faces = await promiseToFuture<List<interop.Face>>(
-      _net.estimateFaces(input),
+  Future<List<Face>> estimateFaces() async {
+    final videoElement = html.querySelector('video') as html.VideoElement?;
+    videoElement?.setAttribute('height', 1200);
+    videoElement?.setAttribute('width', 850);
+    final config =
+        interop.EstimationConfig(flipHorizontal: true, staticImageMode: false);
+    final faces = await promiseToFuture<dynamic>(
+      _net.estimateFaces(videoElement, config),
     );
-    return faces.map((e) => e.fromJs()).toList();
+    return [];
+    //return faces.map((e) => e.fromJs()).toList();
   }
 
   @override
