@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class SampleRealtimePosenet extends StatefulWidget {
   const SampleRealtimePosenet({Key? key}) : super(key: key);
@@ -20,8 +20,8 @@ class SampleRealtimePosenet extends StatefulWidget {
 class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
     with SingleTickerProviderStateMixin {
   CameraController? _controller;
-  PoseNet? _net;
-  Vector2D? nosePosition;
+  tf.PoseNet? _poseNet;
+  tf.Vector2D? nosePosition;
   late Completer<void> _cameraControllerCompleter;
   bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
   late final AnimationController animationController =
@@ -34,8 +34,8 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
   }
 
   Future<void> _analyzeImage() async {
-    _net?.dispose();
-    _net = await load(ModelConfig(multiplier: 1));
+    _poseNet?.dispose();
+    _poseNet = await tf.load(const tf.ModelConfig(multiplier: 1));
     animationController.addListener(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _analyze();
@@ -45,8 +45,9 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
   }
 
   Future<void> _analyze() async {
-    final pose = await _net!.estimateSinglePoseFromVideoElement(
-        config: SinglePersonInterfaceConfig());
+    final pose = await _poseNet!.estimateSinglePoseFromVideoElement(
+      config: const tf.SinglePersonInterfaceConfig(),
+    );
     for (final keypoint in pose.keypoints) {
       if (keypoint.part == 'nose') {
         print(keypoint.part);
@@ -118,34 +119,10 @@ class _SampleRealtimePosenetState extends State<SampleRealtimePosenet>
   }
 }
 
-class _Results extends StatelessWidget {
-  const _Results({Key? key, required this.pose}) : super(key: key);
-
-  final Pose pose;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (final keypoint in pose.keypoints)
-          Text('${keypoint.part} in ${keypoint.position.toStringFormatted()} '
-              'with accuracy ${keypoint.score.toPercentage()}')
-      ],
-    );
-  }
-}
-
-extension on Vector2D {
+extension on tf.Vector2D {
   String toStringFormatted() {
     final x = this.x.toStringAsFixed(2);
     final y = this.y.toStringAsFixed(2);
     return '($x,$y)';
-  }
-}
-
-extension on num {
-  String toPercentage() {
-    final percentage = (this * 100).toStringAsFixed(2);
-    return '$percentage %';
   }
 }
