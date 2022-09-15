@@ -9,7 +9,10 @@ import 'package:tensorflow_models_web/src/common/common.dart';
 import "types.dart" show Face, ModelConfig, SupportedModels;
 
 @JS()
-external Promise<FaceLandmarksDetector> createDetector(dynamic model);
+external Promise<FaceLandmarksDetector> createDetector(
+  dynamic model,
+  dynamic config,
+);
 
 /// @license
 /// Copyright 2021 Google LLC. All Rights Reserved.
