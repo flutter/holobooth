@@ -6,32 +6,31 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart'
     as interop;
 
-Future<FaceLandmarksDetectorWeb> createDetector([
-  interop.ModelConfig? config,
-]) async {
-  return FaceLandmarksDetectorWeb.fromJs(
-    await promiseToFuture(
-      interop.createDetector(
-        'MediaPipeFaceMesh',
-        config,
-      ),
-    ),
-  );
-}
-
 /// Web implementation of [FaceLandmarksDetector].
 ///
 /// See also:
 /// * [MediaPipe's FaceMesh documentation](https://google.github.io/mediapipe/solutions/face_mesh.html)
 /// * [Tensorflow's FaceLandmarkDetection source code](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection)
 class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
+  FaceLandmarksDetectorWeb._(this._faceLandmarksDetector);
   factory FaceLandmarksDetectorWeb.fromJs(
     interop.FaceLandmarksDetector faceLandmarksDetector,
   ) {
     return FaceLandmarksDetectorWeb._(faceLandmarksDetector);
   }
 
-  FaceLandmarksDetectorWeb._(this._faceLandmarksDetector);
+  static Future<FaceLandmarksDetectorWeb> create([
+    interop.ModelConfig? config,
+  ]) async {
+    return FaceLandmarksDetectorWeb.fromJs(
+      await promiseToFuture(
+        interop.createDetector(
+          'MediaPipeFaceMesh',
+          config,
+        ),
+      ),
+    );
+  }
 
   final interop.FaceLandmarksDetector _faceLandmarksDetector;
 
