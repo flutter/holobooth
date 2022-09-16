@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js_util';
 
@@ -32,6 +33,19 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
     );
   }
 
+  Faces _facesFromJs(List<dynamic> jsFaces) {
+    final list = <Face>[];
+    for (final jsObject in jsFaces) {
+      //Convert NativeJavascriptObject to Map by encoding and decoding JSON
+      final json = interop.stringify(jsObject as Object);
+      final map =
+          Map<String, dynamic>.from(jsonDecode(json) as Map<String, dynamic>);
+      final keyPointsJs = map['keypoints'] as List<dynamic>;
+      list.add(Face.fromJs(keyPointsJs));
+    }
+    return list;
+  }
+
   final interop.FaceLandmarksDetector _faceLandmarksDetector;
 
   /// Estimates [Faces] from an different sources.
@@ -54,9 +68,10 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
       );
     } else if (object is String) {
       final image = await HtmlImageLoader(object).loadImage();
-      return promiseToFuture<Faces>(
+      final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(image.imageElement, config),
       );
+      return _facesFromJs(result);
     } else if (object is html.ImageElement) {
       return promiseToFuture<Faces>(
         _faceLandmarksDetector.estimateFaces(object, config),

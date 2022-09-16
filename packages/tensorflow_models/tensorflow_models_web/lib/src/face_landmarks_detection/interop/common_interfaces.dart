@@ -163,3 +163,6 @@ abstract class Promise<T> {
       void executor(void resolve(T result), Function reject));
   external Promise then(void onFulfilled(T result), [Function onRejected]);
 }
+
+@JS('JSON.stringify')
+external String stringify(Object obj);
