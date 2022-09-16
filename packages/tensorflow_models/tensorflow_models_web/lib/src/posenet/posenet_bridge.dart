@@ -16,25 +16,38 @@ class PoseNetWeb implements PoseNet {
     return PoseNetWeb._(net);
   }
 
-  PoseNetWeb._(this._net);
+  PoseNetWeb._(this._poseNet);
 
-  final interop.PoseNet _net;
+  final interop.PoseNet _poseNet;
 
-  /// Returns a pose estimation for an ImageData
+  /// Returns a pose estimation from data.
+  ///
+  /// The data can be:
+  /// - [String] a path to an image.
+  /// - [html.VideoElement] a video element, where the latest frame is used.
   @override
   Future<Pose> estimateSinglePose(
-    String path, {
+    dynamic data, {
     SinglePersonInterfaceConfig? config,
   }) async {
-    final image = await HtmlImageLoader(path).loadImage();
-    final pose = await promiseToFuture<interop.Pose>(
-      _net.estimateSinglePose(image.imageElement, config?.toJs()),
-    );
-    return pose.fromJs();
+    if (data is String) {
+      final image = await HtmlImageLoader(data).loadImage();
+      final pose = await promiseToFuture<interop.Pose>(
+        _poseNet.estimateSinglePose(image.imageElement, config?.toJs()),
+      );
+      return pose.fromJs();
+    } else if (data is html.VideoElement) {
+      final pose = await promiseToFuture<interop.Pose>(
+        _poseNet.estimateSinglePose(data, config?.toJs()),
+      );
+      return pose.fromJs();
+    }
+
+    throw UnimplementedError('Does not support $data');
   }
 
   @override
-  void dispose() => _net.dispose();
+  void dispose() => _poseNet.dispose();
 }
 
 extension on SinglePersonInterfaceConfig {
