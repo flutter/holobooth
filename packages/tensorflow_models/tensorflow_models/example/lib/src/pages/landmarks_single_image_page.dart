@@ -161,9 +161,7 @@ class _LandmarksSingleImageResultsState
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final aspectRatio = Size(1, _image.height / _image.width);
-    final previewSize = aspectRatio * 500;
-
+    final previewSize = Size(1, _image.height / _image.width) * 500;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
