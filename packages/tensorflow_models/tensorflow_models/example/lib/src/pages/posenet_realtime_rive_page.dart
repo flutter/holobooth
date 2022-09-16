@@ -132,6 +132,7 @@ class _PoseNetOverlay extends StatefulWidget {
 
 class _PoseNetOverlayState extends State<_PoseNetOverlay> {
   tf.Pose? _pose;
+  tf.PoseNet? _poseNet;
   _BearRiveAnimationController? _bearRiveAnimationController;
 
   static const _maskSize = Size(600, 600);
@@ -142,11 +143,16 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
     _estimateSinglePose();
   }
 
+  @override
+  void dispose() {
+    _poseNet?.dispose();
+    super.dispose();
+  }
+
   Future<void> _estimateSinglePose() async {
-    final poseNet = await tf.load();
-    final pose = await poseNet.estimateSinglePose(widget.videoElement);
+    _poseNet = await tf.load();
+    final pose = await _poseNet!.estimateSinglePose(widget.videoElement);
     setState(() => _pose = pose);
-    poseNet.dispose();
   }
 
   void _shouldAnimate() {
