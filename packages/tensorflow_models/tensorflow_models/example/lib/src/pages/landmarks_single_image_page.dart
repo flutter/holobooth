@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
@@ -134,8 +135,9 @@ class _LandmarksSingleImageResults extends StatefulWidget {
 
 class _LandmarksSingleImageResultsState
     extends State<_LandmarksSingleImageResults> {
-  Uint8List? _bytes;
+  ui.Image? _image;
   tf.Faces? _faces;
+  Uint8List? _bytes;
 
   @override
   void initState() {
@@ -148,38 +150,58 @@ class _LandmarksSingleImageResultsState
     final bytes = await widget.picture.readAsBytes();
     final faces =
         await faceLandmarksDetector.estimateFaces(widget.picture.path);
+    final image = await decodeImageFromList(bytes);
     setState(() {
-      _bytes = bytes;
+      _image = image;
       _faces = faces;
+      _bytes = bytes;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_bytes == null || _faces == null) {
+    if (_image == null || _faces == null || _bytes == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    const aspectRatio = Size(1, 1.778);
+    final previewSize = aspectRatio * 500;
+
     return Scaffold(
-      body: Stack(
-        children: [
-          Transform.scale(
-            scaleX: -1,
-            child: Image.memory(
-              _bytes!,
-              errorBuilder: (context, error, stackTrace) =>
-                  Text('Error, $error, $stackTrace'),
-            ),
-          ),
-          if (_faces != null)
-            for (final face in _faces!)
-              CustomPaint(
-                painter: _FaceLandmarkCustomPainter(
-                  face: face,
-                  pixelRatio: MediaQuery.of(context).devicePixelRatio,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            SizedBox.fromSize(
+              size: previewSize,
+              child: Transform.scale(
+                // TODO(alestiago): Allow passing mirrored parameter to model to avoid doing so.
+                scaleX: -1,
+                child: Image.memory(
+                  _bytes!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Text('Error, $error, $stackTrace'),
                 ),
               ),
-        ],
+            ),
+            if (_faces != null)
+              for (final face in _faces!)
+                SizedBox.fromSize(
+                  size: previewSize,
+                  child: CustomPaint(
+                    painter: _FaceLandmarkCustomPainter(
+                      face: face,
+                      pixelRatio: MediaQuery.of(context).devicePixelRatio,
+                      imageSize: Size(
+                        _image!.width.toDouble(),
+                        _image!.height.toDouble(),
+                      ),
+                      previewSize: previewSize,
+                    ),
+                  ),
+                ),
+          ],
+        ),
       ),
     );
   }
@@ -189,10 +211,14 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   const _FaceLandmarkCustomPainter({
     required this.face,
     required this.pixelRatio,
+    required this.imageSize,
+    required this.previewSize,
   });
 
   final tf.Face face;
   final double pixelRatio;
+  final Size imageSize;
+  final Size previewSize;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -203,11 +229,19 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
     final path = Path();
     for (final keypoint in face.keypoints) {
+      final offset = Offset(
+        keypoint.x.normalize(
+          fromMax: imageSize.width,
+          toMax: previewSize.width,
+        ),
+        keypoint.y.normalize(
+          fromMax: imageSize.height,
+          toMax: previewSize.height,
+        ),
+      );
       path.addOval(
         Rect.fromCircle(
-          // TODO(alestiago): Investigate point positioning.
-          center:
-              Offset(keypoint.x.toDouble(), keypoint.y.toDouble()) / pixelRatio,
+          center: offset,
           radius: 1,
         ),
       );
@@ -218,4 +252,18 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face || pixelRatio != oldDelegate.pixelRatio;
+}
+
+extension on num {
+  double normalize({
+    num fromMin = 0,
+    required num fromMax,
+    num toMin = 0,
+    required num toMax,
+  }) {
+    assert(fromMin < fromMax, 'fromMin must be less than fromMax');
+    assert(toMin < toMax, 'toMin must be less than toMax');
+
+    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
+  }
 }
