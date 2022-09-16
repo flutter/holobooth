@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class SingleCapturePage extends StatefulWidget {
   const SingleCapturePage({Key? key}) : super(key: key);
@@ -19,14 +19,15 @@ class SingleCapturePage extends StatefulWidget {
 }
 
 class _SingleCapturePageState extends State<SingleCapturePage> {
-  CameraController? _controller;
+  CameraController? _cameraController;
   late Completer<void> _cameraControllerCompleter;
 
-  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
+  bool get _isCameraAvailable =>
+      (_cameraController?.value.isInitialized) ?? false;
 
   Future<void> _stop() async {
     if (!_isCameraAvailable) return;
-    return _controller!.pausePreview();
+    return _cameraController!.pausePreview();
   }
 
   @override
@@ -41,12 +42,12 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
     _cameraControllerCompleter = Completer<void>();
     try {
       final cameras = await availableCameras();
-      _controller = CameraController(
+      _cameraController = CameraController(
         cameras[0],
         ResolutionPreset.max,
         enableAudio: false,
       );
-      await _controller!.initialize();
+      await _cameraController!.initialize();
       _cameraControllerCompleter.complete();
     } catch (error) {
       _cameraControllerCompleter.completeError(error);
@@ -55,16 +56,16 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _cameraController?.dispose();
     super.dispose();
   }
 
   Future<void> _onSnapPressed() async {
     final navigator = Navigator.of(context);
-    final cameraImage = await _controller!.takePicture();
+    final cameraImage = await _cameraController!.takePicture();
     await _stop();
 
-    final previewPageRoute = PreviewPage.route(image: cameraImage);
+    final previewPageRoute = _PreviewPage.route(image: cameraImage);
     unawaited(navigator.push(previewPageRoute));
   }
 
@@ -82,7 +83,7 @@ class _SingleCapturePageState extends State<SingleCapturePage> {
         } else if (snapshot.connectionState == ConnectionState.done) {
           camera = _CameraFrame(
             onSnapPressed: _onSnapPressed,
-            child: _controller!.buildPreview(),
+            child: _cameraController!.buildPreview(),
           );
         } else {
           camera = const CircularProgressIndicator();
@@ -123,44 +124,34 @@ class _CameraFrame extends StatelessWidget {
   }
 }
 
-class PreviewPage extends StatefulWidget {
-  const PreviewPage({Key? key, required this.image}) : super(key: key);
+class _PreviewPage extends StatefulWidget {
+  const _PreviewPage({Key? key, required this.image}) : super(key: key);
 
   static Route<void> route({required XFile image}) {
-    return MaterialPageRoute(builder: (_) => PreviewPage(image: image));
+    return MaterialPageRoute(builder: (_) => _PreviewPage(image: image));
   }
 
   final XFile image;
 
   @override
-  State<PreviewPage> createState() => _PreviewPageState();
+  State<_PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage> {
-  KeypointOld? keypoint;
-  PoseNet? _net;
+class _PreviewPageState extends State<_PreviewPage> {
+  tf.Keypoint? keypoint;
+  tf.PoseNet? _poseNet;
   Uint8List? _bytes;
-  Pose? _poseAnalysis;
+  tf.Pose? _poseAnalysis;
 
   Future<void> _analyzeImage() async {
-    _net?.dispose();
-    _net = await load();
-
+    _poseNet?.dispose();
+    _poseNet = await tf.load();
     final bytes = await widget.image.readAsBytes();
-    setState(() {
-      _bytes = bytes;
-    });
-
-    final pose = await _net!.estimateSinglePose(widget.image.path);
+    final pose = await _poseNet!.estimateSinglePose(widget.image.path);
     setState(() {
       _poseAnalysis = pose;
+      _bytes = bytes;
     });
-    print(pose.score);
-
-    for (final keypoint in pose.keypoints) {
-      print(keypoint.part);
-      print(keypoint.score);
-    }
   }
 
   @override
@@ -170,11 +161,17 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   @override
+  void dispose() {
+    _poseNet?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Preview')),
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
             if (_bytes != null)
               Image.memory(
@@ -183,42 +180,37 @@ class _PreviewPageState extends State<PreviewPage> {
                   return Text('Error, $error, $stackTrace');
                 },
               ),
-            if (_poseAnalysis != null) _Results(pose: _poseAnalysis!),
+            if (_poseAnalysis != null)
+              for (final keypoint in _poseAnalysis!.keypoints)
+                if (keypoint.score > 0.5) ...[
+                  Positioned(
+                    left: keypoint.position.x.toDouble(),
+                    top: keypoint.position.y.toDouble(),
+                    child: Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.lerp(
+                          Colors.red,
+                          Colors.green,
+                          keypoint.score.toDouble(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: keypoint.position.x.toDouble(),
+                    top: keypoint.position.y.toDouble(),
+                    child: Text(
+                      keypoint.part,
+                      style: const TextStyle(fontSize: 20, color: Colors.blue),
+                    ),
+                  ),
+                ]
           ],
         ),
       ),
     );
-  }
-}
-
-class _Results extends StatelessWidget {
-  const _Results({Key? key, required this.pose}) : super(key: key);
-
-  final Pose pose;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (final keypoint in pose.keypoints)
-          Text('${keypoint.part} in ${keypoint.position.toStringFormatted()} '
-              'with accuracy ${keypoint.score.toPercentage()}')
-      ],
-    );
-  }
-}
-
-extension on Vector2D {
-  String toStringFormatted() {
-    final x = this.x.toStringAsFixed(2);
-    final y = this.y.toStringAsFixed(2);
-    return '($x,$y)';
-  }
-}
-
-extension on num {
-  String toPercentage() {
-    final percentage = (this * 100).toStringAsFixed(2);
-    return '$percentage %';
   }
 }
