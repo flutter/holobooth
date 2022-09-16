@@ -203,7 +203,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
     final path = Path();
     for (final keypoint in face.keypoints) {
-      print('x: ${keypoint.x}, y: ${keypoint.y}');
       path.addOval(
         Rect.fromCircle(
           // TODO(alestiago): Investigate point positioning.
