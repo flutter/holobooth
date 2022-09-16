@@ -140,7 +140,7 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
   @override
   void initState() {
     super.initState();
-    _estimateSinglePose();
+    _loadPoseNet().then((_) => _estimateSinglePose());
   }
 
   @override
@@ -149,8 +149,9 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
     super.dispose();
   }
 
+  Future<void> _loadPoseNet() async => _poseNet = await tf.load();
+
   Future<void> _estimateSinglePose() async {
-    _poseNet = await tf.load();
     final pose = await _poseNet!.estimateSinglePose(widget.videoElement);
     setState(() => _pose = pose);
   }
