@@ -191,7 +191,6 @@ class _LandmarksSingleImageResultsState
                   child: CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: face,
-                      pixelRatio: MediaQuery.of(context).devicePixelRatio,
                       imageSize: Size(
                         _image!.width.toDouble(),
                         _image!.height.toDouble(),
@@ -210,13 +209,11 @@ class _LandmarksSingleImageResultsState
 class _FaceLandmarkCustomPainter extends CustomPainter {
   const _FaceLandmarkCustomPainter({
     required this.face,
-    required this.pixelRatio,
     required this.imageSize,
     required this.previewSize,
   });
 
   final tf.Face face;
-  final double pixelRatio;
   final Size imageSize;
   final Size previewSize;
 
@@ -251,7 +248,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face || pixelRatio != oldDelegate.pixelRatio;
+      face != oldDelegate.face;
 }
 
 extension on num {
