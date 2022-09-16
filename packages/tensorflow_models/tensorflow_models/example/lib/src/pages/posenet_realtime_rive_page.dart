@@ -132,6 +132,9 @@ class _PoseNetOverlay extends StatefulWidget {
 
 class _PoseNetOverlayState extends State<_PoseNetOverlay> {
   tf.Pose? _pose;
+  _BearRiveAnimationController? _bearRiveAnimationController;
+
+  static const _maskSize = Size(600, 600);
 
   @override
   void initState() {
@@ -146,74 +149,94 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
     poseNet.dispose();
   }
 
+  void _shouldAnimate() {
+    final controller = _bearRiveAnimationController;
+    final pose = _pose;
+    if (controller == null) return;
+    if (pose == null) return;
+
+    final leftWrist = pose.keypoints.firstWhere((k) => k.part == 'leftWrist');
+    final rightWrist = pose.keypoints.firstWhere((k) => k.part == 'rightWrist');
+    final hasHandsUp = leftWrist.score > 0.9 && rightWrist.score > 0.9;
+    controller.isHandsUp.change(hasHandsUp);
+  }
+
+  void _onBearRiveAnimationControllerReady(
+    _BearRiveAnimationController controller,
+  ) =>
+      setState(() => _bearRiveAnimationController = controller);
+
   @override
   Widget build(BuildContext context) {
     final pose = _pose;
     if (pose == null) return const SizedBox();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _estimateSinglePose());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _estimateSinglePose();
+      _shouldAnimate();
+    });
 
-    final keypoint = pose.keypoints.firstWhere((k) => k.part == 'nose');
-    final maskSize = Size(500, 500);
+    final noseKeypoint = pose.keypoints.firstWhere((k) => k.part == 'nose');
     return Positioned(
-      left: (keypoint.position.x.toDouble() - 30) - (maskSize.width / 2),
-      top: (keypoint.position.y.toDouble() - 20) - (maskSize.height / 2),
+      // TODO(alestiago): Try and fix the camera preview effect so that coordinates are precise, or
+      // tweak coordinates according to the preview.
+      left: (noseKeypoint.position.x.toDouble() - 30) - (_maskSize.width / 2),
+      top: noseKeypoint.position.y.toDouble() - (_maskSize.height / 2),
       child: SizedBox.fromSize(
-        size: maskSize,
-        child: _Bear(),
+        size: _maskSize,
+        child: _Bear(
+          onControllerReady: _onBearRiveAnimationControllerReady,
+        ),
       ),
     );
   }
 }
 
 class _Bear extends StatefulWidget {
-  const _Bear({Key? key}) : super(key: key);
+  const _Bear({
+    this.onControllerReady,
+  });
+
+  final void Function(_BearRiveAnimationController controller)?
+      onControllerReady;
 
   @override
   _BearState createState() => _BearState();
 }
 
 class _BearState extends State<_Bear> {
-  SMIBool? _fail;
+  _BearRiveAnimationController? _controller;
 
   void _onRiveInit(Artboard artboard) {
-    final controller =
-        StateMachineController.fromArtboard(artboard, 'Login Machine');
-    artboard.addController(controller!);
-    for (var input in controller.inputs) {
-      print(input.name);
-    }
-    _fail = controller.findInput<bool>('isHandsUp') as SMIBool;
-    print(_fail);
+    _controller = _BearRiveAnimationController(artboard);
+    artboard.addController(_controller!);
+    widget.onControllerReady?.call(_controller!);
   }
 
-  void _onTap() {
-    print(_fail);
-    _fail?.value = !_fail!.value;
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _onTap,
-      child: RiveAnimation.asset(
-        'bear.rive',
-        fit: BoxFit.cover,
-        onInit: _onRiveInit,
-      ),
+    return RiveAnimation.asset(
+      'bear.rive',
+      fit: BoxFit.cover,
+      onInit: _onRiveInit,
     );
   }
 }
 
 class _BearRiveAnimationController extends StateMachineController {
-  static StateMachineController? create(Artboard artboard) {
-    for (final animation in artboard.animations) {
-      if (animation is StateMachine && animation.name == 'Login Machine') {
-        return StateMachineController(animation);
-      }
-    }
-    return null;
+  _BearRiveAnimationController(Artboard artboard)
+      : super(
+          artboard.animations.whereType<StateMachine>().firstWhere(
+                (stateMachine) => stateMachine.name == 'Login Machine',
+              ),
+        ) {
+    isHandsUp = findInput<bool>('isHandsUp')! as SMIBool;
   }
 
-  _BearRiveAnimationController._(StateMachine stateMachine)
-      : super(stateMachine);
+  late SMIBool isHandsUp;
 }
