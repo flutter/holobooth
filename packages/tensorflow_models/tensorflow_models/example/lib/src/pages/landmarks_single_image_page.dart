@@ -135,9 +135,10 @@ class _LandmarksSingleImageResults extends StatefulWidget {
 
 class _LandmarksSingleImageResultsState
     extends State<_LandmarksSingleImageResults> {
-  ui.Image? _image;
-  tf.Faces? _faces;
-  Uint8List? _bytes;
+  bool isLoading = true;
+  late final ui.Image _image;
+  late final tf.Faces _faces;
+  late final Uint8List _bytes;
 
   @override
   void initState() {
@@ -147,24 +148,20 @@ class _LandmarksSingleImageResultsState
 
   Future<void> _initState() async {
     final faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
-    final bytes = await widget.picture.readAsBytes();
-    final faces =
-        await faceLandmarksDetector.estimateFaces(widget.picture.path);
-    final image = await decodeImageFromList(bytes);
-    setState(() {
-      _image = image;
-      _faces = faces;
-      _bytes = bytes;
-    });
+    _bytes = await widget.picture.readAsBytes();
+    _faces = await faceLandmarksDetector.estimateFaces(widget.picture.path);
+    _image = await decodeImageFromList(_bytes);
+    faceLandmarksDetector.dispose();
+    setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_image == null || _faces == null || _bytes == null) {
+    if (isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    const aspectRatio = Size(1, 1.778);
+    final aspectRatio = Size(1, _image.height / _image.width);
     final previewSize = aspectRatio * 500;
 
     return Scaffold(
@@ -177,28 +174,27 @@ class _LandmarksSingleImageResultsState
                 // TODO(alestiago): Allow passing mirrored parameter to model to avoid doing so.
                 scaleX: -1,
                 child: Image.memory(
-                  _bytes!,
+                  _bytes,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) =>
                       Text('Error, $error, $stackTrace'),
                 ),
               ),
             ),
-            if (_faces != null)
-              for (final face in _faces!)
-                SizedBox.fromSize(
-                  size: previewSize,
-                  child: CustomPaint(
-                    painter: _FaceLandmarkCustomPainter(
-                      face: face,
-                      imageSize: Size(
-                        _image!.width.toDouble(),
-                        _image!.height.toDouble(),
-                      ),
-                      previewSize: previewSize,
+            for (final face in _faces)
+              SizedBox.fromSize(
+                size: previewSize,
+                child: CustomPaint(
+                  painter: _FaceLandmarkCustomPainter(
+                    face: face,
+                    imageSize: Size(
+                      _image.width.toDouble(),
+                      _image.height.toDouble(),
                     ),
+                    previewSize: previewSize,
                   ),
                 ),
+              ),
           ],
         ),
       ),
