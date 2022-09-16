@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,7 @@ class _CameraState extends State<_Camera> {
   }
 }
 
-class _LandmarksSingleImageResults extends StatelessWidget {
+class _LandmarksSingleImageResults extends StatefulWidget {
   const _LandmarksSingleImageResults({required this.picture});
 
   static Route<void> route({required XFile picture}) => MaterialPageRoute(
@@ -126,31 +127,96 @@ class _LandmarksSingleImageResults extends StatelessWidget {
 
   final XFile picture;
 
-  Future<tf.Faces> _analyzeImage() async {
+  @override
+  State<_LandmarksSingleImageResults> createState() =>
+      _LandmarksSingleImageResultsState();
+}
+
+class _LandmarksSingleImageResultsState
+    extends State<_LandmarksSingleImageResults> {
+  Uint8List? _bytes;
+  tf.Faces? _faces;
+
+  @override
+  void initState() {
+    super.initState();
+    _initState();
+  }
+
+  Future<void> _initState() async {
     final faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
-    return faceLandmarksDetector.estimateFaces(picture.path);
+    final bytes = await widget.picture.readAsBytes();
+    final faces =
+        await faceLandmarksDetector.estimateFaces(widget.picture.path);
+    setState(() {
+      _bytes = bytes;
+      _faces = faces;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<tf.Faces>(
-      future: _analyzeImage(),
-      builder: (context, snapshot) {
-        late final Widget body;
-        if (snapshot.hasError) {
-          body = Text('Error: ${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          final faces = snapshot.data;
-          body = Text('Done: $faces');
-        } else {
-          body = const Text('Loading');
-        }
+    if (_bytes == null || _faces == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
-        return Scaffold(
-          appBar: AppBar(title: const Text('Landmarks Single Image Results')),
-          body: body,
-        );
-      },
+    return Scaffold(
+      body: Stack(
+        children: [
+          Transform.scale(
+            scaleX: -1,
+            child: Image.memory(
+              _bytes!,
+              errorBuilder: (context, error, stackTrace) =>
+                  Text('Error, $error, $stackTrace'),
+            ),
+          ),
+          if (_faces != null)
+            for (final face in _faces!)
+              CustomPaint(
+                painter: _FaceLandmarkCustomPainter(
+                  face: face,
+                  pixelRatio: MediaQuery.of(context).devicePixelRatio,
+                ),
+              ),
+        ],
+      ),
     );
   }
+}
+
+class _FaceLandmarkCustomPainter extends CustomPainter {
+  const _FaceLandmarkCustomPainter({
+    required this.face,
+    required this.pixelRatio,
+  });
+
+  final tf.Face face;
+  final double pixelRatio;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.red
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    final path = Path();
+    for (final keypoint in face.keypoints) {
+      print('x: ${keypoint.x}, y: ${keypoint.y}');
+      path.addOval(
+        Rect.fromCircle(
+          // TODO(alestiago): Investigate point positioning.
+          center:
+              Offset(keypoint.x.toDouble(), keypoint.y.toDouble()) / pixelRatio,
+          radius: 1,
+        ),
+      );
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
+      face != oldDelegate.face || pixelRatio != oldDelegate.pixelRatio;
 }
