@@ -48,7 +48,7 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
 
   final interop.FaceLandmarksDetector _faceLandmarksDetector;
 
-  /// Estimates [Faces] from an different sources.
+  /// Estimates [Faces] from different sources.
   ///
   /// The supported sources are:
   /// - [html.ImageElement] Raw html element that contains the image to process.
