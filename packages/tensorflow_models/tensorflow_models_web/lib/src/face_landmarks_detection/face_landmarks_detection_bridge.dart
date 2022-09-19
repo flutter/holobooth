@@ -36,7 +36,7 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   Faces _facesFromJs(List<dynamic> jsFaces) {
     final list = <Face>[];
     for (final jsObject in jsFaces) {
-      //Convert NativeJavascriptObject to Map by encoding and decoding JSON
+      // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
       final json = interop.stringify(jsObject as Object);
       final map =
           Map<String, dynamic>.from(jsonDecode(json) as Map<String, dynamic>);
@@ -66,9 +66,10 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
     );
 
     if (object is html.VideoElement) {
-      return promiseToFuture<Faces>(
+      final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(object, config),
       );
+      return _facesFromJs(result);
     } else if (object is String) {
       final image = await HtmlImageLoader(object).loadImage();
       final result = await promiseToFuture<List<dynamic>>(
@@ -76,9 +77,10 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
       );
       return _facesFromJs(result);
     } else if (object is html.ImageElement) {
-      return promiseToFuture<Faces>(
+      final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(object, config),
       );
+      return _facesFromJs(result);
     }
 
     throw Exception('Unsupported input type');

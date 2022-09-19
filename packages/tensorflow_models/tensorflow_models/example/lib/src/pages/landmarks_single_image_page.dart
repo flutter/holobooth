@@ -147,10 +147,7 @@ class _LandmarksSingleImageResultsState
   Future<void> _initState() async {
     final faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
     _bytes = await widget.picture.readAsBytes();
-    _faces = await faceLandmarksDetector.estimateFaces(
-      widget.picture.path,
-      estimationConfig: const tf.EstimationConfig(flipHorizontal: false),
-    );
+    _faces = await faceLandmarksDetector.estimateFaces(widget.picture.path);
     _image = await decodeImageFromList(_bytes);
     faceLandmarksDetector.dispose();
     setState(() => isLoading = false);
