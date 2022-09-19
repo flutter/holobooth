@@ -49,12 +49,10 @@ class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
   }
 }
 
-typedef OnCameraReadyCallback = void Function(CameraController controller);
-
 class _Camera extends StatefulWidget {
   const _Camera({this.onCameraReady});
 
-  final OnCameraReadyCallback? onCameraReady;
+  final void Function(CameraController controller)? onCameraReady;
 
   @override
   State<_Camera> createState() => _CameraState();
