@@ -11,6 +11,8 @@ class Keypoint {
 }
 
 class Face {
+  const Face(this.keypoints);
+
   factory Face.fromJs(List<dynamic> keyPointsJs) {
     return Face(
       keyPointsJs.map(
@@ -27,12 +29,25 @@ class Face {
       ).toList(),
     );
   }
-  Face(this.keypoints);
+
   final List<Keypoint> keypoints;
 }
 
+class EstimationConfig {
+  const EstimationConfig({
+    this.flipHorizontal = false,
+    this.staticImageMode = true,
+  });
+
+  final bool flipHorizontal;
+  final bool staticImageMode;
+}
+
 abstract class FaceLandmarksDetector {
-  Future<Faces> estimateFaces(dynamic object);
+  Future<Faces> estimateFaces(
+    dynamic object, {
+    EstimationConfig estimationConfig = const EstimationConfig(),
+  });
 
   void dispose();
 }

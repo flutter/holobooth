@@ -56,10 +56,13 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   /// - [html.VideoElement] Raw html element that contains the image (last
   /// frame) to process.
   @override
-  Future<Faces> estimateFaces(dynamic object) async {
+  Future<Faces> estimateFaces(
+    dynamic object, {
+    EstimationConfig estimationConfig = const EstimationConfig(),
+  }) async {
     final config = interop.EstimationConfig(
-      flipHorizontal: true,
-      staticImageMode: false,
+      flipHorizontal: estimationConfig.flipHorizontal,
+      staticImageMode: estimationConfig.staticImageMode,
     );
 
     if (object is html.VideoElement) {

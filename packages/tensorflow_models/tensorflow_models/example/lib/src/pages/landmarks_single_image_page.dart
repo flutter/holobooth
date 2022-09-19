@@ -149,7 +149,10 @@ class _LandmarksSingleImageResultsState
   Future<void> _initState() async {
     final faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
     _bytes = await widget.picture.readAsBytes();
-    _faces = await faceLandmarksDetector.estimateFaces(widget.picture.path);
+    _faces = await faceLandmarksDetector.estimateFaces(
+      widget.picture.path,
+      estimationConfig: const tf.EstimationConfig(flipHorizontal: false),
+    );
     _image = await decodeImageFromList(_bytes);
     faceLandmarksDetector.dispose();
     setState(() => isLoading = false);
@@ -168,15 +171,11 @@ class _LandmarksSingleImageResultsState
           children: [
             SizedBox.fromSize(
               size: previewSize,
-              child: Transform.scale(
-                // TODO(alestiago): Allow passing mirrored parameter to model to avoid doing so.
-                scaleX: -1,
-                child: Image.memory(
-                  _bytes,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Text('Error, $error, $stackTrace'),
-                ),
+              child: Image.memory(
+                _bytes,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    Text('Error, $error, $stackTrace'),
               ),
             ),
             for (final face in _faces)
