@@ -58,8 +58,8 @@ extension on interop.Pose {
 }
 
 extension on interop.Keypoint {
-  Keypoint fromJs() {
-    return Keypoint(score: score, position: position.fromJs(), part: part);
+  KeypointOld fromJs() {
+    return KeypointOld(score: score, position: position.fromJs(), part: part);
   }
 }
 

@@ -34,4 +34,8 @@ abstract class TensorflowModelsPlatform extends PlatformInterface {
   Future<PoseNet> loadPosenet([ModelConfig? config]) {
     throw UnimplementedError('loadPosenet() has not been implemented.');
   }
+
+  Future<FaceLandmarksDetector> loadFaceLandmark() {
+    throw UnimplementedError('loadFaceLandmark() has not been implemented.');
+  }
 }

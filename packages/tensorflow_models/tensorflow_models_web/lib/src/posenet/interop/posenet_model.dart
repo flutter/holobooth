@@ -4,6 +4,7 @@
 library posenet;
 
 import 'package:js/js.dart';
+import 'package:tensorflow_models_web/src/common/common.dart';
 import 'package:tensorflow_models_web/src/posenet/interop/base_model.dart'
     show BaseModel;
 import 'package:tensorflow_models_web/src/posenet/interop/types.dart' show Pose;
@@ -166,16 +167,5 @@ class PoseNet {
   external Promise<Pose> estimateSinglePose(
     dynamic /*ImageData|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|tf.Tensor3D*/ input, [
     SinglePersonInterfaceConfig? config,
-  ]);
-}
-
-@JS()
-abstract class Promise<T> {
-  external factory Promise(
-    void Function(void Function(T result) resolve, Function reject) executor,
-  );
-  external Promise<T> then(
-    void Function(T result) onFulfilled, [
-    Function onRejected,
   ]);
 }
