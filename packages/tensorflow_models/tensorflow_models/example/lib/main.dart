@@ -1,9 +1,7 @@
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(
-      const MaterialApp(home: _App()),
-    );
+void main() => runApp(const MaterialApp(home: _App()));
 
 class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
@@ -12,6 +10,7 @@ class _App extends StatelessWidget {
     'Single Image': SingleCapturePage.route(),
     'Landmarks Single Image': LandmarksSingleImagePage.route(),
     'Landmarks Video Stream': LandmarksVideoStreamPage.route(),
+    'Landmarks Open Mouth': LandmarksOpenMouthPage.route(),
   };
 
   @override
