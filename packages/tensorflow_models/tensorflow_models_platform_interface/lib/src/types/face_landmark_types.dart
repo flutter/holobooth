@@ -33,13 +33,31 @@ class Face {
   final List<Keypoint> keypoints;
 }
 
+/// {@template types.face_landmark_types.EstimationConfig}
+/// Configuration for the estimation of the face landmarks.
+/// {@endtemplate}
 class EstimationConfig {
+  /// {@macro types.face_landmark_types.EstimationConfig}
   const EstimationConfig({
     this.flipHorizontal = false,
     this.staticImageMode = true,
   });
 
+  /// Whether to flip the image horizontally.
   final bool flipHorizontal;
+
+  /// Whether the image should be treated as a video stream or a single image.
+  ///
+  /// If set to true, face detection runs on every input image, ideal for
+  /// processing a batch of static, possibly unrelated, images.
+  ///
+  /// If set to false, face detection runs on the first images, and then tracks
+  /// the face landmarks. This reduces latency and is ideal for processing video
+  /// frames.
+  ///
+  /// See also:
+  ///
+  /// * https://google.github.io/mediapipe/solutions/face_mesh.html#static_image_mode
   final bool staticImageMode;
 }
 
