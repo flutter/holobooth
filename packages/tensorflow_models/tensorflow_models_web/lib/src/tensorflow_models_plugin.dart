@@ -40,4 +40,9 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
       ),
     );
   }
+
+  @override
+  Future<dynamic> loadBodySegmentation() {
+    throw UnimplementedError();
+  }
 }

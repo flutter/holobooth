@@ -38,4 +38,8 @@ abstract class TensorflowModelsPlatform extends PlatformInterface {
   Future<FaceLandmarksDetector> loadFaceLandmark() {
     throw UnimplementedError('loadFaceLandmark() has not been implemented.');
   }
+
+  Future<dynamic> loadBodySegmentation() {
+    throw UnimplementedError('loadBodySegmentation() has not been implemented.');
+  }
 }
