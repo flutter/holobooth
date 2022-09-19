@@ -219,29 +219,25 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.fill;
     final highlightPaint = Paint()
       ..color = Colors.yellow
       ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.fill;
 
-    final lips =
-        face.keypoints.where((keypoint) => keypoint.name == 'lips').toList();
-    final topLipPoint = lips[1];
-    final bottomLipPoint = lips[2];
+    final topLipPoint = face.keypoints[13];
+    final bottomLipPoint = face.keypoints[14];
     final dx = topLipPoint.x - bottomLipPoint.x;
     final dy = topLipPoint.y - bottomLipPoint.y;
     final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
+    final isMouthOpened = distance > 1;
 
-    for (var i = 0; i < lips.length; i++) {
-      final keypoint = lips[i];
+    final lips = face.keypoints.where(
+      (keypoint) => keypoint.name?.contains('lips') ?? false,
+    );
+    for (final keypoint in lips) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-
-      canvas.drawCircle(
-        offset,
-        paint.strokeWidth,
-        distance > 1 ? highlightPaint : paint,
-      );
+      canvas.drawCircle(offset, 2, isMouthOpened ? highlightPaint : paint);
     }
   }
 
