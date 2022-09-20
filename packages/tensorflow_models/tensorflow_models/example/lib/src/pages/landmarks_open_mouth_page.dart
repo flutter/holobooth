@@ -227,10 +227,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
-    final lips = face.keypoints.where(
-      (keypoint) => keypoint.name?.contains('lips') ?? false,
-    );
-    for (final keypoint in lips) {
+    for (final keypoint in face.keypoints) {
+      if (!(keypoint.name?.contains('lips') ?? false)) continue;
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
       canvas.drawCircle(offset, 2, paint);
     }
