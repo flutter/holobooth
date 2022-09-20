@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
@@ -8,6 +9,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
+import 'package:vector_math/vector_math.dart' hide Colors;
+import 'package:zflutter/zflutter.dart';
 
 class LandmarksRotatingFacePage extends StatelessWidget {
   const LandmarksRotatingFacePage({Key? key}) : super(key: key);
@@ -62,14 +65,30 @@ class _LandmarksRotatingFaceViewState
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
+                      final face = faces.first;
+                      final nose = face.keypoints[6];
 
-                      return SizedBox.fromSize(
-                        size: size,
-                        child: CustomPaint(
-                          painter: _FaceLandmarkCustomPainter(
-                            face: faces.first,
+                      return Stack(
+                        children: [
+                          SizedBox.fromSize(
+                            size: size,
+                            child: CustomPaint(
+                              painter: _FaceLandmarkCustomPainter(
+                                face: face,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox.fromSize(
+                            size: size,
+                            child: _ZAxisArrowsIllustration(
+                              face: face,
+                              offset: -Offset(
+                                (size.width / 2) - nose.x.toDouble(),
+                                (size.height / 2) - nose.y.toDouble(),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   );
@@ -219,22 +238,139 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.fill;
+    final highlightPaint = Paint()
+      ..color = Colors.yellow
+      ..strokeWidth = 2
+      ..style = PaintingStyle.fill;
 
-    final path = Path();
     for (final keypoint in face.keypoints) {
+      final index = face.keypoints.indexOf(keypoint);
+      final fooPaint =
+          index == 127 || index == 6 || index == 356 ? highlightPaint : paint;
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      path.addOval(
-        Rect.fromCircle(
-          center: offset,
-          radius: 1,
-        ),
-      );
+      canvas.drawCircle(offset, 2, fooPaint);
     }
-    canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
+}
+
+/// Computes the face rotation matrix.
+///
+/// This is still a feature being worked on by the tfjs team. See, https://github.com/tensorflow/tfjs/issues/3835#issuecomment-1109111171.
+Matrix3 _calculateRotationMatrix(tf.Face face) {
+  // Math calculations extractred from the following pull request, see https://github.com/tensorflow/tfjs-models/pull/844/files/.
+  final leftCheeck = face.keypoints[127];
+  final rightCheeck = face.keypoints[356];
+  final nose = face.keypoints[6];
+
+  final distanceToNose = Vector3(
+    (nose.x - leftCheeck.x).toDouble(),
+    (nose.y - leftCheeck.y).toDouble(),
+    (nose.z! - leftCheeck.z!).toDouble(),
+  );
+  final distanceBetweenCheecks = Vector3(
+    (rightCheeck.x - leftCheeck.x).toDouble(),
+    (rightCheeck.y - leftCheeck.y).toDouble(),
+    (rightCheeck.z! - leftCheeck.z!).toDouble(),
+  );
+  final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
+
+  final vectorX = distanceBetweenCheecks.normalized();
+  final vectorY = perpendicular.normalized();
+  final vectorZ = vectorX.cross(vectorY).normalized();
+  return Matrix3.zero()
+    ..row0.x = vectorX.x
+    ..row0.y = vectorY.x
+    ..row0.z = vectorZ.x
+    ..row1.x = vectorX.y
+    ..row1.y = vectorY.y
+    ..row1.z = vectorZ.y
+    ..row2.x = vectorX.z
+    ..row2.y = vectorY.z
+    ..row2.z = vectorZ.z;
+}
+
+class _ZAxisArrowsIllustration extends StatelessWidget {
+  _ZAxisArrowsIllustration({
+    required this.face,
+    required this.offset,
+  }) {
+    final leftCheeck = face.keypoints[127];
+    final rightCheeck = face.keypoints[356];
+    final nose = face.keypoints[6];
+
+    // final distanceToNose = Vector3(
+    //   (nose.x - leftCheeck.x).toDouble(),
+    //   (nose.y - leftCheeck.y).toDouble(),
+    //   (nose.z! - leftCheeck.z!).toDouble(),
+    // );
+    // final distanceBetweenCheecks = Vector3(
+    //   (rightCheeck.x - leftCheeck.x).toDouble(),
+    //   (rightCheeck.y - leftCheeck.y).toDouble(),
+    //   (rightCheeck.z! - leftCheeck.z!).toDouble(),
+    // );
+    // final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
+
+    // _vectorX = distanceBetweenCheecks.normalized();
+    // _vectorY = perpendicular.normalized();
+    // _vectorZ = _vectorX.cross(_vectorY).normalized();
+    final bottomX = (rightCheeck.x + leftCheeck.x) / 2;
+    final bottomY = (rightCheeck.y + leftCheeck.y) / 2;
+    _degree = math.atan((nose.y - bottomY) / (nose.x - bottomX));
+  }
+
+  final tf.Face face;
+
+  final Offset offset;
+
+  // late final Vector3 _vectorX;
+  // late final Vector3 _vectorY;
+  // late final Vector3 _vectorZ;
+  late final double _degree;
+
+  @override
+  Widget build(BuildContext context) {
+    const length = 100.0;
+
+    return ZIllustration(
+      children: [
+        ZPositioned(
+          translate: ZVector.only(x: offset.dx, y: offset.dy),
+          rotate: ZVector.only(x: _degree),
+          child: ZGroup(
+            children: [
+              ZShape(
+                color: Colors.red,
+                stroke: 10,
+                path: [
+                  ZMove(0, 0, 0),
+                  ZLine(length, 0, 0),
+                ],
+              ),
+              ZShape(
+                color: Colors.green,
+                stroke: 10,
+                path: [
+                  ZMove(0, 0, 0),
+                  ZLine(0, length, 0),
+                ],
+              ),
+              ZShape(
+                color: Colors.blue,
+                stroke: 10,
+                path: [
+                  ZMove(0, 0, 0),
+                  ZLine(0, 0, length),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }

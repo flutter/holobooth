@@ -13,6 +13,12 @@ dependencies:
     sdk: flutter
   tensorflow_models:
     path: ../
+  vector_math: ^2.1.2
+  zflutter:
+    git: 
+      url: https://github.com/jamesblasco/zflutter
+      path: zflutter
+      ref: bde6f320d6d278a82f40420df68a1ab4c466ba4c
 
 dev_dependencies:
   very_good_analysis: ^3.0.1
