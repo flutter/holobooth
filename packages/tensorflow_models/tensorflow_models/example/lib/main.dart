@@ -12,6 +12,7 @@ class _App extends StatelessWidget {
     'Single Image': SingleCapturePage.route(),
     'Landmarks Single Image': LandmarksSingleImagePage.route(),
     'Landmarks Video Stream': LandmarksVideoStreamPage.route(),
+    'Landmarks Rotating Face': LandmarksRotatingFacePage.route(),
   };
 
   @override
