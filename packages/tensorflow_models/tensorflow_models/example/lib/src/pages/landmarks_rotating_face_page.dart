@@ -38,6 +38,10 @@ class _LandmarksRotatingFaceViewState
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
+    Future.delayed(
+      Duration(seconds: 10),
+      () => _cameraController!.pausePreview(),
+    );
   }
 
   void _queryVideoElement() {
@@ -258,47 +262,14 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       face != oldDelegate.face;
 }
 
-/// Computes the face rotation matrix.
-///
-/// This is still a feature being worked on by the tfjs team. See, https://github.com/tensorflow/tfjs/issues/3835#issuecomment-1109111171.
-Matrix3 _calculateRotationMatrix(tf.Face face) {
-  // Math calculations extractred from the following pull request, see https://github.com/tensorflow/tfjs-models/pull/844/files/.
-  final leftCheeck = face.keypoints[127];
-  final rightCheeck = face.keypoints[356];
-  final nose = face.keypoints[6];
-
-  final distanceToNose = Vector3(
-    (nose.x - leftCheeck.x).toDouble(),
-    (nose.y - leftCheeck.y).toDouble(),
-    (nose.z! - leftCheeck.z!).toDouble(),
-  );
-  final distanceBetweenCheecks = Vector3(
-    (rightCheeck.x - leftCheeck.x).toDouble(),
-    (rightCheeck.y - leftCheeck.y).toDouble(),
-    (rightCheeck.z! - leftCheeck.z!).toDouble(),
-  );
-  final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
-
-  final vectorX = distanceBetweenCheecks.normalized();
-  final vectorY = perpendicular.normalized();
-  final vectorZ = vectorX.cross(vectorY).normalized();
-  return Matrix3.zero()
-    ..row0.x = vectorX.x
-    ..row0.y = vectorY.x
-    ..row0.z = vectorZ.x
-    ..row1.x = vectorX.y
-    ..row1.y = vectorY.y
-    ..row1.z = vectorZ.y
-    ..row2.x = vectorX.z
-    ..row2.y = vectorY.z
-    ..row2.z = vectorZ.z;
-}
-
 class _ZAxisArrowsIllustration extends StatelessWidget {
   _ZAxisArrowsIllustration({
     required this.face,
     required this.offset,
   }) {
+    // Computing the face rotation is a feature is still in development:
+    // https://github.com/tensorflow/tfjs/issues/3835#issuecomment-1109111171
+
     final leftCheeck = face.keypoints[127];
     final rightCheeck = face.keypoints[356];
     final nose = face.keypoints[6];
@@ -373,4 +344,37 @@ class _ZAxisArrowsIllustration extends StatelessWidget {
       ],
     );
   }
+}
+
+Matrix3 _calculateRotationMatrix(tf.Face face) {
+  // Math calculations extractred from the following pull request, see https://github.com/tensorflow/tfjs-models/pull/844/files/.
+  final leftCheeck = face.keypoints[127];
+  final rightCheeck = face.keypoints[356];
+  final nose = face.keypoints[6];
+
+  final distanceToNose = Vector3(
+    (nose.x - leftCheeck.x).toDouble(),
+    (nose.y - leftCheeck.y).toDouble(),
+    (nose.z! - leftCheeck.z!).toDouble(),
+  );
+  final distanceBetweenCheecks = Vector3(
+    (rightCheeck.x - leftCheeck.x).toDouble(),
+    (rightCheeck.y - leftCheeck.y).toDouble(),
+    (rightCheeck.z! - leftCheeck.z!).toDouble(),
+  );
+  final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
+
+  final vectorX = distanceBetweenCheecks.normalized();
+  final vectorY = perpendicular.normalized();
+  final vectorZ = vectorX.cross(vectorY).normalized();
+  return Matrix3.zero()
+    ..row0.x = vectorX.x
+    ..row0.y = vectorY.x
+    ..row0.z = vectorZ.x
+    ..row1.x = vectorX.y
+    ..row1.y = vectorY.y
+    ..row1.z = vectorZ.y
+    ..row2.x = vectorX.z
+    ..row2.y = vectorY.z
+    ..row2.z = vectorZ.z;
 }
