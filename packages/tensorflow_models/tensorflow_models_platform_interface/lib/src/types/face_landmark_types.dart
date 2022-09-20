@@ -1,16 +1,23 @@
 typedef Faces = List<Face>;
 
-class Keypoint {
-  Keypoint(this.x, this.y, this.z, this.score, this.name);
+abstract class FaceLandmarksDetector {
+  Future<Faces> estimateFaces(
+    dynamic object, {
+    EstimationConfig estimationConfig = const EstimationConfig(),
+  });
 
-  final num x;
-  final num y;
-  final num? z;
-  final num? score;
-  final String? name;
+  void dispose();
 }
 
+/// {@template types.face_landmar_types.Face}
+/// A face detected by [FaceLandmarksDetector].
+///
+/// The face is represented by a list of [Keypoint]s. The order of the keypoints
+/// is imporant, the mappings of these indexes can be find at:
+/// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
+/// {@endtemplate}
 class Face {
+  /// {@macro types.face_landmar_types.Face}
   const Face(this.keypoints);
 
   factory Face.fromJs(List<dynamic> keyPointsJs) {
@@ -31,6 +38,16 @@ class Face {
   }
 
   final List<Keypoint> keypoints;
+}
+
+class Keypoint {
+  Keypoint(this.x, this.y, this.z, this.score, this.name);
+
+  final num x;
+  final num y;
+  final num? z;
+  final num? score;
+  final String? name;
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
@@ -59,13 +76,4 @@ class EstimationConfig {
   ///
   /// * https://google.github.io/mediapipe/solutions/face_mesh.html#static_image_mode
   final bool staticImageMode;
-}
-
-abstract class FaceLandmarksDetector {
-  Future<Faces> estimateFaces(
-    dynamic object, {
-    EstimationConfig estimationConfig = const EstimationConfig(),
-  });
-
-  void dispose();
 }
