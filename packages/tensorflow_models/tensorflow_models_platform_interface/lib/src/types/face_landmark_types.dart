@@ -18,10 +18,10 @@ abstract class FaceLandmarksDetector {
 /// {@endtemplate}
 class Face {
   /// {@macro types.face_landmar_types.Face}
-  const Face(this.keypoints);
+  const Face._(this.keypoints);
 
   factory Face.fromJs(List<dynamic> keyPointsJs) {
-    return Face(
+    return Face._(
       keyPointsJs.map(
         (e) {
           final map = e as Map<String, dynamic>;
