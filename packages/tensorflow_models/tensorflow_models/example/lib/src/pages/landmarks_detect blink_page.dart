@@ -7,12 +7,12 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
-extension XKeypoint on tf.Keypoint {
+extension on tf.Keypoint {
   double euclaideanDistance(tf.Keypoint other) =>
       math.sqrt(math.pow(other.x - x, 2) + math.pow(other.y - y, 2));
 }
 
-extension XFace on tf.Face {
+extension on tf.Face {
   double leftEyeRatio() {
     final right = keypoints[362];
     final left = keypoints[263];
