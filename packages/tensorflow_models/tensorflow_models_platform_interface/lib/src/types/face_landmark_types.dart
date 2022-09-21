@@ -12,9 +12,7 @@ abstract class FaceLandmarksDetector {
 /// {@template types.face_landmar_types.Face}
 /// A face detected by [FaceLandmarksDetector].
 ///
-/// The face is represented by a list of [Keypoint]s. The order of the keypoints
-/// is imporant, the mappings of these indexes can be find at:
-/// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
+/// The face is represented by [keypoints].
 /// {@endtemplate}
 class Face {
   /// {@macro types.face_landmar_types.Face}
@@ -37,6 +35,11 @@ class Face {
     );
   }
 
+  /// Points representing the face landmarks.
+  ///
+  /// The order of the [keypoints] is significant, the mappings of these indexes
+  /// can be find at:
+  /// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
   final List<Keypoint> keypoints;
 }
 
