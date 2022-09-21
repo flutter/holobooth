@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "build/web",
-    "site": "io-photobooth-dev",
+    "site": "673c89b8-38f7-11ed-a261-0242ac120002",
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": [
@@ -12,33 +12,39 @@
       "__/**"
     ],
     "rewrites": [
-      { "source": "/share/**",
-        "function": "shareImage"
-      },
+      { "source": "/share/**", "function": "shareImage" },
       {
         "source": "**",
         "destination": "/index.html"
       }
     ],
     "headers": [
-      { "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [{
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }]
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
       },
-      { "source": "**/*.@(jpg|jpeg|gif|png)",
-        "headers": [{
-          "key": "Cache-Control",
-          "value": "max-age=3600"
-        }]
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=3600"
+          }
+        ]
       },
       {
         "source": "**",
-        "headers": [{
-          "key": "Cache-Control",
+        "headers": [
+          {
+            "key": "Cache-Control",
             "value": "no-cache, no-store, must-revalidate"
-        }]
+          }
+        ]
       }
     ],
     "predeploy": []
