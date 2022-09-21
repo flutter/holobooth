@@ -216,14 +216,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final topLipPoint = face.keypoints[13];
-    final bottomLipPoint = face.keypoints[14];
-    final dx = topLipPoint.x - bottomLipPoint.x;
-    final dy = topLipPoint.y - bottomLipPoint.y;
-    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
-    final isMouthOpened = distance > 1;
     final paint = Paint()
-      ..color = isMouthOpened ? Colors.yellow : Colors.red
+      ..color = face.isMouthOpened() ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
@@ -237,4 +231,15 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
+}
+
+extension on tf.Face {
+  bool isMouthOpened() {
+    final topLipPoint = keypoints[13];
+    final bottomLipPoint = keypoints[14];
+    final dx = topLipPoint.x - bottomLipPoint.x;
+    final dy = topLipPoint.y - bottomLipPoint.y;
+    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
+    return distance > 1;
+  }
 }
