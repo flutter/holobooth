@@ -7,10 +7,12 @@ environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
+  audioplayers: ^1.0.1
   camera: ^0.10.0+1
   cross_file: ^0.3.3+1
   flutter:
     sdk: flutter
+  just_audio: ^0.9.29
   tensorflow_models:
     path: ../
 
@@ -19,3 +21,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

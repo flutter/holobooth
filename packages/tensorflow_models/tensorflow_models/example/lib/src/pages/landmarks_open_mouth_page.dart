@@ -4,10 +4,10 @@ import 'dart:math' as math;
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
+//import 'package:just_audio/just_audio.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
@@ -31,6 +31,7 @@ class _LandmarksOpenMouthPage extends StatefulWidget {
 class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
+  late AudioPlayer player;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -41,6 +42,21 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     final videoElement = html.querySelector('video')! as html.VideoElement;
     setState(() => _videoElement = videoElement);
   }
+
+  @override
+  void initState() {
+    super.initState();
+    player = AudioPlayer();
+    // player.setSource(AssetSource('Lion_Roar.mp3'));
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
+  bool playSound = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +78,13 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
+                      if (faces.first.isMouthOpened() && playSound) {
+                        player.play(DeviceFileSource('assets/Lion_Roar.mp3'));
+                        playSound = false;
+                      } else if (!faces.first.isMouthOpened()) {
+                        player.stop();
+                        playSound = true;
+                      }
 
                       return SizedBox.fromSize(
                         size: size,
@@ -216,8 +239,14 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final topLipPoint = face.keypoints[13];
+    final bottomLipPoint = face.keypoints[14];
+    final dx = topLipPoint.x - bottomLipPoint.x;
+    final dy = topLipPoint.y - bottomLipPoint.y;
+    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
+    final isMouthOpened = distance > 1;
     final paint = Paint()
-      ..color = face.isMouthOpened() ? Colors.yellow : Colors.red
+      ..color = isMouthOpened ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
