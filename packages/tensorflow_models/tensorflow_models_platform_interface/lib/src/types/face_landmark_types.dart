@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
@@ -15,36 +17,40 @@ abstract class FaceLandmarksDetector {
 /// The face is represented by [keypoints].
 /// {@endtemplate}
 class Face {
-  /// {@macro types.face_landmar_types.Face}
   const Face._(this.keypoints);
 
-  factory Face.fromJs(List<dynamic> keyPointsJs) {
+  factory Face.fromJson(Map<String, dynamic> json) {
+    final keypoints = json['keypoints'] as List<dynamic>;
     return Face._(
-      keyPointsJs.map(
-        (e) {
-          final map = e as Map<String, dynamic>;
-          return Keypoint(
-            map['x'] as num,
-            map['y'] as num,
-            map['z'] as num?,
-            map['score'] as num?,
-            map['name'] as String?,
-          );
-        },
-      ).toList(),
+      UnmodifiableListView(
+        keypoints.map(
+          (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   /// Points representing the face landmarks.
   ///
   /// The order of the [keypoints] is significant, the mappings of these indexes
-  /// can be find at:
+  /// to face locations can be found at:
   /// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
-  final List<Keypoint> keypoints;
+  final UnmodifiableListView<Keypoint> keypoints;
 }
 
+/// Representation of a [Face] landmark point.
 class Keypoint {
-  Keypoint(this.x, this.y, this.z, this.score, this.name);
+  Keypoint._(this.x, this.y, this.z, this.score, this.name);
+
+  factory Keypoint.fromJson(Map<String, dynamic> json) {
+    return Keypoint._(
+      json['x'] as num,
+      json['y'] as num,
+      json['z'] as num?,
+      json['score'] as num?,
+      json['name'] as String?,
+    );
+  }
 
   final num x;
   final num y;
