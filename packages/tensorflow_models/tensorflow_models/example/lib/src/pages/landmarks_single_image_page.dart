@@ -45,7 +45,9 @@ class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
     final navigator = Navigator.of(context);
     final picture = await _cameraController!.takePicture();
     await _stop();
-    await navigator.push(_LandmarksSingleImageResults.route(picture: picture));
+    unawaited(
+      navigator.push(_LandmarksSingleImageResults.route(picture: picture)),
+    );
   }
 
   @override
@@ -84,7 +86,7 @@ class _LandmarksSingleImageResultsState
   @override
   void initState() {
     super.initState();
-    _initState();
+    //_initState();
   }
 
   Future<void> _initState() async {
