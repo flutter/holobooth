@@ -1,5 +1,4 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:tensorflow_models_platform_interface/src/method_channel/method_channel_tensorflow_models.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// The interface that implementations of tensorflow must implement.
@@ -29,10 +28,6 @@ abstract class TensorflowModelsPlatform extends PlatformInterface {
   static set instance(TensorflowModelsPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
-  }
-
-  Future<PoseNet> loadPosenet([ModelConfig? config]) {
-    throw UnimplementedError('loadPosenet() has not been implemented.');
   }
 
   Future<FaceLandmarksDetector> loadFaceLandmark() {
