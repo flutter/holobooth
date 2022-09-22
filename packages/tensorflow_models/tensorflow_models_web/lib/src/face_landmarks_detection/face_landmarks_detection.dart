@@ -1,2 +1,2 @@
-export 'face_landmarks_detection_bridge.dart';
+export 'face_landmarks_detector_web.dart';
 export 'interop/interop.dart';
