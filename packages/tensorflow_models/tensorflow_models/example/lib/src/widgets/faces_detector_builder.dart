@@ -1,5 +1,6 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
+import 'dart:async';
 import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
@@ -21,8 +22,8 @@ class FacesDetectorBuilder extends StatefulWidget {
 }
 
 class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
+  final _streamController = StreamController<tf.Faces>();
   late final tf.FaceLandmarksDetector _faceLandmarksDetector;
-  tf.Faces? _faces;
 
   static const _estimationConfig = tf.EstimationConfig(
     flipHorizontal: true,
@@ -32,33 +33,44 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   @override
   void initState() {
     super.initState();
-    _load();
+    _load().then((_) => Future.doWhile(_estimateFaces));
   }
 
-  Future<void> _load() async {
-    _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
-    await _detect();
-  }
+  Future<void> _load() async =>
+      _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
 
-  Future<void> _detect() async {
+  Future<bool> _estimateFaces() async {
     final faces = await _faceLandmarksDetector.estimateFaces(
       widget.videoElement,
       estimationConfig: _estimationConfig,
     );
-    setState(() => _faces = faces);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => _detect());
+    _streamController.add(faces);
+    return !_streamController.isClosed;
   }
 
   @override
   void dispose() {
     _faceLandmarksDetector.dispose();
+    _streamController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_faces == null) return const SizedBox.shrink();
-    return widget.builder(context, _faces!);
+    return StreamBuilder<tf.Faces>(
+      stream: _streamController.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        final data = snapshot.data;
+        if (data != null) {
+          return widget.builder(context, data);
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }
