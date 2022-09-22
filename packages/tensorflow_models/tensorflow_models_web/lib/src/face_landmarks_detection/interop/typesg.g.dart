@@ -2,7 +2,7 @@
 library types;
 
 import "package:js/js.dart";
-import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/common_interfaces.dart';
+import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/common_interfaces.g.dart';
 
 /// @license
 /// Copyright 2021 Google LLC. All Rights Reserved.

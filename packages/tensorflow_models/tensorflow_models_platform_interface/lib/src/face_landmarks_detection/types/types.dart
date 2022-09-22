@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+/// Equivalent Dart models of TF interop.
+
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {

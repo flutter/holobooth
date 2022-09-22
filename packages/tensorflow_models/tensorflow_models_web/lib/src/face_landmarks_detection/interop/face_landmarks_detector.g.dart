@@ -2,7 +2,7 @@
 library face_landmarks_detector;
 
 import "package:js/js.dart";
-import 'package:tensorflow_models_web/src/common/common.dart';
+import 'package:tensorflow_models_web/src/common/common.g.dart';
 
 //import "mediapipe/types.dart" show MediaPipeFaceMeshMediaPipeEstimationConfig;
 //import "tfjs/types.dart" show MediaPipeFaceMeshTfjsEstimationConfig;
