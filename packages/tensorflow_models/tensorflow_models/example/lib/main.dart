@@ -10,7 +10,7 @@ class _App extends StatelessWidget {
     'Landmarks Single Image': LandmarksSingleImagePage.route(),
     'Landmarks Video Stream': LandmarksVideoStreamPage.route(),
     'Landmarks Open Mouth': LandmarksOpenMouthPage.route(),
-    'Landmarks Detect Blink': LandmarksDetectBlinkPage.route(),
+    'Landmarks Close Eyes': LandmarksDetectBlinkPage.route(),
   };
 
   @override

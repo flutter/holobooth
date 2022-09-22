@@ -1,9 +1,9 @@
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:async';
 import 'dart:html' as html;
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
@@ -87,7 +87,7 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            _Camera(onCameraReady: _onCameraReady),
+            CameraView(onCameraReady: _onCameraReady),
             if (_videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -96,7 +96,7 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
                     ..width = size.width.floor()
                     ..height = size.height.floor();
 
-                  return _FacesDetectorBuilder(
+                  return FacesDetectorBuilder(
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
@@ -120,131 +120,6 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
   }
 }
 
-class _Camera extends StatefulWidget {
-  const _Camera({this.onCameraReady});
-
-  final void Function(CameraController controller)? onCameraReady;
-
-  @override
-  State<_Camera> createState() => _CameraState();
-}
-
-class _CameraState extends State<_Camera> {
-  late final CameraController _cameraController;
-  final Completer<void> _cameraControllerCompleter = Completer<void>();
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeCamera();
-  }
-
-  Future<void> _initializeCamera() async {
-    if (_cameraControllerCompleter.isCompleted) return;
-
-    try {
-      final cameras = await availableCameras();
-      _cameraController = CameraController(
-        cameras[0],
-        ResolutionPreset.max,
-        enableAudio: false,
-      );
-      await _cameraController.initialize();
-      widget.onCameraReady?.call(_cameraController);
-      _cameraControllerCompleter.complete();
-    } catch (error) {
-      _cameraControllerCompleter.completeError(error);
-    }
-  }
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: _cameraControllerCompleter.future,
-      builder: (context, snapshot) {
-        late final Widget camera;
-        if (snapshot.hasError) {
-          final error = snapshot.error;
-          if (error is CameraException) {
-            camera = Text('${error.code} : ${error.description}');
-          } else {
-            camera = Text('Unknown error: $error');
-          }
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _cameraController.buildPreview();
-        } else {
-          camera = const CircularProgressIndicator();
-        }
-
-        return Scaffold(body: Center(child: camera));
-      },
-    );
-  }
-}
-
-class _FacesDetectorBuilder extends StatefulWidget {
-  const _FacesDetectorBuilder({
-    required this.videoElement,
-    required this.builder,
-  });
-
-  final html.VideoElement videoElement;
-
-  final Widget Function(BuildContext context, tf.Faces faces) builder;
-
-  @override
-  State<_FacesDetectorBuilder> createState() => _FacesDetectorBuilderState();
-}
-
-class _FacesDetectorBuilderState extends State<_FacesDetectorBuilder> {
-  late final tf.FaceLandmarksDetector _faceLandmarksDetector;
-  tf.Faces? _faces;
-
-  static const _estimationConfig = tf.EstimationConfig(
-    flipHorizontal: true,
-    staticImageMode: false,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
-    await _detect();
-  }
-
-  Future<void> _detect() async {
-    final faces = await _faceLandmarksDetector.estimateFaces(
-      widget.videoElement,
-      estimationConfig: _estimationConfig,
-    );
-    setState(() => _faces = faces);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => _detect());
-  }
-
-  @override
-  void dispose() {
-    _faceLandmarksDetector.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_faces == null) return const SizedBox.shrink();
-    return widget.builder(context, _faces!);
-  }
-}
-
 class _FaceLandmarkCustomPainter extends CustomPainter {
   _FaceLandmarkCustomPainter({
     required this.face,
@@ -261,33 +136,35 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
     final blink = (rightEyeRatio + leftEyeRatio) / 2;
 
-    if (blink > 4) {
-      if (leftEyeRatio > rightEyeRatio) {
-        final leftEye = face.leftEyeCenter();
-        path.addOval(
-          Rect.fromCircle(
-            center: Offset(
-              leftEye.x.toDouble(),
-              leftEye.y.toDouble(),
-            ),
-            radius: 50,
-          ),
-        );
-      } else {
-        final rightEye = face.rightEyeCenter();
-        path.addOval(
-          Rect.fromCircle(
-            center: Offset(rightEye.x.toDouble(), rightEye.y.toDouble()),
-            radius: 50,
-          ),
-        );
-      }
-    }
-
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.fill;
+
+    final highlightPaint = Paint()
+      ..color = Colors.yellow
+      ..strokeWidth = 2
+      ..style = PaintingStyle.fill;
+
+    final leftEye =
+        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
+    final rightEye =
+        face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
+
+    final leftEyeBlink = blink > 4 && rightEyeRatio > leftEyeRatio;
+    final rightEyeBlink = blink > 4 && leftEyeRatio > rightEyeRatio;
+
+    final leftEyePaint = rightEyeBlink ? highlightPaint : paint;
+    final rightEyePaint = leftEyeBlink ? highlightPaint : paint;
+
+    for (final keypoint in leftEye) {
+      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+      canvas.drawCircle(offset, 2, leftEyePaint);
+    }
+    for (final keypoint in rightEye) {
+      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+      canvas.drawCircle(offset, 2, rightEyePaint);
+    }
 
     canvas.drawPath(path, paint);
   }
