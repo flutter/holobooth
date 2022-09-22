@@ -37,6 +37,10 @@ dependencies:
   rxdart: ^0.26.0
   uuid: ^3.0.6
 
+dependency_overrides:
+  camera_web:
+    path: '../webCameraPlugin/camera/packages/camera/camera_web'
+
 dev_dependencies:
   bloc_test: ^9.1.0
   camera_platform_interface: ^2.2.0
