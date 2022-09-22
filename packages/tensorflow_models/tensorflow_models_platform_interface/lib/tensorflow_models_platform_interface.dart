@@ -1,4 +1,4 @@
-library ranodm_library_mine;
+library tensorflow_models_platform_interface;
 
 export 'src/face_landmarks_detection/face_landmarks_detection.dart';
 export 'src/method_channel/method_channel_tensorflow_models.dart';
