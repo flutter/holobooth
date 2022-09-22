@@ -12,18 +12,24 @@ class CameraView extends StatefulWidget {
   State<CameraView> createState() => _CameraViewState();
 }
 
-class _CameraViewState extends State<CameraView> {
-  late final CameraController _cameraController;
-  final Completer<void> _cameraControllerCompleter = Completer<void>();
+class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
+  CameraController? _cameraController;
+  late Completer<void> _cameraControllerCompleter;
+
+  bool get _isCameraAvailable =>
+      (_cameraController?.value.isInitialized) ?? false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initializeCamera();
   }
 
   Future<void> _initializeCamera() async {
-    if (_cameraControllerCompleter.isCompleted) return;
+    if (_isCameraAvailable) return;
+
+    _cameraControllerCompleter = Completer<void>();
 
     try {
       final cameras = await availableCameras();
@@ -32,8 +38,8 @@ class _CameraViewState extends State<CameraView> {
         ResolutionPreset.max,
         enableAudio: false,
       );
-      await _cameraController.initialize();
-      widget.onCameraReady?.call(_cameraController);
+      await _cameraController?.initialize();
+      widget.onCameraReady?.call(_cameraController!);
       _cameraControllerCompleter.complete();
     } catch (error) {
       _cameraControllerCompleter.completeError(error);
@@ -42,8 +48,21 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    _cameraController?.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive) {
+      _cameraController?.dispose();
+      _cameraController = null;
+    } else if (state == AppLifecycleState.resumed &&
+        _cameraController == null) {
+      _initializeCamera();
+      setState(() {});
+    }
   }
 
   @override
@@ -60,7 +79,7 @@ class _CameraViewState extends State<CameraView> {
             camera = Text('Unknown error: $error');
           }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _cameraController.buildPreview();
+          camera = _cameraController!.buildPreview();
         } else {
           camera = const CircularProgressIndicator();
         }
