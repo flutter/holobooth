@@ -9,7 +9,6 @@ class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
 
   static final _pages = <String, Route<void>>{
-    'Single Image': SingleCapturePage.route(),
     'Landmarks Single Image': LandmarksSingleImagePage.route(),
     'Landmarks Video Stream': LandmarksVideoStreamPage.route(),
   };
