@@ -3,7 +3,7 @@ library shape_interfaces;
 
 import "package:js/js.dart";
 
-import 'common_interfaces.g.dart' show Keypoint;
+import 'common_interfaces.dart' show Keypoint;
 
 /// @license
 /// Copyright 2021 Google LLC. All Rights Reserved.
