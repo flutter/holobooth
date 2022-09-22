@@ -50,12 +50,16 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _downloadGif() async {
+    // FIXME(markfairless): Allow downloading the gif.
     final animation = img.Animation();
     for (final bytes in _imagesBytes) {
       animation.addFrame(img.decodeImage(bytes)!);
     }
-    final gif = img.encodeGifAnimation(animation);
-    // TODO(alestiago): Implement downloading this.
+    final gif = img.encodeGifAnimation(animation)!;
+    final xfile = XFile.fromData(Uint8List.fromList(gif));
+    await xfile.saveTo('');
+
+    setState(_imagesBytes.clear);
   }
 
   @override
@@ -71,7 +75,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
           ),
           const SizedBox(width: 16),
           FloatingActionButton(
-            onPressed: _onTakePhoto,
+            onPressed: _downloadGif,
             child: const Icon(Icons.download),
           ),
         ],
@@ -161,7 +165,6 @@ class _ImagePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height,
       width: 100,
       child: ListView.builder(
         itemCount: images.length,
