@@ -364,6 +364,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  js_interop_utils:
+    dependency: "direct main"
+    description:
+      path: "packages/js_interop_utils"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   just_audio:
     dependency: "direct main"
     description:

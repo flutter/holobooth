@@ -160,13 +160,3 @@ abstract class Color {
   external set a(num v);
   external factory Color({num r, num g, num b, num a});
 }
-
-@JS()
-abstract class Promise<T> {
-  external factory Promise(
-      void executor(void resolve(T result), Function reject));
-  external Promise then(void onFulfilled(T result), [Function onRejected]);
-}
-
-@JS('JSON.stringify')
-external String stringify(Object obj);
