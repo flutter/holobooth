@@ -46,7 +46,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
