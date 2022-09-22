@@ -1,11 +1,17 @@
+// TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
+import 'dart:collection';
 import 'dart:html' as html;
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:collection/collection.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
+
+final leftEyeRatioQueue = ListQueue<double>(30);
+final rightEyeRatioQueue = ListQueue<double>(30);
 
 extension on tf.Keypoint {
   double euclaideanDistance(tf.Keypoint other) =>
@@ -36,16 +42,6 @@ extension on tf.Face {
 
     return rhDistance / rvDistance;
   }
-
-  math.Point leftEyeCenter() => math.Point(
-        (keypoints[362].x + keypoints[263].x) / 2,
-        (keypoints[362].y + keypoints[263].y) / 2,
-      );
-
-  math.Point rightEyeCenter() => math.Point(
-        (keypoints[33].x + keypoints[133].x) / 2,
-        (keypoints[33].y + keypoints[133].y) / 2,
-      );
 }
 
 class LandmarksDetectBlinkPage extends StatelessWidget {
@@ -135,6 +131,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final rightEyeRatio = face.rightEyeRatio();
 
     final blink = (rightEyeRatio + leftEyeRatio) / 2;
+    leftEyeRatioQueue.add(leftEyeRatio);
+    rightEyeRatioQueue.add(rightEyeRatio);
 
     final paint = Paint()
       ..color = Colors.red
@@ -151,11 +149,12 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
 
-    final leftEyeBlink = blink > 4 && rightEyeRatio > leftEyeRatio;
-    final rightEyeBlink = blink > 4 && leftEyeRatio > rightEyeRatio;
+    final leftEyeBlink = blink > 4 && leftEyeRatio > leftEyeRatioQueue.average;
+    final rightEyeBlink =
+        blink > 4 && rightEyeRatio > rightEyeRatioQueue.average;
 
-    final leftEyePaint = rightEyeBlink ? highlightPaint : paint;
-    final rightEyePaint = leftEyeBlink ? highlightPaint : paint;
+    final leftEyePaint = leftEyeBlink ? highlightPaint : paint;
+    final rightEyePaint = rightEyeBlink ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
