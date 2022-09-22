@@ -64,8 +64,7 @@ class _CameraViewState extends State<CameraView> {
         } else {
           camera = const CircularProgressIndicator();
         }
-
-        return Scaffold(body: Center(child: camera));
+        return camera;
       },
     );
   }
