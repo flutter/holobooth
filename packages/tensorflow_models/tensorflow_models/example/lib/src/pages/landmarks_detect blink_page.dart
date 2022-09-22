@@ -131,41 +131,51 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final rightEyeRatio = face.rightEyeRatio();
 
     final blink = (rightEyeRatio + leftEyeRatio) / 2;
-    leftEyeRatioQueue.add(leftEyeRatio);
-    rightEyeRatioQueue.add(rightEyeRatio);
+    leftEyeRatioQueue.addFirst(leftEyeRatio);
+    rightEyeRatioQueue.addFirst(rightEyeRatio);
 
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 2
-      ..style = PaintingStyle.fill;
+    // To correctly detect eye events it needs an initial data set for
+    // comparison.
+    if (leftEyeRatioQueue.length > 10) {
+      if (leftEyeRatioQueue.length > 50) {
+        leftEyeRatioQueue.removeLast();
+        rightEyeRatioQueue.removeLast();
+      }
 
-    final highlightPaint = Paint()
-      ..color = Colors.yellow
-      ..strokeWidth = 2
-      ..style = PaintingStyle.fill;
+      final paint = Paint()
+        ..color = Colors.red
+        ..strokeWidth = 2
+        ..style = PaintingStyle.fill;
 
-    final leftEye =
-        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
-    final rightEye =
-        face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
+      final highlightPaint = Paint()
+        ..color = Colors.yellow
+        ..strokeWidth = 2
+        ..style = PaintingStyle.fill;
 
-    final leftEyeBlink = blink > 4 && leftEyeRatio > leftEyeRatioQueue.average;
-    final rightEyeBlink =
-        blink > 4 && rightEyeRatio > rightEyeRatioQueue.average;
+      final leftEye =
+          face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
+      final rightEye =
+          face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
 
-    final leftEyePaint = leftEyeBlink ? highlightPaint : paint;
-    final rightEyePaint = rightEyeBlink ? highlightPaint : paint;
+      final leftEyeBlink =
+          blink > 4 && leftEyeRatio > leftEyeRatioQueue.max / 2;
+      final rightEyeBlink =
+          blink > 4 && rightEyeRatio > rightEyeRatioQueue.max / 2;
 
-    for (final keypoint in leftEye) {
-      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      canvas.drawCircle(offset, 2, leftEyePaint);
+      final leftEyePaint = leftEyeBlink ? highlightPaint : paint;
+      final rightEyePaint = rightEyeBlink ? highlightPaint : paint;
+
+      for (final keypoint in leftEye) {
+        final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+        canvas.drawCircle(offset, 2, leftEyePaint);
+      }
+      for (final keypoint in rightEye) {
+        final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+        canvas.drawCircle(offset, 2, rightEyePaint);
+      }
+
+      canvas.drawPath(path, paint);
     }
-    for (final keypoint in rightEye) {
-      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      canvas.drawCircle(offset, 2, rightEyePaint);
-    }
-
-    canvas.drawPath(path, paint);
   }
 
   @override
