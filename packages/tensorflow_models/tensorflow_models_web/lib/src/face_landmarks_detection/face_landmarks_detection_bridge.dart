@@ -13,40 +13,18 @@ import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/inter
 /// * [MediaPipe's FaceMesh documentation](https://google.github.io/mediapipe/solutions/face_mesh.html)
 /// * [Tensorflow's FaceLandmarkDetection source code](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection)
 class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
-  FaceLandmarksDetectorWeb._(this._faceLandmarksDetector);
-  factory FaceLandmarksDetectorWeb.fromJs(
-    interop.FaceLandmarksDetector faceLandmarksDetector,
-  ) {
-    return FaceLandmarksDetectorWeb._(faceLandmarksDetector);
-  }
-
-  static Future<FaceLandmarksDetectorWeb> create([
-    interop.ModelConfig? config,
-  ]) async {
-    return FaceLandmarksDetectorWeb.fromJs(
-      await promiseToFuture(
-        interop.createDetector(
-          'MediaPipeFaceMesh',
-          config,
-        ),
-      ),
-    );
-  }
-
-  Faces _facesFromJs(List<dynamic> jsFaces) {
-    final list = <Face>[];
-    for (final jsObject in jsFaces) {
-      // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
-      final json = interop.stringify(jsObject as Object);
-      final map =
-          Map<String, dynamic>.from(jsonDecode(json) as Map<String, dynamic>);
-      final keyPointsJs = map['keypoints'] as List<dynamic>;
-      list.add(Face.fromJs(keyPointsJs));
-    }
-    return list;
-  }
+  FaceLandmarksDetectorWeb(this._faceLandmarksDetector);
 
   final interop.FaceLandmarksDetector _faceLandmarksDetector;
+
+  static Future<FaceLandmarksDetectorWeb> load([
+    interop.ModelConfig? config,
+  ]) async =>
+      FaceLandmarksDetectorWeb(
+        await promiseToFuture(
+          interop.createDetector('MediaPipeFaceMesh', config),
+        ),
+      );
 
   /// Estimates [Faces] from different sources.
   ///
@@ -88,4 +66,14 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
 
   @override
   void dispose() => _faceLandmarksDetector.dispose();
+}
+
+Faces _facesFromJs(List<dynamic> jsFaces) {
+  final faces = <Face>[];
+  for (final jsObject in jsFaces) {
+    // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
+    final json = interop.stringify(jsObject as Object);
+    faces.add(Face.fromJson(jsonDecode(json) as Map<String, dynamic>));
+  }
+  return faces;
 }

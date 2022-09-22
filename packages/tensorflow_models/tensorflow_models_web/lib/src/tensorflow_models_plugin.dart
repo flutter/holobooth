@@ -4,10 +4,6 @@ import 'package:tensorflow_models_web/src/face_landmarks_detection/face_landmark
     as landmark;
 import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart'
     as landmark_interop;
-import 'package:tensorflow_models_web/src/posenet/interop/interop.dart'
-    as interop;
-import 'package:tensorflow_models_web/src/posenet/posenet_bridge.dart'
-    as posenet;
 
 class TensorflowModelsPlugin extends TensorflowModelsPlatform {
   static void registerWith(Registrar registrar) {
@@ -15,25 +11,12 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
   }
 
   @override
-  Future<PoseNet> loadPosenet([ModelConfig? config]) {
-    return posenet.load(
-      interop.ModelConfig(
-        architecture: config?.architecture,
-        outputStride: config?.outputStride,
-        inputResolution: config?.inputResolution,
-        multiplier: config?.multiplier,
-        quantBytes: config?.quantBytes,
-      ),
-    );
-  }
-
-  @override
   Future<FaceLandmarksDetector> loadFaceLandmark() {
-    return landmark.FaceLandmarksDetectorWeb.create(
+    return landmark.FaceLandmarksDetectorWeb.load(
       landmark_interop.MediaPipeFaceMeshMediaPipeModelConfig(
         // TODO(oscar): not working because of missing constructor Mesh
         // https://github.com/google/mediapipe/issues/1976
-        //runtime: 'mediapipe',
+        // runtime: 'mediapipe',
         runtime: 'tfjs',
         refineLandmarks: true,
         maxFaces: 1,
