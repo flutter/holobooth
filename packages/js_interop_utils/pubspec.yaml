@@ -1,5 +1,5 @@
 name: js_interop_utils
-description: Package with some Javascript interop methods
+description: Package with Javascript functions needed for interop operations.
 version: 1.0.0+1
 publish_to: none
 
