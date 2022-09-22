@@ -20,6 +20,8 @@ dependencies:
     sdk: flutter
   image_loader:
     path: ../../image_loader
+  js_interop_utils:
+    path: ../../js_interop_utils
   tensorflow_models_platform_interface:
     path: ../tensorflow_models_platform_interface
 

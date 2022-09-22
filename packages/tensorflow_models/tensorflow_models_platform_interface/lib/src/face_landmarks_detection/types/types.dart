@@ -1,3 +1,8 @@
+/// Collection of equivalent Dart types matching TensorFlow's TypeScript
+/// implementation.
+///
+/// See also:
+/// * TypeScript types at: https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts
 import 'dart:collection';
 
 typedef Faces = List<Face>;
