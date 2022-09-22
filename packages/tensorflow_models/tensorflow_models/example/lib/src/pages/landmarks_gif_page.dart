@@ -4,7 +4,9 @@ import 'dart:html' as html;
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksGifPage extends StatelessWidget {
@@ -27,6 +29,7 @@ class _LandmarksGifView extends StatefulWidget {
 class _LandmarksGifViewState extends State<_LandmarksGifView> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
+  final _imagesBytes = <Uint8List>[];
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -38,41 +41,81 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
     setState(() => _videoElement = videoElement);
   }
 
+  Future<void> _onTakePhoto() async {
+    // TODO(markfairless): Consider changing to capture widget instead of camera.
+    if (_cameraController == null) return;
+    final picture = await _cameraController!.takePicture();
+    final bytes = await picture.readAsBytes();
+    setState(() => _imagesBytes.add(bytes));
+  }
+
+  Future<void> _downloadGif() async {
+    final animation = img.Animation();
+    for (final bytes in _imagesBytes) {
+      animation.addFrame(img.decodeImage(bytes)!);
+    }
+    final gif = img.encodeGifAnimation(animation);
+    // TODO(alestiago): Implement downloading this.
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AspectRatio(
-        aspectRatio: _cameraController?.value.aspectRatio ?? 1,
-        child: Stack(
-          children: [
-            CameraView(onCameraReady: _onCameraReady),
-            if (_videoElement != null)
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final size = constraints.biggest;
-                  _videoElement!
-                    ..width = size.width.floor()
-                    ..height = size.height.floor();
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: _onTakePhoto,
+            child: const Icon(Icons.camera),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            onPressed: _onTakePhoto,
+            child: const Icon(Icons.download),
+          ),
+        ],
+      ),
+      body: Row(
+        children: [
+          AspectRatio(
+            aspectRatio: _cameraController?.value.aspectRatio ?? 1,
+            child: Stack(
+              children: [
+                CameraView(onCameraReady: _onCameraReady),
+                if (_videoElement != null)
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final size = constraints.biggest;
+                      _videoElement!
+                        ..width = size.width.floor()
+                        ..height = size.height.floor();
 
-                  return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
-                    builder: (context, faces) {
-                      if (faces.isEmpty) return const SizedBox.shrink();
+                      return FacesDetectorBuilder(
+                        videoElement: _videoElement!,
+                        builder: (context, faces) {
+                          if (faces.isEmpty) return const SizedBox.shrink();
 
-                      return SizedBox.fromSize(
-                        size: size,
-                        child: CustomPaint(
-                          painter: _FaceLandmarkCustomPainter(
-                            face: faces.first,
-                          ),
-                        ),
+                          return SizedBox.fromSize(
+                            size: size,
+                            child: CustomPaint(
+                              painter: _FaceLandmarkCustomPainter(
+                                face: faces.first,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-              ),
-          ],
-        ),
+                  ),
+              ],
+            ),
+          ),
+          _ImagePreview(
+            images:
+                _imagesBytes.map((bytes) => Image.memory(bytes).image).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -108,4 +151,25 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
+}
+
+class _ImagePreview extends StatelessWidget {
+  const _ImagePreview({required this.images});
+
+  final List<ImageProvider> images;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: 100,
+      child: ListView.builder(
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          final image = images[index];
+          return Image(image: image);
+        },
+      ),
+    );
+  }
 }
