@@ -208,7 +208,7 @@ class _BlinkController extends StateMachineController {
               .whereType<StateMachine>()
               .firstWhere((stateMachine) => stateMachine.name == machineName),
         ) {
-    findInput<bool>(inputName)! as SMITrigger;
+    blinkTrigger = findInput<bool>(inputName)! as SMITrigger;
   }
 
   factory _BlinkController.left(Artboard artboard) => _BlinkController._(
