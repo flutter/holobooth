@@ -13,8 +13,8 @@ class CameraView extends StatefulWidget {
 }
 
 class _CameraViewState extends State<CameraView> {
-  late final CameraController _cameraController;
-  final Completer<void> _cameraControllerCompleter = Completer<void>();
+  late final CameraController? _cameraController;
+  late final Completer<void>? _cameraControllerCompleter;
 
   @override
   void initState() {
@@ -22,8 +22,14 @@ class _CameraViewState extends State<CameraView> {
     _initializeCamera();
   }
 
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    super.dispose();
+  }
+
   Future<void> _initializeCamera() async {
-    if (_cameraControllerCompleter.isCompleted) return;
+    _cameraControllerCompleter = Completer<void>();
 
     try {
       final cameras = await availableCameras();
@@ -32,24 +38,18 @@ class _CameraViewState extends State<CameraView> {
         ResolutionPreset.max,
         enableAudio: false,
       );
-      await _cameraController.initialize();
-      widget.onCameraReady?.call(_cameraController);
-      _cameraControllerCompleter.complete();
+      await _cameraController?.initialize();
+      widget.onCameraReady?.call(_cameraController!);
+      _cameraControllerCompleter?.complete();
     } catch (error) {
-      _cameraControllerCompleter.completeError(error);
+      _cameraControllerCompleter?.completeError(error);
     }
-  }
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: _cameraControllerCompleter.future,
+      future: _cameraControllerCompleter?.future,
       builder: (context, snapshot) {
         late final Widget camera;
         if (snapshot.hasError) {
@@ -60,7 +60,7 @@ class _CameraViewState extends State<CameraView> {
             camera = Text('Unknown error: $error');
           }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _cameraController.buildPreview();
+          camera = _cameraController!.buildPreview();
         } else {
           camera = const CircularProgressIndicator();
         }
