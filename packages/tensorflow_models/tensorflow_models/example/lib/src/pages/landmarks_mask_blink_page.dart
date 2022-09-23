@@ -104,15 +104,15 @@ class _BlinkMask extends StatefulWidget {
 }
 
 class __BlinkMaskState extends State<_BlinkMask> {
-  _LeftBlinkController? _leftBlinkController;
-  _RightBlinkController? _rightBlinkController;
+  _BlinkController? _leftBlinkController;
+  _BlinkController? _rightBlinkController;
   // Values to block mask blinking when eyes are closed
   bool? wasRightEyeClosed;
   bool? wasLeftEyeClosed;
 
   void _onRiveInit(Artboard artboard) {
-    _leftBlinkController = _LeftBlinkController(artboard);
-    _rightBlinkController = _RightBlinkController(artboard);
+    _leftBlinkController = _BlinkController.left(artboard);
+    _rightBlinkController = _BlinkController.right(artboard);
     artboard
       ..addController(_leftBlinkController!)
       ..addController(_rightBlinkController!);
@@ -198,26 +198,32 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       face != oldDelegate.face;
 }
 
-class _LeftBlinkController extends StateMachineController {
-  _LeftBlinkController(Artboard artboard)
-      : super(
-          artboard.animations.whereType<StateMachine>().firstWhere(
-                (stateMachine) => stateMachine.name == 'LeftEye',
-              ),
-        );
+class _BlinkController extends StateMachineController {
+  _BlinkController._(
+    Artboard artboard, {
+    required String machineName,
+    required String inputName,
+  }) : super(
+          artboard.animations
+              .whereType<StateMachine>()
+              .firstWhere((stateMachine) => stateMachine.name == machineName),
+        ) {
+    findInput<bool>(inputName)! as SMITrigger;
+  }
 
-  SMITrigger get blinkTrigger => findInput<bool>('leftBlink')! as SMITrigger;
-}
+  factory _BlinkController.left(Artboard artboard) => _BlinkController._(
+        artboard,
+        machineName: 'LeftEye',
+        inputName: 'leftBlink',
+      );
 
-class _RightBlinkController extends StateMachineController {
-  _RightBlinkController(Artboard artboard)
-      : super(
-          artboard.animations.whereType<StateMachine>().firstWhere(
-                (stateMachine) => stateMachine.name == 'RightEye',
-              ),
-        );
+  factory _BlinkController.right(Artboard artboard) => _BlinkController._(
+        artboard,
+        machineName: 'RightEye',
+        inputName: 'rightBlink',
+      );
 
-  SMITrigger get blinkTrigger => findInput<bool>('rightBlink')! as SMITrigger;
+  late SMITrigger blinkTrigger;
 }
 
 extension on tf.Face {
