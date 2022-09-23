@@ -3,6 +3,7 @@ import 'dart:html' as html;
 import 'dart:js_util';
 
 import 'package:image_loader/image_loader.dart';
+import 'package:js_interop_utils/js_interop_utils.dart' as js_interop_utils;
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart'
     as interop;
@@ -72,7 +73,7 @@ Faces _facesFromJs(List<dynamic> jsFaces) {
   final faces = <Face>[];
   for (final jsObject in jsFaces) {
     // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
-    final json = interop.stringify(jsObject as Object);
+    final json = js_interop_utils.stringify(jsObject as Object);
     faces.add(Face.fromJson(jsonDecode(json) as Map<String, dynamic>));
   }
   return faces;
