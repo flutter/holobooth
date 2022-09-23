@@ -44,7 +44,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
       widget.videoElement,
       estimationConfig: _estimationConfig,
     );
-    _streamController.add(faces);
+    if (!_streamController.isClosed) _streamController.add(faces);
     return !_streamController.isClosed;
   }
 
