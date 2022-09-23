@@ -26,21 +26,28 @@ class _LandmkarsSingleImageView extends StatefulWidget {
 }
 
 class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
-  late final CameraController _cameraController;
+  CameraController? _cameraController;
+  bool get isCameraAvailable =>
+      (_cameraController?.value.isInitialized) ?? false;
 
   void _onCameraReady(CameraController cameraController) =>
       setState(() => _cameraController = cameraController);
 
   Future<void> _onSnapPressed() async {
+    if (!isCameraAvailable) return;
+
     final navigator = Navigator.of(context);
-    final picture = await _cameraController.takePicture();
-    await navigator.push(_LandmarksSingleImageResults.route(picture: picture));
+    final picture = await _cameraController!.takePicture();
+
+    await navigator.pushReplacement(
+      _LandmarksSingleImageResults.route(picture: picture),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CameraView(onCameraReady: _onCameraReady),
+      body: Center(child: CameraView(onCameraReady: _onCameraReady)),
       floatingActionButton: FloatingActionButton(
         onPressed: _onSnapPressed,
         child: const Icon(Icons.camera),
