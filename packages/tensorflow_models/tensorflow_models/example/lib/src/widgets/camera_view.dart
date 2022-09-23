@@ -13,8 +13,8 @@ class CameraView extends StatefulWidget {
 }
 
 class _CameraViewState extends State<CameraView> {
-  CameraController? _cameraController;
-  late Completer<void> _cameraControllerCompleter;
+  late final CameraController? _cameraController;
+  late final Completer<void>? _cameraControllerCompleter;
 
   @override
   void initState() {
@@ -40,16 +40,16 @@ class _CameraViewState extends State<CameraView> {
       );
       await _cameraController?.initialize();
       widget.onCameraReady?.call(_cameraController!);
-      _cameraControllerCompleter.complete();
+      _cameraControllerCompleter?.complete();
     } catch (error) {
-      _cameraControllerCompleter.completeError(error);
+      _cameraControllerCompleter?.completeError(error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: _cameraControllerCompleter.future,
+      future: _cameraControllerCompleter?.future,
       builder: (context, snapshot) {
         late final Widget camera;
         if (snapshot.hasError) {
