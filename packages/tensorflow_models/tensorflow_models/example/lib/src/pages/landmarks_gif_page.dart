@@ -1,6 +1,7 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
+import 'package:tensorflow_models/tensorflow_models.dart';
 
 class LandmarksGifPage extends StatelessWidget {
   const LandmarksGifPage({Key? key}) : super(key: key);
@@ -31,6 +33,8 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   html.VideoElement? _videoElement;
   final _imagesBytes = <Uint8List>[];
 
+  late Face _currentFace;
+
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
@@ -42,22 +46,40 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _onTakePhoto() async {
-    // TODO(markfairless): Consider changing to capture widget instead of camera.
-    if (_cameraController == null) return;
-    final picture = await _cameraController!.takePicture();
-    final bytes = await picture.readAsBytes();
-    setState(() => _imagesBytes.add(bytes));
+    // if (_cameraController == null) return;
+    // final picture = await _cameraController!.takePicture();
+    // final bytes = await picture.readAsBytes();
+
+    // Save the canvas that the face is drawn to as a png.
+    final pictureRecorder = PictureRecorder();
+    final canvas = Canvas(pictureRecorder)
+      ..drawColor(Colors.white, BlendMode.color);
+
+    _FaceLandmarkCustomPainter(
+      face: _currentFace,
+    ).paint(canvas, context.size!);
+
+    final image = await pictureRecorder
+        .endRecording()
+        .toImage(context.size!.width.floor(), context.size!.height.floor());
+    final bytes = await image.toByteData(format: ImageByteFormat.png);
+    setState(() => _imagesBytes.add(bytes!.buffer.asUint8List()));
   }
 
   Future<void> _downloadGif() async {
-    // FIXME(markfairless): Allow downloading the gif.
     final animation = img.Animation();
     for (final bytes in _imagesBytes) {
       animation.addFrame(img.decodeImage(bytes)!);
     }
     final gif = img.encodeGifAnimation(animation)!;
-    final xfile = XFile.fromData(Uint8List.fromList(gif));
-    await xfile.saveTo('');
+
+    final file = XFile.fromData(
+      Uint8List.fromList(gif),
+      mimeType: 'image/gif',
+      name: 'animation.gif', // Use a different name?
+    );
+
+    await file.saveTo('');
 
     setState(_imagesBytes.clear);
   }
@@ -99,6 +121,9 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
                         videoElement: _videoElement!,
                         builder: (context, faces) {
                           if (faces.isEmpty) return const SizedBox.shrink();
+
+                          // Used for capturing the face. Here for poc.
+                          _currentFace = faces.first;
 
                           return SizedBox.fromSize(
                             size: size,
