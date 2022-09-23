@@ -1,4 +1,8 @@
-import "package:js/js.dart";
+import 'package:js/js.dart';
+
+/// Use native JSON.stringify to convert an object in a JSON
+@JS('JSON.stringify')
+external String stringify(Object obj);
 
 @JS()
 abstract class Promise<T> {

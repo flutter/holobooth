@@ -1,31 +1,32 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
-class LandmarksVideoStreamPage extends StatelessWidget {
-  const LandmarksVideoStreamPage({Key? key}) : super(key: key);
+class LandmarksDetectBlinkPage extends StatelessWidget {
+  const LandmarksDetectBlinkPage({Key? key}) : super(key: key);
 
   static Route<void> route() =>
-      MaterialPageRoute(builder: (_) => const LandmarksVideoStreamPage());
+      MaterialPageRoute(builder: (_) => const LandmarksDetectBlinkPage());
 
   @override
-  Widget build(BuildContext context) => const _LandmarksVideoStreamView();
+  Widget build(BuildContext context) => const _LandmarksDetectBlinkView();
 }
 
-class _LandmarksVideoStreamView extends StatefulWidget {
-  const _LandmarksVideoStreamView({Key? key}) : super(key: key);
+class _LandmarksDetectBlinkView extends StatefulWidget {
+  const _LandmarksDetectBlinkView({Key? key}) : super(key: key);
 
   @override
-  State<_LandmarksVideoStreamView> createState() =>
-      _LandmarksVideoStreamViewState();
+  State<_LandmarksDetectBlinkView> createState() =>
+      _LandmarksDetectBlinkViewState();
 }
 
-class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
+class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
 
@@ -46,7 +47,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            Center(child: CameraView(onCameraReady: _onCameraReady)),
+            CameraView(onCameraReady: _onCameraReady),
             if (_videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -80,7 +81,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
 }
 
 class _FaceLandmarkCustomPainter extends CustomPainter {
-  const _FaceLandmarkCustomPainter({
+  _FaceLandmarkCustomPainter({
     required this.face,
   });
 
@@ -91,22 +92,50 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.fill;
+    final highlightPaint = Paint()
+      ..color = Colors.yellow
+      ..strokeWidth = 2
+      ..style = PaintingStyle.fill;
 
-    final path = Path();
-    for (final keypoint in face.keypoints) {
+    final leftEye =
+        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
+    final rightEye =
+        face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
+    final leftEyePaint = face.isLeftEyeClosed() ? highlightPaint : paint;
+    final rightEyePaint = face.isRightEyeClosed() ? highlightPaint : paint;
+
+    for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      path.addOval(
-        Rect.fromCircle(
-          center: offset,
-          radius: 1,
-        ),
-      );
+      canvas.drawCircle(offset, 2, leftEyePaint);
     }
-    canvas.drawPath(path, paint);
+    for (final keypoint in rightEye) {
+      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+      canvas.drawCircle(offset, 2, rightEyePaint);
+    }
   }
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
+}
+
+extension on tf.Face {
+  bool isLeftEyeClosed() {
+    final top = keypoints[386];
+    final bottom = keypoints[374];
+    final dx = top.x - bottom.x;
+    final dy = top.y - bottom.y;
+    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
+    return distance < 10;
+  }
+
+  bool isRightEyeClosed() {
+    final top = keypoints[159];
+    final bottom = keypoints[145];
+    final dx = top.x - bottom.x;
+    final dy = top.y - bottom.y;
+    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
+    return distance < 10;
+  }
 }
