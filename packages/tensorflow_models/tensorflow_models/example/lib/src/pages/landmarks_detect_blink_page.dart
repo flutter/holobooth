@@ -89,7 +89,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final path = Path();
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
@@ -114,7 +113,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
       canvas.drawCircle(offset, 2, rightEyePaint);
     }
-    canvas.drawPath(path, paint);
   }
 
   @override
