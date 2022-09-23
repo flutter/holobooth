@@ -28,25 +28,18 @@ class _LandmkarsSingleImageView extends StatefulWidget {
 class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
   CameraController? _cameraController;
 
-  bool get _isCameraAvailable =>
-      (_cameraController?.value.isInitialized) ?? false;
-
   void _onCameraReady(CameraController cameraController) =>
       setState(() => _cameraController = cameraController);
 
-  Future<void> _stop() async {
-    if (!_isCameraAvailable) return;
-    return _cameraController!.pausePreview();
-  }
-
   Future<void> _onSnapPressed() async {
-    if (!_isCameraAvailable) return;
+    if (!_cameraController.isCameraAvailable) return;
 
     final navigator = Navigator.of(context);
     final picture = await _cameraController!.takePicture();
-    await _stop();
     unawaited(
-      navigator.push(_LandmarksSingleImageResults.route(picture: picture)),
+      navigator.pushReplacement(
+        _LandmarksSingleImageResults.route(picture: picture),
+      ),
     );
   }
 

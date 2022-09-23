@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
+import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 
 class CameraView extends StatefulWidget {
@@ -12,22 +13,24 @@ class CameraView extends StatefulWidget {
   State<CameraView> createState() => _CameraViewState();
 }
 
-class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
+class _CameraViewState extends State<CameraView> {
   CameraController? _cameraController;
   late Completer<void> _cameraControllerCompleter;
-
-  bool get _isCameraAvailable =>
-      (_cameraController?.value.isInitialized) ?? false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _initializeCamera();
   }
 
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    super.dispose();
+  }
+
   Future<void> _initializeCamera() async {
-    if (_isCameraAvailable) return;
+    if (_cameraController.isCameraAvailable) return;
 
     _cameraControllerCompleter = Completer<void>();
 
@@ -43,25 +46,6 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
       _cameraControllerCompleter.complete();
     } catch (error) {
       _cameraControllerCompleter.completeError(error);
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _cameraController?.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
-      _cameraController?.dispose();
-      _cameraController = null;
-    } else if (state == AppLifecycleState.resumed &&
-        _cameraController == null) {
-      _initializeCamera();
-      setState(() {});
     }
   }
 
