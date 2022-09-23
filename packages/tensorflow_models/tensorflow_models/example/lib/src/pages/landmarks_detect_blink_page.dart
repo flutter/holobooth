@@ -1,12 +1,17 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
+import 'dart:collection';
 import 'dart:html' as html;
+import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:collection/collection.dart';
 import 'package:example/src/src.dart';
-import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
+
+final leftEyeRatioQueue = ListQueue<double>();
+final rightEyeRatioQueue = ListQueue<double>();
 
 class LandmarksDetectBlinkPage extends StatelessWidget {
   const LandmarksDetectBlinkPage({Key? key}) : super(key: key);
@@ -98,24 +103,77 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
-    final leftEye =
-        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
-    final rightEye =
-        face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.leftEyeDistance < 10 ? highlightPaint : paint;
-    final rightEyePaint = face.rightEyeDistance < 10 ? highlightPaint : paint;
+    final leftEyeRatio = face.leftEyeRatio();
+    final rightEyeRatio = face.rightEyeRatio();
 
-    for (final keypoint in leftEye) {
-      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      canvas.drawCircle(offset, 2, leftEyePaint);
-    }
-    for (final keypoint in rightEye) {
-      final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
-      canvas.drawCircle(offset, 2, rightEyePaint);
+    final blinkPoint = (rightEyeRatio + leftEyeRatio) / 2;
+    leftEyeRatioQueue.addFirst(leftEyeRatio);
+    rightEyeRatioQueue.addFirst(rightEyeRatio);
+
+    // To correctly detect eye events it needs an initial data set for
+    // comparison.
+    if (leftEyeRatioQueue.length > 10) {
+      if (leftEyeRatioQueue.length > 500) {
+        leftEyeRatioQueue.removeLast();
+        rightEyeRatioQueue.removeLast();
+      }
+      final leftEye = face.keypoints.where(
+        (keypoint) => keypoint.name == 'leftEye',
+      );
+      final rightEye = face.keypoints.where(
+        (keypoint) => keypoint.name == 'rightEye',
+      );
+
+      final leftEyeBlink =
+          blinkPoint > 3.5 && leftEyeRatio < leftEyeRatioQueue.average;
+      final rightEyeBlink =
+          blinkPoint > 3.5 && rightEyeRatio < rightEyeRatioQueue.average;
+      final leftEyePaint = leftEyeBlink ? highlightPaint : paint;
+      final rightEyePaint = rightEyeBlink ? highlightPaint : paint;
+
+      for (final keypoint in leftEye) {
+        final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+        canvas.drawCircle(offset, 2, leftEyePaint);
+      }
+      for (final keypoint in rightEye) {
+        final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
+        canvas.drawCircle(offset, 2, rightEyePaint);
+      }
     }
   }
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
+}
+
+extension on tf.Keypoint {
+  double euclaideanDistance(tf.Keypoint other) =>
+      math.sqrt(math.pow(other.x - x, 2) + math.pow(other.y - y, 2));
+}
+
+extension on tf.Face {
+  double leftEyeRatio() {
+    final right = keypoints[362];
+    final left = keypoints[263];
+    final top = keypoints[386];
+    final bottom = keypoints[374];
+
+    final lvDistance = top.euclaideanDistance(bottom);
+    final lhDistance = right.euclaideanDistance(left);
+
+    return lhDistance / lvDistance;
+  }
+
+  double rightEyeRatio() {
+    final right = keypoints[33];
+    final left = keypoints[133];
+    final top = keypoints[159];
+    final bottom = keypoints[145];
+
+    final rhDistance = right.euclaideanDistance(left);
+    final rvDistance = top.euclaideanDistance(bottom);
+
+    return rhDistance / rvDistance;
+  }
 }
