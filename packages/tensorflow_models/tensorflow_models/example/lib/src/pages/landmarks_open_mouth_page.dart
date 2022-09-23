@@ -90,7 +90,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.mouthDistance < 1 ? Colors.yellow : Colors.red
+      ..color = face.mouthDistance > 1 ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
