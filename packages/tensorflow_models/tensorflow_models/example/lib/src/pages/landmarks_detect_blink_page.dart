@@ -90,12 +90,10 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path();
-
     final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
-
     final highlightPaint = Paint()
       ..color = Colors.yellow
       ..strokeWidth = 2
@@ -105,7 +103,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-
     final leftEyePaint = face.isLeftEyeClosed() ? highlightPaint : paint;
     final rightEyePaint = face.isRightEyeClosed() ? highlightPaint : paint;
 
@@ -117,7 +114,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
       canvas.drawCircle(offset, 2, rightEyePaint);
     }
-
     canvas.drawPath(path, paint);
   }
 
