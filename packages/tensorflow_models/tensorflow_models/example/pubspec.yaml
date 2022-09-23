@@ -12,7 +12,6 @@ dependencies:
   cross_file: ^0.3.3+1
   flutter:
     sdk: flutter
-  just_audio: ^0.9.29
   tensorflow_models:
     path: ../
 

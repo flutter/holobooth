@@ -31,7 +31,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
 
-  late AudioPlayer player;
+  late AudioPlayer _player;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -46,16 +46,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   @override
   void initState() {
     super.initState();
-    player = AudioPlayer();
+    _player = AudioPlayer();
   }
 
   @override
   void dispose() {
-    player.dispose();
+    _player.dispose();
     super.dispose();
   }
 
-  bool playSound = true;
+  bool _isPlayingSound = true;
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +73,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     ..width = size.width.floor()
                     ..height = size.height.floor();
 
-                  return _FacesDetectorBuilder(
+                  return FacesDetectorBuilder(
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
-                      if (faces.first.isMouthOpened() && playSound) {
-                        player.play(DeviceFileSource('assets/Lion_Roar.mp3'));
-                        playSound = false;
+                      if (faces.first.isMouthOpened() && _isPlayingSound) {
+                        _player.play(DeviceFileSource('assets/Lion_Roar.mp3'));
+                        _isPlayingSound = false;
                       } else if (!faces.first.isMouthOpened()) {
-                        player.stop();
-                        playSound = true;
+                        _player.stop();
+                        _isPlayingSound = true;
                       }
 
                       return SizedBox.fromSize(
