@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
-import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 
 class CameraView extends StatefulWidget {
@@ -30,8 +29,6 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future<void> _initializeCamera() async {
-    if (_cameraController.isCameraAvailable) return;
-
     _cameraControllerCompleter = Completer<void>();
 
     try {
