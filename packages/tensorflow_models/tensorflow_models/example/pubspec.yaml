@@ -11,6 +11,7 @@ dependencies:
   cross_file: ^0.3.3+1
   flutter:
     sdk: flutter
+  rive: ^0.9.1
   tensorflow_models:
     path: ../
 
@@ -19,3 +20,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
