@@ -11,12 +11,12 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
   @override
   Future<FaceLandmarksDetector> loadFaceLandmark() {
     return landmark.FaceLandmarksDetectorWeb.load(
-      landmark.MediaPipeFaceMeshMediaPipeModelConfig(
+      landmark.MediaPipeFaceMeshModelConfig(
         // TODO(oscar): not working because of missing constructor Mesh
         // https://github.com/google/mediapipe/issues/1976
         // runtime: 'mediapipe',
         runtime: 'tfjs',
-        refineLandmarks: true,
+        refineLandmarks: false,
         maxFaces: 1,
       ),
     );
