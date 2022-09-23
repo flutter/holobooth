@@ -86,7 +86,7 @@ class _LandmarksSingleImageResultsState
   @override
   void initState() {
     super.initState();
-    //_initState();
+    _initState();
   }
 
   Future<void> _initState() async {
