@@ -38,10 +38,9 @@ class _LandmkarsSingleImageViewState extends State<_LandmkarsSingleImageView> {
 
     final navigator = Navigator.of(context);
     final picture = await _cameraController!.takePicture();
-    unawaited(
-      navigator.pushReplacement(
-        _LandmarksSingleImageResults.route(picture: picture),
-      ),
+
+    await navigator.pushReplacement(
+      _LandmarksSingleImageResults.route(picture: picture),
     );
   }
 
