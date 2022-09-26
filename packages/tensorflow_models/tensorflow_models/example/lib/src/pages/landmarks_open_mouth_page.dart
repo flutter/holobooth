@@ -3,10 +3,11 @@
 import 'dart:html' as html;
 import 'dart:math' as math;
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:camera/camera.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
@@ -31,7 +32,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
 
-  late AudioPlayer _player;
+  late final AudioPlayer audioPlayer;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -46,16 +47,29 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   @override
   void initState() {
     super.initState();
-    _player = AudioPlayer();
+    _initAudioPlayer();
+  }
+
+  Future<void> _initAudioPlayer() async {
+    audioPlayer = AudioPlayer();
+    final audioSession = await AudioSession.instance;
+
+    try {
+      await audioSession.configure(const AudioSessionConfiguration.speech());
+    } catch (_) {}
+
+    try {
+      await audioPlayer.setAsset('Lion_roar.mp3');
+    } catch (_) {}
+    audioPlayer.playerStateStream.listen((event) {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    _player.dispose();
     super.dispose();
   }
-
-  bool _isPlayingSound = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +91,10 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
-                      if (faces.first.isMouthOpened() && !_isPlayingSound) {
-                        _player.play(DeviceFileSource('assets/Lion_Roar.mp3'));
-                        _isPlayingSound = true;
+                      if (faces.first.isMouthOpened()) {
+                        audioPlayer.play();
                       } else if (!faces.first.isMouthOpened()) {
-                        _player.stop();
-                        _isPlayingSound = false;
+                        audioPlayer.pause();
                       }
 
                       return SizedBox.fromSize(
