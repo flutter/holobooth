@@ -55,7 +55,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     super.dispose();
   }
 
-  bool _isPlayingSound = true;
+  bool _isPlayingSound = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +77,12 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
-                      if (faces.first.isMouthOpened() && _isPlayingSound) {
+                      if (faces.first.isMouthOpened() && !_isPlayingSound) {
                         _player.play(DeviceFileSource('assets/Lion_Roar.mp3'));
-                        _isPlayingSound = false;
+                        _isPlayingSound = true;
                       } else if (!faces.first.isMouthOpened()) {
                         _player.stop();
-                        _isPlayingSound = true;
+                        _isPlayingSound = false;
                       }
 
                       return SizedBox.fromSize(
