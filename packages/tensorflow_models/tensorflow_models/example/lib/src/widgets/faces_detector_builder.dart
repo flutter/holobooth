@@ -1,6 +1,6 @@
+import 'dart:async';
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:async';
 import 'dart:html' as html;
 
 import 'package:flutter/material.dart';

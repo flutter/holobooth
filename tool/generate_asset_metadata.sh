@@ -43,7 +43,7 @@ for prop in $googleProps
 do    
     width=$(sips -g pixelWidth $prop | tail -n1 | cut -d" " -f4)
     height=$(sips -g pixelHeight $prop | tail -n1 | cut -d" " -f4)    
-    name=$(basename "${prop%.*}")
+    name=$(basename -s .png "${prop%.*}")
     echo "    Asset(name: '$name', path: '$prop', size: Size($width, $height),),"
 done
 
@@ -56,7 +56,7 @@ for prop in $hatProps
 do    
     width=$(sips -g pixelWidth $prop | tail -n1 | cut -d" " -f4)
     height=$(sips -g pixelHeight $prop | tail -n1 | cut -d" " -f4)    
-    name=$(basename "${prop%.*}")
+    name=$(basename -s .png "${prop%.*}")
     echo "    Asset(name: '$name', path: '$prop', size: Size($width, $height),),"
 done
 
@@ -69,7 +69,7 @@ for prop in $eyewearProps
 do    
     width=$(sips -g pixelWidth $prop | tail -n1 | cut -d" " -f4)
     height=$(sips -g pixelHeight $prop | tail -n1 | cut -d" " -f4)    
-    name=$(basename "${prop%.*}")
+    name=$(basename -s .png "${prop%.*}")
     echo "    Asset(name: '$name', path: '$prop', size: Size($width, $height),),"
 done
 
@@ -82,7 +82,7 @@ for prop in $foodProps
 do    
     width=$(sips -g pixelWidth $prop | tail -n1 | cut -d" " -f4)
     height=$(sips -g pixelHeight $prop | tail -n1 | cut -d" " -f4)    
-    name=$(basename "${prop%.*}")
+    name=$(basename -s .png "${prop%.*}")
     echo "    Asset(name: '$name', path: '$prop', size: Size($width, $height),),"
 done
 
@@ -95,7 +95,7 @@ for prop in $shapeProps
 do    
     width=$(sips -g pixelWidth $prop | tail -n1 | cut -d" " -f4)
     height=$(sips -g pixelHeight $prop | tail -n1 | cut -d" " -f4)    
-    name=$(basename "${prop%.*}")
+    name=$(basename -s .png "${prop%.*}")
     echo "    Asset(name: '$name', path: '$prop', size: Size($width, $height),),"
 done
 
