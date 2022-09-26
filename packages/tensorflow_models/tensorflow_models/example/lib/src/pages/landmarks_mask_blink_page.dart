@@ -101,10 +101,10 @@ class _BlinkMask extends StatefulWidget {
   final tf.Face face;
 
   @override
-  __BlinkMaskState createState() => __BlinkMaskState();
+  _BlinkMaskState createState() => _BlinkMaskState();
 }
 
-class __BlinkMaskState extends State<_BlinkMask> {
+class _BlinkMaskState extends State<_BlinkMask> {
   _BlinkController? _leftBlinkController;
   _BlinkController? _rightBlinkController;
   // Values to block mask blinking when eyes are closed
