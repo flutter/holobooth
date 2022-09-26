@@ -38,7 +38,7 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-dash-friend',
           );
           context.read<PhotoboothBloc>().add(
-                const PhotoCharacterToggled(character: PhotoboothAssets.dash),
+                const PhotoCharacterToggled(character: MetaAssets.dash),
               );
         },
       ),
@@ -54,7 +54,7 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-sparky-friend',
           );
           context.read<PhotoboothBloc>().add(
-                const PhotoCharacterToggled(character: PhotoboothAssets.sparky),
+                const PhotoCharacterToggled(character: MetaAssets.sparky),
               );
         },
       ),
@@ -71,7 +71,7 @@ class PhotoboothPreview extends StatelessWidget {
           );
           context.read<PhotoboothBloc>().add(
                 const PhotoCharacterToggled(
-                  character: PhotoboothAssets.android,
+                  character: MetaAssets.android,
                 ),
               );
         },
@@ -88,7 +88,7 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-dino-friend',
           );
           context.read<PhotoboothBloc>().add(
-                const PhotoCharacterToggled(character: PhotoboothAssets.dino),
+                const PhotoCharacterToggled(character: MetaAssets.dino),
               );
         },
       ),

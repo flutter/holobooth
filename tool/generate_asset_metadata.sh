@@ -23,7 +23,7 @@ echo ""
 echo "import 'package:flutter/widgets.dart';"
 echo "import 'package:photobooth_ui/photobooth_ui.dart';"
 echo ""
-echo "class PhotoboothAssets {"
+echo "class MetaAssets {"
 
 characters=("android.png" "dash.png" "dino.png" "sparky.png")
 

@@ -69,9 +69,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [
-            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
-          ],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 
@@ -95,9 +93,7 @@ void main() {
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [
-            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
-          ],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 
@@ -125,7 +121,7 @@ void main() {
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: PhotoboothAssets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.dash)],
         ),
       );
 
@@ -149,7 +145,7 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: PhotoboothAssets.sparky),
+            PhotoAsset(id: '0', asset: MetaAssets.sparky),
           ],
         ),
       );
@@ -174,7 +170,7 @@ void main() {
     testWidgets('renders only dino when only dino is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: PhotoboothAssets.dino)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.dino)],
         ),
       );
 
@@ -200,10 +196,10 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: PhotoboothAssets.android),
-            PhotoAsset(id: '1', asset: PhotoboothAssets.dash),
-            PhotoAsset(id: '2', asset: PhotoboothAssets.sparky),
-            PhotoAsset(id: '3', asset: PhotoboothAssets.dino),
+            PhotoAsset(id: '0', asset: MetaAssets.android),
+            PhotoAsset(id: '1', asset: MetaAssets.dash),
+            PhotoAsset(id: '2', asset: MetaAssets.sparky),
+            PhotoAsset(id: '3', asset: MetaAssets.dino),
           ],
         ),
       );
@@ -274,7 +270,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: PhotoboothAssets.dash),
+          PhotoCharacterToggled(character: MetaAssets.dash),
         ),
       ).called(1);
     });
@@ -297,7 +293,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: PhotoboothAssets.sparky),
+          PhotoCharacterToggled(character: MetaAssets.sparky),
         ),
       ).called(1);
     });
@@ -320,7 +316,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: PhotoboothAssets.android),
+          PhotoCharacterToggled(character: MetaAssets.android),
         ),
       ).called(1);
     });
@@ -343,7 +339,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: PhotoboothAssets.dino),
+          PhotoCharacterToggled(character: MetaAssets.dino),
         ),
       ).called(1);
     });
@@ -388,9 +384,7 @@ void main() {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [
-            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
-          ],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 
