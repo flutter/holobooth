@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:example/gen/assets.gen.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -149,10 +150,9 @@ class __BlinkMaskState extends State<_BlinkMask> {
       top: faceOvalCenter.y - maskSize / 2,
       height: maskSize * 2,
       width: maskSize * 2,
-      child: RiveAnimation.asset(
-        'blink.riv',
-        fit: BoxFit.cover,
+      child: Assets.blink.rive(
         onInit: _onRiveInit,
+        fit: BoxFit.cover,
       ),
     );
   }
