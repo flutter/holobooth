@@ -225,7 +225,6 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _image = image;
     return SizedBox(
       height: sprite.sprites.size.height * scale,
       width: sprite.sprites.size.width * scale,
@@ -239,7 +238,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
               child: sprite,
             ),
           ),
-          if (_image != null)
+          if (image != null)
             Positioned(
               top: top * scale,
               left: left * scale,
@@ -250,7 +249,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
                 opacity: isPhotoVisible ? 1 : 0,
                 child: AspectRatio(
                   aspectRatio: aspectRatio,
-                  child: PhotoboothPhoto(image: _image.data),
+                  child: PhotoboothPhoto(image: image!.data),
                 ),
               ),
             )
