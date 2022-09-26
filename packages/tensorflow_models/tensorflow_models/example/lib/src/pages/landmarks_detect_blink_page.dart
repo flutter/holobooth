@@ -1,10 +1,10 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
@@ -102,8 +102,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.isLeftEyeClosed() ? highlightPaint : paint;
-    final rightEyePaint = face.isRightEyeClosed() ? highlightPaint : paint;
+    final leftEyePaint = face.leftEyeDistance < 10 ? highlightPaint : paint;
+    final rightEyePaint = face.rightEyeDistance < 10 ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
@@ -118,24 +118,4 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
-}
-
-extension on tf.Face {
-  bool isLeftEyeClosed() {
-    final top = keypoints[386];
-    final bottom = keypoints[374];
-    final dx = top.x - bottom.x;
-    final dy = top.y - bottom.y;
-    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
-    return distance < 10;
-  }
-
-  bool isRightEyeClosed() {
-    final top = keypoints[159];
-    final bottom = keypoints[145];
-    final dx = top.x - bottom.x;
-    final dy = top.y - bottom.y;
-    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
-    return distance < 10;
-  }
 }

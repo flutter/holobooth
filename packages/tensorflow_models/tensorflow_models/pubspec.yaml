@@ -14,6 +14,8 @@ flutter:
         default_package: tensorflow_models_web
 
 dependencies:
+  face_geometry:
+    path: ../../face_geometry
   flutter:
     sdk: flutter
   tensorflow_models_platform_interface:
@@ -26,4 +28,4 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^0.1.0
   plugin_platform_interface: ^2.1.2
-  very_good_analysis: ^3.0.1
+  very_good_analysis: ^3.1.0
