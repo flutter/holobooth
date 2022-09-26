@@ -1,0 +1,17 @@
+name: face_geometry
+
+on:
+  pull_request:
+    paths:
+      - "packages/face_geometry/**"
+      - ".github/workflows/face_geometry.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    with:
+      dart_sdk: "stable"
+      platform: "chrome,vm"
+      working_directory: "packages/face_geometry"
