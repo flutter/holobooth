@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/photobooth/widgets/widgets.dart';
 
 import '../../helpers/helpers.dart';
@@ -14,7 +15,7 @@ void main() {
           home: Scaffold(
             body: CharacterIconButton(
               isSelected: true,
-              icon: const AssetImage('assets/icons/dash_icon.png'),
+              icon: AssetImage(Assets.icons.dashIcon.path),
               label: 'Dash',
             ),
           ),
@@ -31,7 +32,7 @@ void main() {
           home: Scaffold(
             body: CharacterIconButton(
               isSelected: true,
-              icon: const AssetImage('assets/icons/dash_icon.png'),
+              icon: AssetImage(Assets.icons.dashIcon.path),
               label: 'Dash',
               onPressed: () => tapCounter++,
             ),
@@ -52,7 +53,7 @@ void main() {
           home: Scaffold(
             body: CharacterIconButton(
               isSelected: true,
-              icon: const AssetImage('assets/icons/dash_icon.png'),
+              icon: AssetImage(Assets.icons.dashIcon.path),
               label: 'Dash',
             ),
           ),
@@ -78,7 +79,7 @@ void main() {
           home: Scaffold(
             body: CharacterIconButton(
               isSelected: true,
-              icon: const AssetImage('assets/icons/dash_icon.png'),
+              icon: AssetImage(Assets.icons.dashIcon.path),
               label: 'Dash',
             ),
           ),
@@ -102,7 +103,7 @@ void main() {
           home: Scaffold(
             body: CharacterIconButton(
               isSelected: true,
-              icon: const AssetImage('assets/icons/dash_icon.png'),
+              icon: AssetImage(Assets.icons.dashIcon.path),
               label: 'Dash',
               onPressed: () {},
             ),

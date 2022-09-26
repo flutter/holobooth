@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -24,9 +25,7 @@ class ShareErrorBottomSheet extends StatelessWidget {
                 const SizedBox(height: 32),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 58),
-                  child: Image.asset(
-                    'assets/images/error_photo_mobile.png',
-                  ),
+                  child: Assets.images.errorPhotoMobile.image(),
                 ),
                 const SizedBox(height: 60),
                 Text(

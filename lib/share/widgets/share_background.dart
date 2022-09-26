@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBackground extends StatelessWidget {
@@ -9,8 +10,7 @@ class ShareBackground extends StatelessWidget {
     return Stack(
       children: [
         SizedBox.expand(
-          child: Image.asset(
-            'assets/backgrounds/photobooth_background.jpg',
+          child: Assets.backgrounds.photoboothBackground.image(
             repeat: ImageRepeat.repeat,
             filterQuality: FilterQuality.high,
           ),
@@ -32,8 +32,7 @@ class ShareBackground extends StatelessWidget {
         ResponsiveLayoutBuilder(
           large: (_, __) => Align(
             alignment: Alignment.bottomLeft,
-            child: Image.asset(
-              'assets/backgrounds/yellow_bar.png',
+            child: Assets.backgrounds.yellowBar.image(
               filterQuality: FilterQuality.high,
             ),
           ),
@@ -42,8 +41,7 @@ class ShareBackground extends StatelessWidget {
         ResponsiveLayoutBuilder(
           large: (_, __) => Align(
             alignment: Alignment.topRight,
-            child: Image.asset(
-              'assets/backgrounds/circle_object.png',
+            child: Assets.backgrounds.circleObject.image(
               filterQuality: FilterQuality.high,
             ),
           ),

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -48,7 +49,6 @@ void main() {
     setUp(() {
       photosRepository = _MockPhotosRepository();
       asset = _MockAsset();
-
       when(() => asset.path).thenReturn('assets/path/asset.png');
       photoAsset = _MockPhotoAsset();
 

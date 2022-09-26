@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatefulWidget {
@@ -51,26 +52,26 @@ class _StickersTabsState extends State<StickersTabs>
         TabBar(
           onTap: widget.onTabChanged,
           controller: _tabController,
-          tabs: const [
+          tabs: [
             StickersTab(
-              key: Key('stickersTabs_googleTab'),
-              assetPath: 'assets/icons/google_icon.png',
+              key: const Key('stickersTabs_googleTab'),
+              assetPath: Assets.icons.googleIcon.path,
             ),
             StickersTab(
-              key: Key('stickersTabs_hatsTab'),
-              assetPath: 'assets/icons/hats_icon.png',
+              key: const Key('stickersTabs_hatsTab'),
+              assetPath: Assets.icons.hatsIcon.path,
             ),
             StickersTab(
-              key: Key('stickersTabs_eyewearTab'),
-              assetPath: 'assets/icons/eyewear_icon.png',
+              key: const Key('stickersTabs_eyewearTab'),
+              assetPath: Assets.icons.eyewearIcon.path,
             ),
             StickersTab(
-              key: Key('stickersTabs_foodTab'),
-              assetPath: 'assets/icons/food_icon.png',
+              key: const Key('stickersTabs_foodTab'),
+              assetPath: Assets.icons.foodIcon.path,
             ),
             StickersTab(
-              key: Key('stickersTabs_shapesTab'),
-              assetPath: 'assets/icons/shapes_icon.png',
+              key: const Key('stickersTabs_shapesTab'),
+              assetPath: Assets.icons.shapesIcon.path,
             ),
           ],
         ),

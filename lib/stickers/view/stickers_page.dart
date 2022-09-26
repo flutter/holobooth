@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -197,7 +198,7 @@ class _RetakeButton extends StatelessWidget {
         },
         verticalOffset: 50,
         message: l10n.retakeButtonTooltip,
-        child: Image.asset('assets/icons/retake_button_icon.png', height: 100),
+        child: Assets.icons.retakeButtonIcon.image(height: 100),
       ),
     );
   }
@@ -232,10 +233,7 @@ class _NextButton extends StatelessWidget {
               );
             }
           },
-          child: Image.asset(
-            'assets/icons/go_next_button_icon.png',
-            height: 100,
-          ),
+          child: Assets.icons.goNextButtonIcon.image(height: 100),
         ),
       ),
     );
@@ -457,12 +455,10 @@ class _OpenStickersButtonState extends State<OpenStickersButton> {
         },
         message: l10n.openStickersTooltip,
         verticalOffset: 50,
-        child: Image.asset(
-          'assets/icons/stickers_button_icon.png',
-          height: 100,
-        ),
+        child: Assets.icons.stickersButtonIcon.image(height: 100),
       ),
     );
+
     return _isAnimating ? AnimatedPulse(child: child) : child;
   }
 }

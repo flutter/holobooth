@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -36,9 +37,7 @@ class ShareErrorDialog extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 300,
-                      child: Image.asset(
-                        'assets/images/error_photo_desktop.png',
-                      ),
+                      child: Assets.images.errorPhotoDesktop.image(),
                     ),
                     const SizedBox(height: 60),
                     Text(

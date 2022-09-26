@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/gen/assets.gen.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -27,7 +28,7 @@ class PhotoboothPreview extends StatelessWidget {
     final children = <Widget>[
       CharacterIconButton(
         key: const Key('photoboothView_dash_characterIconButton'),
-        icon: const AssetImage('assets/icons/dash_icon.png'),
+        icon: AssetImage(Assets.icons.dashIcon.path),
         label: l10n.dashButtonLabelText,
         isSelected: state.isDashSelected,
         onPressed: () {
@@ -42,7 +43,7 @@ class PhotoboothPreview extends StatelessWidget {
       ),
       CharacterIconButton(
         key: const Key('photoboothView_sparky_characterIconButton'),
-        icon: const AssetImage('assets/icons/sparky_icon.png'),
+        icon: AssetImage(Assets.icons.sparkyIcon.path),
         label: l10n.sparkyButtonLabelText,
         isSelected: state.isSparkySelected,
         onPressed: () {
@@ -52,12 +53,13 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-sparky-friend',
           );
           context.read<PhotoboothBloc>().add(
-              const PhotoCharacterToggled(character: PhotoboothAssets.sparky));
+                const PhotoCharacterToggled(character: PhotoboothAssets.sparky),
+              );
         },
       ),
       CharacterIconButton(
         key: const Key('photoboothView_android_characterIconButton'),
-        icon: const AssetImage('assets/icons/android_icon.png'),
+        icon: AssetImage(Assets.icons.androidIcon.path),
         label: l10n.androidButtonLabelText,
         isSelected: state.isAndroidSelected,
         onPressed: () {
@@ -72,7 +74,7 @@ class PhotoboothPreview extends StatelessWidget {
       ),
       CharacterIconButton(
         key: const Key('photoboothView_dino_characterIconButton'),
-        icon: const AssetImage('assets/icons/dino_icon.png'),
+        icon: AssetImage(Assets.icons.dinoIcon.path),
         label: l10n.dinoButtonLabelText,
         isSelected: state.isDinoSelected,
         onPressed: () {
