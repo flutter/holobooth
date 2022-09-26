@@ -81,27 +81,27 @@ class _StickersTabsState extends State<StickersTabs>
             children: [
               StickersTabBarView(
                 key: const Key('stickersTabs_googleTabBarView'),
-                stickers: Assets.googleProps,
+                stickers: PhotoboothAssets.googleProps,
                 onStickerSelected: widget.onStickerSelected,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_hatsTabBarView'),
-                stickers: Assets.hatProps,
+                stickers: PhotoboothAssets.hatProps,
                 onStickerSelected: widget.onStickerSelected,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_eyewearTabBarView'),
-                stickers: Assets.eyewearProps,
+                stickers: PhotoboothAssets.eyewearProps,
                 onStickerSelected: widget.onStickerSelected,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_foodTabBarView'),
-                stickers: Assets.foodProps,
+                stickers: PhotoboothAssets.foodProps,
                 onStickerSelected: widget.onStickerSelected,
               ),
               StickersTabBarView(
                 key: const Key('stickersTabs_shapesTabBarView'),
-                stickers: Assets.shapeProps,
+                stickers: PhotoboothAssets.shapeProps,
                 onStickerSelected: widget.onStickerSelected,
               ),
             ],

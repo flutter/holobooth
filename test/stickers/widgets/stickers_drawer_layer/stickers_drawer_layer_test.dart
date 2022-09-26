@@ -86,7 +86,7 @@ void main() {
 
       testWidgets('adds StickerSelected when StickerChoice tapped',
           (tester) async {
-        final sticker = Assets.props.first;
+        final sticker = PhotoboothAssets.props.first;
         when(() => stickersBloc.state).thenReturn(
           StickersState(isDrawerActive: true),
         );
@@ -115,7 +115,7 @@ void main() {
 
       testWidgets('adds StickersDrawerTabTapped when tab is selected',
           (tester) async {
-        final sticker = Assets.props.first;
+        final sticker = PhotoboothAssets.props.first;
         when(() => stickersBloc.state).thenReturn(
           StickersState(isDrawerActive: true),
         );
@@ -209,7 +209,7 @@ void main() {
 
       testWidgets('can select stickers on MobileStickersDrawer',
           (tester) async {
-        final sticker = Assets.props.first;
+        final sticker = PhotoboothAssets.props.first;
         whenListen(
           stickersBloc,
           Stream.fromIterable([StickersState(isDrawerActive: true)]),

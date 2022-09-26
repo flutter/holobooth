@@ -36,9 +36,8 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-dash-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.dash));
+          context.read<PhotoboothBloc>().add(
+              const PhotoCharacterToggled(character: PhotoboothAssets.dash));
         },
       ),
       CharacterIconButton(
@@ -52,9 +51,8 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-sparky-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.sparky));
+          context.read<PhotoboothBloc>().add(
+              const PhotoCharacterToggled(character: PhotoboothAssets.sparky));
         },
       ),
       CharacterIconButton(
@@ -68,9 +66,8 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-bugdroid-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.android));
+          context.read<PhotoboothBloc>().add(
+              const PhotoCharacterToggled(character: PhotoboothAssets.android));
         },
       ),
       CharacterIconButton(
@@ -84,9 +81,8 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-dino-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.dino));
+          context.read<PhotoboothBloc>().add(
+              const PhotoCharacterToggled(character: PhotoboothAssets.dino));
         },
       ),
     ];

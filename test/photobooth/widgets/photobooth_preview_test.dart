@@ -69,7 +69,9 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [
+            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
+          ],
         ),
       );
 
@@ -93,7 +95,9 @@ void main() {
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [
+            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
+          ],
         ),
       );
 
@@ -121,7 +125,7 @@ void main() {
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: PhotoboothAssets.dash)],
         ),
       );
 
@@ -145,7 +149,7 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: Assets.sparky),
+            PhotoAsset(id: '0', asset: PhotoboothAssets.sparky),
           ],
         ),
       );
@@ -170,7 +174,7 @@ void main() {
     testWidgets('renders only dino when only dino is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.dino)],
+          characters: const [PhotoAsset(id: '0', asset: PhotoboothAssets.dino)],
         ),
       );
 
@@ -196,10 +200,10 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: Assets.android),
-            PhotoAsset(id: '1', asset: Assets.dash),
-            PhotoAsset(id: '2', asset: Assets.sparky),
-            PhotoAsset(id: '3', asset: Assets.dino),
+            PhotoAsset(id: '0', asset: PhotoboothAssets.android),
+            PhotoAsset(id: '1', asset: PhotoboothAssets.dash),
+            PhotoAsset(id: '2', asset: PhotoboothAssets.sparky),
+            PhotoAsset(id: '3', asset: PhotoboothAssets.dino),
           ],
         ),
       );
@@ -270,7 +274,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.dash),
+          PhotoCharacterToggled(character: PhotoboothAssets.dash),
         ),
       ).called(1);
     });
@@ -293,7 +297,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.sparky),
+          PhotoCharacterToggled(character: PhotoboothAssets.sparky),
         ),
       ).called(1);
     });
@@ -316,7 +320,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.android),
+          PhotoCharacterToggled(character: PhotoboothAssets.android),
         ),
       ).called(1);
     });
@@ -339,7 +343,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.dino),
+          PhotoCharacterToggled(character: PhotoboothAssets.dino),
         ),
       ).called(1);
     });
@@ -384,7 +388,9 @@ void main() {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [
+            PhotoAsset(id: '0', asset: PhotoboothAssets.android)
+          ],
         ),
       );
 

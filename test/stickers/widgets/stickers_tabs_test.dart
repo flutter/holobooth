@@ -209,7 +209,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_googleTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.googleProps));
+          expect(tabBarView.stickers, equals(PhotoboothAssets.googleProps));
         });
       });
 
@@ -251,7 +251,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_hatsTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.hatProps));
+          expect(tabBarView.stickers, equals(PhotoboothAssets.hatProps));
         });
       });
 
@@ -302,7 +302,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_eyewearTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.eyewearProps));
+          expect(tabBarView.stickers, equals(PhotoboothAssets.eyewearProps));
         });
       });
 
@@ -366,7 +366,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_foodTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.foodProps));
+          expect(tabBarView.stickers, equals(PhotoboothAssets.foodProps));
         });
       });
 
@@ -440,7 +440,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_shapesTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.shapeProps));
+          expect(tabBarView.stickers, equals(PhotoboothAssets.shapeProps));
         });
       });
     });

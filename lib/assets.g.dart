@@ -3,7 +3,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class Assets {
+class PhotoboothAssets {
   static const android = Asset(
     name: 'android',
     path: 'assets/images/android.png',
