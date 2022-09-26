@@ -1,5 +1,7 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
+import 'dart:async';
+import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:ui';
 
@@ -7,9 +9,9 @@ import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
+
+import 'package:isolated_worker/js_isolated_worker.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 class LandmarksGifPage extends StatelessWidget {
   const LandmarksGifPage({Key? key}) : super(key: key);
@@ -32,8 +34,9 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
   final _imagesBytes = <Uint8List>[];
+  bool _gifInProgress = false;
 
-  late Face _currentFace;
+  late tf.Face _currentFace;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -46,10 +49,6 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _onTakePhoto() async {
-    // if (_cameraController == null) return;
-    // final picture = await _cameraController!.takePicture();
-    // final bytes = await picture.readAsBytes();
-
     // Save the canvas that the face is drawn to as a png.
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder)
@@ -63,15 +62,31 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
         .endRecording()
         .toImage(context.size!.width.floor(), context.size!.height.floor());
     final bytes = await image.toByteData(format: ImageByteFormat.png);
-    setState(() => _imagesBytes.add(bytes!.buffer.asUint8List()));
+
+    final bytesList = bytes!.buffer.asUint8List();
+    setState(() => _imagesBytes.add(bytesList));
   }
 
   Future<void> _downloadGif() async {
-    final animation = img.Animation();
+    setState(() {
+      _gifInProgress = true;
+    });
+
+    await JsIsolatedWorker().importScripts(['encoder_worker.js']);
+
+    // This will be passed into our javascript worker.
+    final json = <String, dynamic>{};
+
+    final intList = <List<int>>[];
     for (final bytes in _imagesBytes) {
-      animation.addFrame(img.decodeImage(bytes)!);
+      intList.add(bytes.toList());
     }
-    final gif = img.encodeGifAnimation(animation)!;
+
+    json.putIfAbsent('frames', () => intList);
+
+    final jsonString = jsonEncode(json);
+    final gif = await JsIsolatedWorker()
+        .run(functionName: 'encoder', arguments: jsonString) as List<int>;
 
     final file = XFile.fromData(
       Uint8List.fromList(gif),
@@ -81,7 +96,10 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
 
     await file.saveTo('');
 
-    setState(_imagesBytes.clear);
+    setState(() {
+      _imagesBytes.clear();
+      _gifInProgress = false;
+    });
   }
 
   @override
@@ -96,10 +114,18 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
             child: const Icon(Icons.camera),
           ),
           const SizedBox(width: 16),
-          FloatingActionButton(
-            onPressed: _downloadGif,
-            child: const Icon(Icons.download),
-          ),
+          if (_gifInProgress)
+            FloatingActionButton(
+              onPressed: () {},
+              child: const CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            )
+          else
+            FloatingActionButton(
+              onPressed: _downloadGif,
+              child: const Icon(Icons.download),
+            ),
         ],
       ),
       body: Row(
