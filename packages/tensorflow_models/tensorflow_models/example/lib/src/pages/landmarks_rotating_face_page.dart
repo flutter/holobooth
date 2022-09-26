@@ -38,10 +38,6 @@ class _LandmarksRotatingFaceViewState
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
-    Future.delayed(
-      Duration(seconds: 10),
-      () => _cameraController!.pausePreview(),
-    );
   }
 
   void _queryVideoElement() {
@@ -266,53 +262,28 @@ class _ZAxisArrowsIllustration extends StatelessWidget {
   _ZAxisArrowsIllustration({
     required this.face,
     required this.offset,
-  }) {
-    // Computing the face rotation is a feature is still in development:
-    // https://github.com/tensorflow/tfjs/issues/3835#issuecomment-1109111171
-
-    final leftCheeck = face.keypoints[127];
-    final rightCheeck = face.keypoints[356];
-    final nose = face.keypoints[6];
-
-    // final distanceToNose = Vector3(
-    //   (nose.x - leftCheeck.x).toDouble(),
-    //   (nose.y - leftCheeck.y).toDouble(),
-    //   (nose.z! - leftCheeck.z!).toDouble(),
-    // );
-    // final distanceBetweenCheecks = Vector3(
-    //   (rightCheeck.x - leftCheeck.x).toDouble(),
-    //   (rightCheeck.y - leftCheeck.y).toDouble(),
-    //   (rightCheeck.z! - leftCheeck.z!).toDouble(),
-    // );
-    // final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
-
-    // _vectorX = distanceBetweenCheecks.normalized();
-    // _vectorY = perpendicular.normalized();
-    // _vectorZ = _vectorX.cross(_vectorY).normalized();
-    final bottomX = (rightCheeck.x + leftCheeck.x) / 2;
-    final bottomY = (rightCheeck.y + leftCheeck.y) / 2;
-    _degree = math.atan((nose.y - bottomY) / (nose.x - bottomX));
-  }
+  });
 
   final tf.Face face;
 
   final Offset offset;
 
-  // late final Vector3 _vectorX;
-  // late final Vector3 _vectorY;
-  // late final Vector3 _vectorZ;
-  late final double _degree;
-
   @override
   Widget build(BuildContext context) {
     const length = 100.0;
+    final rotation = face.rotation().normalized() * 2;
 
     return ZIllustration(
       children: [
         ZPositioned(
           translate: ZVector.only(x: offset.dx, y: offset.dy),
-          rotate: ZVector.only(x: _degree),
+          rotate: ZVector.only(
+            x: -rotation.z,
+            y: -rotation.x,
+            // z: -rotation.y,
+          ),
           child: ZGroup(
+            sortMode: SortMode.stack,
             children: [
               ZShape(
                 color: Colors.red,
@@ -346,35 +317,61 @@ class _ZAxisArrowsIllustration extends StatelessWidget {
   }
 }
 
-Matrix3 _calculateRotationMatrix(tf.Face face) {
-  // Math calculations extractred from the following pull request, see https://github.com/tensorflow/tfjs-models/pull/844/files/.
-  final leftCheeck = face.keypoints[127];
-  final rightCheeck = face.keypoints[356];
-  final nose = face.keypoints[6];
+extension on tf.Face {
+  Vector3 rotation() {
+    final leftCheeck = keypoints[127];
+    final rightCheeck = keypoints[356];
+    final nose = keypoints[6];
 
-  final distanceToNose = Vector3(
-    (nose.x - leftCheeck.x).toDouble(),
-    (nose.y - leftCheeck.y).toDouble(),
-    (nose.z! - leftCheeck.z!).toDouble(),
-  );
-  final distanceBetweenCheecks = Vector3(
-    (rightCheeck.x - leftCheeck.x).toDouble(),
-    (rightCheeck.y - leftCheeck.y).toDouble(),
-    (rightCheeck.z! - leftCheeck.z!).toDouble(),
-  );
-  final perpendicular = distanceToNose.cross(distanceBetweenCheecks);
+    final leftCheeckVector = Vector3(
+      leftCheeck.x.toDouble(),
+      leftCheeck.y.toDouble(),
+      leftCheeck.z?.toDouble() ?? 0,
+    );
+    final rightCheeckVector = Vector3(
+      rightCheeck.x.toDouble(),
+      rightCheeck.y.toDouble(),
+      rightCheeck.z?.toDouble() ?? 0,
+    );
+    final noseVector = Vector3(
+      nose.x.toDouble(),
+      nose.y.toDouble(),
+      nose.z?.toDouble() ?? 0,
+    );
 
-  final vectorX = distanceBetweenCheecks.normalized();
-  final vectorY = perpendicular.normalized();
-  final vectorZ = vectorX.cross(vectorY).normalized();
-  return Matrix3.zero()
-    ..row0.x = vectorX.x
-    ..row0.y = vectorY.x
-    ..row0.z = vectorZ.x
-    ..row1.x = vectorX.y
-    ..row1.y = vectorY.y
-    ..row1.z = vectorZ.y
-    ..row2.x = vectorX.z
-    ..row2.y = vectorY.z
-    ..row2.z = vectorZ.z;
+    return _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
+
+    // final vector1 = leftCheeckVector - rightCheeckVector;
+    // final vector2 = noseVector - rightCheeckVector;
+
+    // return vector1.cross(vector2).normalized();
+  }
+}
+
+Vector3 _equationOfAPlane(Vector3 x, Vector3 y, Vector3 z) {
+  final x1 = x.x;
+  final y1 = x.y;
+  final z1 = x.z;
+  final x2 = y.x;
+  final y2 = y.y;
+  final z2 = y.z;
+  final x3 = z.x;
+  final y3 = z.y;
+  final z3 = z.z;
+
+  final a1 = x2 - x1;
+  final b1 = y2 - y1;
+  final c1 = z2 - z1;
+  final a2 = x3 - x1;
+  final b2 = y3 - y1;
+  final c2 = z3 - z1;
+
+  final a = b1 * c2 - b2 * c1;
+  final b = a2 * c1 - a1 * c2;
+  final c = a1 * b2 - b1 * a2;
+  final d = -(a * x1 + b * y1 + c * z1);
+
+  return Vector3(a, b, c);
+
+  print('a: $a, b: $b, c: $c, d: $d');
 }
