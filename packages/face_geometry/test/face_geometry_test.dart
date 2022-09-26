@@ -58,43 +58,6 @@ void main() {
       });
     });
 
-    group('mouthDistance', () {
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(15, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.mouthDistance, returnsNormally);
-      });
-
-      test('returns 0 when missing keypoints', () {
-        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-        expect(face.mouthDistance, equals(0));
-      });
-
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(15, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.mouthDistance, equals(0));
-        });
-
-        test('when values are not 0', () {
-          final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
-          keypoints[13] = _FakeKeypoint(-2, 2);
-          keypoints[14] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.mouthDistance, equals(4.242640687119285));
-        });
-      });
-    });
-
     group('leftEyeDistance', () {
       test('returns normally', () {
         final keypoints = UnmodifiableListView(
