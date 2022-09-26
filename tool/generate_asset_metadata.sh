@@ -5,7 +5,7 @@
 # download the assets.
 #
 # Usage:
-# ./tool/generate_asset_metadata.sh > lib/assets.g.dart
+# ./tool/generate_asset_metadata.sh > lib/gen/meta_assets.gen.dart
 
 set -e
 

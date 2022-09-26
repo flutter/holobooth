@@ -1,9 +1,9 @@
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets.g.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/gen/assets.gen.dart';
+import 'package:io_photobooth/gen/meta_assets.gen.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
