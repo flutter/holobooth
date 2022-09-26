@@ -1,10 +1,9 @@
 import 'dart:collection';
 
+import 'package:face_geometry/face_geometry.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
-
-import 'package:face_geometry/face_geometry.dart';
 import 'package:test/test.dart';
 
 class _MockFace extends Mock implements tf.Face {}
@@ -69,6 +68,11 @@ void main() {
         expect(() => face.mouthDistance, returnsNormally);
       });
 
+      test('returns 0 when missing keypoints', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+        expect(face.mouthDistance, equals(0));
+      });
+
       group('returns correct distance', () {
         test('when values are 0', () {
           final keypoints = UnmodifiableListView(
@@ -101,6 +105,11 @@ void main() {
         expect(() => face.leftEyeDistance, returnsNormally);
       });
 
+      test('returns 0 when missing keypoints', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+        expect(face.leftEyeDistance, equals(0));
+      });
+
       group('returns correct distance', () {
         test('when values are 0', () {
           final keypoints = UnmodifiableListView(
@@ -131,6 +140,11 @@ void main() {
         when(() => face.keypoints).thenReturn(keypoints);
 
         expect(() => face.rightEyeDistance, returnsNormally);
+      });
+
+      test('returns 0 when missing keypoints', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+        expect(face.rightEyeDistance, equals(0));
       });
 
       group('returns correct distance', () {
