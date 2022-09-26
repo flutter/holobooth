@@ -25,7 +25,10 @@ extension FindWidgetByTypeExtension on WidgetTester {
     TextSpan? textSpan;
     richText.text.visitChildren(
       (visitor) {
-        if (visitor is TextSpan && visitor.text?.contains(text) == true) {
+        if (visitor is TextSpan) {
+          final visitorText = visitor.text;
+          if (visitorText == null || !visitorText.contains(text)) return true;
+
           textSpan = visitor;
           return false;
         }
