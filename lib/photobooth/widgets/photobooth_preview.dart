@@ -38,7 +38,8 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-dash-friend',
           );
           context.read<PhotoboothBloc>().add(
-              const PhotoCharacterToggled(character: PhotoboothAssets.dash));
+                const PhotoCharacterToggled(character: PhotoboothAssets.dash),
+              );
         },
       ),
       CharacterIconButton(
@@ -69,7 +70,10 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-bugdroid-friend',
           );
           context.read<PhotoboothBloc>().add(
-              const PhotoCharacterToggled(character: PhotoboothAssets.android));
+                const PhotoCharacterToggled(
+                  character: PhotoboothAssets.android,
+                ),
+              );
         },
       ),
       CharacterIconButton(
@@ -84,7 +88,8 @@ class PhotoboothPreview extends StatelessWidget {
             label: 'add-dino-friend',
           );
           context.read<PhotoboothBloc>().add(
-              const PhotoCharacterToggled(character: PhotoboothAssets.dino));
+                const PhotoCharacterToggled(character: PhotoboothAssets.dino),
+              );
         },
       ),
     ];
