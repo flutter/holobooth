@@ -10,8 +10,8 @@ on:
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
-      dart_sdk: "stable"
+      flutter_version: 3.3.1
       platform: "chrome,vm"
-      working_directory: "packages/face_geometry"
+      working_directory: packages/face_geometry
