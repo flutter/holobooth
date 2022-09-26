@@ -37,7 +37,7 @@ void main() {
         photoboothBloc: photoboothBloc,
       );
       expect(
-        find.byKey(const Key('stickersLayer_01_google_v1_0_positioned')),
+        find.byKey(const Key('stickersLayer_google_01_v1_0_positioned')),
         findsOneWidget,
       );
     });
@@ -59,15 +59,15 @@ void main() {
         photoboothBloc: photoboothBloc,
       );
       expect(
-        find.byKey(const Key('stickersLayer_01_google_v1_0_positioned')),
+        find.byKey(const Key('stickersLayer_google_01_v1_0_positioned')),
         findsOneWidget,
       );
       expect(
-        find.byKey(const Key('stickersLayer_01_google_v1_1_positioned')),
+        find.byKey(const Key('stickersLayer_google_01_v1_1_positioned')),
         findsOneWidget,
       );
       expect(
-        find.byKey(const Key('stickersLayer_25_shapes_v1_2_positioned')),
+        find.byKey(const Key('stickersLayer_shapes_25_v1_2_positioned')),
         findsOneWidget,
       );
     });
