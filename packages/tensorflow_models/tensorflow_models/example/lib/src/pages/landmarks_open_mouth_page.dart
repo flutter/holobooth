@@ -32,7 +32,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
 
-  late final AudioPlayer audioPlayer;
+  late final AudioPlayer _audioPlayer;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -51,7 +51,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   }
 
   Future<void> _initAudioPlayer() async {
-    audioPlayer = AudioPlayer();
+    _audioPlayer = AudioPlayer();
     final audioSession = await AudioSession.instance;
 
     try {
@@ -59,15 +59,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     } catch (_) {}
 
     try {
-      await audioPlayer.setAsset('Lion_roar.mp3');
+      await _audioPlayer.setAsset('Lion_roar.mp3');
     } catch (_) {}
-    audioPlayer.playerStateStream.listen((event) {
+    _audioPlayer.playerStateStream.listen((_) {
       setState(() {});
     });
   }
 
   @override
   void dispose() {
+    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -91,10 +92,10 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
-                      if (faces.first.isMouthOpened()) {
-                        audioPlayer.play();
-                      } else if (!faces.first.isMouthOpened()) {
-                        audioPlayer.pause();
+                      if (faces.first.mouthDistance > 15) {
+                        _audioPlayer.play();
+                      } else if (faces.first.mouthDistance < 15) {
+                        _audioPlayer.pause();
                       }
 
                       return SizedBox.fromSize(
