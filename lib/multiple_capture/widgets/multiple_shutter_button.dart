@@ -16,12 +16,11 @@ class MultipleShutterButton extends StatefulWidget {
 
 class _MultipleShutterButtonState extends State<MultipleShutterButton>
     with TickerProviderStateMixin {
+  static const _shutterCountdownDuration = Duration(seconds: 3);
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: _shutterCountdownDuration,
   );
-  static const _shutterCountdownDuration = Duration(seconds: 3);
-
   var _count = 0;
 
   @override
