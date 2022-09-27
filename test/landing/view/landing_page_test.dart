@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -116,7 +116,7 @@ void main() {
       expect(find.byType(BlackFooter), findsOneWidget);
     });
 
-    testWidgets('tapping on take photo button navigates to PhotoboothPage',
+    testWidgets('tapping on take photo button navigates to MultipleCapturePage',
         (tester) async {
       await runZonedGuarded(
         () async {
@@ -139,7 +139,7 @@ void main() {
         (_, __) {},
       );
 
-      expect(find.byType(PhotoboothPage), findsOneWidget);
+      expect(find.byType(MultipleCapturePage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);
     });
   });
