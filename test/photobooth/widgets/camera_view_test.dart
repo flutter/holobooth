@@ -15,9 +15,11 @@ class _MockCameraDescription extends Mock implements CameraDescription {}
 
 void main() {
   group('CameraView', () {
+    const cameraId = 1;
+    late CameraPlatform cameraPlatform;
+
     setUp(() {
-      const cameraId = 1;
-      final cameraPlatform = _MockCameraPlatform();
+      cameraPlatform = _MockCameraPlatform();
       CameraPlatform.instance = cameraPlatform;
       final event = CameraInitializedEvent(
         cameraId,
@@ -68,7 +70,45 @@ void main() {
       testWidgets('called when ready', (tester) async {});
     });
 
-    group('didChangeAppLifecycleState', () {});
+    group('didChangeAppLifecycleState', () {
+      testWidgets('disposes camera when inactice', (tester) async {
+        final subject = CameraView(
+          onCameraReady: (_) {},
+          errorBuilder: (_, __) => const SizedBox(),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pumpAndSettle();
+
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+        await tester.pumpAndSettle();
+
+        verify(() => cameraPlatform.dispose(cameraId)).called(1);
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpAndSettle();
+      });
+
+      testWidgets('intializes camera again when resumed', (tester) async {
+        final subject = CameraView(
+          onCameraReady: (_) {},
+          errorBuilder: (_, __) => const SizedBox(),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pumpAndSettle();
+
+        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
+
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+        await tester.pumpAndSettle();
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpAndSettle();
+
+        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
+      });
+    });
 
     group('renders', () {
       testWidgets('loadingKey when loading', (tester) async {
@@ -91,7 +131,7 @@ void main() {
       });
 
       testWidgets('errorBuilder when has an error', (tester) async {
-        when(() => CameraPlatform.instance.availableCameras()).thenThrow(
+        when(() => cameraPlatform.availableCameras()).thenThrow(
           CameraException('', ''),
         );
         const errorKey = Key('error');
