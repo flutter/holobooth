@@ -1,4 +1,5 @@
 export 'animated_characters/animated_characters.dart';
+export 'camera_view.dart';
 export 'character_icon_button.dart';
 export 'characters_caption.dart';
 export 'characters_layer.dart';
