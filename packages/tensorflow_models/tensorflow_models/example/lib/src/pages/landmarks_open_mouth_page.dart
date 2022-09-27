@@ -61,9 +61,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     try {
       await _audioPlayer.setAsset('Lion_roar.mp3');
     } catch (_) {}
-    _audioPlayer.playerStateStream.listen((_) {
-      setState(() {});
-    });
+    _audioPlayer.playerStateStream.listen((_) => setState(() {}));
   }
 
   @override
