@@ -29,9 +29,7 @@ void main() {
         animation.addFrame(img.decodePng(Uint8List.fromList(bytes))!);
       }
 
-      final gif = img.encodeGifAnimation(animation);
-
-      return gif;
+      return img.encodeGifAnimation(animation);
     } catch (e) {
       // TODO(mark): Handle this.
       print(e);

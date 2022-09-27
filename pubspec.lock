@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "2.9.0"
   audio_session:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: audio_session
       url: "https://pub.dartlang.org"
@@ -547,19 +547,19 @@ packages:
     source: hosted
     version: "3.1.0"
   platform_helper:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/platform_helper"
       relative: true
     source: path
     version: "0.0.0"
   plugin_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   pool:
     dependency: transitive
     description:
@@ -755,7 +755,7 @@ packages:
     source: hosted
     version: "3.0.1"
   url_launcher_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
