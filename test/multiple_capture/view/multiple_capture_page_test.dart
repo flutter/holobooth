@@ -112,6 +112,16 @@ void main() {
     });
 
     testWidgets(
+      'renders error in camera view when there is an error finding camera',
+      (WidgetTester tester) async {
+        when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
+        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('camera_error_view')), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'navigates to MultipleCaptureViewerPage when isFinished',
       (WidgetTester tester) async {
         final images = [

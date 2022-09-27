@@ -53,9 +53,8 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                     _cameraController = controller;
                   });
                 },
-                errorBuilder: (BuildContext context, Object? error) {
-                  return const SizedBox.shrink();
-                },
+                errorBuilder: (BuildContext context, Object? error) =>
+                    const SizedBox.shrink(key: Key('camera_error_view')),
               ),
             ),
             Align(
