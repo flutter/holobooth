@@ -2,6 +2,7 @@ import 'dart:async';
 // TODO(alestiago): Remove the need of this import by using plugins.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,11 @@ class _CameraState extends State<_Camera> {
             camera = Text('${error.code} : ${error.description}');
           }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _cameraController.buildPreview();
+          camera = SizedBox(
+            width: 600,
+            height: 600,
+            child: _cameraController.buildPreview(),
+          );
         } else {
           camera = const CircularProgressIndicator();
         }
@@ -134,6 +139,8 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
   tf.Pose? _pose;
   tf.PoseNet? _poseNet;
   _BearRiveAnimationController? _bearRiveAnimationController;
+
+  final pictureRecorder = PictureRecorder();
 
   static const _maskSize = Size(600, 600);
 
@@ -182,18 +189,45 @@ class _PoseNetOverlayState extends State<_PoseNetOverlay> {
       _shouldAnimate();
     });
 
-    final noseKeypoint = pose.keypoints.firstWhere((k) => k.part == 'nose');
-    return Positioned(
-      // TODO(alestiago): Try and fix the camera preview effect so that coordinates are precise, or
-      // tweak coordinates according to the preview.
-      left: (noseKeypoint.position.x.toDouble() - 30) - (_maskSize.width / 2),
-      top: noseKeypoint.position.y.toDouble() - (_maskSize.height / 2),
-      child: SizedBox.fromSize(
-        size: _maskSize,
-        child: _Bear(
-          onControllerReady: _onBearRiveAnimationControllerReady,
+    return Stack(
+      children: [
+        SizedBox.fromSize(
+          size: _maskSize,
+          child: _Bear(
+            onControllerReady: _onBearRiveAnimationControllerReady,
+          ),
         ),
-      ),
+        ElevatedButton(
+          onPressed: () async {
+            // Create the canvas and set the background to orange. We could
+            // also use drawImage to add a background image.
+            final canvas = Canvas(pictureRecorder)
+              ..drawColor(Colors.orange, BlendMode.color);
+
+            // We can scale down or resize the canvas here to work better with gifs.
+            canvas.scale(.5);
+
+            _bearRiveAnimationController!.artboard!.draw(canvas);
+
+            final image = await pictureRecorder.endRecording().toImage(
+                  _bearRiveAnimationController!.artboard!.width ~/ 2,
+                  _bearRiveAnimationController!.artboard!.height ~/ 2,
+                );
+            final bytes = await image.toByteData(format: ImageByteFormat.png);
+
+            final bytesList = bytes!.buffer.asUint8List();
+
+            final file = XFile.fromData(
+              bytesList,
+              mimeType: 'image/png',
+              name: 'bear.png', // Use a different name?
+            );
+
+            await file.saveTo('');
+          },
+          child: Text('Take Screenshot'),
+        ),
+      ],
     );
   }
 }
