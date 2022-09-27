@@ -22,7 +22,7 @@ extension on WidgetTester {
         child: MediaQuery.fromWindow(
           child: Theme(
             data: ThemeData(),
-            child: Builder(builder: (context) => subject),
+            child: Builder(builder: (_) => subject),
           ),
         ),
       ),
