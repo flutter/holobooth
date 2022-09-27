@@ -6,12 +6,18 @@ import 'package:flutter/material.dart';
 class CameraView extends StatefulWidget {
   const CameraView({
     super.key,
-    this.onCameraReady,
-    this.errorBuilder,
+    required this.onCameraReady,
+    required this.errorBuilder,
   });
 
+  @visibleForTesting
+  static const loadingKey = Key('cameraView_loading');
+
+  @visibleForTesting
+  static const cameraPreviewKey = Key('cameraView_cameraPreview');
+
   final void Function(CameraController controller)? onCameraReady;
-  final Widget Function(BuildContext context, Object? error)? errorBuilder;
+  final Widget Function(BuildContext context, Object? error) errorBuilder;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -73,12 +79,14 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
         late final Widget camera;
         if (snapshot.hasError) {
           final error = snapshot.error;
-          camera = widget.errorBuilder?.call(context, error) ??
-              const SizedBox.shrink();
+          camera = widget.errorBuilder.call(context, error);
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = _cameraController!.buildPreview();
+          camera = Builder(
+            key: CameraView.cameraPreviewKey,
+            builder: (_) => _cameraController!.buildPreview(),
+          );
         } else {
-          camera = const SizedBox.shrink();
+          camera = const SizedBox.shrink(key: CameraView.loadingKey);
         }
         return camera;
       },
