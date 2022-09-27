@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
   const CharacterSelectionPage({super.key});
@@ -8,14 +9,15 @@ class CharacterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Select a character')),
+      appBar: AppBar(title: Text(l10n.selectACharacterTitleText)),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CharacterSelections(),
+            const _CharacterSelections(),
             ActionChip(
-              label: const Text('To the Photobooth!'),
+              label: Text(l10n.toThePhotoBoothButtonText),
               backgroundColor: const Color.fromARGB(255, 129, 147, 231),
               onPressed: () {},
             )
@@ -26,8 +28,8 @@ class CharacterSelectionPage extends StatelessWidget {
   }
 }
 
-class CharacterSelections extends StatelessWidget {
-  const CharacterSelections({super.key});
+class _CharacterSelections extends StatelessWidget {
+  const _CharacterSelections({super.key});
 
   @override
   Widget build(BuildContext context) {

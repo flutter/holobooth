@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/view/character_selection_page.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class BackgroundSelectionPage extends StatelessWidget {
   const BackgroundSelectionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Select a background')),
+      appBar: AppBar(title: Text(l10n.selectABackgroundTitleText)),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const BackgroundSelections(),
+            const _BackgroundSelections(),
             ActionChip(
-              label: const Text('Next'),
+              label: Text(l10n.nextButtonText),
               backgroundColor: const Color.fromARGB(255, 129, 147, 231),
               onPressed: () =>
                   Navigator.of(context).push(CharacterSelectionPage.route()),
@@ -25,8 +27,8 @@ class BackgroundSelectionPage extends StatelessWidget {
   }
 }
 
-class BackgroundSelections extends StatelessWidget {
-  const BackgroundSelections({super.key});
+class _BackgroundSelections extends StatelessWidget {
+  const _BackgroundSelections({super.key});
 
   @override
   Widget build(BuildContext context) {
