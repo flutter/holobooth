@@ -11,13 +11,20 @@ class _MockCameraException extends Mock implements CameraException {}
 extension on WidgetTester {
   Future<void> pumpSubject(PhotoboothError subject) {
     return pumpWidget(
-      MaterialApp(
-        localizationsDelegates: const [
+      Localizations(
+        locale: const Locale('en'),
+        delegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: subject,
+        child: MediaQuery.fromWindow(
+          child: Theme(
+            data: ThemeData(),
+            child: Builder(builder: (context) => subject),
+          ),
+        ),
       ),
     );
   }
