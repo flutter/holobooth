@@ -20,7 +20,7 @@ class PhotoboothError extends StatelessWidget {
       Key('photoboothError_cameraNotSupported');
 
   @visibleForTesting
-  static const unknownErrorKey = Key('photoboothError_unknown');
+  static const unknownErrorKey = Key('photoboothError_unknownError');
 
   @override
   Widget build(BuildContext context) {
