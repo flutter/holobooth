@@ -81,7 +81,7 @@ void main() {
     });
 
     group('didChangeAppLifecycleState', () {
-      testWidgets('disposes camera when inactice', (tester) async {
+      testWidgets('disposes camera when inactive', (tester) async {
         final subject = CameraView(
           onCameraReady: (_) {},
           errorBuilder: (_, __) => const SizedBox(),
