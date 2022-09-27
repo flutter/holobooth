@@ -1,40 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
   const CharacterSelectionPage({super.key});
 
+  static Route<void> route() =>
+      MaterialPageRoute(builder: (_) => const CharacterSelectionPage());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          const PhotoboothBackground(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
-              PreviewTabs(name: Text('Character 1')),
-              PreviewTabs(name: Text('Character 2')),
-              PreviewTabs(name: Text('Character 3')),
-              PreviewTabs(name: Text('Character 4')),
-            ],
-          )
-        ],
+      appBar: AppBar(title: const Text('Select a character')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const CharacterSelections(),
+            ActionChip(
+              label: const Text('To the Photobooth!'),
+              backgroundColor: const Color.fromARGB(255, 129, 147, 231),
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class PreviewTabs extends StatelessWidget {
-  const PreviewTabs({super.key, required this.name});
-
-  final Text name;
+class CharacterSelections extends StatelessWidget {
+  const CharacterSelections({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: name,
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
+      shrinkWrap: true,
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 10),
+                Text(
+                  'Character $index',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
