@@ -78,6 +78,25 @@ void main() {
 
         expect(calls, equals(1));
       });
+
+      testWidgets('called again when resumed', (tester) async {
+        var calls = 0;
+        final subject = CameraView(
+          onCameraReady: (_) => calls++,
+          errorBuilder: (_, __) => const SizedBox(),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pumpAndSettle();
+
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+        await tester.pumpAndSettle();
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        await tester.pumpAndSettle();
+
+        expect(calls, equals(2));
+      });
     });
 
     group('didChangeAppLifecycleState', () {
