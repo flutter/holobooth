@@ -9,14 +9,13 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class MultipleCapturePage extends StatelessWidget {
   const MultipleCapturePage({super.key});
 
-  static Route<void> route() {
-    return AppPageRoute<void>(builder: (_) => const MultipleCapturePage());
-  }
+  static Route<void> route() =>
+      AppPageRoute<void>(builder: (_) => const MultipleCapturePage());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MultipleCaptureBloc(),
+      create: (_) => MultipleCaptureBloc(),
       child: const MultipleCaptureView(),
     );
   }
