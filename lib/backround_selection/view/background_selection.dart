@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/character_selection/view/character_selection_page.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 

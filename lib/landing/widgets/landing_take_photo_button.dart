@@ -1,6 +1,6 @@
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/backround_selection/view/background_selection.dart';
+import 'package:io_photobooth/backround_selection/background_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
 class LandingTakePhotoButton extends StatelessWidget {

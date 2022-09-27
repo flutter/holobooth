@@ -12,7 +12,6 @@ class CharacterSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.selectACharacterTitleText),
