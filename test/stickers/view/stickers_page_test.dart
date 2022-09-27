@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/gen/meta_assets.gen.dart';
+import 'package:io_photobooth/gen/gen.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:io_photobooth/stickers/stickers.dart';

@@ -2,7 +2,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/gen/meta_assets.gen.dart';
+import 'package:io_photobooth/gen/gen.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/gen/assets.gen.dart';
-import 'package:io_photobooth/gen/meta_assets.gen.dart';
+import 'package:io_photobooth/gen/gen.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class StickersTabs extends StatefulWidget {

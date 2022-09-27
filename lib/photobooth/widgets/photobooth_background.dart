@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/gen/assets.gen.dart';
+import 'package:io_photobooth/gen/gen.dart';
 
 class PhotoboothBackground extends StatelessWidget {
   const PhotoboothBackground({super.key});
