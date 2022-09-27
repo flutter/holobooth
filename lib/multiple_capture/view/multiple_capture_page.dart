@@ -49,9 +49,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
             Align(
               child: CameraView(
                 onCameraReady: (controller) {
-                  setState(() {
-                    _cameraController = controller;
-                  });
+                  setState(() => _cameraController = controller);
                 },
                 errorBuilder: (context, error) {
                   if (error is CameraException) {
