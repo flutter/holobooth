@@ -20,7 +20,7 @@ class BackgroundSelectionPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const _BackgroundSelections(),
+            const BackgroundSelections(),
             ActionChip(
               label: Text(l10n.nextButtonText),
               backgroundColor: PhotoboothColors.blue,
@@ -34,8 +34,9 @@ class BackgroundSelectionPage extends StatelessWidget {
   }
 }
 
-class _BackgroundSelections extends StatelessWidget {
-  const _BackgroundSelections();
+@visibleForTesting
+class BackgroundSelections extends StatelessWidget {
+  const BackgroundSelections({super.key});
 
   @override
   Widget build(BuildContext context) {

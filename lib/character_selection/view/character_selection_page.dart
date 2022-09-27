@@ -20,7 +20,7 @@ class CharacterSelectionPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const _CharacterSelections(),
+            const CharacterSelections(),
             ActionChip(
               label: Text(l10n.toThePhotoBoothButtonText),
               backgroundColor: PhotoboothColors.blue,
@@ -34,8 +34,9 @@ class CharacterSelectionPage extends StatelessWidget {
   }
 }
 
-class _CharacterSelections extends StatelessWidget {
-  const _CharacterSelections();
+@visibleForTesting
+class CharacterSelections extends StatelessWidget {
+  const CharacterSelections({super.key});
 
   @override
   Widget build(BuildContext context) {
