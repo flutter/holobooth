@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart' show PhotoboothError;
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -112,12 +113,23 @@ void main() {
     });
 
     testWidgets(
-      'renders error in camera view when there is an error finding camera',
+      'renders empty SizedBox if any unexpected error finding camera',
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
         await tester.pumpMultipleCaptureView(multipleCaptureBloc);
         await tester.pumpAndSettle();
         expect(find.byKey(Key('camera_error_view')), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders PhotoboothError if any CameraException finding camera',
+      (WidgetTester tester) async {
+        when(() => cameraPlatform.availableCameras())
+            .thenThrow(CameraException('', ''));
+        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpAndSettle();
+        expect(find.byType(PhotoboothError), findsOneWidget);
       },
     );
 
