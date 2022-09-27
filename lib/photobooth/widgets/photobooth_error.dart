@@ -8,29 +8,39 @@ class PhotoboothError extends StatelessWidget {
 
   final CameraException error;
 
+  @visibleForTesting
+  static const cameraAccessDeniedKey =
+      Key('photoboothError_cameraAccessDenied');
+
+  @visibleForTesting
+  static const cameraNotFoundKey = Key('photoboothError_cameraNotFound');
+
+  @visibleForTesting
+  static const cameraNotSupportedKey =
+      Key('photoboothError_cameraNotSupported');
+
+  @visibleForTesting
+  static const unknownErrorKey = Key('photoboothError_unknown');
+
   @override
   Widget build(BuildContext context) {
     if (error.code == 'CameraAccessDenied') {
       return const _PhotoboothCameraAccessDeniedError(
-        key: Key('photoboothError_cameraAccessDenied'),
+        key: cameraAccessDeniedKey,
       );
     }
 
     if (error.code == 'cameraNotFound') {
-      return const _PhotoboothCameraNotFoundError(
-        key: Key('photoboothError_cameraNotFound'),
-      );
+      return const _PhotoboothCameraNotFoundError(key: cameraNotFoundKey);
     }
 
     if (error.code == 'cameraNotSupported') {
       return const _PhotoboothCameraNotSupportedError(
-        key: Key('photoboothError_cameraNotSupported'),
+        key: cameraNotSupportedKey,
       );
     }
 
-    return const _PhotoboothCameraUnknownError(
-      key: Key('photoboothError_unknown'),
-    );
+    return const _PhotoboothCameraUnknownError(key: unknownErrorKey);
   }
 }
 
