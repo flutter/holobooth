@@ -9,7 +9,7 @@ void main() {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         MultipleShutterButton(
-          onPartialShutterCompleted: () async {},
+          onShutter: () async {},
         ),
       );
       await tester.pumpAndSettle();
@@ -20,7 +20,7 @@ void main() {
         (tester) async {
       await tester.pumpApp(
         MultipleShutterButton(
-          onPartialShutterCompleted: () async {},
+          onShutter: () async {},
         ),
       );
       expect(find.byType(CameraButton), findsOneWidget);
@@ -31,7 +31,7 @@ void main() {
         (tester) async {
       await tester.pumpApp(
         MultipleShutterButton(
-          onPartialShutterCompleted: () async {},
+          onShutter: () async {},
         ),
       );
       await tester.tap(find.byType(CameraButton));
@@ -41,12 +41,12 @@ void main() {
     });
 
     testWidgets(
-      'onPartialShutterCompleted is called',
+      'onShutter is called',
       (WidgetTester tester) async {
         var called = false;
         await tester.pumpApp(
           MultipleShutterButton(
-            onPartialShutterCompleted: () async {
+            onShutter: () async {
               called = true;
             },
           ),

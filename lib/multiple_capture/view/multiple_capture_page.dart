@@ -60,7 +60,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
             Align(
               alignment: Alignment.bottomCenter,
               child: MultipleShutterButton(
-                onPartialShutterCompleted: _takeSinglePicture,
+                onShutter: _takeSinglePicture,
               ),
             ),
           ],

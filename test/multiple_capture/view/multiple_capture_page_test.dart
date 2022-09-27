@@ -138,7 +138,7 @@ void main() {
     );
 
     testWidgets(
-      'adds MultipleCapturePhotoTaken when onPartialShutterCompleted is called',
+      'adds MultipleCapturePhotoTaken when onShutter is called',
       (WidgetTester tester) async {
         await tester.pumpMultipleCaptureView(multipleCaptureBloc);
         await tester.pumpAndSettle();
@@ -146,7 +146,7 @@ void main() {
           find.byType(MultipleShutterButton),
         );
 
-        await multipleShutterButton.onPartialShutterCompleted();
+        await multipleShutterButton.onShutter();
         await tester.pumpAndSettle();
         verify(
           () => multipleCaptureBloc.add(

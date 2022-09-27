@@ -5,10 +5,10 @@ import 'package:io_photobooth/photobooth/photobooth.dart';
 class MultipleShutterButton extends StatefulWidget {
   const MultipleShutterButton({
     super.key,
-    required this.onPartialShutterCompleted,
+    required this.onShutter,
   });
 
-  final Future<void> Function() onPartialShutterCompleted;
+  final Future<void> Function() onShutter;
 
   @override
   State<MultipleShutterButton> createState() => _MultipleShutterButtonState();
@@ -43,7 +43,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed && _count < maxPhotos) {
       setState(() => _count++);
-      await widget.onPartialShutterCompleted();
+      await widget.onShutter();
       _runAnimation();
     }
   }
