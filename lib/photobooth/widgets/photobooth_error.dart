@@ -38,7 +38,9 @@ class PhotoboothError extends StatelessWidget {
           key: cameraNotSupportedKey,
         );
       default:
-        return const _PhotoboothCameraUnknownError(key: unknownErrorKey);
+        return const _PhotoboothCameraUnknownError(
+          key: unknownErrorKey,
+        );
     }
   }
 }
