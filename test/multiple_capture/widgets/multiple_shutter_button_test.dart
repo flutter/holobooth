@@ -1,0 +1,60 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
+
+import '../../helpers/helpers.dart';
+
+void main() {
+  group('MultipleShutterButton', () {
+    testWidgets('renders', (tester) async {
+      await tester.pumpApp(
+        MultipleShutterButton(
+          onPartialShutterCompleted: () async {},
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(MultipleShutterButton), findsOneWidget);
+    });
+
+    testWidgets('renders CameraButton when animation has not started',
+        (tester) async {
+      await tester.pumpApp(
+        MultipleShutterButton(
+          onPartialShutterCompleted: () async {},
+        ),
+      );
+      expect(find.byType(CameraButton), findsOneWidget);
+      expect(find.byType(CountdownTimer), findsNothing);
+    });
+
+    testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
+        (tester) async {
+      await tester.pumpApp(
+        MultipleShutterButton(
+          onPartialShutterCompleted: () async {},
+        ),
+      );
+      await tester.tap(find.byType(CameraButton));
+      await tester.pump();
+      expect(find.byType(CountdownTimer), findsOneWidget);
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets(
+      'onPartialShutterCompleted is called',
+      (WidgetTester tester) async {
+        var called = false;
+        await tester.pumpApp(
+          MultipleShutterButton(
+            onPartialShutterCompleted: () async {
+              called = true;
+            },
+          ),
+        );
+        await tester.tap(find.byType(CameraButton));
+        await tester.pumpAndSettle();
+        expect(called, true);
+      },
+    );
+  });
+}
