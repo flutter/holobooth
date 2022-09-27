@@ -2,7 +2,6 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
-import 'package:audio_session/audio_session.dart';
 import 'package:camera/camera.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
