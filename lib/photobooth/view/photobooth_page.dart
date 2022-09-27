@@ -10,9 +10,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class PhotoboothPage extends StatelessWidget {
   const PhotoboothPage({super.key});
 
-  static Route<void> route() {
-    return AppPageRoute<void>(builder: (_) => const PhotoboothPage());
-  }
+  static Route<void> route() =>
+      AppPageRoute<void>(builder: (_) => const PhotoboothPage());
 
   @override
   Widget build(BuildContext context) {
@@ -34,59 +33,18 @@ class PhotoboothView extends StatefulWidget {
   State<PhotoboothView> createState() => _PhotoboothViewState();
 }
 
-class _PhotoboothViewState extends State<PhotoboothView>
-    with WidgetsBindingObserver {
-  late Completer<void> _cameraControllerCompleter;
-  CameraController? _controller;
+class _PhotoboothViewState extends State<PhotoboothView> {
+  CameraController? _cameraController;
 
-  bool get _isCameraAvailable => (_controller?.value.isInitialized) ?? false;
+  bool get _isCameraAvailable =>
+      (_cameraController?.value.isInitialized) ?? false;
+
+  void _onCameraReady(CameraController cameraController) =>
+      setState(() => _cameraController = cameraController);
 
   Future<void> _stop() async {
     if (!_isCameraAvailable) return;
-    return _controller!.pausePreview();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _initializeCamera();
-  }
-
-  Future<void> _initializeCamera() async {
-    if (_isCameraAvailable) return;
-
-    _cameraControllerCompleter = Completer<void>();
-    try {
-      final cameras = await availableCameras();
-      _controller = CameraController(
-        cameras[0],
-        ResolutionPreset.max,
-        enableAudio: false,
-      );
-      await _controller!.initialize();
-      _cameraControllerCompleter.complete();
-    } catch (error) {
-      _cameraControllerCompleter.completeError(error);
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
-      _controller?.dispose();
-      _controller = null;
-    } else if (state == AppLifecycleState.resumed && _controller == null) {
-      _initializeCamera();
-      setState(() {});
-    }
+    return _cameraController!.pausePreview();
   }
 
   Future<void> _onSnapPressed({required double aspectRatio}) async {
@@ -94,8 +52,8 @@ class _PhotoboothViewState extends State<PhotoboothView>
 
     final photoboothBloc = context.read<PhotoboothBloc>();
     final navigator = Navigator.of(context);
-    final picture = await _controller!.takePicture();
-    final previewSize = _controller!.value.previewSize!;
+    final picture = await _cameraController!.takePicture();
+    final previewSize = _cameraController!.value.previewSize!;
 
     photoboothBloc.add(
       PhotoCaptured(
@@ -123,31 +81,26 @@ class _PhotoboothViewState extends State<PhotoboothView>
         ? PhotoboothAspectRatio.portrait
         : PhotoboothAspectRatio.landscape;
 
-    return FutureBuilder<void>(
-      future: _cameraControllerCompleter.future,
-      builder: (context, snapshot) {
-        late final Widget camera;
-        if (snapshot.hasError) {
-          final error = snapshot.error;
-          if (error is CameraException) {
-            camera = PhotoboothError(error: error);
-          }
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = PhotoboothPreview(
-            preview: _controller!.buildPreview(),
-            onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
-          );
+    final camera = CameraView(
+      onCameraReady: _onCameraReady,
+      errorBuilder: (context, error) {
+        if (error is CameraException) {
+          return PhotoboothError(error: error);
         } else {
-          camera = const SizedBox();
+          return const SizedBox.shrink();
         }
-
-        return Scaffold(
-          body: _PhotoboothBackground(
-            aspectRatio: aspectRatio,
-            child: camera,
-          ),
-        );
       },
+    );
+    return Scaffold(
+      body: _PhotoboothBackground(
+        aspectRatio: aspectRatio,
+        child: _cameraController != null
+            ? PhotoboothPreview(
+                onSnapPressed: () => _onSnapPressed(aspectRatio: aspectRatio),
+                preview: camera,
+              )
+            : camera,
+      ),
     );
   }
 }
@@ -159,7 +112,7 @@ class _PhotoboothBackground extends StatelessWidget {
   });
 
   final double aspectRatio;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

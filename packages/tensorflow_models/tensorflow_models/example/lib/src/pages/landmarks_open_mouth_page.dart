@@ -1,11 +1,11 @@
 // TODO(alestiago): Use a plugin instead.
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'dart:math' as math;
 
 import 'package:audio_session/audio_session.dart';
 import 'package:camera/camera.dart';
 import 'package:example/src/widgets/widgets.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
@@ -126,7 +126,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.isMouthOpened() ? Colors.yellow : Colors.red
+      ..color = face.mouthDistance > 1 ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
@@ -140,15 +140,4 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
       face != oldDelegate.face;
-}
-
-extension on tf.Face {
-  bool isMouthOpened() {
-    final topLipPoint = keypoints[13];
-    final bottomLipPoint = keypoints[14];
-    final dx = topLipPoint.x - bottomLipPoint.x;
-    final dy = topLipPoint.y - bottomLipPoint.y;
-    final distance = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
-    return distance > 1;
-  }
 }
