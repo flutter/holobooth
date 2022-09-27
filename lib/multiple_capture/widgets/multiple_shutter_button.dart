@@ -16,7 +16,10 @@ class MultipleShutterButton extends StatefulWidget {
 
 class _MultipleShutterButtonState extends State<MultipleShutterButton>
     with TickerProviderStateMixin {
-  late final AnimationController _animationController;
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: _shutterCountdownDuration,
+  );
   static const _shutterCountdownDuration = Duration(seconds: 3);
 
   var _count = 0;
@@ -24,20 +27,13 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
   @override
   void initState() {
     super.initState();
-    _initShutter();
+    _animationController.addStatusListener(_onAnimationStatusChanged);
   }
 
   @override
   void dispose() {
-  _animationController.dispose();
+    _animationController.dispose();
     super.dispose();
-  }
-
-  void _initShutter() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: _shutterCountdownDuration,
-    )..addStatusListener(_onAnimationStatusChanged);
   }
 
   void _runAnimation() {
@@ -46,7 +42,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed && _count < maxPhotos) {
-   setState(() => _count++);
+      setState(() => _count++);
       await widget.onPartialShutterCompleted();
       _runAnimation();
     }
@@ -57,11 +53,13 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
-        return _animationController.isAnimating
-            ? CountdownTimer(controller: _animationController)
-            : _count == 0
-                ? CameraButton(onPressed: _runAnimation)
-                : const SizedBox();
+        if (_animationController.isAnimating) {
+          return CountdownTimer(controller: _animationController);
+        } else if (_count == 0) {
+          return CameraButton(onPressed: _runAnimation);
+        } else {
+          return const SizedBox();
+        }
       },
     );
   }
