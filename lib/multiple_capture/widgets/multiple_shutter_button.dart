@@ -48,9 +48,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed && _count < maxPhotos) {
-      setState(() {
-        _count++;
-      });
+   setState(() => _count++);
       await widget.onPartialShutterCompleted();
       _runAnimation();
     }
