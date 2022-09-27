@@ -52,16 +52,10 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 
   Future<void> _initAudioPlayer() async {
     _audioPlayer = AudioPlayer();
-    final audioSession = await AudioSession.instance;
-
-    try {
-      await audioSession.configure(const AudioSessionConfiguration.speech());
-    } catch (_) {}
 
     try {
       await _audioPlayer.setAsset('Lion_roar.mp3');
     } catch (_) {}
-    _audioPlayer.playerStateStream.listen((_) => setState(() {}));
   }
 
   @override
