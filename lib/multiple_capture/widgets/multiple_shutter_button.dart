@@ -29,9 +29,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
 
   @override
   void dispose() {
-    _animationController
-      ..removeStatusListener(_onAnimationStatusChanged)
-      ..dispose();
+  _animationController.dispose();
     super.dispose();
   }
 
