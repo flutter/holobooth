@@ -9,10 +9,10 @@ part 'multiple_capture_state.dart';
 class MultipleCaptureBloc
     extends Bloc<MultipleCaptureEvent, MultipleCaptureState> {
   MultipleCaptureBloc() : super(const MultipleCaptureState()) {
-    on<MultipleCapturePhotoTaken>(_requested);
+    on<MultipleCapturePhotoTaken>(_photoTaken);
   }
 
-  FutureOr<void> _requested(
+  FutureOr<void> _photoTaken(
     MultipleCapturePhotoTaken event,
     Emitter<MultipleCaptureState> emit,
   ) {
