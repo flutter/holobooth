@@ -67,7 +67,17 @@ void main() {
     });
 
     group('onCameraReady', () {
-      testWidgets('called when ready', (tester) async {});
+      testWidgets('called when ready', (tester) async {
+        var calls = 0;
+        final subject = CameraView(
+          onCameraReady: (_) => calls++,
+          errorBuilder: (_, __) => const SizedBox(),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pumpAndSettle();
+
+        expect(calls, equals(1));
+      });
     });
 
     group('didChangeAppLifecycleState', () {
@@ -117,6 +127,7 @@ void main() {
           errorBuilder: (_, __) => const SizedBox(),
         );
         await tester.pumpWidget(subject);
+
         expect(find.byKey(CameraView.loadingKey), findsOneWidget);
       });
 
@@ -127,6 +138,7 @@ void main() {
         );
         await tester.pumpWidget(subject);
         await tester.pumpAndSettle();
+
         expect(find.byKey(CameraView.cameraPreviewKey), findsOneWidget);
       });
 
@@ -141,6 +153,7 @@ void main() {
         );
         await tester.pumpWidget(subject);
         await tester.pumpAndSettle();
+
         expect(find.byKey(errorKey), findsOneWidget);
       });
     });
