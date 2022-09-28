@@ -7,13 +7,17 @@ environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
+  audio_session: ^0.1.10
   camera: ^0.10.0+1
   cross_file: ^0.3.3+1
+  face_geometry:
+    path: ../../../face_geometry/
   flutter:
     sdk: flutter
   image: ^3.2.0
   isolated_worker: ^0.1.1
   js: ^0.6.4
+  just_audio: ^0.9.29
   tensorflow_models:
     path: ../
 
@@ -22,3 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
