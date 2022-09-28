@@ -22,16 +22,18 @@ abstract class FaceLandmarksDetector {
 /// The face is represented by [keypoints].
 /// {@endtemplate}
 class Face {
-  const Face._(this.keypoints);
+  const Face._(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
-    final keypoints = json['keypoints'] as List<dynamic>;
+    final keypointsJson = json['keypoints'] as List<dynamic>;
+    final bondingBoxJson = json['box'] as Map<String, dynamic>;
     return Face._(
       UnmodifiableListView(
-        keypoints.map(
+        keypointsJson.map(
           (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
         ),
       ),
+      BoundingBox.fromJson(bondingBoxJson),
     );
   }
 
@@ -41,6 +43,8 @@ class Face {
   /// to face locations can be found at:
   /// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
   final UnmodifiableListView<Keypoint> keypoints;
+
+  final BoundingBox boundingBox;
 }
 
 /// Representation of a [Face] landmark point.
@@ -62,6 +66,35 @@ class Keypoint {
   final num? z;
   final num? score;
   final String? name;
+}
+
+/// Representation of a [Face] bounding box.
+class BoundingBox {
+  factory BoundingBox.fromJson(Map<String, dynamic> map) {
+    return BoundingBox._(
+      map['xMin'] as num,
+      map['yMin'] as num,
+      map['xMax'] as num,
+      map['yMax'] as num,
+      map['width'] as num,
+      map['height'] as num,
+    );
+  }
+  BoundingBox._(
+    this.xMin,
+    this.yMin,
+    this.xMax,
+    this.yMax,
+    this.width,
+    this.height,
+  );
+
+  final num xMin;
+  final num yMin;
+  final num xMax;
+  final num yMax;
+  final num width;
+  final num height;
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
