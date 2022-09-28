@@ -51,6 +51,9 @@ dev_dependencies:
   url_launcher_platform_interface: ^2.1.0
   very_good_analysis: ^3.1.0
 
+flutter_gen:
+  output: lib/assets/
+
 flutter:
   uses-material-design: true
   generate: true

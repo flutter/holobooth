@@ -5,7 +5,7 @@
 # download the assets.
 #
 # Usage:
-# ./tool/generate_asset_metadata.sh > lib/assets.g.dart
+# ./tool/generate_asset_metadata.sh > lib/assets/meta_assets.gen.dart
 
 set -e
 
@@ -23,7 +23,7 @@ echo ""
 echo "import 'package:flutter/widgets.dart';"
 echo "import 'package:photobooth_ui/photobooth_ui.dart';"
 echo ""
-echo "class Assets {"
+echo "class MetaAssets {"
 
 characters=("android.png" "dash.png" "dino.png" "sparky.png")
 

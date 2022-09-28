@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -34,8 +35,7 @@ class LandingBody extends StatelessWidget {
           const SizedBox(height: 48),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
-            child: Image.asset(
-              'assets/backgrounds/landing_background.png',
+            child: Assets.backgrounds.landingBackground.image(
               height: size.width <= PhotoboothBreakpoints.small
                   ? size.height * 0.4
                   : size.height * 0.5,

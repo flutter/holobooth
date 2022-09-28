@@ -2,7 +2,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -27,8 +27,8 @@ void main() {
     testWidgets('displays selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -45,11 +45,11 @@ void main() {
     testWidgets('displays multiple selected sticker assets', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
           stickers: [
-            PhotoAsset(id: '0', asset: Assets.props.first),
-            PhotoAsset(id: '1', asset: Assets.props.first),
-            PhotoAsset(id: '2', asset: Assets.props.last),
+            PhotoAsset(id: '0', asset: MetaAssets.props.first),
+            PhotoAsset(id: '1', asset: MetaAssets.props.first),
+            PhotoAsset(id: '2', asset: MetaAssets.props.last),
           ],
           image: image,
         ),
