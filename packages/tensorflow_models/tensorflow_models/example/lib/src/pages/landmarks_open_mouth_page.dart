@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
@@ -30,6 +31,8 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
   html.VideoElement? _videoElement;
 
+  late final AudioPlayer _audioPlayer;
+
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
@@ -38,6 +41,26 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   void _queryVideoElement() {
     final videoElement = html.querySelector('video')! as html.VideoElement;
     setState(() => _videoElement = videoElement);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initAudioPlayer();
+  }
+
+  Future<void> _initAudioPlayer() async {
+    _audioPlayer = AudioPlayer();
+
+    try {
+      await _audioPlayer.setAsset('Lion_roar.mp3');
+    } catch (_) {}
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,6 +83,11 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     videoElement: _videoElement!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
+                      if (faces.first.mouthDistance > 15) {
+                        _audioPlayer.play();
+                      } else if (faces.first.mouthDistance < 15) {
+                        _audioPlayer.pause();
+                      }
 
                       return SizedBox.fromSize(
                         size: size,
