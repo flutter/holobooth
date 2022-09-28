@@ -1,19 +1,18 @@
 part of 'multiple_capture_bloc.dart';
 
 class MultipleCaptureState extends Equatable {
-  const MultipleCaptureState({
-    this.images = const [],
-  });
-
+  const MultipleCaptureState({required this.images});
+  MultipleCaptureState.empty() : this(images: UnmodifiableListView([]));
   static const totalNumberOfPhotos = 5;
-  final List<PhotoboothCameraImage> images;
+
+  final UnmodifiableListView<PhotoboothCameraImage> images;
   bool get isFinished => images.length == totalNumberOfPhotos;
 
   @override
   List<Object> get props => [images];
 
   MultipleCaptureState copyWith({
-    List<PhotoboothCameraImage>? images,
+    UnmodifiableListView<PhotoboothCameraImage>? images,
   }) {
     return MultipleCaptureState(
       images: images ?? this.images,

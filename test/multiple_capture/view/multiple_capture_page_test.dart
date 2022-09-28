@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -105,7 +106,7 @@ void main() {
       multipleCaptureBloc = _MockMultipleCaptureBloc();
       when(
         () => multipleCaptureBloc.state,
-      ).thenReturn(MultipleCaptureState());
+      ).thenReturn(MultipleCaptureState.empty());
     });
 
     setUpAll(() {
@@ -136,10 +137,10 @@ void main() {
     testWidgets(
       'navigates to MultipleCaptureViewerPage when isFinished',
       (WidgetTester tester) async {
-        final images = [
+        final images = UnmodifiableListView([
           for (var i = 0; i < MultipleCaptureState.totalNumberOfPhotos; i++)
             _FakePhotoboothCameraImage(),
-        ];
+        ]);
         whenListen(
           multipleCaptureBloc,
           Stream.value(MultipleCaptureState(images: images)),

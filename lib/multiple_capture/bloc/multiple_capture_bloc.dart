@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,7 +9,7 @@ part 'multiple_capture_state.dart';
 
 class MultipleCaptureBloc
     extends Bloc<MultipleCaptureEvent, MultipleCaptureState> {
-  MultipleCaptureBloc() : super(const MultipleCaptureState()) {
+  MultipleCaptureBloc() : super(MultipleCaptureState.empty()) {
     on<MultipleCapturePhotoTaken>(_photoTaken);
   }
 
@@ -16,9 +17,10 @@ class MultipleCaptureBloc
     MultipleCapturePhotoTaken event,
     Emitter<MultipleCaptureState> emit,
   ) {
-    final newImages = [...state.images, event.image];
     emit(
-      state.copyWith(images: newImages),
+      state.copyWith(
+        images: UnmodifiableListView([...state.images, event.image]),
+      ),
     );
   }
 }
