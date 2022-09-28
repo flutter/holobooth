@@ -30,8 +30,10 @@ class MultipleCaptureView extends StatefulWidget {
 }
 
 class _MultipleCaptureViewState extends State<MultipleCaptureView> {
-  late final CameraController _cameraController;
+  CameraController? _cameraController;
 
+  bool get _isCameraAvailable =>
+      (_cameraController?.value.isInitialized) ?? false;
   @override
   Widget build(BuildContext context) {
     return BlocListener<MultipleCaptureBloc, MultipleCaptureState>(
@@ -60,12 +62,13 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                 },
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: MultipleShutterButton(
-                onShutter: _takeSinglePicture,
+            if (_isCameraAvailable)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: MultipleShutterButton(
+                  onShutter: _takeSinglePicture,
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -74,8 +77,8 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
 
   Future<void> _takeSinglePicture() async {
     final multipleCaptureBloc = context.read<MultipleCaptureBloc>();
-    final picture = await _cameraController.takePicture();
-    final previewSize = _cameraController.value.previewSize!;
+    final picture = await _cameraController!.takePicture();
+    final previewSize = _cameraController!.value.previewSize!;
     multipleCaptureBloc.add(
       MultipleCapturePhotoTaken(
         image: PhotoboothCameraImage(
