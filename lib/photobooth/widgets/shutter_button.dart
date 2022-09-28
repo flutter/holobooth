@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -59,7 +60,7 @@ class _ShutterButtonState extends State<ShutterButton>
 
     // Try to load audio from a source and catch any errors.
     try {
-      await audioPlayer.setAsset('assets/audio/camera.mp3');
+      await audioPlayer.setAsset(Assets.audio.camera);
     } catch (_) {}
   }
 
@@ -146,6 +147,7 @@ class CameraButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     return Semantics(
       focusable: true,
       button: true,
@@ -156,8 +158,7 @@ class CameraButton extends StatelessWidget {
         color: PhotoboothColors.transparent,
         child: InkWell(
           onTap: onPressed,
-          child: Image.asset(
-            'assets/icons/camera_button_icon.png',
+          child: Assets.icons.cameraButtonIcon.image(
             height: 100,
             width: 100,
           ),
