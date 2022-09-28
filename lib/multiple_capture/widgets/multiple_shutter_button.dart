@@ -21,7 +21,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
     vsync: this,
     duration: _shutterCountdownDuration,
   );
-  var _count = 0;
+  var _shutterCount = 0;
 
   @override
   void initState() {
@@ -40,9 +40,10 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
   }
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
+    
     if (status == AnimationStatus.dismissed &&
-        _count < MultipleCaptureState.totalNumberOfPhotos) {
-      setState(() => _count++);
+        _shutterCount < MultipleCaptureState.totalNumberOfPhotos) {
+      setState(() => _shutterCount++);
       await widget.onShutter();
       _runAnimation();
     }
@@ -55,7 +56,7 @@ class _MultipleShutterButtonState extends State<MultipleShutterButton>
       builder: (context, child) {
         if (_animationController.isAnimating) {
           return CountdownTimer(controller: _animationController);
-        } else if (_count == 0) {
+        } else if (_shutterCount == 0) {
           return CameraButton(onPressed: _runAnimation);
         } else {
           return const SizedBox();
