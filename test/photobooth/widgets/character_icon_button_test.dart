@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/gen/gen.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/widgets/widgets.dart';
 
 import '../../helpers/helpers.dart';
