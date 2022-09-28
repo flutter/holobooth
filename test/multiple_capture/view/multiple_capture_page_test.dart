@@ -137,7 +137,8 @@ void main() {
       'navigates to MultipleCaptureViewerPage when isFinished',
       (WidgetTester tester) async {
         final images = [
-          for (var i = 0; i < maxPhotos; i++) _FakePhotoboothCameraImage(),
+          for (var i = 0; i < MultipleCaptureState.totalNumberOfPhotos; i++)
+            _FakePhotoboothCameraImage(),
         ];
         whenListen(
           multipleCaptureBloc,

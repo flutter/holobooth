@@ -1,15 +1,13 @@
 part of 'multiple_capture_bloc.dart';
 
-const maxPhotos = 5;
-
 class MultipleCaptureState extends Equatable {
   const MultipleCaptureState({
     this.images = const [],
   });
 
+  static const totalNumberOfPhotos = 5;
   final List<PhotoboothCameraImage> images;
-
-  bool get isFinished => images.length == maxPhotos;
+  bool get isFinished => images.length == totalNumberOfPhotos;
 
   @override
   List<Object> get props => [images];
