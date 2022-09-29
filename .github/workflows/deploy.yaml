@@ -27,3 +27,4 @@ jobs:
           target: 673c89b8-38f7-11ed-a261-0242ac120002
           expires: 30d
           channelId: live
+          entryPoint: packages/tensorflow_models/tensorflow_models/example
