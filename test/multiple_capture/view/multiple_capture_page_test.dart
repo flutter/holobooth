@@ -87,7 +87,7 @@ void main() {
   tearDown(() {
     CameraPlatform.instance = _MockCameraPlatform();
   });
-  
+
   group('MultipleCapturePage', () {
     test('is routable', () {
       expect(MultipleCapturePage.route(), isA<MaterialPageRoute<void>>());
