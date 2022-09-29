@@ -1,7 +1,12 @@
 part of 'multiple_capture_bloc.dart';
 
 class MultipleCaptureState extends Equatable {
-  const MultipleCaptureState({required this.images});
+  @visibleForTesting
+  const MultipleCaptureState({required this.images})
+      : assert(
+          images.length <= totalNumberOfPhotos,
+          'The total number of photos should be less than $totalNumberOfPhotos',
+        );
   MultipleCaptureState.empty() : this(images: UnmodifiableListView([]));
   static const totalNumberOfPhotos = 5;
 
