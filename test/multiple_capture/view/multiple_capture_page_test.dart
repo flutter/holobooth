@@ -119,7 +119,7 @@ void main() {
       'renders empty SizedBox if any unexpected error finding camera',
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
-        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
         expect(find.byKey(Key('camera_error_view')), findsOneWidget);
       },
@@ -130,7 +130,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras())
             .thenThrow(CameraException('', ''));
-        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothError), findsOneWidget);
       },
@@ -147,7 +147,7 @@ void main() {
           multipleCaptureBloc,
           Stream.value(MultipleCaptureState(images: images)),
         );
-        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
       },
@@ -156,7 +156,7 @@ void main() {
     testWidgets(
       'adds MultipleCapturePhotoTaken when onShutter is called',
       (WidgetTester tester) async {
-        await tester.pumpMultipleCaptureView(multipleCaptureBloc);
+        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
           find.byType(MultipleShutterButton),
@@ -177,13 +177,14 @@ void main() {
 }
 
 extension on WidgetTester {
-  Future<void> pumpMultipleCaptureView(
+  Future<void> pumpSubject(
+    MultipleCaptureView subject,
     MultipleCaptureBloc multipleCaptureBloc,
   ) =>
       pumpApp(
         BlocProvider.value(
           value: multipleCaptureBloc,
-          child: MultipleCaptureView(),
+          child: subject,
         ),
       );
 }
