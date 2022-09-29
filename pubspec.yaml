@@ -14,13 +14,13 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.1.0
-  camera: ^0.10.0+1
+  camera: ^0.10.0+3
   collection: ^1.16.0
-  cross_file: ^0.3.3+1
+  cross_file: ^0.3.3+2
   equatable: ^2.0.5
-  firebase_auth: ^3.8.0
-  firebase_core: ^1.22.0
-  firebase_storage: ^10.3.8
+  firebase_auth: ^3.10.0
+  firebase_core: ^1.23.0
+  firebase_storage: ^10.3.9
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
@@ -31,7 +31,7 @@ dependencies:
   intl: ^0.17.0
   js_interop_utils:
     path: packages/js_interop_utils
-  just_audio: ^0.9.28
+  just_audio: ^0.9.29
   meta: ^1.8.0
   photobooth_ui:
     path: packages/photobooth_ui

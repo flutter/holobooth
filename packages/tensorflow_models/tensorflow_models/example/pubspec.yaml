@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   audio_session: ^0.1.10
-  camera: ^0.10.0+1
-  cross_file: ^0.3.3+1
+  camera: ^0.10.0+3
+  cross_file: ^0.3.3+2
   face_geometry:
     path: ../../../face_geometry
   flutter:
