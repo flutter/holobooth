@@ -1,7 +1,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -27,7 +27,7 @@ class PhotoboothPreview extends StatelessWidget {
     final children = <Widget>[
       CharacterIconButton(
         key: const Key('photoboothView_dash_characterIconButton'),
-        icon: const AssetImage('assets/icons/dash_icon.png'),
+        icon: AssetImage(Assets.icons.dashIcon.path),
         label: l10n.dashButtonLabelText,
         isSelected: state.isDashSelected,
         onPressed: () {
@@ -36,14 +36,14 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-dash-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.dash));
+          context.read<PhotoboothBloc>().add(
+                const PhotoCharacterToggled(character: MetaAssets.dash),
+              );
         },
       ),
       CharacterIconButton(
         key: const Key('photoboothView_sparky_characterIconButton'),
-        icon: const AssetImage('assets/icons/sparky_icon.png'),
+        icon: AssetImage(Assets.icons.sparkyIcon.path),
         label: l10n.sparkyButtonLabelText,
         isSelected: state.isSparkySelected,
         onPressed: () {
@@ -52,14 +52,14 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-sparky-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.sparky));
+          context.read<PhotoboothBloc>().add(
+                const PhotoCharacterToggled(character: MetaAssets.sparky),
+              );
         },
       ),
       CharacterIconButton(
         key: const Key('photoboothView_android_characterIconButton'),
-        icon: const AssetImage('assets/icons/android_icon.png'),
+        icon: AssetImage(Assets.icons.androidIcon.path),
         label: l10n.androidButtonLabelText,
         isSelected: state.isAndroidSelected,
         onPressed: () {
@@ -68,14 +68,16 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-bugdroid-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.android));
+          context.read<PhotoboothBloc>().add(
+                const PhotoCharacterToggled(
+                  character: MetaAssets.android,
+                ),
+              );
         },
       ),
       CharacterIconButton(
         key: const Key('photoboothView_dino_characterIconButton'),
-        icon: const AssetImage('assets/icons/dino_icon.png'),
+        icon: AssetImage(Assets.icons.dinoIcon.path),
         label: l10n.dinoButtonLabelText,
         isSelected: state.isDinoSelected,
         onPressed: () {
@@ -84,9 +86,9 @@ class PhotoboothPreview extends StatelessWidget {
             action: 'click-add-friend',
             label: 'add-dino-friend',
           );
-          context
-              .read<PhotoboothBloc>()
-              .add(const PhotoCharacterToggled(character: Assets.dino));
+          context.read<PhotoboothBloc>().add(
+                const PhotoCharacterToggled(character: MetaAssets.dino),
+              );
         },
       ),
     ];

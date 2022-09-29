@@ -48,7 +48,6 @@ void main() {
     setUp(() {
       photosRepository = _MockPhotosRepository();
       asset = _MockAsset();
-
       when(() => asset.path).thenReturn('assets/path/asset.png');
       photoAsset = _MockPhotoAsset();
 

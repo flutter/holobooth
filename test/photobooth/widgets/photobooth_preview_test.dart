@@ -4,7 +4,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
@@ -69,7 +69,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 
@@ -93,7 +93,7 @@ void main() {
     testWidgets('adds PhotoCharacterDragged when dragged', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 
@@ -121,7 +121,7 @@ void main() {
     testWidgets('renders only dash when only dash is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.dash)],
         ),
       );
 
@@ -145,7 +145,7 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: Assets.sparky),
+            PhotoAsset(id: '0', asset: MetaAssets.sparky),
           ],
         ),
       );
@@ -170,7 +170,7 @@ void main() {
     testWidgets('renders only dino when only dino is selected', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.dino)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.dino)],
         ),
       );
 
@@ -196,10 +196,10 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           characters: const [
-            PhotoAsset(id: '0', asset: Assets.android),
-            PhotoAsset(id: '1', asset: Assets.dash),
-            PhotoAsset(id: '2', asset: Assets.sparky),
-            PhotoAsset(id: '3', asset: Assets.dino),
+            PhotoAsset(id: '0', asset: MetaAssets.android),
+            PhotoAsset(id: '1', asset: MetaAssets.dash),
+            PhotoAsset(id: '2', asset: MetaAssets.sparky),
+            PhotoAsset(id: '3', asset: MetaAssets.dino),
           ],
         ),
       );
@@ -270,7 +270,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.dash),
+          PhotoCharacterToggled(character: MetaAssets.dash),
         ),
       ).called(1);
     });
@@ -293,7 +293,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.sparky),
+          PhotoCharacterToggled(character: MetaAssets.sparky),
         ),
       ).called(1);
     });
@@ -316,7 +316,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.android),
+          PhotoCharacterToggled(character: MetaAssets.android),
         ),
       ).called(1);
     });
@@ -339,7 +339,7 @@ void main() {
       expect(tester.takeException(), isNull);
       verify(
         () => photoboothBloc.add(
-          PhotoCharacterToggled(character: Assets.dino),
+          PhotoCharacterToggled(character: MetaAssets.dino),
         ),
       ).called(1);
     });
@@ -384,7 +384,7 @@ void main() {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
         ),
       );
 

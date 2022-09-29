@@ -6,8 +6,8 @@
 @JS()
 library types;
 
-import "package:js/js.dart";
-import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/common_interfaces.dart';
+import 'package:js/js.dart';
+import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart';
 
 /// @license
 /// Copyright 2021 Google LLC. All Rights Reserved.
@@ -66,9 +66,9 @@ abstract class EstimationConfig {
 abstract class Face {
   external factory Face({List<Keypoint> keypoints, dynamic box});
   external List<Keypoint> get keypoints;
-  external dynamic get box;
+  external BoundingBox get box;
   external set keypoints(List<Keypoint> v);
-  external set box(dynamic v);
+  external set box(BoundingBox v);
 }
 
 /// @license

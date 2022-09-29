@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
 
 class PhotoboothBackground extends StatelessWidget {
   const PhotoboothBackground({super.key});
@@ -9,32 +10,28 @@ class PhotoboothBackground extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset(
-          'assets/backgrounds/photobooth_background.jpg',
+        Assets.backgrounds.photoboothBackground.image(
           repeat: ImageRepeat.repeat,
           filterQuality: FilterQuality.high,
         ),
         Positioned(
           left: 50,
           bottom: size.height * 0.2,
-          child: Image.asset(
-            'assets/backgrounds/red_box.png',
+          child: Assets.backgrounds.redBox.image(
             height: 150,
           ),
         ),
         Positioned(
           right: -50,
           top: size.height * 0.1,
-          child: Image.asset(
-            'assets/backgrounds/blue_circle.png',
+          child: Assets.backgrounds.blueCircle.image(
             height: 150,
           ),
         ),
         Positioned(
           right: 50,
           bottom: size.height * 0.1,
-          child: Image.asset(
-            'assets/backgrounds/yellow_plus.png',
+          child: Assets.backgrounds.yellowPlus.image(
             height: 150,
           ),
         ),
