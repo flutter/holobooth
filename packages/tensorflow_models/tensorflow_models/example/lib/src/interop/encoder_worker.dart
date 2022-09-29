@@ -32,7 +32,6 @@ void main() {
       return img.encodeGifAnimation(animation);
     } catch (e) {
       // TODO(mark): Handle this.
-      // ignore: avoid_print
       print(e);
     }
   });
