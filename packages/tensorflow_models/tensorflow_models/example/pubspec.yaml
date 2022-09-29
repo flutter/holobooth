@@ -18,11 +18,22 @@ dependencies:
   isolated_worker: ^0.1.1
   js: ^0.6.4
   just_audio: ^0.9.29
+  rive: ^0.9.1
   tensorflow_models:
     path: ../
 
 dev_dependencies:
+  build_runner:
+  flutter_gen_runner:
   very_good_analysis: ^3.1.0
+
+flutter_gen:
+  line_length: 80
+  integrations:
+    rive: true
+  assets:
+    enabled: true
+    package_parameter_enabled: true
 
 flutter:
   uses-material-design: true
