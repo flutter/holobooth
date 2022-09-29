@@ -31,6 +31,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
+    _cameraController!.startImageStream((image) => print(image));
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
   }
 
