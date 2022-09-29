@@ -30,7 +30,7 @@ dependencies:
   intl: ^0.17.0
   js_interop_utils:
     path: packages/js_interop_utils
-  just_audio: ^0.9.28
+  just_audio: ^0.9.29
   photobooth_ui:
     path: packages/photobooth_ui
   photos_repository:
