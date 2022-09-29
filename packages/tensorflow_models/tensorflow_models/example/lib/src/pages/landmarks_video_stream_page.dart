@@ -31,13 +31,22 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    _cameraController!.startImageStream((image) => print(image));
+    _cameraController!.startImageStream((image) {
+      final bytes = image.planes.first;
+      print(bytes);
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
   }
 
   void _queryVideoElement() {
     final videoElement = html.querySelector('video')! as html.VideoElement;
     setState(() => _videoElement = videoElement);
+  }
+
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    super.dispose();
   }
 
   @override
