@@ -1,6 +1,7 @@
 name: deploy
 
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -8,6 +9,10 @@ on:
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/tensorflow_models/tensorflow_models/example
+
     name: Deploy Development
     steps:
       - uses: actions/checkout@v2
