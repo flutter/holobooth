@@ -3,7 +3,7 @@ import 'dart:html' as html;
 import 'dart:math';
 
 import 'package:camera/camera.dart';
-import 'package:example/gen/assets.gen.dart';
+import 'package:example/assets/assets.dart';
 import 'package:example/src/src.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
@@ -104,15 +104,14 @@ class _BlinkMask extends StatefulWidget {
 }
 
 class _BlinkMaskState extends State<_BlinkMask> {
-  _BlinkController? _leftBlinkController;
-  _BlinkController? _rightBlinkController;
-  // Values to block mask blinking when eyes are closed
+  _BlinkStateMachineController? _leftBlinkController;
+  _BlinkStateMachineController? _rightBlinkController;
   bool? wasRightEyeClosed;
   bool? wasLeftEyeClosed;
 
   void _onRiveInit(Artboard artboard) {
-    _leftBlinkController = _BlinkController.left(artboard);
-    _rightBlinkController = _BlinkController.right(artboard);
+    _leftBlinkController = _BlinkStateMachineController.left(artboard);
+    _rightBlinkController = _BlinkStateMachineController.right(artboard);
     artboard
       ..addController(_leftBlinkController!)
       ..addController(_rightBlinkController!);
@@ -145,14 +144,14 @@ class _BlinkMaskState extends State<_BlinkMask> {
     final xMin = widget.face.boundingBox.xMin.toDouble();
     final yMin = widget.face.boundingBox.yMin.toDouble();
 
-    final maskSize =
+    final maxMaskDimension =
         faceSize.width > faceSize.height ? faceSize.width : faceSize.height;
 
     return Positioned(
-      left: xMin - maskSize / 2,
-      top: yMin - (maskSize * 3) / 4,
-      height: maskSize * 2,
-      width: maskSize * 2,
+      left: xMin - maxMaskDimension / 2,
+      top: yMin - (maxMaskDimension * 3 / 4),
+      height: maxMaskDimension * 2,
+      width: maxMaskDimension * 2,
       child: Assets.blink.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
@@ -201,8 +200,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       face != oldDelegate.face;
 }
 
-class _BlinkController extends StateMachineController {
-  _BlinkController._(
+class _BlinkStateMachineController extends StateMachineController {
+  _BlinkStateMachineController._(
     Artboard artboard, {
     required String machineName,
     required String inputName,
@@ -214,13 +213,15 @@ class _BlinkController extends StateMachineController {
     blinkTrigger = findInput<bool>(inputName)! as SMITrigger;
   }
 
-  factory _BlinkController.left(Artboard artboard) => _BlinkController._(
+  factory _BlinkStateMachineController.left(Artboard artboard) =>
+      _BlinkStateMachineController._(
         artboard,
         machineName: 'LeftEye',
         inputName: 'leftBlink',
       );
 
-  factory _BlinkController.right(Artboard artboard) => _BlinkController._(
+  factory _BlinkStateMachineController.right(Artboard artboard) =>
+      _BlinkStateMachineController._(
         artboard,
         machineName: 'RightEye',
         inputName: 'rightBlink',
