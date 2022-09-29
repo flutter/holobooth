@@ -103,6 +103,7 @@ void main() {
 
   group('MultipleCaptureView', () {
     late MultipleCaptureBloc multipleCaptureBloc;
+
     setUp(() {
       multipleCaptureBloc = _MockMultipleCaptureBloc();
       when(
