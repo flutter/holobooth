@@ -37,6 +37,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
 
   bool get _isCameraAvailable =>
       (_cameraController?.value.isInitialized) ?? false;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<MultipleCaptureBloc, MultipleCaptureState>(
