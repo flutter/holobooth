@@ -12,6 +12,8 @@ class MultipleCaptureState extends Equatable {
   static const totalNumberOfPhotos = 5;
 
   final UnmodifiableListView<PhotoboothCameraImage> images;
+  
+  /// Whether all of the pictures has been taken.
   bool get isFinished => images.length == totalNumberOfPhotos;
 
   @override
