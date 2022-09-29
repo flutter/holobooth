@@ -25,6 +25,7 @@ class MultipleCapturePage extends StatelessWidget {
 class MultipleCaptureView extends StatefulWidget {
   const MultipleCaptureView({super.key});
 
+  @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
 
   @override
