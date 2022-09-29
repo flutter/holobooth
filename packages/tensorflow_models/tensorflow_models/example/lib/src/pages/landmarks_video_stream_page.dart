@@ -105,7 +105,6 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     }
     canvas.drawPath(path, paintKeypoints);
 
-    // Box
     final boundingBox = face.boundingBox;
     final paintBox = Paint()
       ..color = Colors.blue

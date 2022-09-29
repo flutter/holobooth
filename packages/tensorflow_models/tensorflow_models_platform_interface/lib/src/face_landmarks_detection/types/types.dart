@@ -47,7 +47,10 @@ class Face {
   final BoundingBox boundingBox;
 }
 
+/// {@template types.face_landmar_types.Keypoint}
 /// Representation of a [Face] landmark point.
+///
+/// {@endtemplate}
 class Keypoint {
   Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
@@ -68,18 +71,13 @@ class Keypoint {
   final String? name;
 }
 
-/// Representation of a [Face] bounding box.
+/// {@template types.face_landmar_types.BoundingBox}
+/// The box represents the bounding box of the face in the image pixel space,
+/// with xMin, xMax denoting the x-bounds, yMin, yMax denoting the y-bounds,
+/// and width, height are the dimensions of the bounding box.
+///
+/// {@endtemplate}
 class BoundingBox {
-  factory BoundingBox.fromJson(Map<String, dynamic> map) {
-    return BoundingBox._(
-      map['xMin'] as num,
-      map['yMin'] as num,
-      map['xMax'] as num,
-      map['yMax'] as num,
-      map['width'] as num,
-      map['height'] as num,
-    );
-  }
   BoundingBox._(
     this.xMin,
     this.yMin,
@@ -88,6 +86,16 @@ class BoundingBox {
     this.width,
     this.height,
   );
+
+  BoundingBox.fromJson(Map<String, dynamic> map)
+      : this._(
+          map['xMin'] as num,
+          map['yMin'] as num,
+          map['xMax'] as num,
+          map['yMax'] as num,
+          map['width'] as num,
+          map['height'] as num,
+        );
 
   final num xMin;
   final num yMin;
