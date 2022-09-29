@@ -12,6 +12,7 @@ class _App extends StatelessWidget {
     'Landmarks Open Mouth': LandmarksOpenMouthPage.route,
     'Landmarks Close Eyes': LandmarksDetectBlinkPage.route,
     'Landmarks GIF': LandmarksGifPage.route,
+    'Landmarks Mask Blink': LandmarksMaskBlinkPage.route,
   };
 
   @override
