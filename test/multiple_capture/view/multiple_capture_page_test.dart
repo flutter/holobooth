@@ -121,7 +121,10 @@ void main() {
         when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
         await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
-        expect(find.byKey(Key('camera_error_view')), findsOneWidget);
+        expect(
+          find.byKey(MultipleCaptureView.cameraErrorViewKey),
+          findsOneWidget,
+        );
       },
     );
 

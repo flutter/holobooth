@@ -25,6 +25,8 @@ class MultipleCapturePage extends StatelessWidget {
 class MultipleCaptureView extends StatefulWidget {
   const MultipleCaptureView({super.key});
 
+  static const cameraErrorViewKey = Key('camera_error_view');
+
   @override
   State<MultipleCaptureView> createState() => _MultipleCaptureViewState();
 }
@@ -57,7 +59,9 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                   if (error is CameraException) {
                     return PhotoboothError(error: error);
                   } else {
-                    return const SizedBox.shrink(key: Key('camera_error_view'));
+                    return const SizedBox.shrink(
+                      key: MultipleCaptureView.cameraErrorViewKey,
+                    );
                   }
                 },
               ),
