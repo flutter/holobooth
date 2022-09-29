@@ -88,7 +88,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final paintKeypoints = Paint()
       ..color = Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
@@ -103,7 +103,20 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         ),
       );
     }
-    canvas.drawPath(path, paint);
+    canvas.drawPath(path, paintKeypoints);
+
+    final boundingBox = face.boundingBox;
+    final paintBox = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    canvas.drawRect(
+      Rect.fromPoints(
+        Offset(boundingBox.xMin.toDouble(), boundingBox.yMin.toDouble()),
+        Offset(boundingBox.xMax.toDouble(), boundingBox.yMax.toDouble()),
+      ),
+      paintBox,
+    );
   }
 
   @override

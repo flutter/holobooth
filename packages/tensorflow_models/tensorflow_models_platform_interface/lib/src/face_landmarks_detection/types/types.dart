@@ -22,16 +22,18 @@ abstract class FaceLandmarksDetector {
 /// The face is represented by [keypoints].
 /// {@endtemplate}
 class Face {
-  const Face._(this.keypoints);
+  const Face._(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
-    final keypoints = json['keypoints'] as List<dynamic>;
+    final keypointsJson = json['keypoints'] as List<dynamic>;
+    final bondingBoxJson = json['box'] as Map<String, dynamic>;
     return Face._(
       UnmodifiableListView(
-        keypoints.map(
+        keypointsJson.map(
           (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
         ),
       ),
+      BoundingBox.fromJson(bondingBoxJson),
     );
   }
 
@@ -41,9 +43,14 @@ class Face {
   /// to face locations can be found at:
   /// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
   final UnmodifiableListView<Keypoint> keypoints;
+
+  final BoundingBox boundingBox;
 }
 
+/// {@template types.face_landmar_types.Keypoint}
 /// Representation of a [Face] landmark point.
+///
+/// {@endtemplate}
 class Keypoint {
   Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
@@ -62,6 +69,40 @@ class Keypoint {
   final num? z;
   final num? score;
   final String? name;
+}
+
+/// {@template types.face_landmar_types.BoundingBox}
+/// The box represents the bounding box of the face in the image pixel space,
+/// with xMin, xMax denoting the x-bounds, yMin, yMax denoting the y-bounds,
+/// and width, height are the dimensions of the bounding box.
+///
+/// {@endtemplate}
+class BoundingBox {
+  BoundingBox._(
+    this.xMin,
+    this.yMin,
+    this.xMax,
+    this.yMax,
+    this.width,
+    this.height,
+  );
+
+  BoundingBox.fromJson(Map<String, dynamic> map)
+      : this._(
+          map['xMin'] as num,
+          map['yMin'] as num,
+          map['xMax'] as num,
+          map['yMax'] as num,
+          map['width'] as num,
+          map['height'] as num,
+        );
+  // TODO(oscar): check if worth to use double instead
+  final num xMin;
+  final num yMin;
+  final num xMax;
+  final num yMax;
+  final num width;
+  final num height;
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
