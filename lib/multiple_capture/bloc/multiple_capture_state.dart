@@ -14,7 +14,7 @@ class MultipleCaptureState extends Equatable {
 
   /// The images that have been taken by the Photbooth.
   ///
-  /// The length is not expected to be greater than [totalNumberofPhotos].
+  /// The length is not expected to be greater than [totalNumberOfPhotos].
   final UnmodifiableListView<PhotoboothCameraImage> images;
 
   /// Whether all of the pictures has been taken.

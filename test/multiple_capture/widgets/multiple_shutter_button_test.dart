@@ -43,17 +43,17 @@ void main() {
     testWidgets(
       'onShutter is called',
       (WidgetTester tester) async {
-        var called = false;
+        var count = 0;
         await tester.pumpApp(
           MultipleShutterButton(
             onShutter: () async {
-              called = true;
+              count++;
             },
           ),
         );
         await tester.tap(find.byType(CameraButton));
         await tester.pumpAndSettle();
-        expect(called, true);
+        expect(count, 5);
       },
     );
   });
