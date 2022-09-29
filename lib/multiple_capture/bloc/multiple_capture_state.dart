@@ -8,6 +8,7 @@ class MultipleCaptureState extends Equatable {
           'The total number of photos should be less than $totalNumberOfPhotos',
         );
   MultipleCaptureState.empty() : this(images: UnmodifiableListView([]));
+  /// The amount of pictures the photobooth will take.
   static const totalNumberOfPhotos = 5;
 
   final UnmodifiableListView<PhotoboothCameraImage> images;
