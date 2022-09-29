@@ -8,6 +8,7 @@ class MultipleShutterButton extends StatefulWidget {
     required this.onShutter,
   });
 
+  /// Called whenever a new picture is taken.
   final Future<void> Function() onShutter;
 
   @override
