@@ -96,7 +96,7 @@ class BoundingBox {
           map['width'] as num,
           map['height'] as num,
         );
-
+  // TODO(oscar): check if worth to use double instead
   final num xMin;
   final num yMin;
   final num xMax;
