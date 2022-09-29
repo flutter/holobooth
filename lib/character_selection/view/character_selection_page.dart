@@ -31,12 +31,13 @@ class CharacterSelectionView extends StatelessWidget {
         slivers: [
           const CharacterSelections(),
           SliverToBoxAdapter(
-              child: ActionChip(
-            label: Text(l10n.toThePhotoBoothButtonText),
-            backgroundColor: PhotoboothColors.blue,
-            onPressed: () =>
-                Navigator.of(context).push<void>(PhotoboothPage.route()),
-          )),
+            child: ActionChip(
+              label: Text(l10n.toThePhotoBoothButtonText),
+              backgroundColor: PhotoboothColors.blue,
+              onPressed: () =>
+                  Navigator.of(context).push<void>(PhotoboothPage.route()),
+            ),
+          ),
         ],
       ),
     );
