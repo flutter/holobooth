@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:io_photobooth/photobooth/photobooth.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
@@ -8,7 +9,7 @@ void main() {
     test('has a route', () {
       expect(CharacterSelectionPage.route(), isA<MaterialPageRoute<void>>());
     });
-    testWidgets('builds the context', (tester) async {
+    testWidgets('renders CharacterSelecionView', (tester) async {
       await tester.pumpApp(
         Navigator(
           onGenerateRoute: (_) => CharacterSelectionPage.route(),
@@ -16,18 +17,21 @@ void main() {
       );
       expect(find.byType(CharacterSelections), findsOneWidget);
     });
+  });
+  group('CharacterSelectionView', () {
+    testWidgets('renders a grid with all character options', (tester) async {
+      await tester.pumpApp(const CharacterSelectionView());
+      expect(find.byType(Card), findsNWidgets(6));
+    });
     testWidgets('ActionChip button navigates to Camera Page when pressed',
         (tester) async {
-      await tester.pumpApp(const CharacterSelectionPage());
-      await tester.tap(find.byType(ActionChip));
-      await tester.pump();
-    });
-  });
-  group('Character Selections', () {
-    testWidgets('renders a grid with all character options', (tester) async {
-      await tester.pumpApp(const CharacterSelections());
-      expect(find.byType(GridView), findsOneWidget);
-      expect(find.byType(Card), findsNWidgets(6));
+      await tester.pumpApp(const CharacterSelectionView());
+      final chipFinder = find.byType(ActionChip);
+      await tester.ensureVisible(chipFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(chipFinder);
+      await tester.pumpAndSettle();
+      expect(find.byType(PhotoboothPage), findsOneWidget);
     });
   });
 }

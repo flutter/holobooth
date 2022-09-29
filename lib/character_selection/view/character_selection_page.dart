@@ -11,24 +11,33 @@ class CharacterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const CharacterSelectionView();
+  }
+}
+
+@visibleForTesting
+class CharacterSelectionView extends StatelessWidget {
+  const CharacterSelectionView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.selectACharacterTitleText),
         backgroundColor: PhotoboothColors.blue,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const CharacterSelections(),
-            ActionChip(
-              label: Text(l10n.toThePhotoBoothButtonText),
-              backgroundColor: PhotoboothColors.blue,
-              onPressed: () =>
-                  Navigator.of(context).push<void>(PhotoboothPage.route()),
-            )
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          const CharacterSelections(),
+          SliverToBoxAdapter(
+              child: ActionChip(
+            label: Text(l10n.toThePhotoBoothButtonText),
+            backgroundColor: PhotoboothColors.blue,
+            onPressed: () =>
+                Navigator.of(context).push<void>(PhotoboothPage.route()),
+          )),
+        ],
       ),
     );
   }
@@ -40,29 +49,29 @@ class CharacterSelections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
-      shrinkWrap: true,
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 10),
-                Text(
-                  'Character $index',
-                  textAlign: TextAlign.center,
-                ),
-              ],
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    'Character $index',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+        childCount: 6,
+      ),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
     );
   }
 }
