@@ -77,7 +77,7 @@ packages:
       name: camera
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+1"
+    version: "0.10.0+3"
   camera_android:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: cross_file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.3+1"
+    version: "0.3.3+2"
   crypto:
     dependency: transitive
     description:
