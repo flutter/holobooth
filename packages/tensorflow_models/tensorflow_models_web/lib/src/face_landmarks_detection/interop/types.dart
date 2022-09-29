@@ -91,10 +91,16 @@ abstract class MediaPipeFaceMeshModelConfig implements ModelConfig {
   external set runtime(String /*'mediapipe'|'tfjs'*/ v);
   external bool get refineLandmarks;
   external set refineLandmarks(bool v);
+  external num get minDetectionConfidence;
+  external set minDetectionConfidence(num value);
+  external num get minTrackingConfidence;
+  external set minTrackingConfidence(num value);
   external factory MediaPipeFaceMeshModelConfig(
       {String /*'mediapipe'|'tfjs'*/ runtime,
       bool refineLandmarks,
-      num maxFaces});
+      num maxFaces,
+      num minDetectionConfidence,
+      num minTrackingConfidence});
 }
 
 @anonymous
@@ -118,11 +124,17 @@ abstract class MediaPipeFaceMeshMediaPipeModelConfig
   external set runtime(String /*'mediapipe'*/ v);
   external String get solutionPath;
   external set solutionPath(String v);
+  external num get minDetectionConfidence;
+  external set minDetectionConfidence(num value);
+  external num get minTrackingConfidence;
+  external set minTrackingConfidence(num value);
   external factory MediaPipeFaceMeshMediaPipeModelConfig(
       {String /*'mediapipe'*/ runtime,
       String solutionPath,
       bool refineLandmarks,
-      num maxFaces});
+      num maxFaces,
+      num minDetectionConfidence,
+      num minTrackingConfidence});
 }
 
 /// Face estimation parameters for MediaPipeFaceMesh MediaPipe runtime.

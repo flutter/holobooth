@@ -16,8 +16,10 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
         // https://github.com/google/mediapipe/issues/1976
         // runtime: 'mediapipe',
         runtime: 'tfjs',
-        refineLandmarks: false,
+        refineLandmarks: true,
         maxFaces: 1,
+        minDetectionConfidence: 0.2,
+        minTrackingConfidence: 0.2,
       ),
     );
   }
