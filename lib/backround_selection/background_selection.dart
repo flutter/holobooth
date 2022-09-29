@@ -1,1 +1,1 @@
-export 'view/background_selection.dart';
+export 'view/background_selection_page.dart';
