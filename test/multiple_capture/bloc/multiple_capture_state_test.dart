@@ -27,7 +27,7 @@ void main() {
         () => MultipleCaptureState(
           images: UnmodifiableListView(
             List.generate(
-              MultipleCaptureState.totalNumberOfPhotos,
+              MultipleCaptureState.totalNumberOfPhotos + 1,
               (_) => PhotoboothCameraImage(
                 constraint: PhotoConstraint(),
                 data: '',
