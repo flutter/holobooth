@@ -71,7 +71,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
         child: Stack(
           children: [
             CameraView(onCameraReady: _onCameraReady),
-            if (_videoElement != null)
+            if (_cameraController != null && _videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
                   final size = constraints.biggest;
@@ -80,7 +80,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                     ..height = size.height.floor();
 
                   return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
+                    cameraController: _cameraController!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
                       if (faces.first.mouthDistance > 15) {

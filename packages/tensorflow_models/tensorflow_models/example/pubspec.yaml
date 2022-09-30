@@ -37,7 +37,7 @@ dependency_overrides:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: e5d4b69039c11fc7f818192d6693a693c14ce476
+      ref: 6059344f54f54cc01569e238c2e419bcbe01fab1
 
 
 flutter_gen:

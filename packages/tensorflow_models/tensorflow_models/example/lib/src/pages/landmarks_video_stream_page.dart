@@ -31,10 +31,6 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    _cameraController!.startImageStream((image) {
-      final bytes = image.planes.first;
-      print(bytes);
-    });
     WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
   }
 
@@ -57,7 +53,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
         child: Stack(
           children: [
             Center(child: CameraView(onCameraReady: _onCameraReady)),
-            if (_videoElement != null)
+            if (_cameraController != null && _videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
                   final size = constraints.biggest;
@@ -66,7 +62,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
                     ..height = size.height.floor();
 
                   return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
+                    cameraController: _cameraController!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
 

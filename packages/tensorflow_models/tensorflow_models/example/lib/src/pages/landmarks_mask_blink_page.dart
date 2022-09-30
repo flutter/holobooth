@@ -51,17 +51,16 @@ class _LandmarksMaskBlinkViewState extends State<_LandmarksMaskBlinkView> {
         child: Stack(
           children: [
             CameraView(onCameraReady: _onCameraReady),
-            if (_videoElement != null)
+            if (_cameraController != null && _videoElement != null)
               LayoutBuilder(
                 builder: (context, constraints) {
                   final size = constraints.biggest;
-
                   _videoElement!
                     ..width = size.width.floor()
                     ..height = size.height.floor();
 
                   return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
+                    cameraController: _cameraController!,
                     builder: (context, faces) {
                       if (faces.isEmpty) {
                         return const SizedBox.shrink();

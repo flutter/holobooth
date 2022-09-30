@@ -3,17 +3,18 @@ import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class FacesDetectorBuilder extends StatefulWidget {
   const FacesDetectorBuilder({
     Key? key,
-    required this.videoElement,
+    required this.cameraController,
     required this.builder,
   }) : super(key: key);
 
-  final html.VideoElement videoElement;
+  final CameraController cameraController;
 
   final Widget Function(BuildContext context, tf.Faces faces) builder;
 
@@ -33,15 +34,24 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   @override
   void initState() {
     super.initState();
-    _load().then((_) => Future.doWhile(_estimateFaces));
+    _load();
   }
 
-  Future<void> _load() async =>
-      _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
+  Future<void> _load() async {
+    _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
+    await widget.cameraController.startImageStream((image) {
+      final imageData = tf.ImageData(
+        data: image.planes.first.bytes,
+        width: image.width,
+        height: image.height,
+      );
+      _estimateFaces(imageData);
+    });
+  }
 
-  Future<bool> _estimateFaces() async {
+  Future<bool> _estimateFaces(tf.ImageData imageData) async {
     final faces = await _faceLandmarksDetector.estimateFaces(
-      widget.videoElement,
+      imageData,
       estimationConfig: _estimationConfig,
     );
     if (!_streamController.isClosed) _streamController.add(faces);
