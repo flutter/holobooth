@@ -1,19 +1,17 @@
 import 'dart:async';
-// TODO(alestiago): Use a plugin instead.
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class FacesDetectorBuilder extends StatefulWidget {
   const FacesDetectorBuilder({
     Key? key,
-    required this.videoElement,
+    required this.cameraController,
     required this.builder,
   }) : super(key: key);
 
-  final html.VideoElement videoElement;
+  final CameraController cameraController;
 
   final Widget Function(BuildContext context, tf.Faces faces) builder;
 
@@ -41,7 +39,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
 
   Future<bool> _estimateFaces() async {
     final faces = await _faceLandmarksDetector.estimateFaces(
-      widget.videoElement,
+      widget.cameraController.videoElement,
       estimationConfig: _estimationConfig,
     );
     if (!_streamController.isClosed) _streamController.add(faces);
