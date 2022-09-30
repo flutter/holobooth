@@ -25,10 +25,15 @@ void main() {
         'MultipleCaptureState.totalNumberOfPhotos images', () {
       expect(
         () => MultipleCaptureState(
-          images: UnmodifiableListView([
-            for (var i = 0; i <= MultipleCaptureState.totalNumberOfPhotos; i++)
-              PhotoboothCameraImage(constraint: PhotoConstraint(), data: '')
-          ]),
+          images: UnmodifiableListView(
+            List.generate(
+              MultipleCaptureState.totalNumberOfPhotos,
+              (_) => PhotoboothCameraImage(
+                constraint: PhotoConstraint(),
+                data: '',
+              ),
+            ),
+          ),
         ),
         throwsAssertionError,
       );

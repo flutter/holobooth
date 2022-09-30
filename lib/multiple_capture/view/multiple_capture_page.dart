@@ -86,7 +86,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
     final picture = await _cameraController!.takePicture();
     final previewSize = _cameraController!.value.previewSize!;
     multipleCaptureBloc.add(
-      MultipleCapturePhotoTaken(
+      MultipleCaptureOnPhotoTaken(
         image: PhotoboothCameraImage(
           data: picture.path,
           constraint: PhotoConstraint(

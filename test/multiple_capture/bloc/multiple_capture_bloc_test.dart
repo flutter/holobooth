@@ -9,7 +9,7 @@ class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
 
 void main() {
   group('MultipleCaptureBloc', () {
-    group('MultipleCapturePhotoTaken', () {
+    group('MultipleCaptureOnPhotoTaken', () {
       late PhotoboothCameraImage image;
 
       setUp(() {
@@ -19,7 +19,7 @@ void main() {
       blocTest<MultipleCaptureBloc, MultipleCaptureState>(
         'emits MultipleCaptureState with adding image to images',
         build: MultipleCaptureBloc.new,
-        act: (bloc) => bloc.add(MultipleCapturePhotoTaken(image: image)),
+        act: (bloc) => bloc.add(MultipleCaptureOnPhotoTaken(image: image)),
         expect: () => <MultipleCaptureState>[
           MultipleCaptureState(images: UnmodifiableListView([image])),
         ],

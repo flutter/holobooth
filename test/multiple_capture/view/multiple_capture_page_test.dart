@@ -157,7 +157,7 @@ void main() {
     );
 
     testWidgets(
-      'adds MultipleCapturePhotoTaken when onShutter is called',
+      'adds MultipleCaptureOnPhotoTaken when onShutter is called',
       (WidgetTester tester) async {
         await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
         await tester.pumpAndSettle();
@@ -169,7 +169,7 @@ void main() {
         await tester.pumpAndSettle();
         verify(
           () => multipleCaptureBloc.add(
-            MultipleCapturePhotoTaken(
+            MultipleCaptureOnPhotoTaken(
               image: image,
             ),
           ),

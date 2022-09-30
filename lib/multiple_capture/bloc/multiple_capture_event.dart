@@ -4,8 +4,8 @@ abstract class MultipleCaptureEvent extends Equatable {
   const MultipleCaptureEvent();
 }
 
-class MultipleCapturePhotoTaken extends MultipleCaptureEvent {
-  const MultipleCapturePhotoTaken({required this.image});
+class MultipleCaptureOnPhotoTaken extends MultipleCaptureEvent {
+  const MultipleCaptureOnPhotoTaken({required this.image});
 
   final PhotoboothCameraImage image;
 
