@@ -1,5 +1,5 @@
 name: photobooth_camera
-description: Additional Photobooth specific functionalities over the camera plugin.
+description: Additional Photobooth specific functionalities for the camera plugin.
 version: 0.1.0+1
 publish_to: none
 
