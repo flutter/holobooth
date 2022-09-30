@@ -8,4 +8,4 @@
 /// A Very Good Project created by Very Good CLI.
 library photobooth_camera;
 
-export 'src/photobooth_camera.dart';
+export 'src/photobooth_camera_controller.dart';
