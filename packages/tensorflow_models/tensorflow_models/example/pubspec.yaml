@@ -30,14 +30,14 @@ dev_dependencies:
 dependency_overrides:
   camera:
     git:
-      url: https://github.com/alestiago/plugins
+      url: https://github.com/VGVentures/plugins
       path: packages/camera/camera
-      ref: 938e0386e9e06510c5ff39301e3c5581c863f79e
+      ref: 009a80e93d1c75b94534fe82cc2e89be85342fb5
   camera_web:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: 6059344f54f54cc01569e238c2e419bcbe01fab1
+      ref: 009a80e93d1c75b94534fe82cc2e89be85342fb5
 
 
 flutter_gen:
