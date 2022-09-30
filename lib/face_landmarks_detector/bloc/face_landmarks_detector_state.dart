@@ -1,10 +1,7 @@
 part of 'face_landmarks_detector_bloc.dart';
 
-abstract class FaceLandmarksDetectorState extends Equatable {
+abstract class FaceLandmarksDetectorState {
   const FaceLandmarksDetectorState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class FaceLandmarksDetectorInitial extends FaceLandmarksDetectorState {}
@@ -15,9 +12,6 @@ class FaceLandmarksDetectorError extends FaceLandmarksDetectorState {}
 
 class FaceLandmarksDetectorLoaded extends FaceLandmarksDetectorState {
   const FaceLandmarksDetectorLoaded();
-
-  @override
-  List<Object> get props => [];
 }
 
 class FaceLandmarksDetectorEstimating extends FaceLandmarksDetectorLoaded {
@@ -30,7 +24,4 @@ class FaceLandmarksDetectorFacesDetected extends FaceLandmarksDetectorLoaded {
   );
 
   tf.Faces faces;
-
-  @override
-  List<Object> get props => [faces];
 }
