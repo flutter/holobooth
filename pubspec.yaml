@@ -40,6 +40,8 @@ dependencies:
   platform_helper:
     path: packages/platform_helper
   rxdart: ^0.26.0
+  tensorflow_models:
+    path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6
 
 dev_dependencies:
