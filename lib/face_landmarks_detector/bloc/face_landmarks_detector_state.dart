@@ -14,26 +14,23 @@ class FaceLandmarksDetectorLoading extends FaceLandmarksDetectorState {}
 class FaceLandmarksDetectorError extends FaceLandmarksDetectorState {}
 
 class FaceLandmarksDetectorLoaded extends FaceLandmarksDetectorState {
-  const FaceLandmarksDetectorLoaded(this.faceLandmarksDetector);
-
-  final tf.FaceLandmarksDetector faceLandmarksDetector;
+  const FaceLandmarksDetectorLoaded();
 
   @override
-  List<Object> get props => [faceLandmarksDetector];
+  List<Object> get props => [];
 }
 
 class FaceLandmarksDetectorEstimating extends FaceLandmarksDetectorLoaded {
-  const FaceLandmarksDetectorEstimating(super.faceLandmarksDetector);
+  const FaceLandmarksDetectorEstimating();
 }
 
 class FaceLandmarksDetectorFacesDetected extends FaceLandmarksDetectorLoaded {
-  const FaceLandmarksDetectorFacesDetected(
+  FaceLandmarksDetectorFacesDetected(
     this.faces,
-    super.faceLandmarksDetector,
   );
 
-  final tf.Faces faces;
+  tf.Faces faces;
 
   @override
-  List<Object> get props => [faces, faceLandmarksDetector];
+  List<Object> get props => [faces];
 }
