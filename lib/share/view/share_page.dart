@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
@@ -93,10 +94,7 @@ class _ShareRetakeButton extends StatelessWidget {
           },
           verticalOffset: 50,
           message: l10n.retakeButtonTooltip,
-          child: Image.asset(
-            'assets/icons/retake_button_icon.png',
-            height: 100,
-          ),
+          child: Assets.icons.retakeButtonIcon.image(height: 100),
         ),
       ),
     );

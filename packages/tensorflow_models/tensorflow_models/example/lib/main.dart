@@ -11,6 +11,8 @@ class _App extends StatelessWidget {
     'Landmarks Video Stream': LandmarksVideoStreamPage.route,
     'Landmarks Open Mouth': LandmarksOpenMouthPage.route,
     'Landmarks Close Eyes': LandmarksDetectBlinkPage.route,
+    'Landmarks GIF': LandmarksGifPage.route,
+    'Landmarks Mask Blink': LandmarksMaskBlinkPage.route,
   };
 
   @override

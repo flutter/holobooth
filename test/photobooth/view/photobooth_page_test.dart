@@ -241,37 +241,5 @@ void main() {
         expect(find.byType(StickersPage), findsOneWidget);
       });
     });
-
-    group('didChangeAppLifecycleState', () {
-      testWidgets('disposes camera when inactice', (tester) async {
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.dispose(cameraId)).called(1);
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-      });
-
-      testWidgets('intializes camera again when resumed', (tester) async {
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
-
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-        await tester.pumpAndSettle();
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
-      });
-    });
   });
 }

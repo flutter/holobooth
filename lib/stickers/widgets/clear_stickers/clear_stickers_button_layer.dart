@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
@@ -41,6 +42,7 @@ class ClearStickersButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     return Semantics(
       focusable: true,
       button: true,
@@ -49,7 +51,7 @@ class ClearStickersButton extends StatelessWidget {
         onPressed: onPressed,
         message: l10n.clearStickersButtonTooltip,
         verticalOffset: 50,
-        child: Image.asset('assets/icons/delete_icon.png', height: 100),
+        child: Assets.icons.deleteIcon.image(height: 100),
       ),
     );
   }

@@ -2,7 +2,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
@@ -26,7 +26,7 @@ void main() {
     testWidgets('renders Android character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.android)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.android)],
           image: image,
         ),
       );
@@ -43,7 +43,7 @@ void main() {
     testWidgets('renders Dash character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.dash)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.dash)],
           image: image,
         ),
       );
@@ -60,7 +60,7 @@ void main() {
     testWidgets('renders Sparky character assert', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          characters: const [PhotoAsset(id: '0', asset: Assets.sparky)],
+          characters: const [PhotoAsset(id: '0', asset: MetaAssets.sparky)],
           image: image,
         ),
       );

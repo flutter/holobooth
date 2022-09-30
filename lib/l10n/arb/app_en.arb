@@ -339,5 +339,21 @@
     "clearAllStickersButtonLabelText": "Clear all props",
     "@clearAllStickersButtonLabelText": {
         "description": "Semantic label for the clear all stickers button"
+    },
+    "selectABackgroundTitleText": "Select a background",
+    "@selectABackgroundTitleText": {
+        "description": "Title text displayed at top of select a background page"
+    },
+    "selectACharacterTitleText": "Select a character",
+    "@selectACharacterTitleText": {
+        "description": "Title text displayed at top of select a character page"
+    },
+    "nextButtonText": "Next",
+    "@nextButtonText": {
+        "description": "Text displayed on button after selecting a background and navigates to select a character"
+    },
+    "toThePhotoBoothButtonText": "To the photobooth!",
+    "@toThePhotoBoothButtonText": {
+        "description": "Text displayed on button to navigate to the camera after selecting a character"
     }
 }

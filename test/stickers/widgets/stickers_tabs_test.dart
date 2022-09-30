@@ -1,18 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/stickers/stickers.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
-  const googleTabAssetPath = 'assets/icons/google_icon.png';
-  const hatsTabAssetPath = 'assets/icons/hats_icon.png';
-  const eyewearTabAssetPath = 'assets/icons/eyewear_icon.png';
-  const foodTabAssetPath = 'assets/icons/food_icon.png';
-  const shapesTabAssetPath = 'assets/icons/shapes_icon.png';
-
   group('StickersTabs', () {
     testWidgets('onTabChanged is called with correct index', (tester) async {
       final onTabChangedCalls = <int>[];
@@ -56,7 +50,7 @@ void main() {
           final tab = tester.widget<StickersTab>(
             find.byKey(Key('stickersTabs_googleTab')),
           );
-          expect(tab.assetPath, equals(googleTabAssetPath));
+          expect(tab.assetPath, equals(Assets.icons.googleIcon.path));
         });
       });
 
@@ -86,7 +80,7 @@ void main() {
           final tab = tester.widget<StickersTab>(
             find.byKey(Key('stickersTabs_hatsTab')),
           );
-          expect(tab.assetPath, equals(hatsTabAssetPath));
+          expect(tab.assetPath, equals(Assets.icons.hatsIcon.path));
         });
       });
 
@@ -115,7 +109,7 @@ void main() {
           );
           final tab = tester
               .widget<StickersTab>(find.byKey(Key('stickersTabs_eyewearTab')));
-          expect(tab.assetPath, equals(eyewearTabAssetPath));
+          expect(tab.assetPath, equals(Assets.icons.eyewearIcon.path));
         });
       });
 
@@ -144,7 +138,7 @@ void main() {
           );
           final tab = tester
               .widget<StickersTab>(find.byKey(Key('stickersTabs_foodTab')));
-          expect(tab.assetPath, equals(foodTabAssetPath));
+          expect(tab.assetPath, equals(Assets.icons.foodIcon.path));
         });
       });
 
@@ -173,7 +167,7 @@ void main() {
           );
           final tab = tester
               .widget<StickersTab>(find.byKey(Key('stickersTabs_shapesTab')));
-          expect(tab.assetPath, equals(shapesTabAssetPath));
+          expect(tab.assetPath, equals(Assets.icons.shapesIcon.path));
         });
       });
     });
@@ -209,7 +203,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_googleTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.googleProps));
+          expect(tabBarView.stickers, equals(MetaAssets.googleProps));
         });
       });
 
@@ -251,7 +245,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_hatsTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.hatProps));
+          expect(tabBarView.stickers, equals(MetaAssets.hatProps));
         });
       });
 
@@ -302,7 +296,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_eyewearTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.eyewearProps));
+          expect(tabBarView.stickers, equals(MetaAssets.eyewearProps));
         });
       });
 
@@ -366,7 +360,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_foodTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.foodProps));
+          expect(tabBarView.stickers, equals(MetaAssets.foodProps));
         });
       });
 
@@ -440,7 +434,7 @@ void main() {
           final tabBarView = tester.widget<StickersTabBarView>(
             find.byKey(Key('stickersTabs_shapesTabBarView')),
           );
-          expect(tabBarView.stickers, equals(Assets.shapeProps));
+          expect(tabBarView.stickers, equals(MetaAssets.shapeProps));
         });
       });
     });
@@ -450,7 +444,7 @@ void main() {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(assetPath: googleTabAssetPath),
+          body: StickersTab(assetPath: Assets.icons.googleIcon.path),
         ),
       );
       expect(find.byType(StickersTab), findsOneWidget);
@@ -459,7 +453,7 @@ void main() {
     testWidgets('renders tab widget', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(assetPath: googleTabAssetPath),
+          body: StickersTab(assetPath: Assets.icons.googleIcon.path),
         ),
       );
       expect(find.byType(Tab), findsOneWidget);
@@ -468,7 +462,7 @@ void main() {
     testWidgets('renders image widget', (tester) async {
       await tester.pumpApp(
         Scaffold(
-          body: StickersTab(assetPath: googleTabAssetPath),
+          body: StickersTab(assetPath: Assets.icons.googleIcon.path),
         ),
       );
       expect(find.byType(Image), findsOneWidget);

@@ -6,7 +6,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets.g.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photobooth/photobooth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -278,8 +278,8 @@ void main() {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
           stickers: [
-            PhotoAsset(id: '0', asset: Assets.props.first),
-            PhotoAsset(id: '1', asset: Assets.props.last)
+            PhotoAsset(id: '0', asset: MetaAssets.props.first),
+            PhotoAsset(id: '1', asset: MetaAssets.props.last)
           ],
           image: image,
         ),
@@ -301,7 +301,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -546,7 +546,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -569,7 +569,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -598,7 +598,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -629,7 +629,7 @@ void main() {
         (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
@@ -654,7 +654,7 @@ void main() {
         'when sticker selected is removed', (tester) async {
       when(() => photoboothBloc.state).thenReturn(
         PhotoboothState(
-          stickers: [PhotoAsset(id: '0', asset: Assets.props.first)],
+          stickers: [PhotoAsset(id: '0', asset: MetaAssets.props.first)],
           image: image,
         ),
       );
