@@ -16,7 +16,7 @@ void main() {
     });
 
     group('videoElement', () {
-      test('returns a VideoElement when there is one', () {
+      test('throws an UnsupportedError', () {
         final cameraController = CameraController(
           cameraDescription,
           ResolutionPreset.max,
