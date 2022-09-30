@@ -30,7 +30,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/packages/photobooth_rive"
+    directory: "/packages/photobooth_camera"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
