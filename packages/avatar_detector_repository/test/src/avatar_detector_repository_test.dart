@@ -26,12 +26,15 @@ void main() {
   group('AvatarDetectorRepository', () {
     late AvatarDetectorRepository avatarDetectorRepository;
     late FaceLandmarksDetector faceLandmarksDetector;
+    late TensorflowModelsPlatform tensorflowModelsPlatform;
 
     setUp(() {
+      tensorflowModelsPlatform = _MockTensorflowModelsPlatform();
+      TensorflowModelsPlatform.instance = tensorflowModelsPlatform;
       faceLandmarksDetector = _MockFaceLandmarksDetector();
-      avatarDetectorRepository = AvatarDetectorRepository(
-        faceLandmarksDetector: faceLandmarksDetector,
-      );
+      avatarDetectorRepository = AvatarDetectorRepository();
+      when(() => tensorflowModelsPlatform.loadFaceLandmark())
+          .thenAnswer((_) async => faceLandmarksDetector);
     });
 
     setUpAll(() {
@@ -43,9 +46,16 @@ void main() {
     });
 
     group('initLandmarksModel', () {
+      test('throws PreloadLandmarksModelException if any exception occurs', () {
+        when(() => tensorflowModelsPlatform.loadFaceLandmark())
+            .thenThrow(Exception());
+        expect(
+          avatarDetectorRepository.preloadLandmarksModel(),
+          throwsA(isA<PreloadLandmarksModelException>()),
+        );
+      });
+
       test('completes', () {
-        final tensorflowModelsPlatform = _MockTensorflowModelsPlatform();
-        TensorflowModelsPlatform.instance = tensorflowModelsPlatform;
         when(tensorflowModelsPlatform.loadFaceLandmark)
             .thenAnswer((_) async => _MockFaceLandmarksDetector());
         expect(avatarDetectorRepository.preloadLandmarksModel(), completes);
@@ -53,6 +63,19 @@ void main() {
     });
 
     group('detectFace', () {
+      test(
+          'calls preloadLandmarksModel if '
+          'faceLandmarksDetector is not initialized yet', () async {
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            '',
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace()]);
+        await avatarDetectorRepository.detectFace('');
+        verify(() => tensorflowModelsPlatform.loadFaceLandmark()).called(1);
+      });
+
       test('throws DetectFaceException if estimateFaces fails', () {
         when(
           () => faceLandmarksDetector.estimateFaces(
