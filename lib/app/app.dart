@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,12 +12,10 @@ class App extends StatelessWidget {
     super.key,
     required this.authenticationRepository,
     required this.photosRepository,
-    required this.avatarDetectorRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
   final PhotosRepository photosRepository;
-  final AvatarDetectorRepository avatarDetectorRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,6 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: photosRepository),
-        RepositoryProvider.value(value: avatarDetectorRepository),
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
