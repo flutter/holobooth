@@ -118,8 +118,35 @@ extension on tf.Face {
           ),
         )
         .toList();
+    final boundingBox = this.boundingBox.copyWith(
+          height: this
+              .boundingBox
+              .height
+              .normalize(fromMax: fromMax.height, toMax: toMax.height),
+          width: this
+              .boundingBox
+              .width
+              .normalize(fromMax: fromMax.width, toMax: toMax.width),
+          xMax: this.boundingBox.xMax.normalize(
+                fromMax: fromMax.width,
+                toMax: toMax.width,
+              ),
+          xMin: this.boundingBox.xMin.normalize(
+                fromMax: fromMax.width,
+                toMax: toMax.width,
+              ),
+          yMax: this.boundingBox.yMax.normalize(
+                fromMax: fromMax.height,
+                toMax: toMax.height,
+              ),
+          yMin: this.boundingBox.yMin.normalize(
+                fromMax: fromMax.height,
+                toMax: toMax.height,
+              ),
+        );
     return copyWith(
       keypoints: UnmodifiableListView(keypoints),
+      boundingBox: boundingBox,
     );
   }
 }
