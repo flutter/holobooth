@@ -1,7 +1,5 @@
 import 'dart:async';
-// TODO(alestiago): Use a plugin instead.
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'dart:collection';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +23,7 @@ class FacesDetectorBuilder extends StatefulWidget {
 class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   final _streamController = StreamController<tf.Faces>();
   late final tf.FaceLandmarksDetector _faceLandmarksDetector;
+  late Size _size;
 
   static const _estimationConfig = tf.EstimationConfig(
     flipHorizontal: true,
@@ -50,10 +49,17 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   }
 
   Future<bool> _estimateFaces(tf.ImageData imageData) async {
-    final faces = await _faceLandmarksDetector.estimateFaces(
+    print('size: $_size');
+    print('imageData: ${imageData.width}x${imageData.height}');
+    final faces = (await _faceLandmarksDetector.estimateFaces(
       imageData,
       estimationConfig: _estimationConfig,
+    ))
+        .normalize(
+      fromMax: Size(imageData.width.toDouble(), imageData.height.toDouble()),
+      toMax: _size,
     );
+
     if (!_streamController.isClosed) _streamController.add(faces);
     return !_streamController.isClosed;
   }
@@ -70,17 +76,68 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
     return StreamBuilder<tf.Faces>(
       stream: _streamController.stream,
       builder: (context, snapshot) {
+        late final Widget child;
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          child = Text('Error: ${snapshot.error}');
         }
 
         final data = snapshot.data;
         if (data != null) {
-          return widget.builder(context, data);
+          child = widget.builder(context, data);
         } else {
-          return const SizedBox.shrink();
+          child = const SizedBox.shrink();
         }
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            _size = constraints.biggest;
+            return child;
+          },
+        );
       },
     );
+  }
+}
+
+extension on tf.Faces {
+  tf.Faces normalize({
+    required Size fromMax,
+    required Size toMax,
+  }) =>
+      map((face) => face.normalize(fromMax: fromMax, toMax: toMax)).toList();
+}
+
+extension on tf.Face {
+  tf.Face normalize({
+    required Size fromMax,
+    required Size toMax,
+  }) {
+    final keypoints = this
+        .keypoints
+        .map(
+          (keypoint) => keypoint.copyWith(
+            x: keypoint.x.normalize(fromMax: fromMax.width, toMax: toMax.width),
+            y: keypoint.y
+                .normalize(fromMax: fromMax.height, toMax: toMax.height),
+          ),
+        )
+        .toList();
+    return copyWith(
+      keypoints: UnmodifiableListView(keypoints),
+    );
+  }
+}
+
+extension on num {
+  double normalize({
+    num fromMin = 0,
+    required num fromMax,
+    num toMin = 0,
+    required num toMax,
+  }) {
+    assert(fromMin < fromMax, 'fromMin must be less than fromMax');
+    assert(toMin < toMax, 'toMin must be less than toMax');
+
+    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
   }
 }

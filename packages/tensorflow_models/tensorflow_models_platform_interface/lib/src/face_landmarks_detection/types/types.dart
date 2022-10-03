@@ -45,6 +45,15 @@ class Face {
   final UnmodifiableListView<Keypoint> keypoints;
 
   final BoundingBox boundingBox;
+
+  Face copyWith({
+    UnmodifiableListView<Keypoint>? keypoints,
+    BoundingBox? boundingBox,
+  }) =>
+      Face._(
+        keypoints ?? this.keypoints,
+        boundingBox ?? this.boundingBox,
+      );
 }
 
 /// {@template types.face_landmar_types.Keypoint}
@@ -69,6 +78,22 @@ class Keypoint {
   final num? z;
   final num? score;
   final String? name;
+
+  Keypoint copyWith({
+    num? x,
+    num? y,
+    num? z,
+    num? score,
+    String? name,
+  }) {
+    return Keypoint._(
+      x ?? this.x,
+      y ?? this.y,
+      z ?? this.z,
+      score ?? this.score,
+      name ?? this.name,
+    );
+  }
 }
 
 /// {@template types.face_landmar_types.BoundingBox}
