@@ -65,18 +65,6 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
       );
       return _facesFromJs(result);
     } else if (object is ImageData) {
-      // FIXME(alestiago): When converting to an [html.ImageData]:
-      // "DOMException: Failed to construct 'ImageData': The input data length
-      // is not a multiple of 4."
-      // const methodChannels = 4;
-      // final pixels = object.width * object.height;
-      // final bytes = Uint8ClampedList(pixels * methodChannels);
-      // for (var pixel = 0; pixel < pixels; pixel++) {
-      //   for (var channel = 0; channel < methodChannels; channel++) {
-      //     bytes[pixel * methodChannels + channel] =
-      //         object.data[pixel * methodChannels + channel];
-      //   }
-      // }
       final imageData = html.ImageData(
         Uint8ClampedList.fromList(object.data),
         object.width,
