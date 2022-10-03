@@ -37,23 +37,28 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          CameraView(onCameraReady: _onCameraReady),
-          if (_cameraController != null)
-            FacesDetectorBuilder(
-              cameraController: _cameraController!,
-              builder: (context, faces) {
-                if (faces.isEmpty) return const SizedBox.shrink();
-                return CustomPaint(
-                  painter: _FaceLandmarkCustomPainter(
-                    face: faces.first,
-                  ),
-                );
-              },
-            )
-        ],
+      body: AspectRatio(
+        aspectRatio: _cameraController == null
+            ? 1
+            : _cameraController!.value.aspectRatio,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CameraView(onCameraReady: _onCameraReady),
+            if (_cameraController != null)
+              FacesDetectorBuilder(
+                cameraController: _cameraController!,
+                builder: (context, faces) {
+                  if (faces.isEmpty) return const SizedBox.shrink();
+                  return CustomPaint(
+                    painter: _FaceLandmarkCustomPainter(
+                      face: faces.first,
+                    ),
+                  );
+                },
+              )
+          ],
+        ),
       ),
     );
   }

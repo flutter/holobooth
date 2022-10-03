@@ -49,15 +49,19 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   }
 
   Future<bool> _estimateFaces(tf.ImageData imageData) async {
-    print('size: $_size');
-    print('imageData: ${imageData.width}x${imageData.height}');
+    print('size: $_size, aspectRatio: ${_size.aspectRatio}');
+    print(
+      'imageData: ${imageData.width}x${imageData.height}, aspectRatio: ${imageData.width / imageData.height}',
+    );
+    print('aspectRatio: ${widget.cameraController.value.aspectRatio}');
+    final size = _size;
     final faces = (await _faceLandmarksDetector.estimateFaces(
       imageData,
       estimationConfig: _estimationConfig,
     ))
         .normalize(
       fromMax: Size(imageData.width.toDouble(), imageData.height.toDouble()),
-      toMax: _size,
+      toMax: size,
     );
 
     if (!_streamController.isClosed) _streamController.add(faces);
@@ -88,11 +92,14 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
           child = const SizedBox.shrink();
         }
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            _size = constraints.biggest;
-            return child;
-          },
+        return AspectRatio(
+          aspectRatio: widget.cameraController.value.aspectRatio,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              _size = constraints.biggest;
+              return child;
+            },
+          ),
         );
       },
     );
