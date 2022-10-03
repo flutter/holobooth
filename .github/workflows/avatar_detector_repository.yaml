@@ -1,0 +1,20 @@
+name: avatar_detector_repository
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - "packages/avatar_detector_repository/**"
+      - ".github/workflows/avatar_detector_repository.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_version: 3.3.1
+      working_directory: packages/avatar_detector_repository
