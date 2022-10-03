@@ -77,31 +77,26 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<tf.Faces>(
-      stream: _streamController.stream,
-      builder: (context, snapshot) {
-        late final Widget child;
-        if (snapshot.hasError) {
-          child = Text('Error: ${snapshot.error}');
-        }
+    return AspectRatio(
+      aspectRatio: widget.cameraController.value.aspectRatio,
+      child: LayoutBuilder(builder: (context, constraints) {
+        _size = constraints.biggest;
+        return StreamBuilder<tf.Faces>(
+          stream: _streamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
 
-        final data = snapshot.data;
-        if (data != null) {
-          child = widget.builder(context, data);
-        } else {
-          child = const SizedBox.shrink();
-        }
-
-        return AspectRatio(
-          aspectRatio: widget.cameraController.value.aspectRatio,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              _size = constraints.biggest;
-              return child;
-            },
-          ),
+            final data = snapshot.data;
+            if (data != null) {
+              return widget.builder(context, data);
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
         );
-      },
+      }),
     );
   }
 }
