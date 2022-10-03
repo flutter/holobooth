@@ -128,6 +128,24 @@ class BoundingBox {
   final num yMax;
   final num width;
   final num height;
+
+  BoundingBox copyWith({
+    num? xMin,
+    num? yMin,
+    num? xMax,
+    num? yMax,
+    num? width,
+    num? height,
+  }) {
+    return BoundingBox._(
+      xMin ?? this.xMin,
+      yMin ?? this.yMin,
+      xMax ?? this.xMax,
+      yMax ?? this.yMax,
+      width ?? this.width,
+      height ?? this.height,
+    );
+  }
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
