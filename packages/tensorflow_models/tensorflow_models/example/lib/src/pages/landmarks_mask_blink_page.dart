@@ -49,7 +49,6 @@ class _LandmarksMaskBlinkViewState extends State<_LandmarksMaskBlinkView> {
                   final face = faces.first;
 
                   return Stack(
-                    fit: StackFit.expand,
                     children: [
                       _BlinkMask(face: face),
                       CustomPaint(
