@@ -11,7 +11,7 @@ dependencies:
   camera: ^0.10.0+3
   cross_file: ^0.3.3+2
   face_geometry:
-    path: ../../../face_geometry/
+    path: ../../../face_geometry
   flutter:
     sdk: flutter
   image: ^3.2.0
