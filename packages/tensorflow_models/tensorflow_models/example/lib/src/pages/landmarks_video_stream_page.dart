@@ -29,12 +29,6 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
   }
 
   @override
-  void dispose() {
-    _cameraController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AspectRatio(
