@@ -40,7 +40,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
     _faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
     await widget.cameraController.startImageStream((image) {
       final imageData = tf.ImageData(
-        data: image.planes.first.bytes,
+        bytes: image.planes.first.bytes,
         width: image.width,
         height: image.height,
       );

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-/// A widget that displays the preview from the default camera.
 class CameraView extends StatefulWidget {
   const CameraView({Key? key, this.onCameraReady}) : super(key: key);
 
