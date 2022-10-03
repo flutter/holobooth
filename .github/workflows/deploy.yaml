@@ -8,6 +8,10 @@ on:
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/tensorflow_models/tensorflow_models/example
+
     name: Deploy Development
     steps:
       - uses: actions/checkout@v2
@@ -22,3 +26,4 @@ jobs:
           target: 673c89b8-38f7-11ed-a261-0242ac120002
           expires: 30d
           channelId: live
+          entryPoint: packages/tensorflow_models/tensorflow_models/example

@@ -119,79 +119,20 @@ void main() {
         expect(find.byType(SizedBox), findsOneWidget);
       });
 
-      testWidgets('error when unavailable', (tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('', ''),
-        );
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        expect(find.byType(PhotoboothError), findsOneWidget);
-      });
-
       testWidgets(
-          'camera access denied error '
-          'when cameraPlatform throws CameraException '
-          'with code "CameraAccessDenied"', (tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('CameraAccessDenied', ''),
-        );
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        expect(
-          find.byKey(Key('photoboothError_cameraAccessDenied')),
-          findsOneWidget,
-        );
-      });
-
-      testWidgets(
-        'camera not found error '
-        'when cameraPlatform throws CameraException '
-        'with code "cameraNotFound"',
+        'PhotoboothError when cameraPlatform throws CameraException',
         (tester) async {
           when(() => cameraPlatform.availableCameras()).thenThrow(
-            CameraException('cameraNotFound', ''),
+            CameraException('', ''),
           );
           await tester.pumpApp(
             PhotoboothView(),
             photoboothBloc: photoboothBloc,
           );
           await tester.pumpAndSettle();
-          expect(
-            find.byKey(Key('photoboothError_cameraNotFound')),
-            findsOneWidget,
-          );
+          expect(find.byType(PhotoboothError), findsOneWidget);
         },
       );
-
-      testWidgets(
-          'camera not supported error '
-          'when cameraPlatform throws CameraException '
-          'with code "cameraNotSupported"', (tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('cameraNotSupported', ''),
-        );
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        expect(
-          find.byKey(Key('photoboothError_cameraNotSupported')),
-          findsOneWidget,
-        );
-      });
-
-      testWidgets(
-          'unknown error '
-          'when cameraPlatform throws CameraException '
-          'with unknown code', (tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('', ''),
-        );
-        await tester.pumpApp(PhotoboothView(), photoboothBloc: photoboothBloc);
-        await tester.pumpAndSettle();
-        expect(
-          find.byKey(Key('photoboothError_unknown')),
-          findsOneWidget,
-        );
-      });
 
       testWidgets('preview when available', (tester) async {
         const key = Key('__target__');

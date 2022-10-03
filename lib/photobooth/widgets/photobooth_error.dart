@@ -8,29 +8,40 @@ class PhotoboothError extends StatelessWidget {
 
   final CameraException error;
 
+  @visibleForTesting
+  static const cameraAccessDeniedKey =
+      Key('photoboothError_cameraAccessDenied');
+
+  @visibleForTesting
+  static const cameraNotFoundKey = Key('photoboothError_cameraNotFound');
+
+  @visibleForTesting
+  static const cameraNotSupportedKey =
+      Key('photoboothError_cameraNotSupported');
+
+  @visibleForTesting
+  static const unknownErrorKey = Key('photoboothError_unknownError');
+
   @override
   Widget build(BuildContext context) {
-    if (error.code == 'CameraAccessDenied') {
-      return const _PhotoboothCameraAccessDeniedError(
-        key: Key('photoboothError_cameraAccessDenied'),
-      );
+    switch (error.code) {
+      case 'CameraAccessDenied':
+        return const _PhotoboothCameraAccessDeniedError(
+          key: cameraAccessDeniedKey,
+        );
+      case 'cameraNotFound':
+        return const _PhotoboothCameraNotFoundError(
+          key: cameraNotFoundKey,
+        );
+      case 'cameraNotSupported':
+        return const _PhotoboothCameraNotSupportedError(
+          key: cameraNotSupportedKey,
+        );
+      default:
+        return const _PhotoboothCameraUnknownError(
+          key: unknownErrorKey,
+        );
     }
-
-    if (error.code == 'cameraNotFound') {
-      return const _PhotoboothCameraNotFoundError(
-        key: Key('photoboothError_cameraNotFound'),
-      );
-    }
-
-    if (error.code == 'cameraNotSupported') {
-      return const _PhotoboothCameraNotSupportedError(
-        key: Key('photoboothError_cameraNotSupported'),
-      );
-    }
-
-    return const _PhotoboothCameraUnknownError(
-      key: Key('photoboothError_unknown'),
-    );
   }
 }
 
