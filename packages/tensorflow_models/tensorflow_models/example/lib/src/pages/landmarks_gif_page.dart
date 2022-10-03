@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-// TODO(alestiago): Use a plugin instead.
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
@@ -32,7 +29,6 @@ class _LandmarksGifView extends StatefulWidget {
 
 class _LandmarksGifViewState extends State<_LandmarksGifView> {
   CameraController? _cameraController;
-  html.VideoElement? _videoElement;
   final _imagesBytes = <Uint8List>[];
   bool _gifInProgress = false;
 
@@ -40,12 +36,6 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
-  }
-
-  void _queryVideoElement() {
-    final videoElement = html.querySelector('video')! as html.VideoElement;
-    setState(() => _videoElement = videoElement);
   }
 
   Future<void> _onTakePhoto() async {
@@ -135,34 +125,18 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
             child: Stack(
               children: [
                 CameraView(onCameraReady: _onCameraReady),
-                if (_cameraController != null && _videoElement != null)
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final size = constraints.biggest;
-                      _videoElement!
-                        ..width = size.width.floor()
-                        ..height = size.height.floor();
-
-                      return FacesDetectorBuilder(
-                        cameraController: _cameraController!,
-                        builder: (context, faces) {
-                          if (faces.isEmpty) return const SizedBox.shrink();
-
-                          // Used for capturing the face. Here for poc.
-                          _currentFace = faces.first;
-
-                          return SizedBox.fromSize(
-                            size: size,
-                            child: CustomPaint(
-                              painter: _FaceLandmarkCustomPainter(
-                                face: faces.first,
-                              ),
-                            ),
-                          );
-                        },
+                if (_cameraController != null)
+                  FacesDetectorBuilder(
+                    cameraController: _cameraController!,
+                    builder: (context, faces) {
+                      if (faces.isEmpty) return const SizedBox.shrink();
+                      return CustomPaint(
+                        painter: _FaceLandmarkCustomPainter(
+                          face: faces.first,
+                        ),
                       );
                     },
-                  ),
+                  )
               ],
             ),
           ),

@@ -38,9 +38,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AspectRatio(
-        aspectRatio: _cameraController == null
-            ? 1
-            : _cameraController!.value.aspectRatio,
+        aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           fit: StackFit.expand,
           children: [
