@@ -130,6 +130,9 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
                     cameraController: _cameraController!,
                     builder: (context, faces) {
                       if (faces.isEmpty) return const SizedBox.shrink();
+                      // Used for capturing the face. Here for POC. (@marwfair)
+                      _currentFace = faces.first;
+
                       return CustomPaint(
                         painter: _FaceLandmarkCustomPainter(
                           face: faces.first,
