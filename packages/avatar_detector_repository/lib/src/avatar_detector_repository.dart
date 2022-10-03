@@ -5,32 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
-
-/// {@template get_faces_exception}
-/// Exception thrown when detectFace fails.
-///
-/// It contains a [message] field which describes the error.
-/// {@endtemplate}
-class DetectFaceException implements Exception {
-  /// {@macro get_faces_exception}
-  const DetectFaceException(this.message);
-
-  /// Description of the failure
-  final String message;
-
-  @override
-  String toString() => message;
-}
-
-/// {@template face_not_found_exception}
-/// Exception thrown if detectFace return no face.
-///
-/// {@endtemplate}
-class FaceNotFoundException extends DetectFaceException {
-  /// {@macro face_not_found_exception}
-  FaceNotFoundException(super.message);
-}
 
 /// {@template avatar_detector_repository}
 /// Repository to give avatar information based on tensorflow implementation.
@@ -44,11 +20,23 @@ class AvatarDetectorRepository {
 
   /// Preload an instance of [FaceLandmarksDetector].
   ///
-  /// Recommended to call this method before to speed up detection
+  /// Throws [PreloadLandmarksModelException] if amy exception occurs.
+  ///
+  /// Note: Highly recommended to call this method before any other
+  /// like [detectFace] to speed up the whole process.
   Future<void> preloadLandmarksModel() async {
-    _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
+    try {
+      _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
+    } catch (e) {
+      throw PreloadLandmarksModelException(e.toString());
+    }
   }
 
+  /// Return [Face] if there is any on the [input]
+  ///
+  /// Throws [DetectFaceException] if amy exception occurs.
+  ///
+  /// Throws [FaceNotFoundException] if not any face is found.
   Future<Face> detectFace(dynamic input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
