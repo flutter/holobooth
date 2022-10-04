@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
@@ -35,7 +35,7 @@ class CharacterSelectionView extends StatelessWidget {
               label: Text(l10n.toThePhotoBoothButtonText),
               backgroundColor: PhotoboothColors.blue,
               onPressed: () =>
-                  Navigator.of(context).push<void>(PhotoboothPage.route()),
+                  Navigator.of(context).push<void>(MultipleCapturePage.route()),
             ),
           ),
         ],

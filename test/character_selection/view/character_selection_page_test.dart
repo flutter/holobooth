@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+
 import '../../helpers/helpers.dart';
 
 void main() {
@@ -23,7 +24,9 @@ void main() {
       await tester.pumpApp(const CharacterSelectionView());
       expect(find.byType(Card), findsNWidgets(6));
     });
-    testWidgets('ActionChip button navigates to Camera Page when pressed',
+
+    testWidgets(
+        'ActionChip button navigates to MultipleCapturePage when pressed',
         (tester) async {
       await tester.pumpApp(const CharacterSelectionView());
       final chipFinder = find.byType(ActionChip);
@@ -31,7 +34,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(chipFinder);
       await tester.pumpAndSettle();
-      expect(find.byType(PhotoboothPage), findsOneWidget);
+      expect(find.byType(MultipleCapturePage), findsOneWidget);
     });
   });
 }
