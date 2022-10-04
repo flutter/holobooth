@@ -9,7 +9,7 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar_detector_repository}
-/// Repository to give avatar information based on tensorflow implementation.
+/// Repository, based on TensorFlow, that retrieves avatar representation information from a given source.
 /// {@endtemplate}
 class AvatarDetectorRepository {
   /// {@macro avatar_detector_repository}

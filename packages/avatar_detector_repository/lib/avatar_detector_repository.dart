@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-/// Repository to give avatar information based on tensorflow implementation.
+/// Repository, based on TensorFlow, that retrieves avatar representation information from a given source.
 library avatar_detector_repository;
 
 export 'src/avatar_detector_repository.dart';
