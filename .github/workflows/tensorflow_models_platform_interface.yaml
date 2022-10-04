@@ -1,0 +1,16 @@
+name: tensorflow_models_platform_interface
+
+on:
+  pull_request:
+    paths:
+      - "packages/tensorflow_models/tensorflow_models_platform_interface/**"
+      - ".github/workflows/tensorflow_models/platform/interface.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_version: 3.3.1
+      working_directory: packages/tensorflow_models/tensorflow_models_platform_interface
