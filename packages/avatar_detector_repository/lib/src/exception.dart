@@ -6,7 +6,7 @@ class PreloadLandmarksModelException implements Exception {
   /// Default constructor
   const PreloadLandmarksModelException(this.message);
 
-  /// Description of the failure
+  /// Description of the failure.
   final String message;
 
   @override
