@@ -1,4 +1,5 @@
-/// Exception thrown when `AvatarDetectorRepository.preloadLandmarksModel` model fails.
+/// Exception thrown when `AvatarDetectorRepository.preloadLandmarksModel`
+/// model fails.
 ///
 /// It contains a [message] field which describes the error.
 class PreloadLandmarksModelException implements Exception {
