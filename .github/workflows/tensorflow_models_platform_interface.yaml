@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "packages/tensorflow_models/tensorflow_models_platform_interface/**"
-      - ".github/workflows/tensorflow_models/platform/interface.yaml"
+      - ".github/workflows/tensorflow_models_platform_interface.yaml"
     branches:
       - main
 
