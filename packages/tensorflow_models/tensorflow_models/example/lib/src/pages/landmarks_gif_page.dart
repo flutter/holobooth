@@ -110,12 +110,14 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            heroTag: 'TakePhoto',
             onPressed: _onTakePhoto,
             child: const Icon(Icons.camera),
           ),
           const SizedBox(width: 16),
           if (_gifInProgress)
             FloatingActionButton(
+              heroTag: 'GIFProgressIndicator',
               onPressed: () {},
               child: const CircularProgressIndicator(
                 color: Colors.white,
@@ -123,6 +125,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
             )
           else
             FloatingActionButton(
+              heroTag: 'DownloadGif',
               onPressed: _downloadGif,
               child: const Icon(Icons.download),
             ),
@@ -130,45 +133,51 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
       ),
       body: Row(
         children: [
-          AspectRatio(
-            aspectRatio: _cameraController?.value.aspectRatio ?? 1,
-            child: Stack(
-              children: [
-                CameraView(onCameraReady: _onCameraReady),
-                if (_videoElement != null)
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final size = constraints.biggest;
-                      _videoElement!
-                        ..width = size.width.floor()
-                        ..height = size.height.floor();
+          Expanded(
+            flex: 3,
+            child: AspectRatio(
+              aspectRatio: _cameraController?.value.aspectRatio ?? 1,
+              child: Stack(
+                children: [
+                  CameraView(onCameraReady: _onCameraReady),
+                  if (_videoElement != null)
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final size = constraints.biggest;
+                        _videoElement!
+                          ..width = size.width.floor()
+                          ..height = size.height.floor();
 
-                      return FacesDetectorBuilder(
-                        videoElement: _videoElement!,
-                        builder: (context, faces) {
-                          if (faces.isEmpty) return const SizedBox.shrink();
+                        return FacesDetectorBuilder(
+                          videoElement: _videoElement!,
+                          builder: (context, faces) {
+                            if (faces.isEmpty) return const SizedBox.shrink();
 
-                          // Used for capturing the face. Here for poc.
-                          _currentFace = faces.first;
+                            // Used for capturing the face. Here for poc.
+                            _currentFace = faces.first;
 
-                          return SizedBox.fromSize(
-                            size: size,
-                            child: CustomPaint(
-                              painter: _FaceLandmarkCustomPainter(
-                                face: faces.first,
+                            return SizedBox.fromSize(
+                              size: size,
+                              child: CustomPaint(
+                                painter: _FaceLandmarkCustomPainter(
+                                  face: faces.first,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
           ),
-          _ImagePreview(
-            images:
-                _imagesBytes.map((bytes) => Image.memory(bytes).image).toList(),
+          Expanded(
+            child: _ImagePreview(
+              images: _imagesBytes
+                  .map((bytes) => Image.memory(bytes).image)
+                  .toList(),
+            ),
           ),
         ],
       ),
