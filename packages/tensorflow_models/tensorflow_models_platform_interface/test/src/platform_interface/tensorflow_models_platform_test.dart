@@ -5,18 +5,18 @@ import 'package:test/test.dart';
 class MockTFModelsPlatform extends Mock implements TensorflowModelsPlatform {}
 
 void main() {
-  late TensorflowModelsPlatform _tensorflowModelsPlatform;
+  late TensorflowModelsPlatform tensorflowModelsPlatform;
   setUp(() {
-    _tensorflowModelsPlatform = MockTFModelsPlatform();
+    tensorflowModelsPlatform = MockTFModelsPlatform();
   });
 
   group('TensorflowModelsPlatform', () {
     test('can be instantiated', () {
-      expect(_tensorflowModelsPlatform, isNotNull);
+      expect(tensorflowModelsPlatform, isNotNull);
     });
     group('loadFaceLandmark', () {
       test('FaceLandmarkDetector', () {
-        when(() => _tensorflowModelsPlatform.loadFaceLandmark())
+        when(() => tensorflowModelsPlatform.loadFaceLandmark())
             .thenThrow(UnimplementedError());
       });
     });
