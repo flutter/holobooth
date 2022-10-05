@@ -9,20 +9,18 @@ class MultiplePhotosLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final image = images[index];
-          return PreviewImage(
-            data: image.data,
-            height: 200,
-            width: 100,
-          );
-        },
-        childCount: images.length,
+    return SliverToBoxAdapter(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        children: [
+          for (final image in images)
+            PreviewImage(
+              data: image.data,
+              height: 200,
+              width: 100,
+            )
+        ],
       ),
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
     );
   }
 }
