@@ -11,7 +11,7 @@ class MultipleCaptureState extends Equatable {
   MultipleCaptureState.empty() : this(images: UnmodifiableListView([]));
 
   /// The amount of pictures the photobooth will take.
-  static const totalNumberOfPhotos = 1;
+  static const totalNumberOfPhotos = 5;
 
   /// The images that have been taken by the Photbooth.
   ///

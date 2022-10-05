@@ -6,21 +6,21 @@ class MultiplePhotosLayout extends StatelessWidget {
   const MultiplePhotosLayout({super.key, required this.images});
 
   final List<PhotoboothCameraImage> images;
+  static const reductionFactor = 0.19;
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        children: [
-          for (final image in images)
-            PreviewImage(
-              data: image.data,
-              height: 200,
-              width: 100,
-            )
-        ],
-      ),
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 6,
+      children: [
+        for (final image in images)
+          PreviewImage(
+            data: image.data,
+            height: image.constraint.height * reductionFactor,
+            width: image.constraint.width * reductionFactor,
+          )
+      ],
     );
   }
 }

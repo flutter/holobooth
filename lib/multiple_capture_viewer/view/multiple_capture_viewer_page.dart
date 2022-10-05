@@ -67,18 +67,18 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    return CustomScrollView(
-      slivers: <Widget>[
-        MultiplePhotosLayout(images: images),
-        SliverToBoxAdapter(
-          child: SelectableText(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          MultiplePhotosLayout(images: images),
+          SelectableText(
             l10n.sharePageHeading,
-            style: theme.textTheme.headline1
-                ?.copyWith(color: PhotoboothColors.white),
+            style: theme.textTheme.headline1,
             textAlign: TextAlign.center,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
