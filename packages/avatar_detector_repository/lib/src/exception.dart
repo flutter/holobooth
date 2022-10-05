@@ -1,9 +1,9 @@
+/// {@template preload_landmkars_detector_repository_exception}
 /// Exception thrown when `AvatarDetectorRepository.preloadLandmarksModel`
 /// model fails.
-///
-/// It contains a [message] field which describes the error.
+/// {@endtemplate}
 class PreloadLandmarksModelException implements Exception {
-  /// Default constructor
+  /// {@macro preload_landmkars_detector_repository_exception}
   const PreloadLandmarksModelException(this.message);
 
   /// Description of the failure.
@@ -13,11 +13,11 @@ class PreloadLandmarksModelException implements Exception {
   String toString() => message;
 }
 
+/// {@template detect_face_exception}
 /// Exception thrown when detectFace fails.
-///
-/// It contains a [message] field which describes the error.
+/// {@endtemplate}
 class DetectFaceException implements Exception {
-  /// Default constructor
+  /// {@macro detect_face_exception}
   const DetectFaceException(this.message);
 
   /// Description of the failure

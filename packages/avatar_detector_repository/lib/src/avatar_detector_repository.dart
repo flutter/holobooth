@@ -14,8 +14,7 @@ import 'package:tensorflow_models/tensorflow_models.dart';
 /// {@endtemplate}
 class AvatarDetectorRepository {
   /// {@macro avatar_detector_repository}
-  AvatarDetectorRepository({FaceLandmarksDetector? faceLandmarksDetector})
-      : _faceLandmarksDetector = faceLandmarksDetector;
+  AvatarDetectorRepository();
 
   FaceLandmarksDetector? _faceLandmarksDetector;
 
