@@ -33,12 +33,10 @@ class AvatarDetectorRepository {
     }
   }
 
-  /// Return [Face] if there is any on the [input]
+  /// Return [Face] if there is any on the [input].
   ///
   /// Throws [DetectFaceException] if amy exception occurs.
-  ///
-  /// Throws [FaceNotFoundException] if not any face is found.
-  Future<Face> detectFace(dynamic input) async {
+  Future<Face?> detectFace(dynamic input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
     }
@@ -48,9 +46,8 @@ class AvatarDetectorRepository {
     } catch (e) {
       throw DetectFaceException(e.toString());
     }
-    if (faces.isEmpty) {
-      throw FaceNotFoundException('detectFace does not return any face');
-    }
+    if (faces.isEmpty) return null;
+
     return faces.first;
   }
 }

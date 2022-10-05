@@ -26,10 +26,3 @@ class DetectFaceException implements Exception {
   @override
   String toString() => message;
 }
-
-/// Exception thrown if detectFace return no face.
-///
-class FaceNotFoundException extends DetectFaceException {
-  /// Default constructor
-  FaceNotFoundException(super.message);
-}

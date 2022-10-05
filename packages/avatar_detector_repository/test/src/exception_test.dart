@@ -17,11 +17,4 @@ void main() {
       expect(exception.toString(), 'msg');
     });
   });
-
-  group('FaceNotFoundException', () {
-    test('overrides toString with message', () {
-      final exception = FaceNotFoundException('msg');
-      expect(exception.toString(), 'msg');
-    });
-  });
 }

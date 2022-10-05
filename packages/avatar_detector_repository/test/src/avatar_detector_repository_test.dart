@@ -89,8 +89,7 @@ void main() {
         );
       });
 
-      test('throws FaceNotFoundException if estimateFaces returns empty list',
-          () {
+      test('returns null if estimateFaces returns empty list', () async {
         when(
           () => faceLandmarksDetector.estimateFaces(
             '',
@@ -98,9 +97,9 @@ void main() {
           ),
         ).thenAnswer((_) async => List<Face>.empty());
 
-        expect(
+        await expectLater(
           avatarDetectorRepository.detectFace(''),
-          throwsA(isA<FaceNotFoundException>()),
+          completion(isNull),
         );
       });
 
