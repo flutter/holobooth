@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js_util';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:image_loader/image_loader.dart';
 import 'package:js_interop_utils/js_interop_utils.dart' as js_interop_utils;
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
@@ -34,6 +37,7 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   /// - [String] A string that contains the url of the image to process.
   /// - [html.VideoElement] Raw html element that contains the image (last
   /// frame) to process.
+  /// - [Uint8List] A list of bytes that contains the image to process.
   @override
   Future<Faces> estimateFaces(
     dynamic object, {
@@ -58,6 +62,16 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
     } else if (object is html.ImageElement) {
       final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(object, config),
+      );
+      return _facesFromJs(result);
+    } else if (object is ImageData) {
+      final imageData = html.ImageData(
+        object.bytes.buffer.asUint8ClampedList(),
+        object.width,
+        object.height,
+      );
+      final result = await promiseToFuture<List<dynamic>>(
+        _faceLandmarksDetector.estimateFaces(imageData, config),
       );
       return _facesFromJs(result);
     }
