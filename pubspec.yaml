@@ -13,8 +13,11 @@ dependencies:
   audio_session: ^0.1.10
   authentication_repository:
     path: packages/authentication_repository
+  avatar_detector_repository:
+    path: packages/avatar_detector_repository
   bloc: ^8.1.0
   camera: ^0.10.0+3
+  collection: ^1.16.0
   cross_file: ^0.3.3+2
   equatable: ^2.0.5
   firebase_auth: ^3.10.0
@@ -31,6 +34,7 @@ dependencies:
   js_interop_utils:
     path: packages/js_interop_utils
   just_audio: ^0.9.29
+  meta: ^1.8.0
   photobooth_ui:
     path: packages/photobooth_ui
   photos_repository:

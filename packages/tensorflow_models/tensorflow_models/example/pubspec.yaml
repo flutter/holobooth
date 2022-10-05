@@ -11,7 +11,7 @@ dependencies:
   camera: ^0.10.0+3
   cross_file: ^0.3.3+2
   face_geometry:
-    path: ../../../face_geometry/
+    path: ../../../face_geometry
   flutter:
     sdk: flutter
   image: ^3.2.0
@@ -26,6 +26,19 @@ dev_dependencies:
   build_runner:
   flutter_gen_runner:
   very_good_analysis: ^3.1.0
+
+dependency_overrides:
+  camera:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+  camera_web:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera_web
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+
 
 flutter_gen:
   output: lib/assets/
