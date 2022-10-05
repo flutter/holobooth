@@ -6,8 +6,8 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 final _maxRatios = <String, double?>{'leftEye': null, 'rightEye': null};
 final _minRatios = <String, double?>{'leftEye': null, 'rightEye': null};
 final _aveRatios = <String, double?>{'leftEye': null, 'rightEye': null};
-// Define if first action eq blink was detected and we have correct min and max
-// values.
+// Define whether the first action, e.g. close, was detected and we have the
+// correct min and max values.
 final _firstAction = <String, bool>{'leftEye': false, 'rightEye': false};
 
 /// Set of calculations to detect common face expressions.
