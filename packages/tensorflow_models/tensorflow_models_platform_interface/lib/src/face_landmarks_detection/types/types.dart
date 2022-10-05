@@ -46,6 +46,15 @@ class Face {
 
   // A bounding box around the detected face.
   final BoundingBox boundingBox;
+
+  Face copyWith({
+    UnmodifiableListView<Keypoint>? keypoints,
+    BoundingBox? boundingBox,
+  }) =>
+      Face._(
+        keypoints ?? this.keypoints,
+        boundingBox ?? this.boundingBox,
+      );
 }
 
 /// Representation of a [Face] landmark point.
@@ -71,6 +80,22 @@ class Keypoint {
   final num? z;
   final num? score;
   final String? name;
+
+  Keypoint copyWith({
+    num? x,
+    num? y,
+    num? z,
+    num? score,
+    String? name,
+  }) {
+    return Keypoint._(
+      x ?? this.x,
+      y ?? this.y,
+      z ?? this.z,
+      score ?? this.score,
+      name ?? this.name,
+    );
+  }
 }
 
 /// Represents the bounding box of the face in the image pixel space.
@@ -116,6 +141,24 @@ class BoundingBox {
 
   /// The height of the bounding box.
   final num height;
+
+  BoundingBox copyWith({
+    num? xMin,
+    num? yMin,
+    num? xMax,
+    num? yMax,
+    num? width,
+    num? height,
+  }) {
+    return BoundingBox._(
+      xMin ?? this.xMin,
+      yMin ?? this.yMin,
+      xMax ?? this.xMax,
+      yMax ?? this.yMax,
+      width ?? this.width,
+      height ?? this.height,
+    );
+  }
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
