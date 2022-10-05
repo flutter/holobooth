@@ -27,6 +27,19 @@ dev_dependencies:
   flutter_gen_runner:
   very_good_analysis: ^3.1.0
 
+dependency_overrides:
+  camera:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+  camera_web:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera_web
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+
+
 flutter_gen:
   output: lib/assets/
   line_length: 80

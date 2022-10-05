@@ -2,7 +2,8 @@
 /// implementation.
 ///
 /// See also:
-/// * TypeScript types at: https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts
+///
+/// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
 import 'dart:collection';
 
 typedef Faces = List<Face>;
@@ -16,11 +17,9 @@ abstract class FaceLandmarksDetector {
   void dispose();
 }
 
-/// {@template types.face_landmar_types.Face}
 /// A face detected by [FaceLandmarksDetector].
 ///
 /// The face is represented by [keypoints].
-/// {@endtemplate}
 class Face {
   const Face._(this.keypoints, this.boundingBox);
 
@@ -40,17 +39,29 @@ class Face {
   /// Points representing the face landmarks.
   ///
   /// The order of the [keypoints] is significant, the mappings of these indexes
-  /// to face locations can be found at:
-  /// * https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg
+  /// to face locations can be found [here](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg).
+  ///
+  /// MediaPipeFaceMesh has 468 keypoints.
   final UnmodifiableListView<Keypoint> keypoints;
 
+  // A bounding box around the detected face.
   final BoundingBox boundingBox;
+
+  Face copyWith({
+    UnmodifiableListView<Keypoint>? keypoints,
+    BoundingBox? boundingBox,
+  }) =>
+      Face._(
+        keypoints ?? this.keypoints,
+        boundingBox ?? this.boundingBox,
+      );
 }
 
-/// {@template types.face_landmar_types.Keypoint}
 /// Representation of a [Face] landmark point.
 ///
-/// {@endtemplate}
+/// See also:
+///
+/// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
 class Keypoint {
   Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
@@ -69,14 +80,29 @@ class Keypoint {
   final num? z;
   final num? score;
   final String? name;
+
+  Keypoint copyWith({
+    num? x,
+    num? y,
+    num? z,
+    num? score,
+    String? name,
+  }) {
+    return Keypoint._(
+      x ?? this.x,
+      y ?? this.y,
+      z ?? this.z,
+      score ?? this.score,
+      name ?? this.name,
+    );
+  }
 }
 
-/// {@template types.face_landmar_types.BoundingBox}
-/// The box represents the bounding box of the face in the image pixel space,
-/// with xMin, xMax denoting the x-bounds, yMin, yMax denoting the y-bounds,
-/// and width, height are the dimensions of the bounding box.
+/// Represents the bounding box of the face in the image pixel space.
 ///
-/// {@endtemplate}
+/// See also:
+///
+/// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
 class BoundingBox {
   BoundingBox._(
     this.xMin,
@@ -96,13 +122,43 @@ class BoundingBox {
           map['width'] as num,
           map['height'] as num,
         );
-  // TODO(oscar): check if worth to use double instead
+  // TODO(oscar): check if worth to use double instead.
+
+  /// The x-coordinate of the top-left corner of the bounding box.
   final num xMin;
+
+  /// The y-coordinate of the top-left corner of the bounding box.
   final num yMin;
+
+  /// The x-coordinate of the bottom-right corner of the bounding box.
   final num xMax;
+
+  /// The y-coordinate of the bottom-right corner of the bounding box.
   final num yMax;
+
+  /// The width of the bounding box.
   final num width;
+
+  /// The height of the bounding box.
   final num height;
+
+  BoundingBox copyWith({
+    num? xMin,
+    num? yMin,
+    num? xMax,
+    num? yMax,
+    num? width,
+    num? height,
+  }) {
+    return BoundingBox._(
+      xMin ?? this.xMin,
+      yMin ?? this.yMin,
+      xMax ?? this.xMax,
+      yMax ?? this.yMax,
+      width ?? this.width,
+      height ?? this.height,
+    );
+  }
 }
 
 /// {@template types.face_landmark_types.EstimationConfig}
