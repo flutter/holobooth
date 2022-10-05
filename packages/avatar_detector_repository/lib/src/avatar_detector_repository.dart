@@ -28,8 +28,8 @@ class AvatarDetectorRepository {
   Future<void> preloadLandmarksModel() async {
     try {
       _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
-    } catch (e) {
-      throw PreloadLandmarksModelException(e.toString());
+    } catch (error) {
+      throw PreloadLandmarksModelException(error.toString());
     }
   }
 
@@ -43,8 +43,8 @@ class AvatarDetectorRepository {
     Faces faces;
     try {
       faces = await _faceLandmarksDetector!.estimateFaces(input);
-    } catch (e) {
-      throw DetectFaceException(e.toString());
+    } catch (error) {
+      throw DetectFaceException(error.toString());
     }
     if (faces.isEmpty) return null;
 
