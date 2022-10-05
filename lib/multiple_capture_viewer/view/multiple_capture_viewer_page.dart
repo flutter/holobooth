@@ -29,19 +29,26 @@ class MultipleCaptureViewerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      children: [
-        const _Background(),
-        const Align(alignment: Alignment.topLeft, child: _TakePhotoAgain()),
-        Align(child: _Body(images: images)),
-      ],
-    ));
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const _Background(),
+          const Align(
+            alignment: Alignment.topLeft,
+            child: TakePhotoAgainButton(),
+          ),
+          Align(child: _Body(images: images)),
+        ],
+      ),
+    );
   }
 }
 
-class _TakePhotoAgain extends StatelessWidget {
-  const _TakePhotoAgain();
+@visibleForTesting
+class TakePhotoAgainButton extends StatelessWidget {
+  const TakePhotoAgainButton({super.key});
+
+  static const buttonKey = Key('takePhotoAgainButton_appTooltipButton');
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +59,7 @@ class _TakePhotoAgain extends StatelessWidget {
       button: true,
       label: l10n.retakePhotoButtonLabelText,
       child: AppTooltipButton(
+        key: buttonKey,
         verticalOffset: 50,
         onPressed: () {
           Navigator.of(context).pushReplacement(MultipleCapturePage.route());
