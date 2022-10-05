@@ -99,20 +99,23 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElevatedButton(
+          FloatingActionButton(
+            heroTag: null,
             onPressed: _onTakePhoto,
             child: const Icon(Icons.camera),
           ),
           const SizedBox(width: 16),
           if (_gifInProgress)
-            ElevatedButton(
+            FloatingActionButton(
+              heroTag: null,
               onPressed: () {},
               child: const CircularProgressIndicator(
                 color: Colors.white,
               ),
             )
           else
-            ElevatedButton(
+            FloatingActionButton(
+              heroTag: null,
               onPressed: _downloadGif,
               child: const Icon(Icons.download),
             ),
