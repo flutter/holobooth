@@ -5,7 +5,6 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 
 final _maxRatios = <String, double?>{'leftEye': null, 'rightEye': null};
 final _minRatios = <String, double?>{'leftEye': null, 'rightEye': null};
-final _aveRatios = <String, double?>{'leftEye': null, 'rightEye': null};
 // Define whether the first action, e.g. close, was detected and we have the
 // correct min and max values.
 final _firstAction = <String, bool>{'leftEye': false, 'rightEye': false};
@@ -63,8 +62,6 @@ extension FaceGeometry on tf.Face {
         heightRatio > 0) {
       _minRatios[name] = heightRatio;
     }
-
-    _aveRatios[name] = (_maxRatios[name] ?? 0) - (_minRatios[name] ?? 0);
 
     if (_minRatios[name]! / _maxRatios[name]! < 0.5) {
       _firstAction[name] = true;
