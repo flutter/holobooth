@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 class CameraView extends StatefulWidget {
   const CameraView({Key? key, this.onCameraReady}) : super(key: key);
 
+  /// Callback called once the camera has been initialized.
+  ///
+  /// **NOTE**: There is no need to dispose the controller since [CameraView]
+  /// disposes it.
   final void Function(CameraController controller)? onCameraReady;
 
   @override
@@ -24,6 +28,9 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   void dispose() {
+    try {
+      _cameraController?.stopImageStream();
+    } catch (_) {}
     _cameraController?.dispose();
     super.dispose();
   }

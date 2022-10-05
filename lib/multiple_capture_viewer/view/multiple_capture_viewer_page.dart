@@ -18,12 +18,25 @@ class MultipleCaptureViewerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: images.length,
-        itemBuilder: (context, index) {
+      body: CustomScrollView(
+        slivers: [
+          _Photos(images: images),
+        ],
+      ),
+    );
+  }
+}
+
+class _Photos extends StatelessWidget {
+  const _Photos({required this.images});
+
+  final List<PhotoboothCameraImage> images;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
           final image = images[index];
           return PreviewImage(
             data: image.data,
@@ -31,7 +44,10 @@ class MultipleCaptureViewerPage extends StatelessWidget {
             width: 100,
           );
         },
+        childCount: images.length,
       ),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
     );
   }
 }

@@ -50,6 +50,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  avatar_detector_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/avatar_detector_repository"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   bloc:
     dependency: "direct main"
     description:
@@ -169,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  face_geometry:
+    dependency: transitive
+    description:
+      path: "packages/face_geometry"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   fake_async:
     dependency: transitive
     description:
@@ -684,6 +698,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  tensorflow_models:
+    dependency: transitive
+    description:
+      path: "packages/tensorflow_models/tensorflow_models"
+      relative: true
+    source: path
+    version: "0.1.0"
+  tensorflow_models_platform_interface:
+    dependency: transitive
+    description:
+      path: "packages/tensorflow_models/tensorflow_models_platform_interface"
+      relative: true
+    source: path
+    version: "0.0.1"
+  tensorflow_models_web:
+    dependency: transitive
+    description:
+      path: "packages/tensorflow_models/tensorflow_models_web"
+      relative: true
+    source: path
+    version: "0.0.0"
   term_glyph:
     dependency: transitive
     description:

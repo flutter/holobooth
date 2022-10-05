@@ -40,6 +40,10 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    final aspectRatio = orientation == Orientation.portrait
+        ? PhotoboothAspectRatio.portrait
+        : PhotoboothAspectRatio.landscape;
     return BlocListener<MultipleCaptureBloc, MultipleCaptureState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -49,33 +53,36 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
         }
       },
       child: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Align(
-              child: CameraView(
-                onCameraReady: (controller) {
-                  setState(() => _cameraController = controller);
-                },
-                errorBuilder: (context, error) {
-                  if (error is CameraException) {
-                    return PhotoboothError(error: error);
-                  } else {
-                    return const SizedBox.shrink(
-                      key: MultipleCaptureView.cameraErrorViewKey,
-                    );
-                  }
-                },
-              ),
-            ),
-            if (_isCameraAvailable)
+        body: CameraBackground(
+          aspectRatio: aspectRatio,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
               Align(
-                alignment: Alignment.bottomCenter,
-                child: MultipleShutterButton(
-                  onShutter: _takeSinglePicture,
+                child: CameraView(
+                  onCameraReady: (controller) {
+                    setState(() => _cameraController = controller);
+                  },
+                  errorBuilder: (context, error) {
+                    if (error is CameraException) {
+                      return PhotoboothError(error: error);
+                    } else {
+                      return const SizedBox.shrink(
+                        key: MultipleCaptureView.cameraErrorViewKey,
+                      );
+                    }
+                  },
                 ),
               ),
-          ],
+              if (_isCameraAvailable)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MultipleShutterButton(
+                    onShutter: _takeSinglePicture,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
