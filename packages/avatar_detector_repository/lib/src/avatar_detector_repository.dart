@@ -20,7 +20,7 @@ class AvatarDetectorRepository {
 
   /// Preload an instance of [FaceLandmarksDetector].
   ///
-  /// Throws [PreloadLandmarksModelException] if amy exception occurs.
+  /// Throws [PreloadLandmarksModelException] if any exception occurs.
   ///
   /// Note: Highly recommended to call this method before any other
   /// like [detectFace] to speed up the whole process.
@@ -34,7 +34,7 @@ class AvatarDetectorRepository {
 
   /// Return [Face] if there is any on the [input].
   ///
-  /// Throws [DetectFaceException] if amy exception occurs.
+  /// Throws [DetectFaceException] if any exception occurs.
   Future<Face?> detectFace(dynamic input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
