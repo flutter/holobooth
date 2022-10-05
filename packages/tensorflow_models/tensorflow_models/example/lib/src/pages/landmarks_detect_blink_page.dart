@@ -102,8 +102,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.leftEyeDistance < 10 ? highlightPaint : paint;
-    final rightEyePaint = face.rightEyeDistance < 10 ? highlightPaint : paint;
+    final leftEyePaint = face.isLeftEyeClose ? highlightPaint : paint;
+    final rightEyePaint = face.isRightEyeClose ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
