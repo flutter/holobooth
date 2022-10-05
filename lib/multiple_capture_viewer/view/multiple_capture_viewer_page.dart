@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
@@ -31,10 +32,34 @@ class MultipleCaptureViewerView extends StatelessWidget {
         body: Stack(
       fit: StackFit.expand,
       children: [
-        _Background(),
-        Align(alignment: Alignment.center, child: _Body(images: images)),
+        const _Background(),
+        const Align(alignment: Alignment.topLeft, child: _TakePhotoAgain()),
+        Align(child: _Body(images: images)),
       ],
     ));
+  }
+}
+
+class _TakePhotoAgain extends StatelessWidget {
+  const _TakePhotoAgain();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Semantics(
+      focusable: true,
+      button: true,
+      label: l10n.retakePhotoButtonLabelText,
+      child: AppTooltipButton(
+        verticalOffset: 50,
+        onPressed: () {
+          Navigator.of(context).pushReplacement(MultipleCapturePage.route());
+        },
+        message: l10n.retakeButtonTooltip,
+        child: Assets.icons.retakeButtonIcon.image(height: 100),
+      ),
+    );
   }
 }
 
