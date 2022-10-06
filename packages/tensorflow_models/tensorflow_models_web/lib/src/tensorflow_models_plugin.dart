@@ -14,8 +14,8 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
       landmark.MediaPipeFaceMeshModelConfig(
         // TODO(oscar): not working because of missing constructor Mesh
         // https://github.com/google/mediapipe/issues/1976
-        // runtime: 'mediapipe',
-        runtime: 'tfjs',
+        runtime: 'mediapipe',
+        //runtime: 'tfjs',
         refineLandmarks: false,
         maxFaces: 1,
       ),
