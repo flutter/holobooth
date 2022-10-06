@@ -1,5 +1,8 @@
 name: deploy_example_staging
 
+on:
+  workflow_dispatch:
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
@@ -18,7 +21,7 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_DEV }}"
           projectId: io-photobooth-dev
-          target: 038461ac-44c3-11ed-b878-0242ac120002
+          target: example_staging
           expires: 30d
           channelId: live
           entryPoint: packages/tensorflow_models/tensorflow_models/example
