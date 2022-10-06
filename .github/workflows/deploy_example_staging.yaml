@@ -1,5 +1,8 @@
 name: deploy_example_staging
 
+on:
+  workflow_dispatch:
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
