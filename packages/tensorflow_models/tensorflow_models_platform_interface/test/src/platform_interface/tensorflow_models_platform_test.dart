@@ -6,10 +6,10 @@ class MockTFModelsPlatform extends Mock implements TensorflowModelsPlatform {}
 
 void main() {
   late TensorflowModelsPlatform tensorflowModelsPlatform;
+
   setUp(() {
     tensorflowModelsPlatform = MockTFModelsPlatform();
   });
-
   group('TensorflowModelsPlatform', () {
     test('can be instantiated', () {
       expect(tensorflowModelsPlatform, isNotNull);
