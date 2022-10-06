@@ -1,6 +1,7 @@
 {
   "hosting": [
     {
+      "target": "example_dev",
       "public": "build/web",
       "site": "673c89b8-38f7-11ed-a261-0242ac120002",
       "cleanUrls": true,
@@ -8,6 +9,7 @@
       "ignore": [".firebase", "firebase.json"]
     },
     {
+      "target": "example_staging",
       "public": "build/web",
       "site": "038461ac-44c3-11ed-b878-0242ac120002",
       "cleanUrls": true,
