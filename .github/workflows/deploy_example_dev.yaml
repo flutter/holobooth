@@ -1,4 +1,4 @@
-name: deploy
+name: deploy_example_dev
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       run:
         working-directory: packages/tensorflow_models/tensorflow_models/example
 
-    name: Deploy Development
+    name: Deploy Example Development
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
