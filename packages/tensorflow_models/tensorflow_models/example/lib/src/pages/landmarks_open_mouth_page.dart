@@ -27,6 +27,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
 
   late final AudioPlayer _audioPlayer;
+  bool isPlaying = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -65,10 +66,15 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
-                  if (faces.first.mouthDistance > 15) {
-                    _audioPlayer.play();
-                  } else if (faces.first.mouthDistance < 15) {
+
+                  if (faces.first.isMouthOpen) {
+                    if (isPlaying == false) {
+                      _audioPlayer.play();
+                      isPlaying = true;
+                    }
+                  } else {
                     _audioPlayer.pause();
+                    isPlaying = false;
                   }
 
                   return CustomPaint(
@@ -95,7 +101,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.mouthDistance > 1 ? Colors.yellow : Colors.red
+      ..color = face.isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
