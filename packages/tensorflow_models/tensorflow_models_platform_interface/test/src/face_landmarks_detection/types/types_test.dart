@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 class MockFaceLAndmarkDetector extends Mock implements FaceLandmarksDetector {}
 
@@ -13,7 +13,5 @@ void main() {
     test('can be instantiated', () {
       expect(faceLandmarksDetector, isNotNull);
     });
-
-    test('estimate faces', () {});
   });
 }
