@@ -123,8 +123,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
       ),
       body: Row(
         children: [
-          Expanded(
-            flex: 3,
+          Flexible(
             child: AspectRatio(
               aspectRatio: _cameraController?.value.aspectRatio ?? 1,
               child: Stack(
@@ -149,12 +148,9 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
               ),
             ),
           ),
-          Expanded(
-            child: _ImagePreview(
-              images: _imagesBytes
-                  .map((bytes) => Image.memory(bytes).image)
-                  .toList(),
-            ),
+          _ImagePreview(
+            images:
+                _imagesBytes.map((bytes) => Image.memory(bytes).image).toList(),
           ),
         ],
       ),
