@@ -1,9 +1,4 @@
-name: deploy
-
-on:
-  push:
-    branches:
-      - main
+name: deploy_example_staging
 
 jobs:
   deploy-dev:
@@ -12,7 +7,7 @@ jobs:
       run:
         working-directory: packages/tensorflow_models/tensorflow_models/example
 
-    name: Deploy Development
+    name: Deploy Example Staging
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -23,7 +18,7 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_DEV }}"
           projectId: io-photobooth-dev
-          target: 673c89b8-38f7-11ed-a261-0242ac120002
+          target: 038461ac-44c3-11ed-b878-0242ac120002
           expires: 30d
           channelId: live
           entryPoint: packages/tensorflow_models/tensorflow_models/example
