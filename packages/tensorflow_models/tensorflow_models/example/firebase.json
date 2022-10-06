@@ -1,9 +1,18 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "site": "673c89b8-38f7-11ed-a261-0242ac120002",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "ignore": [".firebase", "firebase.json"]
-  }
+  "hosting": [
+    {
+      "public": "build/web",
+      "site": "673c89b8-38f7-11ed-a261-0242ac120002",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "ignore": [".firebase", "firebase.json"]
+    },
+    {
+      "public": "build/web",
+      "site": "038461ac-44c3-11ed-b878-0242ac120002",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "ignore": [".firebase", "firebase.json"]
+    }
+  ]
 }
