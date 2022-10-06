@@ -27,6 +27,9 @@ class _MockMultipleCaptureBloc
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   String get data => '';
+
+  @override
+  PhotoConstraint get constraint => PhotoConstraint();
 }
 
 void main() {
