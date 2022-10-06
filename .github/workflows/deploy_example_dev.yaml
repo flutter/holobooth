@@ -23,7 +23,7 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_DEV }}"
           projectId: io-photobooth-dev
-          target: 673c89b8-38f7-11ed-a261-0242ac120002
+          target: example_dev
           expires: 30d
           channelId: live
           entryPoint: packages/tensorflow_models/tensorflow_models/example
