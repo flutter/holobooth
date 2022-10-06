@@ -66,7 +66,7 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
       return _facesFromJs(result);
     } else if (object is ImageData) {
       final imageData = html.ImageData(
-        Uint8ClampedList.fromList(object.bytes),
+        object.bytes.buffer.asUint8ClampedList(),
         object.width,
         object.height,
       );
