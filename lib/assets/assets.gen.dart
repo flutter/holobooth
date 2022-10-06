@@ -23,10 +23,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
 
-  /// File path: assets/backgrounds/circle_object.png
-  AssetGenImage get circleObject =>
-      const AssetGenImage('assets/backgrounds/circle_object.png');
-
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
@@ -39,10 +35,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get redBox =>
       const AssetGenImage('assets/backgrounds/red_box.png');
 
-  /// File path: assets/backgrounds/yellow_bar.png
-  AssetGenImage get yellowBar =>
-      const AssetGenImage('assets/backgrounds/yellow_bar.png');
-
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
@@ -51,29 +43,9 @@ class $AssetsBackgroundsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  /// File path: assets/icons/android_icon.png
-  AssetGenImage get androidIcon =>
-      const AssetGenImage('assets/icons/android_icon.png');
-
   /// File path: assets/icons/camera_button_icon.png
   AssetGenImage get cameraButtonIcon =>
       const AssetGenImage('assets/icons/camera_button_icon.png');
-
-  /// File path: assets/icons/dash_icon.png
-  AssetGenImage get dashIcon =>
-      const AssetGenImage('assets/icons/dash_icon.png');
-
-  /// File path: assets/icons/delete_icon.png
-  AssetGenImage get deleteIcon =>
-      const AssetGenImage('assets/icons/delete_icon.png');
-
-  /// File path: assets/icons/dino_icon.png
-  AssetGenImage get dinoIcon =>
-      const AssetGenImage('assets/icons/dino_icon.png');
-
-  /// File path: assets/icons/eyewear_icon.png
-  AssetGenImage get eyewearIcon =>
-      const AssetGenImage('assets/icons/eyewear_icon.png');
 
   /// File path: assets/icons/firebase_icon.png
   AssetGenImage get firebaseIcon =>
