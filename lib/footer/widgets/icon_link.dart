@@ -49,19 +49,3 @@ class FirebaseIconLink extends StatelessWidget {
     );
   }
 }
-
-class MadeWithIconLinks extends StatelessWidget {
-  const MadeWithIconLinks({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        FlutterIconLink(),
-        SizedBox(width: 8),
-        FirebaseIconLink(),
-      ],
-    );
-  }
-}
