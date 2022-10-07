@@ -22,7 +22,7 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
         //
         // Since we don't create the new faceMesh.FaceMesh, we can't pass our
         // own `locateFile` function, BUT, we can override the behavior of the
-        // function with this undocumented parameter :)
+        // function with this parameter (as documented :P)
         //
         // Source: https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/mediapipe/detector.ts#L47-L53
         //
