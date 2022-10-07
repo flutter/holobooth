@@ -13,6 +13,7 @@ void trackEvent({
   required String action,
   required String label,
 }) {
+  //
   try {
     (testContext ?? context).callMethod(
       'ga',

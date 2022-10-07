@@ -12,6 +12,7 @@ class PlatformHelper {
 
   /// Returns whether the current platform is running on a mobile device.
   bool get isMobile {
+    //
     final userAgent = _window.navigator.userAgent.toLowerCase();
     if (userAgent.contains('iphone') ||
         userAgent.contains('android') ||
