@@ -100,12 +100,14 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            heroTag: null,
             onPressed: _onTakePhoto,
             child: const Icon(Icons.camera),
           ),
           const SizedBox(width: 16),
           if (_gifInProgress)
             FloatingActionButton(
+              heroTag: null,
               onPressed: () {},
               child: const CircularProgressIndicator(
                 color: Colors.white,
@@ -113,6 +115,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
             )
           else
             FloatingActionButton(
+              heroTag: null,
               onPressed: _downloadGif,
               child: const Icon(Icons.download),
             ),
@@ -120,27 +123,29 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
       ),
       body: Row(
         children: [
-          AspectRatio(
-            aspectRatio: _cameraController?.value.aspectRatio ?? 1,
-            child: Stack(
-              children: [
-                CameraView(onCameraReady: _onCameraReady),
-                if (_cameraController != null)
-                  FacesDetectorBuilder(
-                    cameraController: _cameraController!,
-                    builder: (context, faces) {
-                      if (faces.isEmpty) return const SizedBox.shrink();
-                      // Used for capturing the face. Here for POC. (@marwfair)
-                      _currentFace = faces.first;
+          Flexible(
+            child: AspectRatio(
+              aspectRatio: _cameraController?.value.aspectRatio ?? 1,
+              child: Stack(
+                children: [
+                  CameraView(onCameraReady: _onCameraReady),
+                  if (_cameraController != null)
+                    FacesDetectorBuilder(
+                      cameraController: _cameraController!,
+                      builder: (context, faces) {
+                        if (faces.isEmpty) return const SizedBox.shrink();
+                        // Used for capturing the face. Here for POC. (@marwfair)
+                        _currentFace = faces.first;
 
-                      return CustomPaint(
-                        painter: _FaceLandmarkCustomPainter(
-                          face: faces.first,
-                        ),
-                      );
-                    },
-                  )
-              ],
+                        return CustomPaint(
+                          painter: _FaceLandmarkCustomPainter(
+                            face: faces.first,
+                          ),
+                        );
+                      },
+                    )
+                ],
+              ),
             ),
           ),
           _ImagePreview(
