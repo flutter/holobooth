@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js_util';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:image_loader/image_loader.dart';
