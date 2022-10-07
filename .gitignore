@@ -109,7 +109,6 @@ coverage/
 packages/**/pubspec.lock
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Firebase related
 .firebase/
