@@ -1,6 +1,6 @@
 import 'dart:html' as html;
 
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 /// Web Implementation of [PlatformHelper]
 class PlatformHelper {

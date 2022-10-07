@@ -5,13 +5,10 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   image_loader:
     path: ../image_loader
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   mocktail: ^0.1.1
+  test: ^1.21.5
   very_good_analysis: ^3.1.0
