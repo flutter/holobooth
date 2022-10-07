@@ -11,13 +11,25 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
   @override
   Future<FaceLandmarksDetector> loadFaceLandmark() {
     return landmark.FaceLandmarksDetectorWeb.load(
-      landmark.MediaPipeFaceMeshModelConfig(
-        // TODO(oscar): not working because of missing constructor Mesh
-        // https://github.com/google/mediapipe/issues/1976
-        // runtime: 'mediapipe',
-        runtime: 'tfjs',
+      landmark.MediaPipeFaceMeshMediaPipeModelConfig(
+        runtime: 'mediapipe',
         refineLandmarks: false,
         maxFaces: 1,
+        // This is *required* by the model to download additional resources...
+        //
+        // Docs here: https://google.github.io/mediapipe/solutions/face_mesh.html
+        // (Search for 'new FaceMesh')
+        //
+        // Since we don't create the new faceMesh.FaceMesh, we can't pass our
+        // own `locateFile` function, BUT, we can override the behavior of the
+        // function with this parameter (as documented :P)
+        //
+        // Source: https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/mediapipe/detector.ts#L47-L53
+        //
+        // See that the config type is subtly different:
+        //   MediaPipeFaceMeshMediaPipeModelConfig   -   correct
+        //   MediaPipeFaceMeshModelConfig            -   wrong
+        solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
       ),
     );
   }

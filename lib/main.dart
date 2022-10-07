@@ -14,7 +14,6 @@ import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 Future<void> main() async {
@@ -36,18 +35,6 @@ Future<void> main() async {
 
   final photosRepository = PhotosRepository(
     firebaseStorage: FirebaseStorage.instance,
-  );
-
-  unawaited(
-    Future.wait([
-      Flame.images.load('android_spritesheet.png'),
-      Flame.images.load('dash_spritesheet.png'),
-      Flame.images.load('dino_spritesheet.png'),
-      Flame.images.load('sparky_spritesheet.png'),
-      Flame.images.load('photo_frame_spritesheet_landscape.jpg'),
-      Flame.images.load('photo_frame_spritesheet_portrait.png'),
-      Flame.images.load('photo_indicator_spritesheet.png'),
-    ]),
   );
 
   runZonedGuarded(
