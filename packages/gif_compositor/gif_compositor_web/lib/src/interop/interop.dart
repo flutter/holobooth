@@ -1,1 +1,1 @@
-export 'encoder_worker.dart';
+export 'gif_compositor_worker.dart';

@@ -9,7 +9,7 @@ import 'package:js/js.dart';
 /// If changes are made to this file, you'll need to generate new js files.
 /// In the "gif_compositor_web" directory, run this command:
 /// ```
-///   dart compile js lib/src/interop/encoder_worker.dart -o web/encoder_worker.js
+///   dart compile js lib/src/interop/gif_compositor_worker.dart -o your_app_path/web/gif_compositor_worker.js
 /// ```
 @JS('encoder')
 external set worker(dynamic obj);
@@ -21,13 +21,11 @@ void main() {
       // TODO(alestiago): Consider better approach to serialize/deserialize
       // arguements.
       final map = jsonDecode(args) as Map<String, dynamic>;
-      final images = (map['images'] as List).map((e) {
-        return List<int>.from(e as List<dynamic>);
-      }).toList();
+      final images = map['images'] as List<Uint8List>;
 
       final animation = img.Animation();
       for (final bytes in images) {
-        animation.addFrame(img.decodePng(Uint8List.fromList(bytes))!);
+        animation.addFrame(img.decodePng(bytes)!);
       }
 
       return img.encodeGifAnimation(animation);

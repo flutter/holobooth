@@ -239,6 +239,9 @@
     LateError$fieldNI(fieldName) {
       return new A.LateError("Field '" + fieldName + "' has not been initialized.");
     },
+    checkNotNullable(value, $name, $T) {
+      return value;
+    },
     SubListIterable$(_iterable, _start, _endOrLength, $E) {
       A.RangeError_checkNotNegative(_start, "start");
       if (_endOrLength != null) {
@@ -275,11 +278,6 @@
       _.__internal$_index = 0;
       _.__internal$_current = null;
       _.$ti = t2;
-    },
-    MappedListIterable: function MappedListIterable(t0, t1, t2) {
-      this._source = t0;
-      this._f = t1;
-      this.$ti = t2;
     },
     FixedLengthListMixin: function FixedLengthListMixin() {
     },
@@ -723,6 +721,15 @@
           return new A.StackOverflowError();
       return ex;
     },
+    getTraceFromException(exception) {
+      var trace;
+      if (exception == null)
+        return new A._StackTrace(exception);
+      trace = exception.$cachedTrace;
+      if (trace != null)
+        return trace;
+      return exception.$cachedTrace = new A._StackTrace(exception);
+    },
     objectHashCode(object) {
       if (object == null || typeof object != "object")
         return J.get$hashCode$(object);
@@ -1149,6 +1156,10 @@
     NullThrownFromJavaScriptException: function NullThrownFromJavaScriptException(t0) {
       this._irritant = t0;
     },
+    _StackTrace: function _StackTrace(t0) {
+      this._exception = t0;
+      this._trace = null;
+    },
     Closure: function Closure() {
     },
     Closure0Args: function Closure0Args() {
@@ -1215,14 +1226,7 @@
       this._value = null;
     },
     _ensureNativeList(list) {
-      var t1, result, i;
-      if (type$.JSIndexable_dynamic._is(list))
-        return list;
-      t1 = J.getInterceptor$asx(list);
-      result = A.List_List$filled(t1.get$length(list), null, false, type$.dynamic);
-      for (i = 0; i < t1.get$length(list); ++i)
-        B.JSArray_methods.$indexSet(result, i, t1.$index(list, i));
-      return result;
+      return list;
     },
     NativeUint8List_NativeUint8List$view(buffer, offsetInBytes, $length) {
       return $length == null ? new Uint8Array(buffer, offsetInBytes) : new Uint8Array(buffer, offsetInBytes, $length);
@@ -2925,6 +2929,14 @@
         return object.toString$0(0);
       return "Instance of '" + A.Primitives_objectTypeName(object) + "'";
     },
+    Error__throw(error, stackTrace) {
+      error = A.wrapException(error);
+      if (error == null)
+        error = type$.Object._as(error);
+      error.stack = stackTrace.toString$0(0);
+      throw error;
+      throw A.wrapException("unreachable");
+    },
     List_List$filled($length, fill, growable, $E) {
       var i,
         result = J.JSArray_JSArray$fixed($length, $E);
@@ -3197,8 +3209,6 @@
       self.encoder = A.allowInterop(new A.main_closure(), type$.nullable_List_int_Function_String);
     },
     main_closure: function main_closure() {
-    },
-    main__closure: function main__closure() {
     },
     Animation: function Animation(t0) {
       this.frames = t0;
@@ -3625,9 +3635,6 @@
     elementAt$1$ax(receiver, a0) {
       return J.getInterceptor$ax(receiver).elementAt$1(receiver, a0);
     },
-    map$1$1$ax(receiver, a0, $T1) {
-      return J.getInterceptor$ax(receiver).map$1$1(receiver, a0, $T1);
-    },
     noSuchMethod$1$(receiver, a0) {
       return J.getInterceptor$(receiver).noSuchMethod$1(receiver, a0);
     },
@@ -3768,10 +3775,6 @@
       for (i = 0; i < len; ++i)
         receiver.push(array[i]);
     },
-    map$1$1(receiver, f, $T) {
-      var t1 = A._arrayInstanceType(receiver);
-      return new A.MappedListIterable(receiver, t1._bind$1($T)._eval$1("1(2)")._as(f), t1._eval$1("@<1>")._bind$1($T)._eval$1("MappedListIterable<1,2>"));
-    },
     skip$1(receiver, n) {
       return A.SubListIterable$(receiver, n, null, A._arrayInstanceType(receiver)._precomputed1);
     },
@@ -3827,7 +3830,6 @@
         throw A.wrapException(A.diagnoseIndexError(receiver, index));
       receiver[index] = value;
     },
-    $isJSIndexable: 1,
     $isIterable: 1,
     $isList: 1
   };
@@ -4009,7 +4011,6 @@
     get$length(receiver) {
       return receiver.length;
     },
-    $isJSIndexable: 1,
     $isString: 1
   };
   A.LateError.prototype = {
@@ -4113,14 +4114,6 @@
     },
     set$__internal$_current(_current) {
       this.__internal$_current = this.$ti._eval$1("1?")._as(_current);
-    }
-  };
-  A.MappedListIterable.prototype = {
-    get$length(_) {
-      return J.get$length$asx(this._source);
-    },
-    elementAt$1(_, index) {
-      return this._f.call$1(J.elementAt$1$ax(this._source, index));
     }
   };
   A.FixedLengthListMixin.prototype = {};
@@ -4296,6 +4289,17 @@
   A.NullThrownFromJavaScriptException.prototype = {
     toString$0(_) {
       return "Throw of null ('" + (this._irritant === null ? "null" : "undefined") + "' from JavaScript)";
+    }
+  };
+  A._StackTrace.prototype = {
+    toString$0(_) {
+      var trace,
+        t1 = this._trace;
+      if (t1 != null)
+        return t1;
+      t1 = this._exception;
+      trace = t1 !== null && typeof t1 === "object" ? t1.stack : null;
+      return this._trace = trace == null ? "" : trace;
     }
   };
   A.Closure.prototype = {
@@ -4557,7 +4561,6 @@
     get$length(receiver) {
       return receiver.length;
     },
-    $isJSIndexable: 1,
     $isJavaScriptIndexingBehavior: 1
   };
   A.NativeTypedArrayOfInt.prototype = {
@@ -4647,10 +4650,6 @@
     },
     elementAt$1(receiver, index) {
       return this.$index(receiver, index);
-    },
-    map$1$1(receiver, f, $T) {
-      var t1 = A.instanceType(receiver);
-      return new A.MappedListIterable(receiver, t1._bind$1($T)._eval$1("1(ListMixin.E)")._as(f), t1._eval$1("@<ListMixin.E>")._bind$1($T)._eval$1("MappedListIterable<1,2>"));
     },
     skip$1(receiver, count) {
       return A.SubListIterable$(receiver, count, null, A.instanceType(receiver)._eval$1("ListMixin.E"));
@@ -5522,34 +5521,32 @@
   };
   A.main_closure.prototype = {
     call$1(args) {
-      var map, $frames, animation, bytes, gif, e, t1, t2, _i, t3, exception, line;
+      var map, images, animation, bytes, error, stackTrace, t1, t2, exception;
       A._asString(args);
       try {
         map = type$.Map_String_dynamic._as(B.C_JsonCodec.decode$2$reviver(args, null));
-        t1 = J.map$1$1$ax(type$.List_dynamic._as(J.$index$ax(map, "frames")), new A.main__closure(), type$.List_int);
-        $frames = A.List_List$of(t1, true, t1.$ti._eval$1("ListIterable.E"));
+        images = type$.List_Uint8List._as(J.$index$ax(map, "images"));
+        A.printString("images: " + A.S(images));
         animation = new A.Animation(A._setArrayType([], type$.JSArray_Image));
-        for (t1 = $frames, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, A.throwConcurrentModificationError)(t1), ++_i) {
-          bytes = t1[_i];
-          t3 = new A.PngDecoder().decodeImage$1(new Uint8Array(A._ensureNativeList(bytes)));
-          t3.toString;
-          B.JSArray_methods.add$1(animation.frames, t3);
+        for (t1 = J.get$iterator$ax(images); t1.moveNext$0();) {
+          bytes = t1.get$current();
+          t2 = new A.PngDecoder().decodeImage$1(bytes);
+          t2.toString;
+          B.JSArray_methods.add$1(animation.frames, t2);
         }
-        gif = new A.GifEncoder(30).encodeAnimation$1(animation);
-        return gif;
+        t1 = new A.GifEncoder(30).encodeAnimation$1(animation);
+        return t1;
       } catch (exception) {
-        e = A.unwrapException(exception);
-        line = A.S(e);
-        A.printString(line);
+        error = A.unwrapException(exception);
+        stackTrace = A.getTraceFromException(exception);
+        t1 = error;
+        t2 = stackTrace;
+        A.checkNotNullable(t1, "error", type$.Object);
+        A.checkNotNullable(t2, "stackTrace", type$.StackTrace);
+        A.Error__throw(t1, t2);
       }
     },
     $signature: 6
-  };
-  A.main__closure.prototype = {
-    call$1(e) {
-      return A.List_List$from(type$.List_dynamic._as(e), type$.int);
-    },
-    $signature: 7
   };
   A.Animation.prototype = {
     get$length(_) {
@@ -5856,7 +5853,7 @@
         return A.ioore(t2, t1);
       return t2[t1] & 255;
     },
-    $signature: 8
+    $signature: 7
   };
   A.PngFrame.prototype = {};
   A.InternalPngFrame.prototype = {};
@@ -6776,7 +6773,7 @@
     call$1(i) {
       return i;
     },
-    $signature: 9
+    $signature: 8
   };
   A.Format.prototype = {
     toString$0(_) {
@@ -7570,7 +7567,7 @@
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A._ListBase_Object_ListMixin, A.Iterable, A.ListIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.Symbol, A.MapView, A.ConstantMap, A.JSInvocationMirror, A.Closure, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._Required, A.MapMixin, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A._Cell, A.Rti, A._FunctionParameters, A.StreamTransformerBase, A.ListMixin, A._UnmodifiableMapMixin, A.Codec, A._Enum, A.StackOverflowError, A.FormatException, A.Null, A.StringBuffer, A.InputStreamBase, A.OutputStreamBase, A.HuffmanTable, A.Inflate, A.ExifData, A.DecodeInfo, A.Decoder, A.Encoder, A.PngFrame, A.Image, A.ImageException, A.InputBuffer, A.Quantizer, A.OutputBuffer]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A._ListBase_Object_ListMixin, A.Iterable, A.ListIterator, A.FixedLengthListMixin, A.UnmodifiableListMixin, A.Symbol, A.MapView, A.ConstantMap, A.JSInvocationMirror, A.Closure, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A._Required, A.MapMixin, A.LinkedHashMapCell, A.LinkedHashMapKeyIterator, A._Cell, A.Rti, A._FunctionParameters, A.StreamTransformerBase, A.ListMixin, A._UnmodifiableMapMixin, A.Codec, A._Enum, A.StackOverflowError, A.FormatException, A.Null, A.StringBuffer, A.InputStreamBase, A.OutputStreamBase, A.HuffmanTable, A.Inflate, A.ExifData, A.DecodeInfo, A.Decoder, A.Encoder, A.PngFrame, A.Image, A.ImageException, A.InputBuffer, A.Quantizer, A.OutputBuffer]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JSArray, J.JSNumber, J.JSString, A.NativeTypedData]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, A.DomException]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -7582,12 +7579,12 @@
     _inherit(A.CodeUnits, A.UnmodifiableListBase);
     _inheritMany(A.Iterable, [A.EfficientLengthIterable, A.IterableBase]);
     _inheritMany(A.EfficientLengthIterable, [A.ListIterable, A.LinkedHashMapKeyIterable]);
-    _inheritMany(A.ListIterable, [A.SubListIterable, A.MappedListIterable, A._JsonMapKeyIterable]);
+    _inheritMany(A.ListIterable, [A.SubListIterable, A._JsonMapKeyIterable]);
     _inherit(A._UnmodifiableMapView_MapView__UnmodifiableMapMixin, A.MapView);
     _inherit(A.UnmodifiableMapView, A._UnmodifiableMapView_MapView__UnmodifiableMapMixin);
     _inherit(A.ConstantMapView, A.UnmodifiableMapView);
     _inherit(A.ConstantStringMap, A.ConstantMap);
-    _inheritMany(A.Closure, [A.Closure2Args, A.Closure0Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A.main_closure, A.main__closure, A.PngDecoder_decodeFrame_closure]);
+    _inheritMany(A.Closure, [A.Closure2Args, A.Closure0Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A.main_closure, A.PngDecoder_decodeFrame_closure]);
     _inheritMany(A.Closure2Args, [A.Primitives_functionNoSuchMethod_closure, A.initHooks_closure0, A.MapBase_mapToString_closure, A.NoSuchMethodError_toString_closure]);
     _inherit(A.NullError, A.TypeError);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
@@ -7627,12 +7624,12 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List"},
     mangledNames: {},
-    types: ["~(String,@)", "@(@)", "@(@,String)", "@(String)", "~(Object?,Object?)", "~(Symbol0,@)", "List<int>?(String)", "List<int>(@)", "int()", "int(int)"],
+    types: ["~(String,@)", "@(@)", "@(@,String)", "@(String)", "~(Object?,Object?)", "~(Symbol0,@)", "List<int>?(String)", "int()", "int(int)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[]},"JSArray":{"List":["1"],"Iterable":["1"],"JSIndexable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"],"JSIndexable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[]},"JSNumNotInt":{"double":[],"num":[]},"JSString":{"String":[],"JSIndexable":["@"]},"LateError":{"Error":[]},"CodeUnits":{"ListMixin":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"Iterable":["int"],"ListMixin.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"Iterable":["1"],"ListIterable.E":"1"},"MappedListIterable":{"ListIterable":["2"],"Iterable":["2"],"ListIterable.E":"2"},"UnmodifiableListBase":{"ListMixin":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"Iterable":["1"]},"Symbol":{"Symbol0":[]},"ConstantMapView":{"UnmodifiableMapView":["1","2"],"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"JSInvocationMirror":{"Invocation":[]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapMixin":["1","2"],"Map":["1","2"],"MapMixin.K":"1","MapMixin.V":"2"},"LinkedHashMapKeyIterable":{"Iterable":["1"]},"NativeTypedData":{"TypedData":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"TypedData":[],"JSIndexable":["1"]},"NativeTypedArrayOfInt":{"NativeTypedArray":["int"],"ListMixin":["int"],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"JSIndexable":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeInt32List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Int32List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"JSIndexable":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"NativeUint32List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Uint32List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"JSIndexable":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"NativeUint8List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Uint8List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"JSIndexable":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"IterableBase":{"Iterable":["1"]},"ListBase":{"ListMixin":["1"],"List":["1"],"Iterable":["1"]},"MapBase":{"MapMixin":["1","2"],"Map":["1","2"]},"MapMixin":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"_JsonMap":{"MapMixin":["String","@"],"Map":["String","@"],"MapMixin.K":"String","MapMixin.V":"@"},"_JsonMapKeyIterable":{"ListIterable":["String"],"Iterable":["String"],"ListIterable.E":"String"},"_UnicodeSubsetDecoder":{"Converter":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"JsonCodec":{"Codec":["Object?","String"]},"JsonDecoder":{"Converter":["String","Object?"]},"Latin1Codec":{"Codec":["String","List<int>"]},"Latin1Decoder":{"Converter":["List<int>","String"]},"double":{"num":[]},"int":{"num":[]},"List":{"Iterable":["1"]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"NoSuchMethodError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]},"InputStream":{"InputStreamBase":[]},"Animation":{"Iterable":["Image"]},"InternalPngFrame":{"PngFrame":[]},"Uint8List":{"List":["int"],"Iterable":["int"],"TypedData":[]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[]},"JSNumNotInt":{"double":[],"num":[]},"JSString":{"String":[]},"LateError":{"Error":[]},"CodeUnits":{"ListMixin":["int"],"UnmodifiableListMixin":["int"],"List":["int"],"Iterable":["int"],"ListMixin.E":"int","UnmodifiableListMixin.E":"int"},"EfficientLengthIterable":{"Iterable":["1"]},"ListIterable":{"Iterable":["1"]},"SubListIterable":{"ListIterable":["1"],"Iterable":["1"],"ListIterable.E":"1"},"UnmodifiableListBase":{"ListMixin":["1"],"UnmodifiableListMixin":["1"],"List":["1"],"Iterable":["1"]},"Symbol":{"Symbol0":[]},"ConstantMapView":{"UnmodifiableMapView":["1","2"],"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"ConstantMap":{"Map":["1","2"]},"ConstantStringMap":{"ConstantMap":["1","2"],"Map":["1","2"]},"JSInvocationMirror":{"Invocation":[]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JsLinkedHashMap":{"MapMixin":["1","2"],"Map":["1","2"],"MapMixin.K":"1","MapMixin.V":"2"},"LinkedHashMapKeyIterable":{"Iterable":["1"]},"NativeTypedData":{"TypedData":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"TypedData":[]},"NativeTypedArrayOfInt":{"NativeTypedArray":["int"],"ListMixin":["int"],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeInt32List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Int32List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"NativeUint32List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Uint32List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"NativeUint8List":{"NativeTypedArrayOfInt":[],"NativeTypedArray":["int"],"ListMixin":["int"],"Uint8List":[],"JavaScriptIndexingBehavior":["int"],"List":["int"],"TypedData":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"ListMixin.E":"int"},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"IterableBase":{"Iterable":["1"]},"ListBase":{"ListMixin":["1"],"List":["1"],"Iterable":["1"]},"MapBase":{"MapMixin":["1","2"],"Map":["1","2"]},"MapMixin":{"Map":["1","2"]},"MapView":{"Map":["1","2"]},"UnmodifiableMapView":{"_UnmodifiableMapView_MapView__UnmodifiableMapMixin":["1","2"],"MapView":["1","2"],"_UnmodifiableMapMixin":["1","2"],"Map":["1","2"]},"_JsonMap":{"MapMixin":["String","@"],"Map":["String","@"],"MapMixin.K":"String","MapMixin.V":"@"},"_JsonMapKeyIterable":{"ListIterable":["String"],"Iterable":["String"],"ListIterable.E":"String"},"_UnicodeSubsetDecoder":{"Converter":["List<int>","String"]},"Encoding":{"Codec":["String","List<int>"]},"JsonCodec":{"Codec":["Object?","String"]},"JsonDecoder":{"Converter":["String","Object?"]},"Latin1Codec":{"Codec":["String","List<int>"]},"Latin1Decoder":{"Converter":["List<int>","String"]},"double":{"num":[]},"int":{"num":[]},"List":{"Iterable":["1"]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"NoSuchMethodError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]},"InputStream":{"InputStreamBase":[]},"Animation":{"Iterable":["Image"]},"InternalPngFrame":{"PngFrame":[]},"Uint8List":{"List":["int"],"Iterable":["int"],"TypedData":[]}}'));
   A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"EfficientLengthIterable":1,"UnmodifiableListBase":1,"NativeTypedArray":1,"StreamTransformerBase":2,"IterableBase":1,"ListBase":1,"MapBase":2,"_ListBase_Object_ListMixin":1}'));
   var type$ = (function rtii() {
     var findType = A.findType;
@@ -7651,11 +7648,11 @@
       JSArray_dynamic: findType("JSArray<@>"),
       JSArray_int: findType("JSArray<int>"),
       JSArray_num: findType("JSArray<num>"),
-      JSIndexable_dynamic: findType("JSIndexable<@>"),
       JSNull: findType("JSNull"),
       JavaScriptFunction: findType("JavaScriptFunction"),
       JavaScriptIndexingBehavior_dynamic: findType("JavaScriptIndexingBehavior<@>"),
       JsLinkedHashMap_Symbol_dynamic: findType("JsLinkedHashMap<Symbol0,@>"),
+      List_Uint8List: findType("List<Uint8List>"),
       List_double: findType("List<double>"),
       List_dynamic: findType("List<@>"),
       List_int: findType("List<int>"),
@@ -7665,6 +7662,7 @@
       NativeUint8List: findType("NativeUint8List"),
       Null: findType("Null"),
       Object: findType("Object"),
+      StackTrace: findType("StackTrace"),
       String: findType("String"),
       Symbol: findType("Symbol0"),
       TypedData: findType("TypedData"),
@@ -7975,9 +7973,6 @@
   Function.prototype.call$2 = function(a, b) {
     return this(a, b);
   };
-  Function.prototype.call$1$1 = function(a) {
-    return this(a);
-  };
   Function.prototype.call$3 = function(a, b, c) {
     return this(a, b, c);
   };
@@ -8010,4 +8005,4 @@
   });
 })();
 
-//# sourceMappingURL=encoder_worker.js.map
+//# sourceMappingURL=gif_compositor_worker.js.map
