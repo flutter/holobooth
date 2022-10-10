@@ -37,15 +37,18 @@ class GifCompositorWeb extends GifCompositorPlatform {
     final jsonString = jsonEncode(json);
     // TODO(alestiago): Investigate why we are not using a single
     // `isolate.JsIsolatedWorker()` object.
-    final gif = await isolate.JsIsolatedWorker().run(
-      functionName: 'encoder',
-      arguments: jsonString,
-    ) as List<int>;
-
-    return XFile.fromData(
-      Uint8List.fromList(gif),
-      mimeType: 'image/gif',
-      name: fileName,
-    );
+    try {
+      final gif = await isolate.JsIsolatedWorker().run(
+        functionName: 'encoder',
+        arguments: jsonString,
+      ) as List<int>;
+      return XFile.fromData(
+        Uint8List.fromList(gif),
+        mimeType: 'image/gif',
+        name: fileName,
+      );
+    } catch (error) {
+      throw GifCompositorException(error.toString());
+    }
   }
 }

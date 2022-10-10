@@ -57,20 +57,28 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _downloadGif() async {
-    setState(() {
-      _gifInProgress = true;
-    });
+    setState(() => _gifInProgress = true);
 
-    final gif = await GifCompositor.composite(
-      images: _imagesBytes,
-      fileName: 'output.gif',
-    );
-    await gif.saveTo('');
+    try {
+      final gif = await GifCompositor.composite(
+        images: _imagesBytes,
+        fileName: 'output.gif',
+      );
+      await gif.saveTo('');
 
-    setState(() {
-      _imagesBytes.clear();
-      _gifInProgress = false;
-    });
+      setState(() {
+        _imagesBytes.clear();
+        _gifInProgress = false;
+      });
+    } catch (error) {
+      final errorMessage = error.toString();
+      debugPrint(errorMessage);
+
+      final snackBar = SnackBar(content: Text(errorMessage));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      setState(() => _gifInProgress = false);
+    }
   }
 
   @override

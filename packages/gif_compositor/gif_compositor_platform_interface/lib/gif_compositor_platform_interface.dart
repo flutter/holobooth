@@ -39,3 +39,17 @@ abstract class GifCompositorPlatform extends PlatformInterface {
     throw UnimplementedError('compositeGif() has not been implemented.');
   }
 }
+
+/// {@template gif_compositor_exception}
+/// Exception thrown when a gif_compositor method fails.
+/// {@endtemplate}
+class GifCompositorException implements Exception {
+  /// {@macro gif_compositor_exception}
+  const GifCompositorException(this.message);
+
+  /// Explains the cause of the exception.
+  final String message;
+
+  @override
+  String toString() => '$GifCompositorException: $message';
+}
