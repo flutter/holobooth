@@ -1,3 +1,5 @@
+import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gif_compositor_platform_interface/src/method_channel_gif_compositor.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -29,6 +31,11 @@ abstract class GifCompositorPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Return the current platform name.
-  Future<String?> getPlatformName();
+  /// Composites a gif from multiple images.
+  Future<XFile> composite({
+    required List<Uint8List> images,
+    required String fileName,
+  }) {
+    throw UnimplementedError('compositeGif() has not been implemented.');
+  }
 }

@@ -5,15 +5,13 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:typed_data';
+
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gif_compositor_platform_interface/gif_compositor_platform_interface.dart';
 
-class GifCompositorMock extends GifCompositorPlatform {
-  static const mockPlatformName = 'Mock';
-
-  @override
-  Future<String?> getPlatformName() async => mockPlatformName;
-}
+class _GifCompositorMock extends GifCompositorPlatform {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +19,18 @@ void main() {
     late GifCompositorPlatform gifCompositorPlatform;
 
     setUp(() {
-      gifCompositorPlatform = GifCompositorMock();
+      gifCompositorPlatform = _GifCompositorMock();
       GifCompositorPlatform.instance = gifCompositorPlatform;
     });
 
-    group('getPlatformName', () {
-      test('returns correct name', () async {
-        expect(
-          await GifCompositorPlatform.instance.getPlatformName(),
-          equals(GifCompositorMock.mockPlatformName),
+    group('composite', () {
+      test('throws an UnimplementedError', () async {
+        await expectLater(
+          () async => GifCompositorPlatform.instance.composite(
+            images: <Uint8List>[],
+            fileName: '',
+          ),
+          throwsA(isA<UnimplementedError>()),
         );
       });
     });
