@@ -1,0 +1,49 @@
+name: gif_compositor
+description: A Very Good Project created by Very Good CLI.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+  flutter: ">=3.3.2"
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: gif_compositor_android
+      ios:
+        default_package: gif_compositor_ios
+      linux:
+        default_package: gif_compositor_linux
+      macos:
+        default_package: gif_compositor_macos
+      web:
+        default_package: gif_compositor_web
+      windows:
+        default_package: gif_compositor_windows
+
+dependencies:
+  flutter:
+    sdk: flutter
+  gif_compositor_android:
+    path: ../gif_compositor_android
+  gif_compositor_ios:
+    path: ../gif_compositor_ios
+  gif_compositor_linux:
+    path: ../gif_compositor_linux
+  gif_compositor_macos:
+    path: ../gif_compositor_macos
+  gif_compositor_platform_interface:
+    path: ../gif_compositor_platform_interface
+  gif_compositor_web:
+    path: ../gif_compositor_web
+  gif_compositor_windows:
+    path: ../gif_compositor_windows
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  plugin_platform_interface: ^2.0.0
+  very_good_analysis: ^3.1.0
