@@ -21,6 +21,8 @@ class GifCompositorWeb extends GifCompositorPlatform {
 
     await isolate.JsIsolatedWorker().importScripts(['encoder_worker.js']);
 
+    // TODO(alestiago): Consider better approach to serialize/deserialize
+    // arguements.
     // This will be passed into our javascript worker.
     final json = <String, dynamic>{};
 
@@ -34,7 +36,7 @@ class GifCompositorWeb extends GifCompositorPlatform {
 
     final jsonString = jsonEncode(json);
     // TODO(alestiago): Investigate why we are not using a single
-    //`isolate.JsIsolatedWorker()` object.
+    // `isolate.JsIsolatedWorker()` object.
     final gif = await isolate.JsIsolatedWorker().run(
       functionName: 'encoder',
       arguments: jsonString,

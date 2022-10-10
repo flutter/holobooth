@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gif_compositor/gif_compositor.dart';
 
-import 'package:isolated_worker/js_isolated_worker.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksGifPage extends StatelessWidget {
@@ -62,29 +61,11 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
       _gifInProgress = true;
     });
 
-    await JsIsolatedWorker().importScripts(['encoder_worker.js']);
-
-    // This will be passed into our javascript worker.
-    final json = <String, dynamic>{};
-
-    final intList = <List<int>>[];
-    for (final bytes in _imagesBytes) {
-      intList.add(bytes.toList());
-    }
-
-    json.putIfAbsent('frames', () => intList);
-
-    final jsonString = jsonEncode(json);
-    final gif = await JsIsolatedWorker()
-        .run(functionName: 'encoder', arguments: jsonString) as List<int>;
-
-    final file = XFile.fromData(
-      Uint8List.fromList(gif),
-      mimeType: 'image/gif',
-      name: 'animation.gif', // Use a different name?
+    final gif = await GifCompositor.composite(
+      images: _imagesBytes,
+      fileName: 'output.gif',
     );
-
-    await file.saveTo('');
+    await gif.saveTo('');
 
     setState(() {
       _imagesBytes.clear();
