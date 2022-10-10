@@ -17,7 +17,10 @@ class GifCompositorWeb extends GifCompositorPlatform {
     required List<Uint8List> images,
     required String fileName,
   }) async {
-    assert(fileName.endsWith('.gif'), 'fileName must end with ".gif"');
+    assert(
+      fileName.endsWith(_Gif.fileExtension),
+      'fileName must end with ".gif"',
+    );
 
     await isolate.JsIsolatedWorker().importScripts(['encoder_worker.js']);
 
@@ -43,12 +46,18 @@ class GifCompositorWeb extends GifCompositorPlatform {
         arguments: jsonString,
       ) as List<int>;
       return XFile.fromData(
+        // TODO(alestiago): Investigate if we can avoid doing this copy.
         Uint8List.fromList(gif),
-        mimeType: 'image/gif',
+        mimeType: _Gif.mimeType,
         name: fileName,
       );
     } catch (error) {
       throw GifCompositorException(error.toString());
     }
   }
+}
+
+abstract class _Gif {
+  static const fileExtension = '.gif';
+  static const mimeType = 'image/gif';
 }
