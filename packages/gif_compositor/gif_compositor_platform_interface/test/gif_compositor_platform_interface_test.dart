@@ -1,13 +1,5 @@
-// Copyright (c) 2022, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'dart:typed_data';
 
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gif_compositor_platform_interface/gif_compositor_platform_interface.dart';
 
@@ -15,7 +7,7 @@ class _GifCompositorMock extends GifCompositorPlatform {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('GifCompositorPlatformInterface', () {
+  group('$GifCompositorPlatform', () {
     late GifCompositorPlatform gifCompositorPlatform;
 
     setUp(() {
