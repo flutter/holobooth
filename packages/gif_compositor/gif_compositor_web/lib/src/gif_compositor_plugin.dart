@@ -58,6 +58,13 @@ class GifCompositorWeb extends GifCompositorPlatform {
 }
 
 abstract class _Gif {
+  /// The file extension for a GIF file.
   static const fileExtension = '.gif';
+
+  /// Inidicates the media type of a GIF file.
+  ///
+  /// See also:
+  ///
+  /// * [Wikipedia's MIME page](https://en.wikipedia.org/wiki/Media_type)
   static const mimeType = 'image/gif';
 }
