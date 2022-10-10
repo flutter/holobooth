@@ -10,36 +10,17 @@ environment:
 flutter:
   plugin:
     platforms:
-      android:
-        default_package: gif_compositor_android
-      ios:
-        default_package: gif_compositor_ios
-      linux:
-        default_package: gif_compositor_linux
-      macos:
-        default_package: gif_compositor_macos
       web:
         default_package: gif_compositor_web
-      windows:
-        default_package: gif_compositor_windows
 
 dependencies:
+  cross_file: ^0.3.3+2
   flutter:
     sdk: flutter
-  gif_compositor_android:
-    path: ../gif_compositor_android
-  gif_compositor_ios:
-    path: ../gif_compositor_ios
-  gif_compositor_linux:
-    path: ../gif_compositor_linux
-  gif_compositor_macos:
-    path: ../gif_compositor_macos
   gif_compositor_platform_interface:
     path: ../gif_compositor_platform_interface
   gif_compositor_web:
     path: ../gif_compositor_web
-  gif_compositor_windows:
-    path: ../gif_compositor_windows
 
 dev_dependencies:
   flutter_test:
