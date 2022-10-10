@@ -36,7 +36,7 @@ abstract class GifCompositorPlatform extends PlatformInterface {
     required List<Uint8List> images,
     required String fileName,
   }) {
-    throw UnimplementedError('compositeGif() has not been implemented.');
+    throw UnimplementedError('composite() has not been implemented.');
   }
 }
 
