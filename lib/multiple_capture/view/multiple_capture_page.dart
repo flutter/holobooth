@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart'
-    show CameraView, PhotoboothError;
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MultipleCapturePage extends StatelessWidget {
