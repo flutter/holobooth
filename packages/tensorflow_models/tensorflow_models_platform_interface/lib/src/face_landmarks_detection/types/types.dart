@@ -6,6 +6,9 @@
 /// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
 import 'dart:collection';
 
+import 'package:json_annotation/json_annotation.dart';
+part 'types.g.dart';
+
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
@@ -20,20 +23,12 @@ abstract class FaceLandmarksDetector {
 /// A face detected by [FaceLandmarksDetector].
 ///
 /// The face is represented by [keypoints].
+@JsonSerializable()
 class Face {
-  const Face._(this.keypoints, this.boundingBox);
+  const Face(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
-    final keypointsJson = json['keypoints'] as List<dynamic>;
-    final bondingBoxJson = json['box'] as Map<String, dynamic>;
-    return Face._(
-      UnmodifiableListView(
-        keypointsJson.map(
-          (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
-        ),
-      ),
-      BoundingBox.fromJson(bondingBoxJson),
-    );
+    return _$FaceFromJson(json);
   }
 
   /// Points representing the face landmarks.
@@ -42,16 +37,17 @@ class Face {
   /// to face locations can be found [here](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg).
   ///
   /// MediaPipeFaceMesh has 468 keypoints.
-  final UnmodifiableListView<Keypoint> keypoints;
+  final List<Keypoint> keypoints;
 
   // A bounding box around the detected face.
+  @JsonKey(name: 'box')
   final BoundingBox boundingBox;
 
   Face copyWith({
-    UnmodifiableListView<Keypoint>? keypoints,
+    List<Keypoint>? keypoints,
     BoundingBox? boundingBox,
   }) =>
-      Face._(
+      Face(
         keypoints ?? this.keypoints,
         boundingBox ?? this.boundingBox,
       );
@@ -62,17 +58,12 @@ class Face {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
+@JsonSerializable()
 class Keypoint {
-  Keypoint._(this.x, this.y, this.z, this.score, this.name);
+  Keypoint(this.x, this.y, this.z, this.score, this.name);
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
-    return Keypoint._(
-      json['x'] as num,
-      json['y'] as num,
-      json['z'] as num?,
-      json['score'] as num?,
-      json['name'] as String?,
-    );
+    return _$KeypointFromJson(json);
   }
 
   final num x;
@@ -88,7 +79,7 @@ class Keypoint {
     num? score,
     String? name,
   }) {
-    return Keypoint._(
+    return Keypoint(
       x ?? this.x,
       y ?? this.y,
       z ?? this.z,
@@ -103,8 +94,9 @@ class Keypoint {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
+@JsonSerializable(fieldRename: FieldRename.none)
 class BoundingBox {
-  BoundingBox._(
+  BoundingBox(
     this.xMin,
     this.yMin,
     this.xMax,
@@ -113,15 +105,9 @@ class BoundingBox {
     this.height,
   );
 
-  BoundingBox.fromJson(Map<String, dynamic> map)
-      : this._(
-          map['xMin'] as num,
-          map['yMin'] as num,
-          map['xMax'] as num,
-          map['yMax'] as num,
-          map['width'] as num,
-          map['height'] as num,
-        );
+  factory BoundingBox.fromJson(Map<String, dynamic> json) {
+    return _$BoundingBoxFromJson(json);
+  }
   // TODO(oscar): check if worth to use double instead.
 
   /// The x-coordinate of the top-left corner of the bounding box.
@@ -150,7 +136,7 @@ class BoundingBox {
     num? width,
     num? height,
   }) {
-    return BoundingBox._(
+    return BoundingBox(
       xMin ?? this.xMin,
       yMin ?? this.yMin,
       xMax ?? this.xMax,
