@@ -4,7 +4,6 @@
 /// See also:
 ///
 /// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
-import 'dart:collection';
 
 import 'package:json_annotation/json_annotation.dart';
 part 'types.g.dart';
