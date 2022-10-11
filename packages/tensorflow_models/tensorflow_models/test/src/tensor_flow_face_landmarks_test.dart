@@ -19,7 +19,7 @@ void main() {
     });
     test('loads unimplemented faceLandmark', () {
       expect(
-        () => TensorflowModelsPlatform.instance.loadFaceLandmark(),
+        TensorFlowFaceLandmarks.load,
         throwsA(isA<UnimplementedError>()),
       );
     });
