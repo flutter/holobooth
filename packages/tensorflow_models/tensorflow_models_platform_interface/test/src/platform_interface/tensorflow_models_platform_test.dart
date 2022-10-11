@@ -1,23 +1,31 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-class MockTFModelsPlatform extends Mock implements TensorflowModelsPlatform {}
+class TFModelsPlatformTest extends TensorflowModelsPlatform {}
+
+class TFModelsPlatformBad extends Fake implements TensorflowModelsPlatform {}
 
 void main() {
-  late TensorflowModelsPlatform tensorflowModelsPlatform;
-
-  setUp(() {
-    tensorflowModelsPlatform = MockTFModelsPlatform();
-  });
   group('TensorflowModelsPlatform', () {
-    test('can be instantiated', () {
-      expect(tensorflowModelsPlatform, isNotNull);
+    group('instance', () {
+      test('sets the instance', () {
+        final newPlatform = TFModelsPlatformTest();
+        expect(TensorflowModelsPlatform.instance, isNot(equals(newPlatform)));
+        TensorflowModelsPlatform.instance = newPlatform;
+        expect(TensorflowModelsPlatform.instance, newPlatform);
+      });
+      test('throws assertion error if token is bad', () {
+        final badPlatform = TFModelsPlatformBad();
+        expect(
+          () => TensorflowModelsPlatform.instance = badPlatform,
+          throwsAssertionError,
+        );
+      });
     });
     group('loadFaceLandmark', () {
-      test('FaceLandmarkDetector', () {
-        when(() => tensorflowModelsPlatform.loadFaceLandmark())
-            .thenThrow(UnimplementedError());
+      test('throws UnimplementedError', () {
+        final platform = TFModelsPlatformTest();
+        expect(platform.loadFaceLandmark, throwsA(isA<UnimplementedError>()));
       });
     });
   });
