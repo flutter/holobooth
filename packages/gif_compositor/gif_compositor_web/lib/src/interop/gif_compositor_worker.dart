@@ -18,14 +18,15 @@ void main() {
   // a primitive. Here, args is a JSON object represented by a String.
   worker = allowInterop((String args) {
     try {
-      // TODO(alestiago): Consider better approach to serialize/deserialize
-      // arguements.
       final map = jsonDecode(args) as Map<String, dynamic>;
-      final images = map['images'] as List<dynamic>;
+
+      final frames = (map['images'] as List).map((e) {
+        return List<int>.from(e as List<dynamic>);
+      }).toList();
 
       final animation = img.Animation();
-      for (final bytes in images) {
-        animation.addFrame(img.decodePng(bytes as Uint8List)!);
+      for (final bytes in frames) {
+        animation.addFrame(img.decodePng(Uint8List.fromList(bytes))!);
       }
 
       return img.encodeGifAnimation(animation);
