@@ -40,7 +40,6 @@ class GifCompositorWeb extends GifCompositorPlatform {
       );
 
       return XFile.fromData(
-        // TODO(alestiago): Investigate if we can avoid doing this copy.
         Uint8List.fromList(gif as List<int>),
         mimeType: _Gif.mimeType,
         name: fileName,
