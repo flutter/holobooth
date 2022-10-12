@@ -1,3 +1,4 @@
+@TestOn('chrome')
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -27,6 +28,15 @@ void main() {
           returnsNormally,
         );
       }
+    });
+    test('copyWith returns normally', () {
+      expect(
+        () => Face(List.empty(), BoundingBox(0, 0, 0, 0, 0, 0)).copyWith(
+          keypoints: List.empty(),
+          boundingBox: BoundingBox(0, 0, 0, 0, 0, 0),
+        ),
+        returnsNormally,
+      );
     });
   });
 }
