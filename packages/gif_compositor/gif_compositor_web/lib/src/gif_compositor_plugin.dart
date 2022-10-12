@@ -34,7 +34,6 @@ class GifCompositorWeb extends GifCompositorPlatform {
       },
     );
     try {
-      // FIXME(alestiago): Returns an error.
       final gif = await worker.run(
         functionName: 'encoder',
         arguments: jsonString,
