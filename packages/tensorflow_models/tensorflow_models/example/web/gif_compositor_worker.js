@@ -3408,23 +3408,6 @@
     },
     Quantizer: function Quantizer() {
     },
-    printString(string) {
-      if (typeof dartPrint == "function") {
-        dartPrint(string);
-        return;
-      }
-      if (typeof console == "object" && typeof console.log != "undefined") {
-        console.log(string);
-        return;
-      }
-      if (typeof window == "object")
-        return;
-      if (typeof print == "function") {
-        print(string);
-        return;
-      }
-      throw "Unable to print message: " + String(string);
-    },
     _convertDartFunctionFast(f) {
       var ret,
         existing = f.$dart_jsFunction;
@@ -5521,18 +5504,17 @@
   };
   A.main_closure.prototype = {
     call$1(args) {
-      var map, images, animation, bytes, error, stackTrace, t1, t2, exception;
+      var map, images, animation, bytes, error, stackTrace, t1, t2, t3, exception;
       A._asString(args);
       try {
         map = type$.Map_String_dynamic._as(B.C_JsonCodec.decode$2$reviver(args, null));
-        images = type$.List_Uint8List._as(J.$index$ax(map, "images"));
-        A.printString("images: " + A.S(images));
+        images = type$.List_dynamic._as(J.$index$ax(map, "images"));
         animation = new A.Animation(A._setArrayType([], type$.JSArray_Image));
-        for (t1 = J.get$iterator$ax(images); t1.moveNext$0();) {
+        for (t1 = J.get$iterator$ax(images), t2 = type$.Uint8List; t1.moveNext$0();) {
           bytes = t1.get$current();
-          t2 = new A.PngDecoder().decodeImage$1(bytes);
-          t2.toString;
-          B.JSArray_methods.add$1(animation.frames, t2);
+          t3 = new A.PngDecoder().decodeImage$1(t2._as(bytes));
+          t3.toString;
+          B.JSArray_methods.add$1(animation.frames, t3);
         }
         t1 = new A.GifEncoder(30).encodeAnimation$1(animation);
         return t1;
@@ -7652,7 +7634,6 @@
       JavaScriptFunction: findType("JavaScriptFunction"),
       JavaScriptIndexingBehavior_dynamic: findType("JavaScriptIndexingBehavior<@>"),
       JsLinkedHashMap_Symbol_dynamic: findType("JsLinkedHashMap<Symbol0,@>"),
-      List_Uint8List: findType("List<Uint8List>"),
       List_double: findType("List<double>"),
       List_dynamic: findType("List<@>"),
       List_int: findType("List<int>"),

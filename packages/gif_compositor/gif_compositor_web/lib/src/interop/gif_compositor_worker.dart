@@ -7,9 +7,9 @@ import 'package:js/js.dart';
 /// The code that runs on a worker thread to create a GIF animation.
 ///
 /// If changes are made to this file, you'll need to generate new js files.
-/// In the "gif_compositor_web" directory, run this command:
+/// In the root project directory, run this command:
 /// ```
-///   dart compile js lib/src/interop/gif_compositor_worker.dart -o your_app_path/web/gif_compositor_worker.js
+///   dart compile js packages/gif_compositor/gif_compositor_web/lib/src/interop/gif_compositor_worker.dart -o packages/tensorflow_models/tensorflow_models/example/web/gif_compositor_worker.js
 /// ```
 @JS('encoder')
 external set worker(dynamic obj);
@@ -21,11 +21,11 @@ void main() {
       // TODO(alestiago): Consider better approach to serialize/deserialize
       // arguements.
       final map = jsonDecode(args) as Map<String, dynamic>;
-      final images = map['images'] as List<Uint8List>;
+      final images = map['images'] as List<dynamic>;
 
       final animation = img.Animation();
       for (final bytes in images) {
-        animation.addFrame(img.decodePng(bytes)!);
+        animation.addFrame(img.decodePng(bytes as Uint8List)!);
       }
 
       return img.encodeGifAnimation(animation);
