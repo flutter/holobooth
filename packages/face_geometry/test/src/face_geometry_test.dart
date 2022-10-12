@@ -8,6 +8,10 @@ import 'package:test/test.dart';
 
 class _MockFace extends Mock implements tf.Face {}
 
+class _MockKeypoint extends Mock implements tf.Keypoint {}
+
+class _MockBoundingBox extends Mock implements tf.BoundingBox {}
+
 class _FakeKeypoint extends Fake implements tf.Keypoint {
   _FakeKeypoint(this.x, this.y);
 
@@ -16,9 +20,18 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 
   @override
   final double y;
+
+  @override
+  tf.Keypoint copyWith({num? x, num? y, num? z, num? score, String? name}) {
+    return this;
+  }
 }
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(TFSize(0, 0));
+  });
+
   group('FaceGeometry', () {
     late tf.Face face;
 
@@ -128,6 +141,195 @@ void main() {
               .thenReturn(UnmodifiableListView(keypoints));
 
           expect(face.rightEyeDistance, equals(4.242640687119285));
+        });
+      });
+    });
+
+    group('normalize', () {
+      group('the number', () {
+        test('throws assertion when fromMin is lower than fromMax', () {
+          expect(
+            () => 0.normalize(fromMax: 0, toMax: 1),
+            throwsA(isA<AssertionError>()),
+          );
+        });
+
+        test('throws assertion when toMin is greater than toMax', () {
+          expect(
+            () => 0.normalize(fromMax: 1, toMax: 2, toMin: 3),
+            throwsA(isA<AssertionError>()),
+          );
+        });
+
+        test('to greater values', () {
+          expect(0.5.normalize(fromMax: 1, toMax: 3), equals(1.5));
+          expect(0.5.normalize(fromMax: 2, toMax: 3), equals(0.75));
+          expect(0.5.normalize(fromMax: 2, toMax: 4), equals(1));
+        });
+
+        test('to lower values', () {
+          expect(0.5.normalize(fromMax: 4, toMax: 1), equals(0.125));
+          expect(0.5.normalize(fromMax: 3, toMax: 2), equals(1 / 3));
+          expect(0.5.normalize(fromMax: 4, toMax: 2), equals(0.25));
+        });
+      });
+
+      group('the keypoint', () {
+        final keypoint = tf.Keypoint.fromJson({'x': 10, 'y': 10});
+
+        test('to greater value', () {
+          expect(
+            keypoint.normalize(
+              fromMax: TFSize(20, 30),
+              toMax: TFSize(40, 60),
+            ),
+            isA<tf.Keypoint>()
+                .having((keypoint) => keypoint.x, 'x', 20)
+                .having((keypoint) => keypoint.y, 'y', 20),
+          );
+        });
+        test('to lower value', () {
+          expect(
+            keypoint.normalize(
+              fromMax: TFSize(40, 60),
+              toMax: TFSize(20, 30),
+            ),
+            isA<tf.Keypoint>()
+                .having((keypoint) => keypoint.x, 'x', 5)
+                .having((keypoint) => keypoint.y, 'y', 5),
+          );
+        });
+      });
+
+      group('the BoundingBox', () {
+        final boundingBox = tf.BoundingBox.fromJson({
+          'xMin': 10,
+          'yMin': 10,
+          'xMax': 30,
+          'yMax': 30,
+          'width': 20,
+          'height': 20,
+        });
+
+        test('to greater value', () {
+          expect(
+            boundingBox.normalize(
+              fromMax: TFSize(20, 30),
+              toMax: TFSize(40, 60),
+            ),
+            isA<tf.BoundingBox>()
+                .having((keypoint) => keypoint.height, 'width', 40)
+                .having((keypoint) => keypoint.width, 'height', 40)
+                .having((keypoint) => keypoint.xMax, 'xMax', 60)
+                .having((keypoint) => keypoint.xMin, 'xMin', 20)
+                .having((keypoint) => keypoint.yMax, 'yMax', 60)
+                .having((keypoint) => keypoint.yMin, 'yMin', 20),
+          );
+        });
+        test('to lower value', () {
+          expect(
+            boundingBox.normalize(
+              fromMax: TFSize(40, 60),
+              toMax: TFSize(20, 30),
+            ),
+            isA<tf.BoundingBox>()
+                .having((keypoint) => keypoint.height, 'width', 10)
+                .having((keypoint) => keypoint.width, 'height', 10)
+                .having((keypoint) => keypoint.xMax, 'xMax', 15)
+                .having((keypoint) => keypoint.xMin, 'xMin', 5)
+                .having((keypoint) => keypoint.yMax, 'yMax', 15)
+                .having((keypoint) => keypoint.yMin, 'yMin', 5),
+          );
+        });
+      });
+
+      group('calls normalize on', () {
+        late tf.Face face;
+        late tf.Keypoint keypoint;
+        late tf.BoundingBox boundingBox;
+
+        setUp(() {
+          face = _MockFace();
+          keypoint = _MockKeypoint();
+          boundingBox = _MockBoundingBox();
+
+          when(() => face.keypoints).thenReturn(
+            UnmodifiableListView([keypoint, keypoint]),
+          );
+          when(() => face.boundingBox).thenReturn(boundingBox);
+          when(() => keypoint.x).thenReturn(0);
+          when(() => keypoint.y).thenReturn(0);
+          when(
+            () => keypoint.copyWith(
+              x: any(named: 'x'),
+              y: any(named: 'y'),
+            ),
+          ).thenReturn(keypoint);
+          when(() => boundingBox.xMin).thenReturn(0);
+          when(() => boundingBox.yMin).thenReturn(0);
+          when(() => boundingBox.xMax).thenReturn(0);
+          when(() => boundingBox.yMax).thenReturn(0);
+          when(() => boundingBox.width).thenReturn(0);
+          when(() => boundingBox.height).thenReturn(0);
+          when(
+            () => boundingBox.copyWith(
+              xMin: any(named: 'xMin'),
+              yMin: any(named: 'yMin'),
+              xMax: any(named: 'xMax'),
+              yMax: any(named: 'yMax'),
+              width: any(named: 'width'),
+              height: any(named: 'height'),
+            ),
+          ).thenReturn(boundingBox);
+
+          when(
+            () => face.copyWith(
+              boundingBox: any(named: 'boundingBox'),
+              keypoints: any(named: 'keypoints'),
+            ),
+          ).thenReturn(face);
+        });
+
+        test('Face BoundingBox', () {
+          face.normalize(
+            fromMax: TFSize(20, 30),
+            toMax: TFSize(40, 60),
+          );
+
+          verify(
+            () => boundingBox.normalize(
+              fromMax: TFSize(20, 30),
+              toMax: TFSize(40, 60),
+            ),
+          ).called(1);
+        });
+
+        test('Face keypoints', () {
+          face.normalize(
+            fromMax: TFSize(20, 30),
+            toMax: TFSize(40, 60),
+          );
+
+          verify(
+            () => keypoint.normalize(
+              fromMax: TFSize(20, 30),
+              toMax: TFSize(40, 60),
+            ),
+          ).called(2);
+        });
+
+        test('Face when called on Faces', () {
+          [face, face].normalize(
+            fromMax: TFSize(20, 30),
+            toMax: TFSize(40, 60),
+          );
+
+          verify(
+            () => face.normalize(
+              fromMax: TFSize(20, 30),
+              toMax: TFSize(40, 60),
+            ),
+          ).called(2);
         });
       });
     });
