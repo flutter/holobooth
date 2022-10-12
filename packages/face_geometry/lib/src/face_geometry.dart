@@ -30,10 +30,14 @@ extension FaceGeometry on tf.Face {
 
   /// Defines if the mouth is open based on hight and face height.
   bool get isMouthOpen {
-    final heightRatio = mouthDistance / boundingBox.height;
-    if (heightRatio == 0) return false;
+    if (mouthDistance > 1) {
+      final heightRatio = mouthDistance / boundingBox.height;
+      if (heightRatio == 0) return false;
 
-    return heightRatio > 0.02;
+      return heightRatio > 0.02;
+    }
+
+    return false;
   }
 }
 
