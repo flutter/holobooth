@@ -41,8 +41,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
     await widget.cameraController.startImageStream((image) {
       final imageData = tf.ImageData(
         bytes: image.planes.first.bytes,
-        width: image.width,
-        height: image.height,
+        size: tf.Size(image.width, image.height),
       );
       _estimateFaces(imageData);
     });
@@ -54,8 +53,8 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
       estimationConfig: _estimationConfig,
     ))
         .normalize(
-      fromMax: TFSize(imageData.width, imageData.height),
-      toMax: TFSize(_size.width, _size.height),
+      fromMax: imageData.size,
+      toMax: tf.Size(_size.width.toInt(), _size.height.toInt()),
     );
     if (!_streamController.isClosed) _streamController.add(faces);
     return !_streamController.isClosed;

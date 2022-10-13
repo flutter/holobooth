@@ -1,16 +1,16 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
-import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// Normalize faces keypoints and bounding box.
 extension FacesGeometry on tf.Faces {
   /// Normalize key points and bounding box from size to size.
   tf.Faces normalize({
-    required TFSize fromMax,
-    required TFSize toMax,
+    required Size fromMax,
+    required Size toMax,
   }) {
     final newFaces =
         map((face) => face.normalize(fromMax: fromMax, toMax: toMax));
@@ -46,8 +46,8 @@ extension FaceGeometry on tf.Face {
 
   /// Normalize key points and bounding box from size to size.
   tf.Face normalize({
-    required TFSize fromMax,
-    required TFSize toMax,
+    required Size fromMax,
+    required Size toMax,
   }) {
     final keypoints = this
         .keypoints
@@ -73,8 +73,8 @@ extension FaceGeometry on tf.Face {
 extension NormalizeBoundingBox on tf.BoundingBox {
   /// {@macro normalize_bounding_box}
   tf.BoundingBox normalize({
-    required TFSize fromMax,
-    required TFSize toMax,
+    required Size fromMax,
+    required Size toMax,
   }) {
     return copyWith(
       height: height.normalize(fromMax: fromMax.height, toMax: toMax.height),
@@ -102,8 +102,8 @@ extension NormalizeKeypoint on tf.Keypoint {
 
   /// {@macro normalize_keypoint}
   tf.Keypoint normalize({
-    required TFSize fromMax,
-    required TFSize toMax,
+    required Size fromMax,
+    required Size toMax,
   }) {
     return copyWith(
       x: x.normalize(fromMax: fromMax.width, toMax: toMax.width),

@@ -4,6 +4,7 @@ import 'package:face_geometry/face_geometry.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:test/test.dart';
 
 class _MockFace extends Mock implements tf.Face {}
@@ -24,7 +25,7 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(TFSize(0, 0));
+    registerFallbackValue(Size(0, 0));
   });
 
   group('FaceGeometry', () {
@@ -175,8 +176,8 @@ void main() {
         test('to greater value', () {
           expect(
             keypoint.normalize(
-              fromMax: TFSize(20, 30),
-              toMax: TFSize(40, 60),
+              fromMax: Size(20, 30),
+              toMax: Size(40, 60),
             ),
             isA<tf.Keypoint>()
                 .having((keypoint) => keypoint.x, 'x', 20)
@@ -186,8 +187,8 @@ void main() {
         test('to lower value', () {
           expect(
             keypoint.normalize(
-              fromMax: TFSize(40, 60),
-              toMax: TFSize(20, 30),
+              fromMax: Size(40, 60),
+              toMax: Size(20, 30),
             ),
             isA<tf.Keypoint>()
                 .having((keypoint) => keypoint.x, 'x', 5)
@@ -209,8 +210,8 @@ void main() {
         test('to greater value', () {
           expect(
             boundingBox.normalize(
-              fromMax: TFSize(20, 30),
-              toMax: TFSize(40, 60),
+              fromMax: Size(20, 30),
+              toMax: Size(40, 60),
             ),
             isA<tf.BoundingBox>()
                 .having((keypoint) => keypoint.height, 'width', 40)
@@ -224,8 +225,8 @@ void main() {
         test('to lower value', () {
           expect(
             boundingBox.normalize(
-              fromMax: TFSize(40, 60),
-              toMax: TFSize(20, 30),
+              fromMax: Size(40, 60),
+              toMax: Size(20, 30),
             ),
             isA<tf.BoundingBox>()
                 .having((keypoint) => keypoint.height, 'width', 10)
@@ -287,42 +288,42 @@ void main() {
 
         test('Face BoundingBox', () {
           face.normalize(
-            fromMax: TFSize(20, 30),
-            toMax: TFSize(40, 60),
+            fromMax: Size(20, 30),
+            toMax: Size(40, 60),
           );
 
           verify(
             () => boundingBox.normalize(
-              fromMax: TFSize(20, 30),
-              toMax: TFSize(40, 60),
+              fromMax: Size(20, 30),
+              toMax: Size(40, 60),
             ),
           ).called(1);
         });
 
         test('Face keypoints', () {
           face.normalize(
-            fromMax: TFSize(20, 30),
-            toMax: TFSize(40, 60),
+            fromMax: Size(20, 30),
+            toMax: Size(40, 60),
           );
 
           verify(
             () => keypoint.normalize(
-              fromMax: TFSize(20, 30),
-              toMax: TFSize(40, 60),
+              fromMax: Size(20, 30),
+              toMax: Size(40, 60),
             ),
           ).called(2);
         });
 
         test('Face when called on Faces', () {
           [face, face].normalize(
-            fromMax: TFSize(20, 30),
-            toMax: TFSize(40, 60),
+            fromMax: Size(20, 30),
+            toMax: Size(40, 60),
           );
 
           verify(
             () => face.normalize(
-              fromMax: TFSize(20, 30),
-              toMax: TFSize(40, 60),
+              fromMax: Size(20, 30),
+              toMax: Size(40, 60),
             ),
           ).called(2);
         });
