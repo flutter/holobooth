@@ -1,5 +1,5 @@
 /// {@template tf_size}
-/// Holds a 2D floating-point size.
+/// Holds a 2D point size.
 /// {@endtemplate}
 class TFSize {
   /// {@macro tf_size}

@@ -20,11 +20,6 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 
   @override
   final double y;
-
-  @override
-  tf.Keypoint copyWith({num? x, num? y, num? z, num? score, String? name}) {
-    return this;
-  }
 }
 
 void main() {

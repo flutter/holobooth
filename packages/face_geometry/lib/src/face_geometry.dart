@@ -65,7 +65,10 @@ extension FaceGeometry on tf.Face {
 }
 
 /// {@template normalize_bounding_box}
-/// Normalize the BoundingBox.
+/// Normalize a BoundingBox by normalizing its values:
+/// `height`, `width`, `xMax`, `xMin`, `yMax`, `yMin`.
+///
+/// To see more take a look at [NormalizeNum].
 /// {@endtemplate}
 extension NormalizeBoundingBox on tf.BoundingBox {
   /// {@macro normalize_bounding_box}
@@ -85,7 +88,9 @@ extension NormalizeBoundingBox on tf.BoundingBox {
 }
 
 /// {@template normalize_keypoint}
-/// Normalize keypoint.
+/// Normalize a Keypoint by normalizing its x and y values.
+///
+/// To see more take a look at [NormalizeNum].
 /// {@endtemplate}
 extension NormalizeKeypoint on tf.Keypoint {
   /// The distance between this and other keypoint.
@@ -108,7 +113,8 @@ extension NormalizeKeypoint on tf.Keypoint {
 }
 
 /// {@template normalize_number}
-/// Normalize number.
+/// Normalize the value by getting the ratio from the current size `fromMax`
+/// and applying it to the new size `toMax`.
 /// {@endtemplate}
 extension NormalizeNum on num {
   /// {@macro normalize_number}
