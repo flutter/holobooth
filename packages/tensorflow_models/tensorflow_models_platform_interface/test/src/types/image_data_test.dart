@@ -5,8 +5,11 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 
 void main() {
   group('Image Data', () {
-    test('can be instaniated', () {
-      expect(ImageData(bytes: Uint8List(0), width: 10, height: 10), isNotNull);
+    test('can be instantiated', () {
+      expect(
+        ImageData(bytes: Uint8List(0), size: Size(1, 1)),
+        isNotNull,
+      );
     });
   });
 }
