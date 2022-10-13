@@ -3,14 +3,13 @@ import 'dart:math' as math;
 
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// Normalize faces keypoints and bounding box.
 extension FacesGeometry on tf.Faces {
-  /// Normalize key points and bounding box from size to size.
+  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
   tf.Faces normalize({
-    required Size fromMax,
-    required Size toMax,
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     final newFaces =
         map((face) => face.normalize(fromMax: fromMax, toMax: toMax));
@@ -44,10 +43,10 @@ extension FaceGeometry on tf.Face {
     return topEyeLid.distanceTo(bottomEyeLid);
   }
 
-  /// Normalize key points and bounding box from size to size.
+  /// Normalize [tf.Keypoint] and [tf.BoundingBox] from size to size.
   tf.Face normalize({
-    required Size fromMax,
-    required Size toMax,
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     final keypoints = this
         .keypoints
@@ -65,16 +64,21 @@ extension FaceGeometry on tf.Face {
 }
 
 /// {@template normalize_bounding_box}
-/// Normalize a BoundingBox by normalizing its values:
-/// `height`, `width`, `xMax`, `xMin`, `yMax`, `yMin`.
+/// Normalize a [tf.BoundingBox].
 ///
-/// To see more take a look at [NormalizeNum].
+/// The normalized values are
+/// [tf.BoundingBox.height], [tf.BoundingBox.width], [tf.BoundingBox.xMax],
+/// [tf.BoundingBox.xMin], [tf.BoundingBox.yMax], [tf.BoundingBox.yMin].
+///
+/// See also:
+///
+/// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
 extension NormalizeBoundingBox on tf.BoundingBox {
   /// {@macro normalize_bounding_box}
   tf.BoundingBox normalize({
-    required Size fromMax,
-    required Size toMax,
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     return copyWith(
       height: height.normalize(fromMax: fromMax.height, toMax: toMax.height),
@@ -88,12 +92,17 @@ extension NormalizeBoundingBox on tf.BoundingBox {
 }
 
 /// {@template normalize_keypoint}
-/// Normalize a Keypoint by normalizing its x and y values.
+/// Normalize a [tf.Keypoint].
 ///
-/// To see more take a look at [NormalizeNum].
+/// The normalized values are [tf.Keypoint.x] and [tf.Keypoint.y].
+///
+/// See also:
+///
+/// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
+
 extension NormalizeKeypoint on tf.Keypoint {
-  /// The distance between this and other keypoint.
+  /// The distance between this and other [tf.Keypoint].
   double distanceTo(tf.Keypoint other) {
     final dx = x - other.x;
     final dy = y - other.y;
@@ -102,8 +111,8 @@ extension NormalizeKeypoint on tf.Keypoint {
 
   /// {@macro normalize_keypoint}
   tf.Keypoint normalize({
-    required Size fromMax,
-    required Size toMax,
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     return copyWith(
       x: x.normalize(fromMax: fromMax.width, toMax: toMax.width),
@@ -116,6 +125,7 @@ extension NormalizeKeypoint on tf.Keypoint {
 /// Normalize the value by getting the ratio from the current size `fromMax`
 /// and applying it to the new size `toMax`.
 /// {@endtemplate}
+
 extension NormalizeNum on num {
   /// {@macro normalize_number}
   double normalize({
