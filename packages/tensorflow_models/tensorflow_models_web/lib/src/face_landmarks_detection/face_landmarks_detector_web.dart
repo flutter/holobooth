@@ -67,8 +67,8 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
     } else if (object is ImageData) {
       final imageData = html.ImageData(
         object.bytes.buffer.asUint8ClampedList(),
-        object.width,
-        object.height,
+        object.size.width,
+        object.size.height,
       );
       final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(imageData, config),
