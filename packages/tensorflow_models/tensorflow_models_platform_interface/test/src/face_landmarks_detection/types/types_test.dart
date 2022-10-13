@@ -30,7 +30,6 @@ void main() {
       }
     });
 
-    // ignore: lines_longer_than_80_chars
     group('copyWith', () {
       test('returns normally', () {
         expect(
