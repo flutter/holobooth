@@ -45,7 +45,7 @@ extension FaceGeometry on tf.Face {
     return topEyeLid.distanceTo(bottomEyeLid);
   }
 
-  /// Normalize [tf.Keypoint] and [tf.BoundingBox] from size to size.
+  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
   tf.Face normalize({
     required tf.Size fromMax,
     required tf.Size toMax,
@@ -70,7 +70,7 @@ extension FaceGeometry on tf.Face {
 ///
 /// The normalized values are
 /// [tf.BoundingBox.height], [tf.BoundingBox.width], [tf.BoundingBox.xMax],
-/// [tf.BoundingBox.xMin], [tf.BoundingBox.yMax], [tf.BoundingBox.yMin].
+/// [tf.BoundingBox.xMin], [tf.BoundingBox.yMax] and [tf.BoundingBox.yMin].
 ///
 /// See also:
 ///
@@ -135,6 +135,7 @@ extension NormalizeNum on num {
     required num fromMax,
     required num toMax,
   }) {
+    assert(fromMax > 0, 'fromMax must be greater than 0');
     return toMax * ((this) / fromMax);
   }
 }
