@@ -143,20 +143,6 @@ void main() {
 
     group('normalize', () {
       group('the number', () {
-        test('throws assertion when fromMin is lower than fromMax', () {
-          expect(
-            () => 0.normalize(fromMax: 0, toMax: 1),
-            throwsA(isA<AssertionError>()),
-          );
-        });
-
-        test('throws assertion when toMin is greater than toMax', () {
-          expect(
-            () => 0.normalize(fromMax: 1, toMax: 2, toMin: 3),
-            throwsA(isA<AssertionError>()),
-          );
-        });
-
         test('to greater values', () {
           expect(0.5.normalize(fromMax: 1, toMax: 3), equals(1.5));
           expect(0.5.normalize(fromMax: 2, toMax: 3), equals(0.75));

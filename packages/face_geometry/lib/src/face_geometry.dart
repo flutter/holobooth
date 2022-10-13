@@ -119,14 +119,9 @@ extension NormalizeKeypoint on tf.Keypoint {
 extension NormalizeNum on num {
   /// {@macro normalize_number}
   double normalize({
-    num fromMin = 0,
     required num fromMax,
-    num toMin = 0,
     required num toMax,
   }) {
-    assert(fromMin < fromMax, 'fromMin must be less than fromMax');
-    assert(toMin < toMax, 'toMin must be less than toMax');
-
-    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
+    return toMax * ((this) / fromMax);
   }
 }
