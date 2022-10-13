@@ -68,7 +68,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   if (faces.isEmpty) return const SizedBox.shrink();
 
                   if (faces.first.isMouthOpen) {
-                    if (isPlaying == false) {
+                    if (!isPlaying) {
                       _audioPlayer.play();
                       isPlaying = true;
                     }
