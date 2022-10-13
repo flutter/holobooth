@@ -40,16 +40,42 @@
       });
     }
   </script>
+
+  <!-- Use minified code in prod :) -->
+  <!-- THE ORDER OF THE SCRIPTS MATTERS! (face-landmarks-detection requires face_mesh, maybe others?) -->
+  <!--
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@rollup/plugin-commonjs"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
-        crossorigin="anonymous"></script>
+  -->
+
+  <!-- Use somewhat unminified code in development :) -->
+  <!--
+    2. THE ORDER OF THE SCRIPTS MATTERS! (face-landmarks-detection requires face_mesh)
+    I reordered this until the face-landmarks-detection demo fired up. Not sure about the
+    correct order of the rest of the scripts!
+    TODO(oscar): Figure out the correct order of the scripts :)
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet/dist/posenet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection/dist/face-landmarks-detection.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
+
+  <!--
+    1. plugin-commonjs was causing: "JS Error: Uncaught ReferenceError: require is not defined  at jsdelivr-header.js:7:1"
+    Removed (needed?)
+  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@rollup/plugin-commonjs"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
+    crossorigin="anonymous"></script>
+
+  <!-- TODO(dit): Use flutter.js initialization instead! -->
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
