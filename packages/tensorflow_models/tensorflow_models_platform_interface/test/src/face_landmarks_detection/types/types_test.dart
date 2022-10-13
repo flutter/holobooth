@@ -63,4 +63,86 @@ void main() {
       });
     });
   });
+  group('Keypoint', () {
+    test('can be instantiated', () {
+      expect(Keypoint, isNotNull);
+    });
+    group('copyWith', () {
+      test('returns normally', () {
+        final initialKeypoint = Keypoint(1, 1, 1, 1, 'name');
+
+        expect(initialKeypoint.copyWith, returnsNormally);
+      });
+
+      test('changes when properties are defined', () {
+        final initialKeypoint = Keypoint(1, 1, 1, 1, 'name');
+        final newKeypoint = initialKeypoint.copyWith(
+          x: 2,
+          y: 2,
+          z: 2,
+          score: 2,
+          name: 'new name',
+        );
+
+        expect(initialKeypoint.x, isNot(equals(newKeypoint.x)));
+        expect(initialKeypoint.y, isNot(equals(newKeypoint.y)));
+        expect(initialKeypoint.z, isNot(equals(newKeypoint.z)));
+        expect(initialKeypoint.score, isNot(equals(newKeypoint.score)));
+        expect(initialKeypoint.name, isNot(equals(newKeypoint.name)));
+      });
+
+      test('remains the same if no changes are made', () {
+        final initialKeypoint = Keypoint(1, 1, 1, 1, 'name');
+        final newKeypoint = initialKeypoint.copyWith();
+
+        expect(newKeypoint.x, equals(newKeypoint.x));
+        expect(newKeypoint.y, equals(newKeypoint.y));
+        expect(newKeypoint.z, equals(newKeypoint.z));
+        expect(newKeypoint.score, equals(newKeypoint.score));
+        expect(newKeypoint.name, equals(newKeypoint.name));
+      });
+    });
+  });
+  group('BoundingBox', () {
+    test('can be instantiated', () {
+      expect(BoundingBox, isNotNull);
+    });
+    group('copyWith', () {
+      test('returns normally', () {
+        final initialBox = BoundingBox(1, 1, 1, 1, 10, 10);
+        expect(initialBox.copyWith, returnsNormally);
+      });
+
+      test('changes when properties are defined', () {
+        final initialBox = BoundingBox(1, 1, 1, 1, 10, 10);
+        final newBox = initialBox.copyWith(
+          xMin: 2,
+          yMin: 2,
+          xMax: 2,
+          yMax: 2,
+          width: 20,
+          height: 20,
+        );
+
+        expect(initialBox.xMin, isNot(equals(newBox.xMin)));
+        expect(initialBox.yMin, isNot(equals(newBox.yMin)));
+        expect(initialBox.xMax, isNot(equals(newBox.xMax)));
+        expect(initialBox.yMax, isNot(equals(newBox.yMax)));
+        expect(initialBox.width, isNot(equals(newBox.width)));
+        expect(initialBox.height, isNot(equals(newBox.height)));
+      });
+
+      test('remains the same if no changes are made', () {
+        final initialBox = BoundingBox(1, 1, 1, 1, 10, 10);
+        final newBox = initialBox.copyWith();
+
+        expect(initialBox.xMin, equals(newBox.xMin));
+        expect(initialBox.yMin, equals(newBox.yMin));
+        expect(initialBox.xMax, equals(newBox.xMax));
+        expect(initialBox.yMax, equals(newBox.yMax));
+        expect(initialBox.width, equals(newBox.width));
+        expect(initialBox.height, equals(newBox.height));
+      });
+    });
+  });
 }
