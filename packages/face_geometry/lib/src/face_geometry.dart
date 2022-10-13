@@ -1,10 +1,12 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
 /// Normalize faces keypoints and bounding box.
+@visibleForTesting
 extension FacesGeometry on tf.Faces {
   /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
   tf.Faces normalize({
@@ -74,6 +76,7 @@ extension FaceGeometry on tf.Face {
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
+@visibleForTesting
 extension NormalizeBoundingBox on tf.BoundingBox {
   /// {@macro normalize_bounding_box}
   tf.BoundingBox normalize({
@@ -100,7 +103,7 @@ extension NormalizeBoundingBox on tf.BoundingBox {
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
-
+@visibleForTesting
 extension NormalizeKeypoint on tf.Keypoint {
   /// The distance between this and other [tf.Keypoint].
   double distanceTo(tf.Keypoint other) {
@@ -125,7 +128,7 @@ extension NormalizeKeypoint on tf.Keypoint {
 /// Normalize the value by getting the ratio from the current size `fromMax`
 /// and applying it to the new size `toMax`.
 /// {@endtemplate}
-
+@visibleForTesting
 extension NormalizeNum on num {
   /// {@macro normalize_number}
   double normalize({
