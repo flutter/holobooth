@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +20,7 @@ void main() {
   group('Face', () {
     test('can be deserialized from raw output', () {
       final decodedFaces = json.decode(estimateFacesOutput) as List;
+
       for (final decodedFace in decodedFaces) {
         expect(
           () => Face.fromJson(decodedFace as Map<String, dynamic>),
@@ -43,25 +42,25 @@ void main() {
 
       test('changes when properties are defined', () {
         final initialFace = Face(List.empty(), BoundingBox(0, 0, 0, 0, 0, 0));
+
         final newFace =
             Face(List.empty(), BoundingBox(0, 0, 0, 0, 0, 0)).copyWith(
-          keypoints: List.empty(),
+          keypoints: List.filled(1, Keypoint(1, 1, 1, 1, 'name')),
           boundingBox: BoundingBox(1, 1, 1, 1, 1, 1),
         );
-        expect(initialFace, isNot(newFace));
+
+        expect(initialFace.keypoints, isNot(equals(newFace.keypoints)));
+        expect(initialFace.boundingBox, isNot(equals(newFace.boundingBox)));
       });
 
-      /*
-      this test is failing
-      Error message:
-      Expected <Instance of 'Face'>
-      Actual <Instance of 'Face'>
-      */
-      // test('does nothing when no properties are defined', () {
-      //   final initialFace = Face(List.empty(), BoundingBox(0, 0, 0, 0, 0, 0));
-      //   final copiedFace = initialFace.copyWith();
-      //   expect(initialFace, equals(copiedFace));
-      // });
+      test('does nothing when there are no changes', () {
+        final initialFace = Face(List.empty(), BoundingBox(0, 0, 0, 0, 0, 0));
+
+        final copiedFace = initialFace.copyWith();
+
+        expect(initialFace.keypoints, equals(copiedFace.keypoints));
+        expect(initialFace.boundingBox, equals(copiedFace.boundingBox));
+      });
     });
   });
 }
