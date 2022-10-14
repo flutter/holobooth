@@ -10,8 +10,9 @@ on:
 
 jobs:
   build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
       flutter_version: 3.3.1
+      platform: "chrome,vm"
       working_directory: packages/tensorflow_models/tensorflow_models_web
       coverage_excludes: "packages/tensorflow_models/tensorflow_models_web/lib/src/face_landmarks_detection/interop/*"
