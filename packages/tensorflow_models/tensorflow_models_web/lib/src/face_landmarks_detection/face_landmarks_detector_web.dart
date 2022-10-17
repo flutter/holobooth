@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:html' as html;
-import 'dart:js';
 import 'dart:js_util';
 import 'dart:typed_data';
 
@@ -85,7 +84,6 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
 
 Faces _facesFromJs(List<dynamic> jsFaces) {
   final faces = <Face>[];
-  context['console'].callMethod('log', [js_interop_utils.stringify(jsFaces)]);
   for (final jsObject in jsFaces) {
     // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
     final json = js_interop_utils.stringify(jsObject as Object);
