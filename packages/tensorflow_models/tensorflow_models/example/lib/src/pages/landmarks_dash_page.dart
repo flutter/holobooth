@@ -45,11 +45,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
 
-                  return Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _Dash(face: face),
-                    ],
+                  return Center(
+                    child: _Dash(face: face),
                   );
                 },
               ),
@@ -86,9 +83,11 @@ class _DashState extends State<_Dash> {
     final dashController = _dashController;
     if (dashController != null) {
       final direction = widget.face.direction().unit();
-      final xRotation = (direction.x * 1000) + 70;
-      print('xRotation: $xRotation');
-      dashController.xRotation.change(xRotation);
+      dashController.x.change(direction.x * 1000);
+      dashController.y.change(direction.z * -1000);
+
+      final isMouthOpen = widget.face.mouthDistance > 1;
+      dashController.openMouth.change(isMouthOpen);
     }
   }
 
@@ -100,15 +99,9 @@ class _DashState extends State<_Dash> {
 
   @override
   Widget build(BuildContext context) {
-    final boundingBox = widget.face.boundingBox;
-    final xMin = widget.face.boundingBox.xMin.toDouble();
-    final yMin = widget.face.boundingBox.yMin.toDouble();
-
-    return Positioned(
-      left: xMin,
-      top: yMin,
-      width: boundingBox.width.toDouble(),
-      height: boundingBox.height.toDouble(),
+    return SizedBox(
+      width: 100,
+      height: 100,
       child: Assets.dash.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
@@ -124,9 +117,29 @@ class _DashStateMachineController extends StateMachineController {
               .whereType<StateMachine>()
               .firstWhere((stateMachine) => stateMachine.name == 'dash'),
         ) {
-    xRotation =
-        inputs.firstWhere((input) => input.name == 'xRotation') as SMINumber;
+    final x = findInput<double>('x');
+    if (x is SMINumber) {
+      this.x = x;
+    } else {
+      throw StateError('Could not find input "x"');
+    }
+
+    final y = findInput<double>('y');
+    if (y is SMINumber) {
+      this.y = y;
+    } else {
+      throw StateError('Could not find input "y"');
+    }
+
+    final openMouth = findInput<bool>('openMouth');
+    if (openMouth is SMIBool) {
+      this.openMouth = openMouth;
+    } else {
+      throw StateError('Could not find input "openMouth"');
+    }
   }
 
-  late final SMINumber xRotation;
+  late final SMINumber x;
+  late final SMINumber y;
+  late final SMIBool openMouth;
 }

@@ -51,6 +51,8 @@ class Vector3 {
     return Vector3(x / length, y / length, z / length);
   }
 
+  Vector3 operator *(double value) => Vector3(x * value, y * value, z * value);
+
   @override
   String toString() {
     return 'Vector3{x: $x, y: $y, z: $z}';
