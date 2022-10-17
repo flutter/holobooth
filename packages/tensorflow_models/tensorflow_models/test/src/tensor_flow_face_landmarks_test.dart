@@ -10,11 +10,13 @@ void main() {
       expect(fakeFaceLandmarks, isNotNull);
     });
 
-    test('throws an UnimplementedError', () {
-      expect(
-        TensorFlowFaceLandmarks.load,
-        throwsA(isA<UnimplementedError>()),
-      );
+    group('load', () {
+      test('throws an UnimplementedError', () {
+        expect(
+          TensorFlowFaceLandmarks.load,
+          throwsA(isA<UnimplementedError>()),
+        );
+      });
     });
   });
 }
