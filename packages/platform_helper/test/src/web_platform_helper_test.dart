@@ -1,8 +1,9 @@
 @TestOn('chrome')
 import 'dart:html' as html;
-import 'package:flutter_test/flutter_test.dart';
+
 import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/src/web.dart';
+import 'package:test/test.dart';
 
 class _MockWindow extends Mock implements html.Window {}
 
