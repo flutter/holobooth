@@ -2,14 +2,14 @@ import 'package:face_geometry/face_geometry.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const boundingBoxHeight = 200.0;
-
   group('FaceEye', () {
     test('can be initialized', () {
       expect(FaceEye.new, returnsNormally);
     });
 
     group('isClose', () {
+      const boundingBoxHeight = 200.0;
+
       test('returns false when distance is too small', () {
         final eyeBlink = FaceEye();
         final isEyeClose = eyeBlink.isClose(
@@ -20,16 +20,16 @@ void main() {
         expect(isEyeClose, false);
       });
 
-      test('returns true on blink', () {
-        final eyeBlink = FaceEye()
+      test('returns true on close', () {
+        final isEyeClose = FaceEye()
           ..isClose(
             eyeDistance: 50,
             boundingBoxHeight: boundingBoxHeight,
+          )
+          ..isClose(
+            eyeDistance: 10,
+            boundingBoxHeight: boundingBoxHeight,
           );
-        final isEyeClose = eyeBlink.isClose(
-          eyeDistance: 10,
-          boundingBoxHeight: boundingBoxHeight,
-        );
 
         expect(isEyeClose, true);
       });

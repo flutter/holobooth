@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
-import 'package:face_geometry/src/models/face_eye.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;

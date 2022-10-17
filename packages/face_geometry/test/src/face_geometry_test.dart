@@ -260,6 +260,7 @@ void main() {
         });
       });
     });
+
     group('normalize', () {
       group('the number', () {
         test('throws assertion when fromMax is equals 0', () {
