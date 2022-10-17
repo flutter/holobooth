@@ -35,8 +35,7 @@ void main() {
           List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
         );
         when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.direction(), returnsNormally);
+        expect(face.direction, returnsNormally);
       });
     });
   });
