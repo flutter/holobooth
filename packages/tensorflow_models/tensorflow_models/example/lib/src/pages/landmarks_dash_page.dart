@@ -86,8 +86,7 @@ class _DashState extends State<_Dash> {
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
 
-      final isMouthOpen = widget.face.mouthDistance > 1;
-      dashController.openMouth.change(isMouthOpen);
+      dashController.openMouth.change(widget.face.isMouthOpen);
     }
   }
 
