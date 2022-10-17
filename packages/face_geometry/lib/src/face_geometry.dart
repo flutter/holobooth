@@ -1,15 +1,13 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'package:face_geometry/src/models/eye_blink.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
-final _maxRatios = <String, double?>{'leftEye': null, 'rightEye': null};
-final _minRatios = <String, double?>{'leftEye': null, 'rightEye': null};
-// Define whether the first action, e.g. close, was detected and we have the
-// correct min and max values.
-final _firstAction = <String, bool>{'leftEye': false, 'rightEye': false};
+var _leftEye = EyeBlink();
+var _rightEye = EyeBlink();
 
 /// Normalize faces keypoints and bounding box.
 @visibleForTesting
@@ -67,26 +65,30 @@ extension FaceGeometry on tf.Face {
 
   bool _isEyeClose(String name) {
     final eyeDistance = name == 'leftEye' ? leftEyeDistance : rightEyeDistance;
+    var eye = name == 'leftEye' ? _leftEye : _rightEye;
+
     if (boundingBox.height == 0) return false;
     final heightRatio = eyeDistance / boundingBox.height;
     if (heightRatio == 0) return false;
 
-    if (_maxRatios[name] == null || heightRatio > _maxRatios[name]!) {
-      _maxRatios[name] = heightRatio;
+    if (eye.maxRatio == null || heightRatio > eye.maxRatio!) {
+      eye = eye.copyWith(maxRatio: heightRatio);
     }
 
-    if ((_minRatios[name] == null || heightRatio < _minRatios[name]!) &&
+    if ((eye.minRatio == null || heightRatio < eye.minRatio!) &&
         heightRatio > 0) {
-      _minRatios[name] = heightRatio;
+      eye = eye.copyWith(minRatio: heightRatio);
     }
 
-    if (_minRatios[name]! / _maxRatios[name]! < 0.5) {
-      _firstAction[name] = true;
+    if (eye.minRatio! / eye.maxRatio! < 0.5) {
+      eye = eye.copyWith(firstAction: true);
     }
 
-    if (_firstAction[name]!) {
-      final percent = (heightRatio - _minRatios[name]!) /
-          (_maxRatios[name]! - _minRatios[name]!);
+    name == 'leftEye' ? _leftEye = eye : _rightEye = eye;
+
+    if (eye.firstAction) {
+      final percent =
+          (heightRatio - eye.minRatio!) / (eye.maxRatio! - eye.minRatio!);
       return percent < 0.3;
     } else {
       return false;
