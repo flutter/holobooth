@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
@@ -44,6 +45,16 @@ class Vector3 {
 
   /// The z coordinate.
   final double z;
+
+  Vector3 unit() {
+    final length = math.sqrt(x * x + y * y + z * z);
+    return Vector3(x / length, y / length, z / length);
+  }
+
+  @override
+  String toString() {
+    return 'Vector3{x: $x, y: $y, z: $z}';
+  }
 }
 
 Vector3 _equationOfAPlane(Vector3 x, Vector3 y, Vector3 z) {
