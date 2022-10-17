@@ -27,7 +27,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
 
   late final AudioPlayer _audioPlayer;
-  bool _isPlaying = false;
+  var _isPlaying = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
