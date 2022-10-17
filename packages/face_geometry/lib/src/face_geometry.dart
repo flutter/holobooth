@@ -67,6 +67,7 @@ extension FaceGeometry on tf.Face {
 
   bool _isEyeClose(String name) {
     final eyeDistance = name == 'leftEye' ? leftEyeDistance : rightEyeDistance;
+    if (boundingBox.height == 0) return false;
     final heightRatio = eyeDistance / boundingBox.height;
     if (heightRatio == 0) return false;
 

@@ -143,7 +143,9 @@ void main() {
 
     group('isLeftEyeClose', () {
       setUp(() {
-        when(() => face.boundingBox).thenReturn(_MockBoundingBox());
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
       });
 
       test('returns normally', () {
@@ -201,7 +203,9 @@ void main() {
 
     group('isRightEyeClose', () {
       setUp(() {
-        when(() => face.boundingBox).thenReturn(_MockBoundingBox());
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
       });
 
       test('returns normally', () {
