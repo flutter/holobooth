@@ -5,6 +5,9 @@ import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
+/// Minimum mouth to face ratio.
+const _minMouthFaceRatio = 0.02;
+
 /// Normalize faces keypoints and bounding box.
 @visibleForTesting
 extension FacesGeometry on tf.Faces {
@@ -51,7 +54,7 @@ extension FaceGeometry on tf.Face {
       final heightRatio = mouthDistance / boundingBox.height;
       if (heightRatio == 0) return false;
 
-      return heightRatio > 0.02;
+      return heightRatio > _minMouthFaceRatio;
     }
 
     return false;
