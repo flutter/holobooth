@@ -6,8 +6,10 @@ class _TestTensorFlowFaceLandmarks extends TensorFlowFaceLandmarks {}
 void main() {
   group('TensorFlowFaceLandmarks', () {
     test('can be instantiated', () {
-      final fakeFaceLandmarks = _TestTensorFlowFaceLandmarks();
-      expect(fakeFaceLandmarks, isNotNull);
+      expect(
+        _TestTensorFlowFaceLandmarks(),
+        isA<TensorFlowFaceLandmarks>(),
+      );
     });
 
     group('load', () {
