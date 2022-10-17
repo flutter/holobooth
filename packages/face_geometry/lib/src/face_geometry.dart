@@ -1,13 +1,13 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
-import 'package:face_geometry/src/models/eye_blink.dart';
+import 'package:face_geometry/src/models/face_eye.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
-var _leftEye = EyeBlink();
-var _rightEye = EyeBlink();
+final _leftEye = FaceEye();
+final _rightEye = FaceEye();
 
 /// Normalize faces keypoints and bounding box.
 @visibleForTesting
@@ -54,46 +54,20 @@ extension FaceGeometry on tf.Face {
   /// minimum and maximum values.
   ///
   /// Since the face is mirrored, we need to check the right eye.
-  bool get isLeftEyeClose => _isEyeClose('rightEye');
+  bool get isLeftEyeClose => _rightEye.isClose(
+        eyeDistance: rightEyeDistance,
+        boundingBoxHeight: boundingBox.height.toDouble(),
+      );
 
   /// Detect if the right eye is closed.
   /// Detection works after the first blink to make sure we have the correct
   /// minimum and maximum values.
   ///
   /// Since the face is mirrored, we need to check the left eye.
-  bool get isRightEyeClose => _isEyeClose('leftEye');
-
-  bool _isEyeClose(String name) {
-    final eyeDistance = name == 'leftEye' ? leftEyeDistance : rightEyeDistance;
-    var eye = name == 'leftEye' ? _leftEye : _rightEye;
-
-    if (boundingBox.height == 0) return false;
-    final heightRatio = eyeDistance / boundingBox.height;
-    if (heightRatio == 0) return false;
-
-    if (eye.maxRatio == null || heightRatio > eye.maxRatio!) {
-      eye = eye.copyWith(maxRatio: heightRatio);
-    }
-
-    if ((eye.minRatio == null || heightRatio < eye.minRatio!) &&
-        heightRatio > 0) {
-      eye = eye.copyWith(minRatio: heightRatio);
-    }
-
-    if (eye.minRatio! / eye.maxRatio! < 0.5) {
-      eye = eye.copyWith(firstAction: true);
-    }
-
-    name == 'leftEye' ? _leftEye = eye : _rightEye = eye;
-
-    if (eye.firstAction) {
-      final percent =
-          (heightRatio - eye.minRatio!) / (eye.maxRatio! - eye.minRatio!);
-      return percent < 0.3;
-    } else {
-      return false;
-    }
-  }
+  bool get isRightEyeClose => _leftEye.isClose(
+        eyeDistance: leftEyeDistance,
+        boundingBoxHeight: boundingBox.height.toDouble(),
+      );
 
   /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
   tf.Face normalize({
