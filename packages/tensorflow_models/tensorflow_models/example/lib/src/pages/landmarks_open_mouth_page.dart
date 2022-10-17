@@ -27,7 +27,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
 
   late final AudioPlayer _audioPlayer;
-  bool isPlaying = false;
+  bool _isPlaying = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -68,13 +68,13 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   if (faces.isEmpty) return const SizedBox.shrink();
 
                   if (faces.first.isMouthOpen) {
-                    if (!isPlaying) {
+                    if (!_isPlaying) {
                       _audioPlayer.play();
-                      isPlaying = true;
+                      _isPlaying = true;
                     }
                   } else {
                     _audioPlayer.pause();
-                    isPlaying = false;
+                    _isPlaying = false;
                   }
 
                   return CustomPaint(

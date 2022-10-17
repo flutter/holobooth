@@ -8,10 +8,7 @@ import 'package:test/test.dart';
 
 class _MockFace extends Mock implements tf.Face {}
 
-class _MockBoundingBox extends Mock implements tf.BoundingBox {
-  @override
-  num get height => 100;
-}
+class _MockBoundingBox extends Mock implements tf.BoundingBox {}
 
 class _FakeKeypoint extends Fake implements tf.Keypoint {
   _FakeKeypoint(this.x, this.y);
@@ -139,7 +136,9 @@ void main() {
 
     group('isMouthOpen', () {
       setUp(() {
-        when(() => face.boundingBox).thenReturn(_MockBoundingBox());
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
       });
 
       test('returns normally', () {
