@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-class _TestFaceLandmarkDetector extends tf.FaceLandmarksDetector {
+class _TestFaceLandmarkDetector extends FaceLandmarksDetector {
   @override
   void dispose() {}
 
   @override
-  Future<tf.Faces> estimateFaces(
+  Future<Faces> estimateFaces(
     dynamic object, {
-    tf.EstimationConfig estimationConfig = const tf.EstimationConfig(),
+    EstimationConfig estimationConfig = const EstimationConfig(),
   }) =>
       throw UnimplementedError();
 }
@@ -21,7 +18,7 @@ void main() {
     test('can be instantiated', () {
       expect(
         _TestFaceLandmarkDetector(),
-        isA<tf.FaceLandmarksDetector>(),
+        isA<FaceLandmarksDetector>(),
       );
     });
   });

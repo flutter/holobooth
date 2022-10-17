@@ -1,24 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 void main() {
   group('Keypoint', () {
     test('can be instantiated', () {
       expect(
-        tf.Keypoint(1, 1, 1, 1, 'name'),
-        isA<tf.Keypoint>(),
+        Keypoint(1, 1, 1, 1, 'name'),
+        isA<Keypoint>(),
       );
     });
 
     group('copyWith', () {
       test('returns normally', () {
-        final subject = tf.Keypoint(1, 1, 1, 1, 'name');
+        final subject = Keypoint(1, 1, 1, 1, 'name');
         expect(subject.copyWith, returnsNormally);
       });
 
       test('changes when properties are defined', () {
-        final subject = tf.Keypoint(1, 1, 1, 1, 'name');
+        final subject = Keypoint(1, 1, 1, 1, 'name');
         final copy = subject.copyWith(
           x: subject.x + 1,
           y: subject.y + 1,
@@ -35,7 +34,7 @@ void main() {
       });
 
       test('remains the same if no changes are made', () {
-        final subject = tf.Keypoint(1, 1, 1, 1, 'name');
+        final subject = Keypoint(1, 1, 1, 1, 'name');
         final copy = subject.copyWith();
 
         expect(copy.x, equals(copy.x));

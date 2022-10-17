@@ -2,19 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 import '../../fixtures/estimatefaces.dart';
 
-class _MockBoundingBox extends Mock implements tf.BoundingBox {}
+class _MockBoundingBox extends Mock implements BoundingBox {}
 
-class _MockKeypoint extends Mock implements tf.Keypoint {}
+class _MockKeypoint extends Mock implements Keypoint {}
 
 void main() {
   group('Face', () {
-    late tf.BoundingBox boundingBox;
-    late List<tf.Keypoint> keypoints;
+    late BoundingBox boundingBox;
+    late List<Keypoint> keypoints;
 
     setUp(() {
       boundingBox = _MockBoundingBox();
@@ -25,7 +24,7 @@ void main() {
       final jsonFaces = json.decode(estimateFacesOutput) as List;
       for (final jsonFace in jsonFaces) {
         expect(
-          () => tf.Face.fromJson(jsonFace as Map<String, dynamic>),
+          () => Face.fromJson(jsonFace as Map<String, dynamic>),
           returnsNormally,
         );
       }
@@ -33,12 +32,12 @@ void main() {
 
     group('copyWith', () {
       test('returns normally', () {
-        final subject = tf.Face(keypoints, boundingBox);
+        final subject = Face(keypoints, boundingBox);
         expect(subject.copyWith, returnsNormally);
       });
 
       test('changes when properties are defined', () {
-        final subject = tf.Face(
+        final subject = Face(
           keypoints,
           boundingBox,
         );
@@ -53,7 +52,7 @@ void main() {
       });
 
       test('does nothing when there are no changes', () {
-        final subject = tf.Face(
+        final subject = Face(
           keypoints,
           boundingBox,
         );

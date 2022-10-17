@@ -1,24 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 void main() {
   group('BoundingBox', () {
     test('can be instantiated', () {
       expect(
-        tf.BoundingBox(1, 1, 1, 1, 10, 10),
-        isA<tf.BoundingBox>(),
+        BoundingBox(1, 1, 1, 1, 10, 10),
+        isA<BoundingBox>(),
       );
     });
 
     group('copyWith', () {
       test('returns normally', () {
-        final subject = tf.BoundingBox(1, 1, 1, 1, 10, 10);
+        final subject = BoundingBox(1, 1, 1, 1, 10, 10);
         expect(subject.copyWith, returnsNormally);
       });
 
       test('changes when properties are defined', () {
-        final subject = tf.BoundingBox(1, 1, 1, 1, 10, 10);
+        final subject = BoundingBox(1, 1, 1, 1, 10, 10);
         final copy = subject.copyWith(
           xMin: subject.xMin + 1,
           yMin: subject.yMin + 1,
@@ -37,7 +36,7 @@ void main() {
       });
 
       test('remains the same if no changes are made', () {
-        final subject = tf.BoundingBox(1, 1, 1, 1, 10, 10);
+        final subject = BoundingBox(1, 1, 1, 1, 10, 10);
         final copy = subject.copyWith();
 
         expect(subject.xMin, equals(copy.xMin));
