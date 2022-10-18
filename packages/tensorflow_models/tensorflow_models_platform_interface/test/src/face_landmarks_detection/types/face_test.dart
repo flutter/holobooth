@@ -26,10 +26,9 @@ void main() {
         final jsonFaces = json.decode(estimateFacesOutput) as List;
 
         for (final jsonFace in jsonFaces) {
-          expect(
-            () => Face.fromJson(jsonFace as Map<String, dynamic>),
-            returnsNormally,
-          );
+          final face = Face.fromJson(jsonFace as Map<String, dynamic>);
+          expect(face.keypoints, isNotEmpty);
+          expect(face.keypoints.first, isA<Keypoint>());
         }
       });
     });
