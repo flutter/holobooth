@@ -74,6 +74,7 @@ extension FaceGeometry on tf.Face {
         eyeDistance: leftEyeDistance,
         boundingBoxHeight: boundingBox.height.toDouble(),
       );
+      
   /// Defines if the mouth is open based on hight and face height.
   bool get isMouthOpen {
     if (mouthDistance > 1) {
