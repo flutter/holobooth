@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -13,21 +14,24 @@ class _MockKeypoint extends Mock implements Keypoint {}
 void main() {
   group('Face', () {
     late BoundingBox boundingBox;
-    late List<Keypoint> keypoints;
+    late UnmodifiableListView<Keypoint> keypoints;
 
     setUp(() {
       boundingBox = _MockBoundingBox();
-      keypoints = List.empty();
+      keypoints = UnmodifiableListView(List.empty());
     });
 
-    test('can be deserialized from raw output', () {
-      final jsonFaces = json.decode(estimateFacesOutput) as List;
-      for (final jsonFace in jsonFaces) {
-        expect(
-          () => Face.fromJson(jsonFace as Map<String, dynamic>),
-          returnsNormally,
-        );
-      }
+    group('fromJson', () {
+      test('can be deserialized from raw output', () {
+        final jsonFaces = json.decode(estimateFacesOutput) as List;
+
+        for (final jsonFace in jsonFaces) {
+          expect(
+            () => Face.fromJson(jsonFace as Map<String, dynamic>),
+            returnsNormally,
+          );
+        }
+      });
     });
 
     group('copyWith', () {
@@ -44,7 +48,7 @@ void main() {
 
         final copy = subject.copyWith(
           boundingBox: _MockBoundingBox(),
-          keypoints: [...keypoints, _MockKeypoint()],
+          keypoints: UnmodifiableListView([...keypoints, _MockKeypoint()]),
         );
 
         expect(subject.keypoints, isNot(equals(copy.keypoints)));
