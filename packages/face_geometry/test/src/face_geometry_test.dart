@@ -141,6 +141,44 @@ void main() {
       });
     });
 
+    group('isMouthOpen', () {
+      setUp(() {
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
+      });
+
+      test('returns normally', () {
+        final keypoints = UnmodifiableListView(
+          List.generate(15, (_) => _FakeKeypoint(0, 0)),
+        );
+        when(() => face.keypoints).thenReturn(keypoints);
+
+        expect(() => face.isMouthOpen, returnsNormally);
+      });
+
+      group('returns correct distance', () {
+        test('when values are 0', () {
+          final keypoints = UnmodifiableListView(
+            List.generate(15, (_) => _FakeKeypoint(0, 0)),
+          );
+          when(() => face.keypoints).thenReturn(keypoints);
+
+          expect(face.isMouthOpen, equals(false));
+        });
+
+        test('when values are not 0', () {
+          final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
+          keypoints[13] = _FakeKeypoint(-2, 2);
+          keypoints[14] = _FakeKeypoint(1, -1);
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isMouthOpen, equals(true));
+        });
+      });
+    });
+
     group('isLeftEyeClose', () {
       setUp(() {
         final boundingBox = _MockBoundingBox();
