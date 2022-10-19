@@ -1,50 +1,46 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/face_landmarks_detector/face_landmarks_detector.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {}
 
 void main() {
-  group('FaceLandmarksDetectorBloc', () {
+  group('AvatarDetectorBloc', () {
     late AvatarDetectorRepository avatarDetectorRepository;
     setUp(() {
       avatarDetectorRepository = _MockAvatarDetectorRepository();
     });
 
-    group('FaceLandmarksDetectorInitialized', () {
-      blocTest<FaceLandmarksDetectorBloc, FaceLandmarksDetectorState>(
-        'emits [FaceLandmarksDetectorLoading, FaceLandmarksDetectorLoaded] '
+    group('AvatarDetectorInitialized', () {
+      blocTest<AvatarDetectorBloc, AvatarDetectorState>(
+        'emits [AvatarDetectorLoading, AvatarDetectorLoaded] '
         'if preloadLandmarksModel finishes correctly.',
         setUp: () {
           when(
             () => avatarDetectorRepository.preloadLandmarksModel(),
           ).thenAnswer((_) => Future.value());
         },
-        build: () => FaceLandmarksDetectorBloc(avatarDetectorRepository),
-        act: (bloc) => bloc.add(FaceLandmarksDetectorInitialized()),
-        expect: () => [
-          isA<FaceLandmarksDetectorLoading>(),
-          isA<FaceLandmarksDetectorLoaded>()
-        ],
+        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        act: (bloc) => bloc.add(AvatarDetectorInitialized()),
+        expect: () =>
+            [isA<AvatarDetectorLoading>(), isA<AvatarDetectorLoaded>()],
       );
 
-      blocTest<FaceLandmarksDetectorBloc, FaceLandmarksDetectorState>(
-        'emits [FaceLandmarksDetectorError, FaceLandmarksDetectorLoaded] '
+      blocTest<AvatarDetectorBloc, AvatarDetectorState>(
+        'emits [AvatarDetectorError, AvatarDetectorLoaded] '
         'if preloadLandmarksModel throws exception.',
         setUp: () {
           when(
             () => avatarDetectorRepository.preloadLandmarksModel(),
           ).thenThrow(Exception());
         },
-        build: () => FaceLandmarksDetectorBloc(avatarDetectorRepository),
-        act: (bloc) => bloc.add(FaceLandmarksDetectorInitialized()),
-        expect: () => [
-          isA<FaceLandmarksDetectorLoading>(),
-          isA<FaceLandmarksDetectorError>()
-        ],
+        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        act: (bloc) => bloc.add(AvatarDetectorInitialized()),
+        expect: () =>
+            [isA<AvatarDetectorLoading>(), isA<AvatarDetectorError>()],
       );
     });
   });

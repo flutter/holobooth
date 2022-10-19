@@ -26,24 +26,27 @@ extension PumpApp on WidgetTester {
     AvatarDetectorRepository? avatarDetectorRepository,
   }) async {
     return mockNetworkImages(() async {
-      return pumpWidget(MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider.value(
-            value: photosRepository ?? _MockPhotosRepository(),
-          ),
-          RepositoryProvider.value(
-            value: avatarDetectorRepository ?? _MockAvatarDetectorRepository(),
-          ),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
+      return pumpWidget(
+        MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider.value(
+              value: photosRepository ?? _MockPhotosRepository(),
+            ),
+            RepositoryProvider.value(
+              value:
+                  avatarDetectorRepository ?? _MockAvatarDetectorRepository(),
+            ),
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: widget,
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: widget,
+          ),
         ),
-      ));
+      );
     });
   }
 }

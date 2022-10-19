@@ -50,6 +50,7 @@ class AvatarDetectorRepository {
     return faces.first;
   }
 
+  /// Disposes the instance of [FaceLandmarksDetector]
   void dispose() {
     _faceLandmarksDetector?.dispose();
   }

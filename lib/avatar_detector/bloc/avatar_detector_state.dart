@@ -4,24 +4,22 @@ abstract class AvatarDetectorState {
   const AvatarDetectorState();
 }
 
-class FaceLandmarksDetectorInitial extends AvatarDetectorState {}
+class AvatarDetectorInitial extends AvatarDetectorState {}
 
-class FaceLandmarksDetectorLoading extends AvatarDetectorState {}
+class AvatarDetectorLoading extends AvatarDetectorState {}
 
-class FaceLandmarksDetectorError extends AvatarDetectorState {}
+class AvatarDetectorError extends AvatarDetectorState {}
 
-class FaceLandmarksDetectorLoaded extends AvatarDetectorState {
-  const FaceLandmarksDetectorLoaded();
+class AvatarDetectorLoaded extends AvatarDetectorState {
+  const AvatarDetectorLoaded();
 }
 
-class FaceLandmarksDetectorEstimating extends AvatarDetectorState {
-  const FaceLandmarksDetectorEstimating();
+class AvatarDetectorEstimating extends AvatarDetectorState {
+  const AvatarDetectorEstimating();
 }
 
-class FaceLandmarksDetectorFacesDetected extends AvatarDetectorState {
-  FaceLandmarksDetectorFacesDetected(
-    this.face,
-  );
+class AvatarDetectorFacesDetected extends AvatarDetectorState {
+  AvatarDetectorFacesDetected(this.face);
 
   tf.Face face;
 }

@@ -4,15 +4,15 @@ abstract class AvatarDetectorEvent extends Equatable {
   const AvatarDetectorEvent();
 }
 
-class FaceLandmarksDetectorInitialized extends AvatarDetectorEvent {
-  const FaceLandmarksDetectorInitialized();
+class AvatarDetectorInitialized extends AvatarDetectorEvent {
+  const AvatarDetectorInitialized();
 
   @override
   List<Object> get props => [];
 }
 
-class FaceLandmarksDetectorEstimateRequested extends AvatarDetectorEvent {
-  const FaceLandmarksDetectorEstimateRequested(this.input);
+class AvatarDetectorEstimateRequested extends AvatarDetectorEvent {
+  const AvatarDetectorEstimateRequested(this.input);
 
   final CameraImage input;
 

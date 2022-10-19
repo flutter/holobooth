@@ -3,7 +3,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/avatar_detector/widgets/widgets.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -24,7 +23,7 @@ class MultipleCapturePage extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               AvatarDetectorBloc(context.read<AvatarDetectorRepository>())
-                ..add(const FaceLandmarksDetectorInitialized()),
+                ..add(const AvatarDetectorInitialized()),
         )
       ],
       child: const MultipleCaptureView(),

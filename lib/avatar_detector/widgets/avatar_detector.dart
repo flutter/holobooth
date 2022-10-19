@@ -17,16 +17,16 @@ class AvatarDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AvatarDetectorBloc, AvatarDetectorState>(
       listener: (context, state) async {
-        if (state is FaceLandmarksDetectorLoaded) {
+        if (state is AvatarDetectorLoaded) {
           await cameraController.startImageStream((image) {
             context
                 .read<AvatarDetectorBloc>()
-                .add(FaceLandmarksDetectorEstimateRequested(image));
+                .add(AvatarDetectorEstimateRequested(image));
           });
         }
       },
       builder: (context, state) {
-        if (state is FaceLandmarksDetectorFacesDetected) {
+        if (state is AvatarDetectorFacesDetected) {
           return child;
         }
         return const SizedBox.shrink();

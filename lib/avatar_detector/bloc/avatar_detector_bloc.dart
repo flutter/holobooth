@@ -12,9 +12,9 @@ part 'avatar_detector_state.dart';
 class AvatarDetectorBloc
     extends Bloc<AvatarDetectorEvent, AvatarDetectorState> {
   AvatarDetectorBloc(this._avatarDetectorRepository)
-      : super(FaceLandmarksDetectorInitial()) {
-    on<FaceLandmarksDetectorInitialized>(_initialized);
-    on<FaceLandmarksDetectorEstimateRequested>(_estimateRequested);
+      : super(AvatarDetectorInitial()) {
+    on<AvatarDetectorInitialized>(_initialized);
+    on<AvatarDetectorEstimateRequested>(_estimateRequested);
   }
   final AvatarDetectorRepository _avatarDetectorRepository;
 
@@ -25,41 +25,41 @@ class AvatarDetectorBloc
   }
 
   Future<FutureOr<void>> _initialized(
-    FaceLandmarksDetectorInitialized event,
+    AvatarDetectorInitialized event,
     Emitter<AvatarDetectorState> emit,
   ) async {
-    emit(FaceLandmarksDetectorLoading());
+    emit(AvatarDetectorLoading());
     try {
       await _avatarDetectorRepository.preloadLandmarksModel();
-      emit(const FaceLandmarksDetectorLoaded());
+      emit(const AvatarDetectorLoaded());
     } on Exception catch (error, trace) {
       addError(error, trace);
-      emit(FaceLandmarksDetectorError());
+      emit(AvatarDetectorError());
     }
   }
 
   Future<void> _estimateRequested(
-    FaceLandmarksDetectorEstimateRequested event,
+    AvatarDetectorEstimateRequested event,
     Emitter<AvatarDetectorState> emit,
   ) async {
     // TODO(oscar): Ensure _estimateRequested is not called when currently
     // estimating.
-    if (this.state is FaceLandmarksDetectorEstimating) return;
+    if (this.state is AvatarDetectorEstimating) return;
 
     // The following hack allows to avoid a performance hit by reusing the
     // object. This is because constructing objects in Dart is expensive and
     // impacts the performance heavily when done repeatedly inside a loop.
-    final state = this.state is FaceLandmarksDetectorFacesDetected
-        ? this.state as FaceLandmarksDetectorFacesDetected
-        : FaceLandmarksDetectorFacesDetected(tf.Face.empty());
-    emit(const FaceLandmarksDetectorEstimating());
+    final state = this.state is AvatarDetectorFacesDetected
+        ? this.state as AvatarDetectorFacesDetected
+        : AvatarDetectorFacesDetected(tf.Face.empty());
+    emit(const AvatarDetectorEstimating());
     final imageData = tf.ImageData(
       bytes: event.input.planes.first.bytes,
       size: tf.Size(event.input.width, event.input.height),
     );
     final face = await _avatarDetectorRepository.detectFace(imageData);
     if (face == null) {
-      emit(FaceLandmarksDetectorFacesDetected(tf.Face.empty()));
+      emit(AvatarDetectorFacesDetected(tf.Face.empty()));
     } else {
       emit(state..face = face);
     }
