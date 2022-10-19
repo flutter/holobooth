@@ -42,7 +42,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
               opacity: isCameraVisible ? 1 : 0,
               child: CameraView(onCameraReady: _onCameraReady),
             ),
-            if (_cameraController != null)
+            if (_cameraController != null) ...[
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
@@ -54,7 +54,6 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   );
                 },
               ),
-            if (_cameraController != null)
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
@@ -67,6 +66,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                       isCameraVisible ? 'Hide the camera' : 'Show the camera'),
                 ),
               )
+            ]
           ],
         ),
       ),
