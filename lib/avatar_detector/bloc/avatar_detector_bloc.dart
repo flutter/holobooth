@@ -6,17 +6,15 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
-part 'face_landmarks_detector_event.dart';
-part 'face_landmarks_detector_state.dart';
+part 'avatar_detector_event.dart';
+part 'avatar_detector_state.dart';
 
-class FaceLandmarksDetectorBloc
-    extends Bloc<FaceLandmarksDetectorEvent, FaceLandmarksDetectorState> {
-  FaceLandmarksDetectorBloc(this._avatarDetectorRepository)
+class AvatarDetectorBloc
+    extends Bloc<AvatarDetectorEvent, AvatarDetectorState> {
+  AvatarDetectorBloc(this._avatarDetectorRepository)
       : super(FaceLandmarksDetectorInitial()) {
     on<FaceLandmarksDetectorInitialized>(_initialized);
-    on<FaceLandmarksDetectorEstimateRequested>(
-      _estimateRequested,
-    );
+    on<FaceLandmarksDetectorEstimateRequested>(_estimateRequested);
   }
   final AvatarDetectorRepository _avatarDetectorRepository;
 
@@ -28,7 +26,7 @@ class FaceLandmarksDetectorBloc
 
   Future<FutureOr<void>> _initialized(
     FaceLandmarksDetectorInitialized event,
-    Emitter<FaceLandmarksDetectorState> emit,
+    Emitter<AvatarDetectorState> emit,
   ) async {
     emit(FaceLandmarksDetectorLoading());
     try {
@@ -36,12 +34,13 @@ class FaceLandmarksDetectorBloc
       emit(const FaceLandmarksDetectorLoaded());
     } on Exception catch (error, trace) {
       addError(error, trace);
+      emit(FaceLandmarksDetectorError());
     }
   }
 
   Future<void> _estimateRequested(
     FaceLandmarksDetectorEstimateRequested event,
-    Emitter<FaceLandmarksDetectorState> emit,
+    Emitter<AvatarDetectorState> emit,
   ) async {
     // TODO(oscar): Ensure _estimateRequested is not called when currently
     // estimating.

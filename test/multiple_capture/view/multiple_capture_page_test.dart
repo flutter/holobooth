@@ -84,6 +84,8 @@ void main() {
     when(() => cameraPlatform.pausePreview(cameraId))
         .thenAnswer((_) => Future.value());
     when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onStreamedFrameAvailable(any()))
+        .thenAnswer((_) => Stream.empty());
   });
 
   tearDown(() {
