@@ -9,13 +9,6 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsAudioGen {
-  const $AssetsAudioGen();
-
-  /// File path: assets/audio/camera.mp3
-  String get camera => 'assets/audio/camera.mp3';
-}
-
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
@@ -40,6 +33,17 @@ class $AssetsBackgroundsGen {
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 }
 
+class $AssetsCharactersGen {
+  const $AssetsCharactersGen();
+
+  /// File path: assets/characters/dash.png
+  AssetGenImage get dash => const AssetGenImage('assets/characters/dash.png');
+
+  /// File path: assets/characters/sparky.png
+  AssetGenImage get sparky =>
+      const AssetGenImage('assets/characters/sparky.png');
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -55,8 +59,8 @@ class $AssetsIconsGen {
 class Assets {
   Assets._();
 
-  static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
+  static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
 }
 

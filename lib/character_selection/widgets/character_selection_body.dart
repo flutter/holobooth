@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
@@ -25,6 +25,7 @@ class CharacterSelectionBody extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 53),
+          const CharacterSelector(),
         ],
       ),
     );
