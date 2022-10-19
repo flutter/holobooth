@@ -1,7 +1,3 @@
-// TODO(alestiago): Use a plugin instead.
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-
 import 'package:camera/camera.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
@@ -29,18 +25,12 @@ class _LandmarksOpenMouthPage extends StatefulWidget {
 
 class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   CameraController? _cameraController;
-  html.VideoElement? _videoElement;
 
   late final AudioPlayer _audioPlayer;
+  var _isPlaying = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
-  }
-
-  void _queryVideoElement() {
-    final videoElement = html.querySelector('video')! as html.VideoElement;
-    setState(() => _videoElement = videoElement);
   }
 
   @override
@@ -71,33 +61,26 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
         child: Stack(
           children: [
             CameraView(onCameraReady: _onCameraReady),
-            if (_videoElement != null)
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final size = constraints.biggest;
-                  _videoElement!
-                    ..width = size.width.floor()
-                    ..height = size.height.floor();
+            if (_cameraController != null)
+              FacesDetectorBuilder(
+                cameraController: _cameraController!,
+                builder: (context, faces) {
+                  if (faces.isEmpty) return const SizedBox.shrink();
 
-                  return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
-                    builder: (context, faces) {
-                      if (faces.isEmpty) return const SizedBox.shrink();
-                      if (faces.first.mouthDistance > 15) {
-                        _audioPlayer.play();
-                      } else if (faces.first.mouthDistance < 15) {
-                        _audioPlayer.pause();
-                      }
+                  if (faces.first.isMouthOpen) {
+                    if (!_isPlaying) {
+                      _audioPlayer.play();
+                      _isPlaying = true;
+                    }
+                  } else {
+                    _audioPlayer.pause();
+                    _isPlaying = false;
+                  }
 
-                      return SizedBox.fromSize(
-                        size: size,
-                        child: CustomPaint(
-                          painter: _FaceLandmarkCustomPainter(
-                            face: faces.first,
-                          ),
-                        ),
-                      );
-                    },
+                  return CustomPaint(
+                    painter: _FaceLandmarkCustomPainter(
+                      face: faces.first,
+                    ),
                   );
                 },
               ),
@@ -118,7 +101,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.mouthDistance > 1 ? Colors.yellow : Colors.red
+      ..color = face.isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 

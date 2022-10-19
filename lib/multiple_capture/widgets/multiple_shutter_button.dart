@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart';
 
 class MultipleShutterButton extends StatefulWidget {
   const MultipleShutterButton({

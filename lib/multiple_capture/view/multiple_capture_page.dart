@@ -7,8 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/face_landmarks_detector/widgets/widgets.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart'
-    show CameraView, PhotoboothError;
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MultipleCapturePage extends StatelessWidget {
@@ -55,6 +53,10 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
 
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    final aspectRatio = orientation == Orientation.portrait
+        ? PhotoboothAspectRatio.portrait
+        : PhotoboothAspectRatio.landscape;
     return BlocListener<MultipleCaptureBloc, MultipleCaptureState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -64,51 +66,56 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
         }
       },
       child: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Align(
-              child: CameraView(
-                onCameraReady: _onCameraReady,
-                errorBuilder: (context, error) {
-                  if (error is CameraException) {
-                    return PhotoboothError(error: error);
-                  } else {
-                    return const SizedBox.shrink(
-                      key: MultipleCaptureView.cameraErrorViewKey,
-                    );
-                  }
-                },
-              ),
-            ),
-            if (_isCameraAvailable && _videoElement != null)
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final size = constraints.biggest;
-                  _videoElement!
-                    ..width = size.width.floor()
-                    ..height = size.height.floor();
-
-                  return FacesLandmarksDetectorBuilder(
-                    videoElement: _videoElement!,
-                    builder: (context, faces) {
-                      if (faces.isEmpty) return const SizedBox.shrink();
-                      return SizedBox.fromSize(
-                        size: size,
-                        child: const FlutterLogo(),
-                      );
-                    },
-                  );
-                },
-              ),
-            if (_isCameraAvailable)
+        body: CameraBackground(
+          aspectRatio: aspectRatio,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
               Align(
-                alignment: Alignment.bottomCenter,
-                child: MultipleShutterButton(
-                  onShutter: _takeSinglePicture,
+                child: CameraView(
+                  onCameraReady: (controller) {
+                    setState(() => _cameraController = controller);
+                  },
+                  errorBuilder: (context, error) {
+                    if (error is CameraException) {
+                      return PhotoboothError(error: error);
+                    } else {
+                      return const SizedBox.shrink(
+                        key: MultipleCaptureView.cameraErrorViewKey,
+                      );
+                    }
+                  },
                 ),
               ),
-          ],
+              if (_isCameraAvailable && _videoElement != null)
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final size = constraints.biggest;
+                    _videoElement!
+                      ..width = size.width.floor()
+                      ..height = size.height.floor();
+
+                    return FacesLandmarksDetectorBuilder(
+                      videoElement: _videoElement!,
+                      builder: (context, faces) {
+                        if (faces.isEmpty) return const SizedBox.shrink();
+                        return SizedBox.fromSize(
+                          size: size,
+                          child: const FlutterLogo(),
+                        );
+                      },
+                    );
+                  },
+                ),
+              if (_isCameraAvailable)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: MultipleShutterButton(
+                    onShutter: _takeSinglePicture,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

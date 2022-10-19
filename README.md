@@ -131,6 +131,33 @@ Widget build(BuildContext context) {
 }
 ```
 
+## Working with Mason 🧱
+
+This project relies on [mason](https://github.com/felangel/mason) to create and consume reusable templates called bricks. For additional documentation see [BrickHub](https://docs.brickhub.dev).
+
+1. Install mason from [pub](https://pub.dev):
+```sh
+dart pub global activate mason_cli
+```
+
+2. Check the current project bricks:
+```sh
+mason list
+```
+
+3. Add your own bricks:
+```sh
+mason add bloc
+```
+
+4. Generate code from a brick:
+```sh
+mason make bloc
+```
+
+> **Note**
+> Mason support for Visual Studio Code can be found [here](https://marketplace.visualstudio.com/items?itemName=FelixAngelov.mason).
+
 [build_status_badge]: https://github.com/flutter/photobooth/actions/workflows/main.yaml/badge.svg
 [coverage_badge]: coverage_badge.svg
 [firebase_link]: https://firebase.google.com/

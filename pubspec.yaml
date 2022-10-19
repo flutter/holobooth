@@ -13,6 +13,8 @@ dependencies:
   audio_session: ^0.1.10
   authentication_repository:
     path: packages/authentication_repository
+  avatar_detector_repository:
+    path: packages/avatar_detector_repository
   bloc: ^8.1.0
   camera: ^0.10.0+3
   collection: ^1.16.0
@@ -62,12 +64,5 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/audio/
     - assets/backgrounds/
-    - assets/images/
     - assets/icons/
-    - assets/props/google/
-    - assets/props/hats/
-    - assets/props/eyewear/
-    - assets/props/food/
-    - assets/props/shapes/

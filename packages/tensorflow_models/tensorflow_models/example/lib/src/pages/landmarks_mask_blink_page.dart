@@ -1,7 +1,3 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-import 'dart:math';
-
 import 'package:camera/camera.dart';
 import 'package:example/assets/assets.dart';
 import 'package:example/src/src.dart';
@@ -30,17 +26,9 @@ class _LandmarksMaskBlinkView extends StatefulWidget {
 
 class _LandmarksMaskBlinkViewState extends State<_LandmarksMaskBlinkView> {
   CameraController? _cameraController;
-  html.VideoElement? _videoElement;
-  Point? facePosition;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _queryVideoElement());
-  }
-
-  void _queryVideoElement() {
-    final videoElement = html.querySelector('video')! as html.VideoElement;
-    setState(() => _videoElement = videoElement);
   }
 
   @override
@@ -51,36 +39,20 @@ class _LandmarksMaskBlinkViewState extends State<_LandmarksMaskBlinkView> {
         child: Stack(
           children: [
             CameraView(onCameraReady: _onCameraReady),
-            if (_videoElement != null)
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final size = constraints.biggest;
+            if (_cameraController != null)
+              FacesDetectorBuilder(
+                cameraController: _cameraController!,
+                builder: (context, faces) {
+                  if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
 
-                  _videoElement!
-                    ..width = size.width.floor()
-                    ..height = size.height.floor();
-
-                  return FacesDetectorBuilder(
-                    videoElement: _videoElement!,
-                    builder: (context, faces) {
-                      if (faces.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
-
-                      return Stack(
-                        children: [
-                          _BlinkMask(face: faces.first),
-                          SizedBox.fromSize(
-                            size: size,
-                            child: CustomPaint(
-                              painter: _FaceLandmarkCustomPainter(
-                                face: faces.first,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                  return Stack(
+                    children: [
+                      _BlinkMask(face: face),
+                      CustomPaint(
+                        painter: _FaceLandmarkCustomPainter(face: face),
+                      ),
+                    ],
                   );
                 },
               ),
