@@ -63,7 +63,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                       isCameraVisible = !isCameraVisible;
                     });
                   },
-                  child: const Text('Turn off/on the camera'),
+                  child: Text(
+                      isCameraVisible ? 'Hide the camera' : 'Show the camera'),
                 ),
               )
           ],
