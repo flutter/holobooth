@@ -56,25 +56,23 @@ extension FaceGeometry on tf.Face {
   }
 
   /// Detect if the left eye is closed.
+  ///
   /// Detection works after the first blink to make sure we have the correct
   /// minimum and maximum values.
-  ///
-  /// Since the face is mirrored, we need to check the right eye.
-  bool get isLeftEyeClose => _rightEye.isClose(
-        eyeDistance: rightEyeDistance,
+  bool get isLeftEyeClose => _leftEye.isClose(
+        eyeDistance: leftEyeDistance,
         boundingBoxHeight: boundingBox.height.toDouble(),
       );
 
   /// Detect if the right eye is closed.
+  ///
   /// Detection works after the first blink to make sure we have the correct
   /// minimum and maximum values.
-  ///
-  /// Since the face is mirrored, we need to check the left eye.
-  bool get isRightEyeClose => _leftEye.isClose(
-        eyeDistance: leftEyeDistance,
+  bool get isRightEyeClose => _rightEye.isClose(
+        eyeDistance: rightEyeDistance,
         boundingBoxHeight: boundingBox.height.toDouble(),
       );
-      
+
   /// Defines if the mouth is open based on hight and face height.
   bool get isMouthOpen {
     if (mouthDistance > 1) {

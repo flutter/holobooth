@@ -1,3 +1,6 @@
+/// The minimum value at which [FaceEye] recognizes an eye closure.
+const _minEyeRatio = 0.3;
+
 /// {@template face_eye}
 /// An object which holds data for eye blink.
 /// {@endtemplate}
@@ -37,7 +40,7 @@ class FaceEye {
 
     if (_firstAction) {
       final percent = (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
-      return percent < 0.3;
+      return percent < _minEyeRatio;
     } else {
       return false;
     }
