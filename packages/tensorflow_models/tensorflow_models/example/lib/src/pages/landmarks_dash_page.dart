@@ -25,6 +25,7 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+  bool isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -37,7 +38,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Opacity(
+              opacity: isCameraVisible ? 1 : 0,
+              child: CameraView(onCameraReady: _onCameraReady),
+            ),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
@@ -50,6 +54,16 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   );
                 },
               ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isCameraVisible = !isCameraVisible;
+                    });
+                  },
+                  child: Text('Turn off/on the camera')),
+            )
           ],
         ),
       ),
