@@ -25,7 +25,7 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
-  bool isCameraVisible = false;
+  var _isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
