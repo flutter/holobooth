@@ -39,7 +39,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
         child: Stack(
           children: [
             Opacity(
-              opacity: isCameraVisible ? 1 : 0,
+              opacity: _isCameraVisible ? 1 : 0,
               child: CameraView(onCameraReady: _onCameraReady),
             ),
             if (_cameraController != null) ...[
@@ -59,11 +59,11 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      isCameraVisible = !isCameraVisible;
+                      _isCameraVisible = !_isCameraVisible;
                     });
                   },
                   child: Text(
-                      isCameraVisible ? 'Hide the camera' : 'Show the camera'),
+                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
                 ),
               )
             ]
