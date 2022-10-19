@@ -88,6 +88,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                   builder: (context, constraints) {
                     return AvatarDetector(
                       cameraController: _cameraController!,
+                      loadingChild: const SizedBox(),
                       // TODO(OSCAR): add Rive animation
                       child: const SizedBox(),
                     );

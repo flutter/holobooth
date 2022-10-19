@@ -106,6 +106,7 @@ void main() {
       'renders MultipleCaptureView',
       (WidgetTester tester) async {
         await tester.pumpApp(MultipleCapturePage());
+        expect(find.byType(MultipleCaptureView), findsOneWidget);
       },
     );
   });

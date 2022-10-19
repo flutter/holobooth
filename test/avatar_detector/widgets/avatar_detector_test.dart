@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:tensorflow_models/tensorflow_models.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -18,9 +19,11 @@ class _MockAvatarDetectorBloc
     implements AvatarDetectorBloc {}
 
 class _MockCameraController extends Mock implements CameraController {
+  _MockCameraController(this.cameraImage);
+  final CameraImage cameraImage;
   @override
   Future<void> startImageStream(onLatestImageAvailable onAvailable) async {
-    onAvailable(_FakeCameraImage());
+    onAvailable(cameraImage);
   }
 }
 
@@ -46,17 +49,19 @@ class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _MockCameraImageData extends Mock implements CameraImageData {}
+class _FakeFace extends Fake implements Face {}
 
 void main() {
   group('AvatarDetector', () {
     late AvatarDetectorBloc avatarDetectorBloc;
     late CameraController cameraController;
+    late CameraImage cameraImage;
 
     setUp(() {
+      cameraImage = _FakeCameraImage();
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
-      cameraController = _MockCameraController();
+      cameraController = _MockCameraController(cameraImage);
       registerFallbackValue(0);
     });
 
@@ -74,19 +79,55 @@ void main() {
           avatarDetectorBloc,
           Stream.value(AvatarDetectorLoaded()),
         );
-
         await tester.pumpSubject(
-          AvatarDetector(cameraController: cameraController, child: SizedBox()),
+          AvatarDetector(
+            cameraController: cameraController,
+            loadingChild: SizedBox(),
+            child: SizedBox(),
+          ),
           avatarDetectorBloc,
         );
+        frameStreamController.add(_FakeCameraImageData());
+        verify(
+          () => avatarDetectorBloc
+              .add(AvatarDetectorEstimateRequested(cameraImage)),
+        ).called(1);
+      },
+    );
 
-        final cameraImageData = _MockCameraImageData();
-        when(() => cameraImageData.height).thenReturn(10);
-        when(() => cameraImageData.width).thenReturn(10);
-        when(() => cameraImageData.planes.first.bytes).thenReturn(Uint8List(0));
-        frameStreamController.add(cameraImageData);
+    testWidgets(
+      'renders child when AvatarDetectorFaceDetected',
+      (WidgetTester tester) async {
+        when(() => avatarDetectorBloc.state)
+            .thenReturn(AvatarDetectorFaceDetected(_FakeFace()));
+        final childKey = Key('childKey');
+        await tester.pumpSubject(
+          AvatarDetector(
+            cameraController: cameraController,
+            loadingChild: SizedBox(),
+            child: SizedBox(key: childKey),
+          ),
+          avatarDetectorBloc,
+        );
+        expect(find.byKey(childKey), findsOneWidget);
+      },
+    );
 
-        // expect event
+    testWidgets(
+      'renders child state is not AvatarDetectorFaceDetected',
+      (WidgetTester tester) async {
+        when(() => avatarDetectorBloc.state)
+            .thenReturn(AvatarDetectorEstimating());
+        final loadingChildKey = Key('loadingChildKey');
+        await tester.pumpSubject(
+          AvatarDetector(
+            cameraController: cameraController,
+            loadingChild: SizedBox(key: loadingChildKey),
+            child: SizedBox(),
+          ),
+          avatarDetectorBloc,
+        );
+        expect(find.byKey(loadingChildKey), findsOneWidget);
       },
     );
   });

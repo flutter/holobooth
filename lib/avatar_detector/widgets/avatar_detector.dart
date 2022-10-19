@@ -8,10 +8,12 @@ class AvatarDetector extends StatelessWidget {
     super.key,
     required this.cameraController,
     required this.child,
+    required this.loadingChild,
   });
 
   final CameraController cameraController;
   final Widget child;
+  final Widget loadingChild;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AvatarDetector extends StatelessWidget {
         if (state is AvatarDetectorFaceDetected) {
           return child;
         }
-        return const SizedBox.shrink();
+        return loadingChild;
       },
     );
   }
