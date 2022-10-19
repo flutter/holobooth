@@ -21,15 +21,16 @@ void main() {
       });
 
       test('returns true on close', () {
-        final isEyeClose = FaceEye()
+        final faceEye = FaceEye()
           ..isClose(
             eyeDistance: 50,
             boundingBoxHeight: boundingBoxHeight,
-          )
-          ..isClose(
-            eyeDistance: 10,
-            boundingBoxHeight: boundingBoxHeight,
           );
+
+        final isEyeClose = faceEye.isClose(
+          eyeDistance: 10,
+          boundingBoxHeight: boundingBoxHeight,
+        );
 
         expect(isEyeClose, true);
       });

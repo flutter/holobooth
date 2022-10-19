@@ -212,8 +212,9 @@ void main() {
 
         test('for first check', () {
           final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[386] = _FakeKeypoint(30, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
+          keypoints[159] = _FakeKeypoint(30, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
+
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
@@ -222,15 +223,16 @@ void main() {
 
         test('for second check with close', () {
           final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[386] = _FakeKeypoint(30, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
+          keypoints[159] = _FakeKeypoint(30, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
+
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
           expect(face.isLeftEyeClose, equals(false));
 
-          keypoints[386] = _FakeKeypoint(12, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
+          keypoints[159] = _FakeKeypoint(12, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
@@ -272,8 +274,8 @@ void main() {
 
         test('for first check', () {
           final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[159] = _FakeKeypoint(30, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
+          keypoints[386] = _FakeKeypoint(30, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
@@ -282,15 +284,15 @@ void main() {
 
         test('for second check with close', () {
           final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[159] = _FakeKeypoint(30, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
+          keypoints[386] = _FakeKeypoint(30, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
           expect(face.isRightEyeClose, equals(false));
 
-          keypoints[159] = _FakeKeypoint(12, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
+          keypoints[386] = _FakeKeypoint(12, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
