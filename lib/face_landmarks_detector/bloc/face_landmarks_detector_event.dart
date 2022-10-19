@@ -15,7 +15,7 @@ class FaceLandmarksDetectorEstimateRequested
     extends FaceLandmarksDetectorEvent {
   const FaceLandmarksDetectorEstimateRequested(this.input);
 
-  final Object input;
+  final CameraImage input;
 
   @override
   List<Object> get props => [input];

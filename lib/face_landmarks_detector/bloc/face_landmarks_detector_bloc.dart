@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
@@ -40,11 +41,6 @@ class FaceLandmarksDetectorBloc
     FaceLandmarksDetectorEstimateRequested event,
     Emitter<FaceLandmarksDetectorState> emit,
   ) async {
-    assert(
-      this.state is FaceLandmarksDetectorLoaded,
-      "Can't estimate without initializing, make sure to "
-      'add $FaceLandmarksDetectorInitialized.',
-    );
     // TODO(oscar): Ensure _estimateRequested is not called when currently
     // estimating.
     if (this.state is FaceLandmarksDetectorEstimating) return;
@@ -56,7 +52,11 @@ class FaceLandmarksDetectorBloc
         ? this.state as FaceLandmarksDetectorFacesDetected
         : FaceLandmarksDetectorFacesDetected(const []);
     emit(const FaceLandmarksDetectorEstimating());
-    final faces = await _detector.estimateFaces(event.input);
+    final imageData = tf.ImageData(
+      bytes: event.input.planes.first.bytes,
+      size: tf.Size(event.input.width, event.input.height),
+    );
+    final faces = await _detector.estimateFaces(imageData);
     emit(state..faces = faces);
   }
 }

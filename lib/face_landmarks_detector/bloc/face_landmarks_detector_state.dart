@@ -14,11 +14,11 @@ class FaceLandmarksDetectorLoaded extends FaceLandmarksDetectorState {
   const FaceLandmarksDetectorLoaded();
 }
 
-class FaceLandmarksDetectorEstimating extends FaceLandmarksDetectorLoaded {
+class FaceLandmarksDetectorEstimating extends FaceLandmarksDetectorState {
   const FaceLandmarksDetectorEstimating();
 }
 
-class FaceLandmarksDetectorFacesDetected extends FaceLandmarksDetectorLoaded {
+class FaceLandmarksDetectorFacesDetected extends FaceLandmarksDetectorState {
   FaceLandmarksDetectorFacesDetected(
     this.faces,
   );

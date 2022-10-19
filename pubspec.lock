@@ -7,7 +7,7 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "49.0.0"
+    version: "47.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -28,7 +28,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "4.7.0"
   args:
     dependency: transitive
     description:
@@ -88,9 +88,11 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/camera/camera"
+      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      url: "https://github.com/VGVentures/plugins"
+    source: git
     version: "0.10.0+3"
   camera_android:
     dependency: transitive
@@ -114,11 +116,13 @@ packages:
     source: hosted
     version: "2.2.2"
   camera_web:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: camera_web
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/camera/camera_web"
+      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      url: "https://github.com/VGVentures/plugins"
+    source: git
     version: "0.3.0+1"
   characters:
     dependency: transitive
@@ -335,7 +339,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.3"
   glob:
     dependency: transitive
     description:
@@ -447,7 +451,7 @@ packages:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.1.5"
   meta:
     dependency: "direct main"
     description:
@@ -690,7 +694,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.9.0"
   stack_trace:
     dependency: transitive
     description:
@@ -704,7 +708,7 @@ packages:
       name: stream_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.0"
   stream_transform:
     dependency: transitive
     description:
@@ -753,21 +757,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.21.6"
+    version: "1.21.4"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.14"
+    version: "0.4.12"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.18"
+    version: "0.4.16"
   typed_data:
     dependency: transitive
     description:
@@ -844,7 +848,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.2"
   very_good_analysis:
     dependency: "direct dev"
     description:

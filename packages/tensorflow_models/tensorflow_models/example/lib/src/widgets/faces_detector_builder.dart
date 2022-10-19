@@ -13,7 +13,6 @@ class FacesDetectorBuilder extends StatefulWidget {
   }) : super(key: key);
 
   final CameraController cameraController;
-
   final Widget Function(BuildContext context, tf.Faces faces) builder;
 
   @override
