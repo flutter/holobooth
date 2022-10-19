@@ -54,16 +54,18 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   );
                 },
               ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
+            if (_cameraController != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
                   onPressed: () {
                     setState(() {
                       isCameraVisible = !isCameraVisible;
                     });
                   },
-                  child: Text('Turn off/on the camera')),
-            )
+                  child: const Text('Turn off/on the camera'),
+                ),
+              )
           ],
         ),
       ),
