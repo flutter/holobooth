@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:mocktail/mocktail.dart';
@@ -31,10 +30,6 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
-
-class _MockAvatarDetectorBloc
-    extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
-    implements AvatarDetectorBloc {}
 
 void main() {
   const cameraId = 1;
@@ -113,15 +108,12 @@ void main() {
 
   group('MultipleCaptureView', () {
     late MultipleCaptureBloc multipleCaptureBloc;
-    late AvatarDetectorBloc avatarDetectorBloc;
 
     setUp(() {
       multipleCaptureBloc = _MockMultipleCaptureBloc();
       when(
         () => multipleCaptureBloc.state,
       ).thenReturn(MultipleCaptureState.empty());
-      avatarDetectorBloc = _MockAvatarDetectorBloc();
-      when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
     });
 
     setUpAll(() {
@@ -135,7 +127,6 @@ void main() {
         await tester.pumpSubject(
           MultipleCaptureView(),
           multipleCaptureBloc,
-          avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         expect(
@@ -153,7 +144,6 @@ void main() {
         await tester.pumpSubject(
           MultipleCaptureView(),
           multipleCaptureBloc,
-          avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothError), findsOneWidget);
@@ -174,7 +164,6 @@ void main() {
         await tester.pumpSubject(
           MultipleCaptureView(),
           multipleCaptureBloc,
-          avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
@@ -187,7 +176,6 @@ void main() {
         await tester.pumpSubject(
           MultipleCaptureView(),
           multipleCaptureBloc,
-          avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
@@ -212,13 +200,11 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     MultipleCaptureView subject,
     MultipleCaptureBloc multipleCaptureBloc,
-    AvatarDetectorBloc avatarDetectorBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: multipleCaptureBloc),
-            BlocProvider.value(value: avatarDetectorBloc),
           ],
           child: subject,
         ),

@@ -52,19 +52,34 @@ class _MockCameraPlatform extends Mock
 class _FakeFace extends Fake implements Face {}
 
 void main() {
+  late AvatarDetectorBloc avatarDetectorBloc;
+  late CameraController cameraController;
+  late CameraImage cameraImage;
+
+  setUp(() {
+    cameraImage = _FakeCameraImage();
+    avatarDetectorBloc = _MockAvatarDetectorBloc();
+    when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
+    cameraController = _MockCameraController(cameraImage);
+  });
+
   group('AvatarDetector', () {
-    late AvatarDetectorBloc avatarDetectorBloc;
-    late CameraController cameraController;
-    late CameraImage cameraImage;
+    testWidgets(
+      'renders AvatarDetectorContent',
+      (WidgetTester tester) async {
+        await tester.pumpApp(
+          AvatarDetector(
+            cameraController: cameraController,
+            loadingChild: SizedBox(),
+            child: SizedBox(),
+          ),
+        );
+        expect(find.byType(AvatarDetectorContent), findsOneWidget);
+      },
+    );
+  });
 
-    setUp(() {
-      cameraImage = _FakeCameraImage();
-      avatarDetectorBloc = _MockAvatarDetectorBloc();
-      when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
-      cameraController = _MockCameraController(cameraImage);
-      registerFallbackValue(0);
-    });
-
+  group('AvatarDetectorContent', () {
     testWidgets(
       'adds AvatarDetectorEstimateRequested when AvatarDetectorLoaded',
       (WidgetTester tester) async {
@@ -80,7 +95,7 @@ void main() {
           Stream.value(AvatarDetectorLoaded()),
         );
         await tester.pumpSubject(
-          AvatarDetector(
+          AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(),
             child: SizedBox(),
@@ -102,7 +117,7 @@ void main() {
             .thenReturn(AvatarDetectorFaceDetected(_FakeFace()));
         final childKey = Key('childKey');
         await tester.pumpSubject(
-          AvatarDetector(
+          AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(),
             child: SizedBox(key: childKey),
@@ -120,7 +135,7 @@ void main() {
             .thenReturn(AvatarDetectorEstimating());
         final loadingChildKey = Key('loadingChildKey');
         await tester.pumpSubject(
-          AvatarDetector(
+          AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(key: loadingChildKey),
             child: SizedBox(),
@@ -135,7 +150,7 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    AvatarDetector subject,
+    AvatarDetectorContent subject,
     AvatarDetectorBloc avatarDetectorBloc,
   ) =>
       pumpApp(
