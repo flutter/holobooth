@@ -23,13 +23,6 @@ abstract class FaceLandmarksDetector {
 class Face {
   const Face._(this.keypoints, this.boundingBox);
 
-  factory Face.empty() {
-    return Face._(
-      UnmodifiableListView(List.empty()),
-      BoundingBox._(0, 0, 0, 0, 0, 0),
-    );
-  }
-
   factory Face.fromJson(Map<String, dynamic> json) {
     final keypointsJson = json['keypoints'] as List<dynamic>;
     final bondingBoxJson = json['box'] as Map<String, dynamic>;

@@ -35,7 +35,7 @@ class AvatarDetectorRepository {
   /// Return [Face] if there is any on the [input].
   ///
   /// Throws [DetectFaceException] if any exception occurs.
-  Future<Face?> detectFace(dynamic input) async {
+  Future<Face?> detectFace(Object input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
     }

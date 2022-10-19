@@ -26,7 +26,7 @@ class AvatarDetector extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is AvatarDetectorFacesDetected) {
+        if (state is AvatarDetectorFaceDetected) {
           return child;
         }
         return const SizedBox.shrink();

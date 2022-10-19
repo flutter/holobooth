@@ -1,25 +1,49 @@
 part of 'avatar_detector_bloc.dart';
 
-abstract class AvatarDetectorState {
+abstract class AvatarDetectorState extends Equatable {
   const AvatarDetectorState();
 }
 
-class AvatarDetectorInitial extends AvatarDetectorState {}
+class AvatarDetectorInitial extends AvatarDetectorState {
+  @override
+  List<Object?> get props => [];
+}
 
-class AvatarDetectorLoading extends AvatarDetectorState {}
+class AvatarDetectorLoading extends AvatarDetectorState {
+  @override
+  List<Object?> get props => [];
+}
 
-class AvatarDetectorError extends AvatarDetectorState {}
+class AvatarDetectorError extends AvatarDetectorState {
+  @override
+  List<Object?> get props => [];
+}
 
 class AvatarDetectorLoaded extends AvatarDetectorState {
   const AvatarDetectorLoaded();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class AvatarDetectorEstimating extends AvatarDetectorState {
   const AvatarDetectorEstimating();
+  @override
+  List<Object?> get props => [];
 }
 
-class AvatarDetectorFacesDetected extends AvatarDetectorState {
-  AvatarDetectorFacesDetected(this.face);
+class AvatarDetectorFaceDetected extends AvatarDetectorState {
+  const AvatarDetectorFaceDetected(this.face);
 
-  tf.Face face;
+  final tf.Face face;
+
+  @override
+  List<Object?> get props => [face];
+}
+
+class AvatarDetectorFaceNotDetected extends AvatarDetectorState {
+  const AvatarDetectorFaceNotDetected();
+
+  @override
+  List<Object> get props => [];
 }

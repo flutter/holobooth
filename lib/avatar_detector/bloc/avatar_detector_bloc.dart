@@ -44,24 +44,24 @@ class AvatarDetectorBloc
   ) async {
     // TODO(oscar): Ensure _estimateRequested is not called when currently
     // estimating.
-    if (this.state is AvatarDetectorEstimating) return;
+    if (state is AvatarDetectorEstimating) return;
 
-    // The following hack allows to avoid a performance hit by reusing the
-    // object. This is because constructing objects in Dart is expensive and
-    // impacts the performance heavily when done repeatedly inside a loop.
-    final state = this.state is AvatarDetectorFacesDetected
-        ? this.state as AvatarDetectorFacesDetected
-        : AvatarDetectorFacesDetected(tf.Face.empty());
     emit(const AvatarDetectorEstimating());
     final imageData = tf.ImageData(
       bytes: event.input.planes.first.bytes,
       size: tf.Size(event.input.width, event.input.height),
     );
-    final face = await _avatarDetectorRepository.detectFace(imageData);
-    if (face == null) {
-      emit(AvatarDetectorFacesDetected(tf.Face.empty()));
-    } else {
-      emit(state..face = face);
+    tf.Face? face;
+    try {
+      face = await _avatarDetectorRepository.detectFace(imageData);
+      if (face == null) {
+        emit(const AvatarDetectorFaceNotDetected());
+      } else {
+        emit(AvatarDetectorFaceDetected(face));
+      }
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      emit(const AvatarDetectorFaceNotDetected());
     }
   }
 }
