@@ -76,7 +76,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
               if (_isCameraAvailable)
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    return FacesLandmarksDetectorBuilder(
+                    return FaceLandmarksDetectorBuilder(
                       cameraController: _cameraController!,
                       builder: (context, faces) {
                         // TODO(OSCAR): add Rive animation

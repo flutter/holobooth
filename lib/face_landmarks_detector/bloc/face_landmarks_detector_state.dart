@@ -20,8 +20,8 @@ class FaceLandmarksDetectorEstimating extends FaceLandmarksDetectorState {
 
 class FaceLandmarksDetectorFacesDetected extends FaceLandmarksDetectorState {
   FaceLandmarksDetectorFacesDetected(
-    this.faces,
+    this.face,
   );
 
-  tf.Faces faces;
+  tf.Face face;
 }

@@ -1,1 +1,1 @@
-export 'faces_landmarks_detector_builder.dart';
+export 'face_landmarks_detector_builder.dart';

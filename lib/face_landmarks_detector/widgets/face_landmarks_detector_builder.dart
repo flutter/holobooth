@@ -1,25 +1,26 @@
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/face_landmarks_detector/face_landmarks_detector.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
-class FacesLandmarksDetectorBuilder extends StatelessWidget {
-  const FacesLandmarksDetectorBuilder({
+class FaceLandmarksDetectorBuilder extends StatelessWidget {
+  const FaceLandmarksDetectorBuilder({
     super.key,
     required this.cameraController,
     required this.builder,
   });
 
   final CameraController cameraController;
-
-  final Widget Function(BuildContext context, tf.Faces faces) builder;
+  final Widget Function(BuildContext context, tf.Face faces) builder;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FaceLandmarksDetectorBloc()
-        ..add(const FaceLandmarksDetectorInitialized()),
+      create: (context) =>
+          FaceLandmarksDetectorBloc(context.read<AvatarDetectorRepository>())
+            ..add(const FaceLandmarksDetectorInitialized()),
       child: FacesLandmarksDetectorBuilderView(
         builder: builder,
         cameraController: cameraController,
@@ -36,7 +37,7 @@ class FacesLandmarksDetectorBuilderView extends StatelessWidget {
   });
 
   final CameraController cameraController;
-  final Widget Function(BuildContext context, tf.Faces faces) builder;
+  final Widget Function(BuildContext context, tf.Face faces) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class FacesLandmarksDetectorBuilderView extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is FaceLandmarksDetectorFacesDetected) {
-          return builder(context, state.faces);
+          return builder(context, state.face);
         }
         return const SizedBox.shrink();
       },

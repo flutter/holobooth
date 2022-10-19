@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
@@ -10,17 +11,18 @@ part 'face_landmarks_detector_state.dart';
 
 class FaceLandmarksDetectorBloc
     extends Bloc<FaceLandmarksDetectorEvent, FaceLandmarksDetectorState> {
-  FaceLandmarksDetectorBloc() : super(FaceLandmarksDetectorInitial()) {
+  FaceLandmarksDetectorBloc(this._avatarDetectorRepository)
+      : super(FaceLandmarksDetectorInitial()) {
     on<FaceLandmarksDetectorInitialized>(_initialized);
     on<FaceLandmarksDetectorEstimateRequested>(
       _estimateRequested,
     );
   }
-  late final tf.FaceLandmarksDetector _detector;
+  final AvatarDetectorRepository _avatarDetectorRepository;
 
   @override
   Future<void> close() {
-    _detector.dispose();
+    _avatarDetectorRepository.dispose();
     return super.close();
   }
 
@@ -30,7 +32,7 @@ class FaceLandmarksDetectorBloc
   ) async {
     emit(FaceLandmarksDetectorLoading());
     try {
-      _detector = await tf.TensorFlowFaceLandmarks.load();
+      await _avatarDetectorRepository.preloadLandmarksModel();
       emit(const FaceLandmarksDetectorLoaded());
     } on Exception catch (error, trace) {
       addError(error, trace);
@@ -50,13 +52,17 @@ class FaceLandmarksDetectorBloc
     // impacts the performance heavily when done repeatedly inside a loop.
     final state = this.state is FaceLandmarksDetectorFacesDetected
         ? this.state as FaceLandmarksDetectorFacesDetected
-        : FaceLandmarksDetectorFacesDetected(const []);
+        : FaceLandmarksDetectorFacesDetected(tf.Face.empty());
     emit(const FaceLandmarksDetectorEstimating());
     final imageData = tf.ImageData(
       bytes: event.input.planes.first.bytes,
       size: tf.Size(event.input.width, event.input.height),
     );
-    final faces = await _detector.estimateFaces(imageData);
-    emit(state..faces = faces);
+    final face = await _avatarDetectorRepository.detectFace(imageData);
+    if (face == null) {
+      emit(FaceLandmarksDetectorFacesDetected(tf.Face.empty()));
+    } else {
+      emit(state..face = face);
+    }
   }
 }

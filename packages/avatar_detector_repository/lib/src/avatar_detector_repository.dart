@@ -49,4 +49,8 @@ class AvatarDetectorRepository {
 
     return faces.first;
   }
+
+  void dispose() {
+    _faceLandmarksDetector?.dispose();
+  }
 }
