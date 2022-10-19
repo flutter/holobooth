@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
@@ -15,7 +13,10 @@ class CharacterSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CharacterSelectionBloc>(
       create: (_) => CharacterSelectionBloc(),
-      child: const CharacterSelectionView(),
+      child: const Scaffold(
+        backgroundColor: PhotoboothColors.white,
+        body: CharacterSelectionView(),
+      ),
     );
   }
 }
@@ -26,58 +27,10 @@ class CharacterSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.selectACharacterTitleText),
-        backgroundColor: PhotoboothColors.blue,
-      ),
-      body: CustomScrollView(
-        slivers: [
-          const CharacterSelections(),
-          SliverToBoxAdapter(
-            child: ActionChip(
-              label: Text(l10n.toThePhotoBoothButtonText),
-              backgroundColor: PhotoboothColors.blue,
-              onPressed: () =>
-                  Navigator.of(context).push<void>(MultipleCapturePage.route()),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-@visibleForTesting
-class CharacterSelections extends StatelessWidget {
-  const CharacterSelections({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 10),
-                  Text(
-                    'Character $index',
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-        childCount: 6,
-      ),
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+    return const AppPageView(
+      background: CharacterSelectionBackground(),
+      body: CharacterSelectionBody(),
+      footer: SizedBox.shrink(),
     );
   }
 }
