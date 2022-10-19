@@ -7,6 +7,7 @@ environment:
 
 dependencies:
   json_annotation: ^4.7.0
+  meta: ^1.8.0
   plugin_platform_interface: ^2.1.2
 
 dev_dependencies:

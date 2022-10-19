@@ -6,6 +6,8 @@
 /// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
 import 'dart:collection';
 
+import 'package:meta/meta.dart';
+
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
@@ -20,8 +22,9 @@ abstract class FaceLandmarksDetector {
 /// A face detected by [FaceLandmarksDetector].
 ///
 /// The face is represented by [keypoints].
+@visibleForTesting
 class Face {
-  const Face(this.keypoints, this.boundingBox);
+  Face(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
     final keypointsJson = json['keypoints'] as List<dynamic>;
@@ -62,6 +65,7 @@ class Face {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
+@visibleForTesting
 class Keypoint {
   Keypoint(this.x, this.y, this.z, this.score, this.name);
 
@@ -103,6 +107,7 @@ class Keypoint {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
+@visibleForTesting
 class BoundingBox {
   BoundingBox(
     this.xMin,
