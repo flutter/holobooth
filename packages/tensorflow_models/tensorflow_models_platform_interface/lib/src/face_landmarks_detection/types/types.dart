@@ -22,14 +22,16 @@ abstract class FaceLandmarksDetector {
 /// A face detected by [FaceLandmarksDetector].
 ///
 /// The face is represented by [keypoints].
-@visibleForTesting
 class Face {
-  Face(this.keypoints, this.boundingBox);
+  @visibleForTesting
+  const Face(this.keypoints, this.boundingBox);
+
+  const Face._(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
     final keypointsJson = json['keypoints'] as List<dynamic>;
     final boundingBoxJson = json['box'] as Map<String, dynamic>;
-    return Face(
+    return Face._(
       UnmodifiableListView(
         keypointsJson.map(
           (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
@@ -54,7 +56,7 @@ class Face {
     UnmodifiableListView<Keypoint>? keypoints,
     BoundingBox? boundingBox,
   }) =>
-      Face(
+      Face._(
         keypoints ?? this.keypoints,
         boundingBox ?? this.boundingBox,
       );
