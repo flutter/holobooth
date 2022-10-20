@@ -2,13 +2,12 @@ part of 'avatar_detector_bloc.dart';
 
 abstract class AvatarDetectorEvent extends Equatable {
   const AvatarDetectorEvent();
+  @override
+  List<Object> get props => [];
 }
 
 class AvatarDetectorInitialized extends AvatarDetectorEvent {
   const AvatarDetectorInitialized();
-
-  @override
-  List<Object> get props => [];
 }
 
 class AvatarDetectorEstimateRequested extends AvatarDetectorEvent {
