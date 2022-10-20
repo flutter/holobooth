@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:test/test.dart';
 
 import '../../fixtures/estimatefaces.dart';
 

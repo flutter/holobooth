@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('BoundingBox', () {
