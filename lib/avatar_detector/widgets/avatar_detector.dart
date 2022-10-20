@@ -45,21 +45,16 @@ class AvatarDetectorContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AvatarDetectorBloc, AvatarDetectorState>(
+      listenWhen: (previous, current) => current is AvatarDetectorLoaded,
       listener: (context, state) async {
-        if (state is AvatarDetectorLoaded) {
-          await cameraController.startImageStream((image) {
-            context
-                .read<AvatarDetectorBloc>()
-                .add(AvatarDetectorEstimateRequested(image));
-          });
-        }
+        await cameraController.startImageStream((image) {
+          context
+              .read<AvatarDetectorBloc>()
+              .add(AvatarDetectorEstimateRequested(image));
+        });
       },
-      builder: (context, state) {
-        if (state is AvatarDetectorFaceDetected) {
-          return child;
-        }
-        return loadingChild;
-      },
+      builder: (context, state) =>
+          state is AvatarDetectorFaceDetected ? child : loadingChild,
     );
   }
 }
