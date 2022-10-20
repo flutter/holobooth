@@ -6,8 +6,10 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
+  meta: ^1.8.0
   plugin_platform_interface: ^2.1.2
 
 dev_dependencies:
-  test: ^1.21.6
+  mocktail: ^0.3.0
+  test: ^1.21.5
   very_good_analysis: ^3.1.0

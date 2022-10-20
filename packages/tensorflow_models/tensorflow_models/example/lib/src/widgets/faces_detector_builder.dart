@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:camera/camera.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
@@ -13,7 +13,6 @@ class FacesDetectorBuilder extends StatefulWidget {
   }) : super(key: key);
 
   final CameraController cameraController;
-
   final Widget Function(BuildContext context, tf.Faces faces) builder;
 
   @override
@@ -41,8 +40,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
     await widget.cameraController.startImageStream((image) {
       final imageData = tf.ImageData(
         bytes: image.planes.first.bytes,
-        width: image.width,
-        height: image.height,
+        size: tf.Size(image.width, image.height),
       );
       _estimateFaces(imageData);
     });
@@ -54,10 +52,9 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
       estimationConfig: _estimationConfig,
     ))
         .normalize(
-      fromMax: Size(imageData.width.toDouble(), imageData.height.toDouble()),
-      toMax: _size,
+      fromMax: imageData.size,
+      toMax: tf.Size(_size.width.toInt(), _size.height.toInt()),
     );
-
     if (!_streamController.isClosed) _streamController.add(faces);
     return !_streamController.isClosed;
   }
@@ -73,94 +70,26 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: widget.cameraController.value.aspectRatio,
-      child: LayoutBuilder(builder: (context, constraints) {
-        _size = constraints.biggest;
-        return StreamBuilder<tf.Faces>(
-          stream: _streamController.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          _size = constraints.biggest;
+          return StreamBuilder<tf.Faces>(
+            stream: _streamController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
 
-            final data = snapshot.data;
-            if (data != null) {
-              return widget.builder(context, data);
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        );
-      }),
+              final data = snapshot.data;
+              if (data != null) {
+                return widget.builder(context, data);
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          );
+        },
+      ),
     );
-  }
-}
-
-extension on tf.Faces {
-  tf.Faces normalize({
-    required Size fromMax,
-    required Size toMax,
-  }) =>
-      map((face) => face.normalize(fromMax: fromMax, toMax: toMax)).toList();
-}
-
-extension on tf.Face {
-  tf.Face normalize({
-    required Size fromMax,
-    required Size toMax,
-  }) {
-    final keypoints = this
-        .keypoints
-        .map(
-          (keypoint) => keypoint.copyWith(
-            x: keypoint.x.normalize(fromMax: fromMax.width, toMax: toMax.width),
-            y: keypoint.y
-                .normalize(fromMax: fromMax.height, toMax: toMax.height),
-          ),
-        )
-        .toList();
-    final boundingBox = this.boundingBox.copyWith(
-          height: this
-              .boundingBox
-              .height
-              .normalize(fromMax: fromMax.height, toMax: toMax.height),
-          width: this
-              .boundingBox
-              .width
-              .normalize(fromMax: fromMax.width, toMax: toMax.width),
-          xMax: this.boundingBox.xMax.normalize(
-                fromMax: fromMax.width,
-                toMax: toMax.width,
-              ),
-          xMin: this.boundingBox.xMin.normalize(
-                fromMax: fromMax.width,
-                toMax: toMax.width,
-              ),
-          yMax: this.boundingBox.yMax.normalize(
-                fromMax: fromMax.height,
-                toMax: toMax.height,
-              ),
-          yMin: this.boundingBox.yMin.normalize(
-                fromMax: fromMax.height,
-                toMax: toMax.height,
-              ),
-        );
-    return copyWith(
-      keypoints: UnmodifiableListView(keypoints),
-      boundingBox: boundingBox,
-    );
-  }
-}
-
-extension on num {
-  double normalize({
-    num fromMin = 0,
-    required num fromMax,
-    num toMin = 0,
-    required num toMax,
-  }) {
-    assert(fromMin < fromMax, 'fromMin must be less than fromMax');
-    assert(toMin < toMax, 'toMin must be less than toMax');
-
-    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
   }
 }

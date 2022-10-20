@@ -1,10 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
-import 'package:io_photobooth/photobooth/photobooth.dart'
-    show CameraView, PhotoboothError;
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MultipleCapturePage extends StatelessWidget {
@@ -74,6 +73,17 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                   },
                 ),
               ),
+              if (_isCameraAvailable)
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return AvatarDetector(
+                      cameraController: _cameraController!,
+                      loadingChild: const SizedBox(),
+                      // TODO(OSCAR): add Rive animation
+                      child: const SizedBox(),
+                    );
+                  },
+                ),
               if (_isCameraAvailable)
                 Align(
                   alignment: Alignment.bottomCenter,

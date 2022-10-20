@@ -1,0 +1,65 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "flutter: Format all",
+            "type": "shell",
+            "command": "flutter format .",
+            "problemMatcher": []
+        },
+        {
+            "label": "flutter: Run build_runner --delete-conflicting-output",
+            "type": "shell",
+            "command": "cd ${input:pickFolder} && flutter pub run build_runner build --delete-conflicting-outputs",
+            "problemMatcher": []
+        },
+        {
+            "label": "flutter: Regenerate UI Assets",
+            "type": "shell",
+            "command": "fluttergen",
+            "problemMatcher": []
+        },
+        {
+            "label": "flutter: Run coverage",
+            "type": "shell",
+            "command": "cd ${input:flutterFolder} && very_good test --test-randomize-ordering-seed random --coverage && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html",
+            "problemMatcher": []
+        },
+        {
+            "label": "dart: Run coverage",
+            "type": "shell",
+            "command": "cd ${input:dartFolder} && dart test --coverage=coverage --platform='chrome,vm' && dart pub global run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.dart_tool/package_config.json --report-on='lib' && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html",
+            "problemMatcher": []
+        },
+    ],
+    "inputs": [
+        {
+            "id": "dartFolder",
+            "description": "Write the folder where you want to run the coverage ",
+            "default": "packages/",
+            "type": "pickString",
+            "options": [
+                "packages/analytics",
+                "packages/image_compositor",
+                "packages/platform_helper",
+                "packages/tensorflow_models/tensorflow_models_platform_interface",
+            ],
+        },
+        {
+            "id": "flutterFolder",
+            "description": "Write the folder where you want to run the coverage ",
+            "default": "packages/",
+            "type": "pickString",
+            "options": [
+                "${workspaceFolder}",
+                "packages/authentication_repository",
+                "packages/avatar_detector_repository",
+                "packages/face_geometry",
+                "packages/photobooth_ui",
+                "packages/photos_repository",
+            ],
+        }
+    ]
+}

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:html' as html;
 import 'dart:js_util';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:image_loader/image_loader.dart';
@@ -67,8 +66,8 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
     } else if (object is ImageData) {
       final imageData = html.ImageData(
         object.bytes.buffer.asUint8ClampedList(),
-        object.width,
-        object.height,
+        object.size.width,
+        object.size.height,
       );
       final result = await promiseToFuture<List<dynamic>>(
         _faceLandmarksDetector.estimateFaces(imageData, config),

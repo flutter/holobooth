@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,7 +15,6 @@ import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 Future<void> main() async {
@@ -38,23 +38,14 @@ Future<void> main() async {
     firebaseStorage: FirebaseStorage.instance,
   );
 
-  unawaited(
-    Future.wait([
-      Flame.images.load('android_spritesheet.png'),
-      Flame.images.load('dash_spritesheet.png'),
-      Flame.images.load('dino_spritesheet.png'),
-      Flame.images.load('sparky_spritesheet.png'),
-      Flame.images.load('photo_frame_spritesheet_landscape.jpg'),
-      Flame.images.load('photo_frame_spritesheet_portrait.png'),
-      Flame.images.load('photo_indicator_spritesheet.png'),
-    ]),
-  );
+  final avatarDetectorRepository = AvatarDetectorRepository();
 
   runZonedGuarded(
     () => runApp(
       App(
         authenticationRepository: authenticationRepository,
         photosRepository: photosRepository,
+        avatarDetectorRepository: avatarDetectorRepository,
       ),
     ),
     (error, stackTrace) {
