@@ -44,6 +44,7 @@
                 "packages/analytics",
                 "packages/image_compositor",
                 "packages/platform_helper",
+                "packages/tensorflow_models/tensorflow_models_platform_interface",
             ],
         },
         {

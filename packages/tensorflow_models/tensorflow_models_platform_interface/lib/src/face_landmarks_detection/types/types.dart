@@ -6,6 +6,8 @@
 /// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
 import 'dart:collection';
 
+import 'package:meta/meta.dart';
+
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
@@ -21,18 +23,21 @@ abstract class FaceLandmarksDetector {
 ///
 /// The face is represented by [keypoints].
 class Face {
+  @visibleForTesting
+  const Face(this.keypoints, this.boundingBox);
+
   const Face._(this.keypoints, this.boundingBox);
 
   factory Face.fromJson(Map<String, dynamic> json) {
     final keypointsJson = json['keypoints'] as List<dynamic>;
-    final bondingBoxJson = json['box'] as Map<String, dynamic>;
+    final boundingBoxJson = json['box'] as Map<String, dynamic>;
     return Face._(
       UnmodifiableListView(
         keypointsJson.map(
           (keypoint) => Keypoint.fromJson(keypoint as Map<String, dynamic>),
         ),
       ),
-      BoundingBox.fromJson(bondingBoxJson),
+      BoundingBox.fromJson(boundingBoxJson),
     );
   }
 
@@ -63,6 +68,8 @@ class Face {
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
 class Keypoint {
+  @visibleForTesting
+  Keypoint(this.x, this.y, this.z, this.score, this.name);
   Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
@@ -104,6 +111,16 @@ class Keypoint {
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
 class BoundingBox {
+  @visibleForTesting
+  BoundingBox(
+    this.xMin,
+    this.yMin,
+    this.xMax,
+    this.yMax,
+    this.width,
+    this.height,
+  );
+
   BoundingBox._(
     this.xMin,
     this.yMin,
