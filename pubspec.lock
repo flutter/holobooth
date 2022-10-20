@@ -88,9 +88,11 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/camera/camera"
+      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      url: "https://github.com/VGVentures/plugins"
+    source: git
     version: "0.10.0+3"
   camera_android:
     dependency: transitive
@@ -114,11 +116,13 @@ packages:
     source: hosted
     version: "2.2.2"
   camera_web:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: camera_web
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/camera/camera_web"
+      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      url: "https://github.com/VGVentures/plugins"
+    source: git
     version: "0.3.0+1"
   characters:
     dependency: transitive
@@ -720,7 +724,7 @@ packages:
     source: hosted
     version: "1.1.1"
   tensorflow_models:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/tensorflow_models/tensorflow_models"
       relative: true

@@ -116,5 +116,13 @@ void main() {
         );
       });
     });
+
+    group('dispose', () {
+      test('calls to dispose', () async {
+        await avatarDetectorRepository.preloadLandmarksModel();
+        avatarDetectorRepository.dispose();
+        verify(() => faceLandmarksDetector.dispose()).called(1);
+      });
+    });
   });
 }

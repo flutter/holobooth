@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,11 +38,14 @@ Future<void> main() async {
     firebaseStorage: FirebaseStorage.instance,
   );
 
+  final avatarDetectorRepository = AvatarDetectorRepository();
+
   runZonedGuarded(
     () => runApp(
       App(
         authenticationRepository: authenticationRepository,
         photosRepository: photosRepository,
+        avatarDetectorRepository: avatarDetectorRepository,
       ),
     ),
     (error, stackTrace) {
