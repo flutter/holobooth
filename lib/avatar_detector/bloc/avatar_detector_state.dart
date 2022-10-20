@@ -6,11 +6,17 @@ abstract class AvatarDetectorState extends Equatable {
   List<Object?> get props => [];
 }
 
-class AvatarDetectorInitial extends AvatarDetectorState {}
+class AvatarDetectorInitial extends AvatarDetectorState {
+  const AvatarDetectorInitial();
+}
 
-class AvatarDetectorLoading extends AvatarDetectorState {}
+class AvatarDetectorLoading extends AvatarDetectorState {
+  const AvatarDetectorLoading();
+}
 
-class AvatarDetectorError extends AvatarDetectorState {}
+class AvatarDetectorError extends AvatarDetectorState {
+  const AvatarDetectorError();
+}
 
 class AvatarDetectorLoaded extends AvatarDetectorState {
   const AvatarDetectorLoaded();

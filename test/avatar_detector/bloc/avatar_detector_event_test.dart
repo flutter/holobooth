@@ -34,7 +34,7 @@ void main() {
         final cameraImage2 = _FakeCameraImage();
         expect(
           AvatarDetectorEstimateRequested(cameraImage1),
-          AvatarDetectorEstimateRequested(cameraImage1),
+          equals(AvatarDetectorEstimateRequested(cameraImage1)),
         );
         expect(
           AvatarDetectorEstimateRequested(cameraImage1),

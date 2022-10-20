@@ -12,7 +12,7 @@ part 'avatar_detector_state.dart';
 class AvatarDetectorBloc
     extends Bloc<AvatarDetectorEvent, AvatarDetectorState> {
   AvatarDetectorBloc(this._avatarDetectorRepository)
-      : super(AvatarDetectorInitial()) {
+      : super(const AvatarDetectorInitial()) {
     on<AvatarDetectorInitialized>(_initialized);
     on<AvatarDetectorEstimateRequested>(_estimateRequested);
   }
@@ -28,13 +28,13 @@ class AvatarDetectorBloc
     AvatarDetectorInitialized event,
     Emitter<AvatarDetectorState> emit,
   ) async {
-    emit(AvatarDetectorLoading());
+    emit(const AvatarDetectorLoading());
     try {
       await _avatarDetectorRepository.preloadLandmarksModel();
       emit(const AvatarDetectorLoaded());
     } on Exception catch (error, trace) {
       addError(error, trace);
-      emit(AvatarDetectorError());
+      emit(const AvatarDetectorError());
     }
   }
 

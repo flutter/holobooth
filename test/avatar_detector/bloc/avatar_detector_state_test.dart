@@ -5,7 +5,7 @@ void main() {
   group('AvatarDetectorState', () {
     group('AvatarDetectorInitial', () {
       test('supports value comparison', () {
-        expect(AvatarDetectorInitial(), AvatarDetectorInitial());
+        expect(AvatarDetectorInitial(), equals(AvatarDetectorInitial()));
       });
     });
   });

@@ -154,10 +154,8 @@ extension on WidgetTester {
     AvatarDetectorBloc avatarDetectorBloc,
   ) =>
       pumpApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: avatarDetectorBloc),
-          ],
+        BlocProvider.value(
+          value: avatarDetectorBloc,
           child: subject,
         ),
       );
