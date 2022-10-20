@@ -27,12 +27,12 @@ class AvatarDetectorEstimating extends AvatarDetectorState {
 }
 
 class AvatarDetectorFaceDetected extends AvatarDetectorState {
-  const AvatarDetectorFaceDetected(this.face);
+  const AvatarDetectorFaceDetected(this.avatar);
 
-  final tf.Face face;
+  final Avatar avatar;
 
   @override
-  List<Object?> get props => [face];
+  List<Object?> get props => [avatar];
 }
 
 class AvatarDetectorFaceNotDetected extends AvatarDetectorState {

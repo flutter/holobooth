@@ -14,7 +14,7 @@ class PreloadLandmarksModelException implements Exception {
 }
 
 /// {@template detect_face_exception}
-/// Exception thrown when `AvatarDetectorRepository.detectFace` fails.
+/// Exception thrown when `AvatarDetectorRepository.detectAvatar` fails.
 /// {@endtemplate}
 class DetectFaceException implements Exception {
   /// {@macro detect_face_exception}

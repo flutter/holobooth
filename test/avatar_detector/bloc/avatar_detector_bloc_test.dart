@@ -6,12 +6,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {}
 
-class _FakeFace extends Fake implements Face {}
+class _FakeAvatar extends Fake implements Avatar {}
 
 class _FakePlane extends Fake implements Plane {
   @override
@@ -71,22 +70,22 @@ void main() {
     });
 
     group('AvatarDetectorEstimateRequested', () {
-      late Face face;
+      late Avatar avatar;
 
       setUpAll(() {
         registerFallbackValue(_FakeCameraImage());
       });
 
       setUp(() {
-        face = _FakeFace();
+        avatar = _FakeAvatar();
       });
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
-        'if detectFace throws exception.',
+        'if detectAvatar throws exception.',
         setUp: () {
           when(
-            () => avatarDetectorRepository.detectFace(any()),
+            () => avatarDetectorRepository.detectAvatar(any()),
           ).thenThrow(Exception());
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
@@ -100,10 +99,10 @@ void main() {
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
-        'if detectFace returns null.',
+        'if detectAvatar returns null.',
         setUp: () {
           when(
-            () => avatarDetectorRepository.detectFace(any()),
+            () => avatarDetectorRepository.detectAvatar(any()),
           ).thenAnswer((_) async => null);
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
@@ -117,18 +116,18 @@ void main() {
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
-        'if detectFace returns null.',
+        'if detectAvatar returns null.',
         setUp: () {
           when(
-            () => avatarDetectorRepository.detectFace(any()),
-          ).thenAnswer((_) async => face);
+            () => avatarDetectorRepository.detectAvatar(any()),
+          ).thenAnswer((_) async => avatar);
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) =>
             bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
         expect: () => [
           AvatarDetectorEstimating(),
-          AvatarDetectorFaceDetected(face),
+          AvatarDetectorFaceDetected(avatar),
         ],
       );
     });

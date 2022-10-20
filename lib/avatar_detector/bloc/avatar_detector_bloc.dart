@@ -52,11 +52,11 @@ class AvatarDetectorBloc
       size: tf.Size(event.input.width, event.input.height),
     );
     try {
-      final face = await _avatarDetectorRepository.detectFace(imageData);
-      if (face == null) {
+      final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
+      if (avatar == null) {
         emit(const AvatarDetectorFaceNotDetected());
       } else {
-        emit(AvatarDetectorFaceDetected(face));
+        emit(AvatarDetectorFaceDetected(avatar));
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);

@@ -23,7 +23,7 @@ class AvatarDetectorRepository {
   /// Throws [PreloadLandmarksModelException] if any exception occurs.
   ///
   /// Note: Highly recommended to call this method before any other
-  /// like [detectFace] to speed up the whole process.
+  /// like [detectAvatar] to speed up the whole process.
   Future<void> preloadLandmarksModel() async {
     try {
       _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
@@ -35,7 +35,7 @@ class AvatarDetectorRepository {
   /// Return [Face] if there is any on the [input].
   ///
   /// Throws [DetectFaceException] if any exception occurs.
-  Future<Face?> detectFace(Object input) async {
+  Future<Avatar?> detectAvatar(Object input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
     }
@@ -47,7 +47,7 @@ class AvatarDetectorRepository {
     }
     if (faces.isEmpty) return null;
 
-    return faces.first;
+    return Avatar.fromFace(faces.first);
   }
 
   /// Disposes the instance of [FaceLandmarksDetector]

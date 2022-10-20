@@ -1,11 +1,13 @@
 import 'dart:math' as math;
 
+import 'package:equatable/equatable.dart';
+
 /// {@template vector3}
 /// A 3D vector.
 /// {@endtemplate}
-class Vector3 {
+class Vector3 extends Equatable {
   /// {@macro vector3}
-  Vector3(this.x, this.y, this.z);
+  const Vector3(this.x, this.y, this.z);
 
   /// The x coordinate.
   final double x;
@@ -27,4 +29,7 @@ class Vector3 {
 
   @override
   String toString() => 'Vector3($x, $y, $z)';
+
+  @override
+  List<Object?> get props => [x, y, z];
 }
