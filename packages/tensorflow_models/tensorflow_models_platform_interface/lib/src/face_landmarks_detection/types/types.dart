@@ -67,12 +67,13 @@ class Face {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
-@visibleForTesting
 class Keypoint {
+  @visibleForTesting
   Keypoint(this.x, this.y, this.z, this.score, this.name);
+  Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
-    return Keypoint(
+    return Keypoint._(
       json['x'] as num,
       json['y'] as num,
       json['z'] as num?,
@@ -94,7 +95,7 @@ class Keypoint {
     num? score,
     String? name,
   }) {
-    return Keypoint(
+    return Keypoint._(
       x ?? this.x,
       y ?? this.y,
       z ?? this.z,
@@ -109,8 +110,8 @@ class Keypoint {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
-@visibleForTesting
 class BoundingBox {
+  @visibleForTesting
   BoundingBox(
     this.xMin,
     this.yMin,
@@ -120,8 +121,17 @@ class BoundingBox {
     this.height,
   );
 
+  BoundingBox._(
+    this.xMin,
+    this.yMin,
+    this.xMax,
+    this.yMax,
+    this.width,
+    this.height,
+  );
+
   BoundingBox.fromJson(Map<String, dynamic> map)
-      : this(
+      : this._(
           map['xMin'] as num,
           map['yMin'] as num,
           map['xMax'] as num,
@@ -157,7 +167,7 @@ class BoundingBox {
     num? width,
     num? height,
   }) {
-    return BoundingBox(
+    return BoundingBox._(
       xMin ?? this.xMin,
       yMin ?? this.yMin,
       xMax ?? this.xMax,
