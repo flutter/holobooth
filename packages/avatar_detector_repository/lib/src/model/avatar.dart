@@ -3,7 +3,7 @@ import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar}
-/// Avatar representation
+/// Avatar representation.
 /// {@endtemplate}
 class Avatar extends Equatable {
   /// {@macro avatar}
