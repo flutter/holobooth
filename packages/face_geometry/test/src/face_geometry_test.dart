@@ -179,6 +179,128 @@ void main() {
       });
     });
 
+    group('isLeftEyeClose', () {
+      setUp(() {
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
+      });
+
+      test('returns normally', () {
+        final keypoints = UnmodifiableListView(
+          List.generate(387, (_) => _FakeKeypoint(0, 0)),
+        );
+        when(() => face.keypoints).thenReturn(keypoints);
+
+        expect(() => face.isLeftEyeClose, returnsNormally);
+      });
+
+      test('returns false when missing keypoints', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+        expect(face.isLeftEyeClose, equals(false));
+      });
+
+      group('returns correct value', () {
+        test('when values are 0', () {
+          final keypoints = UnmodifiableListView(
+            List.generate(387, (_) => _FakeKeypoint(0, 0)),
+          );
+          when(() => face.keypoints).thenReturn(keypoints);
+
+          expect(face.isLeftEyeClose, equals(false));
+        });
+
+        test('for first check', () {
+          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
+          keypoints[159] = _FakeKeypoint(30, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
+
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isLeftEyeClose, equals(false));
+        });
+
+        test('for second check with close', () {
+          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
+          keypoints[159] = _FakeKeypoint(30, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
+
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isLeftEyeClose, equals(false));
+
+          keypoints[159] = _FakeKeypoint(12, 2);
+          keypoints[145] = _FakeKeypoint(10, -1);
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isLeftEyeClose, equals(true));
+        });
+      });
+    });
+
+    group('isRightEyeClose', () {
+      setUp(() {
+        final boundingBox = _MockBoundingBox();
+        when(() => boundingBox.height).thenReturn(100);
+        when(() => face.boundingBox).thenReturn(boundingBox);
+      });
+
+      test('returns normally', () {
+        final keypoints = UnmodifiableListView(
+          List.generate(387, (_) => _FakeKeypoint(0, 0)),
+        );
+        when(() => face.keypoints).thenReturn(keypoints);
+
+        expect(() => face.isRightEyeClose, returnsNormally);
+      });
+
+      test('returns false when missing keypoints', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+        expect(face.isRightEyeClose, equals(false));
+      });
+
+      group('returns correct value', () {
+        test('when values are 0', () {
+          final keypoints = UnmodifiableListView(
+            List.generate(387, (_) => _FakeKeypoint(0, 0)),
+          );
+          when(() => face.keypoints).thenReturn(keypoints);
+
+          expect(face.isRightEyeClose, equals(false));
+        });
+
+        test('for first check', () {
+          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
+          keypoints[386] = _FakeKeypoint(30, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isRightEyeClose, equals(false));
+        });
+
+        test('for second check with close', () {
+          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
+          keypoints[386] = _FakeKeypoint(30, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isRightEyeClose, equals(false));
+
+          keypoints[386] = _FakeKeypoint(12, 2);
+          keypoints[374] = _FakeKeypoint(10, -1);
+          when(() => face.keypoints)
+              .thenReturn(UnmodifiableListView(keypoints));
+
+          expect(face.isRightEyeClose, equals(true));
+        });
+      });
+    });
+
     group('normalize', () {
       group('the number', () {
         test('throws assertion when fromMax is equals 0', () {
