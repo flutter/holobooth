@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/src/colors.dart';
 
+/// {@template item_selector_button}
+/// The button to select a background or a character.
+/// {@endtemplate}
 class ItemSelectorButton extends StatelessWidget {
-  const ItemSelectorButton(
-      {required this.buttonBackground,
-      required this.title,
-      required this.onTap});
+  /// {@macro item_selector_button}
+  const ItemSelectorButton({
+    super.key,
+    required this.buttonBackground,
+    required this.title,
+    required this.onTap,
+  });
 
+  /// The content of the button.
   final Widget buttonBackground;
 
+  /// The title of the button.
   final String title;
 
+  /// The function when button is tapped.
   final VoidCallback onTap;
 
   @override

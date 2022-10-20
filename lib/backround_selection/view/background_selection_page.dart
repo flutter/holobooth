@@ -29,6 +29,16 @@ class BackgroundSelectionView extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(
+            child: ColoredBox(
+              color: Colors.black,
+              child: ItemSelectorButton(
+                buttonBackground: const ColoredBox(color: Colors.red),
+                title: 'Title',
+                onTap: () => {},
+              ),
+            ),
+          ),
           const BackgroundSelections(),
           SliverToBoxAdapter(
             child: ActionChip(
