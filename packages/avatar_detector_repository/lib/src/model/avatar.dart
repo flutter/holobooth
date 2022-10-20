@@ -12,7 +12,7 @@ class Avatar extends Equatable {
     required this.direction,
   });
 
-  /// Build an [Avatar] based on [Face]
+  /// Build an [Avatar] based on [Face].
   factory Avatar.fromFace(Face face) {
     return Avatar(hasMouthOpen: face.isMouthOpen, direction: face.direction());
   }
