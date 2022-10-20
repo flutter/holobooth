@@ -6,7 +6,6 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
-  json_annotation: ^4.7.0
   meta: ^1.8.0
   plugin_platform_interface: ^2.1.2
 
