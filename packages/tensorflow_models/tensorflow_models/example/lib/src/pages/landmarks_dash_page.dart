@@ -25,6 +25,7 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+  var _isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -37,8 +38,11 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
-            if (_cameraController != null)
+            Opacity(
+              opacity: _isCameraVisible ? 1 : 0,
+              child: CameraView(onCameraReady: _onCameraReady),
+            ),
+            if (_cameraController != null) ...[
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
@@ -50,6 +54,19 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   );
                 },
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isCameraVisible = !_isCameraVisible;
+                    });
+                  },
+                  child: Text(
+                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
+                ),
+              )
+            ]
           ],
         ),
       ),
