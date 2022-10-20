@@ -20,7 +20,7 @@ class Avatar extends Equatable {
   /// Indicates whether the [Avatar] has the mouth open.
   final bool hasMouthOpen;
 
-  /// Direction of the [Avatar] represented by x, y and z
+  /// Direction of the [Avatar] represented by x, y and z.
   final Vector3 direction;
 
   @override
