@@ -1,3 +1,7 @@
+enum TestTag {
+  golden,
+}
+
 const transparentImage = <int>[
   0x89,
   0x50,

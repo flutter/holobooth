@@ -4,7 +4,7 @@ import 'package:io_photobooth/character_selection/character_selection.dart';
 
 void main() {
   group('CharacterSelectionBloc', () {
-    group('default constructor', () {
+    group('constructor', () {
       test('can be instantiated', () {
         expect(CharacterSelectionBloc(), isA<CharacterSelectionBloc>());
       });
