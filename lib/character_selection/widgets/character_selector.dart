@@ -4,6 +4,12 @@ import 'package:io_photobooth/assets/assets.dart';
 class CharacterSelector extends StatelessWidget {
   const CharacterSelector({super.key});
 
+  @visibleForTesting
+  static const dashKey = Key('characterSelector_dash');
+
+  @visibleForTesting
+  static const sparkyKey = Key('characterSelector_sparky');
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -11,6 +17,7 @@ class CharacterSelector extends StatelessWidget {
       children: [
         Flexible(
           child: _Character(
+            key: dashKey,
             name: 'Dash',
             image: Assets.characters.dash.image(),
           ),
@@ -18,6 +25,7 @@ class CharacterSelector extends StatelessWidget {
         const SizedBox(width: 42),
         Flexible(
           child: _Character(
+            key: sparkyKey,
             name: 'Sparky',
             image: Assets.characters.sparky.image(),
           ),
