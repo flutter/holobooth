@@ -15,6 +15,21 @@ void main() {
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
       });
+
+      testWidgets('title', (tester) async {
+        await tester.pumpSubject(CharacterSelectionBody());
+        expect(find.text('Choose your character'), findsOneWidget);
+      });
+
+      testWidgets('subtitle', (tester) async {
+        await tester.pumpSubject(CharacterSelectionBody());
+        expect(find.text('You can change them later'), findsOneWidget);
+      });
+
+      testWidgets('character selector', (tester) async {
+        await tester.pumpSubject(CharacterSelectionBody());
+        expect(find.byType(CharacterSelector), findsOneWidget);
+      });
     });
   });
 }
@@ -24,11 +39,12 @@ extension on WidgetTester {
     CharacterSelectionBody subject,
   ) =>
       pumpWidget(
-        MediaQuery.fromWindow(
+        MediaQuery(
+          data: const MediaQueryData(),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Theme(
-              data: PhotoboothTheme.medium,
+              data: PhotoboothTheme.standard,
               child: subject,
             ),
           ),

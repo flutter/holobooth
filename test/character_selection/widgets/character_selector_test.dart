@@ -38,7 +38,7 @@ extension on WidgetTester {
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Theme(
-              data: PhotoboothTheme.medium,
+              data: PhotoboothTheme.standard,
               child: subject,
             ),
           ),
