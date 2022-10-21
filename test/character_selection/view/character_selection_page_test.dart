@@ -10,6 +10,7 @@ void main() {
     test('has a route', () {
       expect(CharacterSelectionPage.route(), isA<MaterialPageRoute<void>>());
     });
+
     testWidgets('renders CharacterSelecionView', (tester) async {
       await tester.pumpApp(
         Navigator(
@@ -19,6 +20,7 @@ void main() {
       expect(find.byType(CharacterSelections), findsOneWidget);
     });
   });
+
   group('CharacterSelectionView', () {
     testWidgets('renders a grid with all character options', (tester) async {
       await tester.pumpApp(const CharacterSelectionView());
