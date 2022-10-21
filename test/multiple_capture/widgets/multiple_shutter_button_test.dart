@@ -52,7 +52,7 @@ void main() {
         );
         await tester.tap(find.byType(CameraButton));
         await tester.pumpAndSettle();
-        expect(count, 5);
+        expect(count, 1);
       },
     );
   });

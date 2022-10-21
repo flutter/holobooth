@@ -1,9 +1,13 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
+
+final _leftEye = FaceEye();
+final _rightEye = FaceEye();
 
 /// An eyeballed estimated minimum mouth to face ratio.
 ///
@@ -50,6 +54,24 @@ extension FaceGeometry on tf.Face {
     final bottomEyeLid = keypoints[374];
     return topEyeLid.distanceTo(bottomEyeLid);
   }
+
+  /// Detect if the left eye is closed.
+  ///
+  /// Detection works after the first blink to make sure we have the correct
+  /// minimum and maximum values.
+  bool get isLeftEyeClose => _leftEye.isClose(
+        eyeDistance: leftEyeDistance,
+        boundingBoxHeight: boundingBox.height.toDouble(),
+      );
+
+  /// Detect if the right eye is closed.
+  ///
+  /// Detection works after the first blink to make sure we have the correct
+  /// minimum and maximum values.
+  bool get isRightEyeClose => _rightEye.isClose(
+        eyeDistance: rightEyeDistance,
+        boundingBoxHeight: boundingBox.height.toDouble(),
+      );
 
   /// Defines if the mouth is open based on hight and face height.
   bool get isMouthOpen {
