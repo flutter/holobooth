@@ -131,3 +131,7 @@ app.*.map.json
 
 # Mason
 .mason/
+
+# Alchemist
+**/goldens/*
+**/test/**/failures/**
