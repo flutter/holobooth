@@ -46,12 +46,12 @@ class ItemSelectorDrawer<T> extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontSize: 32, color: PhotoboothColors.white),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 32, color: PhotoboothColors.white),
+                    ),
                   ),
                   IconTheme.merge(
                     child: const CloseButton(color: PhotoboothColors.white),
