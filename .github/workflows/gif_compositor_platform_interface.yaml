@@ -3,7 +3,7 @@ name: gif_compositor_platform_interface
 on:
   pull_request:
     paths:
-      - "packages/tensorflow_models/gif_compositor_platform_interface/**"
+      - "packages/gif_compositor/gif_compositor_platform_interface/**"
       - ".github/workflows/gif_compositor_platform_interface.yaml"
     branches:
       - main
@@ -12,4 +12,4 @@ jobs:
   build:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
     with:
-      working_directory: packages/tensorflow_models/gif_compositor_platform_interface
+      working_directory: packages/gif_compositor/gif_compositor_platform_interface
