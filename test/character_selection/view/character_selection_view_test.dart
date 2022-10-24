@@ -16,12 +16,12 @@ void main() {
         expect(find.byWidget(subject), findsOneWidget);
       });
 
-      testWidgets('renders a CharacterSelectionBackground', (tester) async {
+      testWidgets('a CharacterSelectionBackground', (tester) async {
         await tester.pumpSubject(const CharacterSelectionView());
         expect(find.byType(CharacterSelectionBackground), findsOneWidget);
       });
 
-      testWidgets('renders a CharacterSelectionBody', (tester) async {
+      testWidgets('a CharacterSelectionBody', (tester) async {
         await tester.pumpSubject(const CharacterSelectionView());
         expect(find.byType(CharacterSelectionBody), findsOneWidget);
       });
