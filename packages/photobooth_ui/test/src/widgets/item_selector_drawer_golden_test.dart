@@ -14,7 +14,7 @@ class _SubjectBuilder extends StatelessWidget {
       data: ThemeData(),
       child: Directionality(
         textDirection: TextDirection.ltr,
-        child: builder,
+        child: SizedBox(height: 600, child: builder),
       ),
     );
   }

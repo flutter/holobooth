@@ -28,13 +28,15 @@ void main() {
       builder: () {
         final selectorButtonScenario = GoldenTestScenario(
           name: 'button',
-          child: _SubjectBuilder(builder: (_) {
-            return ItemSelectorButton(
-              buttonBackground: const ColoredBox(color: Colors.blue),
-              title: 'title',
-              onTap: () {},
-            );
-          }),
+          child: _SubjectBuilder(
+            builder: (_) {
+              return ItemSelectorButton(
+                buttonBackground: const ColoredBox(color: Colors.blue),
+                title: 'title',
+                onTap: () {},
+              );
+            },
+          ),
         );
         return GoldenTestGroup(children: [selectorButtonScenario]);
       },
