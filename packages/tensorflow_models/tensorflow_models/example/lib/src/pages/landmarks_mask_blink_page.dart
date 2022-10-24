@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:camera/camera.dart';
 import 'package:example/assets/assets.dart';
 import 'package:example/src/src.dart';
