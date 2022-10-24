@@ -10,6 +10,7 @@ export 'app_tooltip_button.dart';
 export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'item_selector_button.dart';
+export 'item_selector_drawer.dart';
 export 'platform_builder.dart';
 export 'preview_image.dart';
 export 'responsive_layout_builder.dart';
