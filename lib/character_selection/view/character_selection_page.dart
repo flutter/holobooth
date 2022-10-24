@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -11,12 +10,9 @@ class CharacterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CharacterSelectionBloc>(
-      create: (_) => CharacterSelectionBloc(),
-      child: const Scaffold(
-        backgroundColor: PhotoboothColors.white,
-        body: CharacterSelectionView(),
-      ),
+    return const Scaffold(
+      backgroundColor: PhotoboothColors.white,
+      body: CharacterSelectionView(),
     );
   }
 }

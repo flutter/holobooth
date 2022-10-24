@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
@@ -30,6 +31,24 @@ void main() {
         await tester.pumpSubject(CharacterSelectionBody());
         expect(find.byType(CharacterSelector), findsOneWidget);
       });
+
+      testWidgets('a FloatingActionButon', (tester) async {
+        await tester.pumpSubject(CharacterSelectionBody());
+        expect(find.byType(FloatingActionButton), findsOneWidget);
+      });
+    });
+
+    group('navigates', () {
+      testWidgets(
+        'to MultipleCapturePage '
+        'when FloatingActionButton is pressed',
+        (tester) async {
+          await tester.pumpSubject(CharacterSelectionBody());
+          await tester.tap(find.byType(FloatingActionButton));
+          await tester.pumpAndSettle();
+          expect(find.byType(MultipleCapturePage), findsOneWidget);
+        },
+      );
     });
   });
 }
@@ -44,7 +63,11 @@ extension on WidgetTester {
             textDirection: TextDirection.ltr,
             child: Theme(
               data: PhotoboothTheme.standard,
-              child: subject,
+              child: Navigator(
+                onGenerateRoute: (_) => MaterialPageRoute(
+                  builder: (_) => SingleChildScrollView(child: subject),
+                ),
+              ),
             ),
           ),
         ),
