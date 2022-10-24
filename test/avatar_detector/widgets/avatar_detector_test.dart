@@ -111,10 +111,10 @@ void main() {
     );
 
     testWidgets(
-      'renders child when AvatarDetectorFaceDetected',
+      'renders child when AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
-            .thenReturn(AvatarDetectorFaceDetected(_FakeAvatar()));
+            .thenReturn(AvatarDetectorDetected(_FakeAvatar()));
         final childKey = Key('childKey');
         await tester.pumpSubject(
           AvatarDetectorContent(
@@ -129,7 +129,7 @@ void main() {
     );
 
     testWidgets(
-      'renders child state is not AvatarDetectorFaceDetected',
+      'renders child state is not AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
             .thenReturn(AvatarDetectorEstimating());

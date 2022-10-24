@@ -54,13 +54,13 @@ class AvatarDetectorBloc
     try {
       final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
       if (avatar == null) {
-        emit(const AvatarDetectorFaceNotDetected());
+        emit(const AvatarDetectorNotDetected());
       } else {
-        emit(AvatarDetectorFaceDetected(avatar));
+        emit(AvatarDetectorDetected(avatar));
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(const AvatarDetectorFaceNotDetected());
+      emit(const AvatarDetectorNotDetected());
     }
   }
 }

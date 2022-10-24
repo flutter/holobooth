@@ -81,7 +81,7 @@ void main() {
       });
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
+        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
         'if detectAvatar throws exception.',
         setUp: () {
           when(
@@ -93,12 +93,12 @@ void main() {
             bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
         expect: () => [
           AvatarDetectorEstimating(),
-          AvatarDetectorFaceNotDetected(),
+          AvatarDetectorNotDetected(),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
+        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
         'if detectAvatar returns null.',
         setUp: () {
           when(
@@ -110,12 +110,12 @@ void main() {
             bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
         expect: () => [
           AvatarDetectorEstimating(),
-          AvatarDetectorFaceNotDetected(),
+          AvatarDetectorNotDetected(),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorFaceNotDetected] '
+        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
         'if detectAvatar returns null.',
         setUp: () {
           when(
@@ -127,7 +127,7 @@ void main() {
             bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
         expect: () => [
           AvatarDetectorEstimating(),
-          AvatarDetectorFaceDetected(avatar),
+          AvatarDetectorDetected(avatar),
         ],
       );
     });

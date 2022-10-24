@@ -26,8 +26,8 @@ class AvatarDetectorEstimating extends AvatarDetectorState {
   const AvatarDetectorEstimating();
 }
 
-class AvatarDetectorFaceDetected extends AvatarDetectorState {
-  const AvatarDetectorFaceDetected(this.avatar);
+class AvatarDetectorDetected extends AvatarDetectorState {
+  const AvatarDetectorDetected(this.avatar);
 
   final Avatar avatar;
 
@@ -35,6 +35,6 @@ class AvatarDetectorFaceDetected extends AvatarDetectorState {
   List<Object?> get props => [avatar];
 }
 
-class AvatarDetectorFaceNotDetected extends AvatarDetectorState {
-  const AvatarDetectorFaceNotDetected();
+class AvatarDetectorNotDetected extends AvatarDetectorState {
+  const AvatarDetectorNotDetected();
 }
