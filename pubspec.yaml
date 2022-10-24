@@ -20,6 +20,8 @@ dependencies:
   collection: ^1.16.0
   cross_file: ^0.3.3+2
   equatable: ^2.0.5
+  face_geometry:
+    path: packages/face_geometry
   firebase_auth: ^3.10.0
   firebase_core: ^1.23.0
   firebase_storage: ^10.3.9
