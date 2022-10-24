@@ -134,4 +134,5 @@ app.*.map.json
 
 # Alchemist
 **/goldens/*
+!**/goldens/ci/
 **/test/**/failures/**
