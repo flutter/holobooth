@@ -84,6 +84,8 @@ void main() {
     when(() => cameraPlatform.pausePreview(cameraId))
         .thenAnswer((_) => Future.value());
     when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
+    when(() => cameraPlatform.onStreamedFrameAvailable(any()))
+        .thenAnswer((_) => Stream.empty());
   });
 
   tearDown(() {
@@ -99,6 +101,7 @@ void main() {
       'renders MultipleCaptureView',
       (WidgetTester tester) async {
         await tester.pumpApp(MultipleCapturePage());
+        expect(find.byType(MultipleCaptureView), findsOneWidget);
       },
     );
   });
@@ -121,7 +124,10 @@ void main() {
       'renders empty SizedBox if any unexpected error finding camera',
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
-        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+        await tester.pumpSubject(
+          MultipleCaptureView(),
+          multipleCaptureBloc,
+        );
         await tester.pumpAndSettle();
         expect(
           find.byKey(MultipleCaptureView.cameraErrorViewKey),
@@ -135,7 +141,10 @@ void main() {
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras())
             .thenThrow(CameraException('', ''));
-        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+        await tester.pumpSubject(
+          MultipleCaptureView(),
+          multipleCaptureBloc,
+        );
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothError), findsOneWidget);
       },
@@ -152,7 +161,10 @@ void main() {
           multipleCaptureBloc,
           Stream.value(MultipleCaptureState(images: images)),
         );
-        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+        await tester.pumpSubject(
+          MultipleCaptureView(),
+          multipleCaptureBloc,
+        );
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
       },
@@ -161,7 +173,10 @@ void main() {
     testWidgets(
       'adds MultipleCaptureOnPhotoTaken when onShutter is called',
       (WidgetTester tester) async {
-        await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+        await tester.pumpSubject(
+          MultipleCaptureView(),
+          multipleCaptureBloc,
+        );
         await tester.pumpAndSettle();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
           find.byType(MultipleShutterButton),
@@ -187,8 +202,10 @@ extension on WidgetTester {
     MultipleCaptureBloc multipleCaptureBloc,
   ) =>
       pumpApp(
-        BlocProvider.value(
-          value: multipleCaptureBloc,
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: multipleCaptureBloc),
+          ],
           child: subject,
         ),
       );

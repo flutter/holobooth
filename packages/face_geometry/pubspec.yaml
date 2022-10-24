@@ -7,6 +7,8 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
+  equatable: ^2.0.5
+  meta: ^1.8.0
   tensorflow_models_platform_interface:
     path: ../tensorflow_models/tensorflow_models_platform_interface
 

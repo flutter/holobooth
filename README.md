@@ -131,6 +131,114 @@ Widget build(BuildContext context) {
 }
 ```
 
+---
+
+## Working with Mason 🧱
+
+This project relies on [mason](https://github.com/felangel/mason) to create and consume reusable templates called bricks. For additional documentation see [BrickHub](https://docs.brickhub.dev).
+
+1. Install mason from [pub](https://pub.dev):
+```sh
+dart pub global activate mason_cli
+```
+
+2. Check the current project bricks:
+```sh
+mason list
+```
+
+3. Add your own bricks:
+```sh
+mason add bloc
+```
+
+4. Generate code from a brick:
+```sh
+mason make bloc
+```
+
+> **Note**
+> Mason support for Visual Studio Code can be found [here](https://marketplace.visualstudio.com/items?itemName=FelixAngelov.mason).
+
+---
+# Debug web app on iphone
+
+To debug the web app on the iphone, we need to run it as https, because without that, the iphone won't let us use the camera. We need to configure safari to listen for logs from the iphone.
+
+### Configure https server
+
+1. Install http-server from [npm](https://www.npmjs.com):
+
+```sh
+npm install -g http-server
+```
+
+2. Create a script.sh file
+
+```sh
+cd ~/
+mkdir .localhost-ssl
+
+sudo openssl genrsa -out ~/.localhost-ssl/localhost.key 2048
+sudo openssl req -new -x509 -key ~/.localhost-ssl/localhost.key -out ~/.localhost-ssl/localhost.crt -days 3650 -subj /CN=localhost
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/.localhost-ssl/localhost.crt
+
+echo "
+function https-server() {
+  http-server --ssl --cert ~/.localhost-ssl/localhost.crt --key ~/.localhost-ssl/localhost.key
+}
+" >> ~/.bash_profile
+source ~/.bash_profile
+```
+
+3. Run `script.sh` file, each running of a script will add function to ~/.bash_profile
+
+```sh
+sh script.sh
+```
+
+4. Build web project
+
+```sh
+flutter build web
+```
+
+5. Go to the generated directory
+
+```sh
+cd {project_dir}/build/web
+```
+
+6. Run server
+
+```sh
+https-server
+```
+
+### Configure Safari to listen for logs
+
+1. On Mac
+
+```sh
+Open Safari > Preferences > Advanced > enable "Show Develop menu in menu bar"
+```
+
+2. On iPhone
+
+```sh
+Open Settings > Safari > Advanced > enable "Web Inspector"
+```
+
+3. Connect your device to your Mac using a USB cable.
+
+4. Open Safari on iphone and enter server adress, for example https://192.168.1.1:8080
+
+5. On Mac
+
+```sh
+Safari > Develop > Find "YourPhoneName" > select the Safari session entered earlier, for example 192.168.1.1
+```
+
 [build_status_badge]: https://github.com/flutter/photobooth/actions/workflows/main.yaml/badge.svg
 [coverage_badge]: coverage_badge.svg
 [firebase_link]: https://firebase.google.com/

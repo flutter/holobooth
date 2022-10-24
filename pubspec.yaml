@@ -42,7 +42,21 @@ dependencies:
   platform_helper:
     path: packages/platform_helper
   rxdart: ^0.26.0
+  tensorflow_models:
+    path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6
+
+dependency_overrides:
+  camera:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+  camera_web:
+    git:
+      url: https://github.com/VGVentures/plugins
+      path: packages/camera/camera_web
+      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
 
 dev_dependencies:
   bloc_test: ^9.1.0
@@ -64,3 +78,4 @@ flutter:
   assets:
     - assets/backgrounds/
     - assets/icons/
+    - assets/audio/
