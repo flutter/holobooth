@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/multiple_capture/widgets/selection_buttons.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -27,6 +28,10 @@ class MultipleCaptureView extends StatefulWidget {
 
   @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
+
+  @visibleForTesting
+  static const endDrawerKey =
+      Key('multipleCapturePage_itemSelectorDrawer_background');
 
   @override
   State<MultipleCaptureView> createState() => _MultipleCaptureViewState();
@@ -56,7 +61,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
         endDrawer: ItemSelectorDrawer(
           // TODO(laura177): replace contects of
           // drawer with actual Background selection content
-          key: const Key('multipleCapturePage_itemSelectorDrawer_background'),
+          key: MultipleCaptureView.endDrawerKey,
           title: context.l10n.backgroundSelectorButton,
           items: const [Colors.amber, Colors.black, Colors.blue],
           itemBuilder: (context, item) => ColoredBox(color: item),
@@ -123,25 +128,6 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
             height: previewSize.height,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SelectionButtons extends StatelessWidget {
-  const SelectionButtons({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: ItemSelectorButton(
-        key: const Key('multipleCapturePage_itemSelector_background'),
-        buttonBackground: const ColoredBox(color: Colors.red),
-        title: context.l10n.backgroundSelectorButton,
-        onTap: () {
-          Scaffold.of(context).openEndDrawer();
-        },
       ),
     );
   }
