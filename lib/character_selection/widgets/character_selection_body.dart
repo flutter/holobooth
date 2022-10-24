@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
@@ -8,6 +9,7 @@ class CharacterSelectionBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -15,13 +17,13 @@ class CharacterSelectionBody extends StatelessWidget {
         children: [
           const SizedBox(height: 104),
           SelectableText(
-            'Choose your character',
+            l10n.chooseYourCharacterTitleText,
             style: theme.textTheme.headline1,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           SelectableText(
-            'You can change them later',
+            l10n.youCanChangeThemLaterSubheading,
             style: theme.textTheme.headline3,
             textAlign: TextAlign.center,
           ),
