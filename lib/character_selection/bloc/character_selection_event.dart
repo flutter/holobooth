@@ -4,8 +4,8 @@ abstract class CharacterSelectionEvent extends Equatable {
   const CharacterSelectionEvent();
 }
 
-class CharacterSelected extends CharacterSelectionEvent {
-  const CharacterSelected(this.character);
+class CharacterSelectionSelected extends CharacterSelectionEvent {
+  const CharacterSelectionSelected(this.character);
 
   final Character character;
 

@@ -6,10 +6,11 @@ part 'character_selection_state.dart';
 
 class CharacterSelectionBloc extends Bloc<CharacterSelectionEvent, Character> {
   CharacterSelectionBloc() : super(Character.dash) {
-    on<CharacterSelected>(_onCharacterSelected);
+    on<CharacterSelectionSelected>(_onCharacterSelected);
   }
 
-  void _onCharacterSelected(CharacterSelected event, Emitter<Character> emit) {
+  void _onCharacterSelected(
+      CharacterSelectionSelected event, Emitter<Character> emit) {
     emit(event.character);
   }
 }

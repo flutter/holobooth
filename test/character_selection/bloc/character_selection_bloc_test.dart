@@ -17,7 +17,7 @@ void main() {
     blocTest<CharacterSelectionBloc, Character>(
       'emits new Character when adding CharacterSelected',
       build: CharacterSelectionBloc.new,
-      act: (bloc) => bloc.add(CharacterSelected(Character.sparky)),
+      act: (bloc) => bloc.add(CharacterSelectionSelected(Character.sparky)),
       expect: () => <Character>[
         Character.sparky,
       ],
