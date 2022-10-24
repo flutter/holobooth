@@ -54,7 +54,8 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
       },
       child: Scaffold(
         endDrawer: ItemSelectorDrawer(
-          //TODO(laura177): replace contects of drawer with actual Background selection content
+          // TODO(laura177): replace contects of
+          // drawer with actual Background selection content
           key: const Key('multipleCapturePage_itemSelectorDrawer_background'),
           title: context.l10n.backgroundSelectorButton,
           items: const [Colors.amber, Colors.black, Colors.blue],

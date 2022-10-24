@@ -50,7 +50,9 @@ class ItemSelectorDrawer<T> extends StatelessWidget {
                     child: Text(
                       title,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontSize: 32, color: PhotoboothColors.white),
+                            fontSize: 32,
+                            color: PhotoboothColors.white,
+                          ),
                     ),
                   ),
                   IconTheme.merge(
