@@ -15,7 +15,7 @@ void main() {
     });
 
     blocTest<CharacterSelectionBloc, Character>(
-      'emits MultipleCaptureState with adding image to images',
+      'emits new Character when adding CharacterSelected',
       build: CharacterSelectionBloc.new,
       act: (bloc) => bloc.add(CharacterSelected(Character.sparky)),
       expect: () => <Character>[
