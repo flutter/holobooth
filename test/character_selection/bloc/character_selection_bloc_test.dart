@@ -14,13 +14,15 @@ void main() {
       });
     });
 
-    blocTest<CharacterSelectionBloc, Character>(
-      'emits new Character when adding CharacterSelected',
-      build: CharacterSelectionBloc.new,
-      act: (bloc) => bloc.add(CharacterSelectionSelected(Character.sparky)),
-      expect: () => <Character>[
-        Character.sparky,
-      ],
-    );
+    group('CharacterSelectionSelected', () {
+      blocTest<CharacterSelectionBloc, Character>(
+        'emits new Character when adding CharacterSelectionSelected',
+        build: CharacterSelectionBloc.new,
+        act: (bloc) => bloc.add(CharacterSelectionSelected(Character.sparky)),
+        expect: () => <Character>[
+          Character.sparky,
+        ],
+      );
+    });
   });
 }
