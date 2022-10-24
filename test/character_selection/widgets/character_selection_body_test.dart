@@ -39,8 +39,7 @@ extension on WidgetTester {
     CharacterSelectionBody subject,
   ) =>
       pumpWidget(
-        MediaQuery(
-          data: const MediaQueryData(),
+        MediaQuery.fromWindow(
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: Theme(

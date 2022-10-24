@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
@@ -26,6 +27,13 @@ class CharacterSelectionBody extends StatelessWidget {
           ),
           const SizedBox(height: 53),
           const CharacterSelector(),
+          const SizedBox(height: 42),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(MultipleCapturePage.route());
+            },
+            child: const Icon(Icons.arrow_right),
+          ),
         ],
       ),
     );
