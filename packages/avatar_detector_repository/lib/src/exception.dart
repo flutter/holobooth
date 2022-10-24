@@ -13,12 +13,12 @@ class PreloadLandmarksModelException implements Exception {
   String toString() => message;
 }
 
-/// {@template detect_face_exception}
-/// Exception thrown when `AvatarDetectorRepository.detectFace` fails.
+/// {@template detect_avatar_exception}
+/// Exception thrown when `AvatarDetectorRepository.detectAvatar` fails.
 /// {@endtemplate}
-class DetectFaceException implements Exception {
-  /// {@macro detect_face_exception}
-  const DetectFaceException(this.message);
+class DetectAvatarException implements Exception {
+  /// {@macro detect_avatar_exception}
+  const DetectAvatarException(this.message);
 
   /// Description of the failure
   final String message;

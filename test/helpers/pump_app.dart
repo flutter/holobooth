@@ -15,7 +15,7 @@ class _MockAvatarDetectorRepository extends Mock
   _MockAvatarDetectorRepository() {
     when(preloadLandmarksModel).thenAnswer((_) => Future.value());
     // ignore: inference_failure_on_function_invocation
-    when(() => detectFace(any())).thenAnswer((_) async => null);
+    when(() => detectAvatar(any())).thenAnswer((_) async => null);
   }
 }
 

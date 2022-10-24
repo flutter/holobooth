@@ -8,6 +8,9 @@ environment:
   flutter: 3.3.1
 
 dependencies:
+  equatable: ^2.0.5
+  face_geometry:
+    path: ../face_geometry
   tensorflow_models:
     path: ../tensorflow_models/tensorflow_models
 
