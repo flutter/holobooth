@@ -78,13 +78,8 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
               ),
               if (_isCameraAvailable) ...[
                 LayoutBuilder(
-                  builder: (context, constraints) {
-                    return AvatarDetector(
-                      cameraController: _cameraController!,
-                      loadingChild: const SizedBox(),
-                      child: (avatar) => CharacterBuilder(avatar: avatar),
-                    );
-                  },
+                  builder: (context, constraints) =>
+                      AvatarDetector(cameraController: _cameraController!),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,

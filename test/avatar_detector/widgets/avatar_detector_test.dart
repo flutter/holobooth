@@ -5,9 +5,9 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/avatar_animation/avatar_animation.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -68,11 +68,7 @@ void main() {
       'renders AvatarDetectorContent',
       (WidgetTester tester) async {
         await tester.pumpApp(
-          AvatarDetector(
-            cameraController: cameraController,
-            loadingChild: SizedBox(),
-            child: (_) => SizedBox(),
-          ),
+          AvatarDetector(cameraController: cameraController),
         );
         expect(find.byType(AvatarDetectorContent), findsOneWidget);
       },
@@ -95,11 +91,7 @@ void main() {
           Stream.value(AvatarDetectorLoaded()),
         );
         await tester.pumpSubject(
-          AvatarDetectorContent(
-            cameraController: cameraController,
-            loadingChild: SizedBox(),
-            child: (_) => SizedBox(),
-          ),
+          AvatarDetectorContent(cameraController: cameraController),
           avatarDetectorBloc,
         );
         frameStreamController.add(_FakeCameraImageData());
@@ -111,38 +103,29 @@ void main() {
     );
 
     testWidgets(
-      'renders child when AvatarDetectorDetected',
+      'renders Dash when AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
             .thenReturn(AvatarDetectorDetected(_FakeAvatar()));
-        final childKey = Key('childKey');
         await tester.pumpSubject(
-          AvatarDetectorContent(
-            cameraController: cameraController,
-            loadingChild: SizedBox(),
-            child: (_) => SizedBox(key: childKey),
-          ),
+          AvatarDetectorContent(cameraController: cameraController),
           avatarDetectorBloc,
         );
-        expect(find.byKey(childKey), findsOneWidget);
+        expect(find.byType(Dash), findsOneWidget);
       },
     );
 
     testWidgets(
-      'renders child state is not AvatarDetectorDetected',
+      'renders loading view if it is not AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
             .thenReturn(AvatarDetectorEstimating());
-        final loadingChildKey = Key('loadingChildKey');
+
         await tester.pumpSubject(
-          AvatarDetectorContent(
-            cameraController: cameraController,
-            loadingChild: SizedBox(key: loadingChildKey),
-            child: (_) => SizedBox(),
-          ),
+          AvatarDetectorContent(cameraController: cameraController),
           avatarDetectorBloc,
         );
-        expect(find.byKey(loadingChildKey), findsOneWidget);
+        expect(find.byKey(AvatarDetectorContent.loadingKey), findsOneWidget);
       },
     );
   });
