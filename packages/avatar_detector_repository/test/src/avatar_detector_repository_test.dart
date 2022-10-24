@@ -96,7 +96,7 @@ void main() {
         verify(() => tensorflowModelsPlatform.loadFaceLandmark()).called(1);
       });
 
-      test('throws DetectFaceException if estimateFaces fails', () {
+      test('throws DetectAvatarException if estimateFaces fails', () {
         when(
           () => faceLandmarksDetector.estimateFaces(
             '',
@@ -105,7 +105,7 @@ void main() {
         ).thenThrow(Exception());
         expect(
           avatarDetectorRepository.detectAvatar(''),
-          throwsA(isA<DetectFaceException>()),
+          throwsA(isA<DetectAvatarException>()),
         );
       });
 

@@ -32,9 +32,9 @@ class AvatarDetectorRepository {
     }
   }
 
-  /// Return [Face] if there is any on the [input].
+  /// Return [Avatar] if there is any on the [input].
   ///
-  /// Throws [DetectFaceException] if any exception occurs.
+  /// Throws [DetectAvatarException] if any exception occurs.
   Future<Avatar?> detectAvatar(Object input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
@@ -43,7 +43,7 @@ class AvatarDetectorRepository {
     try {
       faces = await _faceLandmarksDetector!.estimateFaces(input);
     } catch (error) {
-      throw DetectFaceException(error.toString());
+      throw DetectAvatarException(error.toString());
     }
     if (faces.isEmpty) return null;
 
