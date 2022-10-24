@@ -1,5 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:gif_compositor_platform_interface/src/method_channel_gif_compositor.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 

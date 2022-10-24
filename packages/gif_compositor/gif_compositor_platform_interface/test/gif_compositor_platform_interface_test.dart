@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:gif_compositor_platform_interface/gif_compositor_platform_interface.dart';
+import 'package:test/test.dart';
 
 class _GifCompositorMock extends GifCompositorPlatform {}
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
   group('$GifCompositorPlatform', () {
     late GifCompositorPlatform gifCompositorPlatform;
 
