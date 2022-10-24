@@ -8,6 +8,7 @@
 // ignore_for_file: directives_ordering,unnecessary_import
 
 import 'package:flutter/widgets.dart';
+import 'package:rive/rive.dart';
 
 class $AssetsAudioGen {
   const $AssetsAudioGen();
@@ -40,6 +41,13 @@ class $AssetsBackgroundsGen {
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 }
 
+class $AssetsCharactersGen {
+  const $AssetsCharactersGen();
+
+  /// File path: assets/characters/dash.riv
+  RiveGenImage get dash => const RiveGenImage('assets/characters/dash.riv');
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -57,6 +65,7 @@ class Assets {
 
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
+  static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
 }
 
@@ -121,4 +130,37 @@ class AssetGenImage {
   String get path => _assetName;
 
   String get keyName => _assetName;
+}
+
+class RiveGenImage {
+  const RiveGenImage(this._assetName);
+
+  final String _assetName;
+
+  RiveAnimation rive({
+    String? artboard,
+    List<String> animations = const [],
+    List<String> stateMachines = const [],
+    BoxFit? fit,
+    Alignment? alignment,
+    Widget? placeHolder,
+    bool antialiasing = true,
+    List<RiveAnimationController> controllers = const [],
+    OnInitCallback? onInit,
+  }) {
+    return RiveAnimation.asset(
+      _assetName,
+      artboard: artboard,
+      animations: animations,
+      stateMachines: stateMachines,
+      fit: fit,
+      alignment: alignment,
+      placeHolder: placeHolder,
+      antialiasing: antialiasing,
+      controllers: controllers,
+      onInit: onInit,
+    );
+  }
+
+  String get path => _assetName;
 }

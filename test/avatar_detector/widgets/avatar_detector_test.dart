@@ -71,7 +71,7 @@ void main() {
           AvatarDetector(
             cameraController: cameraController,
             loadingChild: SizedBox(),
-            child: SizedBox(),
+            child: (_) => SizedBox(),
           ),
         );
         expect(find.byType(AvatarDetectorContent), findsOneWidget);
@@ -98,7 +98,7 @@ void main() {
           AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(),
-            child: SizedBox(),
+            child: (_) => SizedBox(),
           ),
           avatarDetectorBloc,
         );
@@ -120,7 +120,7 @@ void main() {
           AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(),
-            child: SizedBox(key: childKey),
+            child: (_) => SizedBox(key: childKey),
           ),
           avatarDetectorBloc,
         );
@@ -138,7 +138,7 @@ void main() {
           AvatarDetectorContent(
             cameraController: cameraController,
             loadingChild: SizedBox(key: loadingChildKey),
-            child: SizedBox(),
+            child: (_) => SizedBox(),
           ),
           avatarDetectorBloc,
         );

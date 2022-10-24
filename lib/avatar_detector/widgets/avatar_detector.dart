@@ -12,7 +12,7 @@ class AvatarDetector extends StatelessWidget {
     required this.loadingChild,
   });
   final CameraController cameraController;
-  final Widget child;
+  final Widget Function(Avatar avatar) child;
   final Widget loadingChild;
 
   @override
@@ -39,7 +39,7 @@ class AvatarDetectorContent extends StatelessWidget {
   });
 
   final CameraController cameraController;
-  final Widget child;
+  final Widget Function(Avatar avatar) child;
   final Widget loadingChild;
 
   @override
@@ -54,7 +54,7 @@ class AvatarDetectorContent extends StatelessWidget {
         });
       },
       builder: (context, state) =>
-          state is AvatarDetectorDetected ? child : loadingChild,
+          state is AvatarDetectorDetected ? child(state.avatar) : loadingChild,
     );
   }
 }
