@@ -11,9 +11,9 @@ void main() {
     });
   });
 
-  group('DetectFaceException', () {
+  group('DetectAvatarException', () {
     test('overrides toString with message', () {
-      final exception = DetectFaceException('msg');
+      final exception = DetectAvatarException('msg');
       expect(exception.toString(), 'msg');
     });
   });

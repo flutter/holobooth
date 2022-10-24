@@ -4,17 +4,17 @@ import 'package:test/test.dart';
 void main() {
   group('Vector3', () {
     test('can be instantiated', () {
-      expect(Vector3(0, 0, 0), isA<Vector3>());
+      expect(const Vector3(0, 0, 0), isA<Vector3>());
     });
 
     group('unit', () {
       test('returns normally', () {
-        final vector = Vector3(1, 1, 1);
+        const vector = Vector3(1, 1, 1);
         expect(vector.unit, returnsNormally);
       });
 
       test('returns a unit vector', () {
-        final vector = Vector3(1, 1, 1);
+        const vector = Vector3(1, 1, 1);
         final result = vector.unit();
 
         expect(result.x.toStringAsFixed(2), equals('0.58'));
@@ -25,12 +25,12 @@ void main() {
 
     group('* operator', () {
       test('returns normally', () {
-        final vector = Vector3(1, 2, 3);
+        const vector = Vector3(1, 2, 3);
         expect(vector * 1, isA<Vector3>());
       });
 
       test('returns correct vector', () {
-        final vector = Vector3(1, 2, 3);
+        const vector = Vector3(1, 2, 3);
         const scalar = 2.0;
         final result = vector * scalar;
 
@@ -39,15 +39,26 @@ void main() {
         expect(result.z, equals(vector.z * scalar));
       });
     });
+
+    test('supports value comparison', () {
+      const vector1 = Vector3(0, 0, 0);
+      const vector2 = Vector3(0, 0, 0);
+      const vector3 = Vector3(1, 1, 1);
+      expect(vector1, equals(vector2));
+      expect(vector1, isNot(vector3));
+    });
   });
 
   group('toString', () {
     test('returns normally', () {
-      expect(Vector3(1, 2, 3).toString, returnsNormally);
+      expect(const Vector3(1, 2, 3).toString, returnsNormally);
     });
 
     test('returns correct string', () {
-      expect(Vector3(1, 2, 3).toString(), equals('Vector3(1.0, 2.0, 3.0)'));
+      expect(
+        const Vector3(1, 2, 3).toString(),
+        equals('Vector3(1.0, 2.0, 3.0)'),
+      );
     });
   });
 }

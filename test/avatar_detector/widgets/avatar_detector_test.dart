@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -49,7 +49,7 @@ class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _FakeFace extends Fake implements Face {}
+class _FakeAvatar extends Fake implements Avatar {}
 
 void main() {
   late AvatarDetectorBloc avatarDetectorBloc;
@@ -111,10 +111,10 @@ void main() {
     );
 
     testWidgets(
-      'renders child when AvatarDetectorFaceDetected',
+      'renders child when AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
-            .thenReturn(AvatarDetectorFaceDetected(_FakeFace()));
+            .thenReturn(AvatarDetectorDetected(_FakeAvatar()));
         final childKey = Key('childKey');
         await tester.pumpSubject(
           AvatarDetectorContent(
@@ -129,7 +129,7 @@ void main() {
     );
 
     testWidgets(
-      'renders child state is not AvatarDetectorFaceDetected',
+      'renders child state is not AvatarDetectorDetected',
       (WidgetTester tester) async {
         when(() => avatarDetectorBloc.state)
             .thenReturn(AvatarDetectorEstimating());

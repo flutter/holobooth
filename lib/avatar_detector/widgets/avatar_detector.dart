@@ -54,7 +54,7 @@ class AvatarDetectorContent extends StatelessWidget {
         });
       },
       builder: (context, state) =>
-          state is AvatarDetectorFaceDetected ? child : loadingChild,
+          state is AvatarDetectorDetected ? child : loadingChild,
     );
   }
 }

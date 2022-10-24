@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:collection';
+
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -20,7 +22,25 @@ class _MockFaceLandmarksDetector extends Mock implements FaceLandmarksDetector {
 
 class _FakeEstimationConfig extends Fake implements EstimationConfig {}
 
-class _FakeFace extends Fake implements Face {}
+class _FakeKeypoint extends Fake implements Keypoint {
+  _FakeKeypoint(this.x, this.y, this.z);
+
+  @override
+  final double x;
+
+  @override
+  final double y;
+
+  @override
+  final double? z;
+}
+
+class _FakeFace extends Fake implements Face {
+  @override
+  UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
+        List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
+      );
+}
 
 void main() {
   group('AvatarDetectorRepository', () {
@@ -62,7 +82,7 @@ void main() {
       });
     });
 
-    group('detectFace', () {
+    group('detectAvatar', () {
       test(
           'calls preloadLandmarksModel if '
           'faceLandmarksDetector is not initialized yet', () async {
@@ -72,11 +92,11 @@ void main() {
             estimationConfig: any(named: 'estimationConfig'),
           ),
         ).thenAnswer((_) async => <Face>[_FakeFace()]);
-        await avatarDetectorRepository.detectFace('');
+        await avatarDetectorRepository.detectAvatar('');
         verify(() => tensorflowModelsPlatform.loadFaceLandmark()).called(1);
       });
 
-      test('throws DetectFaceException if estimateFaces fails', () {
+      test('throws DetectAvatarException if estimateFaces fails', () {
         when(
           () => faceLandmarksDetector.estimateFaces(
             '',
@@ -84,8 +104,8 @@ void main() {
           ),
         ).thenThrow(Exception());
         expect(
-          avatarDetectorRepository.detectFace(''),
-          throwsA(isA<DetectFaceException>()),
+          avatarDetectorRepository.detectAvatar(''),
+          throwsA(isA<DetectAvatarException>()),
         );
       });
 
@@ -98,12 +118,12 @@ void main() {
         ).thenAnswer((_) async => List<Face>.empty());
 
         await expectLater(
-          avatarDetectorRepository.detectFace(''),
+          avatarDetectorRepository.detectAvatar(''),
           completion(isNull),
         );
       });
 
-      test('return a Face', () async {
+      test('return an Avatar', () async {
         when(
           () => faceLandmarksDetector.estimateFaces(
             '',
@@ -111,8 +131,8 @@ void main() {
           ),
         ).thenAnswer((_) async => <Face>[_FakeFace()]);
         await expectLater(
-          avatarDetectorRepository.detectFace(''),
-          completion(isA<Face>()),
+          avatarDetectorRepository.detectAvatar(''),
+          completion(isA<Avatar>()),
         );
       });
     });
