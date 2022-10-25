@@ -21,7 +21,6 @@ class _FakeKeypoint extends Fake implements Keypoint {
 
 void main() {
   late Face face;
-  late FaceGeometry faceGeometry;
   late BoundingBox boundingBox;
 
   setUp(() {
@@ -30,8 +29,6 @@ void main() {
 
     when(() => boundingBox.height).thenReturn(100);
     when(() => face.boundingBox).thenReturn(boundingBox);
-
-    faceGeometry = FaceGeometry(face);
   });
 
   group('MouthGeometry', () {
@@ -42,7 +39,7 @@ void main() {
         );
         when(() => face.keypoints).thenReturn(keypoints);
 
-        expect(() => faceGeometry.mouth.mouthDistance, returnsNormally);
+        expect(() => face.mouthDistance, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -52,7 +49,7 @@ void main() {
           );
           when(() => face.keypoints).thenReturn(keypoints);
 
-          expect(faceGeometry.mouth.mouthDistance, equals(0));
+          expect(face.mouthDistance, equals(0));
         });
 
         test('when values are not 0', () {
@@ -63,7 +60,7 @@ void main() {
               .thenReturn(UnmodifiableListView(keypoints));
 
           expect(
-            faceGeometry.mouth.mouthDistance,
+            face.mouthDistance,
             equals(4.242640687119285),
           );
         });
@@ -83,7 +80,7 @@ void main() {
         );
         when(() => face.keypoints).thenReturn(keypoints);
 
-        expect(() => faceGeometry.mouth.isMouthOpen, returnsNormally);
+        expect(() => face.isMouthOpen, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -93,7 +90,7 @@ void main() {
           );
           when(() => face.keypoints).thenReturn(keypoints);
 
-          expect(faceGeometry.mouth.isMouthOpen, equals(false));
+          expect(face.isMouthOpen, equals(false));
         });
 
         test('when values are not 0', () {
@@ -103,7 +100,7 @@ void main() {
           when(() => face.keypoints)
               .thenReturn(UnmodifiableListView(keypoints));
 
-          expect(faceGeometry.mouth.isMouthOpen, equals(true));
+          expect(face.isMouthOpen, equals(true));
         });
       });
     });
