@@ -24,9 +24,11 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 void main() {
   group('FaceDirection', () {
     late tf.Face face;
+    late FaceGeometry faceGeometry;
 
     setUp(() {
       face = _MockFace();
+      faceGeometry = FaceGeometry(face);
     });
 
     group('direction', () {
@@ -35,7 +37,7 @@ void main() {
           List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
         );
         when(() => face.keypoints).thenReturn(keypoints);
-        expect(face.direction, returnsNormally);
+        expect(faceGeometry.direction, returnsNormally);
       });
     });
   });
