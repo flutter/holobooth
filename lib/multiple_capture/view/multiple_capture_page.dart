@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
-import 'package:io_photobooth/multiple_capture/widgets/selection_buttons.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -59,13 +58,17 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
       },
       child: Scaffold(
         endDrawer: ItemSelectorDrawer(
-          // TODO(laura177): replace contects of
+          // TODO(laura177): replace contents of
           // drawer with actual Background selection content
           key: MultipleCaptureView.endDrawerKey,
           title: context.l10n.backgroundSelectorButton,
-          items: const [Colors.amber, Colors.black, Colors.blue],
+          items: const [
+            PhotoboothColors.red,
+            PhotoboothColors.green,
+            PhotoboothColors.blue
+          ],
           itemBuilder: (context, item) => ColoredBox(color: item),
-          selectedItem: Colors.amber,
+          selectedItem: PhotoboothColors.red,
           onSelected: (value) => print,
         ),
         body: CameraBackground(
