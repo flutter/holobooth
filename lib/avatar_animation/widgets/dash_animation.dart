@@ -12,33 +12,33 @@ class DashAnimation extends StatefulWidget {
   final Avatar avatar;
 
   @override
-  State<DashAnimation> createState() => _DashAnimationState();
+  State<DashAnimation> createState() => DashAnimationState();
 }
 
-class _DashAnimationState extends State<DashAnimation> {
-  _DashStateMachineController? _dashController;
+@visibleForTesting
+class DashAnimationState extends State<DashAnimation> {
+  @visibleForTesting
+  DashStateMachineController? dashController;
 
   void _onRiveInit(Artboard artboard) {
-    _dashController = _DashStateMachineController(artboard);
-    artboard.addController(_dashController!);
+    dashController = DashStateMachineController(artboard);
+    artboard.addController(dashController!);
   }
 
   @override
   void didUpdateWidget(covariant DashAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final dashController = _dashController;
     if (dashController != null) {
       final direction = widget.avatar.direction.unit();
-      dashController.x.change(direction.x * 1000);
-      dashController.y.change(direction.y * -1000);
-
-      dashController.openMouth.change(widget.avatar.hasMouthOpen);
+      dashController!.x.change(direction.x * 1000);
+      dashController!.y.change(direction.y * -1000);
+      dashController!.openMouth.change(widget.avatar.hasMouthOpen);
     }
   }
 
   @override
   void dispose() {
-    _dashController?.dispose();
+    dashController?.dispose();
     super.dispose();
   }
 
@@ -55,8 +55,9 @@ class _DashAnimationState extends State<DashAnimation> {
   }
 }
 
-class _DashStateMachineController extends StateMachineController {
-  _DashStateMachineController(Artboard artboard)
+@visibleForTesting
+class DashStateMachineController extends StateMachineController {
+  DashStateMachineController(Artboard artboard)
       : super(
           artboard.animations
               .whereType<StateMachine>()
