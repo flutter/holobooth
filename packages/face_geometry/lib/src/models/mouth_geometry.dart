@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
