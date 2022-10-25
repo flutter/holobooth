@@ -100,9 +100,6 @@ void main() {
   });
 
   group('DashStateMachineController', () {
-    test('fails to init if no values found', () {
-      final controller = DashStateMachineController();
-      StateMachine();
-    });
+    test('fails to init if no values found', () {});
   });
 }
