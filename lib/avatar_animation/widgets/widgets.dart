@@ -1,1 +1,1 @@
-export 'dash.dart';
+export 'dash_animation.dart';

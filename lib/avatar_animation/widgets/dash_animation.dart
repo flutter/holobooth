@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:rive/rive.dart';
 
-class Dash extends StatefulWidget {
-  const Dash({
+class DashAnimation extends StatefulWidget {
+  const DashAnimation({
     super.key,
     required this.avatar,
   });
@@ -12,10 +12,10 @@ class Dash extends StatefulWidget {
   final Avatar avatar;
 
   @override
-  State<Dash> createState() => _DashState();
+  State<DashAnimation> createState() => _DashAnimationState();
 }
 
-class _DashState extends State<Dash> {
+class _DashAnimationState extends State<DashAnimation> {
   _DashStateMachineController? _dashController;
 
   void _onRiveInit(Artboard artboard) {
@@ -24,7 +24,7 @@ class _DashState extends State<Dash> {
   }
 
   @override
-  void didUpdateWidget(covariant Dash oldWidget) {
+  void didUpdateWidget(covariant DashAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null) {

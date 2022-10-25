@@ -111,7 +111,7 @@ void main() {
           AvatarDetectorContent(cameraController: cameraController),
           avatarDetectorBloc,
         );
-        expect(find.byType(Dash), findsOneWidget);
+        expect(find.byType(DashAnimation), findsOneWidget);
       },
     );
 

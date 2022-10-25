@@ -46,7 +46,7 @@ class AvatarDetectorContent extends StatelessWidget {
         });
       },
       builder: (context, state) => state is AvatarDetectorDetected
-          ? Dash(avatar: state.avatar)
+          ? DashAnimation(avatar: state.avatar)
           : const SizedBox(key: loadingKey),
     );
   }
