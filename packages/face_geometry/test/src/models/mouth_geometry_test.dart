@@ -5,8 +5,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:test/test.dart';
 
-class _MockFace extends Mock implements Face {}
-
 class _MockBoundingBox extends Mock implements BoundingBox {}
 
 class _FakeKeypoint extends Fake implements Keypoint {
@@ -20,26 +18,44 @@ class _FakeKeypoint extends Fake implements Keypoint {
 }
 
 void main() {
-  late Face face;
+  late MouthGeometry mouthGeometry;
   late BoundingBox boundingBox;
 
   setUp(() {
     boundingBox = _MockBoundingBox();
-    face = _MockFace();
-
     when(() => boundingBox.height).thenReturn(100);
-    when(() => face.boundingBox).thenReturn(boundingBox);
   });
 
   group('MouthGeometry', () {
+    test('supports equality', () {
+      final mouth = MouthGeometry(const [], boundingBox);
+      final mouth2 = MouthGeometry(const [], boundingBox);
+
+      expect(mouth, equals(mouth2));
+      expect(mouth, isNot(same(mouth2)));
+    });
+
+    test('update changes MouthGeometry', () {
+      final mouth = MouthGeometry(const [], boundingBox);
+      final mouth2 = MouthGeometry(const [], boundingBox);
+      final newKeypoints = UnmodifiableListView(
+        <Keypoint>[_FakeKeypoint(1, 1)],
+      );
+
+      mouth.update(newKeypoints, boundingBox);
+
+      expect(mouth.keypoints, equals(newKeypoints));
+      expect(mouth, isNot(mouth2));
+    });
+
     group('mouthDistance', () {
       test('returns normally', () {
         final keypoints = UnmodifiableListView(
           List.generate(15, (_) => _FakeKeypoint(0, 0)),
         );
-        when(() => face.keypoints).thenReturn(keypoints);
+        mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-        expect(() => face.mouthDistance, returnsNormally);
+        expect(() => mouthGeometry.mouthDistance, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -47,20 +63,19 @@ void main() {
           final keypoints = UnmodifiableListView(
             List.generate(15, (_) => _FakeKeypoint(0, 0)),
           );
-          when(() => face.keypoints).thenReturn(keypoints);
+          mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(face.mouthDistance, equals(0));
+          expect(mouthGeometry.mouthDistance, equals(0));
         });
 
         test('when values are not 0', () {
           final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
           keypoints[13] = _FakeKeypoint(-2, 2);
           keypoints[14] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
+          mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
           expect(
-            face.mouthDistance,
+            mouthGeometry.mouthDistance,
             equals(4.242640687119285),
           );
         });
@@ -68,19 +83,13 @@ void main() {
     });
 
     group('isMouthOpen', () {
-      setUp(() {
-        final boundingBox = _MockBoundingBox();
-        when(() => boundingBox.height).thenReturn(100);
-        when(() => face.boundingBox).thenReturn(boundingBox);
-      });
-
       test('returns normally', () {
         final keypoints = UnmodifiableListView(
           List.generate(15, (_) => _FakeKeypoint(0, 0)),
         );
-        when(() => face.keypoints).thenReturn(keypoints);
+        mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-        expect(() => face.isMouthOpen, returnsNormally);
+        expect(() => mouthGeometry.isMouthOpen, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -88,19 +97,18 @@ void main() {
           final keypoints = UnmodifiableListView(
             List.generate(15, (_) => _FakeKeypoint(0, 0)),
           );
-          when(() => face.keypoints).thenReturn(keypoints);
+          mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(face.isMouthOpen, equals(false));
+          expect(mouthGeometry.isMouthOpen, equals(false));
         });
 
         test('when values are not 0', () {
           final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
           keypoints[13] = _FakeKeypoint(-2, 2);
           keypoints[14] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
+          mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(face.isMouthOpen, equals(true));
+          expect(mouthGeometry.isMouthOpen, equals(true));
         });
       });
     });

@@ -38,6 +38,19 @@ void main() {
       );
     });
 
+    test('supports equality', () {
+      const keypoints = <Keypoint>[];
+      final eye = EyeGeometry.left(keypoints, boundingBox);
+      final eye2 = EyeGeometry.left(keypoints, boundingBox);
+      final eye3 = EyeGeometry.left(
+        <Keypoint>[_FakeKeypoint(0, 0)],
+        _MockBoundingBox(),
+      );
+
+      expect(eye, equals(eye2));
+      expect(eye, isNot(equals(eye3)));
+    });
+
     group('leftEye.distance', () {
       test('returns normally', () {
         final keypoints = UnmodifiableListView(
