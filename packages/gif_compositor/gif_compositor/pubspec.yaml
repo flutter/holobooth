@@ -1,0 +1,30 @@
+name: gif_compositor
+description: Composes GIFs from images
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+  flutter: ">=3.3.1"
+
+flutter:
+  plugin:
+    platforms:
+      web:
+        default_package: gif_compositor_web
+
+dependencies:
+  cross_file: ^0.3.3+2
+  flutter:
+    sdk: flutter
+  gif_compositor_platform_interface:
+    path: ../gif_compositor_platform_interface
+  gif_compositor_web:
+    path: ../gif_compositor_web
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  plugin_platform_interface: ^2.0.0
+  very_good_analysis: ^3.1.0

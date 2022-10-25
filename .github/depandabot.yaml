@@ -65,3 +65,14 @@ updates:
     directory: "/packages/tensorflow_models/tensorflow_models_web"
     schedule:
       interval: "daily"
+    directory: "/packages/gif_compositor/gif_compositor"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/packages/gif_compositor/gif_compositor_platform_interface"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pub"
+    directory: "/packages/gif_compositor/gif_compositor_web"
+    schedule:
+      interval: "daily"
