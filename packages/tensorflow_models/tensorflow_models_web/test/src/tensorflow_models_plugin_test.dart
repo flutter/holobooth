@@ -1,24 +1,25 @@
 @TestOn('chrome')
-import 'dart:html';
-import 'dart:js';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_web/src/face_landmarks_detection/face_landmarks_detection.dart';
 import 'package:tensorflow_models_web/tensorflow_models_web.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as platform_interface;
 
-class _MockFaceLandmark extends Mock implements FaceLandmarksDetectorJs {}
+class _MockFaceLandmarksDetectionInterop extends Mock
+    implements FaceLandmarksDetectionInterop {}
 
-class _MockDetector extends Mock implements FaceLandmarksDetector {}
-
-abstract class FaceLandmarksDetectorJs {
-  Future<FaceLandmarksDetector> createDetector(
-    dynamic model, [
-    ModelConfig? config,
-  ]);
+class _MockFaceLandmarksDetector extends Mock implements FaceLandmarksDetector {
 }
 
+class _FakeModelConfig extends Fake implements ModelConfig {}
+
 void main() {
+  setUpAll(() {
+    registerFallbackValue(_FakeModelConfig());
+  });
+
   group('TensorflowModelsPlugin', () {
     test('can be instantiated', () {
       expect(
@@ -28,20 +29,24 @@ void main() {
     });
 
     group('loadFaceLandmark', () {
-      late FaceLandmarksDetectorJs faceLandmarksDetectorJs;
+      late FaceLandmarksDetectionInterop faceLandmarksDetectionInterop;
       setUp(() {
-        faceLandmarksDetectorJs = _MockFaceLandmark();
+        faceLandmarksDetectionInterop = _MockFaceLandmarksDetectionInterop();
+        FaceLandmarksDetectionInterop.instance = faceLandmarksDetectionInterop;
       });
 
-      test('returns a FaceLandmarkDetector', () async {
+      test('returns a FaceLandmarksDetectorWeb', () async {
         final subject = TensorflowModelsPlugin();
-        context.
-        (window as dynamic).faceLandmarksDetection = faceLandmarksDetectorJs;
-        when(() => faceLandmarksDetectorJs.createDetector(any()))
-            .thenAnswer((invocation) async => _MockDetector());
+        final detector = _MockFaceLandmarksDetector();
+        when(
+          () => faceLandmarksDetectionInterop.createDetector(
+            any<dynamic>(),
+            any(),
+          ),
+        ).thenAnswer((_) async => detector);
         await expectLater(
           subject.loadFaceLandmark(),
-          isA<FaceLandmarksDetector>(),
+          completion(isA<platform_interface.FaceLandmarksDetector>()),
         );
       });
     });
