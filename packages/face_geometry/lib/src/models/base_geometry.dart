@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// {@template base_geometry}
-/// Base geomtry class which contains list of [Keypoint] and [BoundingBox].
+/// Base geometry class which contains list of [Keypoint] and [BoundingBox].
 /// {@endtemplate}
 abstract class BaseGeometry extends Equatable {
   /// {@macro base_geometry}

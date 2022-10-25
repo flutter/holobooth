@@ -16,7 +16,7 @@ enum EyeSide {
 }
 
 /// {@template eye_geometry}
-/// An object which holds data for eye blink.
+/// An object which holds data for eye.
 /// {@endtemplate}
 class EyeGeometry extends BaseGeometry {
   /// {@macro eye_geometry}

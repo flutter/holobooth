@@ -3,14 +3,12 @@
 import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-/// An eyeballed estimated minimum mouth to face ratio.
-///
 /// This represents the minimum height of the mouth in comparison to the face
 /// height.
 const _minMouthFaceRatio = 0.02;
 
 /// {@template mouth_geometry}
-/// An object which holds data for eye blink.
+/// An object which holds data for mouth.
 /// {@endtemplate}
 class MouthGeometry extends BaseGeometry {
   /// {@macro mouth_geometry}
@@ -38,7 +36,10 @@ class MouthGeometry extends BaseGeometry {
   }
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [
+        keypoints,
+        boundingBox,
+      ];
 
   @override
   void update(
