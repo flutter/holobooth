@@ -239,24 +239,6 @@ Open Settings > Safari > Advanced > enable "Web Inspector"
 Safari > Develop > Find "YourPhoneName" > select the Safari session entered earlier, for example 192.168.1.1
 ```
 
-[build_status_badge]: https://github.com/flutter/photobooth/actions/workflows/main.yaml/badge.svg
-[coverage_badge]: coverage_badge.svg
-[firebase_link]: https://firebase.google.com/
-[flutter_link]: https://flutter.dev
-[flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
-[google_io_link]: https://events.google.com/io/
-[blog_link]: https://medium.com/flutter/how-its-made-i-o-photo-booth-3b8355d35883
-[internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
-[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[license_link]: https://opensource.org/licenses/MIT
-[logo]: art/header.png
-[photo_booth_link]: https://photobooth.flutter.dev
-[very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
-[very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
-[very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
-[very_good_ventures_link]: https://verygood.ventures/
-[workflow_link]: https://github.com/flutter/photobooth/actions/workflows/main.yaml
-
 ## Generate assets
 
 We rely on fluttergen to generate the assets. Everytime a new asset folder is needed we should
@@ -277,3 +259,23 @@ flutter:
 ```dart
 Assets.nameOfTheFolder.nameOfTheAsset
 ```
+
+
+[build_status_badge]: https://github.com/flutter/photobooth/actions/workflows/main.yaml/badge.svg
+[coverage_badge]: coverage_badge.svg
+[firebase_link]: https://firebase.google.com/
+[flutter_link]: https://flutter.dev
+[flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
+[google_io_link]: https://events.google.com/io/
+[blog_link]: https://medium.com/flutter/how-its-made-i-o-photo-booth-3b8355d35883
+[internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
+[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license_link]: https://opensource.org/licenses/MIT
+[logo]: art/header.png
+[photo_booth_link]: https://photobooth.flutter.dev
+[very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
+[very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+[very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
+[very_good_ventures_link]: https://verygood.ventures/
+[workflow_link]: https://github.com/flutter/photobooth/actions/workflows/main.yaml
+
