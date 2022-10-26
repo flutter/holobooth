@@ -13,16 +13,17 @@ class FacesDetectorBuilder extends StatefulWidget {
   }) : super(key: key);
 
   final CameraController cameraController;
-  final Widget Function(BuildContext context, tf.Faces faces) builder;
+  final Widget Function(BuildContext context, List<FaceGeometry> faces) builder;
 
   @override
   State<FacesDetectorBuilder> createState() => _FacesDetectorBuilderState();
 }
 
 class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
-  final _streamController = StreamController<tf.Faces>();
+  final _streamController = StreamController<List<FaceGeometry>>();
   late final tf.FaceLandmarksDetector _faceLandmarksDetector;
   late Size _size;
+  final Map<int, FaceGeometry> _faceGeometriesCache = {};
 
   static const _estimationConfig = tf.EstimationConfig(
     flipHorizontal: true,
@@ -47,15 +48,30 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
   }
 
   Future<bool> _estimateFaces(tf.ImageData imageData) async {
-    final faces = (await _faceLandmarksDetector.estimateFaces(
+    final faces = await _faceLandmarksDetector.estimateFaces(
       imageData,
       estimationConfig: _estimationConfig,
-    ))
-        .normalize(
-      fromMax: imageData.size,
-      toMax: tf.Size(_size.width.toInt(), _size.height.toInt()),
     );
-    if (!_streamController.isClosed) _streamController.add(faces);
+    for (var index = 0; index < faces.length; index++) {
+      final face = faces[index].normalize(
+        fromMax: imageData.size,
+        toMax: tf.Size(_size.width.toInt(), _size.height.toInt()),
+      );
+
+      _faceGeometriesCache.update(
+        index,
+        (faceGeometry) =>
+            faceGeometry..update(face.keypoints, face.boundingBox),
+        ifAbsent: () => _faceGeometriesCache.putIfAbsent(
+          index,
+          () => FaceGeometry(face.keypoints, face.boundingBox),
+        ),
+      );
+    }
+
+    if (!_streamController.isClosed) {
+      _streamController.add(_faceGeometriesCache.values.toList());
+    }
     return !_streamController.isClosed;
   }
 
@@ -73,7 +89,7 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           _size = constraints.biggest;
-          return StreamBuilder<tf.Faces>(
+          return StreamBuilder<List<FaceGeometry>>(
             stream: _streamController.stream,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
