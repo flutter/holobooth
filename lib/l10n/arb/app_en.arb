@@ -344,9 +344,13 @@
     "@selectABackgroundTitleText": {
         "description": "Title text displayed at top of select a background page"
     },
-    "selectACharacterTitleText": "Select a character",
-    "@selectACharacterTitleText": {
+    "chooseYourCharacterTitleText": "Choose your character",
+    "@chooseYourCharacterTitleText": {
         "description": "Title text displayed at top of select a character page"
+    },
+    "youCanChangeThemLaterSubheading": "You can change them later",
+    "@youCanChangeThemLaterSubheading": {
+        "description": "Subheading text displayed at top of select a character page"
     },
     "nextButtonText": "Next",
     "@nextButtonText": {
