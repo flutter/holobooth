@@ -14,7 +14,12 @@ class Avatar extends Equatable {
 
   /// Build an [Avatar] based on [Face].
   factory Avatar.fromFace(Face face) {
-    return Avatar(hasMouthOpen: face.isMouthOpen, direction: face.direction());
+    final faceGeometry = FaceGeometry(face.keypoints, face.boundingBox);
+
+    return Avatar(
+      hasMouthOpen: faceGeometry.mouth.isMouthOpen,
+      direction: faceGeometry.direction.direction(),
+    );
   }
 
   /// Indicates whether the [Avatar] has the mouth open.
