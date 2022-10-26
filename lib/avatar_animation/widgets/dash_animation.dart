@@ -90,4 +90,4 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber y;
   late final SMIBool openMouth;
 }
-// coverage:ignore-end 
+// coverage:ignore-end
