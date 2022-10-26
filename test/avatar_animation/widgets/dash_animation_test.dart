@@ -38,8 +38,4 @@ void main() {
       expect(controller?.openMouth.value, true);
     });
   });
-
-  group('DashStateMachineController', () {
-    test('fails to init if no values found', () {});
-  });
 }
