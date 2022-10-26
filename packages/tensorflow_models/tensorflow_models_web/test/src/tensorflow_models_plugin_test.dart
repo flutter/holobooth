@@ -2,10 +2,10 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tensorflow_models_web/src/face_landmarks_detection/face_landmarks_detection.dart';
-import 'package:tensorflow_models_web/tensorflow_models_web.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as platform_interface;
+import 'package:tensorflow_models_web/src/face_landmarks_detection/face_landmarks_detection.dart';
+import 'package:tensorflow_models_web/tensorflow_models_web.dart';
 
 class _MockFaceLandmarksDetectionInterop extends Mock
     implements FaceLandmarksDetectionInterop {}
