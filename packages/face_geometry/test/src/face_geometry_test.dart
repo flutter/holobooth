@@ -39,7 +39,7 @@ void main() {
       test('mouth', () {
         final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
 
-        expect(faceGeometry.mouth, isA<FaceDirection>());
+        expect(faceGeometry.mouth, isA<MouthGeometry>());
       });
     });
 
