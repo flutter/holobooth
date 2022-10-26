@@ -40,6 +40,17 @@ class $AssetsBackgroundsGen {
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 }
 
+class $AssetsCharactersGen {
+  const $AssetsCharactersGen();
+
+  /// File path: assets/characters/dash.png
+  AssetGenImage get dash => const AssetGenImage('assets/characters/dash.png');
+
+  /// File path: assets/characters/sparky.png
+  AssetGenImage get sparky =>
+      const AssetGenImage('assets/characters/sparky.png');
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -57,6 +68,7 @@ class Assets {
 
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
+  static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
 }
 
