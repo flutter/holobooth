@@ -36,7 +36,9 @@ void main() {
 
       testWidgets('a FloatingActionButon', (tester) async {
         await tester.pumpSubject(CharacterSelectionBody());
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+        final finder = find.byType(FloatingActionButton);
+        await tester.ensureVisible(finder);
+        expect(finder, findsOneWidget);
       });
     });
 
