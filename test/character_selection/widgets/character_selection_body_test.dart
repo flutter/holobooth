@@ -48,7 +48,9 @@ void main() {
         'when FloatingActionButton is pressed',
         (tester) async {
           await tester.pumpSubject(CharacterSelectionBody());
-          await tester.tap(find.byType(FloatingActionButton));
+          final finder = find.byType(FloatingActionButton);
+          await tester.ensureVisible(finder);
+          await tester.tap(finder);
           await tester.pumpAndSettle();
           expect(find.byType(MultipleCapturePage), findsOneWidget);
         },
