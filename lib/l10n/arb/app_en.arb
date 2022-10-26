@@ -359,5 +359,11 @@
     "toThePhotoBoothButtonText": "To the photobooth!",
     "@toThePhotoBoothButtonText": {
         "description": "Text displayed on button to navigate to the camera after selecting a character"
+    },
+    "backgroundSelectorButton": "Background",
+    "@backgroundSelectorButton": {
+      "description": "Title text displayed on the background selection button and drawer on camera capture page",
+      "type": "text",
+      "placeholders": {}
     }
 }
