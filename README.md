@@ -241,7 +241,7 @@ Safari > Develop > Find "YourPhoneName" > select the Safari session entered earl
 
 ---
 
-## Running Tests 🧪
+## Assets generation
 
 We rely on fluttergen to generate the assets. Everytime a new asset folder is needed we should
 
