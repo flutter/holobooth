@@ -44,8 +44,12 @@ class $AssetsBackgroundsGen {
 class $AssetsCharactersGen {
   const $AssetsCharactersGen();
 
-  /// File path: assets/characters/dash.riv
-  RiveGenImage get dash => const RiveGenImage('assets/characters/dash.riv');
+  /// File path: assets/characters/dash.png
+  AssetGenImage get dash => const AssetGenImage('assets/characters/dash.png');
+
+  /// File path: assets/characters/sparky.png
+  AssetGenImage get sparky =>
+      const AssetGenImage('assets/characters/sparky.png');
 }
 
 class $AssetsIconsGen {
