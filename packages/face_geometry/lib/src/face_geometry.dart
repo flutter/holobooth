@@ -54,6 +54,8 @@ class FaceGeometry extends BaseGeometry {
       ];
 }
 
+// TODO(arturplaczek): remove all extensions when we are sure that we are not normalizing.
+
 /// Normalize [Keypoint] and [BoundingBox] positions to another size.
 extension XFaceGeometry on Face {
   /// Normalize [Keypoint] and [BoundingBox] positions to another size.
