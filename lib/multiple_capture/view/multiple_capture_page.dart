@@ -58,8 +58,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
       },
       child: Scaffold(
         endDrawer: ItemSelectorDrawer(
-          // TODO(laura177): replace contents of
-          // drawer with actual Background selection content
+          // TODO(laura177): replace contents of drawer
           key: MultipleCaptureView.endDrawerKey,
           title: context.l10n.backgroundSelectorButton,
           items: const [
@@ -106,7 +105,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                     onShutter: _takeSinglePicture,
                   ),
                 ),
-              if (_isCameraAvailable) const SelectionButtons(),
+                if (_isCameraAvailable) const SelectionButtons(),
               ],
             ],
           ),
