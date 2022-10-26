@@ -255,7 +255,7 @@ flutter:
     - assets/characters/
 ```
 
-2. Run ´´´fluttergen´´´on the console
+2. Run `fluttergen` on the console
 3. Use your asset
 
 ```dart
