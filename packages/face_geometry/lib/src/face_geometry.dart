@@ -31,6 +31,9 @@ extension FacesGeometry on tf.Faces {
 
 /// Set of calculations to detect common face expressions.
 extension FaceGeometry on tf.Face {
+  /// Calculation to detect the direction of the face.
+  Vector3 direction() => FaceDirection(keypoints, boundingBox).direction();
+
   /// The distance between the top lip and the bottom lip.
   double get mouthDistance {
     if (keypoints.length < 15) return 0;

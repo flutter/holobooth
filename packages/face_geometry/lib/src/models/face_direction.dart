@@ -1,11 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// {@template FaceDirection}
 /// Calculation to detect the direction of the face.
 /// {@endtemplate}
-extension FaceDirection on tf.Face {
+class FaceDirection extends BaseGeometry {
+  /// {@macro FaceDirection}
+  FaceDirection(super.keypoints, super.boundingBox);
+
   /// {@macro FaceDirection}
   Vector3 direction() {
     final leftCheeck = keypoints[127];
@@ -27,6 +31,21 @@ extension FaceDirection on tf.Face {
       nose.z?.toDouble() ?? 0,
     );
     return _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
+  }
+
+  @override
+  List<Object?> get props => [
+        keypoints,
+        boundingBox,
+      ];
+
+  @override
+  void update(
+    List<Keypoint> newKeypoints,
+    BoundingBox newBoundingBox,
+  ) {
+    keypoints = newKeypoints;
+    boundingBox = newBoundingBox;
   }
 }
 
