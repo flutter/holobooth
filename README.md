@@ -161,7 +161,7 @@ mason make bloc
 > Mason support for Visual Studio Code can be found [here](https://marketplace.visualstudio.com/items?itemName=FelixAngelov.mason).
 
 ---
-# Debug web app on iphone
+## Debug web app on iphone
 
 To debug the web app on the iphone, we need to run it as https, because without that, the iphone won't let us use the camera. We need to configure safari to listen for logs from the iphone.
 
@@ -256,3 +256,24 @@ Safari > Develop > Find "YourPhoneName" > select the Safari session entered earl
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
 [very_good_ventures_link]: https://verygood.ventures/
 [workflow_link]: https://github.com/flutter/photobooth/actions/workflows/main.yaml
+
+## Generate assets
+
+We rely on fluttergen to generate the assets. Everytime a new asset folder is needed we should
+
+1. Adding the folder to the pubspec.yaml
+```
+flutter:
+  assets:
+    - assets/backgrounds/
+    - assets/icons/
+    - assets/audio/
+    - assets/characters/
+```
+
+2. Run ´´´fluttergen´´´on the console
+3. Use your asset
+
+```dart
+Assets.nameOfTheFolder.nameOfTheAsset
+```
