@@ -4,13 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_animation/avatar_animation.dart';
 
-export 'package:rive/src/generated/animation/state_machine_base.dart';
-export 'package:rive/src/generated/animation/state_machine_base.dart';
-export 'package:rive/src/generated/animation/state_machine_base.dart';
-
 void main() {
   group('DashAnimation', () {
-    testWidgets('can update ', (tester) async {
+    testWidgets('can update', (tester) async {
       var avatar = Avatar(hasMouthOpen: false, direction: Vector3(0, 0, 0));
 
       late StateSetter stateSetter;
