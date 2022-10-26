@@ -21,6 +21,8 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 
   @override
   final double y;
+  @override
+  final double z = 0;
 }
 
 void main() {
@@ -480,6 +482,18 @@ void main() {
             ),
           ).called(2);
         });
+      });
+    });
+
+    group('direction', () {
+      test('returns normally', () {
+        final keypoints = UnmodifiableListView(
+          List.generate(357, (_) => _FakeKeypoint(0, 0)),
+        );
+        when(() => face.keypoints).thenReturn(keypoints);
+        when(() => face.boundingBox).thenReturn(_MockBoundingBox());
+
+        expect(() => face.direction(), returnsNormally);
       });
     });
   });

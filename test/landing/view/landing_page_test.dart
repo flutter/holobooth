@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/backround_selection/background_selection.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:mocktail/mocktail.dart';
@@ -140,7 +140,7 @@ void main() {
         (_, __) {},
       );
 
-      expect(find.byType(BackgroundSelectionPage), findsOneWidget);
+      expect(find.byType(CharacterSelectionPage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);
     });
   });

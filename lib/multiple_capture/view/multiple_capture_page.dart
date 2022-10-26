@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -26,6 +27,10 @@ class MultipleCaptureView extends StatefulWidget {
 
   @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
+
+  @visibleForTesting
+  static const endDrawerKey =
+      Key('multipleCapturePage_itemSelectorDrawer_background');
 
   @override
   State<MultipleCaptureView> createState() => _MultipleCaptureViewState();
@@ -52,45 +57,56 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
         }
       },
       child: Scaffold(
+        endDrawer: ItemSelectorDrawer(
+          // TODO(laura177): replace contents of drawer
+          key: MultipleCaptureView.endDrawerKey,
+          title: context.l10n.backgroundSelectorButton,
+          items: const [
+            PhotoboothColors.red,
+            PhotoboothColors.green,
+            PhotoboothColors.blue
+          ],
+          itemBuilder: (context, item) => ColoredBox(color: item),
+          selectedItem: PhotoboothColors.red,
+          onSelected: (value) => print,
+        ),
         body: CameraBackground(
           aspectRatio: aspectRatio,
           child: Stack(
             fit: StackFit.expand,
             children: [
               Align(
-                child: CameraView(
-                  onCameraReady: (controller) {
-                    setState(() => _cameraController = controller);
-                  },
-                  errorBuilder: (context, error) {
-                    if (error is CameraException) {
-                      return PhotoboothError(error: error);
-                    } else {
-                      return const SizedBox.shrink(
-                        key: MultipleCaptureView.cameraErrorViewKey,
-                      );
-                    }
-                  },
+                child: Opacity(
+                  opacity: 0,
+                  child: CameraView(
+                    onCameraReady: (controller) {
+                      setState(() => _cameraController = controller);
+                    },
+                    errorBuilder: (context, error) {
+                      if (error is CameraException) {
+                        return PhotoboothError(error: error);
+                      } else {
+                        return const SizedBox.shrink(
+                          key: MultipleCaptureView.cameraErrorViewKey,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-              if (_isCameraAvailable)
+              if (_isCameraAvailable) ...[
                 LayoutBuilder(
-                  builder: (context, constraints) {
-                    return AvatarDetector(
-                      cameraController: _cameraController!,
-                      loadingChild: const SizedBox(),
-                      // TODO(OSCAR): add Rive animation
-                      child: const SizedBox(),
-                    );
-                  },
+                  builder: (context, constraints) =>
+                      AvatarDetector(cameraController: _cameraController!),
                 ),
-              if (_isCameraAvailable)
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: MultipleShutterButton(
                     onShutter: _takeSinglePicture,
                   ),
                 ),
+                if (_isCameraAvailable) const SelectionButtons(),
+              ],
             ],
           ),
         ),
