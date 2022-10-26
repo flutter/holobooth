@@ -7,52 +7,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:rive/rive.dart';
 import 'package:rive/src/core/core.dart';
 import 'package:rive/src/rive_core/animation/state_machine_input.dart';
-import 'package:rive/src/rive_core/artboard.dart';
 
 export 'package:rive/src/generated/animation/state_machine_base.dart';
 export 'package:rive/src/generated/animation/state_machine_base.dart';
 export 'package:rive/src/generated/animation/state_machine_base.dart';
-
-class _MockSMINumber extends Mock implements SMINumber {
-  @override
-  bool change(double value) {
-    this.value = value;
-    return true;
-  }
-}
-
-class _MockSMIBool extends Mock implements SMIBool {
-  _MockSMIBool(this.value);
-  @override
-  bool change(bool value) {
-    this.value = value;
-    return true;
-  }
-
-  @override
-  final bool value;
-}
-
-class _MockDashStateMachineController extends Mock
-    implements DashStateMachineController {
-  @override
-  SMINumber get x => _MockSMINumber();
-  @override
-  SMINumber get y => _MockSMINumber();
-  @override
-  SMIBool get openMouth => _MockSMIBool(true);
-
-  @override
-  bool init(CoreContext core) {
-    return true;
-  }
-
-  @override
-  ValueListenable<bool> get isActiveChanged => ValueNotifier(false);
-
-  @override
-  bool get isActive => true;
-}
 
 class MockArtboard extends Mock implements Artboard {}
 
