@@ -81,7 +81,8 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/backgrounds/
-    - assets/icons/
+    - assets/animations/
     - assets/audio/
+    - assets/backgrounds/
     - assets/characters/
+    - assets/icons/

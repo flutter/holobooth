@@ -47,7 +47,7 @@ class DashAnimationState extends State<DashAnimation> {
     return SizedBox(
       width: 300,
       height: 300,
-      child: Assets.characters.dash.rive(
+      child: Assets.animations.dash.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
       ),

@@ -10,6 +10,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/dash.riv
+  RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
+}
+
 class $AssetsAudioGen {
   const $AssetsAudioGen();
 
@@ -67,6 +74,7 @@ class $AssetsIconsGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
   static const $AssetsCharactersGen characters = $AssetsCharactersGen();
