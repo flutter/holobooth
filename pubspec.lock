@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "2.0.5"
   face_geometry:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/face_geometry"
       relative: true
@@ -347,6 +347,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  graphs:
+    dependency: transitive
+    description:
+      name: graphs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   http:
     dependency: transitive
     description:
@@ -634,6 +641,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  rive:
+    dependency: "direct main"
+    description:
+      name: rive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1"
   rxdart:
     dependency: "direct main"
     description:

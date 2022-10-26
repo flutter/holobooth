@@ -77,33 +77,29 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
             fit: StackFit.expand,
             children: [
               Align(
-                child: CameraView(
-                  onCameraReady: (controller) {
-                    setState(() => _cameraController = controller);
-                  },
-                  errorBuilder: (context, error) {
-                    if (error is CameraException) {
-                      return PhotoboothError(error: error);
-                    } else {
-                      return const SizedBox.shrink(
-                        key: MultipleCaptureView.cameraErrorViewKey,
-                      );
-                    }
-                  },
+                child: Opacity(
+                  opacity: 0,
+                  child: CameraView(
+                    onCameraReady: (controller) {
+                      setState(() => _cameraController = controller);
+                    },
+                    errorBuilder: (context, error) {
+                      if (error is CameraException) {
+                        return PhotoboothError(error: error);
+                      } else {
+                        return const SizedBox.shrink(
+                          key: MultipleCaptureView.cameraErrorViewKey,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-              if (_isCameraAvailable)
+              if (_isCameraAvailable) ...[
                 LayoutBuilder(
-                  builder: (context, constraints) {
-                    return AvatarDetector(
-                      cameraController: _cameraController!,
-                      loadingChild: const SizedBox(),
-                      // TODO(OSCAR): add Rive animation
-                      child: const SizedBox(),
-                    );
-                  },
+                  builder: (context, constraints) =>
+                      AvatarDetector(cameraController: _cameraController!),
                 ),
-              if (_isCameraAvailable)
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: MultipleShutterButton(
@@ -111,6 +107,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                   ),
                 ),
               if (_isCameraAvailable) const SelectionButtons(),
+              ],
             ],
           ),
         ),
