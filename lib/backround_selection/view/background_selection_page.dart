@@ -23,6 +23,13 @@ class BackgroundSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
+      floatingActionButton: ItemSelectorBottomSheet(
+        title: 'title',
+        items: const [Colors.red, Colors.yellow, Colors.green],
+        itemBuilder: (context, item) => ColoredBox(color: item),
+        selectedItem: Colors.red,
+        onSelected: (val) => print,
+      ),
       appBar: AppBar(
         title: Text(l10n.selectABackgroundTitleText),
         backgroundColor: PhotoboothColors.blue,
