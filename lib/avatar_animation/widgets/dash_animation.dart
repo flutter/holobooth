@@ -55,6 +55,7 @@ class DashAnimationState extends State<DashAnimation> {
   }
 }
 
+// TODO(oscar): remove on the scope of this task https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3428762748
 // coverage:ignore-start
 @visibleForTesting
 class DashStateMachineController extends StateMachineController {
