@@ -11,14 +11,8 @@ export 'generated/types.dart';
 class FaceLandmarksDetectionInterop {
   FaceLandmarksDetectionInterop._();
 
-  static FaceLandmarksDetectionInterop _instance =
+  static FaceLandmarksDetectionInterop instance =
       FaceLandmarksDetectionInterop._();
-
-  static FaceLandmarksDetectionInterop get instance => _instance;
-
-  static set instance(FaceLandmarksDetectionInterop value) {
-    _instance = value;
-  }
 
   Future<interop.FaceLandmarksDetector> createDetector(
     dynamic model, [
