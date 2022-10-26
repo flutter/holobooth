@@ -21,6 +21,8 @@ dependencies:
   collection: ^1.16.0
   cross_file: ^0.3.3+2
   equatable: ^2.0.5
+  face_geometry:
+    path: packages/face_geometry
   firebase_auth: ^3.10.0
   firebase_core: ^1.23.0
   firebase_storage: ^10.3.9
@@ -42,6 +44,7 @@ dependencies:
     path: packages/photos_repository
   platform_helper:
     path: packages/platform_helper
+  rive: ^0.9.1
   rxdart: ^0.26.0
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
@@ -72,11 +75,15 @@ dev_dependencies:
 
 flutter_gen:
   output: lib/assets/
+  integrations:
+    rive: true
 
 flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/backgrounds/
-    - assets/icons/
+    - assets/animations/
     - assets/audio/
+    - assets/backgrounds/
+    - assets/characters/
+    - assets/icons/

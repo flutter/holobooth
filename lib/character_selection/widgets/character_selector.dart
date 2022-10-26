@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
+
+class CharacterSelector extends StatelessWidget {
+  const CharacterSelector({super.key});
+
+  @visibleForTesting
+  static const dashKey = Key('characterSelector_dash');
+
+  @visibleForTesting
+  static const sparkyKey = Key('characterSelector_sparky');
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: _Character(
+            key: dashKey,
+            name: 'Dash',
+            image: Assets.characters.dash.image(),
+          ),
+        ),
+        const SizedBox(width: 42),
+        Flexible(
+          child: _Character(
+            key: sparkyKey,
+            name: 'Sparky',
+            image: Assets.characters.sparky.image(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Character extends StatelessWidget {
+  const _Character({
+    super.key,
+    required this.name,
+    required this.image,
+  });
+
+  final String name;
+  final Image image;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      children: [
+        SizedBox(
+          width: 300,
+          child: image,
+        ),
+        const SizedBox(height: 35.67),
+        SelectableText(
+          name,
+          style: theme.textTheme.headline1,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}

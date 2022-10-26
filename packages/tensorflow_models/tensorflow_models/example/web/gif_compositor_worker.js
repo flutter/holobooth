@@ -5522,11 +5522,11 @@
   };
   A.main_closure.prototype = {
     call$1(args) {
-      var map, $frames, animation, bytes, gif, e, t1, t2, _i, t3, exception, line;
+      var map, $frames, animation, bytes, e, t1, t2, _i, t3, exception, line;
       A._asString(args);
       try {
         map = type$.Map_String_dynamic._as(B.C_JsonCodec.decode$2$reviver(args, null));
-        t1 = J.map$1$1$ax(type$.List_dynamic._as(J.$index$ax(map, "frames")), new A.main__closure(), type$.List_int);
+        t1 = J.map$1$1$ax(type$.List_dynamic._as(J.$index$ax(map, "images")), new A.main__closure(), type$.List_int);
         $frames = A.List_List$of(t1, true, t1.$ti._eval$1("ListIterable.E"));
         animation = new A.Animation(A._setArrayType([], type$.JSArray_Image));
         for (t1 = $frames, t2 = t1.length, _i = 0; _i < t1.length; t1.length === t2 || (0, A.throwConcurrentModificationError)(t1), ++_i) {
@@ -5535,8 +5535,8 @@
           t3.toString;
           B.JSArray_methods.add$1(animation.frames, t3);
         }
-        gif = new A.GifEncoder(30).encodeAnimation$1(animation);
-        return gif;
+        t1 = new A.GifEncoder(30).encodeAnimation$1(animation);
+        return t1;
       } catch (exception) {
         e = A.unwrapException(exception);
         line = A.S(e);
@@ -8010,4 +8010,4 @@
   });
 })();
 
-//# sourceMappingURL=encoder_worker.js.map
+//# sourceMappingURL=gif_compositor_worker.js.map
