@@ -1,5 +1,3 @@
-@TestOn('chrome')
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
@@ -35,7 +33,7 @@ void main() {
         FaceLandmarksDetectionInterop.instance = faceLandmarksDetectionInterop;
       });
 
-      test('returns a FaceLandmarksDetectorWeb', () async {
+      test('returns a FaceLandmarksDetector', () async {
         final subject = TensorflowModelsPlugin();
         final detector = _MockFaceLandmarksDetector();
         when(
