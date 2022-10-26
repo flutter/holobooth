@@ -4,8 +4,10 @@ import 'package:io_photobooth/character_selection/character_selection.dart';
 void main() {
   group('CharacterSelectionSelected', () {
     test('can be instantiated', () {
-      expect(CharacterSelectionSelected(Character.dash),
-          isA<CharacterSelectionSelected>());
+      expect(
+        CharacterSelectionSelected(Character.dash),
+        isA<CharacterSelectionSelected>(),
+      );
     });
 
     group('supports value equality', () {
