@@ -40,6 +40,9 @@ class _FakeFace extends Fake implements Face {
   UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
         List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
       );
+
+  @override
+  BoundingBox get boundingBox => BoundingBox(10, 10, 110, 110, 100, 100);
 }
 
 void main() {
