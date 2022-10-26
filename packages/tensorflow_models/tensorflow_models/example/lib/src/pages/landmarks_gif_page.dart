@@ -3,11 +3,10 @@ import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_compositor/gif_compositor.dart';
-
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksGifPage extends StatelessWidget {
   const LandmarksGifPage({Key? key}) : super(key: key);
@@ -31,7 +30,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   final _imagesBytes = <Uint8List>[];
   bool _gifInProgress = false;
 
-  late tf.Face _currentFace;
+  late FaceGeometry _currentFace;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -128,7 +127,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
 
                         return CustomPaint(
                           painter: _FaceLandmarkCustomPainter(
-                            face: faces.first,
+                            face: _currentFace,
                           ),
                         );
                       },
@@ -152,7 +151,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -176,7 +175,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face;
+      face.hashCode != oldDelegate.face.hashCode;
 }
 
 class _ImagePreview extends StatelessWidget {

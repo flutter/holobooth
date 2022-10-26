@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDetectBlinkPage extends StatelessWidget {
   const LandmarksDetectBlinkPage({Key? key}) : super(key: key);
@@ -24,6 +23,7 @@ class _LandmarksDetectBlinkView extends StatefulWidget {
 
 class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
   CameraController? _cameraController;
+  FaceGeometry? faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -61,7 +61,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -75,11 +75,11 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final leftEye =
-        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
-    final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.isLeftEyeClose ? highlightPaint : paint;
-    final rightEyePaint = face.isRightEyeClose ? highlightPaint : paint;
+    final rightEye =
+        face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
+    final leftEyePaint = face.leftEye.isClose ? highlightPaint : paint;
+    final rightEyePaint = face.rightEye.isClose ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
@@ -93,5 +93,5 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face;
+      face.hashCode != oldDelegate.face.hashCode;
 }

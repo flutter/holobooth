@@ -3,7 +3,6 @@ import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
   const LandmarksOpenMouthPage({Key? key}) : super(key: key);
@@ -67,7 +66,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
 
-                  if (faces.first.isMouthOpen) {
+                  if (faces.first.mouth.isMouthOpen) {
                     if (!_isPlaying) {
                       _audioPlayer.play();
                       _isPlaying = true;
@@ -96,12 +95,12 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.isMouthOpen ? Colors.yellow : Colors.red
+      ..color = face.mouth.isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
@@ -114,5 +113,5 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face;
+      face.hashCode != oldDelegate.face.hashCode;
 }

@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksVideoStreamPage extends StatelessWidget {
   const LandmarksVideoStreamPage({Key? key}) : super(key: key);
@@ -61,7 +61,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -98,5 +98,5 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face;
+      face.hashCode != oldDelegate.face.hashCode;
 }

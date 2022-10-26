@@ -4,7 +4,6 @@ import 'package:example/src/src.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksMaskBlinkPage extends StatelessWidget {
   const LandmarksMaskBlinkPage({Key? key}) : super(key: key);
@@ -69,7 +68,7 @@ class _BlinkMask extends StatefulWidget {
     required this.face,
   }) : super(key: key);
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   _BlinkMaskState createState() => _BlinkMaskState();
@@ -91,8 +90,8 @@ class _BlinkMaskState extends State<_BlinkMask> {
 
   @override
   Widget build(BuildContext context) {
-    final isLeftEyeClosed = widget.face.leftEyeDistance < 10;
-    final isRightEyeClosed = widget.face.rightEyeDistance < 10;
+    final isLeftEyeClosed = widget.face.leftEye.isClose;
+    final isRightEyeClosed = widget.face.rightEye.isClose;
 
     if (_leftBlinkController != null) {
       if (wasLeftEyeClosed != isLeftEyeClosed && isLeftEyeClosed) {
@@ -137,7 +136,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final tf.Face face;
+  final FaceGeometry face;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -154,8 +153,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.leftEyeDistance < 10 ? highlightPaint : paint;
-    final rightEyePaint = face.rightEyeDistance < 10 ? highlightPaint : paint;
+    final leftEyePaint = face.leftEye.isClose ? highlightPaint : paint;
+    final rightEyePaint = face.rightEye.isClose ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());
@@ -169,7 +168,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face != oldDelegate.face;
+      face.hashCode != oldDelegate.face.hashCode;
 }
 
 class _BlinkStateMachineController extends StateMachineController {

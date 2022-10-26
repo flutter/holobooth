@@ -4,7 +4,6 @@ import 'package:example/src/src.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDashPage extends StatelessWidget {
   const LandmarksDashPage({Key? key}) : super(key: key);
@@ -47,10 +46,9 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
-                  final face = faces.first;
 
                   return Center(
-                    child: _Dash(face: face),
+                    child: _Dash(faceGeometry: faces.first),
                   );
                 },
               ),
@@ -63,7 +61,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                     });
                   },
                   child: Text(
-                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
+                    _isCameraVisible ? 'Hide the camera' : 'Show the camera',
+                  ),
                 ),
               )
             ]
@@ -77,10 +76,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
 class _Dash extends StatefulWidget {
   const _Dash({
     Key? key,
-    required this.face,
+    required this.faceGeometry,
   }) : super(key: key);
 
-  final tf.Face face;
+  final FaceGeometry faceGeometry;
 
   @override
   _DashState createState() => _DashState();
@@ -99,11 +98,11 @@ class _DashState extends State<_Dash> {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.face.direction().unit();
+      final direction = widget.faceGeometry.direction.direction().unit();
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
 
-      dashController.openMouth.change(widget.face.isMouthOpen);
+      dashController.openMouth.change(widget.faceGeometry.mouth.isMouthOpen);
     }
   }
 
