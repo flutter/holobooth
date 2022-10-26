@@ -13,294 +13,47 @@ class _MockKeypoint extends Mock implements tf.Keypoint {}
 
 class _MockBoundingBox extends Mock implements tf.BoundingBox {}
 
-class _FakeKeypoint extends Fake implements tf.Keypoint {
-  _FakeKeypoint(this.x, this.y);
-
-  @override
-  final double x;
-
-  @override
-  final double y;
-  @override
-  final double z = 0;
-}
-
 void main() {
   setUpAll(() {
     registerFallbackValue(Size(0, 0));
   });
 
   group('FaceGeometry', () {
-    late tf.Face face;
+    group('contains geometry for', () {
+      test('direction', () {
+        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
 
-    setUp(() {
-      face = _MockFace();
-    });
-
-    group('mouthDistance', () {
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(15, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.mouthDistance, returnsNormally);
+        expect(faceGeometry.direction, isA<FaceDirection>());
       });
 
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(15, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
+      test('leftEye', () {
+        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
 
-          expect(face.mouthDistance, equals(0));
-        });
+        expect(faceGeometry.leftEye, isA<EyeGeometry>());
+      });
 
-        test('when values are not 0', () {
-          final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
-          keypoints[13] = _FakeKeypoint(-2, 2);
-          keypoints[14] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
+      test('rightEye', () {
+        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
 
-          expect(face.mouthDistance, equals(4.242640687119285));
-        });
+        expect(faceGeometry.rightEye, isA<EyeGeometry>());
+      });
+
+      test('mouth', () {
+        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
+
+        expect(faceGeometry.mouth, isA<FaceDirection>());
       });
     });
 
-    group('leftEyeDistance', () {
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(160, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
+    test('update changes FaceGeometry', () {
+      final newKeypoints = UnmodifiableListView(<Keypoint>[_MockKeypoint()]);
+      final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
+      final faceGeometry2 = FaceGeometry(const [], _MockBoundingBox());
 
-        expect(() => face.leftEyeDistance, returnsNormally);
-      });
+      faceGeometry.update(newKeypoints, _MockBoundingBox());
 
-      test('returns 0 when missing keypoints', () {
-        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-        expect(face.leftEyeDistance, equals(0));
-      });
-
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(160, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.leftEyeDistance, equals(0));
-        });
-
-        test('when values are not 0', () {
-          final keypoints = List.generate(160, (_) => _FakeKeypoint(0, 0));
-          keypoints[159] = _FakeKeypoint(-2, 2);
-          keypoints[145] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.leftEyeDistance, equals(4.242640687119285));
-        });
-      });
-    });
-
-    group('rightEyeDistance', () {
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(387, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.rightEyeDistance, returnsNormally);
-      });
-
-      test('returns 0 when missing keypoints', () {
-        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-        expect(face.rightEyeDistance, equals(0));
-      });
-
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(387, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.rightEyeDistance, equals(0));
-        });
-
-        test('when values are not 0', () {
-          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[386] = _FakeKeypoint(-2, 2);
-          keypoints[374] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.rightEyeDistance, equals(4.242640687119285));
-        });
-      });
-    });
-
-    group('isMouthOpen', () {
-      setUp(() {
-        final boundingBox = _MockBoundingBox();
-        when(() => boundingBox.height).thenReturn(100);
-        when(() => face.boundingBox).thenReturn(boundingBox);
-      });
-
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(15, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.isMouthOpen, returnsNormally);
-      });
-
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(15, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.isMouthOpen, equals(false));
-        });
-
-        test('when values are not 0', () {
-          final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
-          keypoints[13] = _FakeKeypoint(-2, 2);
-          keypoints[14] = _FakeKeypoint(1, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isMouthOpen, equals(true));
-        });
-      });
-    });
-
-    group('isLeftEyeClose', () {
-      setUp(() {
-        final boundingBox = _MockBoundingBox();
-        when(() => boundingBox.height).thenReturn(100);
-        when(() => face.boundingBox).thenReturn(boundingBox);
-      });
-
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(387, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.isLeftEyeClose, returnsNormally);
-      });
-
-      test('returns false when missing keypoints', () {
-        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-        expect(face.isLeftEyeClose, equals(false));
-      });
-
-      group('returns correct value', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(387, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.isLeftEyeClose, equals(false));
-        });
-
-        test('for first check', () {
-          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[159] = _FakeKeypoint(30, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
-
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isLeftEyeClose, equals(false));
-        });
-
-        test('for second check with close', () {
-          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[159] = _FakeKeypoint(30, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
-
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isLeftEyeClose, equals(false));
-
-          keypoints[159] = _FakeKeypoint(12, 2);
-          keypoints[145] = _FakeKeypoint(10, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isLeftEyeClose, equals(true));
-        });
-      });
-    });
-
-    group('isRightEyeClose', () {
-      setUp(() {
-        final boundingBox = _MockBoundingBox();
-        when(() => boundingBox.height).thenReturn(100);
-        when(() => face.boundingBox).thenReturn(boundingBox);
-      });
-
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(387, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-
-        expect(() => face.isRightEyeClose, returnsNormally);
-      });
-
-      test('returns false when missing keypoints', () {
-        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-        expect(face.isRightEyeClose, equals(false));
-      });
-
-      group('returns correct value', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(387, (_) => _FakeKeypoint(0, 0)),
-          );
-          when(() => face.keypoints).thenReturn(keypoints);
-
-          expect(face.isRightEyeClose, equals(false));
-        });
-
-        test('for first check', () {
-          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[386] = _FakeKeypoint(30, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isRightEyeClose, equals(false));
-        });
-
-        test('for second check with close', () {
-          final keypoints = List.generate(387, (_) => _FakeKeypoint(0, 0));
-          keypoints[386] = _FakeKeypoint(30, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isRightEyeClose, equals(false));
-
-          keypoints[386] = _FakeKeypoint(12, 2);
-          keypoints[374] = _FakeKeypoint(10, -1);
-          when(() => face.keypoints)
-              .thenReturn(UnmodifiableListView(keypoints));
-
-          expect(face.isRightEyeClose, equals(true));
-        });
-      });
+      expect(faceGeometry.keypoints, equals(newKeypoints));
+      expect(faceGeometry, isNot(faceGeometry2));
     });
 
     group('normalize', () {
@@ -441,7 +194,7 @@ void main() {
           ).thenReturn(face);
         });
 
-        test('Face BoundingBox', () {
+        test('Face.BoundingBox', () {
           face.normalize(
             fromMax: Size(20, 30),
             toMax: Size(40, 60),
@@ -455,7 +208,7 @@ void main() {
           ).called(1);
         });
 
-        test('Face keypoints', () {
+        test('Face.keypoints', () {
           face.normalize(
             fromMax: Size(20, 30),
             toMax: Size(40, 60),
@@ -468,32 +221,6 @@ void main() {
             ),
           ).called(2);
         });
-
-        test('Face when called on Faces', () {
-          [face, face].normalize(
-            fromMax: Size(20, 30),
-            toMax: Size(40, 60),
-          );
-
-          verify(
-            () => face.normalize(
-              fromMax: Size(20, 30),
-              toMax: Size(40, 60),
-            ),
-          ).called(2);
-        });
-      });
-    });
-
-    group('direction', () {
-      test('returns normally', () {
-        final keypoints = UnmodifiableListView(
-          List.generate(357, (_) => _FakeKeypoint(0, 0)),
-        );
-        when(() => face.keypoints).thenReturn(keypoints);
-        when(() => face.boundingBox).thenReturn(_MockBoundingBox());
-
-        expect(() => face.direction(), returnsNormally);
       });
     });
   });

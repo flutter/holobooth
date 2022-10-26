@@ -1,107 +1,74 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
-    as tf;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-final _leftEye = FaceEye();
-final _rightEye = FaceEye();
+/// {@template face_geometry}
+/// The class includes geometry for face.
+/// {@endtemplate}
+class FaceGeometry extends BaseGeometry {
+  /// {@macro face_geometry}
+  FaceGeometry(
+    super.keypoints,
+    super.boundingBox,
+  );
 
-/// An eyeballed estimated minimum mouth to face ratio.
-///
-/// This represents the minimum height of the mouth in comparison to the face
-/// height.
-const _minMouthFaceRatio = 0.02;
+  /// {@macro FaceDirection}
+  late FaceDirection direction = FaceDirection(keypoints, boundingBox);
 
-/// Normalize faces keypoints and bounding box.
-@visibleForTesting
-extension FacesGeometry on tf.Faces {
-  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
-  tf.Faces normalize({
-    required tf.Size fromMax,
-    required tf.Size toMax,
-  }) {
-    final newFaces =
-        map((face) => face.normalize(fromMax: fromMax, toMax: toMax));
-    return newFaces.toList();
+  /// {@macro eye_geometry}
+  late EyeGeometry leftEye = EyeGeometry.left(keypoints, boundingBox);
+
+  /// {@macro eye_geometry}
+  late EyeGeometry rightEye = EyeGeometry.right(keypoints, boundingBox);
+
+  /// {@macro mouth_geometry}
+  late MouthGeometry mouth = MouthGeometry(keypoints, boundingBox);
+
+  @override
+  void update(
+    List<Keypoint> newKeypoints,
+    BoundingBox newBoundingBox,
+  ) {
+    keypoints = newKeypoints;
+    boundingBox = newBoundingBox;
+
+    direction.update(newKeypoints, newBoundingBox);
+    leftEye.update(newKeypoints, newBoundingBox);
+    rightEye.update(newKeypoints, newBoundingBox);
+    mouth.update(newKeypoints, newBoundingBox);
   }
+
+  @override
+  List<Object?> get props => [
+        keypoints,
+        boundingBox,
+        direction,
+        leftEye,
+        rightEye,
+        mouth,
+      ];
 }
 
-/// Set of calculations to detect common face expressions.
-extension FaceGeometry on tf.Face {
-  /// Calculation to detect the direction of the face.
-  Vector3 direction() => FaceDirection(keypoints, boundingBox).direction();
-
-  /// The distance between the top lip and the bottom lip.
-  double get mouthDistance {
-    if (keypoints.length < 15) return 0;
-    final topLipPoint = keypoints[13];
-    final bottomLipPoint = keypoints[14];
-    return topLipPoint.distanceTo(bottomLipPoint);
-  }
-
-  /// The distance between the top left eye lid and the bottom left eye lid.
-  double get leftEyeDistance {
-    if (keypoints.length < 160) return 0;
-    final topEyeLid = keypoints[159];
-    final bottomEyeLid = keypoints[145];
-    return topEyeLid.distanceTo(bottomEyeLid);
-  }
-
-  /// The distance between the top right eye lid and the bottom right eye lid
-  double get rightEyeDistance {
-    if (keypoints.length < 387) return 0;
-    final topEyeLid = keypoints[386];
-    final bottomEyeLid = keypoints[374];
-    return topEyeLid.distanceTo(bottomEyeLid);
-  }
-
-  /// Detect if the left eye is closed.
-  ///
-  /// Detection works after the first blink to make sure we have the correct
-  /// minimum and maximum values.
-  bool get isLeftEyeClose => _leftEye.isClose(
-        eyeDistance: leftEyeDistance,
-        boundingBoxHeight: boundingBox.height.toDouble(),
-      );
-
-  /// Detect if the right eye is closed.
-  ///
-  /// Detection works after the first blink to make sure we have the correct
-  /// minimum and maximum values.
-  bool get isRightEyeClose => _rightEye.isClose(
-        eyeDistance: rightEyeDistance,
-        boundingBoxHeight: boundingBox.height.toDouble(),
-      );
-
-  /// Defines if the mouth is open based on hight and face height.
-  bool get isMouthOpen {
-    if (mouthDistance > 1) {
-      if (boundingBox.height == 0) return false;
-      final heightRatio = mouthDistance / boundingBox.height;
-      if (heightRatio == 0) return false;
-
-      return heightRatio > _minMouthFaceRatio;
-    }
-
-    return false;
-  }
-
-  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
-  tf.Face normalize({
-    required tf.Size fromMax,
-    required tf.Size toMax,
+/// Normalize [Keypoint] and [BoundingBox] positions to another size.
+extension XFaceGeometry on Face {
+  /// Normalize [Keypoint] and [BoundingBox] positions to another size.
+  Face normalize({
+    required Size fromMax,
+    required Size toMax,
   }) {
-    final keypoints = this
-        .keypoints
-        .map((keypoint) => keypoint.normalize(fromMax: fromMax, toMax: toMax))
-        .toList();
+    final keypoints = this.keypoints.map(
+          (keypoint) => keypoint.normalize(fromMax: fromMax, toMax: toMax),
+        );
     final boundingBox = this.boundingBox.normalize(
           fromMax: fromMax,
           toMax: toMax,
         );
+
     return copyWith(
       keypoints: UnmodifiableListView(keypoints),
       boundingBox: boundingBox,
@@ -110,22 +77,22 @@ extension FaceGeometry on tf.Face {
 }
 
 /// {@template normalize_bounding_box}
-/// Normalize a [tf.BoundingBox].
+/// Normalize a [BoundingBox].
 ///
 /// The normalized values are
-/// [tf.BoundingBox.height], [tf.BoundingBox.width], [tf.BoundingBox.xMax],
-/// [tf.BoundingBox.xMin], [tf.BoundingBox.yMax] and [tf.BoundingBox.yMin].
+/// [BoundingBox.height], [BoundingBox.width], [BoundingBox.xMax],
+/// [BoundingBox.xMin], [BoundingBox.yMax] and [BoundingBox.yMin].
 ///
 /// See also:
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
 @visibleForTesting
-extension NormalizeBoundingBox on tf.BoundingBox {
+extension NormalizeBoundingBox on BoundingBox {
   /// {@macro normalize_bounding_box}
-  tf.BoundingBox normalize({
-    required tf.Size fromMax,
-    required tf.Size toMax,
+  BoundingBox normalize({
+    required Size fromMax,
+    required Size toMax,
   }) {
     return copyWith(
       height: height.normalize(fromMax: fromMax.height, toMax: toMax.height),
@@ -139,27 +106,27 @@ extension NormalizeBoundingBox on tf.BoundingBox {
 }
 
 /// {@template normalize_keypoint}
-/// Normalize a [tf.Keypoint].
+/// Normalize a [Keypoint].
 ///
-/// The normalized values are [tf.Keypoint.x] and [tf.Keypoint.y].
+/// The normalized values are [Keypoint.x] and [Keypoint.y].
 ///
 /// See also:
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
 @visibleForTesting
-extension NormalizeKeypoint on tf.Keypoint {
-  /// The distance between this and other [tf.Keypoint].
-  double distanceTo(tf.Keypoint other) {
+extension NormalizeKeypoint on Keypoint {
+  /// The distance between this and other [Keypoint].
+  double distanceTo(Keypoint other) {
     final dx = x - other.x;
     final dy = y - other.y;
     return math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
   }
 
   /// {@macro normalize_keypoint}
-  tf.Keypoint normalize({
-    required tf.Size fromMax,
-    required tf.Size toMax,
+  Keypoint normalize({
+    required Size fromMax,
+    required Size toMax,
   }) {
     return copyWith(
       x: x.normalize(fromMax: fromMax.width, toMax: toMax.width),
