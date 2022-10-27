@@ -74,7 +74,7 @@ class _CharacterSelectorState extends State<CharacterSelector> {
               _pageController.animateToPage(
                 index,
                 duration: const Duration(milliseconds: 500),
-                curve: Curves.easeOutQuint,
+                curve: Curves.easeInOut,
               );
             },
             child: _Item(
@@ -107,12 +107,8 @@ class _Item extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: Transform.scale(
-        scale: isActive ? 1 : 0.8,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeIn,
-          child: image,
-        ),
+        scale: isActive ? 1 : 0.70,
+        child: image,
       ),
     );
   }
