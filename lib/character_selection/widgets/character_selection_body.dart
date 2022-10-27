@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
@@ -28,7 +29,34 @@ class CharacterSelectionBody extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 53),
-          const CharacterSelector(),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                return Text('Small');
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
+                return Text('Medium');
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
+                return Text('Large');
+              } else {
+                return Text('XLarge');
+              }
+            },
+          ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              Breakpoint breakpoint;
+              if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                breakpoint = Breakpoint.small;
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
+                breakpoint = Breakpoint.medium;
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
+                breakpoint = Breakpoint.large;
+              } else {
+                breakpoint = Breakpoint.xLarge;
+              }
+              return CharacterSelector(breakpoint: breakpoint);
+            },
+          ),
           const SizedBox(height: 42),
           FloatingActionButton(
             onPressed: () {
