@@ -25,10 +25,10 @@ class _CharacterSelectorState extends State<CharacterSelector> {
     double viewportFraction;
     switch (widget.breakpoint) {
       case Breakpoint.small:
-        viewportFraction = 0.6;
+        viewportFraction = 0.55;
         break;
       case Breakpoint.medium:
-        viewportFraction = 0.35;
+        viewportFraction = 0.3;
         break;
       case Breakpoint.large:
         viewportFraction = 0.2;
@@ -79,7 +79,6 @@ class _CharacterSelectorState extends State<CharacterSelector> {
             },
             child: _Item(
               isActive: isActive,
-              breakpoint: widget.breakpoint,
               image: index == 0
                   ? Assets.characters.dash.image()
                   : Assets.characters.sparky.image(),
@@ -94,22 +93,18 @@ class _CharacterSelectorState extends State<CharacterSelector> {
 class _Item extends StatelessWidget {
   const _Item({
     required this.isActive,
-    required this.breakpoint,
     required this.image,
   });
 
   final bool isActive;
-  final Breakpoint breakpoint;
   final Image image;
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Transform.scale(
-        scale: isActive ? 1 : 0.70,
-        child: image,
-      ),
+    return AnimatedScale(
+      scale: isActive ? 1 : 0.70,
+      duration: const Duration(milliseconds: 300),
+      child: image,
     );
   }
 }
