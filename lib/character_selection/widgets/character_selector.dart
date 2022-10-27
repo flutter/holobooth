@@ -25,10 +25,10 @@ class _CharacterSelectorState extends State<CharacterSelector> {
     double viewportFraction;
     switch (widget.breakpoint) {
       case Breakpoint.small:
-        viewportFraction = 0.8;
+        viewportFraction = 0.45;
         break;
       case Breakpoint.medium:
-        viewportFraction = 0.2;
+        viewportFraction = 0.35;
         break;
       case Breakpoint.large:
         viewportFraction = 0.2;
@@ -108,12 +108,12 @@ class _Item extends StatelessWidget {
     double topBottomPadding;
     switch (breakpoint) {
       case Breakpoint.small:
-        topBottomMargin = isActive ? 50.0 : 100.0;
-        topBottomPadding = isActive ? 0 : 30;
+        topBottomMargin = isActive ? 50.0 : 120.0;
+        topBottomPadding = isActive ? 0 : 130;
         break;
       case Breakpoint.medium:
-        topBottomMargin = isActive ? 50.0 : 180.0;
-        topBottomPadding = isActive ? 0 : 60;
+        topBottomMargin = isActive ? 50.0 : 100.0;
+        topBottomPadding = isActive ? 0 : 100;
         break;
       case Breakpoint.large:
         topBottomMargin = isActive ? 50.0 : 150.0;
@@ -136,7 +136,6 @@ class _Item extends StatelessWidget {
         bottom: topBottomPadding,
         top: topBottomPadding,
       ),
-      color: Colors.red,
       child: image,
     );
   }
