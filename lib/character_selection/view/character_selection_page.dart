@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionPage extends StatelessWidget {
@@ -26,7 +27,7 @@ class CharacterSelectionView extends StatelessWidget {
     return const AppPageView(
       background: CharacterSelectionBackground(),
       body: CharacterSelectionBody(),
-      footer: SizedBox.shrink(),
+      footer: SimplifiedFooter(),
     );
   }
 }
