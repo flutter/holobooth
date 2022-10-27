@@ -193,6 +193,55 @@ void main() {
         ).called(1);
       },
     );
+
+    testWidgets('renders ItemSelectorButton', (tester) async {
+      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('multipleCapturePage_itemSelector_background')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('itemSelectorButton renders itemSelectorDrawer when pressed',
+        (tester) async {
+      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpAndSettle();
+
+      final itemSelectorButton =
+          find.byKey(Key('multipleCapturePage_itemSelector_background'));
+      await tester.tap(itemSelectorButton);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('multipleCapturePage_itemSelectorDrawer_background')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('Item prints when selected', (tester) async {
+      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpAndSettle();
+
+      final itemSelectorButton =
+          find.byKey(Key('multipleCapturePage_itemSelector_background'));
+      await tester.tap(itemSelectorButton);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(Key('multipleCapturePage_itemSelectorDrawer_background')),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find
+            .descendant(
+              of: find.byKey(
+                Key('multipleCapturePage_itemSelectorDrawer_background'),
+              ),
+              matching: find.byType(ColoredBox),
+            )
+            .first,
+        // TODO(laura177): test onSelected of ItemSelectorDrawer
+      );
+    });
   });
 }
 
