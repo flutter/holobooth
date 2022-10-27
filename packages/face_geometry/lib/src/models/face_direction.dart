@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:math';
+
 import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
@@ -9,6 +11,45 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 class FaceDirection extends BaseGeometry {
   /// {@macro FaceDirection}
   FaceDirection(super.keypoints, super.boundingBox);
+
+  List<double> getHeadAnglesCos() {
+    final faceVerticalCentralPoint = [
+      0,
+      (keypoints[10].y + keypoints[152].y) * 0.5,
+      ((keypoints[10].z ?? 0) + (keypoints[152].z ?? 0)) * 0.5,
+    ];
+    final verticalAdjacent =
+        (keypoints[10].z ?? 0) - faceVerticalCentralPoint[2];
+    final verticalOpposite = keypoints[10].y - faceVerticalCentralPoint[1];
+    final verticalHypotenuse = l2Norm([verticalAdjacent, verticalOpposite]);
+    final verticalCos = verticalAdjacent / verticalHypotenuse;
+
+    final faceHorizontalCentralPoint = [
+      (keypoints[226].x + keypoints[446].x) * 0.5,
+      0,
+      ((keypoints[226].z ?? 0) + (keypoints[446].z ?? 0)) * 0.5,
+    ];
+    final horizontalAdjacent =
+        (keypoints[226].z ?? 0) - faceHorizontalCentralPoint[2];
+    final horizontalOpposite = keypoints[226].x - faceHorizontalCentralPoint[0];
+
+    final horizontalHypotenuse =
+        l2Norm([horizontalAdjacent, horizontalOpposite]);
+    final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
+
+    return [
+      verticalCos,
+      horizontalCos,
+    ];
+  }
+
+  double l2Norm(List<num> vec) {
+    var norm = 0.0;
+    for (final v in vec) {
+      norm += v * v;
+    }
+    return sqrt(norm);
+  }
 
   /// {@macro FaceDirection}
   Vector3 direction() {
