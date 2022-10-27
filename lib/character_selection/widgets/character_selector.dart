@@ -25,7 +25,7 @@ class _CharacterSelectorState extends State<CharacterSelector> {
     double viewportFraction;
     switch (widget.breakpoint) {
       case Breakpoint.small:
-        viewportFraction = 0.45;
+        viewportFraction = 0.6;
         break;
       case Breakpoint.medium:
         viewportFraction = 0.35;
@@ -104,39 +104,17 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double topBottomMargin;
-    double topBottomPadding;
-    switch (breakpoint) {
-      case Breakpoint.small:
-        topBottomMargin = isActive ? 50.0 : 120.0;
-        topBottomPadding = isActive ? 0 : 130;
-        break;
-      case Breakpoint.medium:
-        topBottomMargin = isActive ? 50.0 : 100.0;
-        topBottomPadding = isActive ? 0 : 100;
-        break;
-      case Breakpoint.large:
-        topBottomMargin = isActive ? 50.0 : 150.0;
-        topBottomPadding = isActive ? 0 : 40;
-        break;
-      case Breakpoint.xLarge:
-        topBottomMargin = isActive ? 50.0 : 150.0;
-        topBottomPadding = isActive ? 0 : 15;
-        break;
-    }
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeOutQuint,
-      margin: EdgeInsets.only(
-        bottom: topBottomMargin,
-        top: topBottomMargin,
-        right: 30,
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Transform.scale(
+        scale: isActive ? 1 : 0.8,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeIn,
+          color: Colors.red,
+          child: image,
+        ),
       ),
-      padding: EdgeInsets.only(
-        bottom: topBottomPadding,
-        top: topBottomPadding,
-      ),
-      child: image,
     );
   }
 }
