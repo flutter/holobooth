@@ -111,7 +111,6 @@ class _Item extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeIn,
-          color: Colors.red,
           child: image,
         ),
       ),
