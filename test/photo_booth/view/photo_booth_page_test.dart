@@ -203,7 +203,7 @@ void main() {
     });
 
     testWidgets('renders SelectionButtons', (tester) async {
-      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
       expect(
         find.byType(SelectionButtons),
