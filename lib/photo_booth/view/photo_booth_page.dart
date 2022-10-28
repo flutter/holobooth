@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -15,9 +16,16 @@ class PhotoBoothPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PhotoBoothBloc(),
-      child: const PhotoBoothView(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PhotoBoothBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DrawerSelectionBloc(),
+        ),
+      ],
+      child: PhotoBoothView(),
     );
   }
 }
