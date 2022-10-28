@@ -197,7 +197,7 @@ void main() {
       await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
       expect(
-        find.byKey(SelectionButtons.propsSelectorKey),
+        find.byKey(SelectionButtons.itemSelectorButtonKey),
         findsOneWidget,
       );
     });
@@ -207,7 +207,8 @@ void main() {
       await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
 
-      final itemSelectorButton = find.byKey(SelectionButtons.propsSelectorKey);
+      final itemSelectorButton =
+          find.byKey(SelectionButtons.itemSelectorButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
@@ -220,7 +221,8 @@ void main() {
       await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
 
-      final itemSelectorButton = find.byKey(SelectionButtons.propsSelectorKey);
+      final itemSelectorButton =
+          find.byKey(SelectionButtons.itemSelectorButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
