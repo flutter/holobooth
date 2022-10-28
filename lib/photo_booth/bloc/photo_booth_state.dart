@@ -1,14 +1,14 @@
-part of 'multiple_capture_bloc.dart';
+part of 'photo_booth_bloc.dart';
 
-class MultipleCaptureState extends Equatable {
+class PhotoBoothState extends Equatable {
   @visibleForTesting
-  const MultipleCaptureState({required this.images})
+  const PhotoBoothState({required this.images})
       : assert(
           images.length <= totalNumberOfPhotos,
           'The total number of photos should be less than $totalNumberOfPhotos',
         );
 
-  MultipleCaptureState.empty() : this(images: UnmodifiableListView([]));
+  PhotoBoothState.empty() : this(images: UnmodifiableListView([]));
 
   /// The amount of pictures the photobooth will take.
   static const totalNumberOfPhotos = 1;
@@ -25,10 +25,10 @@ class MultipleCaptureState extends Equatable {
   @override
   List<Object> get props => [images];
 
-  MultipleCaptureState copyWith({
+  PhotoBoothState copyWith({
     UnmodifiableListView<PhotoboothCameraImage>? images,
   }) {
-    return MultipleCaptureState(
+    return PhotoBoothState(
       images: images ?? this.images,
     );
   }
