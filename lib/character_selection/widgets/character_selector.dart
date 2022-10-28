@@ -14,12 +14,23 @@ class CharacterSelector extends StatefulWidget {
   final Breakpoint breakpoint;
 
   @override
-  State<CharacterSelector> createState() => _CharacterSelectorState();
+  State<CharacterSelector> createState() => CharacterSelectorState();
 }
 
-class _CharacterSelectorState extends State<CharacterSelector> {
-  late PageController _pageController;
+@visibleForTesting
+class CharacterSelectorState extends State<CharacterSelector> {
+  late PageController pageController;
   int activePage = 0;
+
+  static const dashKey = Key('characterSelector_dash');
+  static const sparkyKey = Key('characterSelector_sparky');
+
+  static final _characters = [
+    Assets.characters.dash.image(),
+    Assets.characters.sparky.image(),
+  ];
+
+  static const _characterKeys = [dashKey, sparkyKey];
 
   void _initController() {
     double viewportFraction;
@@ -37,7 +48,7 @@ class _CharacterSelectorState extends State<CharacterSelector> {
         viewportFraction = 0.2;
         break;
     }
-    _pageController = PageController(
+    pageController = PageController(
       viewportFraction: viewportFraction,
       initialPage: activePage,
     );
@@ -55,13 +66,21 @@ class _CharacterSelectorState extends State<CharacterSelector> {
     _initController();
   }
 
+  void _onTapCharacter(int index) {
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 600,
       child: PageView.builder(
         itemCount: 2,
-        controller: _pageController,
+        controller: pageController,
         onPageChanged: (value) {
           setState(() {
             activePage = value;
@@ -70,19 +89,9 @@ class _CharacterSelectorState extends State<CharacterSelector> {
         itemBuilder: (context, index) {
           final isActive = index == activePage;
           return InkWell(
-            onTap: () {
-              _pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut,
-              );
-            },
-            child: _Item(
-              isActive: isActive,
-              image: index == 0
-                  ? Assets.characters.dash.image()
-                  : Assets.characters.sparky.image(),
-            ),
+            onTap: () => _onTapCharacter(index),
+            key: _characterKeys[index],
+            child: _Item(isActive: isActive, image: _characters[index]),
           );
         },
       ),
