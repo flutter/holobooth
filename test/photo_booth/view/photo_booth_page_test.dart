@@ -4,8 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -19,9 +19,8 @@ class _MockCameraDescription extends Mock implements CameraDescription {}
 
 class _MockXFile extends Mock implements XFile {}
 
-class _MockMultipleCaptureBloc
-    extends MockBloc<MultipleCaptureEvent, MultipleCaptureState>
-    implements MultipleCaptureBloc {}
+class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
+    implements PhotoBoothBloc {}
 
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
@@ -92,28 +91,28 @@ void main() {
     CameraPlatform.instance = _MockCameraPlatform();
   });
 
-  group('MultipleCapturePage', () {
+  group('PhotoBoothPage', () {
     test('is routable', () {
-      expect(MultipleCapturePage.route(), isA<MaterialPageRoute<void>>());
+      expect(PhotoBoothPage.route(), isA<MaterialPageRoute<void>>());
     });
 
     testWidgets(
-      'renders MultipleCaptureView',
+      'renders PhotoBoothView',
       (WidgetTester tester) async {
-        await tester.pumpApp(MultipleCapturePage());
-        expect(find.byType(MultipleCaptureView), findsOneWidget);
+        await tester.pumpApp(PhotoBoothPage());
+        expect(find.byType(PhotoBoothView), findsOneWidget);
       },
     );
   });
 
-  group('MultipleCaptureView', () {
-    late MultipleCaptureBloc multipleCaptureBloc;
+  group('PhotoBoothView', () {
+    late PhotoBoothBloc photoBoothBloc;
 
     setUp(() {
-      multipleCaptureBloc = _MockMultipleCaptureBloc();
+      photoBoothBloc = _MockPhotoBoothBloc();
       when(
-        () => multipleCaptureBloc.state,
-      ).thenReturn(MultipleCaptureState.empty());
+        () => photoBoothBloc.state,
+      ).thenReturn(PhotoBoothState.empty());
     });
 
     setUpAll(() {
@@ -125,12 +124,12 @@ void main() {
       (WidgetTester tester) async {
         when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
         await tester.pumpSubject(
-          MultipleCaptureView(),
-          multipleCaptureBloc,
+          PhotoBoothView(),
+          photoBoothBloc,
         );
         await tester.pumpAndSettle();
         expect(
-          find.byKey(MultipleCaptureView.cameraErrorViewKey),
+          find.byKey(PhotoBoothView.cameraErrorViewKey),
           findsOneWidget,
         );
       },
@@ -142,8 +141,8 @@ void main() {
         when(() => cameraPlatform.availableCameras())
             .thenThrow(CameraException('', ''));
         await tester.pumpSubject(
-          MultipleCaptureView(),
-          multipleCaptureBloc,
+          PhotoBoothView(),
+          photoBoothBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothError), findsOneWidget);
@@ -154,16 +153,16 @@ void main() {
       'navigates to MultipleCaptureViewerPage when isFinished',
       (WidgetTester tester) async {
         final images = UnmodifiableListView([
-          for (var i = 0; i < MultipleCaptureState.totalNumberOfPhotos; i++)
+          for (var i = 0; i < PhotoBoothState.totalNumberOfPhotos; i++)
             _FakePhotoboothCameraImage(),
         ]);
         whenListen(
-          multipleCaptureBloc,
-          Stream.value(MultipleCaptureState(images: images)),
+          photoBoothBloc,
+          Stream.value(PhotoBoothState(images: images)),
         );
         await tester.pumpSubject(
-          MultipleCaptureView(),
-          multipleCaptureBloc,
+          PhotoBoothView(),
+          photoBoothBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
@@ -171,11 +170,11 @@ void main() {
     );
 
     testWidgets(
-      'adds MultipleCaptureOnPhotoTaken when onShutter is called',
+      'adds PhotoBoothOnPhotoTaken when onShutter is called',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          MultipleCaptureView(),
-          multipleCaptureBloc,
+          PhotoBoothView(),
+          photoBoothBloc,
         );
         await tester.pumpAndSettle();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
@@ -185,8 +184,8 @@ void main() {
         await multipleShutterButton.onShutter();
         await tester.pumpAndSettle();
         verify(
-          () => multipleCaptureBloc.add(
-            MultipleCaptureOnPhotoTaken(
+          () => photoBoothBloc.add(
+            PhotoBoothOnPhotoTaken(
               image: image,
             ),
           ),
@@ -195,46 +194,46 @@ void main() {
     );
 
     testWidgets('renders ItemSelectorButton', (tester) async {
-      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
       expect(
-        find.byKey(Key('multipleCapturePage_itemSelector_background')),
+        find.byKey(SelectionButtons.itemSelectorButtonKey),
         findsOneWidget,
       );
     });
 
     testWidgets('itemSelectorButton renders itemSelectorDrawer when pressed',
         (tester) async {
-      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
 
       final itemSelectorButton =
-          find.byKey(Key('multipleCapturePage_itemSelector_background'));
+          find.byKey(SelectionButtons.itemSelectorButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
-        find.byKey(Key('multipleCapturePage_itemSelectorDrawer_background')),
+        find.byKey(PhotoBoothView.endDrawerKey),
         findsOneWidget,
       );
     });
 
     testWidgets('Item prints when selected', (tester) async {
-      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
       await tester.pumpAndSettle();
 
       final itemSelectorButton =
-          find.byKey(Key('multipleCapturePage_itemSelector_background'));
+          find.byKey(SelectionButtons.itemSelectorButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
-        find.byKey(Key('multipleCapturePage_itemSelectorDrawer_background')),
+        find.byKey(PhotoBoothView.endDrawerKey),
         findsOneWidget,
       );
       await tester.tap(
         find
             .descendant(
               of: find.byKey(
-                Key('multipleCapturePage_itemSelectorDrawer_background'),
+                PhotoBoothView.endDrawerKey,
               ),
               matching: find.byType(ColoredBox),
             )
@@ -247,8 +246,8 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    MultipleCaptureView subject,
-    MultipleCaptureBloc multipleCaptureBloc,
+    PhotoBoothView subject,
+    PhotoBoothBloc multipleCaptureBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(

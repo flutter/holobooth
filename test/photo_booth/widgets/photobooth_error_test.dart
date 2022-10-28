@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 
 class _MockCameraException extends Mock implements CameraException {}

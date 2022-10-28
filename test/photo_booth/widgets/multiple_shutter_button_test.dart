@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 
 import '../../helpers/helpers.dart';
 

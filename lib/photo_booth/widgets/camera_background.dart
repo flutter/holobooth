@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CameraBackground extends StatelessWidget {
@@ -18,7 +18,7 @@ class CameraBackground extends StatelessWidget {
     return Stack(
       children: [
         const PhotoboothBackground(),
-        BlocSelector<MultipleCaptureBloc, MultipleCaptureState, int>(
+        BlocSelector<PhotoBoothBloc, PhotoBoothState, int>(
           selector: (state) => state.remainingPhotos,
           builder: (context, remainingPhotos) => Padding(
             padding: const EdgeInsets.only(top: 24),
