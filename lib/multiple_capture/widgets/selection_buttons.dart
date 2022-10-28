@@ -28,13 +28,13 @@ class SelectionButtons extends StatelessWidget {
             return Scaffold.of(context).openEndDrawer();
           } else {
             // TODO(laura177): replace contents of bottom sheet
-            ItemSelectorBottomSheet.show(
+            ItemSelectorBottomSheet.show<Color>(
               context,
               title: 'title',
               items: const [Colors.red, Colors.yellow, Colors.green],
               itemBuilder: (context, item) => ColoredBox(color: item),
               selectedItem: Colors.red,
-              onSelected: (val) => print,
+              onSelected: print,
             );
           }
         },

@@ -203,6 +203,15 @@ void main() {
       );
     });
 
+    testWidgets('renders SelectionButtons', (tester) async {
+      await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
+      await tester.pumpAndSettle();
+      expect(
+        find.byType(SelectionButtons),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('itemSelectorButton renders itemSelectorDrawer when pressed',
         (tester) async {
       await tester.pumpSubject(MultipleCaptureView(), multipleCaptureBloc);
