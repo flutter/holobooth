@@ -132,3 +132,8 @@ app.*.map.json
 .mason/
 
 **/failures/*.png
+
+# Alchemist
+**/goldens/*
+!**/goldens/ci/
+**/test/**/failures/**
