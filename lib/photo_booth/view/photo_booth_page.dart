@@ -1,9 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/drawer_selection/widgets/drawer_layer.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -25,7 +24,7 @@ class PhotoBoothPage extends StatelessWidget {
           create: (context) => DrawerSelectionBloc(),
         ),
       ],
-      child: PhotoBoothView(),
+      child: const PhotoBoothView(),
     );
   }
 }
@@ -65,57 +64,43 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
         }
       },
       child: Scaffold(
-        endDrawer: ItemSelectorDrawer(
-          // TODO(laura177): replace contents of drawer
-          key: PhotoBoothView.endDrawerKey,
-          title: context.l10n.backgroundSelectorButton,
-          items: const [
-            PhotoboothColors.red,
-            PhotoboothColors.green,
-            PhotoboothColors.blue
-          ],
-          itemBuilder: (context, item) => ColoredBox(color: item),
-          selectedItem: PhotoboothColors.red,
-          onSelected: (value) => print,
-        ),
-        body: CameraBackground(
-          aspectRatio: aspectRatio,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Align(
-                child: Opacity(
-                  opacity: 0,
-                  child: CameraView(
-                    onCameraReady: (controller) {
-                      setState(() => _cameraController = controller);
-                    },
-                    errorBuilder: (context, error) {
-                      if (error is CameraException) {
-                        return PhotoboothError(error: error);
-                      } else {
-                        return const SizedBox.shrink(
-                          key: PhotoBoothView.cameraErrorViewKey,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              if (_isCameraAvailable) ...[
-                LayoutBuilder(
-                  builder: (context, constraints) =>
-                      AvatarDetector(cameraController: _cameraController!),
-                ),
+        endDrawer: const DrawerLayer(),
+        body: _DrawerListener(
+          child: CameraBackground(
+            aspectRatio: aspectRatio,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
                 Align(
-                  alignment: Alignment.bottomCenter,
-                  child: MultipleShutterButton(
-                    onShutter: _takeSinglePicture,
+                  child: Opacity(
+                    opacity: 0,
+                    child: CameraView(
+                      onCameraReady: (controller) {
+                        setState(() => _cameraController = controller);
+                      },
+                      errorBuilder: (context, error) {
+                        if (error is CameraException) {
+                          return PhotoboothError(error: error);
+                        } else {
+                          return const SizedBox.shrink(
+                            key: PhotoBoothView.cameraErrorViewKey,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
-                if (_isCameraAvailable) const SelectionButtons(),
+                if (_isCameraAvailable) ...[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MultipleShutterButton(
+                      onShutter: _takeSinglePicture,
+                    ),
+                  ),
+                  if (_isCameraAvailable) const SelectionButtons(),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -136,6 +121,26 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _DrawerListener extends StatelessWidget {
+  const _DrawerListener({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<DrawerSelectionBloc, DrawerSelectionState>(
+      listener: (context, state) {
+        if (state.drawerOption != null) {
+          Scaffold.of(context).openEndDrawer();
+        } else {
+          Scaffold.of(context).closeEndDrawer();
+        }
+      },
+      child: child,
     );
   }
 }

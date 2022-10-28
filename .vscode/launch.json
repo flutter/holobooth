@@ -13,7 +13,7 @@
         "-d",
         "chrome",
         "--web-renderer",
-        "canvaskit"
+        "html"
       ]
     },
     {
