@@ -99,10 +99,11 @@ class _DashState extends State<_Dash> {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.face.direction().unit();
+      // TODO(oscar): uncomment when rotation maths are completed
+      /*  final direction = widget.face.direction().unit();
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
-
+*/
       dashController.openMouth.change(widget.face.isMouthOpen);
     }
   }
@@ -116,8 +117,8 @@ class _DashState extends State<_Dash> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
       child: Assets.dash.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
