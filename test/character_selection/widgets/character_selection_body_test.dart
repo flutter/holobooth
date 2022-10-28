@@ -13,6 +13,7 @@ void main() {
     });
 
     group('renders', () {
+      // TODO(oscar): add GoldenTest once assets are finalized
       testWidgets('for PhotoboothBreakpoints.small', (tester) async {
         tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
         final subject = CharacterSelectionBody();
