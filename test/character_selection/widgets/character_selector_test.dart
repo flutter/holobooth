@@ -39,17 +39,47 @@ void main() {
             .pumpSubject(CharacterSelector(breakpoint: Breakpoint.xLarge));
         await tester.tap(find.byKey(CharacterSelectorState.sparkyKey));
         await tester.pumpAndSettle();
-        final controller = tester
-            .state<CharacterSelectorState>(find.byType(CharacterSelector))
-            .pageController;
+        final state = tester
+            .state<CharacterSelectorState>(find.byType(CharacterSelector));
+        final controller = state.pageController;
         expect(controller.page, 1);
       },
     );
 
-    testWidgets(
-      'updates viewportFraction if needed',
-      (WidgetTester tester) async {},
-    );
+    testWidgets('updates viewportFraction if needed', (tester) async {
+      late StateSetter stateSetter;
+      var breakpoint = Breakpoint.small;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              stateSetter = setState;
+              return Scaffold(
+                body: CharacterSelector(breakpoint: breakpoint),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        tester
+            .state<CharacterSelectorState>(find.byType(CharacterSelector))
+            .pageController
+            .viewportFraction,
+        0.55,
+      );
+      stateSetter(() => breakpoint = Breakpoint.large);
+      await tester.pumpAndSettle();
+      expect(
+        tester
+            .state<CharacterSelectorState>(find.byType(CharacterSelector))
+            .pageController
+            .viewportFraction,
+        0.2,
+      );
+    });
   });
 }
 
