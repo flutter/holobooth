@@ -16,7 +16,10 @@ dependencies:
   url_launcher: ^6.1.5
 
 dev_dependencies:
-  alchemist: ^0.5.0
+  alchemist:
+    git:
+      url: https://github.com/betterment/alchemist.git
+      ref: main
   flutter_test:
     sdk: flutter
   mocktail: ^0.1.1

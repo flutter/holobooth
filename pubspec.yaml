@@ -8,6 +8,10 @@ environment:
   flutter: 3.3.1
 
 dependencies:
+  alchemist:
+    git:
+      url: https://github.com/betterment/alchemist.git
+      ref: main
   analytics:
     path: packages/analytics
   audio_session: ^0.1.10

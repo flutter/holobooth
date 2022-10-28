@@ -7,8 +7,7 @@ class SelectionButtons extends StatelessWidget {
   const SelectionButtons({super.key});
 
   @visibleForTesting
-  static const itemSelectorButtonKey =
-      Key('multipleCapturePage_itemSelector_background');
+  static const itemSelectorButtonKey = Key('itemSelector_background');
 
   @override
   Widget build(BuildContext context) {

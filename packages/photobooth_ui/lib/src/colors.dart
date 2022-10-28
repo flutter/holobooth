@@ -37,4 +37,7 @@ abstract class PhotoboothColors {
 
   /// Charcoal
   static const Color charcoal = Color(0xBF202124);
+
+  /// Purple
+  static const Color purple = Color(0xFFBB42F4);
 }

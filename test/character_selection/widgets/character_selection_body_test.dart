@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
@@ -44,7 +44,7 @@ void main() {
 
     group('navigates', () {
       testWidgets(
-        'to MultipleCapturePage '
+        'to PhotoBoothPage '
         'when FloatingActionButton is pressed',
         (tester) async {
           await tester.pumpSubject(CharacterSelectionBody());
@@ -52,7 +52,7 @@ void main() {
           await tester.ensureVisible(finder);
           await tester.tap(finder);
           await tester.pumpAndSettle();
-          expect(find.byType(MultipleCapturePage), findsOneWidget);
+          expect(find.byType(PhotoBoothPage), findsOneWidget);
         },
       );
     });

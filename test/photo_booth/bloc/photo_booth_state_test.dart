@@ -1,17 +1,17 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 
 void main() {
-  group('MultipleCaptureState', () {
+  group('PhotoBoothState', () {
     test('supports value comparison if state is the same', () {
-      final stateA = MultipleCaptureState.empty();
+      final stateA = PhotoBoothState.empty();
       final stateB = stateA.copyWith();
       expect(stateA, stateB);
     });
 
     test('supports value comparison if state is not the same', () {
-      final stateA = MultipleCaptureState.empty();
+      final stateA = PhotoBoothState.empty();
       final stateB = stateA.copyWith(
         images: UnmodifiableListView(
           [PhotoboothCameraImage(constraint: PhotoConstraint(), data: '')],
@@ -22,12 +22,12 @@ void main() {
 
     test(
         'throws assertion error if more than '
-        'MultipleCaptureState.totalNumberOfPhotos images', () {
+        'PhotoBoothState.totalNumberOfPhotos images', () {
       expect(
-        () => MultipleCaptureState(
+        () => PhotoBoothState(
           images: UnmodifiableListView(
             List.generate(
-              MultipleCaptureState.totalNumberOfPhotos + 1,
+              PhotoBoothState.totalNumberOfPhotos + 1,
               (_) => PhotoboothCameraImage(
                 constraint: PhotoConstraint(),
                 data: '',

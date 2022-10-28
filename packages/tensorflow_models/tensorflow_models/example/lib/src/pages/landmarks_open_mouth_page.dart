@@ -60,7 +60,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
