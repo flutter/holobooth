@@ -57,7 +57,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
 
   void _initController() {
     if (pageController != null) {
-      pageController?.dispose();
+      pageController!.dispose();
     }
     pageController = PageController(
       viewportFraction: widget.viewportFraction,
