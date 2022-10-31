@@ -39,18 +39,18 @@ void main() {
 
     group('direction', () {
       test('returns normally', () {
-        expect(() => faceDirection.direction, returnsNormally);
+        expect(() => faceDirection.calculate, returnsNormally);
       });
 
       test('returns correct value', () {
-        final vector = faceDirection.direction();
+        final vector = faceDirection.calculate();
         expect(vector, const Vector3(189, -378, 189));
       });
     });
 
     test('supports equality', () {
-      final direction = faceDirection.direction();
-      final direction2 = faceDirection.direction();
+      final direction = faceDirection.calculate();
+      final direction2 = faceDirection.calculate();
 
       expect(direction, equals(direction2));
       expect(direction, isNot(same(direction2)));

@@ -17,7 +17,7 @@ class FaceGeometry extends BaseGeometry {
     super.boundingBox,
   );
 
-  /// {@macro FaceDirection}
+  /// {@macro face_direction}
   late FaceDirection direction = FaceDirection(keypoints, boundingBox);
 
   /// {@macro eye_geometry}

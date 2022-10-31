@@ -3,15 +3,15 @@
 import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-/// {@template FaceDirection}
+/// {@template face_direction}
 /// Calculation to detect the direction of the face.
 /// {@endtemplate}
 class FaceDirection extends BaseGeometry {
-  /// {@macro FaceDirection}
+  /// {@macro  face_direction}
   FaceDirection(super.keypoints, super.boundingBox);
 
-  /// {@macro FaceDirection}
-  Vector3 direction() {
+  /// {@macro face_direction}
+  Vector3 calculate() {
     final leftCheeck = keypoints[127];
     final rightCheeck = keypoints[356];
     final nose = keypoints[6];

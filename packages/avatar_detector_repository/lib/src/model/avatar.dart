@@ -18,7 +18,7 @@ class Avatar extends Equatable {
 
     return Avatar(
       hasMouthOpen: faceGeometry.mouth.isOpen,
-      direction: faceGeometry.direction.direction(),
+      direction: faceGeometry.direction.calculate(),
     );
   }
 

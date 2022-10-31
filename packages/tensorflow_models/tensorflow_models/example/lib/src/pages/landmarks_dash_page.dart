@@ -98,7 +98,7 @@ class _DashState extends State<_Dash> {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.faceGeometry.direction.direction().unit();
+      final direction = widget.faceGeometry.direction.calculate().unit();
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
 
