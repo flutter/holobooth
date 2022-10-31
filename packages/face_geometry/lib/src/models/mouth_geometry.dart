@@ -36,12 +36,6 @@ class MouthGeometry extends BaseGeometry {
   }
 
   @override
-  List<Object?> get props => [
-        keypoints,
-        boundingBox,
-      ];
-
-  @override
   void update(
     List<Keypoint> newKeypoints,
     BoundingBox newBoundingBox,
@@ -49,4 +43,7 @@ class MouthGeometry extends BaseGeometry {
     keypoints = newKeypoints;
     boundingBox = newBoundingBox;
   }
+
+  @override
+  List<Object?> get props => [keypoints, boundingBox];
 }

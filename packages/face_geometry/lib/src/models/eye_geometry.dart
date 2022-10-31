@@ -80,6 +80,15 @@ class EyeGeometry extends BaseGeometry {
   }
 
   @override
+  void update(
+    List<Keypoint> newKeypoints,
+    BoundingBox newBoundingBox,
+  ) {
+    keypoints = newKeypoints;
+    boundingBox = newBoundingBox;
+  }
+
+  @override
   List<Object?> get props => [
         _eyeSide,
         _maxRatio,
@@ -88,13 +97,4 @@ class EyeGeometry extends BaseGeometry {
         keypoints,
         boundingBox,
       ];
-
-  @override
-  void update(
-    List<Keypoint> newKeypoints,
-    BoundingBox newBoundingBox,
-  ) {
-    keypoints = newKeypoints;
-    boundingBox = newBoundingBox;
-  }
 }
