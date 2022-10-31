@@ -1,10 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:collection';
-import 'dart:math' as math;
-
 import 'package:face_geometry/face_geometry.dart';
-import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 /// {@template face_geometry}
@@ -56,6 +52,3 @@ class FaceGeometry extends BaseGeometry {
         mouth,
       ];
 }
-
-// TODO(arturplaczek): remove all extensions when we don't normalize
-
