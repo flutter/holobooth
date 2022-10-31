@@ -12,7 +12,7 @@ class CharacterSelectionBackground extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            PhotoboothColors.purple,
+            Color.fromARGB(255, 102, 8, 146),
             PhotoboothColors.blue,
           ],
         ),
