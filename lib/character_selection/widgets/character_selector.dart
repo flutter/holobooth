@@ -42,7 +42,7 @@ class CharacterSelector extends StatefulWidget {
 
 @visibleForTesting
 class CharacterSelectorState extends State<CharacterSelector> {
-  late PageController pageController;
+  PageController? pageController;
   int activePage = 0;
 
   static const dashKey = Key('characterSelector_dash');
@@ -56,6 +56,9 @@ class CharacterSelectorState extends State<CharacterSelector> {
   static const characterKeys = [dashKey, sparkyKey];
 
   void _initController() {
+    if (pageController != null) {
+      pageController!.dispose();
+    }
     pageController = PageController(
       viewportFraction: widget.viewportFraction,
       initialPage: activePage,
@@ -75,7 +78,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
   }
 
   void _onTapCharacter(int index) {
-    pageController.animateToPage(
+    pageController?.animateToPage(
       index,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -99,7 +102,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
           return InkWell(
             onTap: () => _onTapCharacter(index),
             key: characterKeys[index],
-            child: _Item(isActive: isActive, image: _characters[index]),
+            child: _Character(isActive: isActive, image: _characters[index]),
           );
         },
       ),
@@ -107,8 +110,8 @@ class CharacterSelectorState extends State<CharacterSelector> {
   }
 }
 
-class _Item extends StatelessWidget {
-  const _Item({
+class _Character extends StatelessWidget {
+  const _Character({
     required this.isActive,
     required this.image,
   });

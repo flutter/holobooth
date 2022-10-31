@@ -49,7 +49,7 @@ void main() {
         final state = tester
             .state<CharacterSelectorState>(find.byType(CharacterSelector));
         final controller = state.pageController;
-        expect(controller.page, 1);
+        expect(controller?.page, 1);
       },
     );
 
@@ -72,20 +72,17 @@ void main() {
       );
       await tester.pumpAndSettle();
 
+      final state =
+          tester.state<CharacterSelectorState>(find.byType(CharacterSelector));
+
       expect(
-        tester
-            .state<CharacterSelectorState>(find.byType(CharacterSelector))
-            .pageController
-            .viewportFraction,
+        state.pageController?.viewportFraction,
         0.55,
       );
       stateSetter(() => breakpoint = Breakpoint.large);
       await tester.pumpAndSettle();
       expect(
-        tester
-            .state<CharacterSelectorState>(find.byType(CharacterSelector))
-            .pageController
-            .viewportFraction,
+        state.pageController?.viewportFraction,
         0.2,
       );
     });
