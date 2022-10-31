@@ -14,7 +14,7 @@ class CharacterSelectionBody extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: 104),
+        const SizedBox(height: 80),
         SelectableText(
           l10n.chooseYourCharacterTitleText,
           style: theme.textTheme.headline1
@@ -28,19 +28,21 @@ class CharacterSelectionBody extends StatelessWidget {
               ?.copyWith(color: PhotoboothColors.white),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 53),
-        LayoutBuilder(
-          builder: (_, constraints) {
-            if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-              return const CharacterSelector.small();
-            } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
-              return const CharacterSelector.medium();
-            } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
-              return const CharacterSelector.large();
-            } else {
-              return const CharacterSelector.xLarge();
-            }
-          },
+        Container(
+          color: Colors.red,
+          child: LayoutBuilder(
+            builder: (_, constraints) {
+              if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                return const CharacterSelector.small();
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
+                return const CharacterSelector.medium();
+              } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
+                return const CharacterSelector.large();
+              } else {
+                return const CharacterSelector.xLarge();
+              }
+            },
+          ),
         ),
         const SizedBox(height: 42),
         FloatingActionButton(
