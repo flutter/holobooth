@@ -55,7 +55,7 @@ void main() {
         );
         mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-        expect(() => mouthGeometry.mouthDistance, returnsNormally);
+        expect(() => mouthGeometry.distance, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -65,7 +65,7 @@ void main() {
           );
           mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(mouthGeometry.mouthDistance, equals(0));
+          expect(mouthGeometry.distance, equals(0));
         });
 
         test('when values are not 0', () {
@@ -75,7 +75,7 @@ void main() {
           mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
           expect(
-            mouthGeometry.mouthDistance,
+            mouthGeometry.distance,
             equals(4.242640687119285),
           );
         });
@@ -89,7 +89,7 @@ void main() {
         );
         mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-        expect(() => mouthGeometry.isMouthOpen, returnsNormally);
+        expect(() => mouthGeometry.isOpen, returnsNormally);
       });
 
       group('returns correct distance', () {
@@ -99,7 +99,7 @@ void main() {
           );
           mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(mouthGeometry.isMouthOpen, equals(false));
+          expect(mouthGeometry.isOpen, equals(false));
         });
 
         test('when values are not 0', () {
@@ -108,7 +108,7 @@ void main() {
           keypoints[14] = _FakeKeypoint(1, -1);
           mouthGeometry = MouthGeometry(keypoints, boundingBox);
 
-          expect(mouthGeometry.isMouthOpen, equals(true));
+          expect(mouthGeometry.isOpen, equals(true));
         });
       });
     });

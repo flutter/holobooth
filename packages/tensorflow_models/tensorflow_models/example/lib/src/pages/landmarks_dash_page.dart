@@ -102,7 +102,7 @@ class _DashState extends State<_Dash> {
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
 
-      dashController.openMouth.change(widget.faceGeometry.mouth.isMouthOpen);
+      dashController.openMouth.change(widget.faceGeometry.mouth.isOpen);
     }
   }
 

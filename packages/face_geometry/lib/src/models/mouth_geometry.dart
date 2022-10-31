@@ -15,7 +15,7 @@ class MouthGeometry extends BaseGeometry {
   MouthGeometry(super.keypoints, super.boundingBox);
 
   /// The distance between the top lip and the bottom lip.
-  double get mouthDistance {
+  double get distance {
     if (keypoints.length < 15) return 0;
     final topLipPoint = keypoints[13];
     final bottomLipPoint = keypoints[14];
@@ -23,10 +23,10 @@ class MouthGeometry extends BaseGeometry {
   }
 
   /// Defines if the mouth is open based on hight and face height.
-  bool get isMouthOpen {
-    if (mouthDistance > 1) {
+  bool get isOpen {
+    if (distance > 1) {
       if (boundingBox.height == 0) return false;
-      final heightRatio = mouthDistance / boundingBox.height;
+      final heightRatio = distance / boundingBox.height;
       if (heightRatio == 0) return false;
 
       return heightRatio > _minMouthFaceRatio;

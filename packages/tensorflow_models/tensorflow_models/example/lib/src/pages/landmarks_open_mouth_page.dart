@@ -66,7 +66,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
 
-                  if (faces.first.mouth.isMouthOpen) {
+                  if (faces.first.mouth.isOpen) {
                     if (!_isPlaying) {
                       _audioPlayer.play();
                       _isPlaying = true;
@@ -100,7 +100,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.mouth.isMouthOpen ? Colors.yellow : Colors.red
+      ..color = face.mouth.isOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
