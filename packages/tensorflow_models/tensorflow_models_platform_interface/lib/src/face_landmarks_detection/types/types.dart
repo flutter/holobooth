@@ -67,10 +67,12 @@ class Face {
 /// See also:
 ///
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/common_interfaces.ts)
+@immutable
 class Keypoint {
   @visibleForTesting
-  Keypoint(this.x, this.y, this.z, this.score, this.name);
-  Keypoint._(this.x, this.y, this.z, this.score, this.name);
+  const Keypoint(this.x, this.y, this.z, this.score, this.name);
+
+  const Keypoint._(this.x, this.y, this.z, this.score, this.name);
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
     return Keypoint._(

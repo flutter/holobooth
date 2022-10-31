@@ -1,90 +1,120 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:meta/meta.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as tf;
 
-/// The minimum value at which [EyeGeometry] recognizes an eye closure.
-const _minEyeRatio = 0.3;
+@immutable
+abstract class _EyeGeometry {
+  _EyeGeometry._({
+    required tf.Keypoint topEyeLid,
+    required tf.Keypoint bottomEyeLid,
+    required tf.BoundingBox boundingBox,
+    double? minRatio,
+    double? maxRatio,
+  }) {
+    final faceHeight = boundingBox.height;
+    if (faceHeight != 0) {
+      final distance = topEyeLid.distanceTo(bottomEyeLid);
+      final heightRatio = distance / faceHeight;
+      if (heightRatio != 0) {
+        if (_maxRatio == null || heightRatio > maxRatio!) {
+          _maxRatio = heightRatio;
+        }
+        if ((_minRatio == null || heightRatio < minRatio!) && heightRatio > 0) {
+          _minRatio = heightRatio;
+        }
 
-/// Determines the position of the eye.
-enum EyeSide {
-  /// The left eye.
-  left,
-
-  /// The right eye.
-  right
-}
-
-/// {@template eye_geometry}
-/// An object which holds data for eye.
-/// {@endtemplate}
-class EyeGeometry extends BaseFaceGeometry {
-  /// {@macro eye_geometry}
-  EyeGeometry.left(super.keypoints, super.boundingBox)
-      : _eyeSide = EyeSide.left;
-
-  /// {@macro eye_geometry}
-  EyeGeometry.right(super.keypoints, super.boundingBox)
-      : _eyeSide = EyeSide.right;
-
-  final EyeSide _eyeSide;
-  double? _maxRatio;
-  double? _minRatio;
-
-  /// The distance between the top eye lid and the bottom eye lid depends of
-  /// [EyeSide] value.
-  double get distance {
-    if (_eyeSide == EyeSide.left) {
-      if (keypoints.length < 160) return 0;
-      final topEyeLid = keypoints[159];
-      final bottomEyeLid = keypoints[145];
-      return topEyeLid.distanceTo(bottomEyeLid);
+        final firstAction = _minRatio! / _maxRatio! < 0.5;
+        if (firstAction) {
+          final percent =
+              (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
+          isClosed = percent < _minEyeRatio;
+        }
+      } else {
+        isClosed = false;
+        _maxRatio = maxRatio;
+        _minRatio = minRatio;
+      }
     } else {
-      if (keypoints.length < 387) return 0;
-      final topEyeLid = keypoints[386];
-      final bottomEyeLid = keypoints[374];
-      return topEyeLid.distanceTo(bottomEyeLid);
+      isClosed = false;
+      _maxRatio = maxRatio;
+      _minRatio = minRatio;
     }
   }
 
-  /// Define whether the first action, e.g. close, was detected and we have the
-  /// correct min and max values.
-  bool _firstAction = false;
+  /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
+  static const _minEyeRatio = 0.3;
 
-  /// Detect if the eye is closed.
+  late final double? _maxRatio;
+  late final double? _minRatio;
+
+  /// Whether the eye is closed or not.
+  ///
   /// Detection works after the first blink to make sure we have the correct
   /// minimum and maximum values.
-  bool get isClose {
-    if (boundingBox.height == 0) return false;
-    final heightRatio = distance / boundingBox.height;
-    if (heightRatio == 0) return false;
+  late bool isClosed;
 
-    if (_maxRatio == null || heightRatio > _maxRatio!) {
-      _maxRatio = heightRatio;
-    }
+  /// Update the eye geometry.
+  _EyeGeometry update(
+    List<tf.Keypoint> keypoints,
+    tf.BoundingBox boundingBox,
+  );
+}
 
-    if ((_minRatio == null || heightRatio < _minRatio!) && heightRatio > 0) {
-      _minRatio = heightRatio;
-    }
-
-    if (_minRatio! / _maxRatio! < 0.5) {
-      _firstAction = true;
-    }
-
-    if (_firstAction) {
-      final percent = (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
-      return percent < _minEyeRatio;
-    } else {
-      return false;
-    }
-  }
+/// {@template left_eye_geometry}
+/// Geometric data for the left eye.
+/// {@endtemplate}
+class LeftEyeGeometry extends _EyeGeometry {
+  /// {@macro left_eye_geometry}
+  LeftEyeGeometry(
+    List<tf.Keypoint> keypoints, {
+    required super.boundingBox,
+    super.maxRatio,
+    super.minRatio,
+  }) : super._(
+          topEyeLid: keypoints[159],
+          bottomEyeLid: keypoints[145],
+        );
 
   @override
-  void update(
-    List<Keypoint> newKeypoints,
-    BoundingBox newBoundingBox,
-  ) {
-    keypoints = newKeypoints;
-    boundingBox = newBoundingBox;
-  }
+  LeftEyeGeometry update(
+    List<tf.Keypoint> keypoints,
+    tf.BoundingBox boundingBox,
+  ) =>
+      LeftEyeGeometry(
+        keypoints,
+        boundingBox: boundingBox,
+        maxRatio: _maxRatio,
+        minRatio: _minRatio,
+      );
+}
+
+/// {@template left_eye_geometry}
+/// Geometric data for the right eye.
+/// {@endtemplate}
+class RightEyeGeometry extends _EyeGeometry {
+  /// {@macro left_eye_geometry}
+  RightEyeGeometry(
+    List<tf.Keypoint> keypoints, {
+    required super.boundingBox,
+    super.maxRatio,
+    super.minRatio,
+  }) : super._(
+          topEyeLid: keypoints[386],
+          bottomEyeLid: keypoints[374],
+        );
+
+  @override
+  RightEyeGeometry update(
+    List<tf.Keypoint> keypoints,
+    tf.BoundingBox boundingBox,
+  ) =>
+      RightEyeGeometry(
+        keypoints,
+        boundingBox: boundingBox,
+        maxRatio: _maxRatio,
+        minRatio: _minRatio,
+      );
 }
