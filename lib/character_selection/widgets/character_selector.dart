@@ -88,25 +88,22 @@ class CharacterSelectorState extends State<CharacterSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 600,
-      child: PageView.builder(
-        itemCount: 2,
-        controller: pageController,
-        onPageChanged: (value) {
-          setState(() {
-            _activePage = value;
-          });
-        },
-        itemBuilder: (context, index) {
-          final isActive = index == _activePage;
-          return InkWell(
-            onTap: () => _onTapCharacter(index),
-            key: characterKeys[index],
-            child: _Character(isActive: isActive, image: _characters[index]),
-          );
-        },
-      ),
+    return PageView.builder(
+      itemCount: 2,
+      controller: pageController,
+      onPageChanged: (value) {
+        setState(() {
+          _activePage = value;
+        });
+      },
+      itemBuilder: (context, index) {
+        final isActive = index == _activePage;
+        return InkWell(
+          onTap: () => _onTapCharacter(index),
+          key: characterKeys[index],
+          child: _Character(isActive: isActive, image: _characters[index]),
+        );
+      },
     );
   }
 }
