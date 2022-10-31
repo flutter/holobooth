@@ -11,6 +11,20 @@ class CharacterSelectionBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        height: 600,
+        width: 100,
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.red,
+            ),
+          ],
+        ),
+      ),
+    );
 
     return Column(
       children: [
