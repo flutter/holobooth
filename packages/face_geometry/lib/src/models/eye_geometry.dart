@@ -18,7 +18,7 @@ enum EyeSide {
 /// {@template eye_geometry}
 /// An object which holds data for eye.
 /// {@endtemplate}
-class EyeGeometry extends BaseGeometry {
+class EyeGeometry extends BaseFaceGeometry {
   /// {@macro eye_geometry}
   EyeGeometry.left(super.keypoints, super.boundingBox)
       : _eyeSide = EyeSide.left;

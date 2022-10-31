@@ -6,7 +6,7 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 /// {@template face_direction}
 /// Calculation to detect the direction of the face.
 /// {@endtemplate}
-class FaceDirection extends BaseGeometry {
+class FaceDirection extends BaseFaceGeometry {
   /// {@macro  face_direction}
   FaceDirection(super.keypoints, super.boundingBox);
 

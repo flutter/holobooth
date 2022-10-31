@@ -10,7 +10,7 @@ const _minMouthFaceRatio = 0.02;
 /// {@template mouth_geometry}
 /// An object which holds data for mouth.
 /// {@endtemplate}
-class MouthGeometry extends BaseGeometry {
+class MouthGeometry extends BaseFaceGeometry {
   /// {@macro mouth_geometry}
   MouthGeometry(super.keypoints, super.boundingBox);
 

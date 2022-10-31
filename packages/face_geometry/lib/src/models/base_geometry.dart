@@ -3,12 +3,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
-/// {@template base_geometry}
+/// {@template base_face_geometry}
 /// Base geometry class which contains list of [Keypoint] and [BoundingBox].
 /// {@endtemplate}
-abstract class BaseGeometry extends Equatable {
-  /// {@macro base_geometry}
-  BaseGeometry(this.keypoints, this.boundingBox);
+abstract class BaseFaceGeometry extends Equatable {
+  /// {@macro base_face_geometry}
+  BaseFaceGeometry(this.keypoints, this.boundingBox);
 
   /// List of [Keypoint] which contains the position of the keypoints.
   List<Keypoint> keypoints;

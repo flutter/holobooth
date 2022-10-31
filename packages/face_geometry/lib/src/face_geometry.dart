@@ -6,7 +6,7 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 /// {@template face_geometry}
 /// The class includes geometry for face.
 /// {@endtemplate}
-class FaceGeometry extends BaseGeometry {
+class FaceGeometry extends BaseFaceGeometry {
   /// {@macro face_geometry}
   FaceGeometry(
     super.keypoints,
