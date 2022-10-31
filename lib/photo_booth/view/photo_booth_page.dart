@@ -3,40 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MultipleCapturePage extends StatelessWidget {
-  const MultipleCapturePage({super.key});
+class PhotoBoothPage extends StatelessWidget {
+  const PhotoBoothPage({super.key});
 
   static Route<void> route() =>
-      AppPageRoute<void>(builder: (_) => const MultipleCapturePage());
+      AppPageRoute<void>(builder: (_) => const PhotoBoothPage());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MultipleCaptureBloc(),
-      child: const MultipleCaptureView(),
+      create: (_) => PhotoBoothBloc(),
+      child: const PhotoBoothView(),
     );
   }
 }
 
-class MultipleCaptureView extends StatefulWidget {
-  const MultipleCaptureView({super.key});
+class PhotoBoothView extends StatefulWidget {
+  const PhotoBoothView({super.key});
 
   @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
 
   @visibleForTesting
   static const endDrawerKey =
-      Key('multipleCapturePage_itemSelectorDrawer_background');
+      Key('photoBoothPage_itemSelectorDrawer_background');
 
   @override
-  State<MultipleCaptureView> createState() => _MultipleCaptureViewState();
+  State<PhotoBoothView> createState() => _PhotoBoothViewState();
 }
 
-class _MultipleCaptureViewState extends State<MultipleCaptureView> {
+class _PhotoBoothViewState extends State<PhotoBoothView> {
   CameraController? _cameraController;
 
   bool get _isCameraAvailable =>
@@ -48,10 +48,10 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
     final aspectRatio = orientation == Orientation.portrait
         ? PhotoboothAspectRatio.portrait
         : PhotoboothAspectRatio.landscape;
-    return BlocListener<MultipleCaptureBloc, MultipleCaptureState>(
+    return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
-          final images = context.read<MultipleCaptureBloc>().state.images;
+          final images = context.read<PhotoBoothBloc>().state.images;
           Navigator.of(context)
               .pushReplacement(MultipleCaptureViewerPage.route(images));
         }
@@ -59,7 +59,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
       child: Scaffold(
         endDrawer: ItemSelectorDrawer(
           // TODO(laura177): replace contents of drawer
-          key: MultipleCaptureView.endDrawerKey,
+          key: PhotoBoothView.endDrawerKey,
           title: context.l10n.backgroundSelectorButton,
           items: const [
             PhotoboothColors.red,
@@ -87,7 +87,7 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
                         return PhotoboothError(error: error);
                       } else {
                         return const SizedBox.shrink(
-                          key: MultipleCaptureView.cameraErrorViewKey,
+                          key: PhotoBoothView.cameraErrorViewKey,
                         );
                       }
                     },
@@ -115,11 +115,11 @@ class _MultipleCaptureViewState extends State<MultipleCaptureView> {
   }
 
   Future<void> _takeSinglePicture() async {
-    final multipleCaptureBloc = context.read<MultipleCaptureBloc>();
+    final multipleCaptureBloc = context.read<PhotoBoothBloc>();
     final picture = await _cameraController!.takePicture();
     final previewSize = _cameraController!.value.previewSize!;
     multipleCaptureBloc.add(
-      MultipleCaptureOnPhotoTaken(
+      PhotoBoothOnPhotoTaken(
         image: PhotoboothCameraImage(
           data: picture.path,
           constraint: PhotoConstraint(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MultipleCaptureViewerPage extends StatelessWidget {
@@ -62,7 +62,7 @@ class TakePhotoAgainButton extends StatelessWidget {
         key: buttonKey,
         verticalOffset: 50,
         onPressed: () {
-          Navigator.of(context).pushReplacement(MultipleCapturePage.route());
+          Navigator.of(context).pushReplacement(PhotoBoothPage.route());
         },
         message: l10n.retakeButtonTooltip,
         child: Assets.icons.retakeButtonIcon.image(height: 100),
