@@ -19,6 +19,10 @@ void main() {
         final subject = CharacterSelectionBody();
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
+        final finder = find.byWidgetPredicate(
+          (w) => w is CharacterSelector && w.viewportFraction == 0.55,
+        );
+        expect(finder, findsOneWidget);
       });
 
       testWidgets('for PhotoboothBreakpoints.medium', (tester) async {
@@ -26,6 +30,10 @@ void main() {
         final subject = CharacterSelectionBody();
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
+        final finder = find.byWidgetPredicate(
+          (w) => w is CharacterSelector && w.viewportFraction == 0.3,
+        );
+        expect(finder, findsOneWidget);
       });
 
       testWidgets('for PhotoboothBreakpoints.large', (tester) async {
@@ -33,6 +41,10 @@ void main() {
         final subject = CharacterSelectionBody();
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
+        final finder = find.byWidgetPredicate(
+          (w) => w is CharacterSelector && w.viewportFraction == 0.2,
+        );
+        expect(finder, findsOneWidget);
       });
 
       testWidgets('for greater than PhotoboothBreakpoints.large',
@@ -41,6 +53,10 @@ void main() {
         final subject = CharacterSelectionBody();
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
+        final finder = find.byWidgetPredicate(
+          (w) => w is CharacterSelector && w.viewportFraction == 0.2,
+        );
+        expect(finder, findsOneWidget);
       });
 
       testWidgets('title', (tester) async {

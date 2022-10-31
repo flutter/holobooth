@@ -9,9 +9,32 @@ enum Breakpoint {
 }
 
 class CharacterSelector extends StatefulWidget {
-  const CharacterSelector({super.key, required this.breakpoint});
+  const CharacterSelector._({super.key, required this.viewportFraction});
+  const CharacterSelector.small({Key? key})
+      : this._(
+          viewportFraction: 0.55,
+          key: key,
+        );
 
-  final Breakpoint breakpoint;
+  const CharacterSelector.medium({Key? key})
+      : this._(
+          viewportFraction: 0.3,
+          key: key,
+        );
+
+  const CharacterSelector.large({Key? key})
+      : this._(
+          viewportFraction: 0.2,
+          key: key,
+        );
+
+  const CharacterSelector.xLarge({Key? key})
+      : this._(
+          viewportFraction: 0.2,
+          key: key,
+        );
+
+  final double viewportFraction;
 
   @override
   State<CharacterSelector> createState() => CharacterSelectorState();
@@ -30,26 +53,11 @@ class CharacterSelectorState extends State<CharacterSelector> {
     Assets.characters.sparky.image(),
   ];
 
-  static const _characterKeys = [dashKey, sparkyKey];
+  static const characterKeys = [dashKey, sparkyKey];
 
   void _initController() {
-    double viewportFraction;
-    switch (widget.breakpoint) {
-      case Breakpoint.small:
-        viewportFraction = 0.55;
-        break;
-      case Breakpoint.medium:
-        viewportFraction = 0.3;
-        break;
-      case Breakpoint.large:
-        viewportFraction = 0.2;
-        break;
-      case Breakpoint.xLarge:
-        viewportFraction = 0.2;
-        break;
-    }
     pageController = PageController(
-      viewportFraction: viewportFraction,
+      viewportFraction: widget.viewportFraction,
       initialPage: activePage,
     );
   }
@@ -90,7 +98,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
           final isActive = index == activePage;
           return InkWell(
             onTap: () => _onTapCharacter(index),
-            key: _characterKeys[index],
+            key: characterKeys[index],
             child: _Item(isActive: isActive, image: _characters[index]),
           );
         },

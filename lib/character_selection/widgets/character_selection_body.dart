@@ -28,18 +28,16 @@ class CharacterSelectionBody extends StatelessWidget {
         ),
         const SizedBox(height: 53),
         LayoutBuilder(
-          builder: (context, constraints) {
-            Breakpoint breakpoint;
+          builder: (_, constraints) {
             if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-              breakpoint = Breakpoint.small;
+              return const CharacterSelector.small();
             } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
-              breakpoint = Breakpoint.medium;
+              return const CharacterSelector.medium();
             } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
-              breakpoint = Breakpoint.large;
+              return const CharacterSelector.large();
             } else {
-              breakpoint = Breakpoint.xLarge;
+              return const CharacterSelector.xLarge();
             }
-            return CharacterSelector(breakpoint: breakpoint);
           },
         ),
         const SizedBox(height: 42),
