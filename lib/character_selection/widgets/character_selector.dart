@@ -78,6 +78,12 @@ class CharacterSelectorState extends State<CharacterSelector> {
     _initController();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    pageController?.dispose();
+  }
+
   void _onTapCharacter(int index) {
     pageController?.animateToPage(
       index,
