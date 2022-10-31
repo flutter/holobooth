@@ -4,6 +4,8 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+const height = 800.0;
+
 class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
 
@@ -11,15 +13,73 @@ class CharacterSelectionBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      height: height,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double viewPortFraction;
+                if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                  viewPortFraction = 1;
+                } else if (constraints.maxWidth <=
+                    PhotoboothBreakpoints.medium) {
+                  viewPortFraction = 0.6;
+                } else {
+                  viewPortFraction = 0.2;
+                }
+                return Container(
+                  width: size.width * viewPortFraction,
+                  child: CustomPaint(
+                    size: MediaQuery.of(context).size,
+                    painter: DrawTriangle(),
+                  ),
+                );
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: Colors.red.withOpacity(0.2),
+              alignment: Alignment.bottomCenter,
+              child: LayoutBuilder(
+                builder: (_, constraints) {
+                  if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                    return const CharacterSelector.small();
+                  } else if (constraints.maxWidth <=
+                      PhotoboothBreakpoints.medium) {
+                    return const CharacterSelector.medium();
+                  } else if (constraints.maxWidth <=
+                      PhotoboothBreakpoints.large) {
+                    return const CharacterSelector.large();
+                  } else {
+                    return const CharacterSelector.xLarge();
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
     return Align(
       alignment: Alignment.topCenter,
-      child: SizedBox(
-        height: 600,
-        width: 100,
+      child: Container(
+        height: 700,
+        width: 700,
+        color: Colors.red,
         child: Stack(
           children: [
-            Container(
-              color: Colors.red,
+            Transform.translate(
+              offset: const Offset(0, -100),
+              child: CustomPaint(
+                size: MediaQuery.of(context).size,
+                painter: DrawTriangle(),
+              ),
             ),
           ],
         ),
@@ -67,5 +127,22 @@ class CharacterSelectionBody extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class DrawTriangle extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.close();
+    canvas.drawPath(path, Paint()..color = Colors.green);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

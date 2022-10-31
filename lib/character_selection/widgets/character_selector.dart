@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
-enum Breakpoint {
-  small,
-  medium,
-  large,
-  xLarge,
-}
-
 class CharacterSelector extends StatefulWidget {
-  const CharacterSelector._({super.key, required this.viewportFraction});
+  @visibleForTesting
+  const CharacterSelector({super.key, required this.viewportFraction});
   const CharacterSelector.small({Key? key})
-      : this._(
+      : this(
           viewportFraction: 0.55,
           key: key,
         );
 
   const CharacterSelector.medium({Key? key})
-      : this._(
+      : this(
           viewportFraction: 0.3,
           key: key,
         );
 
   const CharacterSelector.large({Key? key})
-      : this._(
+      : this(
           viewportFraction: 0.2,
           key: key,
         );
 
   const CharacterSelector.xLarge({Key? key})
-      : this._(
+      : this(
           viewportFraction: 0.2,
           key: key,
         );
@@ -42,8 +36,9 @@ class CharacterSelector extends StatefulWidget {
 
 @visibleForTesting
 class CharacterSelectorState extends State<CharacterSelector> {
+  @visibleForTesting
   PageController? pageController;
-  int activePage = 0;
+  int _activePage = 0;
 
   static const dashKey = Key('characterSelector_dash');
   static const sparkyKey = Key('characterSelector_sparky');
@@ -61,7 +56,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
     }
     pageController = PageController(
       viewportFraction: widget.viewportFraction,
-      initialPage: activePage,
+      initialPage: _activePage,
     );
   }
 
@@ -75,6 +70,12 @@ class CharacterSelectorState extends State<CharacterSelector> {
   void didUpdateWidget(covariant CharacterSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
     _initController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController?.dispose();
   }
 
   void _onTapCharacter(int index) {
@@ -94,11 +95,11 @@ class CharacterSelectorState extends State<CharacterSelector> {
         controller: pageController,
         onPageChanged: (value) {
           setState(() {
-            activePage = value;
+            _activePage = value;
           });
         },
         itemBuilder: (context, index) {
-          final isActive = index == activePage;
+          final isActive = index == _activePage;
           return InkWell(
             onTap: () => _onTapCharacter(index),
             key: characterKeys[index],
