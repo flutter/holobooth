@@ -102,7 +102,7 @@ class CharacterSelectorState extends State<CharacterSelector> {
           return InkWell(
             onTap: () => _onTapCharacter(index),
             key: characterKeys[index],
-            child: _Item(isActive: isActive, image: _characters[index]),
+            child: _Character(isActive: isActive, image: _characters[index]),
           );
         },
       ),
@@ -110,8 +110,8 @@ class CharacterSelectorState extends State<CharacterSelector> {
   }
 }
 
-class _Item extends StatelessWidget {
-  const _Item({
+class _Character extends StatelessWidget {
+  const _Character({
     required this.isActive,
     required this.image,
   });
