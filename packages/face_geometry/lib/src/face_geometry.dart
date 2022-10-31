@@ -11,7 +11,7 @@ class FaceGeometry extends BaseFaceGeometry {
   FaceGeometry(
     super.keypoints,
     super.boundingBox,
-  )   : direction = FaceDirection(keypoints, boundingBox),
+  )   : direction = FaceDirection(keypoints),
         leftEye = EyeGeometry.left(keypoints, boundingBox),
         rightEye = EyeGeometry.right(keypoints, boundingBox),
         mouth = MouthGeometry(keypoints, boundingBox);
@@ -36,7 +36,7 @@ class FaceGeometry extends BaseFaceGeometry {
     keypoints = newKeypoints;
     boundingBox = newBoundingBox;
 
-    direction.update(newKeypoints, newBoundingBox);
+    direction = FaceDirection(keypoints);
     leftEye.update(newKeypoints, newBoundingBox);
     rightEye.update(newKeypoints, newBoundingBox);
     mouth.update(newKeypoints, newBoundingBox);

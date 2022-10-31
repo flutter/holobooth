@@ -1,20 +1,20 @@
-// ignore_for_file: must_be_immutable
-
+import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:meta/meta.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as tf;
 
 /// {@template face_direction}
 /// Calculation to detect the direction of the face.
 /// {@endtemplate}
-class FaceDirection extends BaseFaceGeometry {
-  /// {@macro  face_direction}
-  FaceDirection(super.keypoints, super.boundingBox);
-
+@immutable
+class FaceDirection extends Equatable {
   /// {@macro face_direction}
-  Vector3 calculate() {
+  FaceDirection(List<tf.Keypoint> keypoints) {
     final leftCheeck = keypoints[127];
     final rightCheeck = keypoints[356];
     final nose = keypoints[6];
+
     final leftCheeckVector = Vector3(
       leftCheeck.x.toDouble(),
       leftCheeck.y.toDouble(),
@@ -30,17 +30,14 @@ class FaceDirection extends BaseFaceGeometry {
       nose.y.toDouble(),
       nose.z?.toDouble() ?? 0,
     );
-    return _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
+    value = _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
   }
 
+  /// The value of the direction of the face.
+  late final Vector3 value;
+
   @override
-  void update(
-    List<Keypoint> newKeypoints,
-    BoundingBox newBoundingBox,
-  ) {
-    keypoints = newKeypoints;
-    boundingBox = newBoundingBox;
-  }
+  List<Object?> get props => [value];
 }
 
 Vector3 _equationOfAPlane(Vector3 x, Vector3 y, Vector3 z) {
