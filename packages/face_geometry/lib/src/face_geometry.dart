@@ -41,14 +41,4 @@ class FaceGeometry extends BaseFaceGeometry {
     rightEye.update(newKeypoints, newBoundingBox);
     mouth.update(newKeypoints, newBoundingBox);
   }
-
-  @override
-  List<Object?> get props => [
-        keypoints,
-        boundingBox,
-        direction,
-        leftEye,
-        rightEye,
-        mouth,
-      ];
 }

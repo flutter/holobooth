@@ -87,14 +87,4 @@ class EyeGeometry extends BaseFaceGeometry {
     keypoints = newKeypoints;
     boundingBox = newBoundingBox;
   }
-
-  @override
-  List<Object?> get props => [
-        _eyeSide,
-        _maxRatio,
-        _minRatio,
-        _firstAction,
-        keypoints,
-        boundingBox,
-      ];
 }

@@ -41,9 +41,6 @@ class FaceDirection extends BaseFaceGeometry {
     keypoints = newKeypoints;
     boundingBox = newBoundingBox;
   }
-
-  @override
-  List<Object?> get props => [keypoints, boundingBox];
 }
 
 Vector3 _equationOfAPlane(Vector3 x, Vector3 y, Vector3 z) {

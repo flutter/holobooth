@@ -43,7 +43,4 @@ class MouthGeometry extends BaseFaceGeometry {
     keypoints = newKeypoints;
     boundingBox = newBoundingBox;
   }
-
-  @override
-  List<Object?> get props => [keypoints, boundingBox];
 }
