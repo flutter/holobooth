@@ -15,19 +15,22 @@ class FaceGeometry extends BaseGeometry {
   FaceGeometry(
     super.keypoints,
     super.boundingBox,
-  );
+  )   : direction = FaceDirection(keypoints, boundingBox),
+        leftEye = EyeGeometry.left(keypoints, boundingBox),
+        rightEye = EyeGeometry.right(keypoints, boundingBox),
+        mouth = MouthGeometry(keypoints, boundingBox);
 
   /// {@macro face_direction}
-  late FaceDirection direction = FaceDirection(keypoints, boundingBox);
+  FaceDirection direction;
 
   /// {@macro eye_geometry}
-  late EyeGeometry leftEye = EyeGeometry.left(keypoints, boundingBox);
+  EyeGeometry leftEye;
 
   /// {@macro eye_geometry}
-  late EyeGeometry rightEye = EyeGeometry.right(keypoints, boundingBox);
+  EyeGeometry rightEye;
 
   /// {@macro mouth_geometry}
-  late MouthGeometry mouth = MouthGeometry(keypoints, boundingBox);
+  MouthGeometry mouth;
 
   @override
   void update(
