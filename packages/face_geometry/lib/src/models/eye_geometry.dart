@@ -68,8 +68,8 @@ abstract class _EyeGeometry {
 /// {@endtemplate}
 class LeftEyeGeometry extends _EyeGeometry {
   /// {@macro left_eye_geometry}
-  LeftEyeGeometry(
-    List<tf.Keypoint> keypoints, {
+  LeftEyeGeometry({
+    required List<tf.Keypoint> keypoints,
     required super.boundingBox,
     super.maxRatio,
     super.minRatio,
@@ -84,7 +84,7 @@ class LeftEyeGeometry extends _EyeGeometry {
     tf.BoundingBox boundingBox,
   ) =>
       LeftEyeGeometry(
-        keypoints,
+        keypoints: keypoints,
         boundingBox: boundingBox,
         maxRatio: _maxRatio,
         minRatio: _minRatio,
@@ -96,8 +96,8 @@ class LeftEyeGeometry extends _EyeGeometry {
 /// {@endtemplate}
 class RightEyeGeometry extends _EyeGeometry {
   /// {@macro left_eye_geometry}
-  RightEyeGeometry(
-    List<tf.Keypoint> keypoints, {
+  RightEyeGeometry({
+    required List<tf.Keypoint> keypoints,
     required super.boundingBox,
     super.maxRatio,
     super.minRatio,
@@ -112,7 +112,7 @@ class RightEyeGeometry extends _EyeGeometry {
     tf.BoundingBox boundingBox,
   ) =>
       RightEyeGeometry(
-        keypoints,
+        keypoints: keypoints,
         boundingBox: boundingBox,
         maxRatio: _maxRatio,
         minRatio: _minRatio,

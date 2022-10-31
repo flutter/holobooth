@@ -90,8 +90,8 @@ class _BlinkMaskState extends State<_BlinkMask> {
 
   @override
   Widget build(BuildContext context) {
-    final isLeftEyeClosed = widget.face.leftEye.isClose;
-    final isRightEyeClosed = widget.face.rightEye.isClose;
+    final isLeftEyeClosed = widget.face.leftEye.isClosed;
+    final isRightEyeClosed = widget.face.rightEye.isClosed;
 
     if (_leftBlinkController != null) {
       if (wasLeftEyeClosed != isLeftEyeClosed && isLeftEyeClosed) {
@@ -153,8 +153,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.leftEye.isClose ? highlightPaint : paint;
-    final rightEyePaint = face.rightEye.isClose ? highlightPaint : paint;
+    final leftEyePaint = face.leftEye.isClosed ? highlightPaint : paint;
+    final rightEyePaint = face.rightEye.isClosed ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());

@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('FaceNormalization', () {
-    final keypoint = tf.Keypoint.fromJson({'x': 10, 'y': 10});
+    final keypoint = tf.Keypoint.fromJson(const {'x': 10, 'y': 10});
     final boundingBox = tf.BoundingBox.fromJson({
       'xMin': 10,
       'yMin': 10,
