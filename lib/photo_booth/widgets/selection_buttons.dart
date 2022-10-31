@@ -11,14 +11,31 @@ class SelectionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size.width;
+
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: screenSize >= PhotoboothBreakpoints.small
+          ? Alignment.centerRight
+          : Alignment.topCenter,
       child: ItemSelectorButton(
         key: SelectionButtons.itemSelectorButtonKey,
         buttonBackground: const ColoredBox(color: Colors.red),
         title: context.l10n.backgroundSelectorButton,
         onTap: () {
-          Scaffold.of(context).openEndDrawer();
+          if (MediaQuery.of(context).size.width >=
+              PhotoboothBreakpoints.small) {
+            return Scaffold.of(context).openEndDrawer();
+          } else {
+            // TODO(laura177): replace contents of bottom sheet
+            ItemSelectorBottomSheet.show<Color>(
+              context,
+              title: 'title',
+              items: const [Colors.red, Colors.yellow, Colors.green],
+              itemBuilder: (context, item) => ColoredBox(color: item),
+              selectedItem: Colors.red,
+              onSelected: print,
+            );
+          }
         },
       ),
     );
