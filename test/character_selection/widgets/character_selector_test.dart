@@ -55,16 +55,14 @@ void main() {
 
     testWidgets('updates viewportFraction if needed', (tester) async {
       late StateSetter stateSetter;
-      var breakpoint = Breakpoint.small;
+      var viewPortFraction = 0.55;
       await tester.pumpWidget(
         MaterialApp(
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
               return Scaffold(
-                body: breakpoint == Breakpoint.small
-                    ? CharacterSelector.small()
-                    : CharacterSelector.large(),
+                body: CharacterSelector(viewportFraction: viewPortFraction),
               );
             },
           ),
@@ -77,13 +75,13 @@ void main() {
 
       expect(
         state.pageController?.viewportFraction,
-        0.55,
+        viewPortFraction,
       );
-      stateSetter(() => breakpoint = Breakpoint.large);
+      stateSetter(() => viewPortFraction = 1);
       await tester.pumpAndSettle();
       expect(
         state.pageController?.viewportFraction,
-        0.2,
+        viewPortFraction,
       );
     });
   });
