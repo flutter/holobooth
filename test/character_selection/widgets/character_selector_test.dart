@@ -1,30 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+
+import '../../helpers/helpers.dart';
 
 void main() {
   group('CharacterSelector', () {
-    test('can be instantiated', () {
-      expect(CharacterSelector(), isA<CharacterSelector>());
+    group('renders characters', () {
+      testWidgets('successfully for Breakpoint.small', (tester) async {
+        await tester.pumpSubject(CharacterSelector.small());
+        expect(find.byType(CharacterSelector), findsOneWidget);
+        for (final characterKey in CharacterSelectorState.characterKeys) {
+          expect(find.byKey(characterKey), findsOneWidget);
+        }
+      });
+
+      testWidgets('successfully for Breakpoint.medium', (tester) async {
+        await tester.pumpSubject(CharacterSelector.medium());
+        expect(find.byType(CharacterSelector), findsOneWidget);
+        for (final characterKey in CharacterSelectorState.characterKeys) {
+          expect(find.byKey(characterKey), findsOneWidget);
+        }
+      });
+
+      testWidgets('successfully for Breakpoint.large', (tester) async {
+        await tester.pumpSubject(CharacterSelector.large());
+        expect(find.byType(CharacterSelector), findsOneWidget);
+        for (final characterKey in CharacterSelectorState.characterKeys) {
+          expect(find.byKey(characterKey), findsOneWidget);
+        }
+      });
+
+      testWidgets('successfully for Breakpoint.xLarge', (tester) async {
+        await tester.pumpSubject(CharacterSelector.xLarge());
+        expect(find.byType(CharacterSelector), findsOneWidget);
+        for (final characterKey in CharacterSelectorState.characterKeys) {
+          expect(find.byKey(characterKey), findsOneWidget);
+        }
+      });
     });
 
-    group('renders', () {
-      testWidgets('successfully', (tester) async {
-        final subject = CharacterSelector();
-        await tester.pumpSubject(subject);
-        expect(find.byWidget(subject), findsOneWidget);
-      });
+    testWidgets(
+      'navigates to sparky on tap',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(CharacterSelector.xLarge());
+        await tester.tap(find.byKey(CharacterSelectorState.sparkyKey));
+        await tester.pumpAndSettle();
+        final state = tester
+            .state<CharacterSelectorState>(find.byType(CharacterSelector));
+        final controller = state.pageController;
+        expect(controller?.page, 1);
+      },
+    );
 
-      testWidgets('dash', (tester) async {
-        await tester.pumpSubject(CharacterSelector());
-        expect(find.byKey(CharacterSelector.dashKey), findsOneWidget);
-      });
+    testWidgets('updates viewportFraction if needed', (tester) async {
+      late StateSetter stateSetter;
+      var viewPortFraction = 0.55;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              stateSetter = setState;
+              return Scaffold(
+                body: CharacterSelector(viewportFraction: viewPortFraction),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-      testWidgets('sparky', (tester) async {
-        await tester.pumpSubject(CharacterSelector());
-        expect(find.byKey(CharacterSelector.sparkyKey), findsOneWidget);
-      });
+      final state =
+          tester.state<CharacterSelectorState>(find.byType(CharacterSelector));
+
+      expect(
+        state.pageController?.viewportFraction,
+        viewPortFraction,
+      );
+      stateSetter(() => viewPortFraction = 1);
+      await tester.pumpAndSettle();
+      expect(
+        state.pageController?.viewportFraction,
+        viewPortFraction,
+      );
     });
   });
 }
@@ -32,16 +90,7 @@ void main() {
 extension on WidgetTester {
   Future<void> pumpSubject(
     CharacterSelector subject,
-  ) =>
-      pumpWidget(
-        MediaQuery.fromWindow(
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Theme(
-              data: PhotoboothTheme.standard,
-              child: subject,
-            ),
-          ),
-        ),
-      );
+  ) {
+    return pumpApp(Scaffold(body: subject));
+  }
 }
