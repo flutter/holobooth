@@ -1,6 +1,5 @@
 name: avatar_detector_repository
-description: Repository, based on TensorFlow, that retrieves avatar
-  representation information from a given source.
+description: Repository, based on TensorFlow, that retrieves avatar representation information from a given source.
 version: 0.1.0+1
 publish_to: none
 
