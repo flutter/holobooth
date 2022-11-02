@@ -32,12 +32,15 @@ class CharacterSelectionBody extends StatelessWidget {
                 } else {
                   viewPortFraction = 0.2;
                 }
-                print('${size.width * viewPortFraction}');
-                return Container(
-                  width: size.width * viewPortFraction,
+                return SizedBox(
+                  width: size.width * viewPortFraction * 1.4,
                   child: CustomPaint(
                     size: MediaQuery.of(context).size,
                     painter: DrawTriangle(),
+                    child: CustomPaint(
+                      size: MediaQuery.of(context).size,
+                      painter: DrawBase(),
+                    ),
                   ),
                 );
               },
@@ -132,12 +135,46 @@ class CharacterSelectionBody extends StatelessWidget {
 class DrawTriangle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var path = Path();
-    path.moveTo(size.width / 2, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    path.close();
-    canvas.drawPath(path, Paint()..color = Colors.green);
+    final pathLightBody = Path()
+      ..moveTo(size.width / 3, 0)
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height)
+      ..lineTo((size.width / 3) * 2, 0)
+      ..close();
+    final paintLightBody = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          PhotoboothColors.purple,
+          PhotoboothColors.blue,
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    canvas.drawPath(pathLightBody, paintLightBody);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class DrawBase extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height);
+    final rectangle =
+        Rect.fromCenter(center: center, width: size.width, height: 120.0);
+    final paint = Paint()
+      ..shader = const RadialGradient(
+        colors: [
+          Color(0xfffcfcfc),
+          Colors.blue,
+        ],
+      ).createShader(
+        Rect.fromCircle(center: center, radius: size.width / 2),
+      );
+    canvas.drawOval(rectangle, paint);
   }
 
   @override
