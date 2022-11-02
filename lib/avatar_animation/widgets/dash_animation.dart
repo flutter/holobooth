@@ -55,31 +55,37 @@ class DashAnimationState extends State<DashAnimation> {
   }
 }
 
-// TODO(oscar): remove on the scope of this task https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3428762748
-// coverage:ignore-start
 @visibleForTesting
 class DashStateMachineController extends StateMachineController {
-  DashStateMachineController(Artboard artboard)
-      : super(
-          artboard.animations
-              .whereType<StateMachine>()
-              .firstWhere((stateMachine) => stateMachine.name == 'dash'),
+  DashStateMachineController(
+    Artboard artboard, {
+    SMIInput<dynamic>? Function(String name)? testFindInput,
+  }) : super(
+          testFindInput == null
+              ? artboard.animations
+                  .whereType<StateMachine>()
+                  .firstWhere((stateMachine) => stateMachine.name == 'dash')
+              : StateMachine(),
         ) {
-    final x = findInput<double>('x');
+    final x =
+        testFindInput != null ? testFindInput('x') : findInput<double>('x');
     if (x is SMINumber) {
       this.x = x;
     } else {
       throw StateError('Could not find input "x"');
     }
 
-    final y = findInput<double>('y');
+    final y =
+        testFindInput != null ? testFindInput('y') : findInput<double>('y');
     if (y is SMINumber) {
       this.y = y;
     } else {
       throw StateError('Could not find input "y"');
     }
 
-    final openMouth = findInput<bool>('openMouth');
+    final openMouth = testFindInput != null
+        ? testFindInput('openMouth')
+        : findInput<bool>('openMouth');
     if (openMouth is SMIBool) {
       this.openMouth = openMouth;
     } else {
@@ -91,4 +97,3 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber y;
   late final SMIBool openMouth;
 }
-// coverage:ignore-end
