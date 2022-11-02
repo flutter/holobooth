@@ -5,6 +5,8 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
     as tf;
 import 'package:test/test.dart';
 
+import '../../fixtures/fixtures.dart' as fixtures;
+
 class _FakeKeypoint extends Fake implements tf.Keypoint {
   _FakeKeypoint(this.x, this.y, this.z);
 
@@ -49,6 +51,16 @@ void main() {
 
         expect(faceDirection.value, equals(Vector3.zero));
       });
+    });
+
+    test('supports value equality', () {
+      final faceDirection1 = FaceDirection(keypoints: const []);
+      final faceDirection2 = FaceDirection(keypoints: const []);
+      final faceDirection3 = FaceDirection(keypoints: fixtures.face1.keypoints);
+
+      expect(faceDirection1, equals(faceDirection2));
+      expect(faceDirection1, isNot(equals(faceDirection3)));
+      expect(faceDirection2, isNot(equals(faceDirection3)));
     });
   });
 }
