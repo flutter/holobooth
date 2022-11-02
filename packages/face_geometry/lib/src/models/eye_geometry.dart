@@ -47,7 +47,10 @@ abstract class _EyeGeometry extends Equatable {
   /// An empty instance of [_EyeGeometry].
   ///
   /// This is used when the keypoints are not available.
-  _EyeGeometry.empty() : isClosed = false;
+  _EyeGeometry.empty()
+      : isClosed = false,
+        _maxRatio = null,
+        _minRatio = null;
 
   /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
