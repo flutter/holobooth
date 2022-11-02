@@ -16,33 +16,27 @@ abstract class _EyeGeometry extends Equatable {
     double? maxRatio,
   }) {
     final faceHeight = boundingBox.height;
-    if (faceHeight != 0) {
-      final distance = topEyeLid.distanceTo(bottomEyeLid);
-      final heightRatio = distance / faceHeight;
-      if (heightRatio != 0) {
-        if (maxRatio == null || heightRatio > maxRatio) {
-          _maxRatio = heightRatio;
-        } else {
-          _maxRatio = maxRatio;
-        }
-        if ((minRatio == null || heightRatio < minRatio) && heightRatio > 0) {
-          _minRatio = heightRatio;
-        } else {
-          _minRatio = minRatio;
-        }
+    final distance = topEyeLid.distanceTo(bottomEyeLid);
 
-        final firstAction = _minRatio == _maxRatio;
-        if (!firstAction) {
-          final percent =
-              (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
-          isClosed = percent < _minEyeRatio;
-        } else {
-          isClosed = distance < 1;
-        }
+    if (faceHeight != 0 || faceHeight > distance) {
+      final heightRatio = distance / faceHeight;
+      if (maxRatio == null || heightRatio > maxRatio) {
+        _maxRatio = heightRatio;
       } else {
-        isClosed = false;
         _maxRatio = maxRatio;
+      }
+      if ((minRatio == null || heightRatio < minRatio) && heightRatio > 0) {
+        _minRatio = heightRatio;
+      } else {
         _minRatio = minRatio;
+      }
+
+      final firstAction = (_minRatio! / _maxRatio!) > 0.5;
+      if (!firstAction) {
+        final percent = (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
+        isClosed = percent < _minEyeRatio;
+      } else {
+        isClosed = distance < 1;
       }
     } else {
       isClosed = false;
