@@ -7,3 +7,4 @@ export 'face6.dart';
 export 'face7.dart';
 export 'face8.dart';
 export 'face9.dart';
+export 'face10.dart';

@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 final face7 = Face(
-  UnmodifiableListView([
+  UnmodifiableListView(const [
     Keypoint(
       115.21789216995239,
       518.0923315286636,

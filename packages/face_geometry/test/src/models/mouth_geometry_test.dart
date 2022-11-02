@@ -148,6 +148,16 @@ void main() {
 
         expect(mouthGeometry.isOpen, isFalse);
       });
+
+      test('is false with face10', () {
+        final face = fixtures.face10;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.isOpen, isFalse);
+      });
     });
 
     test('supports value equality', () {
