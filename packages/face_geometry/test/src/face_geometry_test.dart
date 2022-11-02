@@ -6,9 +6,24 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
     as tf;
 import 'package:test/test.dart';
 
-class _MockKeypoint extends Mock implements tf.Keypoint {}
+import '../fixtures/fixtures.dart' as fixtures;
 
 class _MockBoundingBox extends Mock implements tf.BoundingBox {}
+
+class _MockFace extends Mock implements tf.Face {}
+
+class _FakeKeypoint extends Fake implements tf.Keypoint {
+  _FakeKeypoint(this.x, this.y, this.z);
+
+  @override
+  final num x;
+
+  @override
+  final num y;
+
+  @override
+  final num z;
+}
 
 void main() {
   setUpAll(() {
@@ -16,41 +31,57 @@ void main() {
   });
 
   group('FaceGeometry', () {
-    group('contains geometry for', () {
-      test('direction', () {
-        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
+    late tf.Face face;
+    late tf.BoundingBox boundingBox;
 
-        expect(faceGeometry.direction, isA<FaceDirection>());
+    setUp(() {
+      boundingBox = _MockBoundingBox();
+      when(() => boundingBox.height).thenReturn(0);
+
+      face = _MockFace();
+      when(() => face.boundingBox).thenReturn(boundingBox);
+    });
+
+    group('constructor', () {
+      test('returns normally when no keypoints are given', () {
+        when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+
+        expect(
+          () => FaceGeometry.fromFace(face),
+          returnsNormally,
+        );
       });
 
-      test('leftEye', () {
-        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
+      test('returns normally when keypoints are given', () {
+        final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0, 0));
+        when(() => face.keypoints).thenReturn(UnmodifiableListView(keypoints));
 
-        expect(faceGeometry.leftEye, isA<EyeGeometry>());
-      });
-
-      test('rightEye', () {
-        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
-
-        expect(faceGeometry.rightEye, isA<EyeGeometry>());
-      });
-
-      test('mouth', () {
-        final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
-
-        expect(faceGeometry.mouth, isA<MouthGeometry>());
+        expect(
+          () => FaceGeometry.fromFace(face),
+          returnsNormally,
+        );
       });
     });
 
-    test('update changes FaceGeometry', () {
-      final newKeypoints = UnmodifiableListView(<tf.Keypoint>[_MockKeypoint()]);
-      final faceGeometry = FaceGeometry(const [], _MockBoundingBox());
-      final faceGeometry2 = FaceGeometry(const [], _MockBoundingBox());
+    group('update', () {
+      test('returns normally when keypoints are given', () {
+        final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0, 0));
+        when(() => face.keypoints).thenReturn(UnmodifiableListView(keypoints));
+        final faceGeometry = FaceGeometry.fromFace(face);
 
-      faceGeometry.update(newKeypoints, _MockBoundingBox());
+        expect(
+          () => faceGeometry.update(face),
+          returnsNormally,
+        );
+      });
+    });
 
-      expect(faceGeometry.keypoints, equals(newKeypoints));
-      expect(faceGeometry, isNot(faceGeometry2));
+    test('supports value equality', () {
+      when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
+      final faceGeometry1 = FaceGeometry.fromFace(face);
+      final faceGeometry2 = FaceGeometry.fromFace(face);
+
+      expect(faceGeometry1, equals(faceGeometry2));
     });
   });
 }
