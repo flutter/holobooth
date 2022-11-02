@@ -6,8 +6,6 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
     as tf;
 import 'package:test/test.dart';
 
-import '../fixtures/fixtures.dart' as fixtures;
-
 class _MockBoundingBox extends Mock implements tf.BoundingBox {}
 
 class _MockFace extends Mock implements tf.Face {}
