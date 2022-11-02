@@ -99,7 +99,7 @@ class _DashState extends State<_Dash> {
   @override
   void didUpdateWidget(covariant _Dash oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _faceGeometry.update(widget.face);
+    _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
       // TODO(oscar): uncomment when rotation maths are completed
