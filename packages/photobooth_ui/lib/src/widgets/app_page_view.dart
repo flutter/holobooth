@@ -38,12 +38,8 @@ class AppPageView extends StatelessWidget {
             SliverToBoxAdapter(child: body),
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                height: 200,
-                child: footer,
-              ),
-            ),
+              child: footer,
+            )
           ],
         ),
         ...overlays,
