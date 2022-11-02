@@ -1,11 +1,7 @@
-import 'dart:collection';
-
 import 'package:face_geometry/face_geometry.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:test/test.dart';
-
-import '../../fixtures/fixtures.dart' as fixtures;
 
 const _keypointsInFace = 468;
 
@@ -42,12 +38,11 @@ void main() {
       });
 
       test('returns normally when keypoints are given', () {
+        final keypoints =
+            List.generate(_keypointsInFace, (_) => _FakeKeypoint(0, 0));
         expect(
           () => MouthGeometry(
-            keypoints: List.generate(
-              _keypointsInFace,
-              (_) => _FakeKeypoint(0, 0),
-            ),
+            keypoints: keypoints,
             boundingBox: boundingBox,
           ),
           returnsNormally,
@@ -60,16 +55,6 @@ void main() {
         final mouthGeometry = MouthGeometry(
           keypoints: const [],
           boundingBox: boundingBox,
-        );
-
-        expect(mouthGeometry.isOpen, isFalse);
-      });
-
-      test('is false with face1', () {
-        final face = fixtures.face1;
-        final mouthGeometry = MouthGeometry(
-          keypoints: face.keypoints,
-          boundingBox: face.boundingBox,
         );
 
         expect(mouthGeometry.isOpen, isFalse);

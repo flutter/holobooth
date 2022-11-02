@@ -14,7 +14,7 @@ class MouthGeometry extends Equatable {
   }) {
     return keypoints.length > 15
         ? MouthGeometry._compute(keypoints: keypoints, boundingBox: boundingBox)
-        : MouthGeometry._empty();
+        : const MouthGeometry._empty();
   }
 
   /// {@macro mouth_geometry}
