@@ -5,8 +5,6 @@ import 'package:test/test.dart';
 
 import '../../fixtures/fixtures.dart' as fixtures;
 
-const _keypointsInFace = 468;
-
 class _MockBoundingBox extends Mock implements BoundingBox {}
 
 class _FakeKeypoint extends Fake implements Keypoint {
@@ -40,8 +38,7 @@ void main() {
       });
 
       test('returns normally when keypoints are given', () {
-        final keypoints =
-            List.generate(_keypointsInFace, (_) => _FakeKeypoint(0, 0));
+        final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0));
         expect(
           () => MouthGeometry(
             keypoints: keypoints,
