@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:face_geometry/face_geometry.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -22,30 +20,35 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 
 void main() {
   group('FaceDirection', () {
-    final list = List.generate(357, (_) => _FakeKeypoint(0, 0, 0));
-    list[6] = _FakeKeypoint(10, 20, 30);
-    list[127] = _FakeKeypoint(12, 13, 14);
-    list[356] = _FakeKeypoint(33, 34, 35);
-    final keypoints = UnmodifiableListView(list);
+    group('factory constructor', () {
+      test('returns normally when no keypoints are given', () {
+        expect(
+          () => FaceDirection(
+            keypoints: const [],
+          ),
+          returnsNormally,
+        );
+      });
 
-    group('constructor', () {
-      test('returns normally', () {
-        expect(FaceDirection(keypoints), returnsNormally);
+      test('returns normally when keypoints are given', () {
+        final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0, 0));
+        expect(
+          () => FaceDirection(
+            keypoints: keypoints,
+          ),
+          returnsNormally,
+        );
       });
     });
 
-    test('supports value equality', () {
-      final direction = FaceDirection(keypoints);
-      final direction2 = FaceDirection(keypoints);
-      final direction3 = FaceDirection(
-        UnmodifiableListView(
-          List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
-        ),
-      );
+    group('value', () {
+      test('is zero when no keypoints are given', () {
+        final faceDirection = FaceDirection(
+          keypoints: const [],
+        );
 
-      expect(direction, equals(direction2));
-      expect(direction, isNot(same(direction2)));
-      expect(direction, isNot(equals(direction3)));
+        expect(faceDirection.value, equals(Vector3.zero));
+      });
     });
   });
 }

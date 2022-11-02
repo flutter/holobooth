@@ -27,7 +27,7 @@ class FaceDirection extends Equatable {
   /// An empty instance of [MouthGeometry].
   ///
   /// This is used when the keypoints are not available.
-  const FaceDirection._empty() : value = const Vector3(0, 0, 0);
+  const FaceDirection._empty() : value = Vector3.zero;
 
   static Vector3 _value({
     required tf.Keypoint leftCheeck,

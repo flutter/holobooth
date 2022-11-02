@@ -39,8 +39,8 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _onTakePhoto() async {
-    print('keypoints: ${_currentFace.keypoints.prettyPrint()}');
-    print('boundingBox: ${_currentFace.boundingBox.prettyPrint()}');
+    print(
+        'Face(UnmodifiableListView(${_currentFace.keypoints.prettyPrint()}), ${_currentFace.boundingBox.prettyPrint()});');
     // Save the canvas that the face is drawn to as a png.
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder)
@@ -216,7 +216,7 @@ extension on UnmodifiableListView<tf.Keypoint> {
 
 extension on tf.Keypoint {
   String prettyPrint() {
-    return "Keypoint($x, $y, $z, $score, ${name == null ? null : '${this.name}'},),";
+    return "Keypoint($x, $y, $z, $score, ${name == null ? null : '#%${this.name}#%'},),";
   }
 }
 
