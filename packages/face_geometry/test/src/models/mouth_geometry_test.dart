@@ -65,7 +65,9 @@ void main() {
       test('is false with face1', () {
         final face = fixtures.face1;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isFalse);
       });
@@ -73,7 +75,9 @@ void main() {
       test('is true with face2', () {
         final face = fixtures.face2;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isTrue);
       });
@@ -81,7 +85,9 @@ void main() {
       test('is true with face3', () {
         final face = fixtures.face3;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isTrue);
       });
@@ -89,7 +95,9 @@ void main() {
       test('is false with face4', () {
         final face = fixtures.face4;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isFalse);
       });
@@ -97,7 +105,9 @@ void main() {
       test('is false with face5', () {
         final face = fixtures.face5;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isFalse);
       });
@@ -105,7 +115,9 @@ void main() {
       test('is false with face6', () {
         final face = fixtures.face6;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isFalse);
       });
@@ -113,7 +125,9 @@ void main() {
       test('is true with face7', () {
         final face = fixtures.face7;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isTrue);
       });
@@ -121,7 +135,9 @@ void main() {
       test('is true with face8', () {
         final face = fixtures.face8;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isTrue);
       });
@@ -129,7 +145,9 @@ void main() {
       test('is false with face9', () {
         final face = fixtures.face9;
         final mouthGeometry = MouthGeometry(
-            keypoints: face.keypoints, boundingBox: face.boundingBox);
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
 
         expect(mouthGeometry.isOpen, isFalse);
       });
