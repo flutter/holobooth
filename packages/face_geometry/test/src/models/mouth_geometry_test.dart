@@ -149,5 +149,27 @@ void main() {
         expect(mouthGeometry.isOpen, isFalse);
       });
     });
+
+    test('supports value equality', () {
+      final mouthGeometry1 = MouthGeometry(
+        keypoints: const [],
+        boundingBox: boundingBox,
+      );
+      final mouthGeometry2 = MouthGeometry(
+        keypoints: const [],
+        boundingBox: boundingBox,
+      );
+      final mouthGeometry3 = MouthGeometry(
+        keypoints: fixtures.face2.keypoints,
+        boundingBox: fixtures.face2.boundingBox,
+      );
+
+      expect(mouthGeometry1.isOpen, isFalse);
+      expect(mouthGeometry2.isOpen, isFalse);
+      expect(mouthGeometry3.isOpen, isTrue);
+      expect(mouthGeometry1, equals(mouthGeometry2));
+      expect(mouthGeometry1, isNot(equals(mouthGeometry3)));
+      expect(mouthGeometry2, isNot(equals(mouthGeometry3)));
+    });
   });
 }
