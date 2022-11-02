@@ -38,8 +38,11 @@ class _FakeKeypoint extends Fake implements Keypoint {
 class _FakeFace extends Fake implements Face {
   @override
   UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
-        List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
+        List.generate(468, (_) => _FakeKeypoint(0, 0, 0)),
       );
+
+  @override
+  BoundingBox get boundingBox => const BoundingBox(10, 10, 110, 110, 100, 100);
 }
 
 void main() {
@@ -133,6 +136,24 @@ void main() {
         await expectLater(
           avatarDetectorRepository.detectAvatar(''),
           completion(isA<Avatar>()),
+        );
+      });
+
+      test('return an Avatar when called multiple times', () async {
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            '',
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace()]);
+
+        await expectLater(
+          await avatarDetectorRepository.detectAvatar(''),
+          isA<Avatar>(),
+        );
+        await expectLater(
+          await avatarDetectorRepository.detectAvatar(''),
+          isA<Avatar>(),
         );
       });
     });
