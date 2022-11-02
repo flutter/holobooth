@@ -141,13 +141,23 @@ void main() {
         });
 
         test('is false with face9', () {
-          final face = fixtures.face8;
+          final face = fixtures.face9;
           final rightEyeGeometry = RightEyeGeometry(
             keypoints: face.keypoints,
             boundingBox: face.boundingBox,
           );
 
           expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is true with face10', () {
+          final face = fixtures.face10;
+          final rightEyeGeometry = RightEyeGeometry(
+            keypoints: face.keypoints,
+            boundingBox: face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isTrue);
         });
       });
 
@@ -165,6 +175,7 @@ void main() {
             fixtures.face7,
             fixtures.face8,
             fixtures.face9,
+            fixtures.face10,
           ];
           rightEyeGeometry = RightEyeGeometry(
             keypoints: dataSet.first.keypoints,
@@ -184,8 +195,97 @@ void main() {
             face.keypoints,
             face.boundingBox,
           );
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face2', () {
+          final face = fixtures.face2;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
 
           expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face3', () {
+          final face = fixtures.face3;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face4', () {
+          final face = fixtures.face4;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is true with face5', () {
+          final face = fixtures.face5;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isTrue);
+        });
+
+        test('is false with face6', () {
+          final face = fixtures.face6;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face7', () {
+          final face = fixtures.face7;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face8', () {
+          final face = fixtures.face8;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is false with face9', () {
+          final face = fixtures.face9;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isFalse);
+        });
+
+        test('is true with face10', () {
+          final face = fixtures.face10;
+          rightEyeGeometry.update(
+            face.keypoints,
+            face.boundingBox,
+          );
+
+          expect(rightEyeGeometry.isClosed, isTrue);
         });
       });
     });
