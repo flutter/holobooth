@@ -89,6 +89,7 @@ class _Dash extends StatefulWidget {
 
 class _DashState extends State<_Dash> {
   _DashStateMachineController? _dashController;
+  late FaceGeometry _faceGeometry = FaceGeometry.fromFace(widget.face);
 
   void _onRiveInit(Artboard artboard) {
     _dashController = _DashStateMachineController(artboard);
@@ -98,6 +99,7 @@ class _DashState extends State<_Dash> {
   @override
   void didUpdateWidget(covariant _Dash oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
       // TODO(oscar): uncomment when rotation maths are completed
@@ -105,7 +107,7 @@ class _DashState extends State<_Dash> {
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
 */
-      dashController.openMouth.change(widget.face.isMouthOpen);
+      dashController.openMouth.change(_faceGeometry.mouth.isOpen);
     }
   }
 

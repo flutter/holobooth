@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar_detector_repository}
@@ -17,6 +18,8 @@ class AvatarDetectorRepository {
   AvatarDetectorRepository();
 
   FaceLandmarksDetector? _faceLandmarksDetector;
+
+  FaceGeometry? _faceGeometry;
 
   /// Preload an instance of [FaceLandmarksDetector].
   ///
@@ -47,7 +50,12 @@ class AvatarDetectorRepository {
     }
     if (faces.isEmpty) return null;
 
-    return Avatar.fromFace(faces.first);
+    final face = faces.first;
+    _faceGeometry = _faceGeometry == null
+        ? FaceGeometry.fromFace(face)
+        : _faceGeometry!.update(face);
+
+    return Avatar.fromFaceGeomtry(_faceGeometry!);
   }
 
   /// Disposes the instance of [FaceLandmarksDetector]
