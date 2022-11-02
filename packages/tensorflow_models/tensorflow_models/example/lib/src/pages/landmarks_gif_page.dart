@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
@@ -38,6 +39,10 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   }
 
   Future<void> _onTakePhoto() async {
+    print(
+      'Face(UnmodifiableListView(${_currentFace.keypoints.prettyPrint()}), ${_currentFace.boundingBox.prettyPrint()})',
+    );
+
     // Save the canvas that the face is drawn to as a png.
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder)
@@ -196,5 +201,29 @@ class _ImagePreview extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+extension on UnmodifiableListView<tf.Keypoint> {
+  String prettyPrint() {
+    final sb = StringBuffer();
+    sb.writeln('[');
+    for (final keypoint in this) {
+      sb.writeln(keypoint.prettyPrint());
+    }
+    sb.writeln(']');
+    return sb.toString();
+  }
+}
+
+extension on tf.Keypoint {
+  String prettyPrint() {
+    return "Keypoint($x, $y, $z, $score, ${name == null ? null : '#%${this.name}#%'},),";
+  }
+}
+
+extension on tf.BoundingBox {
+  String prettyPrint() {
+    return 'BoundingBox($xMin, $yMin, $xMax, $yMax, $width, $height,),';
   }
 }
