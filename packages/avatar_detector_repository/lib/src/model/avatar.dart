@@ -1,26 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar}
 /// Avatar representation.
 /// {@endtemplate}
 class Avatar extends Equatable {
   /// {@macro avatar}
-  const Avatar({
-    required this.hasMouthOpen,
-    required this.direction,
-  });
-
-  /// Build an [Avatar] based on [Face].
-  factory Avatar.fromFace(Face face) {
-    final faceGeometry = FaceGeometry(face.keypoints, face.boundingBox);
-
-    return Avatar(
-      hasMouthOpen: faceGeometry.mouth.isOpen,
-      direction: faceGeometry.direction.value,
-    );
-  }
+  Avatar.fromFaceGeomtry(
+    FaceGeometry faceGeometry,
+  )   : hasMouthOpen = faceGeometry.mouth.isOpen,
+        direction = faceGeometry.direction.value;
 
   /// Indicates whether the [Avatar] has the mouth open.
   final bool hasMouthOpen;

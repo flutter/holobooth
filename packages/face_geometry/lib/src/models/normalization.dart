@@ -2,14 +2,28 @@ import 'dart:collection';
 import 'dart:math' as math;
 
 import 'package:meta/meta.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as tf;
 
-/// Normalize [Keypoint] and [BoundingBox] positions to another size.
-extension FaceNormalization on Face {
-  /// Normalize [Keypoint] and [BoundingBox] positions to another size.
-  Face normalize({
-    required Size fromMax,
-    required Size toMax,
+/// Normalize faces keypoints and bounding box.
+extension FacesNormalization on tf.Faces {
+  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
+  tf.Faces normalize({
+    required tf.Size fromMax,
+    required tf.Size toMax,
+  }) {
+    final newFaces =
+        map((face) => face.normalize(fromMax: fromMax, toMax: toMax));
+    return newFaces.toList();
+  }
+}
+
+/// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
+extension FaceNormalization on tf.Face {
+  /// Normalize [tf.Keypoint] and [tf.BoundingBox] positions to another size.
+  tf.Face normalize({
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     final keypoints = this.keypoints.map(
           (keypoint) => keypoint.normalize(fromMax: fromMax, toMax: toMax),
@@ -27,22 +41,22 @@ extension FaceNormalization on Face {
 }
 
 /// {@template normalize_bounding_box}
-/// Normalize a [BoundingBox].
+/// Normalize a [tf.BoundingBox].
 ///
 /// The normalized values are
-/// [BoundingBox.height], [BoundingBox.width], [BoundingBox.xMax],
-/// [BoundingBox.xMin], [BoundingBox.yMax] and [BoundingBox.yMin].
+/// [tf.BoundingBox.height], [tf.BoundingBox.width], [tf.BoundingBox.xMax],
+/// [tf.BoundingBox.xMin], [tf.BoundingBox.yMax] and [tf.BoundingBox.yMin].
 ///
 /// See also:
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
 @visibleForTesting
-extension NormalizeBoundingBox on BoundingBox {
+extension NormalizeBoundingBox on tf.BoundingBox {
   /// {@macro normalize_bounding_box}
-  BoundingBox normalize({
-    required Size fromMax,
-    required Size toMax,
+  tf.BoundingBox normalize({
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     return copyWith(
       height: height.normalize(fromMax: fromMax.height, toMax: toMax.height),
@@ -56,27 +70,27 @@ extension NormalizeBoundingBox on BoundingBox {
 }
 
 /// {@template normalize_keypoint}
-/// Normalize a [Keypoint].
+/// Normalize a [tf.Keypoint].
 ///
-/// The normalized values are [Keypoint.x] and [Keypoint.y].
+/// The normalized values are [tf.Keypoint.x] and [tf.Keypoint.y].
 ///
 /// See also:
 ///
 /// * [NormalizeNum], equation to normalize numeric values.
 /// {@endtemplate}
 @visibleForTesting
-extension NormalizeKeypoint on Keypoint {
+extension NormalizeKeypoint on tf.Keypoint {
   /// The distance between this and other [Keypoint].
-  double distanceTo(Keypoint other) {
+  double distanceTo(tf.Keypoint other) {
     final dx = x - other.x;
     final dy = y - other.y;
     return math.sqrt(math.pow(dx, 2) + math.pow(dy, 2));
   }
 
   /// {@macro normalize_keypoint}
-  Keypoint normalize({
-    required Size fromMax,
-    required Size toMax,
+  tf.Keypoint normalize({
+    required tf.Size fromMax,
+    required tf.Size toMax,
   }) {
     return copyWith(
       x: x.normalize(fromMax: fromMax.width, toMax: toMax.width),

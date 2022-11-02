@@ -3,6 +3,7 @@ import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
   const LandmarksOpenMouthPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 
   late final AudioPlayer _audioPlayer;
   var _isPlaying = false;
+  FaceGeometry? _faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -59,14 +61,19 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
+                  final faceGeometry = _faceGeometry == null
+                      ? FaceGeometry.fromFace(face)
+                      : _faceGeometry!.update(face);
+                  _faceGeometry = faceGeometry;
 
-                  if (faces.first.mouth.isOpen) {
+                  if (faceGeometry.mouth.isOpen) {
                     if (!_isPlaying) {
                       _audioPlayer.play();
                       _isPlaying = true;
@@ -79,6 +86,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   return CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: faces.first,
+                      isMouthOpen: faceGeometry.mouth.isOpen,
                     ),
                   );
                 },
@@ -93,14 +101,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 class _FaceLandmarkCustomPainter extends CustomPainter {
   const _FaceLandmarkCustomPainter({
     required this.face,
+    required this.isMouthOpen,
   });
 
-  final FaceGeometry face;
+  final tf.Face face;
+  final bool isMouthOpen;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.mouth.isOpen ? Colors.yellow : Colors.red
+      ..color = isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
@@ -113,5 +123,5 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face.hashCode != oldDelegate.face.hashCode;
+      face != oldDelegate.face;
 }

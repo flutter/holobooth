@@ -1,13 +1,14 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
 @immutable
-abstract class _EyeGeometry {
-  _EyeGeometry._({
+abstract class _EyeGeometry extends Equatable {
+  _EyeGeometry._compute({
     required tf.Keypoint topEyeLid,
     required tf.Keypoint bottomEyeLid,
     required tf.BoundingBox boundingBox,
@@ -44,6 +45,11 @@ abstract class _EyeGeometry {
     }
   }
 
+  /// An empty instance of [_EyeGeometry].
+  ///
+  /// This is used when the keypoints are not available.
+  _EyeGeometry.empty() : isClosed = false;
+
   /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
 
@@ -68,15 +74,39 @@ abstract class _EyeGeometry {
 /// {@endtemplate}
 class LeftEyeGeometry extends _EyeGeometry {
   /// {@macro left_eye_geometry}
-  LeftEyeGeometry({
+  ///
+  /// Creating a new [LeftEyeGeometry] instead of using [update] will clear the
+  /// previous eye data.
+  ///
+  /// It is recommened to use [LeftEyeGeometry] once and then [update] to
+  /// update the face data.
+  factory LeftEyeGeometry({
+    required List<tf.Keypoint> keypoints,
+    required tf.BoundingBox boundingBox,
+    double? maxRatio,
+    double? minRatio,
+  }) {
+    return keypoints.length > 160
+        ? LeftEyeGeometry._compute(
+            keypoints: keypoints,
+            boundingBox: boundingBox,
+            maxRatio: maxRatio,
+            minRatio: minRatio,
+          )
+        : LeftEyeGeometry._empty();
+  }
+
+  LeftEyeGeometry._compute({
     required List<tf.Keypoint> keypoints,
     required super.boundingBox,
     super.maxRatio,
     super.minRatio,
-  }) : super._(
+  }) : super._compute(
           topEyeLid: keypoints[159],
           bottomEyeLid: keypoints[145],
         );
+
+  LeftEyeGeometry._empty() : super.empty();
 
   @override
   LeftEyeGeometry update(
@@ -89,22 +119,49 @@ class LeftEyeGeometry extends _EyeGeometry {
         maxRatio: _maxRatio,
         minRatio: _minRatio,
       );
+
+  @override
+  List<Object?> get props => [isClosed];
 }
 
-/// {@template left_eye_geometry}
+/// {@template right_eye_geometry}
 /// Geometric data for the right eye.
 /// {@endtemplate}
 class RightEyeGeometry extends _EyeGeometry {
-  /// {@macro left_eye_geometry}
-  RightEyeGeometry({
+  /// {@macro right_eye_geometry}
+  ///
+  /// Creating a new [RightEyeGeometry] instead of using [update] will clear the
+  /// previous eye data.
+  ///
+  /// It is recommened to use [RightEyeGeometry] once and then [update] to
+  /// update the face data.
+  factory RightEyeGeometry({
+    required List<tf.Keypoint> keypoints,
+    required tf.BoundingBox boundingBox,
+    double? maxRatio,
+    double? minRatio,
+  }) {
+    return keypoints.length > 387
+        ? RightEyeGeometry._compute(
+            keypoints: keypoints,
+            boundingBox: boundingBox,
+            maxRatio: maxRatio,
+            minRatio: minRatio,
+          )
+        : RightEyeGeometry._empty();
+  }
+
+  RightEyeGeometry._compute({
     required List<tf.Keypoint> keypoints,
     required super.boundingBox,
     super.maxRatio,
     super.minRatio,
-  }) : super._(
+  }) : super._compute(
           topEyeLid: keypoints[386],
           bottomEyeLid: keypoints[374],
         );
+
+  RightEyeGeometry._empty() : super.empty();
 
   @override
   RightEyeGeometry update(
@@ -117,4 +174,7 @@ class RightEyeGeometry extends _EyeGeometry {
         maxRatio: _maxRatio,
         minRatio: _minRatio,
       );
+
+  @override
+  List<Object?> get props => [isClosed];
 }

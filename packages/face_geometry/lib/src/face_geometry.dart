@@ -1,50 +1,70 @@
-// ignore_for_file: must_be_immutable
-
+import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:meta/meta.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as tf;
 
 /// {@template face_geometry}
-/// The class includes geometry for face.
+/// Geometric data for a [tf.Face].
 /// {@endtemplate}
-class FaceGeometry extends BaseFaceGeometry {
+@immutable
+class FaceGeometry extends Equatable {
   /// {@macro face_geometry}
-  FaceGeometry(
-    super.keypoints,
-    super.boundingBox,
-  )   : direction = FaceDirection(keypoints),
-        leftEye = LeftEyeGeometry(
-          keypoints: keypoints,
-          boundingBox: boundingBox,
-        ),
-        rightEye = RightEyeGeometry(
-          keypoints: keypoints,
-          boundingBox: boundingBox,
-        ),
-        mouth = MouthGeometry(keypoints, boundingBox);
+  ///
+  /// Creating a new face instead of using [update] will clear the previous
+  /// face data.
+  ///
+  /// It is recommened to use [FaceGeometry.fromFace] once and then
+  /// use [update] to update the face data.
+  FaceGeometry.fromFace(tf.Face face)
+      : this._(
+          direction: FaceDirection(keypoints: face.keypoints),
+          leftEye: LeftEyeGeometry(
+            keypoints: face.keypoints,
+            boundingBox: face.boundingBox,
+          ),
+          rightEye: RightEyeGeometry(
+            keypoints: face.keypoints,
+            boundingBox: face.boundingBox,
+          ),
+          mouth: MouthGeometry(
+            keypoints: face.keypoints,
+            boundingBox: face.boundingBox,
+          ),
+        );
+
+  const FaceGeometry._({
+    required this.direction,
+    required this.mouth,
+    required this.leftEye,
+    required this.rightEye,
+  });
 
   /// {@macro face_direction}
-  FaceDirection direction;
+  final FaceDirection direction;
 
   /// {@macro eye_geometry}
-  LeftEyeGeometry leftEye;
+  final LeftEyeGeometry leftEye;
 
   /// {@macro eye_geometry}
-  RightEyeGeometry rightEye;
+  final RightEyeGeometry rightEye;
 
   /// {@macro mouth_geometry}
-  MouthGeometry mouth;
+  final MouthGeometry mouth;
+
+  /// Updates the [FaceGeometry] with the new [face].
+  FaceGeometry update(tf.Face face) {
+    return FaceGeometry._(
+      direction: FaceDirection(keypoints: face.keypoints),
+      mouth: MouthGeometry(
+        keypoints: face.keypoints,
+        boundingBox: face.boundingBox,
+      ),
+      leftEye: leftEye.update(face.keypoints, face.boundingBox),
+      rightEye: rightEye.update(face.keypoints, face.boundingBox),
+    );
+  }
 
   @override
-  void update(
-    List<Keypoint> newKeypoints,
-    BoundingBox newBoundingBox,
-  ) {
-    keypoints = newKeypoints;
-    boundingBox = newBoundingBox;
-
-    direction = FaceDirection(keypoints);
-    leftEye = leftEye.update(newKeypoints, newBoundingBox);
-    rightEye = rightEye.update(newKeypoints, newBoundingBox);
-    mouth.update(newKeypoints, newBoundingBox);
-  }
+  List<Object?> get props => [direction, leftEye, rightEye, mouth];
 }

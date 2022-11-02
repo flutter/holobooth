@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
-import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gif_compositor/gif_compositor.dart';
+
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksGifPage extends StatelessWidget {
   const LandmarksGifPage({Key? key}) : super(key: key);
@@ -30,13 +32,15 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
   final _imagesBytes = <Uint8List>[];
   bool _gifInProgress = false;
 
-  late FaceGeometry _currentFace;
+  late tf.Face _currentFace;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
   }
 
   Future<void> _onTakePhoto() async {
+    print('keypoints: ${_currentFace.keypoints.prettyPrint()}');
+    print('boundingBox: ${_currentFace.boundingBox.prettyPrint()}');
     // Save the canvas that the face is drawn to as a png.
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder)
@@ -127,7 +131,7 @@ class _LandmarksGifViewState extends State<_LandmarksGifView> {
 
                         return CustomPaint(
                           painter: _FaceLandmarkCustomPainter(
-                            face: _currentFace,
+                            face: faces.first,
                           ),
                         );
                       },
@@ -151,7 +155,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
     required this.face,
   });
 
-  final FaceGeometry face;
+  final tf.Face face;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -175,7 +179,7 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _FaceLandmarkCustomPainter oldDelegate) =>
-      face.hashCode != oldDelegate.face.hashCode;
+      face != oldDelegate.face;
 }
 
 class _ImagePreview extends StatelessWidget {
@@ -195,5 +199,29 @@ class _ImagePreview extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+extension on UnmodifiableListView<tf.Keypoint> {
+  String prettyPrint() {
+    final sb = StringBuffer();
+    sb.writeln('[');
+    for (final keypoint in this) {
+      sb.writeln(keypoint.prettyPrint());
+    }
+    sb.writeln(']');
+    return sb.toString();
+  }
+}
+
+extension on tf.Keypoint {
+  String prettyPrint() {
+    return "Keypoint($x, $y, $z, $score, ${name == null ? null : '${this.name}'},),";
+  }
+}
+
+extension on tf.BoundingBox {
+  String prettyPrint() {
+    return 'BoundingBox($xMin, $yMin, $xMax, $yMax, $width, $height,),';
   }
 }

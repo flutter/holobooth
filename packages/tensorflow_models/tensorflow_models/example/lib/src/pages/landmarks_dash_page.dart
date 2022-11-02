@@ -4,6 +4,7 @@ import 'package:example/src/src.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDashPage extends StatelessWidget {
   const LandmarksDashPage({Key? key}) : super(key: key);
@@ -46,9 +47,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
 
                   return Center(
-                    child: _Dash(faceGeometry: faces.first),
+                    child: _Dash(face: face),
                   );
                 },
               ),
@@ -61,8 +63,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                     });
                   },
                   child: Text(
-                    _isCameraVisible ? 'Hide the camera' : 'Show the camera',
-                  ),
+                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
                 ),
               )
             ]
@@ -76,10 +77,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
 class _Dash extends StatefulWidget {
   const _Dash({
     Key? key,
-    required this.faceGeometry,
+    required this.face,
   }) : super(key: key);
 
-  final FaceGeometry faceGeometry;
+  final tf.Face face;
 
   @override
   _DashState createState() => _DashState();
@@ -87,6 +88,7 @@ class _Dash extends StatefulWidget {
 
 class _DashState extends State<_Dash> {
   _DashStateMachineController? _dashController;
+  late FaceGeometry _faceGeometry = FaceGeometry.fromFace(widget.face);
 
   void _onRiveInit(Artboard artboard) {
     _dashController = _DashStateMachineController(artboard);
@@ -96,13 +98,15 @@ class _DashState extends State<_Dash> {
   @override
   void didUpdateWidget(covariant _Dash oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.faceGeometry.direction.value.unit();
+      // TODO(oscar): uncomment when rotation maths are completed
+      /*  final direction = widget.face.direction().unit();
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
-
-      dashController.openMouth.change(widget.faceGeometry.mouth.isOpen);
+*/
+      dashController.openMouth.change(_faceGeometry.mouth.isOpen);
     }
   }
 
@@ -115,8 +119,8 @@ class _DashState extends State<_Dash> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
       child: Assets.dash.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,

@@ -10,11 +10,30 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 @immutable
 class FaceDirection extends Equatable {
   /// {@macro face_direction}
-  FaceDirection(List<tf.Keypoint> keypoints) {
-    final leftCheeck = keypoints[127];
-    final rightCheeck = keypoints[356];
-    final nose = keypoints[6];
+  factory FaceDirection({required List<tf.Keypoint> keypoints}) {
+    return keypoints.length > 357
+        ? FaceDirection._compute(keypoints: keypoints)
+        : const FaceDirection._empty();
+  }
 
+  FaceDirection._compute({
+    required List<tf.Keypoint> keypoints,
+  }) : value = _value(
+          leftCheeck: keypoints[127],
+          rightCheeck: keypoints[356],
+          nose: keypoints[6],
+        );
+
+  /// An empty instance of [MouthGeometry].
+  ///
+  /// This is used when the keypoints are not available.
+  const FaceDirection._empty() : value = const Vector3(0, 0, 0);
+
+  static Vector3 _value({
+    required tf.Keypoint leftCheeck,
+    required tf.Keypoint rightCheeck,
+    required tf.Keypoint nose,
+  }) {
     final leftCheeckVector = Vector3(
       leftCheeck.x.toDouble(),
       leftCheeck.y.toDouble(),
@@ -30,11 +49,11 @@ class FaceDirection extends Equatable {
       nose.y.toDouble(),
       nose.z?.toDouble() ?? 0,
     );
-    value = _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
+    return _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
   }
 
   /// The value of the direction of the face.
-  late final Vector3 value;
+  final Vector3 value;
 
   @override
   List<Object?> get props => [value];
