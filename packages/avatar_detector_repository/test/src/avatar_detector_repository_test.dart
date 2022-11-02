@@ -42,7 +42,7 @@ class _FakeFace extends Fake implements Face {
       );
 
   @override
-  BoundingBox get boundingBox => BoundingBox(10, 10, 110, 110, 100, 100);
+  BoundingBox get boundingBox => const BoundingBox(10, 10, 110, 110, 100, 100);
 }
 
 void main() {

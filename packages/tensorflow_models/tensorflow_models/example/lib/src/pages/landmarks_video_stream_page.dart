@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';

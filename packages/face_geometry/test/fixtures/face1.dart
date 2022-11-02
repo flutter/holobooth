@@ -3351,7 +3351,7 @@ final face1 = Face(
       'leftIris',
     ),
   ]),
-  BoundingBox(
+  const BoundingBox(
     106.76581734418869,
     383.71903824806213,
     256.6904923915863,

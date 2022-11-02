@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:face_geometry/face_geometry.dart';
+import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class FacesDetectorBuilder extends StatefulWidget {
