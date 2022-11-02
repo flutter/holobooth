@@ -120,9 +120,12 @@ class _Character extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      scale: isActive ? 1 : 0.70,
+      scale: isActive ? 1 : 0.85,
       duration: const Duration(milliseconds: 300),
-      child: image,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: image,
+      ),
     );
   }
 }

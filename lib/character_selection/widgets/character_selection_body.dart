@@ -18,19 +18,21 @@ class CharacterSelectionBody extends StatelessWidget {
       height: height,
       child: Stack(
         children: [
+          // Light shadow
           Align(
             alignment: Alignment.topCenter,
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 double viewPortFraction;
                 if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-                  viewPortFraction = 1;
+                  viewPortFraction = 0.55;
                 } else if (constraints.maxWidth <=
                     PhotoboothBreakpoints.medium) {
-                  viewPortFraction = 0.6;
+                  viewPortFraction = 0.3;
                 } else {
                   viewPortFraction = 0.2;
                 }
+                print('${size.width * viewPortFraction}');
                 return Container(
                   width: size.width * viewPortFraction,
                   child: CustomPaint(
@@ -41,26 +43,23 @@ class CharacterSelectionBody extends StatelessWidget {
               },
             ),
           ),
+          // Character selection
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              color: Colors.red.withOpacity(0.2),
-              alignment: Alignment.bottomCenter,
-              child: LayoutBuilder(
-                builder: (_, constraints) {
-                  if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-                    return const CharacterSelector.small();
-                  } else if (constraints.maxWidth <=
-                      PhotoboothBreakpoints.medium) {
-                    return const CharacterSelector.medium();
-                  } else if (constraints.maxWidth <=
-                      PhotoboothBreakpoints.large) {
-                    return const CharacterSelector.large();
-                  } else {
-                    return const CharacterSelector.xLarge();
-                  }
-                },
-              ),
+            child: LayoutBuilder(
+              builder: (_, constraints) {
+                if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                  return const CharacterSelector.small();
+                } else if (constraints.maxWidth <=
+                    PhotoboothBreakpoints.medium) {
+                  return const CharacterSelector.medium();
+                } else if (constraints.maxWidth <=
+                    PhotoboothBreakpoints.large) {
+                  return const CharacterSelector.large();
+                } else {
+                  return const CharacterSelector.xLarge();
+                }
+              },
             ),
           ),
         ],
