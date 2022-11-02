@@ -5,7 +5,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gif_compositor_platform_interface/gif_compositor_platform_interface.dart';
 import 'package:gif_compositor_web/src/gif_compositor_plugin.dart';
-import 'package:isolated_worker/js_isolated_worker.dart' as isolate;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

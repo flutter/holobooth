@@ -95,7 +95,7 @@ class RiveGenImage {
     Alignment? alignment,
     Widget? placeHolder,
     bool antialiasing = true,
-    List<RiveAnimationController> controllers = const [],
+    List<RiveAnimationController<dynamic>> controllers = const [],
     OnInitCallback? onInit,
   }) {
     return RiveAnimation.asset(
