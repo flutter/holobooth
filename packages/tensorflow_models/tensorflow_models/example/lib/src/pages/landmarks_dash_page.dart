@@ -63,7 +63,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                     });
                   },
                   child: Text(
-                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
+                    _isCameraVisible ? 'Hide the camera' : 'Show the camera',
+                  ),
                 ),
               )
             ]
