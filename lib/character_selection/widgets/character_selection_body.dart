@@ -138,10 +138,19 @@ class CharacterSelectionBody extends StatelessWidget {
 class DrawTriangle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height);
+
     final pathLightBody = Path()
       ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
-      //..lineTo(size.width, size.height)
+      ..cubicTo(
+        0,
+        size.height,
+        size.width / 2,
+        size.height - 125,
+        size.width,
+        size.height,
+      )
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
     final paintLightBody = Paint()
@@ -167,8 +176,40 @@ class DrawBase extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
     final rectangle =
-        Rect.fromCenter(center: center, width: size.width, height: 120);
+        Rect.fromCenter(center: center, width: size.width, height: 125);
     final paint = Paint()
+      ..shader = const RadialGradient(
+        colors: [
+          Colors.white,
+          PhotoboothColors.white,
+        ],
+      ).createShader(
+        Rect.fromCircle(center: center, radius: size.width / 2),
+      );
+    //canvas.drawOval(rectangle, paint);
+
+    /*final pathLightBody = Path()
+      ..moveTo(0, size.height)
+      ..cubicTo(
+        0,
+        size.height,
+        size.width / 2,
+        size.height - 140,
+        size.width,
+        size.height,
+      )
+      ..moveTo(0, size.height)
+      ..cubicTo(
+        0,
+        size.height,
+        size.width / 2,
+        size.height + 140,
+        size.width,
+        size.height,
+      )
+      ..close();
+    final center = Offset(size.width / 2, size.height);
+    final paintLightBody = Paint()
       ..shader = const RadialGradient(
         radius: 0.5,
         colors: [
@@ -178,7 +219,7 @@ class DrawBase extends CustomPainter {
       ).createShader(
         Rect.fromCircle(center: center, radius: size.width / 2),
       );
-    canvas.drawOval(rectangle, paint);
+    canvas.drawPath(pathLightBody, paintLightBody);*/
   }
 
   @override
