@@ -22,9 +22,13 @@ abstract class _EyeGeometry extends Equatable {
       if (heightRatio != 0) {
         if (maxRatio == null || heightRatio > maxRatio) {
           _maxRatio = heightRatio;
+        } else {
+          _maxRatio = maxRatio;
         }
         if ((minRatio == null || heightRatio < minRatio) && heightRatio > 0) {
           _minRatio = heightRatio;
+        } else {
+          _minRatio = minRatio;
         }
 
         final firstAction = _minRatio == _maxRatio;
