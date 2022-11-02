@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -44,10 +45,8 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
 
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
-    final aspectRatio = orientation == Orientation.portrait
-        ? PhotoboothAspectRatio.portrait
-        : PhotoboothAspectRatio.landscape;
+    final screenSize = MediaQuery.of(context).size.width;
+    final isBigScreen = screenSize >= PhotoboothBreakpoints.small;
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -70,14 +69,15 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
           selectedItem: PhotoboothColors.red,
           onSelected: (value) => print,
         ),
-        body: CameraBackground(
-          aspectRatio: aspectRatio,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Align(
-                child: Opacity(
-                  opacity: 0,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            const PhotoboothBackground(),
+            Align(
+              child: Opacity(
+                opacity: 1,
+                child: SizedBox(
+                  height: 0,
                   child: CameraView(
                     onCameraReady: (controller) {
                       setState(() => _cameraController = controller);
@@ -94,21 +94,39 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
                   ),
                 ),
               ),
-              if (_isCameraAvailable) ...[
-                LayoutBuilder(
-                  builder: (context, constraints) =>
-                      AvatarDetector(cameraController: _cameraController!),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: MultipleShutterButton(
-                    onShutter: _takeSinglePicture,
+            ),
+            if (_isCameraAvailable) ...[
+              Align(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => SizedBox(
+                    height: 500,
+                    width: 500,
+                    child: AvatarDetector(
+                      cameraController: _cameraController!,
+                    ),
                   ),
                 ),
-                if (_isCameraAvailable) const SelectionButtons(),
-              ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MultipleShutterButton(
+                      onShutter: _takeSinglePicture,
+                    ),
+                    const SimplifiedFooter()
+                  ],
+                ),
+              ),
+              if (_isCameraAvailable)
+                Align(
+                  alignment:
+                      isBigScreen ? Alignment.centerRight : Alignment.topCenter,
+                  child: const SelectionButtons(),
+                ),
             ],
-          ),
+          ],
         ),
       ),
     );
