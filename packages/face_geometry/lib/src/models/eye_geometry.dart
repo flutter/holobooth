@@ -29,10 +29,9 @@ abstract class _EyeGeometry extends Equatable {
               ? heightRatio
               : minRatio;
 
-      final firstAction = _minRatio == null ||
-          _maxRatio == null ||
-          ((_minRatio! / _maxRatio!) > 0.5);
-      if (!firstAction) {
+      final enoughData = (_minRatio != null && _maxRatio != null) &&
+          !((_minRatio! / _maxRatio!) > 0.5);
+      if (enoughData) {
         final percent = (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
         isClosed = percent < _minEyeRatio;
       } else {
