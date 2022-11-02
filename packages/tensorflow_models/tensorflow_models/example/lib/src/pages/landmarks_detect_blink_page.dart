@@ -53,8 +53,9 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
                   return CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: faces.first,
-                      isLeftEyeClose: faceGeometry.leftEye.isClosed,
-                      isRightEyeClose: faceGeometry.rightEye.isClosed,
+                      // Mirrored since the camera is mirrored.
+                      isLeftEyeClose: faceGeometry.rightEye.isClosed,
+                      isRightEyeClose: faceGeometry.leftEye.isClosed,
                     ),
                   );
                 },
