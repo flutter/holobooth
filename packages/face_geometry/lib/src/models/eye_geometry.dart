@@ -20,16 +20,14 @@ abstract class _EyeGeometry extends Equatable {
 
     if (faceHeight != 0 || faceHeight > distance) {
       final heightRatio = distance / faceHeight;
-      if (maxRatio == null || heightRatio > maxRatio) {
-        _maxRatio = heightRatio;
-      } else {
-        _maxRatio = maxRatio;
-      }
-      if ((minRatio == null || heightRatio < minRatio) && heightRatio > 0) {
-        _minRatio = heightRatio;
-      } else {
-        _minRatio = minRatio;
-      }
+      _maxRatio =
+          (maxRatio == null || heightRatio > maxRatio) && heightRatio < 1
+              ? heightRatio
+              : maxRatio;
+      _minRatio =
+          ((minRatio == null || heightRatio < minRatio) && heightRatio > 0)
+              ? heightRatio
+              : minRatio;
 
       final firstAction = _minRatio == null ||
           _maxRatio == null ||
