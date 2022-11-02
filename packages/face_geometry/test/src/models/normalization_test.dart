@@ -6,18 +6,8 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 import 'package:test/test.dart';
 
 void main() {
-  group('FaceNormalization', () {
-    final keypoint = tf.Keypoint.fromJson(const {'x': 10, 'y': 10});
-    final boundingBox = tf.BoundingBox.fromJson({
-      'xMin': 10,
-      'yMin': 10,
-      'xMax': 30,
-      'yMax': 30,
-      'width': 20,
-      'height': 20,
-    });
-
-    group('the number', () {
+  group('NormalizeNum', () {
+    group('normalize', () {
       test('throws assertion when fromMax is equals 0', () {
         expect(
           () => 0.normalize(fromMax: 0, toMax: 1),
@@ -37,8 +27,12 @@ void main() {
         expect(0.5.normalize(fromMax: 4, toMax: 2), equals(0.25));
       });
     });
+  });
 
-    group('the keypoint', () {
+  group('NormalizeKeypoint', () {
+    group('normalize', () {
+      const keypoint = tf.Keypoint(10, 10, null, 0, null);
+
       test('to greater value', () {
         expect(
           keypoint.normalize(
@@ -50,6 +44,7 @@ void main() {
               .having((keypoint) => keypoint.y, 'y', 20),
         );
       });
+
       test('to lower value', () {
         expect(
           keypoint.normalize(
@@ -62,8 +57,12 @@ void main() {
         );
       });
     });
+  });
 
-    group('the BoundingBox', () {
+  group('NormalizeBoundingBox', () {
+    group('normalize', () {
+      const boundingBox = tf.BoundingBox(10, 10, 30, 30, 20, 20);
+
       test('to greater value', () {
         expect(
           boundingBox.normalize(
@@ -96,12 +95,20 @@ void main() {
         );
       });
     });
+  });
 
-    group('the Face', () {
-      final face = tf.Face(
-        UnmodifiableListView([keypoint]),
-        boundingBox,
-      );
+  group('FaceNormalization', () {
+    group('normalize', () {
+      late tf.Face face;
+
+      setUp(() {
+        const keypoint = tf.Keypoint(10, 10, null, 0, null);
+        const boundingBox = tf.BoundingBox(10, 10, 30, 30, 20, 20);
+        face = tf.Face(
+          UnmodifiableListView([keypoint]),
+          boundingBox,
+        );
+      });
 
       test('to greater value', () {
         final normalizedFace = face.normalize(

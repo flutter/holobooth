@@ -114,7 +114,7 @@ class Keypoint {
 /// * [TypeScript interface implementation](https://github.com/tensorflow/tfjs-models/blob/master/shared/calculators/interfaces/shape_interfaces.ts/)
 class BoundingBox {
   @visibleForTesting
-  BoundingBox(
+  const BoundingBox(
     this.xMin,
     this.yMin,
     this.xMax,

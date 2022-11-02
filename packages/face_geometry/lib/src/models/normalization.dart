@@ -80,7 +80,7 @@ extension NormalizeBoundingBox on tf.BoundingBox {
 /// {@endtemplate}
 @visibleForTesting
 extension NormalizeKeypoint on tf.Keypoint {
-  /// The distance between this and other [Keypoint].
+  /// The distance between this and other [tf.Keypoint].
   double distanceTo(tf.Keypoint other) {
     final dx = x - other.x;
     final dy = y - other.y;
