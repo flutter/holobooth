@@ -59,108 +59,6 @@ void main() {
         expect(rightEyeGeometry.isClosed, isFalse);
       });
 
-      group('untrained', () {
-        test('is false with face1', () {
-          final face = fixtures.face1;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face2', () {
-          final face = fixtures.face2;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face3', () {
-          final face = fixtures.face3;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face4', () {
-          final face = fixtures.face4;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is true with face5', () {
-          final face = fixtures.face5;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isTrue);
-        });
-
-        test('is false with face6', () {
-          final face = fixtures.face6;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face7', () {
-          final face = fixtures.face7;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face8', () {
-          final face = fixtures.face8;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is false with face9', () {
-          final face = fixtures.face9;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isFalse);
-        });
-
-        test('is true with face10', () {
-          final face = fixtures.face10;
-          final rightEyeGeometry = RightEyeGeometry(
-            keypoints: face.keypoints,
-            boundingBox: face.boundingBox,
-          );
-
-          expect(rightEyeGeometry.isClosed, isTrue);
-        });
-      });
-
       group('trained', () {
         late RightEyeGeometry rightEyeGeometry;
 
@@ -177,115 +75,117 @@ void main() {
             fixtures.face9,
             fixtures.face10,
           ];
-          rightEyeGeometry = RightEyeGeometry(
+          var trainedRightEyeGeometry = RightEyeGeometry(
             keypoints: dataSet.first.keypoints,
             boundingBox: dataSet.first.boundingBox,
           );
           for (final face in dataSet.skip(1)) {
-            rightEyeGeometry.update(
+            trainedRightEyeGeometry = trainedRightEyeGeometry.update(
               face.keypoints,
               face.boundingBox,
             );
           }
+          rightEyeGeometry = trainedRightEyeGeometry;
         });
 
         test('is false with face1', () {
           final face = fixtures.face1;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
-          expect(rightEyeGeometry.isClosed, isFalse);
+
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face2', () {
           final face = fixtures.face2;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face3', () {
           final face = fixtures.face3;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
-        test('is false with face4', () {
+        test('is true with face4', () {
           final face = fixtures.face4;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isTrue);
         });
 
-        test('is true with face5', () {
+        test('is false with face5', () {
           final face = fixtures.face5;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isTrue);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face6', () {
           final face = fixtures.face6;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face7', () {
           final face = fixtures.face7;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face8', () {
           final face = fixtures.face8;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is false with face9', () {
           final face = fixtures.face9;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
         test('is true with face10', () {
           final face = fixtures.face10;
-          rightEyeGeometry.update(
+          final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(rightEyeGeometry.isClosed, isTrue);
+          expect(updatedRightEyeGeometry.isClosed, isTrue);
         });
       });
     });
