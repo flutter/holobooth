@@ -138,6 +138,24 @@ void main() {
           completion(isA<Avatar>()),
         );
       });
+
+      test('return an Avatar when called multiple times', () async {
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            '',
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace()]);
+
+        await expectLater(
+          avatarDetectorRepository.detectAvatar(''),
+          completion(isA<Avatar>()),
+        );
+        await expectLater(
+          avatarDetectorRepository.detectAvatar(''),
+          completion(isA<Avatar>()),
+        );
+      });
     });
 
     group('dispose', () {
