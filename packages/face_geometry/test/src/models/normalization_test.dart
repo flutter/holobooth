@@ -143,4 +143,54 @@ void main() {
       });
     });
   });
+
+  group('FacesNormalization', () {
+    group('normalize', () {
+      late List<tf.Face> faces;
+
+      setUp(() {
+        const keypoint = tf.Keypoint(10, 10, null, 0, null);
+        const boundingBox = tf.BoundingBox(10, 10, 30, 30, 20, 20);
+        final face = tf.Face(
+          UnmodifiableListView([keypoint]),
+          boundingBox,
+        );
+        faces = [face];
+      });
+
+      test('to greater value', () {
+        final normalizedFaces = faces.normalize(
+          fromMax: tf.Size(20, 30),
+          toMax: tf.Size(40, 60),
+        );
+        final normalizedFace = normalizedFaces.first;
+
+        expect(normalizedFace.keypoints.first.x, 20);
+        expect(normalizedFace.keypoints.first.y, 20);
+        expect(normalizedFace.boundingBox.xMin, 20);
+        expect(normalizedFace.boundingBox.yMin, 20);
+        expect(normalizedFace.boundingBox.xMax, 60);
+        expect(normalizedFace.boundingBox.yMax, 60);
+        expect(normalizedFace.boundingBox.width, 40);
+        expect(normalizedFace.boundingBox.height, 40);
+      });
+
+      test('to lower value', () {
+        final normalizedFaces = faces.normalize(
+          fromMax: tf.Size(40, 60),
+          toMax: tf.Size(20, 30),
+        );
+        final normalizedFace = normalizedFaces.first;
+
+        expect(normalizedFace.keypoints.first.x, 5);
+        expect(normalizedFace.keypoints.first.y, 5);
+        expect(normalizedFace.boundingBox.xMin, 5);
+        expect(normalizedFace.boundingBox.yMin, 5);
+        expect(normalizedFace.boundingBox.xMax, 15);
+        expect(normalizedFace.boundingBox.yMax, 15);
+        expect(normalizedFace.boundingBox.width, 10);
+        expect(normalizedFace.boundingBox.height, 10);
+      });
+    });
+  });
 }
