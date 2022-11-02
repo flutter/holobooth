@@ -37,9 +37,12 @@ class CharacterSelectionBody extends StatelessWidget {
                   child: CustomPaint(
                     size: MediaQuery.of(context).size,
                     painter: DrawTriangle(),
-                    child: CustomPaint(
-                      size: MediaQuery.of(context).size,
-                      painter: DrawBase(),
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: CustomPaint(
+                        size: MediaQuery.of(context).size,
+                        painter: DrawBase(),
+                      ),
                     ),
                   ),
                 );
@@ -138,7 +141,7 @@ class DrawTriangle extends CustomPainter {
     final pathLightBody = Path()
       ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
+      //..lineTo(size.width, size.height)
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
     final paintLightBody = Paint()
@@ -164,12 +167,13 @@ class DrawBase extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
     final rectangle =
-        Rect.fromCenter(center: center, width: size.width, height: 120.0);
+        Rect.fromCenter(center: center, width: size.width, height: 120);
     final paint = Paint()
       ..shader = const RadialGradient(
+        radius: 0.5,
         colors: [
-          Color(0xfffcfcfc),
-          Colors.blue,
+          Colors.white,
+          PhotoboothColors.blue,
         ],
       ).createShader(
         Rect.fromCircle(center: center, radius: size.width / 2),
