@@ -20,18 +20,20 @@ abstract class _EyeGeometry extends Equatable {
       final distance = topEyeLid.distanceTo(bottomEyeLid);
       final heightRatio = distance / faceHeight;
       if (heightRatio != 0) {
-        if (_maxRatio == null || heightRatio > maxRatio!) {
+        if (maxRatio == null || heightRatio > maxRatio) {
           _maxRatio = heightRatio;
         }
-        if ((_minRatio == null || heightRatio < minRatio!) && heightRatio > 0) {
+        if ((minRatio == null || heightRatio < minRatio) && heightRatio > 0) {
           _minRatio = heightRatio;
         }
 
-        final firstAction = _minRatio! / _maxRatio! < 0.5;
-        if (firstAction) {
+        final firstAction = _minRatio == _maxRatio;
+        if (!firstAction) {
           final percent =
               (heightRatio - _minRatio!) / (_maxRatio! - _minRatio!);
           isClosed = percent < _minEyeRatio;
+        } else {
+          isClosed = distance < 1;
         }
       } else {
         isClosed = false;
