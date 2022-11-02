@@ -1,10 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
+import 'package:meta/meta.dart';
 
 /// {@template avatar}
 /// Avatar representation.
 /// {@endtemplate}
+@immutable
 class Avatar extends Equatable {
+  /// {@macro avatar}
+  @visibleForTesting
+  const Avatar({
+    required this.hasMouthOpen,
+    required this.direction,
+  });
+
   /// {@macro avatar}
   Avatar.fromFaceGeomtry(
     FaceGeometry faceGeometry,
