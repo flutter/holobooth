@@ -47,10 +47,12 @@ abstract class _EyeGeometry extends Equatable {
   /// An empty instance of [_EyeGeometry].
   ///
   /// This is used when the keypoints are not available.
-  _EyeGeometry.empty()
-      : isClosed = false,
-        _maxRatio = null,
-        _minRatio = null;
+  _EyeGeometry.empty({
+    double? minRatio,
+    double? maxRatio,
+  })  : isClosed = false,
+        _maxRatio = minRatio,
+        _minRatio = maxRatio;
 
   /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
@@ -95,7 +97,10 @@ class LeftEyeGeometry extends _EyeGeometry {
             maxRatio: maxRatio,
             minRatio: minRatio,
           )
-        : LeftEyeGeometry._empty();
+        : LeftEyeGeometry._empty(
+            maxRatio: maxRatio,
+            minRatio: minRatio,
+          );
   }
 
   LeftEyeGeometry._compute({
@@ -108,7 +113,10 @@ class LeftEyeGeometry extends _EyeGeometry {
           bottomEyeLid: keypoints[145],
         );
 
-  LeftEyeGeometry._empty() : super.empty();
+  LeftEyeGeometry._empty({
+    super.minRatio,
+    super.maxRatio,
+  }) : super.empty();
 
   @override
   LeftEyeGeometry update(
@@ -150,7 +158,10 @@ class RightEyeGeometry extends _EyeGeometry {
             maxRatio: maxRatio,
             minRatio: minRatio,
           )
-        : RightEyeGeometry._empty();
+        : RightEyeGeometry._empty(
+            maxRatio: maxRatio,
+            minRatio: minRatio,
+          );
   }
 
   RightEyeGeometry._compute({
@@ -163,7 +174,10 @@ class RightEyeGeometry extends _EyeGeometry {
           bottomEyeLid: keypoints[374],
         );
 
-  RightEyeGeometry._empty() : super.empty();
+  RightEyeGeometry._empty({
+    super.minRatio,
+    super.maxRatio,
+  }) : super.empty();
 
   @override
   RightEyeGeometry update(
