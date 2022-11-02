@@ -5,6 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 import 'package:test/test.dart';
 
+import '../../fixtures/fixtures.dart' as fixtures;
+
 class _MockBoundingBox extends Mock implements BoundingBox {}
 
 class _FakeKeypoint extends Fake implements Keypoint {
@@ -92,24 +94,67 @@ void main() {
         expect(() => mouthGeometry.isMouthOpen, returnsNormally);
       });
 
-      group('returns correct distance', () {
-        test('when values are 0', () {
-          final keypoints = UnmodifiableListView(
-            List.generate(15, (_) => _FakeKeypoint(0, 0)),
-          );
-          mouthGeometry = MouthGeometry(keypoints, boundingBox);
+      test('is false with face1', () {
+        final face = fixtures.face1;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
 
-          expect(mouthGeometry.isMouthOpen, equals(false));
-        });
+        expect(mouthGeometry.isMouthOpen, isFalse);
+      });
 
-        test('when values are not 0', () {
-          final keypoints = List.generate(15, (_) => _FakeKeypoint(0, 0));
-          keypoints[13] = _FakeKeypoint(-2, 2);
-          keypoints[14] = _FakeKeypoint(1, -1);
-          mouthGeometry = MouthGeometry(keypoints, boundingBox);
+      test('is true with face2', () {
+        final face = fixtures.face2;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
 
-          expect(mouthGeometry.isMouthOpen, equals(true));
-        });
+        expect(mouthGeometry.isMouthOpen, isTrue);
+      });
+
+      test('is true with face3', () {
+        final face = fixtures.face3;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isTrue);
+      });
+
+      test('is false with face4', () {
+        final face = fixtures.face4;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isFalse);
+      });
+
+      test('is false with face5', () {
+        final face = fixtures.face5;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isFalse);
+      });
+
+      test('is false with face6', () {
+        final face = fixtures.face6;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isFalse);
+      });
+
+      test('is true with face7', () {
+        final face = fixtures.face7;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isTrue);
+      });
+
+      test('is true with face8', () {
+        final face = fixtures.face8;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isTrue);
+      });
+
+      test('is false with face9', () {
+        final face = fixtures.face9;
+        mouthGeometry = MouthGeometry(face.keypoints, face.boundingBox);
+
+        expect(mouthGeometry.isMouthOpen, isFalse);
       });
     });
   });
