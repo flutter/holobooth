@@ -20,7 +20,6 @@ class PhotoBoothState extends Equatable {
 
   /// Whether all of the pictures has been taken.
   bool get isFinished => images.length == totalNumberOfPhotos;
-  int get remainingPhotos => totalNumberOfPhotos - images.length;
 
   @override
   List<Object> get props => [images];

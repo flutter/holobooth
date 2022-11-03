@@ -44,13 +44,9 @@ class DashAnimationState extends State<DashAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      height: 300,
-      child: Assets.animations.dash.rive(
-        onInit: _onRiveInit,
-        fit: BoxFit.cover,
-      ),
+    return Assets.animations.dash.rive(
+      onInit: _onRiveInit,
+      fit: BoxFit.cover,
     );
   }
 }
