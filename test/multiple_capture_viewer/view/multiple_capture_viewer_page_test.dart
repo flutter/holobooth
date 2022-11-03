@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture/multiple_capture.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
@@ -24,14 +24,14 @@ void main() {
     });
 
     testWidgets(
-      'navigates to MultipleCapturePage if click on retake photo button',
+      'navigates to PhotoBoothPage if click on retake photo button',
       (tester) async {
         await tester.pumpSubject(MultipleCaptureViewerPage(images: const []));
         final takePhotoAgainButtonFinder =
             find.byKey(TakePhotoAgainButton.buttonKey);
         tester.widget<AppTooltipButton>(takePhotoAgainButtonFinder).onPressed();
         await tester.pumpAndSettle();
-        expect(find.byType(MultipleCapturePage), findsOneWidget);
+        expect(find.byType(PhotoBoothPage), findsOneWidget);
       },
     );
   });

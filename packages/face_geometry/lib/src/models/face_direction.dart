@@ -1,61 +1,39 @@
-// ignore_for_file: must_be_immutable
-
-import 'dart:math';
-
+import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+import 'package:meta/meta.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as tf;
 
-/// {@template FaceDirection}
+/// {@template face_direction}
 /// Calculation to detect the direction of the face.
 /// {@endtemplate}
-class FaceDirection extends BaseGeometry {
-  /// {@macro FaceDirection}
-  FaceDirection(super.keypoints, super.boundingBox);
-
-  List<double> getHeadAnglesCos() {
-    final faceVerticalCentralPoint = [
-      0,
-      (keypoints[10].y + keypoints[152].y) * 0.5,
-      ((keypoints[10].z ?? 0) + (keypoints[152].z ?? 0)) * 0.5,
-    ];
-    final verticalAdjacent =
-        (keypoints[10].z ?? 0) - faceVerticalCentralPoint[2];
-    final verticalOpposite = keypoints[10].y - faceVerticalCentralPoint[1];
-    final verticalHypotenuse = l2Norm([verticalAdjacent, verticalOpposite]);
-    final verticalCos = verticalAdjacent / verticalHypotenuse;
-
-    final faceHorizontalCentralPoint = [
-      (keypoints[226].x + keypoints[446].x) * 0.5,
-      0,
-      ((keypoints[226].z ?? 0) + (keypoints[446].z ?? 0)) * 0.5,
-    ];
-    final horizontalAdjacent =
-        (keypoints[226].z ?? 0) - faceHorizontalCentralPoint[2];
-    final horizontalOpposite = keypoints[226].x - faceHorizontalCentralPoint[0];
-
-    final horizontalHypotenuse =
-        l2Norm([horizontalAdjacent, horizontalOpposite]);
-    final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
-
-    return [
-      verticalCos,
-      horizontalCos,
-    ];
+@immutable
+class FaceDirection extends Equatable {
+  /// {@macro face_direction}
+  factory FaceDirection({required List<tf.Keypoint> keypoints}) {
+    return keypoints.length > 357
+        ? FaceDirection._compute(keypoints: keypoints)
+        : const FaceDirection._empty();
   }
 
-  double l2Norm(List<num> vec) {
-    var norm = 0.0;
-    for (final v in vec) {
-      norm += v * v;
-    }
-    return sqrt(norm);
-  }
+  FaceDirection._compute({
+    required List<tf.Keypoint> keypoints,
+  }) : value = _value(
+          leftCheeck: keypoints[127],
+          rightCheeck: keypoints[356],
+          nose: keypoints[6],
+        );
 
-  /// {@macro FaceDirection}
-  Vector3 direction() {
-    final leftCheeck = keypoints[127];
-    final rightCheeck = keypoints[356];
-    final nose = keypoints[6];
+  /// An empty instance of [MouthGeometry].
+  ///
+  /// This is used when the keypoints are not available.
+  const FaceDirection._empty() : value = Vector3.zero;
+
+  static Vector3 _value({
+    required tf.Keypoint leftCheeck,
+    required tf.Keypoint rightCheeck,
+    required tf.Keypoint nose,
+  }) {
     final leftCheeckVector = Vector3(
       leftCheeck.x.toDouble(),
       leftCheeck.y.toDouble(),
@@ -74,20 +52,11 @@ class FaceDirection extends BaseGeometry {
     return _equationOfAPlane(leftCheeckVector, rightCheeckVector, noseVector);
   }
 
-  @override
-  List<Object?> get props => [
-        keypoints,
-        boundingBox,
-      ];
+  /// The value of the direction of the face.
+  final Vector3 value;
 
   @override
-  void update(
-    List<Keypoint> newKeypoints,
-    BoundingBox newBoundingBox,
-  ) {
-    keypoints = newKeypoints;
-    boundingBox = newBoundingBox;
-  }
+  List<Object?> get props => [value];
 }
 
 Vector3 _equationOfAPlane(Vector3 x, Vector3 y, Vector3 z) {

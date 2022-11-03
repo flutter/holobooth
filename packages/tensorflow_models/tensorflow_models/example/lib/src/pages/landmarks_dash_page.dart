@@ -49,21 +49,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
 
-                  final cos = faces.first.getHeadAnglesCos();
-                  final direction = faces.first.direction().unit();
-
-                  return Column(
-                    children: [
-                      Center(
-                        child: _Dash(face: faces.first),
-                      ),
-                      Text(
-                        'current vert ${cos[0].toStringAsFixed(2)} hor ${cos[1].toStringAsFixed(2)}',
-                      ),
-                      Text(
-                        'org vert ${direction.y.toStringAsFixed(2)} hor ${direction.x.toStringAsFixed(2)}',
-                      ),
-                    ],
+                  return Center(
+                    child: _Dash(face: face),
                   );
                 },
               ),
@@ -102,8 +89,7 @@ class _Dash extends StatefulWidget {
 
 class _DashState extends State<_Dash> {
   _DashStateMachineController? _dashController;
-  double? x;
-  double? y;
+  late FaceGeometry _faceGeometry = FaceGeometry.fromFace(widget.face);
 
   void _onRiveInit(Artboard artboard) {
     _dashController = _DashStateMachineController(artboard);
@@ -113,47 +99,16 @@ class _DashState extends State<_Dash> {
   @override
   void didUpdateWidget(covariant _Dash oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
-      dashController.openMouth.change(widget.face.isMouthOpen);
-      final direction = widget.face.direction().unit();
-      final cos = widget.face.getHeadAnglesCos();
-      final verticalCos = cos[0];
-      final horizontalCos = cos[1];
-
-      // _normalize(horizontalCos * -1000, verticalCos * 1000);
-      _animate(horizontalCos * -1000, verticalCos * 1000);
+      // TODO(oscar): uncomment when rotation maths are completed
+      /*  final direction = widget.face.direction().unit();
+      dashController.x.change(direction.x * 1000);
+      dashController.y.change(direction.z * -1000);
+*/
+      dashController.openMouth.change(_faceGeometry.mouth.isOpen);
     }
-  }
-
-  void _normalize(double newX, double newY) {
-    if (x != null && y != null) {
-      final diffX = (newX - x!).abs() / newX * 100;
-      final diffY = (newY - y!).abs() / newY * 100;
-      if (diffX > 20 || diffY > 20) {
-        const steps = 5;
-        for (var index = 1; index < steps; index++) {
-          _animate(
-            x! + ((newX - x!) * index / steps),
-            y! + ((newY - y!) * index / steps),
-          );
-        }
-      } else {
-        // x = newX;
-        // y = newY;
-      }
-    } else {
-      _animate(newX, newY);
-    }
-  }
-
-  void _animate(double newX, double newY) {
-    x = newX;
-    y = newY;
-    _dashController?.x.change(newX);
-    _dashController?.y.change(newY);
-
-    _dashController?.openMouth.change(widget.face.isMouthOpen);
   }
 
   @override
