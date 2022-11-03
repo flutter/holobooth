@@ -5,12 +5,17 @@ import 'package:io_photobooth/drawer_selection/drawer_option/drawer_option.dart'
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-// TODO(laura177): Add buttons for selecting character and props
 class SelectionButtons extends StatelessWidget {
   const SelectionButtons({super.key});
 
   @visibleForTesting
-  static const itemSelectorButtonKey = Key('itemSelector_background');
+  static const charactersSelectionButtonKey = Key('itemSelector_characters');
+
+  @visibleForTesting
+  static const propsSelectionButtonKey = Key('itemSelector_props');
+
+  @visibleForTesting
+  static const backgroundSelectorButtonKey = Key('itemSelector_background');
 
   void _showSelector(BuildContext context, DrawerOption drawerOption) {
     context.read<DrawerSelectionBloc>().add(
@@ -84,6 +89,7 @@ class SelectionButtons extends StatelessWidget {
             : Axis.horizontal,
         children: [
           ItemSelectorButton(
+            key: SelectionButtons.charactersSelectionButtonKey,
             buttonBackground: const ColoredBox(color: Colors.red),
             title: context.l10n.characterSelectorButton,
             showTitle: screenSize >= PhotoboothBreakpoints.small,
@@ -91,6 +97,7 @@ class SelectionButtons extends StatelessWidget {
           ),
           spacer,
           ItemSelectorButton(
+            key: SelectionButtons.propsSelectionButtonKey,
             buttonBackground: const ColoredBox(color: Colors.red),
             title: context.l10n.propsSelectorButton,
             showTitle: screenSize >= PhotoboothBreakpoints.small,
@@ -98,7 +105,7 @@ class SelectionButtons extends StatelessWidget {
           ),
           spacer,
           ItemSelectorButton(
-            key: SelectionButtons.itemSelectorButtonKey,
+            key: SelectionButtons.backgroundSelectorButtonKey,
             buttonBackground: const ColoredBox(color: Colors.red),
             title: context.l10n.backgroundSelectorButton,
             showTitle: screenSize >= PhotoboothBreakpoints.small,
