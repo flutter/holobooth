@@ -119,12 +119,7 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
                   ],
                 ),
               ),
-              if (_isCameraAvailable)
-                Align(
-                  alignment:
-                      isBigScreen ? Alignment.centerRight : Alignment.topCenter,
-                  child: const SelectionButtons(),
-                ),
+              if (_isCameraAvailable) const SelectionButtons(),
             ],
           ],
         ),
