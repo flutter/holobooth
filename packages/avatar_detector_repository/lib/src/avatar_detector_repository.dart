@@ -38,7 +38,7 @@ class AvatarDetectorRepository {
   /// Return [Avatar] if there is any on the [input].
   ///
   /// Throws [DetectAvatarException] if any exception occurs.
-  Future<Avatar?> detectAvatar(Object input) async {
+  Future<Avatar?> detectAvatar(ImageData input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
     }
