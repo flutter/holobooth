@@ -4,8 +4,6 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const height = 800.0;
-
 class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
 
@@ -14,8 +12,9 @@ class CharacterSelectionBody extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
+    final bodyHeight = size.height / 2;
     return SizedBox(
-      height: height,
+      height: bodyHeight,
       child: Stack(
         children: [
           // Light shadow
@@ -34,15 +33,13 @@ class CharacterSelectionBody extends StatelessWidget {
                 }
                 return SizedBox(
                   width: size.width * viewPortFraction * 1.4,
+                  height: bodyHeight,
                   child: CustomPaint(
                     size: MediaQuery.of(context).size,
                     painter: DrawTriangle(),
-                    child: Opacity(
-                      opacity: 0.3,
-                      child: CustomPaint(
-                        size: MediaQuery.of(context).size,
-                        painter: DrawBase(),
-                      ),
+                    child: CustomPaint(
+                      size: MediaQuery.of(context).size,
+                      painter: DrawBase(),
                     ),
                   ),
                 );
@@ -139,7 +136,7 @@ class DrawTriangle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
-
+    print(size.height);
     final pathLightBody = Path()
       ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
@@ -147,11 +144,12 @@ class DrawTriangle extends CustomPainter {
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
     final paintLightBody = Paint()
+      ..blendMode = BlendMode.overlay
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xffffff).withOpacity(0.3),
+          Color(0xffffff).withOpacity(0.6),
           Color(0xffffff).withOpacity(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -172,10 +170,8 @@ class DrawBase extends CustomPainter {
         Rect.fromCenter(center: center, width: size.width, height: 125);
     final paint = Paint()
       ..shader = RadialGradient(
-        center: Alignment.center,
-        radius: 0.6,
         colors: [
-          Color(0xffF4E4E4),
+          Color(0xffF4E4E4).withOpacity(0.3),
           Color(0xffF4E4E4).withOpacity(0),
         ],
       ).createShader(
