@@ -86,10 +86,15 @@ class _LandmarksSingleImageResultsState
   Future<void> _initState() async {
     final faceLandmarksDetector = await tf.TensorFlowFaceLandmarks.load();
     _bytes = await widget.picture.readAsBytes();
-    // TODO(alestiago): Investigate if time should be spent here to convert the
-    // picture to a valid tf.ImageData.
-    _faces = await faceLandmarksDetector.estimateFaces(widget.picture.path);
     _image = await decodeImageFromList(_bytes);
+
+    // TODO(FIXME): Investigate if time should be spent here to convert the
+    // picture to a valid tf.ImageData.
+    final imageData = tf.ImageData(
+      bytes: _bytes,
+      size: tf.Size(_image.width, _image.height),
+    );
+    _faces = await faceLandmarksDetector.estimateFaces(imageData);
     faceLandmarksDetector.dispose();
     setState(() => isLoading = false);
   }
