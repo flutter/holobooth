@@ -13,92 +13,99 @@ class CharacterSelectionBody extends StatelessWidget {
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
     final bodyHeight = size.height / 1.5;
-    return SizedBox(
-      height: bodyHeight,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 24),
-                SelectableText(
-                  l10n.chooseYourCharacterTitleText,
-                  style: theme.textTheme.headline1
-                      ?.copyWith(color: PhotoboothColors.white),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                SelectableText(
-                  l10n.youCanChangeThemLaterSubheading,
-                  style: theme.textTheme.headline3
-                      ?.copyWith(color: PhotoboothColors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          // Light shadow
-          Align(
-            alignment: Alignment.topCenter,
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                double viewPortFraction;
-                if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-                  viewPortFraction = 0.55;
-                } else if (constraints.maxWidth <=
-                    PhotoboothBreakpoints.medium) {
-                  viewPortFraction = 0.3;
-                } else {
-                  viewPortFraction = 0.2;
-                }
-                return SizedBox(
-                  width: size.width * viewPortFraction * 1.4,
-                  height: bodyHeight,
-                  child: CustomPaint(
-                    size: MediaQuery.of(context).size,
-                    painter: DrawTriangle(),
-                    child: CustomPaint(
-                      size: MediaQuery.of(context).size,
-                      painter: DrawBase(),
+    return Column(
+      children: [
+        SizedBox(
+          height: bodyHeight,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 24),
+                    SelectableText(
+                      l10n.chooseYourCharacterTitleText,
+                      style: theme.textTheme.headline1
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                );
-              },
-            ),
+                    const SizedBox(height: 24),
+                    SelectableText(
+                      l10n.youCanChangeThemLaterSubheading,
+                      style: theme.textTheme.headline3
+                          ?.copyWith(color: PhotoboothColors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+
+              // Light shadow
+              Align(
+                alignment: Alignment.topCenter,
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    double viewPortFraction;
+                    if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                      viewPortFraction = 0.55;
+                    } else if (constraints.maxWidth <=
+                        PhotoboothBreakpoints.medium) {
+                      viewPortFraction = 0.3;
+                    } else {
+                      viewPortFraction = 0.2;
+                    }
+                    return SizedBox(
+                      width: size.width * viewPortFraction * 1.4,
+                      height: bodyHeight,
+                      child: CustomPaint(
+                        size: MediaQuery.of(context).size,
+                        painter: DrawTriangle(),
+                        child: CustomPaint(
+                          size: MediaQuery.of(context).size,
+                          painter: DrawBase(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // Character selection
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: LayoutBuilder(
+                  builder: (_, constraints) {
+                    if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+                      return const CharacterSelector.small();
+                    } else if (constraints.maxWidth <=
+                        PhotoboothBreakpoints.medium) {
+                      return const CharacterSelector.medium();
+                    } else if (constraints.maxWidth <=
+                        PhotoboothBreakpoints.large) {
+                      return const CharacterSelector.large();
+                    } else {
+                      return const CharacterSelector.xLarge();
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
-          // Character selection
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: LayoutBuilder(
-              builder: (_, constraints) {
-                if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-                  return const CharacterSelector.small();
-                } else if (constraints.maxWidth <=
-                    PhotoboothBreakpoints.medium) {
-                  return const CharacterSelector.medium();
-                } else if (constraints.maxWidth <=
-                    PhotoboothBreakpoints.large) {
-                  return const CharacterSelector.large();
-                } else {
-                  return const CharacterSelector.xLarge();
-                }
-              },
-            ),
+        ),
+        const SizedBox(
+          height: 120,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(PhotoBoothPage.route());
+            },
+            child: Icon(Icons.arrow_forward),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: TextButton(
-              onPressed: () {
-                Navigator.of(context).push(PhotoBoothPage.route());
-              },
-              child: Text('data'),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -140,7 +147,7 @@ class DrawBase extends CustomPainter {
     final rectangle = Rect.fromCenter(
       center: center,
       width: size.width,
-      height: size.height / 4,
+      height: size.height / 6,
     );
     final paint = Paint()
       ..shader = RadialGradient(
