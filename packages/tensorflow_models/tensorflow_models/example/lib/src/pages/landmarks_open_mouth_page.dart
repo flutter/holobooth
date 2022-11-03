@@ -28,6 +28,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 
   late final AudioPlayer _audioPlayer;
   var _isPlaying = false;
+  FaceGeometry? _faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -66,8 +67,13 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
+                  final faceGeometry = _faceGeometry == null
+                      ? FaceGeometry.fromFace(face)
+                      : _faceGeometry!.update(face);
+                  _faceGeometry = faceGeometry;
 
-                  if (faces.first.isMouthOpen) {
+                  if (faceGeometry.mouth.isOpen) {
                     if (!_isPlaying) {
                       _audioPlayer.play();
                       _isPlaying = true;
@@ -80,6 +86,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   return CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: faces.first,
+                      isMouthOpen: faceGeometry.mouth.isOpen,
                     ),
                   );
                 },
@@ -94,14 +101,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 class _FaceLandmarkCustomPainter extends CustomPainter {
   const _FaceLandmarkCustomPainter({
     required this.face,
+    required this.isMouthOpen,
   });
 
   final tf.Face face;
+  final bool isMouthOpen;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.isMouthOpen ? Colors.yellow : Colors.red
+      ..color = isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 

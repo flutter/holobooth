@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('Vector3', () {
     test('can be instantiated', () {
-      expect(const Vector3(0, 0, 0), isA<Vector3>());
+      expect(const Vector3(0, 0, 1), isA<Vector3>());
     });
 
     group('unit', () {
@@ -41,8 +41,8 @@ void main() {
     });
 
     test('supports value comparison', () {
-      const vector1 = Vector3(0, 0, 0);
-      const vector2 = Vector3(0, 0, 0);
+      const vector1 = Vector3(0, 0, 1);
+      const vector2 = Vector3(0, 0, 1);
       const vector3 = Vector3(1, 1, 1);
       expect(vector1, equals(vector2));
       expect(vector1, isNot(vector3));
