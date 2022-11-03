@@ -38,7 +38,7 @@ class CharacterSelectionBody extends StatelessWidget {
                     size: MediaQuery.of(context).size,
                     painter: DrawTriangle(),
                     child: Opacity(
-                      opacity: 0.5,
+                      opacity: 0.3,
                       child: CustomPaint(
                         size: MediaQuery.of(context).size,
                         painter: DrawBase(),
@@ -143,23 +143,16 @@ class DrawTriangle extends CustomPainter {
     final pathLightBody = Path()
       ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
-      ..cubicTo(
-        0,
-        size.height,
-        size.width / 2,
-        size.height - 125,
-        size.width,
-        size.height,
-      )
+      ..lineTo(size.width, size.height)
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
     final paintLightBody = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          PhotoboothColors.purple,
-          PhotoboothColors.blue,
+          Color(0xffffff).withOpacity(0.3),
+          Color(0xffffff).withOpacity(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(pathLightBody, paintLightBody);
@@ -178,48 +171,17 @@ class DrawBase extends CustomPainter {
     final rectangle =
         Rect.fromCenter(center: center, width: size.width, height: 125);
     final paint = Paint()
-      ..shader = const RadialGradient(
+      ..shader = RadialGradient(
+        center: Alignment.center,
+        radius: 0.6,
         colors: [
-          Colors.white,
-          PhotoboothColors.white,
+          Color(0xffF4E4E4),
+          Color(0xffF4E4E4).withOpacity(0),
         ],
       ).createShader(
         Rect.fromCircle(center: center, radius: size.width / 2),
       );
-    //canvas.drawOval(rectangle, paint);
-
-    /*final pathLightBody = Path()
-      ..moveTo(0, size.height)
-      ..cubicTo(
-        0,
-        size.height,
-        size.width / 2,
-        size.height - 140,
-        size.width,
-        size.height,
-      )
-      ..moveTo(0, size.height)
-      ..cubicTo(
-        0,
-        size.height,
-        size.width / 2,
-        size.height + 140,
-        size.width,
-        size.height,
-      )
-      ..close();
-    final center = Offset(size.width / 2, size.height);
-    final paintLightBody = Paint()
-      ..shader = const RadialGradient(
-        radius: 0.5,
-        colors: [
-          Colors.white,
-          PhotoboothColors.blue,
-        ],
-      ).createShader(
-        Rect.fromCircle(center: center, radius: size.width / 2),
-      );
-    canvas.drawPath(pathLightBody, paintLightBody);*/
+    canvas.drawOval(rectangle, paint);
   }
 
   @override
