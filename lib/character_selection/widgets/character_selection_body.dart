@@ -12,11 +12,34 @@ class CharacterSelectionBody extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
-    final bodyHeight = size.height / 2;
+    final bodyHeight = size.height / 1.5;
     return SizedBox(
       height: bodyHeight,
       child: Stack(
         children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 24),
+                SelectableText(
+                  l10n.chooseYourCharacterTitleText,
+                  style: theme.textTheme.headline1
+                      ?.copyWith(color: PhotoboothColors.white),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                SelectableText(
+                  l10n.youCanChangeThemLaterSubheading,
+                  style: theme.textTheme.headline3
+                      ?.copyWith(color: PhotoboothColors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+
           // Light shadow
           Align(
             alignment: Alignment.topCenter,
@@ -65,69 +88,17 @@ class CharacterSelectionBody extends StatelessWidget {
               },
             ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TextButton(
+              onPressed: () {
+                Navigator.of(context).push(PhotoBoothPage.route());
+              },
+              child: Text('data'),
+            ),
+          ),
         ],
       ),
-    );
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        height: 700,
-        width: 700,
-        color: Colors.red,
-        child: Stack(
-          children: [
-            Transform.translate(
-              offset: const Offset(0, -100),
-              child: CustomPaint(
-                size: MediaQuery.of(context).size,
-                painter: DrawTriangle(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    return Column(
-      children: [
-        const SizedBox(height: 80),
-        SelectableText(
-          l10n.chooseYourCharacterTitleText,
-          style: theme.textTheme.headline1
-              ?.copyWith(color: PhotoboothColors.white),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 24),
-        SelectableText(
-          l10n.youCanChangeThemLaterSubheading,
-          style: theme.textTheme.headline3
-              ?.copyWith(color: PhotoboothColors.white),
-          textAlign: TextAlign.center,
-        ),
-        Container(
-          color: Colors.red,
-          child: LayoutBuilder(
-            builder: (_, constraints) {
-              if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
-                return const CharacterSelector.small();
-              } else if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
-                return const CharacterSelector.medium();
-              } else if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
-                return const CharacterSelector.large();
-              } else {
-                return const CharacterSelector.xLarge();
-              }
-            },
-          ),
-        ),
-        const SizedBox(height: 42),
-        FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(PhotoBoothPage.route());
-          },
-          child: const Icon(Icons.arrow_right),
-        ),
-      ],
     );
   }
 }
@@ -149,8 +120,8 @@ class DrawTriangle extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xffffff).withOpacity(0.6),
-          Color(0xffffff).withOpacity(0),
+          const Color(0xffffff).withOpacity(0.6),
+          const Color(0xffffff).withOpacity(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(pathLightBody, paintLightBody);
@@ -166,13 +137,16 @@ class DrawBase extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
-    final rectangle =
-        Rect.fromCenter(center: center, width: size.width, height: 125);
+    final rectangle = Rect.fromCenter(
+      center: center,
+      width: size.width,
+      height: size.height / 4,
+    );
     final paint = Paint()
       ..shader = RadialGradient(
         colors: [
-          Color(0xffF4E4E4).withOpacity(0.3),
-          Color(0xffF4E4E4).withOpacity(0),
+          const Color(0xffF4E4E4).withOpacity(0.3),
+          const Color(0xffF4E4E4).withOpacity(0),
         ],
       ).createShader(
         Rect.fromCircle(center: center, radius: size.width / 2),

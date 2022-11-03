@@ -11,8 +11,8 @@ class CharacterSelectionBackground extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xffBB42F4).withOpacity(1),
-            Color(0xff428eff).withOpacity(1),
+            const Color(0xffBB42F4).withOpacity(1),
+            const Color(0xff428eff).withOpacity(1),
           ],
         ),
       ),
@@ -20,8 +20,8 @@ class CharacterSelectionBackground extends StatelessWidget {
   }
 }
 
-class CharacterSelectionBackground1 extends StatelessWidget {
-  const CharacterSelectionBackground1({super.key});
+class CharacterSelectionBackgroundOverlay extends StatelessWidget {
+  const CharacterSelectionBackgroundOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class CharacterSelectionBackground1 extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xff000000).withOpacity(0.5),
-            Color(0xff000000).withOpacity(0),
+            const Color(0xff000000).withOpacity(0.5),
+            const Color(0xff000000).withOpacity(0),
           ],
         ),
       ),
