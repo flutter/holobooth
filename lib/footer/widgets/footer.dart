@@ -28,7 +28,7 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 150,
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.caption!.copyWith(color: textColor),
         child: Padding(
