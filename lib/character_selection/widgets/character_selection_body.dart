@@ -152,8 +152,8 @@ class DrawBase extends CustomPainter {
     final paint = Paint()
       ..shader = RadialGradient(
         colors: [
-          const Color(0xffF4E4E4).withOpacity(0.3),
-          const Color(0xffF4E4E4).withOpacity(0),
+          Colors.white.withOpacity(0.5),
+          Colors.white.withOpacity(0),
         ],
       ).createShader(
         Rect.fromCircle(center: center, radius: size.width / 2),
