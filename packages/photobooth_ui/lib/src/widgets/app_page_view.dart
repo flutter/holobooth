@@ -11,9 +11,8 @@ class AppPageView extends StatelessWidget {
     super.key,
     required this.body,
     required this.footer,
-    this.background = const SizedBox(),
     this.overlays = const <Widget>[],
-    this.background2,
+    this.backgrounds,
   });
 
   /// A body of the [AppPageView]
@@ -22,10 +21,7 @@ class AppPageView extends StatelessWidget {
   /// Sticky footer displayed at the bottom of the [AppPageView]
   final Widget footer;
 
-  /// An optional background of the [AppPageView]
-  final Widget background;
-
-  final Widget? background2;
+  final List<Widget>? backgrounds;
 
   /// An optional list of overlays displayed on top of the [body]
   final List<Widget> overlays;
@@ -35,8 +31,8 @@ class AppPageView extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        background,
-        if (background2 != null) background2!,
+        if (backgrounds != null)
+          for (final background in backgrounds!) background,
         CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: body),
