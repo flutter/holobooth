@@ -45,8 +45,6 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size.width;
-    final isBigScreen = screenSize >= PhotoboothBreakpoints.small;
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
