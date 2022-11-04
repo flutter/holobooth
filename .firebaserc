@@ -7,6 +7,9 @@
       "hosting": {
         "app_dev": [
           "96e0700d-fe2c-4609-b43c-87093e447b75"
+        ],
+        "app_staging": [
+          "6f201821-f33c-4ab3-bf2f-c84b1a8bf851"
         ]
       }
     }

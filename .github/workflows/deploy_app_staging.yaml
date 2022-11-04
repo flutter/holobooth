@@ -1,14 +1,12 @@
-name: deploy_app_dev
+name: deploy_app_staging
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
-    name: Deploy App Development
+    name: Deploy App Staging
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -19,6 +17,6 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_DEV }}"
           projectId: io-photobooth-dev
-          target: app_dev
+          target: app_staging
           expires: 30d
           channelId: live
