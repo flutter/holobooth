@@ -50,7 +50,6 @@ version
 .pub-cache/
 .pub/
 build/
-flutter_*.png
 linked_*.ds
 unlinked.ds
 unlinked_spec.ds
@@ -128,3 +127,13 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+
+# Mason
+.mason/
+
+**/failures/*.png
+
+# Alchemist
+**/goldens/*
+!**/goldens/ci/
+**/test/**/failures/**

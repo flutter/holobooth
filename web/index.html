@@ -61,6 +61,22 @@
         });
       });
     </script>
+      <!-- Use somewhat unminified code in development :) -->
+      <!--
+          2. THE ORDER OF THE SCRIPTS MATTERS! (face-landmarks-detection requires face_mesh)
+          I reordered this until the face-landmarks-detection demo fired up. Not sure about the
+          correct order of the rest of the scripts!
+          TODO(oscar): Figure out the correct order of the scripts :)
+        -->
+<!-- Require the peer dependencies of face-landmarks-detection. -->
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+
+<!-- You must explicitly require a TF.js backend if you're not using the TF.js union bundle. -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
     <script src="main.dart.js"></script>
   </body>
 </html>

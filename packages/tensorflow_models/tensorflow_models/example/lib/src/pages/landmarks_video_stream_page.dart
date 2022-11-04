@@ -36,7 +36,7 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,

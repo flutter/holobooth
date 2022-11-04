@@ -1,0 +1,20 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:alchemist/alchemist.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
+
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  final enablePlatformTests =
+      !Platform.environment.containsKey('GITHUB_ACTIONS');
+  return AlchemistConfig.runWithConfig(
+    config: AlchemistConfig(
+      theme: PhotoboothTheme.standard,
+      platformGoldensConfig:
+          AlchemistConfig.current().platformGoldensConfig.copyWith(
+                enabled: enablePlatformTests,
+              ),
+    ),
+    run: testMain,
+  );
+}

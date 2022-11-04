@@ -25,6 +25,7 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+  var _isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -37,8 +38,11 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
-            if (_cameraController != null)
+            Opacity(
+              opacity: _isCameraVisible ? 1 : 0,
+              child: CameraView(onCameraReady: _onCameraReady),
+            ),
+            if (_cameraController != null) ...[
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
@@ -50,6 +54,20 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   );
                 },
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isCameraVisible = !_isCameraVisible;
+                    });
+                  },
+                  child: Text(
+                    _isCameraVisible ? 'Hide the camera' : 'Show the camera',
+                  ),
+                ),
+              )
+            ]
           ],
         ),
       ),
@@ -71,6 +89,7 @@ class _Dash extends StatefulWidget {
 
 class _DashState extends State<_Dash> {
   _DashStateMachineController? _dashController;
+  late FaceGeometry _faceGeometry = FaceGeometry.fromFace(widget.face);
 
   void _onRiveInit(Artboard artboard) {
     _dashController = _DashStateMachineController(artboard);
@@ -80,13 +99,15 @@ class _DashState extends State<_Dash> {
   @override
   void didUpdateWidget(covariant _Dash oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.face.direction().unit();
+      // TODO(oscar): uncomment when rotation maths are completed
+      /*  final direction = widget.face.direction().unit();
       dashController.x.change(direction.x * 1000);
       dashController.y.change(direction.z * -1000);
-
-      dashController.openMouth.change(widget.face.isMouthOpen);
+*/
+      dashController.openMouth.change(_faceGeometry.mouth.isOpen);
     }
   }
 
@@ -99,8 +120,8 @@ class _DashState extends State<_Dash> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
       child: Assets.dash.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,

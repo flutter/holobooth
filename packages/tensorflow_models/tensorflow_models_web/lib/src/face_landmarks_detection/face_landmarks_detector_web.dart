@@ -6,30 +6,36 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:image_loader/image_loader.dart';
 import 'package:js_interop_utils/js_interop_utils.dart' as js_interop_utils;
-import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
-import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart'
-    as interop;
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
+    as platform_interface;
+
+import 'package:tensorflow_models_web/src/face_landmarks_detection/interop/interop.dart';
 
 /// Web implementation of [FaceLandmarksDetector].
 ///
 /// See also:
 /// * [MediaPipe's FaceMesh documentation](https://google.github.io/mediapipe/solutions/face_mesh.html)
 /// * [Tensorflow's FaceLandmarkDetection source code](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection)
-class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
+class FaceLandmarksDetectorWeb
+    implements platform_interface.FaceLandmarksDetector {
   FaceLandmarksDetectorWeb(this._faceLandmarksDetector);
 
-  final interop.FaceLandmarksDetector _faceLandmarksDetector;
+  final FaceLandmarksDetector _faceLandmarksDetector;
+
+  static FaceLandmarksDetectionInterop get interop =>
+      FaceLandmarksDetectionInterop.instance;
 
   static Future<FaceLandmarksDetectorWeb> load([
-    interop.ModelConfig? config,
-  ]) async =>
-      FaceLandmarksDetectorWeb(
-        await promiseToFuture(
-          interop.createDetector('MediaPipeFaceMesh', config),
-        ),
-      );
+    ModelConfig? config,
+  ]) async {
+    final detector = await interop.createDetector(
+      'MediaPipeFaceMesh',
+      config,
+    );
+    return FaceLandmarksDetectorWeb(detector);
+  }
 
-  /// Estimates [Faces] from different sources.
+  /// Estimates [platform_interface.Faces] from different sources.
   ///
   /// The supported sources are:
   /// - [html.ImageElement] Raw html element that contains the image to process.
@@ -38,11 +44,12 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   /// frame) to process.
   /// - [Uint8List] A list of bytes that contains the image to process.
   @override
-  Future<Faces> estimateFaces(
+  Future<platform_interface.Faces> estimateFaces(
     dynamic object, {
-    EstimationConfig estimationConfig = const EstimationConfig(),
+    platform_interface.EstimationConfig estimationConfig =
+        const platform_interface.EstimationConfig(),
   }) async {
-    final config = interop.EstimationConfig(
+    final config = EstimationConfig(
       flipHorizontal: estimationConfig.flipHorizontal,
       staticImageMode: estimationConfig.staticImageMode,
     );
@@ -63,7 +70,7 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
         _faceLandmarksDetector.estimateFaces(object, config),
       );
       return _facesFromJs(result);
-    } else if (object is ImageData) {
+    } else if (object is platform_interface.ImageData) {
       final imageData = html.ImageData(
         object.bytes.buffer.asUint8ClampedList(),
         object.size.width,
@@ -82,12 +89,16 @@ class FaceLandmarksDetectorWeb implements FaceLandmarksDetector {
   void dispose() => _faceLandmarksDetector.dispose();
 }
 
-Faces _facesFromJs(List<dynamic> jsFaces) {
-  final faces = <Face>[];
+platform_interface.Faces _facesFromJs(List<dynamic> jsFaces) {
+  final faces = <platform_interface.Face>[];
   for (final jsObject in jsFaces) {
     // Convert NativeJavascriptObject to Map by encoding and decoding JSON.
     final json = js_interop_utils.stringify(jsObject as Object);
-    faces.add(Face.fromJson(jsonDecode(json) as Map<String, dynamic>));
+    faces.add(
+      platform_interface.Face.fromJson(
+        jsonDecode(json) as Map<String, dynamic>,
+      ),
+    );
   }
   return faces;
 }

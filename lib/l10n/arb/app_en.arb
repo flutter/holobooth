@@ -344,9 +344,13 @@
     "@selectABackgroundTitleText": {
         "description": "Title text displayed at top of select a background page"
     },
-    "selectACharacterTitleText": "Select a character",
-    "@selectACharacterTitleText": {
+    "chooseYourCharacterTitleText": "Choose your character",
+    "@chooseYourCharacterTitleText": {
         "description": "Title text displayed at top of select a character page"
+    },
+    "youCanChangeThemLaterSubheading": "You can change them later",
+    "@youCanChangeThemLaterSubheading": {
+        "description": "Subheading text displayed at top of select a character page"
     },
     "nextButtonText": "Next",
     "@nextButtonText": {
@@ -355,5 +359,11 @@
     "toThePhotoBoothButtonText": "To the photobooth!",
     "@toThePhotoBoothButtonText": {
         "description": "Text displayed on button to navigate to the camera after selecting a character"
+    },
+    "backgroundSelectorButton": "Background",
+    "@backgroundSelectorButton": {
+      "description": "Title text displayed on the background selection button and drawer on camera capture page",
+      "type": "text",
+      "placeholders": {}
     }
 }

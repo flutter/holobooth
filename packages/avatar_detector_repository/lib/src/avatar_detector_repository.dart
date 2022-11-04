@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar_detector_repository}
@@ -18,12 +19,14 @@ class AvatarDetectorRepository {
 
   FaceLandmarksDetector? _faceLandmarksDetector;
 
+  FaceGeometry? _faceGeometry;
+
   /// Preload an instance of [FaceLandmarksDetector].
   ///
   /// Throws [PreloadLandmarksModelException] if any exception occurs.
   ///
   /// Note: Highly recommended to call this method before any other
-  /// like [detectFace] to speed up the whole process.
+  /// like [detectAvatar] to speed up the whole process.
   Future<void> preloadLandmarksModel() async {
     try {
       _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
@@ -32,10 +35,10 @@ class AvatarDetectorRepository {
     }
   }
 
-  /// Return [Face] if there is any on the [input].
+  /// Return [Avatar] if there is any on the [input].
   ///
-  /// Throws [DetectFaceException] if any exception occurs.
-  Future<Face?> detectFace(dynamic input) async {
+  /// Throws [DetectAvatarException] if any exception occurs.
+  Future<Avatar?> detectAvatar(Object input) async {
     if (_faceLandmarksDetector == null) {
       await preloadLandmarksModel();
     }
@@ -43,10 +46,20 @@ class AvatarDetectorRepository {
     try {
       faces = await _faceLandmarksDetector!.estimateFaces(input);
     } catch (error) {
-      throw DetectFaceException(error.toString());
+      throw DetectAvatarException(error.toString());
     }
     if (faces.isEmpty) return null;
 
-    return faces.first;
+    final face = faces.first;
+    _faceGeometry = _faceGeometry == null
+        ? FaceGeometry.fromFace(face)
+        : _faceGeometry!.update(face);
+
+    return Avatar.fromFaceGeomtry(_faceGeometry!);
+  }
+
+  /// Disposes the instance of [FaceLandmarksDetector]
+  void dispose() {
+    _faceLandmarksDetector?.dispose();
   }
 }

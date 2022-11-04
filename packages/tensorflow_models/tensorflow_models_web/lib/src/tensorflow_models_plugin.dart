@@ -13,7 +13,7 @@ class TensorflowModelsPlugin extends TensorflowModelsPlatform {
     return landmark.FaceLandmarksDetectorWeb.load(
       landmark.MediaPipeFaceMeshMediaPipeModelConfig(
         runtime: 'mediapipe',
-        refineLandmarks: false,
+        refineLandmarks: true,
         maxFaces: 1,
         // This is *required* by the model to download additional resources...
         //
