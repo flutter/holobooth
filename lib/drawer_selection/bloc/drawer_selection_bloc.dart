@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/drawer_selection/drawer_option/drawer_option.dart';
+import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 
 part 'drawer_selection_event.dart';
 part 'drawer_selection_state.dart';
