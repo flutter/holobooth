@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "io-photobooth-dev"
-  }
+  },
+  "targets": {
+    "io-photobooth-dev": {
+      "hosting": {
+        "app_dev": [
+          "96e0700d-fe2c-4609-b43c-87093e447b75"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
