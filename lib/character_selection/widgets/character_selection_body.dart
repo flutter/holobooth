@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -144,21 +146,22 @@ class DrawBase extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
-    final rectangle = Rect.fromCenter(
-      center: center,
-      width: size.width,
-      height: size.height / 6,
-    );
     final paint = Paint()
       ..shader = RadialGradient(
         colors: [
-          Colors.white.withOpacity(0.5),
-          Colors.white.withOpacity(0),
+          Color(0XFFF4E4E4).withOpacity(0.5),
+          Color(0XFFF4E4E4).withOpacity(0)
         ],
       ).createShader(
-        Rect.fromCircle(center: center, radius: size.width / 2),
+        Rect.fromCircle(center: Offset.zero, radius: size.width / 2),
       );
-    canvas.drawOval(rectangle, paint);
+    canvas.save();
+    print(center);
+    final matrix = Matrix4.identity()..rotateX(pi * 0.43);
+    canvas.translate(center.dx, center.dy);
+    canvas.transform(matrix.storage);
+    canvas.drawCircle(Offset.zero, size.width / 2, paint);
+    canvas.restore();
   }
 
   @override
