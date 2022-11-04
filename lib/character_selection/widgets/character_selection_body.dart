@@ -137,8 +137,8 @@ class DrawTriangle extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          const Color(0xffffffff).withOpacity(0.6),
-          const Color(0xffffffff).withOpacity(0),
+          PhotoboothColors.white.withOpacity(0.6),
+          PhotoboothColors.white.withOpacity(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(pathLightBody, paintLightBody);

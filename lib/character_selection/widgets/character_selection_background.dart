@@ -32,8 +32,8 @@ class CharacterSelectionBackgroundOverlay extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            const Color(0xff000000).withOpacity(0.5),
-            const Color(0xff000000).withOpacity(0),
+            Colors.black.withOpacity(0.5),
+            Colors.black.withOpacity(0),
           ],
         ),
       ),
