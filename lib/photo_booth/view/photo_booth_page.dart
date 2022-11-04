@@ -5,7 +5,6 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
 import 'package:io_photobooth/drawer_selection/widgets/drawer_layer.dart';
 import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -63,7 +62,7 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
         }
       },
       child: Scaffold(
-        endDrawer: const DrawerLayer(),
+        endDrawer: const DrawerLayer(key: PhotoBoothView.endDrawerKey),
         body: Stack(
           fit: StackFit.expand,
           children: [
