@@ -35,10 +35,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
 
-  /// File path: assets/backgrounds/light_effect_background.png
-  AssetGenImage get lightEffectBackground =>
-      const AssetGenImage('assets/backgrounds/light_effect_background.png');
-
   /// File path: assets/backgrounds/photobooth_background.jpg
   AssetGenImage get photoboothBackground =>
       const AssetGenImage('assets/backgrounds/photobooth_background.jpg');
