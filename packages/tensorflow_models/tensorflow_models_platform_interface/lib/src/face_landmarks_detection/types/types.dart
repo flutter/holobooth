@@ -8,8 +8,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'types.g.dart';
 
-import 'package:meta/meta.dart';
-
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
@@ -30,7 +28,6 @@ class Face {
 
   factory Face.fromJson(Map<String, dynamic> json) {
     return _$FaceFromJson(json);
-
   }
 
   /// Points representing the face landmarks.
@@ -63,7 +60,6 @@ class Face {
 @JsonSerializable()
 class Keypoint {
   Keypoint(this.x, this.y, this.z, this.score, this.name);
-
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
     return _$KeypointFromJson(json);
