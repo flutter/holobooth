@@ -9,6 +9,9 @@ class Vector3 extends Equatable {
   /// {@macro vector3}
   const Vector3(this.x, this.y, this.z);
 
+  /// A vector with all components set to zero.
+  static const zero = Vector3(0, 0, 0);
+
   /// The x coordinate.
   final double x;
 

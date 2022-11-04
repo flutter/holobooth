@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
 final face1 = Face(
-  UnmodifiableListView([
+  UnmodifiableListView(const [
     Keypoint(
       177.22283172607422,
       517.1084253787994,
@@ -3351,7 +3351,7 @@ final face1 = Face(
       'leftIris',
     ),
   ]),
-  BoundingBox(
+  const BoundingBox(
     106.76581734418869,
     383.71903824806213,
     256.6904923915863,

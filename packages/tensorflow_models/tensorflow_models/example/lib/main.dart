@@ -7,12 +7,10 @@ class _App extends StatelessWidget {
   const _App({Key? key}) : super(key: key);
 
   static final _pages = <String, Route<void> Function()>{
-    'Landmarks Single Image': LandmarksSingleImagePage.route,
     'Landmarks Video Stream': LandmarksVideoStreamPage.route,
     'Landmarks Open Mouth': LandmarksOpenMouthPage.route,
     'Landmarks Close Eyes': LandmarksDetectBlinkPage.route,
     'Landmarks GIF': LandmarksGifPage.route,
-    'Landmarks Mask Blink': LandmarksMaskBlinkPage.route,
     'Landmarks Dash': LandmarksDashPage.route,
   };
 
