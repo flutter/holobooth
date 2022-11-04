@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// {@template app_page_view}
-/// A widget that constructs a page view consisting of a [background]
+/// A widget that constructs a page view consisting of a [backgrounds]
 /// [body], [footer] pinned to the bottom of the page and an optional
 /// list of overlay widgets displayed on top of the [body].
 /// {@endtemplate}
@@ -21,6 +21,7 @@ class AppPageView extends StatelessWidget {
   /// Sticky footer displayed at the bottom of the [AppPageView]
   final Widget footer;
 
+  /// An optional list of backgrounds displayed below the [body]
   final List<Widget>? backgrounds;
 
   /// An optional list of overlays displayed on top of the [body]

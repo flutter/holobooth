@@ -104,7 +104,7 @@ class CharacterSelectionBody extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(PhotoBoothPage.route());
             },
-            child: Icon(Icons.arrow_forward),
+            child: const Icon(Icons.arrow_forward),
           ),
         ),
       ],
@@ -115,8 +115,6 @@ class CharacterSelectionBody extends StatelessWidget {
 class DrawTriangle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height);
-    print(size.height);
     final pathLightBody = Path()
       ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
@@ -129,8 +127,8 @@ class DrawTriangle extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          const Color(0xffffff).withOpacity(0.6),
-          const Color(0xffffff).withOpacity(0),
+          const Color(0xffffffff).withOpacity(0.6),
+          const Color(0xffffffff).withOpacity(0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(pathLightBody, paintLightBody);
@@ -146,22 +144,25 @@ class DrawBase extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
+    canvas.save();
+    // Rotation of the canvas to paint the circle and we rotate to get
+    //the oval effect
+    final matrix = Matrix4.identity()
+      ..translate(center.dx, center.dy)
+      ..rotateX(pi * 0.43);
+    canvas.transform(matrix.storage);
     final paint = Paint()
       ..shader = RadialGradient(
         colors: [
-          Color(0XFFF4E4E4).withOpacity(0.5),
-          Color(0XFFF4E4E4).withOpacity(0)
+          const Color(0XFFF4E4E4).withOpacity(0.5),
+          const Color(0XFFF4E4E4).withOpacity(0)
         ],
       ).createShader(
         Rect.fromCircle(center: Offset.zero, radius: size.width / 2),
       );
-    canvas.save();
-    print(center);
-    final matrix = Matrix4.identity()..rotateX(pi * 0.43);
-    canvas.translate(center.dx, center.dy);
-    canvas.transform(matrix.storage);
-    canvas.drawCircle(Offset.zero, size.width / 2, paint);
-    canvas.restore();
+    canvas
+      ..drawCircle(Offset.zero, size.width / 2, paint)
+      ..restore();
   }
 
   @override
