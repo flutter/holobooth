@@ -25,7 +25,7 @@
         "-d",
         "chrome",
         "--web-renderer",
-        "html"
+        "canvaskit"
       ]
     }
   ]
