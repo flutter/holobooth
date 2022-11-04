@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
@@ -73,28 +72,6 @@ void main() {
         await tester.pumpSubject(CharacterSelectionBody());
         expect(find.byType(CharacterSelector), findsOneWidget);
       });
-
-      testWidgets('a FloatingActionButon', (tester) async {
-        await tester.pumpSubject(CharacterSelectionBody());
-        final finder = find.byType(FloatingActionButton);
-        await tester.ensureVisible(finder);
-        expect(finder, findsOneWidget);
-      });
-    });
-
-    group('navigates', () {
-      testWidgets(
-        'to PhotoBoothPage '
-        'when FloatingActionButton is pressed',
-        (tester) async {
-          await tester.pumpSubject(CharacterSelectionBody());
-          final finder = find.byType(FloatingActionButton);
-          await tester.ensureVisible(finder);
-          await tester.tap(finder);
-          await tester.pumpAndSettle();
-          expect(find.byType(PhotoBoothPage), findsOneWidget);
-        },
-      );
     });
   });
 }

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
@@ -103,18 +102,6 @@ class CharacterSelectionBody extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-        const SizedBox(
-          height: 120,
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).push(PhotoBoothPage.route());
-            },
-            child: const Icon(Icons.arrow_forward),
           ),
         ),
       ],

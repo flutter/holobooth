@@ -74,6 +74,10 @@ class $AssetsIconsGen {
   AssetGenImage get flutterIcon =>
       const AssetGenImage('assets/icons/flutter_icon.png');
 
+  /// File path: assets/icons/go_next_button_icon.png
+  AssetGenImage get goNextButtonIcon =>
+      const AssetGenImage('assets/icons/go_next_button_icon.png');
+
   /// File path: assets/icons/retake_button_icon.png
   AssetGenImage get retakeButtonIcon =>
       const AssetGenImage('assets/icons/retake_button_icon.png');

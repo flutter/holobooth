@@ -24,13 +24,19 @@ class CharacterSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppPageView(
-      backgrounds: [
+    return AppPageView(
+      backgrounds: const [
         CharacterSelectionBackground(),
         CharacterSelectionBackgroundOverlay()
       ],
-      body: CharacterSelectionBody(),
-      footer: SimplifiedFooter(),
+      body: const CharacterSelectionBody(),
+      footer: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: const [
+          NextButton(),
+          SimplifiedFooter(),
+        ],
+      ),
     );
   }
 }
