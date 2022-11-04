@@ -15,9 +15,9 @@ class CharacterSelectionBody extends StatelessWidget {
     final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
     double bodyHeight;
-    if (size.width < PhotoboothBreakpoints.small) {
+    if (size.width <= PhotoboothBreakpoints.small) {
       bodyHeight = size.height * 0.6;
-    } else if (size.width < PhotoboothBreakpoints.medium) {
+    } else if (size.width <= PhotoboothBreakpoints.medium) {
       bodyHeight = size.height * 0.6;
     } else {
       bodyHeight = size.height * 0.75;
