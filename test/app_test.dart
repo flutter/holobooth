@@ -3,7 +3,7 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/app/app.dart';
-import 'package:io_photobooth/landing/landing.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
@@ -60,7 +60,7 @@ void main() {
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
         ),
       );
-      expect(find.byType(LandingPage), findsOneWidget);
+      expect(find.byType(CharacterSelectionPage), findsOneWidget);
     });
   });
 }

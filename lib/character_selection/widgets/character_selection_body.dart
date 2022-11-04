@@ -31,24 +31,26 @@ class CharacterSelectionBody extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 24),
-                    SelectableText(
-                      l10n.chooseYourCharacterTitleText,
-                      style: theme.textTheme.headline1
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    SelectableText(
-                      l10n.youCanChangeThemLaterSubheading,
-                      style: theme.textTheme.headline3
-                          ?.copyWith(color: PhotoboothColors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 24),
+                      SelectableText(
+                        l10n.chooseYourCharacterTitleText,
+                        style: theme.textTheme.headline1
+                            ?.copyWith(color: PhotoboothColors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      SelectableText(
+                        l10n.youCanChangeThemLaterSubheading,
+                        style: theme.textTheme.headline3
+                            ?.copyWith(color: PhotoboothColors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
