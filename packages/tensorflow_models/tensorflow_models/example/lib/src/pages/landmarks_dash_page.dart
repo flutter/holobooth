@@ -25,6 +25,8 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+  FaceGeometry? _faceGeometry;
+
   var _isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
@@ -47,22 +49,17 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
-                  final face = FaceGeometry.fromFace(faces.first);
+                  final face = faces.first;
+                  _faceGeometry = _faceGeometry == null
+                      ? FaceGeometry.fromFace(face)
+                      : _faceGeometry!.update(face);
 
-                  final cos = face.direction.value;
-                  final direction = face.direction.value;
-
-                  return Column(
+                  return Stack(
+                    fit: StackFit.expand,
                     children: [
-                      Center(
-                        child: _Dash(face: faces.first),
-                      ),
-                      Text(
-                        'current vert ${cos.x.toStringAsFixed(2)} hor ${cos.y.toStringAsFixed(2)}',
-                      ),
-                      Text(
-                        'org vert ${direction.y.toStringAsFixed(2)} hor ${direction.x.toStringAsFixed(2)}',
-                      ),
+                      Center(child: _Dash(face: face)),
+                      if (_faceGeometry != null)
+                        FaceGeometryOverlay(faceGeometry: _faceGeometry!),
                     ],
                   );
                 },
