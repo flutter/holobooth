@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
@@ -18,16 +20,60 @@ class FaceDirection extends Equatable {
 
   FaceDirection._compute({
     required List<tf.Keypoint> keypoints,
-  }) : value = _value(
+  })  : value = _value(
           leftCheeck: keypoints[127],
           rightCheeck: keypoints[356],
           nose: keypoints[6],
-        );
+        ),
+        newValues = getHeadAnglesCos(keypoints: keypoints);
 
   /// An empty instance of [MouthGeometry].
   ///
   /// This is used when the keypoints are not available.
-  const FaceDirection._empty() : value = Vector3.zero;
+  const FaceDirection._empty()
+      : value = Vector3.zero,
+        newValues = const [];
+
+  static List<double> getHeadAnglesCos({
+    required List<tf.Keypoint> keypoints,
+  }) {
+    final faceVerticalCentralPoint = [
+      0,
+      (keypoints[10].y + keypoints[152].y) * 0.5,
+      ((keypoints[10].z ?? 0) + (keypoints[152].z ?? 0)) * 0.5,
+    ];
+    final verticalAdjacent =
+        (keypoints[10].z ?? 0) - faceVerticalCentralPoint[2];
+    final verticalOpposite = keypoints[10].y - faceVerticalCentralPoint[1];
+    final verticalHypotenuse = l2Norm([verticalAdjacent, verticalOpposite]);
+    final verticalCos = verticalAdjacent / verticalHypotenuse;
+
+    final faceHorizontalCentralPoint = [
+      (keypoints[226].x + keypoints[446].x) * 0.5,
+      0,
+      ((keypoints[226].z ?? 0) + (keypoints[446].z ?? 0)) * 0.5,
+    ];
+    final horizontalAdjacent =
+        (keypoints[226].z ?? 0) - faceHorizontalCentralPoint[2];
+    final horizontalOpposite = keypoints[226].x - faceHorizontalCentralPoint[0];
+
+    final horizontalHypotenuse =
+        l2Norm([horizontalAdjacent, horizontalOpposite]);
+    final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
+
+    return [
+      verticalCos,
+      horizontalCos,
+    ];
+  }
+
+  static double l2Norm(List<num> vec) {
+    var norm = 0.0;
+    for (final v in vec) {
+      norm += v * v;
+    }
+    return sqrt(norm);
+  }
 
   static Vector3 _value({
     required tf.Keypoint leftCheeck,
@@ -54,6 +100,9 @@ class FaceDirection extends Equatable {
 
   /// The value of the direction of the face.
   final Vector3 value;
+
+  /// Tests
+  final List<double> newValues;
 
   @override
   List<Object?> get props => [value];
