@@ -20,9 +20,9 @@ class DrawerLayer extends StatelessWidget {
                 PhotoboothColors.green,
                 PhotoboothColors.blue
               ],
-              itemBuilder: (context, item) => ColoredBox(color: item),
+              itemBuilder: (_, item) => ColoredBox(color: item),
               selectedItem: PhotoboothColors.red,
-              onSelected: (value) => print,
+              onSelected: print,
             );
           case DrawerOption.backgrounds:
             return ItemSelectorDrawer(
@@ -32,9 +32,9 @@ class DrawerLayer extends StatelessWidget {
                 PhotoboothColors.green,
                 PhotoboothColors.blue
               ],
-              itemBuilder: (context, item) => ColoredBox(color: item),
+              itemBuilder: (_, item) => ColoredBox(color: item),
               selectedItem: PhotoboothColors.red,
-              onSelected: (value) => print,
+              onSelected: print,
             );
           case DrawerOption.characters:
             return ItemSelectorDrawer(
@@ -44,9 +44,9 @@ class DrawerLayer extends StatelessWidget {
                 PhotoboothColors.green,
                 PhotoboothColors.blue
               ],
-              itemBuilder: (context, item) => ColoredBox(color: item),
+              itemBuilder: (_, item) => ColoredBox(color: item),
               selectedItem: PhotoboothColors.red,
-              onSelected: (value) => print,
+              onSelected: print,
             );
           case null:
             return const SizedBox();
