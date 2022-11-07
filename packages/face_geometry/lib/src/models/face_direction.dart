@@ -32,14 +32,6 @@ class FaceDirection extends Equatable {
   /// This is used when the keypoints are not available.
   const FaceDirection._empty() : value = Vector3.zero;
 
-  static double _hypotenuse(List<num> vec) {
-    var norm = 0.0;
-    for (final v in vec) {
-      norm += v * v;
-    }
-    return math.sqrt(norm);
-  }
-
   static Vector3 _value({
     required tf.Keypoint leftCheeckBone,
     required tf.Keypoint rightCheeckBone,
@@ -51,12 +43,10 @@ class FaceDirection extends Equatable {
       (foreheadTopCenter.y + chinBottomCenter.y) / 2,
       ((foreheadTopCenter.z ?? 0) + (chinBottomCenter.z ?? 0)) / 2,
     );
-
     final verticalAdjacent =
         (foreheadTopCenter.z ?? 0) - faceVerticalCentralPoint.z;
     final verticalOpposite = foreheadTopCenter.y - faceVerticalCentralPoint.y;
-    final verticalHypotenuse =
-        _hypotenuse([verticalAdjacent, verticalOpposite]);
+    final verticalHypotenuse = _hypotenuse(verticalAdjacent, verticalOpposite);
     final verticalCos = verticalAdjacent / verticalHypotenuse;
 
     final faceHorizontalCentralPoint = Vector3(
@@ -64,13 +54,11 @@ class FaceDirection extends Equatable {
       0,
       ((leftCheeckBone.z ?? 0) + (rightCheeckBone.z ?? 0)) * 0.5,
     );
-
     final horizontalAdjacent =
         (leftCheeckBone.z ?? 0) - faceHorizontalCentralPoint.z;
     final horizontalOpposite = rightCheeckBone.x - faceHorizontalCentralPoint.x;
-
     final horizontalHypotenuse =
-        _hypotenuse([horizontalAdjacent, horizontalOpposite]);
+        _hypotenuse(horizontalAdjacent, horizontalOpposite);
     final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
 
     return Vector3(
@@ -85,4 +73,8 @@ class FaceDirection extends Equatable {
 
   @override
   List<Object?> get props => [value];
+}
+
+double _hypotenuse(double x, double y) {
+  return math.sqrt(x * x + y * y);
 }
