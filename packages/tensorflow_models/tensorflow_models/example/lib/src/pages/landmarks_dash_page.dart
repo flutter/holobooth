@@ -117,12 +117,6 @@ class _DashState extends State<_Dash> {
     _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
-      // TODO(oscar): uncomment when rotation maths are completed
-      /*  final direction = widget.face.direction().unit();
-      dashController.x.change(direction.x * 1000);
-      dashController.y.change(direction.z * -1000);
-*/
-      // dashController.openMouth.change(_faceGeometry.mouth.isOpen);
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
       final direction = _faceGeometry.direction.value;
       final cos = _faceGeometry.direction.value;
@@ -160,8 +154,6 @@ class _DashState extends State<_Dash> {
     y = newY;
     _dashController?.x.change(newX);
     _dashController?.y.change(newY);
-
-    _dashController?.openMouth.change(_faceGeometry.mouth.isOpen);
   }
 
   @override
