@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
@@ -72,7 +72,7 @@ class FaceDirection extends Equatable {
     for (final v in vec) {
       norm += v * v;
     }
-    return sqrt(norm);
+    return math.sqrt(norm);
   }
 
   static Vector3 _value({
