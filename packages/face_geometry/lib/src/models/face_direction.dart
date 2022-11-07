@@ -46,27 +46,27 @@ class FaceDirection extends Equatable {
     required tf.Keypoint foreheadTopCenter,
     required tf.Keypoint chinBottomCenter,
   }) {
-    final faceVerticalCentralPoint = [
+    final faceVerticalCentralPoint = Vector3(
       0,
-      (foreheadTopCenter.y + chinBottomCenter.y) * 0.5,
-      ((foreheadTopCenter.z ?? 0) + (chinBottomCenter.z ?? 0)) * 0.5,
-    ];
-    final verticalAdjacent =
-        (foreheadTopCenter.z ?? 0) - faceVerticalCentralPoint[2];
+      (foreheadTopCenter.y + chinBottomCenter.y) / 2,
+      ((foreheadTopCenter.z ?? 0) + (chinBottomCenter.z ?? 0)) / 2,
+    );
 
-    final verticalOpposite = foreheadTopCenter.y - faceVerticalCentralPoint[1];
+    final verticalAdjacent =
+        (foreheadTopCenter.z ?? 0) - faceVerticalCentralPoint.z;
+    final verticalOpposite = foreheadTopCenter.y - faceVerticalCentralPoint.y;
     final verticalHypotenuse = _l2Norm([verticalAdjacent, verticalOpposite]);
     final verticalCos = verticalAdjacent / verticalHypotenuse;
 
-    final faceHorizontalCentralPoint = [
+    final faceHorizontalCentralPoint = Vector3(
       (leftCheeckBone.x + rightCheeckBone.x) * 0.5,
       0,
       ((leftCheeckBone.z ?? 0) + (rightCheeckBone.z ?? 0)) * 0.5,
-    ];
+    );
+
     final horizontalAdjacent =
-        (leftCheeckBone.z ?? 0) - faceHorizontalCentralPoint[2];
-    final horizontalOpposite =
-        rightCheeckBone.x - faceHorizontalCentralPoint[0];
+        (leftCheeckBone.z ?? 0) - faceHorizontalCentralPoint.z;
+    final horizontalOpposite = rightCheeckBone.x - faceHorizontalCentralPoint.x;
 
     final horizontalHypotenuse =
         _l2Norm([horizontalAdjacent, horizontalOpposite]);
