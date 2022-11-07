@@ -55,7 +55,9 @@ class _FacesDetectorBuilderState extends State<FacesDetectorBuilder> {
       fromMax: imageData.size,
       toMax: tf.Size(_size.width.toInt(), _size.height.toInt()),
     );
-    if (!_streamController.isClosed) _streamController.add(faces);
+    if (!_streamController.isClosed) {
+      _streamController.add(faces);
+    }
     return !_streamController.isClosed;
   }
 
