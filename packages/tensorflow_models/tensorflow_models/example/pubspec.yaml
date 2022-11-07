@@ -19,7 +19,7 @@ dependencies:
   image: ^3.2.0
   isolated_worker: ^0.1.1
   js: ^0.6.4
-  just_audio: ^0.9.29
+  just_audio: ^0.9.30
   rive: ^0.9.1
   tensorflow_models:
     path: ../
