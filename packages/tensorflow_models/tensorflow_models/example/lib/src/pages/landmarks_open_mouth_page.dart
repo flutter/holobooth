@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:example/assets/assets.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     _audioPlayer = AudioPlayer();
 
     try {
-      await _audioPlayer.setAsset('Lion_roar.mp3');
+      await _audioPlayer.setAsset(Assets.lionRoar);
     } catch (_) {}
   }
 
