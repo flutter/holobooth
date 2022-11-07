@@ -49,7 +49,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = FaceGeometry.fromFace(faces.first);
 
-                  final cos = face.direction.newValues;
+                  final cos = face.direction.value;
                   final direction = face.direction.value;
 
                   return Column(
@@ -58,7 +58,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                         child: _Dash(face: faces.first),
                       ),
                       Text(
-                        'current vert ${cos[0].toStringAsFixed(2)} hor ${cos[1].toStringAsFixed(2)}',
+                        'current vert ${cos.x.toStringAsFixed(2)} hor ${cos.y.toStringAsFixed(2)}',
                       ),
                       Text(
                         'org vert ${direction.y.toStringAsFixed(2)} hor ${direction.x.toStringAsFixed(2)}',
@@ -125,9 +125,9 @@ class _DashState extends State<_Dash> {
       // dashController.openMouth.change(_faceGeometry.mouth.isOpen);
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
       final direction = _faceGeometry.direction.value;
-      final cos = _faceGeometry.direction.newValues;
-      final verticalCos = cos[0];
-      final horizontalCos = cos[1];
+      final cos = _faceGeometry.direction.value;
+      final verticalCos = cos.x;
+      final horizontalCos = cos.y;
 
       // _normalize(horizontalCos * -1000, verticalCos * 1000);
       _animate(horizontalCos * -1000, verticalCos * 1000);
