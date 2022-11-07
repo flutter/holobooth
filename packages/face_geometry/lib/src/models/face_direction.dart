@@ -32,7 +32,7 @@ class FaceDirection extends Equatable {
   /// This is used when the keypoints are not available.
   const FaceDirection._empty() : value = Vector3.zero;
 
-  static double _l2Norm(List<num> vec) {
+  static double _hypotenuse(List<num> vec) {
     var norm = 0.0;
     for (final v in vec) {
       norm += v * v;
@@ -55,7 +55,8 @@ class FaceDirection extends Equatable {
     final verticalAdjacent =
         (foreheadTopCenter.z ?? 0) - faceVerticalCentralPoint.z;
     final verticalOpposite = foreheadTopCenter.y - faceVerticalCentralPoint.y;
-    final verticalHypotenuse = _l2Norm([verticalAdjacent, verticalOpposite]);
+    final verticalHypotenuse =
+        _hypotenuse([verticalAdjacent, verticalOpposite]);
     final verticalCos = verticalAdjacent / verticalHypotenuse;
 
     final faceHorizontalCentralPoint = Vector3(
@@ -69,7 +70,7 @@ class FaceDirection extends Equatable {
     final horizontalOpposite = rightCheeckBone.x - faceHorizontalCentralPoint.x;
 
     final horizontalHypotenuse =
-        _l2Norm([horizontalAdjacent, horizontalOpposite]);
+        _hypotenuse([horizontalAdjacent, horizontalOpposite]);
     final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
 
     return Vector3(
