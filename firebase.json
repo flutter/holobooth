@@ -1,54 +1,106 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "site": "038461ac-44c3-11ed-b878-0242ac120002",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "ignore": [
-      ".firebase",
-      "firebase.json",
-      "functions/node_modules",
-      "functions/src",
-      "__/**"
-    ],
-    "rewrites": [
-      { "source": "/share/**", "function": "shareImage" },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=3600"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      }
-    ],
-    "predeploy": []
-  },
+  "hosting": [
+    {
+      "target": "app_dev",
+      "public": "build/web",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "ignore": [
+        ".firebase",
+        "firebase.json",
+        "functions/node_modules",
+        "functions/src",
+        "__/**"
+      ],
+      "rewrites": [
+        { "source": "/share/**", "function": "shareImage" },
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=3600"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
+      ],
+      "predeploy": []
+    },
+    {
+      "target": "app_staging",
+      "public": "build/web",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "ignore": [
+        ".firebase",
+        "firebase.json",
+        "functions/node_modules",
+        "functions/src",
+        "__/**"
+      ],
+      "rewrites": [
+        { "source": "/share/**", "function": "shareImage" },
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=3600"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
+      ],
+      "predeploy": []
+    }
+  ],
   "functions": {
     "source": "functions",
     "runtime": "nodejs14",
