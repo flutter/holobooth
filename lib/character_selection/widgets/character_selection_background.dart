@@ -50,7 +50,6 @@ class _Gradients extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _Gradients oldDelegate) {
-    return oldDelegate.gradient != gradient;
-  }
+  bool shouldRepaint(covariant _Gradients oldDelegate) =>
+      oldDelegate.gradient != gradient;
 }

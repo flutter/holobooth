@@ -9,13 +9,11 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class _SubjectBuilder extends StatelessWidget {
   const _SubjectBuilder({
     required this.subject,
-    required this.height,
-    required this.width,
+    required this.size,
   });
 
   final CharacterSelectionView subject;
-  final double height;
-  final double width;
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +29,8 @@ class _SubjectBuilder extends StatelessWidget {
           ],
           child: Theme(
             data: PhotoboothTheme.standard,
-            child: SizedBox(
-              height: height,
-              width: width,
+            child: SizedBox.fromSize(
+              size: size,
               child: subject,
             ),
           ),
@@ -76,32 +73,28 @@ void main() {
           name: 'small',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            height: 700,
-            width: PhotoboothBreakpoints.small,
+            size: Size(PhotoboothBreakpoints.small, 700),
           ),
         );
         final scenarioMedium = GoldenTestScenario(
           name: 'medium',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            height: 800,
-            width: PhotoboothBreakpoints.medium,
+            size: Size(PhotoboothBreakpoints.medium, 800),
           ),
         );
         final scenarioLarge = GoldenTestScenario(
           name: 'large',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            height: 1000,
-            width: PhotoboothBreakpoints.large,
+            size: Size(PhotoboothBreakpoints.large, 1000),
           ),
         );
         final scenarioXLarge = GoldenTestScenario(
           name: 'xlarge',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            height: 1300,
-            width: PhotoboothBreakpoints.large + 100,
+            size: Size(PhotoboothBreakpoints.large + 100, 1300),
           ),
         );
         return GoldenTestGroup(
