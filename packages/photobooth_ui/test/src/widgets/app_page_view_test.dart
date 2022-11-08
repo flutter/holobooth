@@ -8,7 +8,7 @@ void main() {
   group('AppPageView', () {
     const footerKey = Key('footer');
     const bodyKey = Key('body');
-    const firstBackgroundKey = Key('firstBackground');
+    const backgroundKey = Key('backgroundKey');
     const firstOverlayKey = Key('firstOverlay');
     const secondOverlayKey = Key('secondOverlayKey');
 
@@ -53,12 +53,12 @@ void main() {
               height: 200,
               key: bodyKey,
             ),
-            background: Container(key: firstBackgroundKey),
+            background: Container(key: backgroundKey),
           ),
         ),
       );
 
-      expect(find.byKey(firstBackgroundKey), findsOneWidget);
+      expect(find.byKey(backgroundKey), findsOneWidget);
     });
 
     testWidgets('renders overlays', (tester) async {
