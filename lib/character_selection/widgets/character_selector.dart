@@ -2,31 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
 class CharacterSelector extends StatefulWidget {
-  @visibleForTesting
   const CharacterSelector({super.key, required this.viewportFraction});
-  const CharacterSelector.small({Key? key})
-      : this(
-          viewportFraction: 0.55,
-          key: key,
-        );
-
-  const CharacterSelector.medium({Key? key})
-      : this(
-          viewportFraction: 0.3,
-          key: key,
-        );
-
-  const CharacterSelector.large({Key? key})
-      : this(
-          viewportFraction: 0.2,
-          key: key,
-        );
-
-  const CharacterSelector.xLarge({Key? key})
-      : this(
-          viewportFraction: 0.2,
-          key: key,
-        );
 
   final double viewportFraction;
 
