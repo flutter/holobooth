@@ -27,7 +27,6 @@ class CharacterSelectionView extends StatelessWidget {
     return AppPageView(
       backgrounds: const [
         CharacterSelectionBackground(),
-        CharacterSelectionBackgroundOverlay()
       ],
       body: const CharacterSelectionBody(),
       footer: Column(

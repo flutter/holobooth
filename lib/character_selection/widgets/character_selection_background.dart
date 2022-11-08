@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -6,14 +7,26 @@ class CharacterSelectionBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            PhotoboothColors.purple,
-            PhotoboothColors.blue,
+    return CustomPaint(
+      painter: _Gradients(
+        gradient: UnmodifiableListView(
+          [
+            const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                PhotoboothColors.purple,
+                PhotoboothColors.blue,
+              ],
+            ),
+            LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withOpacity(0.5),
+                Colors.black.withOpacity(0),
+              ],
+            )
           ],
         ),
       ),
@@ -21,22 +34,23 @@ class CharacterSelectionBackground extends StatelessWidget {
   }
 }
 
-class CharacterSelectionBackgroundOverlay extends StatelessWidget {
-  const CharacterSelectionBackgroundOverlay({super.key});
+class _Gradients extends CustomPainter {
+  _Gradients({required this.gradient});
+
+  final UnmodifiableListView<Gradient> gradient;
 
   @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black.withOpacity(0.5),
-            Colors.black.withOpacity(0),
-          ],
-        ),
-      ),
-    );
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    final paint = Paint();
+    for (final gradient in gradient) {
+      paint.shader = gradient.createShader(rect);
+      canvas.drawRect(rect, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _Gradients oldDelegate) {
+    return oldDelegate.gradient != gradient;
   }
 }
