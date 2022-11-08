@@ -1,3 +1,4 @@
+import 'package:example/src/pages/random_page.dart';
 import 'package:example/src/src.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class _App extends StatelessWidget {
     'Landmarks Close Eyes': LandmarksDetectBlinkPage.route,
     'Landmarks GIF': LandmarksGifPage.route,
     'Landmarks Dash': LandmarksDashPage.route,
+    'random': RandomExample.route,
   };
 
   @override
