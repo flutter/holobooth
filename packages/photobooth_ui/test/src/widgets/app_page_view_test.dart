@@ -9,7 +9,6 @@ void main() {
     const footerKey = Key('footer');
     const bodyKey = Key('body');
     const firstBackgroundKey = Key('firstBackground');
-    const secondBackgroundKey = Key('secondBackground');
     const firstOverlayKey = Key('firstOverlay');
     const secondOverlayKey = Key('secondOverlayKey');
 
@@ -45,7 +44,7 @@ void main() {
       expect(find.byKey(footerKey), findsOneWidget);
     });
 
-    testWidgets('renders backgrounds', (tester) async {
+    testWidgets('renders background', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: AppPageView(
@@ -54,16 +53,12 @@ void main() {
               height: 200,
               key: bodyKey,
             ),
-            backgrounds: [
-              Container(key: firstBackgroundKey),
-              Container(key: secondBackgroundKey),
-            ],
+            background: Container(key: firstBackgroundKey),
           ),
         ),
       );
 
       expect(find.byKey(firstBackgroundKey), findsOneWidget);
-      expect(find.byKey(secondBackgroundKey), findsOneWidget);
     });
 
     testWidgets('renders overlays', (tester) async {
@@ -75,7 +70,6 @@ void main() {
               height: 200,
               key: bodyKey,
             ),
-            backgrounds: [Container(key: firstBackgroundKey)],
             overlays: [
               Container(key: firstOverlayKey),
               Container(key: secondOverlayKey),

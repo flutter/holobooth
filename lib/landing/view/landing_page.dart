@@ -21,7 +21,7 @@ class LandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AppPageView(
-      backgrounds: [LandingBackground()],
+      background: LandingBackground(),
       body: LandingBody(),
       footer: BlackFooter(),
     );

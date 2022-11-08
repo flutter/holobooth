@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// {@template app_page_view}
-/// A widget that constructs a page view consisting of a [backgrounds]
+/// A widget that constructs a page view consisting of a [background]
 /// [body], [footer] pinned to the bottom of the page and an optional
 /// list of overlay widgets displayed on top of the [body].
 /// {@endtemplate}
@@ -12,7 +12,7 @@ class AppPageView extends StatelessWidget {
     required this.body,
     required this.footer,
     this.overlays = const <Widget>[],
-    this.backgrounds = const <Widget>[],
+    this.background = const SizedBox(),
   });
 
   /// A body of the [AppPageView]
@@ -21,8 +21,8 @@ class AppPageView extends StatelessWidget {
   /// Sticky footer displayed at the bottom of the [AppPageView]
   final Widget footer;
 
-  /// An optional list of backgrounds displayed below the [body]
-  final List<Widget> backgrounds;
+  /// An optional background of the [AppPageView]
+  final Widget background;
 
   /// An optional list of overlays displayed on top of the [body]
   final List<Widget> overlays;
@@ -32,7 +32,7 @@ class AppPageView extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        ...backgrounds,
+        background,
         CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: body),
