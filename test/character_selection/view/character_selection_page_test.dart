@@ -66,44 +66,60 @@ void main() {
 
   group('CharacterSelectionView', () {
     goldenTest(
-      'CharacterSelectionView',
-      fileName: 'character_selection_view',
+      'character_selection_view_small',
+      fileName: 'character_selection_view_small',
+      pumpBeforeTest: precacheImages,
       builder: () {
-        final scenarioSmall = GoldenTestScenario(
-          name: 'small',
+        return GoldenTestScenario(
+          name: 'character_selection_view_small',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            size: Size(PhotoboothBreakpoints.small, 700),
+            size: Size(PhotoboothBreakpoints.small, 850),
           ),
         );
-        final scenarioMedium = GoldenTestScenario(
-          name: 'medium',
+      },
+    );
+    goldenTest(
+      'character_selection_view_medium',
+      fileName: 'character_selection_view_medium',
+      pumpBeforeTest: precacheImages,
+      builder: () {
+        return GoldenTestScenario(
+          name: 'character_selection_view_medium',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            size: Size(PhotoboothBreakpoints.medium, 800),
+            size: Size(PhotoboothBreakpoints.medium, 1000),
           ),
         );
-        final scenarioLarge = GoldenTestScenario(
-          name: 'large',
+      },
+    );
+
+    goldenTest(
+      'character_selection_view_large',
+      fileName: 'character_selection_view_large',
+      pumpBeforeTest: precacheImages,
+      builder: () {
+        return GoldenTestScenario(
+          name: 'character_selection_view_large',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            size: Size(PhotoboothBreakpoints.large, 1000),
+            size: Size(PhotoboothBreakpoints.large, 1200),
           ),
         );
-        final scenarioXLarge = GoldenTestScenario(
-          name: 'xlarge',
+      },
+    );
+
+    goldenTest(
+      'character_selection_view_xlarge',
+      fileName: 'character_selection_view_xlarge',
+      pumpBeforeTest: precacheImages,
+      builder: () {
+        return GoldenTestScenario(
+          name: 'character_selection_view_xlarge',
           child: _SubjectBuilder(
             subject: CharacterSelectionView(),
-            size: Size(PhotoboothBreakpoints.large + 100, 1300),
+            size: Size(PhotoboothBreakpoints.large + 300, 1500),
           ),
-        );
-        return GoldenTestGroup(
-          children: [
-            scenarioSmall,
-            scenarioMedium,
-            scenarioLarge,
-            scenarioXLarge,
-          ],
         );
       },
     );

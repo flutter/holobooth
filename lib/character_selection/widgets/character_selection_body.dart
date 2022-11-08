@@ -23,7 +23,7 @@ class CharacterSelectionBody extends StatelessWidget {
       viewportFraction = 0.55;
     } else if (size.width <= PhotoboothBreakpoints.medium) {
       bodyHeight = size.height * 0.6;
-      viewportFraction = 0.3;
+      viewportFraction = 0.35;
     } else {
       bodyHeight = size.height * 0.75;
       viewportFraction = 0.2;
