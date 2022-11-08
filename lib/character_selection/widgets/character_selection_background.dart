@@ -8,7 +8,7 @@ class CharacterSelectionBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _Gradients(
+      painter: Gradients(
         gradient: UnmodifiableListView(
           [
             const LinearGradient(
@@ -34,8 +34,9 @@ class CharacterSelectionBackground extends StatelessWidget {
   }
 }
 
-class _Gradients extends CustomPainter {
-  _Gradients({required this.gradient});
+@visibleForTesting
+class Gradients extends CustomPainter {
+  Gradients({required this.gradient});
 
   final UnmodifiableListView<Gradient> gradient;
 
@@ -50,6 +51,5 @@ class _Gradients extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _Gradients oldDelegate) =>
-      oldDelegate.gradient != gradient;
+  bool shouldRepaint(covariant Gradients oldDelegate) => false;
 }
