@@ -25,6 +25,8 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+  FaceGeometry? _faceGeometry;
+
   var _isCameraVisible = false;
 
   void _onCameraReady(CameraController cameraController) {
@@ -48,9 +50,17 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
+                  _faceGeometry = _faceGeometry == null
+                      ? FaceGeometry.fromFace(face)
+                      : _faceGeometry!.update(face);
 
-                  return Center(
-                    child: _Dash(face: face),
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Center(child: _Dash(face: face)),
+                      if (_faceGeometry != null)
+                        FaceGeometryOverlay(faceGeometry: _faceGeometry!),
+                    ],
                   );
                 },
               ),
@@ -102,12 +112,14 @@ class _DashState extends State<_Dash> {
     _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
-      // TODO(oscar): uncomment when rotation maths are completed
-      /*  final direction = widget.face.direction().unit();
-      dashController.x.change(direction.x * 1000);
-      dashController.y.change(direction.z * -1000);
-*/
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
+      final direction = _faceGeometry.direction.value;
+      _dashController?.x.change(
+        -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
+      );
+      _dashController?.y.change(
+        direction.y * ((_DashStateMachineController._xRange / 2) + 50),
+      );
     }
   }
 
@@ -158,6 +170,16 @@ class _DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "openMouth"');
     }
   }
+
+  /// The total range [x] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _xRange = 200;
+
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
