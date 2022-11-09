@@ -173,12 +173,12 @@ class _DashStateMachineController extends StateMachineController {
     }
   }
 
-  /// The total range the [x] animates over.
+  /// The total range [x] animates over.
   ///
   /// This data comes from the Rive file.
   static const _xRange = 200;
 
-  /// The total range the [y] animates over.
+  /// The total range [y] animates over.
   ///
   /// This data comes from the Rive file.
   static const _yRange = 200;
