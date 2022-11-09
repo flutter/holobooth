@@ -115,10 +115,13 @@ class _DashState extends State<_Dash> {
     final dashController = _dashController;
     if (dashController != null) {
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
-      final cos = _faceGeometry.direction.value;
-
-      _dashController?.x.change(cos.x * (-1 * 150));
-      _dashController?.y.change(cos.y * 150);
+      final direction = _faceGeometry.direction.value;
+      _dashController?.x.change(
+        direction.x * (-_DashStateMachineController._xRange / 2),
+      );
+      _dashController?.y.change(
+        direction.y * (_DashStateMachineController._yRange / 2),
+      );
     }
   }
 
@@ -169,6 +172,16 @@ class _DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "openMouth"');
     }
   }
+
+  /// The total range the [x] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _xRange = 200;
+
+  /// The total range the [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
