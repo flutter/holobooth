@@ -100,8 +100,6 @@ class _Dash extends StatefulWidget {
 class _DashState extends State<_Dash> {
   _DashStateMachineController? _dashController;
   late FaceGeometry _faceGeometry = FaceGeometry.fromFace(widget.face);
-  double? x;
-  double? y;
 
   void _onRiveInit(Artboard artboard) {
     _dashController = _DashStateMachineController(artboard);
