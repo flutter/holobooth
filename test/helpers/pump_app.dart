@@ -1,4 +1,5 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,12 +8,17 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
 import 'package:photos_repository/photos_repository.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {
   _MockAvatarDetectorRepository() {
+    registerFallbackValue(
+      tf.ImageData(bytes: Uint8List(0), size: tf.Size(0, 0)),
+    );
+
     when(preloadLandmarksModel).thenAnswer((_) => Future.value());
     // ignore: inference_failure_on_function_invocation
     when(() => detectAvatar(any())).thenAnswer((_) async => null);
