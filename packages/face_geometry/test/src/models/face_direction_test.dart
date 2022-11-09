@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:face_geometry/face_geometry.dart';
 import 'package:mocktail/mocktail.dart';
 
