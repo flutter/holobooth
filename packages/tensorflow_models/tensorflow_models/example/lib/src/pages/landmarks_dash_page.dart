@@ -115,10 +115,10 @@ class _DashState extends State<_Dash> {
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
       final direction = _faceGeometry.direction.value;
       _dashController?.x.change(
-        direction.x * (-_DashStateMachineController._xRange / 2),
+        -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
       );
       _dashController?.y.change(
-        direction.y * (_DashStateMachineController._yRange / 2),
+        direction.y * ((_DashStateMachineController._xRange / 2) + 50),
       );
     }
   }
