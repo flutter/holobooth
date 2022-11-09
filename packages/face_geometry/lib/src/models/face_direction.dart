@@ -50,9 +50,9 @@ class FaceDirection extends Equatable {
     final verticalCos = verticalAdjacent / verticalHypotenuse;
 
     final faceHorizontalCentralPoint = Vector3(
-      (leftCheeckBone.x + rightCheeckBone.x) * 0.5,
+      (leftCheeckBone.x + rightCheeckBone.x) / 2,
       0,
-      ((leftCheeckBone.z ?? 0) + (rightCheeckBone.z ?? 0)) * 0.5,
+      ((leftCheeckBone.z ?? 0) + (rightCheeckBone.z ?? 0)) / 2,
     );
     final horizontalAdjacent =
         (leftCheeckBone.z ?? 0) - faceHorizontalCentralPoint.z;
@@ -75,6 +75,4 @@ class FaceDirection extends Equatable {
   List<Object?> get props => [value];
 }
 
-double _hypotenuse(double x, double y) {
-  return math.sqrt(x * x + y * y);
-}
+double _hypotenuse(double x, double y) => math.sqrt(x * x + y * y);
