@@ -62,8 +62,8 @@ class FaceDirection extends Equatable {
     final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
 
     return Vector3(
-      verticalCos,
       horizontalCos,
+      verticalCos,
       0,
     );
   }

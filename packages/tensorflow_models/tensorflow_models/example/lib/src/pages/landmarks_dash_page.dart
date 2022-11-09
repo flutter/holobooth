@@ -115,42 +115,11 @@ class _DashState extends State<_Dash> {
     final dashController = _dashController;
     if (dashController != null) {
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
-      final direction = _faceGeometry.direction.value;
       final cos = _faceGeometry.direction.value;
-      final verticalCos = cos.x;
-      final horizontalCos = cos.y;
 
-      // _normalize(horizontalCos * -1000, verticalCos * 1000);
-      _animate(horizontalCos * -1000, verticalCos * 1000);
+      _dashController?.x.change(cos.x * (-1 * 150));
+      _dashController?.y.change(cos.y * 150);
     }
-  }
-
-  void _normalize(double newX, double newY) {
-    if (x != null && y != null) {
-      final diffX = (newX - x!).abs() / newX * 100;
-      final diffY = (newY - y!).abs() / newY * 100;
-      if (diffX > 20 || diffY > 20) {
-        const steps = 5;
-        for (var index = 1; index < steps; index++) {
-          _animate(
-            x! + ((newX - x!) * index / steps),
-            y! + ((newY - y!) * index / steps),
-          );
-        }
-      } else {
-        // x = newX;
-        // y = newY;
-      }
-    } else {
-      _animate(newX, newY);
-    }
-  }
-
-  void _animate(double newX, double newY) {
-    x = newX;
-    y = newY;
-    _dashController?.x.change(newX);
-    _dashController?.y.change(newY);
   }
 
   @override
