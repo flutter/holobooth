@@ -62,5 +62,97 @@ void main() {
       expect(faceDirection1, isNot(equals(faceDirection3)));
       expect(faceDirection2, isNot(equals(faceDirection3)));
     });
+
+    group('detects that', () {
+      test('face1 is looking straight', () {
+        final face = fixtures.face1;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face2 is looking straight', () {
+        final face = fixtures.face2;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face3 is looking straight', () {
+        final face = fixtures.face3;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face4 is looking straight', () {
+        final face = fixtures.face4;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face5 is looking straight', () {
+        final face = fixtures.face5;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face6 is looking up', () {
+        final face = fixtures.face6;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, greaterThan(0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face7 is looking left', () {
+        final face = fixtures.face7;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, greaterThan(0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face8 is looking right', () {
+        final face = fixtures.face8;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, lessThan(-0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face9 is looking right up', () {
+        final face = fixtures.face9;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, lessThan(-0.6));
+        expect(faceDirection.value.y, greaterThan(0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+
+      test('face10 is looking straight', () {
+        final face = fixtures.face10;
+        final faceDirection = FaceDirection(keypoints: face.keypoints);
+
+        expect(faceDirection.value.x, closeTo(0, 0.6));
+        expect(faceDirection.value.y, closeTo(0, 0.6));
+        expect(faceDirection.value.z, equals(0));
+      });
+    });
   });
 }
