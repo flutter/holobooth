@@ -33,6 +33,7 @@ void main() {
               return ItemSelectorButton(
                 buttonBackground: const ColoredBox(color: Colors.blue),
                 title: 'title',
+                showTitle: true,
                 onTap: () {},
               );
             },

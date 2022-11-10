@@ -41,10 +41,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
     required T selectedItem,
     required ValueChanged<T> onSelected,
   }) =>
-      showModalBottomSheet(
-        barrierColor: Colors.transparent,
-        anchorPoint: const Offset(375, 202),
-        isScrollControlled: true,
+      showBottomSheet<void>(
         backgroundColor: PhotoboothColors.black.withOpacity(.3),
         context: context,
         builder: (context) => ItemSelectorBottomSheet(
@@ -54,7 +51,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
           selectedItem: selectedItem,
           onSelected: onSelected,
         ),
-      );
+      ).closed;
 
   @override
   Widget build(BuildContext context) {

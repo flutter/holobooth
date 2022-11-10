@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
+import 'package:io_photobooth/drawer_selection/drawer_option/drawer_option.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
@@ -21,6 +23,10 @@ class _MockXFile extends Mock implements XFile {}
 
 class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
     implements PhotoBoothBloc {}
+
+class _MockDrawerSelectionBloc
+    extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
+    implements DrawerSelectionBloc {}
 
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
@@ -107,12 +113,15 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
+    late DrawerSelectionBloc drawerSelectionBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
+      drawerSelectionBloc = _MockDrawerSelectionBloc();
       when(
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
+      when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
     });
 
     setUpAll(() {
@@ -126,6 +135,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc,
+          drawerSelectionBloc,
         );
         await tester.pumpAndSettle();
         expect(
@@ -143,6 +153,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc,
+          drawerSelectionBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(PhotoboothError), findsOneWidget);
@@ -163,6 +174,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc,
+          drawerSelectionBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
@@ -175,6 +187,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc,
+          drawerSelectionBloc,
         );
         await tester.pumpAndSettle();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
@@ -194,16 +207,24 @@ void main() {
     );
 
     testWidgets('renders ItemSelectorButton', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
       await tester.pumpAndSettle();
       expect(
-        find.byKey(SelectionButtons.itemSelectorButtonKey),
+        find.byKey(SelectionButtons.backgroundSelectorButtonKey),
         findsOneWidget,
       );
     });
 
     testWidgets('renders SelectionButtons', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
       await tester.pumpAndSettle();
       expect(
         find.byType(SelectionButtons),
@@ -213,11 +234,15 @@ void main() {
 
     testWidgets('itemSelectorButton renders itemSelectorDrawer when pressed',
         (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
       await tester.pumpAndSettle();
 
       final itemSelectorButton =
-          find.byKey(SelectionButtons.itemSelectorButtonKey);
+          find.byKey(SelectionButtons.backgroundSelectorButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
@@ -226,12 +251,107 @@ void main() {
       );
     });
 
-    testWidgets('Item prints when selected', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
+    testWidgets('Background item prints when selected', (tester) async {
+      when(() => drawerSelectionBloc.state).thenReturn(
+        DrawerSelectionState(drawerOption: DrawerOption.backgrounds),
+      );
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
       await tester.pumpAndSettle();
 
       final itemSelectorButton =
-          find.byKey(SelectionButtons.itemSelectorButtonKey);
+          find.byKey(SelectionButtons.backgroundSelectorButtonKey);
+      await tester.tap(itemSelectorButton);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(PhotoBoothView.endDrawerKey),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find
+            .descendant(
+              of: find.byKey(
+                PhotoBoothView.endDrawerKey,
+              ),
+              matching: find.byType(ColoredBox),
+            )
+            .first,
+        // TODO(laura177): test onSelected of ItemSelectorDrawer
+      );
+    });
+
+    testWidgets('Characters item prints when selected', (tester) async {
+      when(() => drawerSelectionBloc.state).thenReturn(
+        DrawerSelectionState(drawerOption: DrawerOption.characters),
+      );
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
+      await tester.pumpAndSettle();
+
+      final itemSelectorButton =
+          find.byKey(SelectionButtons.charactersSelectionButtonKey);
+      await tester.tap(itemSelectorButton);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(PhotoBoothView.endDrawerKey),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find
+            .descendant(
+              of: find.byKey(
+                PhotoBoothView.endDrawerKey,
+              ),
+              matching: find.byType(ColoredBox),
+            )
+            .first,
+        // TODO(laura177): test onSelected of ItemSelectorDrawer
+      );
+    });
+
+    testWidgets('Props item prints when selected', (tester) async {
+      when(() => drawerSelectionBloc.state).thenReturn(
+        DrawerSelectionState(drawerOption: DrawerOption.props),
+      );
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc,
+        drawerSelectionBloc,
+      );
+      await tester.pumpAndSettle();
+
+      final itemSelectorButton =
+          find.byKey(SelectionButtons.propsSelectionButtonKey);
+      await tester.tap(itemSelectorButton);
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(PhotoBoothView.endDrawerKey),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find
+            .descendant(
+              of: find.byKey(
+                PhotoBoothView.endDrawerKey,
+              ),
+              matching: find.byType(ColoredBox),
+            )
+            .first,
+        // TODO(laura177): test onSelected of ItemSelectorDrawer
+      );
+    });
+
+    testWidgets('opens the drawer', (tester) async {
+      await tester.pumpApp(PhotoBoothPage());
+      await tester.pumpAndSettle();
+      final itemSelectorButton =
+          find.byKey(SelectionButtons.propsSelectionButtonKey);
       await tester.tap(itemSelectorButton);
       await tester.pumpAndSettle();
       expect(
@@ -257,11 +377,13 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoBoothView subject,
     PhotoBoothBloc multipleCaptureBloc,
+    DrawerSelectionBloc drawerSelectionBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: multipleCaptureBloc),
+            BlocProvider.value(value: drawerSelectionBloc)
           ],
           child: subject,
         ),
