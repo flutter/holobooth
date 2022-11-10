@@ -72,8 +72,11 @@ class _SpotlightShadow extends CustomPainter {
       ..translate(center.dx, center.dy)
       ..rotateX(pi * 0.43);
     canvas.transform(matrix.storage);
-    final paint = Paint()
-      ..shader = RadialGradient(
+    final paint = Paint();
+    if (debugDisableShadows) {
+      paint.color = const Color(0XFFF4E4E4);
+    } else {
+      paint.shader = RadialGradient(
         colors: [
           const Color(0XFFF4E4E4).withOpacity(0.5),
           const Color(0XFFF4E4E4).withOpacity(0)
@@ -81,6 +84,8 @@ class _SpotlightShadow extends CustomPainter {
       ).createShader(
         Rect.fromCircle(center: Offset.zero, radius: size.width / 2),
       );
+    }
+
     canvas
       ..drawCircle(Offset.zero, size.width / 2, paint)
       ..restore();
