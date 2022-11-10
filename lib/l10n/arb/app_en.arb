@@ -365,5 +365,17 @@
       "description": "Title text displayed on the background selection button and drawer on camera capture page",
       "type": "text",
       "placeholders": {}
+    },
+    "propsSelectorButton": "Props",
+    "@propsSelectorButton": {
+      "description": "Title text displayed on the props selection button and drawer on camera capture page",
+      "type": "text",
+      "placeholders": {}
+    },
+    "characterSelectorButton": "Friends",
+    "@characterSelectorButton": {
+      "description": "Title text displayed on the character selection button and drawer on camera capture page",
+      "type": "text",
+      "placeholders": {}
     }
 }

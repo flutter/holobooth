@@ -6,13 +6,16 @@
 /// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
+import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
+
 part 'types.g.dart';
 
 typedef Faces = List<Face>;
 
 abstract class FaceLandmarksDetector {
   Future<Faces> estimateFaces(
-    dynamic object, {
+    ImageData imageData, {
     EstimationConfig estimationConfig = const EstimationConfig(),
   });
 
