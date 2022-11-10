@@ -66,41 +66,36 @@ class FooterMadeWithLink extends StatelessWidget {
   }
 }
 
-class FooterGoogleIOLink extends StatelessWidget {
-  const FooterGoogleIOLink({
-    super.key,
-  });
+class FooterFlutter extends StatelessWidget {
+  const FooterFlutter();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return FooterLink(
-      link: googleIOExternalLink,
-      text: l10n.footerGoogleIOLinkText,
+    return const FooterLink(
+      link: '',
+      text: 'Flutter',
     );
   }
 }
 
-class FooterCodelabLink extends StatelessWidget {
-  const FooterCodelabLink({
-    super.key,
-  });
+class FooterFirebase extends StatelessWidget {
+  const FooterFirebase();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return FooterLink(
-      link:
-          'https://firebase.google.com/codelabs/firebase-get-to-know-flutter#0',
-      text: l10n.footerCodelabLinkText,
+    return const FooterLink(
+      link: '',
+      text: 'Firebase',
     );
   }
 }
 
-class FooterHowItsMadeLink extends StatelessWidget {
-  const FooterHowItsMadeLink({
+class FooterTensorFlow extends StatelessWidget {
+  const FooterTensorFlow({
     super.key,
   });
 
@@ -108,10 +103,25 @@ class FooterHowItsMadeLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return FooterLink(
-      link:
-          'https://medium.com/flutter/how-its-made-i-o-photo-booth-3b8355d35883',
-      text: l10n.footerHowItsMadeLinkText,
+    return const FooterLink(
+      link: '',
+      text: 'Tensorflow',
+    );
+  }
+}
+
+class FooterMediaPipe extends StatelessWidget {
+  const FooterMediaPipe({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return const FooterLink(
+      link: '',
+      text: 'MediaPipe',
     );
   }
 }
