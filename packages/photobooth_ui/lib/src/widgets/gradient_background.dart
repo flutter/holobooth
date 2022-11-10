@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class CharacterSelectionBackground extends StatelessWidget {
-  const CharacterSelectionBackground({super.key});
+class GradientBackground extends StatelessWidget {
+  const GradientBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
