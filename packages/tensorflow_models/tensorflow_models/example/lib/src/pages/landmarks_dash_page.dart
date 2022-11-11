@@ -112,7 +112,10 @@ class _DashState extends State<_Dash> {
     _faceGeometry = _faceGeometry.update(widget.face);
     final dashController = _dashController;
     if (dashController != null) {
+      dashController.helmet.change(true);
       dashController.openMouth.change(_faceGeometry.mouth.isOpen);
+      dashController.leftEyeClosed.change(_faceGeometry.leftEye.isClosed);
+      dashController.rightEyeClosed.change(_faceGeometry.rightEye.isClosed);
       final direction = _faceGeometry.direction.value;
       _dashController?.x.change(
         -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
@@ -134,7 +137,7 @@ class _DashState extends State<_Dash> {
     return SizedBox(
       width: 300,
       height: 300,
-      child: Assets.dash.rive(
+      child: Assets.dashWithBackground.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
       ),
@@ -145,9 +148,9 @@ class _DashState extends State<_Dash> {
 class _DashStateMachineController extends StateMachineController {
   _DashStateMachineController(Artboard artboard)
       : super(
-          artboard.animations
-              .whereType<StateMachine>()
-              .firstWhere((stateMachine) => stateMachine.name == 'dash'),
+          artboard.animations.whereType<StateMachine>().firstWhere(
+                (stateMachine) => stateMachine.name == 'State Machine 1',
+              ),
         ) {
     final x = findInput<double>('x');
     if (x is SMINumber) {
@@ -163,11 +166,38 @@ class _DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "y"');
     }
 
-    final openMouth = findInput<bool>('openMouth');
+    final openMouth = findInput<bool>('MouthisOpen');
     if (openMouth is SMIBool) {
       this.openMouth = openMouth;
     } else {
-      throw StateError('Could not find input "openMouth"');
+      throw StateError('Could not find input "MouthisOpen"');
+    }
+
+    final leftEyeClosed = findInput<bool>('Left Eye Wink');
+    if (leftEyeClosed is SMIBool) {
+      this.leftEyeClosed = leftEyeClosed;
+    } else {
+      throw StateError('Could not find input "Left Eye Wink"');
+    }
+
+    final rightEyeClosed = findInput<bool>('Right Eye Wink');
+    if (rightEyeClosed is SMIBool) {
+      this.rightEyeClosed = rightEyeClosed;
+    } else {
+      throw StateError('Could not find input "Right Eye Wink"');
+    }
+
+    final helmet = findInput<bool>('helmet');
+    if (helmet is SMIBool) {
+      this.helmet = helmet;
+    } else {
+      throw StateError('Could not find input "helmet"');
+    }
+    final bg = findInput<double>('BG');
+    if (bg is SMINumber) {
+      this.bg = bg;
+    } else {
+      throw StateError('Could not find input "bg"');
     }
   }
 
@@ -184,4 +214,8 @@ class _DashStateMachineController extends StateMachineController {
   late final SMINumber x;
   late final SMINumber y;
   late final SMIBool openMouth;
+  late final SMIBool leftEyeClosed;
+  late final SMIBool rightEyeClosed;
+  late final SMIBool helmet;
+  late final SMINumber bg;
 }

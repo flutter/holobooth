@@ -17,6 +17,10 @@ class Assets {
   static const String applause = 'assets/applause.mp3';
   static const RiveGenImage blink = RiveGenImage('assets/blink.riv');
   static const RiveGenImage dash = RiveGenImage('assets/dash.riv');
+  static const RiveGenImage dashWithBackground =
+      RiveGenImage('assets/dash_with_background.riv');
+  static const RiveGenImage renameStates =
+      RiveGenImage('assets/rename_states.riv');
 }
 
 class AssetGenImage {
@@ -95,7 +99,7 @@ class RiveGenImage {
     Alignment? alignment,
     Widget? placeHolder,
     bool antialiasing = true,
-    List<RiveAnimationController<dynamic>> controllers = const [],
+    List<RiveAnimationController> controllers = const [],
     OnInitCallback? onInit,
   }) {
     return RiveAnimation.asset(
