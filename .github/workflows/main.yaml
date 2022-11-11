@@ -8,9 +8,6 @@ concurrency:
 
 jobs:
   build:
-    runs-on: macos-latest
-    steps:
-    - name: Run flutter_package workflow
       uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
       with:
         flutter_version: 3.3.1
