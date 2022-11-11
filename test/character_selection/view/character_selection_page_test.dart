@@ -68,8 +68,10 @@ void main() {
     testWidgets(
       'renders with shadows',
       (WidgetTester tester) async {
+        debugDisableShadows = false;
         await tester.pumpSubjectView(CharacterSelectionView());
         expect(find.byType(CharacterSpotlight), findsOneWidget);
+        debugDisableShadows = true;
       },
     );
 
