@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {}
@@ -31,8 +32,12 @@ class _FakeCameraImage extends Fake implements CameraImage {
 void main() {
   group('AvatarDetectorBloc', () {
     late AvatarDetectorRepository avatarDetectorRepository;
+
     setUp(() {
       avatarDetectorRepository = _MockAvatarDetectorRepository();
+      registerFallbackValue(
+        tf.ImageData(bytes: Uint8List(0), size: tf.Size(0, 0)),
+      );
     });
 
     group('AvatarDetectorInitialized', () {

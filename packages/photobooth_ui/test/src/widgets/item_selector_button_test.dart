@@ -13,6 +13,7 @@ void main() {
             body: ItemSelectorButton(
               buttonBackground: buttonBackground,
               title: title,
+              showTitle: true,
               onTap: () {
                 wasPressed = true;
               },

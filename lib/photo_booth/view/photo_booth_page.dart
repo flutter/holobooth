@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -16,8 +16,15 @@ class PhotoBoothPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => PhotoBoothBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => PhotoBoothBloc(),
+        ),
+        BlocProvider(
+          create: (_) => DrawerSelectionBloc(),
+        )
+      ],
       child: const PhotoBoothView(),
     );
   }
@@ -54,19 +61,7 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
         }
       },
       child: Scaffold(
-        endDrawer: ItemSelectorDrawer(
-          // TODO(laura177): replace contents of drawer
-          key: PhotoBoothView.endDrawerKey,
-          title: context.l10n.backgroundSelectorButton,
-          items: const [
-            PhotoboothColors.red,
-            PhotoboothColors.green,
-            PhotoboothColors.blue
-          ],
-          itemBuilder: (context, item) => ColoredBox(color: item),
-          selectedItem: PhotoboothColors.red,
-          onSelected: (value) => print,
-        ),
+        endDrawer: const DrawerLayer(key: PhotoBoothView.endDrawerKey),
         body: Stack(
           fit: StackFit.expand,
           children: [
