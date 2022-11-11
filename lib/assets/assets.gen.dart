@@ -31,10 +31,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
 
-  /// File path: assets/backgrounds/character_selection_background.png
-  AssetGenImage get characterSelectionBackground => const AssetGenImage(
-      'assets/backgrounds/character_selection_background.png');
-
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
@@ -77,6 +73,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/flutter_icon.png
   AssetGenImage get flutterIcon =>
       const AssetGenImage('assets/icons/flutter_icon.png');
+
+  /// File path: assets/icons/go_next_button_icon.png
+  AssetGenImage get goNextButtonIcon =>
+      const AssetGenImage('assets/icons/go_next_button_icon.png');
 
   /// File path: assets/icons/retake_button_icon.png
   AssetGenImage get retakeButtonIcon =>

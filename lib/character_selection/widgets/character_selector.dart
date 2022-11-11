@@ -2,31 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
 class CharacterSelector extends StatefulWidget {
-  @visibleForTesting
   const CharacterSelector({super.key, required this.viewportFraction});
-  const CharacterSelector.small({Key? key})
-      : this(
-          viewportFraction: 0.55,
-          key: key,
-        );
-
-  const CharacterSelector.medium({Key? key})
-      : this(
-          viewportFraction: 0.3,
-          key: key,
-        );
-
-  const CharacterSelector.large({Key? key})
-      : this(
-          viewportFraction: 0.2,
-          key: key,
-        );
-
-  const CharacterSelector.xLarge({Key? key})
-      : this(
-          viewportFraction: 0.2,
-          key: key,
-        );
 
   final double viewportFraction;
 
@@ -88,25 +64,22 @@ class CharacterSelectorState extends State<CharacterSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 600,
-      child: PageView.builder(
-        itemCount: 2,
-        controller: pageController,
-        onPageChanged: (value) {
-          setState(() {
-            _activePage = value;
-          });
-        },
-        itemBuilder: (context, index) {
-          final isActive = index == _activePage;
-          return InkWell(
-            onTap: () => _onTapCharacter(index),
-            key: characterKeys[index],
-            child: _Character(isActive: isActive, image: _characters[index]),
-          );
-        },
-      ),
+    return PageView.builder(
+      itemCount: 2,
+      controller: pageController,
+      onPageChanged: (value) {
+        setState(() {
+          _activePage = value;
+        });
+      },
+      itemBuilder: (context, index) {
+        final isActive = index == _activePage;
+        return InkWell(
+          onTap: () => _onTapCharacter(index),
+          key: characterKeys[index],
+          child: _Character(isActive: isActive, image: _characters[index]),
+        );
+      },
     );
   }
 }
@@ -123,9 +96,12 @@ class _Character extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      scale: isActive ? 1 : 0.70,
+      scale: isActive ? 1 : 0.85,
       duration: const Duration(milliseconds: 300),
-      child: image,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: image,
+      ),
     );
   }
 }

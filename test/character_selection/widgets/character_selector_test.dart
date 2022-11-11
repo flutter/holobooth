@@ -8,7 +8,7 @@ void main() {
   group('CharacterSelector', () {
     group('renders characters', () {
       testWidgets('successfully for Breakpoint.small', (tester) async {
-        await tester.pumpSubject(CharacterSelector.small());
+        await tester.pumpSubject(CharacterSelector(viewportFraction: 0.55));
         expect(find.byType(CharacterSelector), findsOneWidget);
         for (final characterKey in CharacterSelectorState.characterKeys) {
           expect(find.byKey(characterKey), findsOneWidget);
@@ -16,7 +16,7 @@ void main() {
       });
 
       testWidgets('successfully for Breakpoint.medium', (tester) async {
-        await tester.pumpSubject(CharacterSelector.medium());
+        await tester.pumpSubject(CharacterSelector(viewportFraction: 0.3));
         expect(find.byType(CharacterSelector), findsOneWidget);
         for (final characterKey in CharacterSelectorState.characterKeys) {
           expect(find.byKey(characterKey), findsOneWidget);
@@ -24,15 +24,7 @@ void main() {
       });
 
       testWidgets('successfully for Breakpoint.large', (tester) async {
-        await tester.pumpSubject(CharacterSelector.large());
-        expect(find.byType(CharacterSelector), findsOneWidget);
-        for (final characterKey in CharacterSelectorState.characterKeys) {
-          expect(find.byKey(characterKey), findsOneWidget);
-        }
-      });
-
-      testWidgets('successfully for Breakpoint.xLarge', (tester) async {
-        await tester.pumpSubject(CharacterSelector.xLarge());
+        await tester.pumpSubject(CharacterSelector(viewportFraction: 0.2));
         expect(find.byType(CharacterSelector), findsOneWidget);
         for (final characterKey in CharacterSelectorState.characterKeys) {
           expect(find.byKey(characterKey), findsOneWidget);
@@ -43,7 +35,7 @@ void main() {
     testWidgets(
       'navigates to sparky on tap',
       (WidgetTester tester) async {
-        await tester.pumpSubject(CharacterSelector.xLarge());
+        await tester.pumpSubject(CharacterSelector(viewportFraction: 0.2));
         await tester.tap(find.byKey(CharacterSelectorState.sparkyKey));
         await tester.pumpAndSettle();
         final state = tester
