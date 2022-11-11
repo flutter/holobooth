@@ -1,8 +1,8 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/character_selection/widgets/character_selection_header.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionBody extends StatelessWidget {
@@ -13,8 +13,6 @@ class CharacterSelectionBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
     final size = MediaQuery.of(context).size;
     double bodyHeight;
     double viewportFraction;
@@ -28,39 +26,17 @@ class CharacterSelectionBody extends StatelessWidget {
       bodyHeight = size.height * 0.75;
       viewportFraction = 0.2;
     }
-    bodyHeight = max(_minBodyHeight, bodyHeight);
+    bodyHeight = math.max(_minBodyHeight, bodyHeight);
     return Column(
       children: [
         SizedBox(
           height: bodyHeight,
           child: Stack(
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.topCenter,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 24),
-                      SelectableText(
-                        l10n.chooseYourCharacterTitleText,
-                        style: theme.textTheme.headline1
-                            ?.copyWith(color: PhotoboothColors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      SelectableText(
-                        l10n.youCanChangeThemLaterSubheading,
-                        style: theme.textTheme.headline3
-                            ?.copyWith(color: PhotoboothColors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
+                child: CharacterSelectionHeader(),
               ),
-
-              // Light shadow
               Align(
                 alignment: Alignment.topCenter,
                 child: CharacterSpotlight(
@@ -68,7 +44,6 @@ class CharacterSelectionBody extends StatelessWidget {
                   viewPortFraction: viewportFraction,
                 ),
               ),
-              // Character selection
               Align(
                 alignment: Alignment.bottomCenter,
                 child: CharacterSelector(viewportFraction: viewportFraction),
