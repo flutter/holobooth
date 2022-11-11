@@ -65,6 +65,16 @@ void main() {
   });
 
   group('CharacterSelectionView', () {
+    testWidgets(
+      'renders with shadows',
+      (WidgetTester tester) async {
+        debugDisableShadows = false;
+        await tester.pumpSubjectView(CharacterSelectionView());
+        expect(find.byType(CharacterSpotlight), findsOneWidget);
+        debugDisableShadows = true;
+      },
+    );
+
     goldenTest(
       'character_selection_view_small',
       fileName: 'character_selection_view_small',
@@ -144,6 +154,31 @@ extension on WidgetTester {
               child: Theme(
                 data: PhotoboothTheme.standard,
                 child: subject,
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubjectView(
+    CharacterSelectionView subject,
+  ) =>
+      pumpWidget(
+        MediaQuery.fromWindow(
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Localizations(
+              locale: Locale('en'),
+              delegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              child: Theme(
+                data: PhotoboothTheme.standard,
+                child: Scaffold(body: subject),
               ),
             ),
           ),
