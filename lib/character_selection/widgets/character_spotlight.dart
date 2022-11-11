@@ -44,16 +44,22 @@ class _SpotlightBeam extends CustomPainter {
       ..lineTo(size.width, size.height)
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
-    final paintLightBody = Paint()
-      ..blendMode = BlendMode.overlay
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          PhotoboothColors.white.withOpacity(0.6),
-          PhotoboothColors.white.withOpacity(0),
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    final paintLightBody = Paint();
+    if (debugDisableShadows) {
+      paintLightBody.color = const Color(0XFFF4E4E4);
+    } else {
+      paintLightBody
+        ..blendMode = BlendMode.overlay
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            PhotoboothColors.white.withOpacity(0.6),
+            PhotoboothColors.white.withOpacity(0),
+          ],
+        ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    }
     canvas.drawPath(pathLightBody, paintLightBody);
   }
 
