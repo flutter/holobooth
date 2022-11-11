@@ -67,7 +67,7 @@ class _SpotlightShadow extends CustomPainter {
     final center = Offset(size.width / 2, size.height);
     canvas.save();
     // Rotation of the canvas to paint the circle and we rotate to get
-    //the oval effect
+    // the oval effect.
     final matrix = Matrix4.identity()
       ..translate(center.dx, center.dy)
       ..rotateX(pi * 0.43);
