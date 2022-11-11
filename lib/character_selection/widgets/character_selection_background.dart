@@ -44,13 +44,9 @@ class Gradients extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
     final paint = Paint();
-    if (debugDisableShadows) {
-      paint.color = const Color(0XFFF4E4E4);
-    } else {
-      for (final gradient in gradient) {
-        paint.shader = gradient.createShader(rect);
-        canvas.drawRect(rect, paint);
-      }
+    for (final gradient in gradient) {
+      paint.shader = gradient.createShader(rect);
+      canvas.drawRect(rect, paint);
     }
   }
 

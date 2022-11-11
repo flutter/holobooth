@@ -23,10 +23,10 @@ class CharacterSpotlight extends StatelessWidget {
           height: bodyHeight,
           child: CustomPaint(
             size: size,
-            painter: _SpotlightBeam(),
+            painter: SpotlightBeam(),
             child: CustomPaint(
               size: size,
-              painter: _SpotlightShadow(),
+              painter: SpotlightShadow(),
             ),
           ),
         );
@@ -35,7 +35,8 @@ class CharacterSpotlight extends StatelessWidget {
   }
 }
 
-class _SpotlightBeam extends CustomPainter {
+@visibleForTesting
+class SpotlightBeam extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final pathLightBody = Path()
@@ -45,21 +46,16 @@ class _SpotlightBeam extends CustomPainter {
       ..lineTo((size.width / 3) * 2, 0)
       ..close();
 
-    final paintLightBody = Paint();
-    if (debugDisableShadows) {
-      paintLightBody.color = const Color(0XFFF4E4E4);
-    } else {
-      paintLightBody
-        ..blendMode = BlendMode.overlay
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            PhotoboothColors.white.withOpacity(0.6),
-            PhotoboothColors.white.withOpacity(0),
-          ],
-        ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-    }
+    final paintLightBody = Paint()
+      ..blendMode = BlendMode.overlay
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          PhotoboothColors.white.withOpacity(0.6),
+          PhotoboothColors.white.withOpacity(0),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawPath(pathLightBody, paintLightBody);
   }
 
@@ -67,7 +63,8 @@ class _SpotlightBeam extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
-class _SpotlightShadow extends CustomPainter {
+@visibleForTesting
+class SpotlightShadow extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height);
@@ -78,11 +75,8 @@ class _SpotlightShadow extends CustomPainter {
       ..translate(center.dx, center.dy)
       ..rotateX(pi * 0.43);
     canvas.transform(matrix.storage);
-    final paint = Paint();
-    if (debugDisableShadows) {
-      paint.color = const Color(0XFFF4E4E4);
-    } else {
-      paint.shader = RadialGradient(
+    final paint = Paint()
+      ..shader = RadialGradient(
         colors: [
           const Color(0XFFF4E4E4).withOpacity(0.5),
           const Color(0XFFF4E4E4).withOpacity(0)
@@ -90,7 +84,6 @@ class _SpotlightShadow extends CustomPainter {
       ).createShader(
         Rect.fromCircle(center: Offset.zero, radius: size.width / 2),
       );
-    }
 
     canvas
       ..drawCircle(Offset.zero, size.width / 2, paint)
