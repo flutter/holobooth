@@ -20,6 +20,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
 
   bool get _isCameraAvailable =>
       (_cameraController?.value.isInitialized) ?? false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
