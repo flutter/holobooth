@@ -2,7 +2,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -66,90 +65,51 @@ void main() {
       ).called(1);
     });
 
-    group('MadeWith', () {
-      late UrlLauncherPlatform mock;
-
-      setUp(() {
-        mock = _MockUrlLauncher();
-        UrlLauncherPlatform.instance = mock;
-        when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
-        when(
-          () => mock.launchUrl(any(), any()),
-        ).thenAnswer((_) async => true);
-      });
-
-      setUpAll(() {
-        registerFallbackValue(_FakeLaunchOptions());
-      });
-
-      testWidgets('opens the Flutter website when tapped', (tester) async {
-        await tester.pumpApp(FooterMadeWithLink());
-
-        final textSpan = tester.textSpanContaining('Flutter');
-        tester.tapTextSpan(textSpan);
-        await tester.pumpAndSettle();
-
-        verify(
-          () => mock.launchUrl(flutterDevExternalLink, any()),
-        ).called(1);
-      });
-
-      testWidgets('opens the Firebase website when tapped', (tester) async {
-        await tester.pumpApp(FooterMadeWithLink());
-
-        final textSpan = tester.textSpanContaining('Firebase');
-        tester.tapTextSpan(textSpan);
-        await tester.pumpAndSettle();
-
-        verify(
-          () => mock.launchUrl(firebaseExternalLink, any()),
-        ).called(1);
-      });
-    });
-
-    group('Google IO', () {
+    group('Flutter', () {
       testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterGoogleIOLink());
+        await tester.pumpApp(FooterFlutter());
 
         final widget = tester.widget<FooterLink>(
           find.byType(FooterLink),
         );
 
-        expect(widget.link, equals(googleIOExternalLink));
+        expect(widget.link, equals('https://flutter.dev'));
       });
     });
 
-    group('Codelab', () {
+    group('Firebase', () {
       testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterCodelabLink());
+        await tester.pumpApp(FooterFirebase());
 
         final widget = tester.widget<FooterLink>(
           find.byType(FooterLink),
         );
 
-        expect(
-          widget.link,
-          equals(
-            'https://firebase.google.com/codelabs/firebase-get-to-know-flutter#0',
-          ),
-        );
+        expect(widget.link, equals('https://firebase.google.com'));
       });
     });
 
-    group('How Its Made', () {
+    group('TensorFlow', () {
       testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterHowItsMadeLink());
+        await tester.pumpApp(FooterTensorFlow());
 
         final widget = tester.widget<FooterLink>(
           find.byType(FooterLink),
         );
 
-        expect(
-          widget.link,
-          equals(
-            'https://medium.com/flutter/how-its-made-i-o-photo-booth-3b8355d35883',
-          ),
+        expect(widget.link, equals('https://www.tensorflow.org'));
+      });
+    });
+
+    group('MediaPipe', () {
+      testWidgets('renders FooterLink with a proper link', (tester) async {
+        await tester.pumpApp(FooterMediaPipe());
+
+        final widget = tester.widget<FooterLink>(
+          find.byType(FooterLink),
         );
+
+        expect(widget.link, equals('https://google.github.io/mediapipe'));
       });
     });
 

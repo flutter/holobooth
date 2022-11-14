@@ -1,6 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -23,73 +21,30 @@ class FooterLink extends StatelessWidget {
   }
 }
 
-class FooterMadeWithLink extends StatelessWidget {
-  const FooterMadeWithLink({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final defaultTextStyle = DefaultTextStyle.of(context);
-
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        text: l10n.footerMadeWithText,
-        style: theme.textTheme.bodyText1?.copyWith(
-          fontWeight: PhotoboothFontWeight.regular,
-          color: defaultTextStyle.style.color,
-        ),
-        children: <TextSpan>[
-          TextSpan(
-            text: l10n.footerMadeWithFlutterLinkText,
-            recognizer: TapGestureRecognizer()..onTap = launchFlutterDevLink,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          const TextSpan(
-            text: ' & ',
-          ),
-          TextSpan(
-            text: l10n.footerMadeWithFirebaseLinkText,
-            recognizer: TapGestureRecognizer()..onTap = launchFirebaseLink,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class FooterFlutter extends StatelessWidget {
-  const FooterFlutter();
+  const FooterFlutter({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return const FooterLink(
-      link: '',
-      text: 'Flutter',
+    return FooterLink(
+      link: 'https://flutter.dev',
+      text: l10n.footerMadeWithFlutterLinkText,
     );
   }
 }
 
 class FooterFirebase extends StatelessWidget {
-  const FooterFirebase();
+  const FooterFirebase({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return const FooterLink(
-      link: '',
-      text: 'Firebase',
+    return FooterLink(
+      link: 'https://firebase.google.com',
+      text: l10n.footerMadeWithFirebaseLinkText,
     );
   }
 }
@@ -103,9 +58,9 @@ class FooterTensorFlow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return const FooterLink(
-      link: '',
-      text: 'Tensorflow',
+    return FooterLink(
+      link: 'https://www.tensorflow.org',
+      text: l10n.footerTensorFlowLinkText,
     );
   }
 }
@@ -119,9 +74,9 @@ class FooterMediaPipe extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return const FooterLink(
-      link: '',
-      text: 'MediaPipe',
+    return FooterLink(
+      link: 'https://google.github.io/mediapipe',
+      text: l10n.footerMediaPipeLinkText,
     );
   }
 }

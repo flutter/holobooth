@@ -53,7 +53,6 @@ class _ColumnFooter extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const FooterMadeWithLink(),
         const SizedBox(height: 32),
         Wrap(
           alignment: WrapAlignment.center,
@@ -90,9 +89,15 @@ class _RowFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     const gap = SizedBox(width: 32);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: const [
-        FooterMadeWithLink(),
-        Spacer(),
+        FooterFlutter(),
+        gap,
+        FooterFirebase(),
+        gap,
+        FooterTensorFlow(),
+        gap,
+        FooterMediaPipe(),
         gap,
         FooterTermsOfServiceLink(),
         gap,

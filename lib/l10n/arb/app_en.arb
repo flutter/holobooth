@@ -24,6 +24,14 @@
     "@footerMadeWithFirebaseLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Firebase page"
     },
+    "footerTensorFlowLinkText": "TensorFlow",
+    "@footerTensorFlowLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the TensorFlow page."
+    },
+    "footerMediaPipeLinkText": "MediaPipe",
+    "@footerMediaPipeLinkText": {
+        "description": "Text on the link shown on the footer which navigates to the MediaPipe page."
+    },
     "footerGoogleIOLinkText": "Google I\u2215O",
     "@footerGoogleIOLinkText": {
         "description": "Text on the link shown on the footer which navigates to the Google I\u2215O page."
@@ -365,5 +373,10 @@
       "description": "Title text displayed on the background selection button and drawer on camera capture page",
       "type": "text",
       "placeholders": {}
+    },
+    "takeANewPhotoButtonText": "Take a new photo",
+    "@takeANewPhotoButtonText": {
+        "description": "Text displayed on button to navigate to the camera to take a new photo"
     }
+    
 }

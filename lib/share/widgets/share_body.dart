@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -94,36 +91,19 @@ class MobileButtonsLayout extends StatelessWidget {
 }
 
 @visibleForTesting
-class GoToGoogleIOButton extends StatelessWidget {
-  const GoToGoogleIOButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: PhotoboothColors.white),
-      onPressed: launchGoogleIOLink,
-      child: Text(
-        l10n.goToGoogleIOButtonText,
-        style: theme.textTheme.button?.copyWith(color: PhotoboothColors.black),
-      ),
-    );
-  }
-}
-
 class TakeANewPhoto extends StatelessWidget {
   const TakeANewPhoto({super.key});
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return OutlinedButton(
       onPressed: () {
         Navigator.of(context).pushReplacement(PhotoBoothPage.route());
       },
       style: OutlinedButton.styleFrom(minimumSize: const Size(259, 54)),
       child: Text(
-        'Take a new photo',
+        l10n.takeANewPhotoButtonText,
         style: theme.textTheme.button?.copyWith(
           color: PhotoboothColors.white,
           fontSize: 22,
