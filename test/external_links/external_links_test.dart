@@ -27,15 +27,6 @@ void main() {
       registerFallbackValue(_FakeLaunchOptions());
     });
 
-    group('launchGoogleIOLink', () {
-      test('launches correct link', () async {
-        await launchGoogleIOLink();
-        verify(
-          () => mock.launchUrl(googleIOExternalLink, any()),
-        ).called(1);
-      });
-    });
-
     group('launchFlutterDevLink', () {
       test('launches correct link', () async {
         await launchFlutterDevLink();
