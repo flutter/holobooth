@@ -11,8 +11,8 @@ class ShareButton extends StatelessWidget {
     final l10n = context.l10n;
 
     return ElevatedButton(
-      onPressed: () {
-        showAppModal<void>(
+      onPressed: () async {
+        await showAppModal<void>(
           context: context,
           portraitChild: const ShareBottomSheet(),
           landscapeChild: const ShareDialog(),
