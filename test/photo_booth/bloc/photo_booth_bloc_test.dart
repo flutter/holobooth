@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockPhotoboothCameraImage extends Mock implements PhotoboothCameraImage {
-}
+class _MockPhotoboothCameraImage extends Mock
+    implements PhotoboothCameraImage {}
 
 void main() {
   group('PhotoBoothBloc', () {
