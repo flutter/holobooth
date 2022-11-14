@@ -26,7 +26,7 @@ class _LandmarksDashView extends StatefulWidget {
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
   FaceGeometry? _faceGeometry;
-  bool displayDashBackground = true;
+  bool _displayDashBackground = true;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -36,9 +36,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.refresh),
         onPressed: () {
           setState(() {
-            displayDashBackground = !displayDashBackground;
+            _displayDashBackground = !_displayDashBackground;
           });
         },
       ),
@@ -67,7 +68,7 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    if (displayDashBackground)
+                    if (_displayDashBackground)
                       DashWithBackground(faceGeometry: _faceGeometry)
                     else
                       Center(child: _Dash(faceGeometry: _faceGeometry!)),
