@@ -2,11 +2,6 @@
 /// *****************************************************
 ///  FlutterGen
 /// *****************************************************
-
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
-
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 
@@ -19,8 +14,6 @@ class Assets {
   static const RiveGenImage dash = RiveGenImage('assets/dash.riv');
   static const RiveGenImage dashWithBackground =
       RiveGenImage('assets/dash_with_background.riv');
-  static const RiveGenImage renameStates =
-      RiveGenImage('assets/rename_states.riv');
 }
 
 class AssetGenImage {
@@ -99,7 +92,7 @@ class RiveGenImage {
     Alignment? alignment,
     Widget? placeHolder,
     bool antialiasing = true,
-    List<RiveAnimationController> controllers = const [],
+    List<RiveAnimationController<dynamic>> controllers = const [],
     OnInitCallback? onInit,
   }) {
     return RiveAnimation.asset(
