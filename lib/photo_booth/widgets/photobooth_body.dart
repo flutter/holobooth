@@ -31,7 +31,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           child: Opacity(
             opacity: 1,
             child: SizedBox(
-              height: 0,
+              height: 300,
+              width: 300,
               child: CameraView(
                 onCameraReady: (controller) {
                   setState(() => _cameraController = controller);

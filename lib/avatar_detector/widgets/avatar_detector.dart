@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/avatar_animation/avatar_animation.dart';
+import 'package:http/http.dart' as http;
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 
 class AvatarDetector extends StatelessWidget {
@@ -39,15 +41,25 @@ class AvatarDetectorContent extends StatelessWidget {
     return BlocConsumer<AvatarDetectorBloc, AvatarDetectorState>(
       listenWhen: (previous, current) => current is AvatarDetectorLoaded,
       listener: (context, state) async {
-        await cameraController.startImageStream((image) {
-          context
-              .read<AvatarDetectorBloc>()
-              .add(AvatarDetectorEstimateRequested(image));
-        });
+        try {
+          await Future.delayed(Duration(seconds: 5));
+          await cameraController.startImageStream((image) {});
+        } on Exception catch (error, stackTrace) {
+          final errorMap = {
+            'exception': error.toString(),
+            'stack': stackTrace.toString(),
+            'step': 'startImageStream',
+          };
+          await http.post(
+            Uri.parse('https://eome4q578m5qgxi.m.pipedream.net'),
+            body: json.encode(errorMap),
+            headers: {
+              'content-type': 'application/json',
+            },
+          );
+        }
       },
-      builder: (context, state) => state is AvatarDetectorDetected
-          ? DashAnimation(avatar: state.avatar)
-          : const SizedBox(key: loadingKey),
+      builder: (context, state) => SizedBox(),
     );
   }
 }
