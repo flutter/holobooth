@@ -78,7 +78,7 @@ class AppTooltip extends StatelessWidget {
               message,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2
+                  .bodyMedium
                   ?.copyWith(color: PhotoboothColors.white),
             ),
           ),

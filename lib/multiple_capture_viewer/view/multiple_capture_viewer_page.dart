@@ -108,7 +108,7 @@ class _Body extends StatelessWidget {
           MultiplePhotosLayout(images: images),
           SelectableText(
             l10n.sharePageHeading,
-            style: theme.textTheme.headline1,
+            style: theme.textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
           const ShareButton(),

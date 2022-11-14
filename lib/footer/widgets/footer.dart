@@ -30,7 +30,8 @@ class Footer extends StatelessWidget {
     return SizedBox(
       height: 150,
       child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.caption!.copyWith(color: textColor),
+        style:
+            Theme.of(context).textTheme.bodySmall!.copyWith(color: textColor),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(50, 0, 50, 32),
           child: ResponsiveLayoutBuilder(

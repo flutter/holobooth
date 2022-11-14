@@ -11,7 +11,7 @@ class PhotoboothTextStyle {
   );
 
   /// Headline 1 Text Style
-  static TextStyle get headline1 {
+  static TextStyle get displayLarge {
     return _baseTextStyle.copyWith(
       fontSize: 56,
       fontWeight: PhotoboothFontWeight.medium,
@@ -19,7 +19,7 @@ class PhotoboothTextStyle {
   }
 
   /// Headline 2 Text Style
-  static TextStyle get headline2 {
+  static TextStyle get displayMedium {
     return _baseTextStyle.copyWith(
       fontSize: 30,
       fontWeight: PhotoboothFontWeight.regular,
@@ -27,7 +27,7 @@ class PhotoboothTextStyle {
   }
 
   /// Headline 3 Text Style
-  static TextStyle get headline3 {
+  static TextStyle get displaySmall {
     return _baseTextStyle.copyWith(
       fontSize: 24,
       fontWeight: PhotoboothFontWeight.regular,
@@ -35,7 +35,7 @@ class PhotoboothTextStyle {
   }
 
   /// Headline 4 Text Style
-  static TextStyle get headline4 {
+  static TextStyle get headlineMedium {
     return _baseTextStyle.copyWith(
       fontSize: 22,
       fontWeight: PhotoboothFontWeight.bold,
@@ -43,7 +43,7 @@ class PhotoboothTextStyle {
   }
 
   /// Headline 5 Text Style
-  static TextStyle get headline5 {
+  static TextStyle get headlineSmall {
     return _baseTextStyle.copyWith(
       fontSize: 22,
       fontWeight: PhotoboothFontWeight.medium,
@@ -59,7 +59,7 @@ class PhotoboothTextStyle {
   }
 
   /// Subtitle 1 Text Style
-  static TextStyle get subtitle1 {
+  static TextStyle get titleMedium {
     return _baseTextStyle.copyWith(
       fontSize: 16,
       fontWeight: PhotoboothFontWeight.bold,
