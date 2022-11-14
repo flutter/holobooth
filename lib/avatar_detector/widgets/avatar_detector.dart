@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:io_photobooth/avatar_animation/avatar_animation.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 
 class AvatarDetector extends StatelessWidget {
@@ -42,8 +43,11 @@ class AvatarDetectorContent extends StatelessWidget {
       listenWhen: (previous, current) => current is AvatarDetectorLoaded,
       listener: (context, state) async {
         try {
-          await Future.delayed(Duration(seconds: 5));
-          await cameraController.startImageStream((image) {});
+          await cameraController.startImageStream((image) async {
+            context
+                .read<AvatarDetectorBloc>()
+                .add(AvatarDetectorEstimateRequested(image));
+          });
         } on Exception catch (error, stackTrace) {
           final errorMap = {
             'exception': error.toString(),
@@ -59,7 +63,9 @@ class AvatarDetectorContent extends StatelessWidget {
           );
         }
       },
-      builder: (context, state) => SizedBox(),
+      builder: (context, state) => state is AvatarDetectorDetected
+          ? DashAnimation(avatar: state.avatar)
+          : const SizedBox(key: loadingKey),
     );
   }
 }

@@ -55,12 +55,12 @@ dependency_overrides:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera
-      ref: 8bbd9efaa06f300a1d7ef79a4fb4c31ee4cc5df4
+      ref: 3da309dc99b1ba4a4ad219d993a188f43c766721
   camera_web:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: 8bbd9efaa06f300a1d7ef79a4fb4c31ee4cc5df4
+      ref: 3da309dc99b1ba4a4ad219d993a188f43c766721
 
 dev_dependencies:
   bloc_test: ^9.1.0
