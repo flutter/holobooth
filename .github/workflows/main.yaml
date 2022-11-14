@@ -14,7 +14,8 @@ concurrency:
 
 jobs:
   build:
-      uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-      with:
-        flutter_version: 3.3.1
-        coverage_excludes: "**/*.g.dart"
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_version: 3.4.0-34.1.pre
+      flutter_channel: "beta"
+      coverage_excludes: "**/*.g.dart"
