@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture_viewer/widgets/widgets.dart';
+import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 
 void main() {
   group('ShareDialog', () {
