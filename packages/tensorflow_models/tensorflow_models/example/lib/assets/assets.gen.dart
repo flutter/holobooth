@@ -2,11 +2,6 @@
 /// *****************************************************
 ///  FlutterGen
 /// *****************************************************
-
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
-
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 
@@ -17,6 +12,8 @@ class Assets {
   static const String applause = 'assets/applause.mp3';
   static const RiveGenImage blink = RiveGenImage('assets/blink.riv');
   static const RiveGenImage dash = RiveGenImage('assets/dash.riv');
+  static const RiveGenImage dashWithBackground =
+      RiveGenImage('assets/dash_with_background.riv');
 }
 
 class AssetGenImage {
