@@ -100,6 +100,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +111,7 @@ class _Body extends StatelessWidget {
             style: theme.textTheme.headline1,
             textAlign: TextAlign.center,
           ),
+          const ShareButton(),
         ],
       ),
     );
