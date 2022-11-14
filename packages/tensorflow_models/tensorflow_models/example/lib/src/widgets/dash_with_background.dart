@@ -12,10 +12,10 @@ class DashWithBackground extends StatefulWidget {
   final FaceGeometry? faceGeometry;
 
   @override
-  _DashState createState() => _DashState();
+  State<DashWithBackground> createState() => _DashWithBackgroundState();
 }
 
-class _DashState extends State<DashWithBackground> {
+class _DashWithBackgroundState extends State<DashWithBackground> {
   _DashStateMachineController? _dashController;
 
   void _onRiveInit(Artboard artboard) {
