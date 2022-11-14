@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
@@ -11,7 +10,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/firebase_options.dart';
@@ -25,18 +23,6 @@ Future<void> main() async {
   FlutterError.onError = (details) async {
     print(details.exceptionAsString());
     print(details.stack.toString());
-    final errorMap = {
-      'exception': details.exceptionAsString(),
-      'stack': details.stack.toString(),
-      'step': 'FlutterError',
-    };
-    await http.post(
-      Uri.parse('https://eome4q578m5qgxi.m.pipedream.net'),
-      body: json.encode(errorMap),
-      headers: {
-        'content-type': 'application/json',
-      },
-    );
   };
 
   await Firebase.initializeApp(
@@ -70,13 +56,14 @@ Future<void> main() async {
         'stack': stackTrace.toString(),
         'step': 'runZonedGuarded',
       };
-      await http.post(
+      // Commenting: free pricing reached
+      /* await http.post(
         Uri.parse('https://eome4q578m5qgxi.m.pipedream.net'),
         body: json.encode(errorMap),
         headers: {
           'content-type': 'application/json',
         },
-      );
+      );*/
     },
   );
 
