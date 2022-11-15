@@ -1,14 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
-
-// class FakePhotoboothEvent extends Fake implements PhotoBoothEvent {}
-
-// class FakePhotoboothState extends Fake implements PhotoBoothState {}
 
 class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
@@ -32,10 +27,5 @@ void main() {
       await tester.pumpApp(SharePage(images: images));
       expect(find.byType(GradientBackground), findsOneWidget);
     });
-
-    // testWidgets('renders WhiteFooter', (tester) async {
-    //   await tester.pumpApp(SharePage(images: images));
-    //   expect(find.byType(WhiteFooter), findsOneWidget);
-    // });
   });
 }
