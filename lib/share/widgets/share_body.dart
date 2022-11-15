@@ -3,6 +3,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+// import 'package:cross_file/cross_file.dart';
 
 class ShareBody extends StatelessWidget {
   const ShareBody({required this.images, super.key});

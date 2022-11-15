@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -29,7 +30,7 @@ class FooterFlutter extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://flutter.dev',
+      link: flutterDevExternalLink,
       text: l10n.footerMadeWithFlutterLinkText,
     );
   }
@@ -43,7 +44,7 @@ class FooterFirebase extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://firebase.google.com',
+      link: firebaseExternalLink,
       text: l10n.footerMadeWithFirebaseLinkText,
     );
   }
@@ -59,7 +60,7 @@ class FooterTensorFlow extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://www.tensorflow.org',
+      link: tensorFlowLink,
       text: l10n.footerTensorFlowLinkText,
     );
   }
@@ -75,7 +76,7 @@ class FooterMediaPipe extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://google.github.io/mediapipe',
+      link: mediaPipeLink,
       text: l10n.footerMediaPipeLinkText,
     );
   }
@@ -91,7 +92,7 @@ class FooterTermsOfServiceLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://policies.google.com/terms',
+      link: termsOfServiceLink,
       text: l10n.footerTermsOfServiceLinkText,
     );
   }
@@ -107,7 +108,7 @@ class FooterPrivacyPolicyLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://policies.google.com/privacy',
+      link: privacyPolicyLink,
       text: l10n.footerPrivacyPolicyLinkText,
     );
   }

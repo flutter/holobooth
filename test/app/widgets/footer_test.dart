@@ -36,19 +36,24 @@ void main() {
       expect(find.byKey(const Key('footer_row')), findsOneWidget);
     });
 
-    testWidgets('renders FooterGoogleIOLink widget', (tester) async {
+    testWidgets('renders FooterFlutter widget', (tester) async {
       await tester.pumpApp(Footer(textColor: PhotoboothColors.black));
-      expect(find.byType(FooterGoogleIOLink), findsOneWidget);
+      expect(find.byType(FooterFlutter), findsOneWidget);
     });
 
-    testWidgets('renders FooterCodelabLink widget', (tester) async {
+    testWidgets('renders FooterFirebase widget', (tester) async {
       await tester.pumpApp(Footer(textColor: PhotoboothColors.black));
-      expect(find.byType(FooterCodelabLink), findsOneWidget);
+      expect(find.byType(FooterFirebase), findsOneWidget);
     });
 
-    testWidgets('renders FooterHowItsMadeLink widget', (tester) async {
+    testWidgets('renders FooterTensorFlow widget', (tester) async {
       await tester.pumpApp(Footer(textColor: PhotoboothColors.black));
-      expect(find.byType(FooterHowItsMadeLink), findsOneWidget);
+      expect(find.byType(FooterTensorFlow), findsOneWidget);
+    });
+
+    testWidgets('renders MediaPipe widget', (tester) async {
+      await tester.pumpApp(Footer(textColor: PhotoboothColors.black));
+      expect(find.byType(FooterMediaPipe), findsOneWidget);
     });
 
     testWidgets('renders FooterTermsOfServiceLink widget', (tester) async {

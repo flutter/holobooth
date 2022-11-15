@@ -97,7 +97,7 @@ void main() {
           find.byType(FooterLink),
         );
 
-        expect(widget.link, equals('https://www.tensorflow.org'));
+        expect(widget.link, equals('https://tensorflow.org'));
       });
     });
 
@@ -109,7 +109,7 @@ void main() {
           find.byType(FooterLink),
         );
 
-        expect(widget.link, equals('https://google.github.io/mediapipe'));
+        expect(widget.link, equals('https://mediapipe.dev/'));
       });
     });
 

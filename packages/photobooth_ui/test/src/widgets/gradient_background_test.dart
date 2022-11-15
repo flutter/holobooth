@@ -1,20 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
-import '../../../helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 void main() {
   group('CharacterSelectionBackground', () {
     test('can be instantiated', () {
       expect(
-        CharacterSelectionBackground(),
-        isA<CharacterSelectionBackground>(),
+        const GradientBackground(),
+        isA<GradientBackground>(),
       );
     });
 
     group('renders', () {
       testWidgets('successfully', (tester) async {
-        final subject = CharacterSelectionBackground();
+        final subject = GradientBackground();
         await tester.pumpWidget(subject);
         expect(find.byWidget(subject), findsOneWidget);
       });
@@ -27,11 +27,11 @@ void main() {
         'paints background',
         tags: TestTag.golden,
         (tester) async {
-          final subject = CharacterSelectionBackground();
+          const subject = GradientBackground();
           await tester.pumpWidget(subject);
           await expectLater(
             find.byWidget(subject),
-            matchesGoldenFile(goldenPath('character_selection_background')),
+            matchesGoldenFile(goldenPath('gradient_background')),
           );
         },
       );
