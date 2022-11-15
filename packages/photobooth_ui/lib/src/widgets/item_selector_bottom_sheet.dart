@@ -40,6 +40,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
     required Widget Function(BuildContext, T) itemBuilder,
     required T selectedItem,
     required ValueChanged<T> onSelected,
+    Key? key,
   }) =>
       showBottomSheet<void>(
         backgroundColor: PhotoboothColors.black.withOpacity(.3),
@@ -50,6 +51,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
           itemBuilder: itemBuilder,
           selectedItem: selectedItem,
           onSelected: onSelected,
+          key: key,
         ),
       ).closed;
 

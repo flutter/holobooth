@@ -7,13 +7,23 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class DrawerLayer extends StatelessWidget {
   const DrawerLayer({super.key});
 
+  @visibleForTesting
+  static const propsDrawerKey = Key('drawerLayer_props');
+
+  @visibleForTesting
+  static const backgroundsDrawerKey = Key('drawerLayer_backgrounds');
+
+  @visibleForTesting
+  static const charactersDrawerKey = Key('drawerLayer_characters');
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DrawerSelectionBloc, DrawerSelectionState>(
       builder: (context, state) {
-        switch (state.drawerOption) {
+        switch (state.drawerOption!) {
           case DrawerOption.props:
             return ItemSelectorDrawer(
+              key: propsDrawerKey,
               title: DrawerOption.props.localized(context),
               items: const [
                 PhotoboothColors.red,
@@ -26,6 +36,7 @@ class DrawerLayer extends StatelessWidget {
             );
           case DrawerOption.backgrounds:
             return ItemSelectorDrawer(
+              key: backgroundsDrawerKey,
               title: DrawerOption.backgrounds.localized(context),
               items: const [
                 PhotoboothColors.purple,
@@ -38,6 +49,7 @@ class DrawerLayer extends StatelessWidget {
             );
           case DrawerOption.characters:
             return ItemSelectorDrawer(
+              key: charactersDrawerKey,
               title: DrawerOption.characters.localized(context),
               items: const [
                 PhotoboothColors.orange,
@@ -48,8 +60,6 @@ class DrawerLayer extends StatelessWidget {
               selectedItem: PhotoboothColors.red,
               onSelected: print,
             );
-          case null:
-            return const SizedBox();
         }
       },
     );
