@@ -50,8 +50,8 @@ class FirebaseFooterLink extends StatelessWidget {
   }
 }
 
-class TensorflowFooterLink extends StatelessWidget {
-  const TensorflowFooterLink({super.key});
+class TensorFlowFooterLink extends StatelessWidget {
+  const TensorFlowFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class FooterTermsOfServiceLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://policies.google.com/terms',
+      link: termsOfServiceLink,
       text: l10n.footerTermsOfServiceLinkText,
     );
   }
@@ -104,7 +104,7 @@ class FooterPrivacyPolicyLink extends StatelessWidget {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: 'https://policies.google.com/privacy',
+      link: privacyPolicyLink,
       text: l10n.footerPrivacyPolicyLinkText,
     );
   }

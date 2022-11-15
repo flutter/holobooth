@@ -20,7 +20,7 @@ class FullFooter extends StatelessWidget {
           gap,
           FirebaseFooterLink(),
           gap,
-          TensorflowFooterLink(),
+          TensorFlowFooterLink(),
           gap,
           MediapipeFooterLink(),
           gap,
