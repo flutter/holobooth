@@ -8,6 +8,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -51,30 +52,18 @@ class _MockCameraPlatform extends Mock
 class _FakeAvatar extends Fake implements Avatar {}
 
 void main() {
-  late AvatarDetectorBloc avatarDetectorBloc;
-  late CameraController cameraController;
-  late CameraImage cameraImage;
-
-  setUp(() {
-    cameraImage = _FakeCameraImage();
-    avatarDetectorBloc = _MockAvatarDetectorBloc();
-    when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
-    cameraController = _MockCameraController(cameraImage);
-  });
-
   group('AvatarDetector', () {
-    testWidgets(
-      'renders AvatarDetectorContent',
-      (WidgetTester tester) async {
-        await tester.pumpApp(
-          AvatarDetector(cameraController: cameraController),
-        );
-        expect(find.byType(AvatarDetectorContent), findsOneWidget);
-      },
-    );
-  });
+    late AvatarDetectorBloc avatarDetectorBloc;
+    late CameraController cameraController;
+    late CameraImage cameraImage;
 
-  group('AvatarDetectorContent', () {
+    setUp(() {
+      cameraImage = _FakeCameraImage();
+      avatarDetectorBloc = _MockAvatarDetectorBloc();
+      when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorInitial());
+      cameraController = _MockCameraController(cameraImage);
+    });
+
     testWidgets(
       'adds AvatarDetectorEstimateRequested when AvatarDetectorLoaded',
       (WidgetTester tester) async {
@@ -90,7 +79,7 @@ void main() {
           Stream.value(AvatarDetectorLoaded()),
         );
         await tester.pumpSubject(
-          AvatarDetectorContent(cameraController: cameraController),
+          AvatarDetector(cameraController: cameraController),
           avatarDetectorBloc,
         );
         frameStreamController.add(_FakeCameraImageData());
@@ -107,7 +96,7 @@ void main() {
         when(() => avatarDetectorBloc.state)
             .thenReturn(AvatarDetectorDetected(_FakeAvatar()));
         await tester.pumpSubject(
-          AvatarDetectorContent(cameraController: cameraController),
+          AvatarDetector(cameraController: cameraController),
           avatarDetectorBloc,
         );
         expect(find.byType(DashAnimation), findsOneWidget);
@@ -121,10 +110,10 @@ void main() {
             .thenReturn(AvatarDetectorEstimating());
 
         await tester.pumpSubject(
-          AvatarDetectorContent(cameraController: cameraController),
+          AvatarDetector(cameraController: cameraController),
           avatarDetectorBloc,
         );
-        expect(find.byKey(AvatarDetectorContent.loadingKey), findsOneWidget);
+        expect(find.byKey(AvatarDetector.loadingKey), findsOneWidget);
       },
     );
   });
@@ -132,7 +121,7 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    AvatarDetectorContent subject,
+    AvatarDetector subject,
     AvatarDetectorBloc avatarDetectorBloc,
   ) =>
       pumpApp(
