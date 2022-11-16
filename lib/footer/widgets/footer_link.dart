@@ -17,7 +17,12 @@ class FooterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Clickable(
       onPressed: () => openLink(link),
-      child: Text(text),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+              color: PhotoboothColors.white,
+            ),
+      ),
     );
   }
 }
