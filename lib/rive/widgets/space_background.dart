@@ -26,10 +26,11 @@ class SpaceBackground extends StatefulWidget {
   final double z;
 
   @override
-  State<SpaceBackground> createState() => _SpaceBackgroundState();
+  State<SpaceBackground> createState() => SpaceBackgroundState();
 }
 
-class _SpaceBackgroundState extends State<SpaceBackground> {
+@visibleForTesting
+class SpaceBackgroundState extends State<SpaceBackground> {
   @visibleForTesting
   SpaceBackgroundStateMachineController? backgroundController;
 
@@ -120,3 +121,4 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
   late final SMINumber y;
   late final SMINumber z;
 }
+// coverage:ignore-end
