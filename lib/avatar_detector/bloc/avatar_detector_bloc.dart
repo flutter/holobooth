@@ -44,7 +44,9 @@ class AvatarDetectorBloc
   ) async {
     // TODO(oscar): Ensure _estimateRequested is not called when currently
     // estimating.
-    if (state is AvatarDetectorEstimating) return;
+    if (state is AvatarDetectorEstimating ||
+        state is AvatarDetectorInitial ||
+        state is AvatarDetectorLoading) return;
 
     emit(const AvatarDetectorEstimating());
     final imageData = tf.ImageData(
