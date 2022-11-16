@@ -23,9 +23,13 @@ class _AvatarDetectorState extends State<AvatarDetector> {
   void initState() {
     super.initState();
     widget.cameraController.startImageStream((image) {
-      context
-          .read<AvatarDetectorBloc>()
-          .add(AvatarDetectorEstimateRequested(image));
+      // TODO(alestiago): Refactor with task:
+      // https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3532736865
+      final bloc = context.read<AvatarDetectorBloc>();
+      if (bloc.state is! AvatarDetectorInitial ||
+          bloc.state is! AvatarDetectorLoading) {
+        bloc.add(AvatarDetectorEstimateRequested(image));
+      }
     });
   }
 
