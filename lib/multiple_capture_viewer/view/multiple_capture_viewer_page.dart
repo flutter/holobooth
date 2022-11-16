@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -38,6 +39,10 @@ class MultipleCaptureViewerView extends StatelessWidget {
             child: TakePhotoAgainButton(),
           ),
           Align(child: _Body(images: images)),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: FullFooter(),
+          )
         ],
       ),
     );

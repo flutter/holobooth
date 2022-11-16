@@ -16,12 +16,12 @@
   "@footerMadeWithText": {
     "description": "Text shown on the footer which mentions technologies used to build the app."
   },
-  "footerMadeWithFlutterLinkText": "Flutter",
-  "@footerMadeWithFlutterLinkText": {
+  "flutterLinkFooterText": "Flutter",
+  "@flutterLinkFooterText": {
     "description": "Text on the link shown on the footer which navigates to the Flutter page"
   },
-  "footerMadeWithFirebaseLinkText": "Firebase",
-  "@footerMadeWithFirebaseLinkText": {
+  "firebaseLinkFooterText": "Firebase",
+  "@firebaseLinkFooterText": {
     "description": "Text on the link shown on the footer which navigates to the Firebase page"
   },
   "footerGoogleIOLinkText": "Google I∕O",
@@ -377,5 +377,13 @@
     "description": "Title text displayed on the character selection button and drawer on camera capture page",
     "type": "text",
     "placeholders": {}
+  },
+  "tensorflowLinkFooterText": "TensorFlow",
+  "@tensorflowLinkFooterText": {
+    "description": "Text on the link shown on the footer which navigates to the Tensorflow page"
+  },
+  "mediaPipeLinkFooterText": "MediaPipe",
+  "@mediaPipeLinkFooterText": {
+    "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
   }
 }
