@@ -26,12 +26,15 @@ void main() {
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;
       final controller = state.dashController;
-      expect(controller?.openMouth.value, false);
+      expect(controller?.mouthIsOpen.value, false);
       stateSetter(
-        () => avatar = Avatar(hasMouthOpen: true, direction: Vector3(0, 0, 0)),
+        () => avatar = Avatar(
+          hasMouthOpen: true,
+          direction: Vector3(0, 0, 0),
+        ),
       );
       await tester.pump();
-      expect(controller?.openMouth.value, true);
+      expect(controller?.mouthIsOpen.value, true);
     });
   });
 }
