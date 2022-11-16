@@ -14,7 +14,7 @@ class PhotoboothBackground extends StatelessWidget {
       builder: (context, state) {
         return state is AvatarDetectorDetected
             ? SpaceBackground.fromVector3(state.avatar.direction)
-            : const SizedBox.expand(key: PhotoboothBackground.loadingKey);
+            : const SizedBox.shrink(key: PhotoboothBackground.loadingKey);
       },
     );
   }
