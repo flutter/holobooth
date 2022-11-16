@@ -39,6 +39,8 @@ class DashAnimationState extends State<DashAnimation> {
       );
 
       dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen);
+      dashController.rightEyeIsClosed.change(widget.avatar.rightEyeIsClosed);
+      dashController.leftEyeIsClosed.change(widget.avatar.leftEyeIsClosed);
     }
   }
 
@@ -97,6 +99,14 @@ class DashStateMachineController extends StateMachineController {
       this.leftEyeIsClosed = leftEyeIsClosed;
     } else {
       throw StateError('Could not find input "$leftEyeIsClosedInputName"');
+    }
+
+    const rightEyeIsClosedInputName = 'rightEyeIsClosed';
+    final rightEyeIsClosed = findInput<bool>(rightEyeIsClosedInputName);
+    if (rightEyeIsClosed is SMIBool) {
+      this.rightEyeIsClosed = rightEyeIsClosed;
+    } else {
+      throw StateError('Could not find input "$rightEyeIsClosedInputName"');
     }
   }
 
