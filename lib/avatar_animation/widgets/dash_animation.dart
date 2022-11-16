@@ -29,9 +29,13 @@ class DashAnimationState extends State<DashAnimation> {
   void didUpdateWidget(covariant DashAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (dashController != null) {
-      final direction = widget.avatar.direction.unit();
-      dashController!.x.change(direction.x * 1000);
-      dashController!.y.change(direction.y * -1000);
+      final direction = widget.avatar.direction;
+      dashController?.x.change(
+        direction.x * ((DashStateMachineController._xRange / 2) + 50),
+      );
+      dashController?.y.change(
+        direction.y * ((DashStateMachineController._yRange / 2) + 50),
+      );
       dashController!.openMouth.change(widget.avatar.hasMouthOpen);
     }
   }
@@ -82,6 +86,16 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "openMouth"');
     }
   }
+
+  /// The total range [x] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _xRange = 200;
+
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
