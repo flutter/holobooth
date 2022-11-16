@@ -12,13 +12,17 @@ class Avatar extends Equatable {
   const Avatar({
     required this.hasMouthOpen,
     required this.direction,
+    required this.leftEyeIsClosed,
+    required this.rightEyeIsClosed,
   });
 
   /// {@macro avatar}
   Avatar.fromFaceGeomtry(
     FaceGeometry faceGeometry,
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
-        direction = faceGeometry.direction.value;
+        direction = faceGeometry.direction.value,
+        leftEyeIsClosed = faceGeometry.leftEye.isClosed,
+        rightEyeIsClosed = faceGeometry.rightEye.isClosed;
 
   /// Indicates whether the [Avatar] has the mouth open.
   final bool hasMouthOpen;
@@ -26,6 +30,17 @@ class Avatar extends Equatable {
   /// Direction of the [Avatar] represented by x, y and z.
   final Vector3 direction;
 
+  /// Whether the [Avatar] has the left eye closed.
+  final bool leftEyeIsClosed;
+
+  /// Whether the [Avatar] has the right eye closed.
+  final bool rightEyeIsClosed;
+
   @override
-  List<Object?> get props => [hasMouthOpen, direction];
+  List<Object?> get props => [
+        hasMouthOpen,
+        direction,
+        leftEyeIsClosed,
+        rightEyeIsClosed,
+      ];
 }

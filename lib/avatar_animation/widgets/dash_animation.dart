@@ -28,11 +28,19 @@ class DashAnimationState extends State<DashAnimation> {
   @override
   void didUpdateWidget(covariant DashAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
+    final dashController = this.dashController;
     if (dashController != null) {
-      final direction = widget.avatar.direction.unit();
-      dashController!.x.change(direction.x * 1000);
-      dashController!.y.change(direction.y * -1000);
-      dashController!.openMouth.change(widget.avatar.hasMouthOpen);
+      final direction = widget.avatar.direction;
+      dashController.x.change(
+        direction.x * ((DashStateMachineController._xRange / 2) + 50),
+      );
+      dashController.y.change(
+        direction.y * ((DashStateMachineController._yRange / 2) + 50),
+      );
+
+      dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen);
+      dashController.rightEyeIsClosed.change(widget.avatar.rightEyeIsClosed);
+      dashController.leftEyeIsClosed.change(widget.avatar.leftEyeIsClosed);
     }
   }
 
@@ -61,30 +69,61 @@ class DashStateMachineController extends StateMachineController {
               .whereType<StateMachine>()
               .firstWhere((stateMachine) => stateMachine.name == 'dash'),
         ) {
-    final x = findInput<double>('x');
+    const xInputName = 'x';
+    final x = findInput<double>(xInputName);
     if (x is SMINumber) {
       this.x = x;
     } else {
-      throw StateError('Could not find input "x"');
+      throw StateError('Could not find input "$xInputName"');
     }
 
-    final y = findInput<double>('y');
+    const yInputName = 'y';
+    final y = findInput<double>(yInputName);
     if (y is SMINumber) {
       this.y = y;
     } else {
-      throw StateError('Could not find input "y"');
+      throw StateError('Could not find input "$yInputName"');
     }
 
-    final openMouth = findInput<bool>('openMouth');
-    if (openMouth is SMIBool) {
-      this.openMouth = openMouth;
+    const mouthIsOpenInputName = 'mouthIsOpen';
+    final mouthIsOpen = findInput<bool>(mouthIsOpenInputName);
+    if (mouthIsOpen is SMIBool) {
+      this.mouthIsOpen = mouthIsOpen;
     } else {
-      throw StateError('Could not find input "openMouth"');
+      throw StateError('Could not find input "$mouthIsOpenInputName"');
+    }
+
+    const leftEyeIsClosedInputName = 'leftEyeIsClosed';
+    final leftEyeIsClosed = findInput<bool>(leftEyeIsClosedInputName);
+    if (leftEyeIsClosed is SMIBool) {
+      this.leftEyeIsClosed = leftEyeIsClosed;
+    } else {
+      throw StateError('Could not find input "$leftEyeIsClosedInputName"');
+    }
+
+    const rightEyeIsClosedInputName = 'rightEyeIsClosed';
+    final rightEyeIsClosed = findInput<bool>(rightEyeIsClosedInputName);
+    if (rightEyeIsClosed is SMIBool) {
+      this.rightEyeIsClosed = rightEyeIsClosed;
+    } else {
+      throw StateError('Could not find input "$rightEyeIsClosedInputName"');
     }
   }
 
+  /// The total range [x] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _xRange = 200;
+
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
+
   late final SMINumber x;
   late final SMINumber y;
-  late final SMIBool openMouth;
+  late final SMIBool mouthIsOpen;
+  late final SMIBool leftEyeIsClosed;
+  late final SMIBool rightEyeIsClosed;
 }
 // coverage:ignore-end
