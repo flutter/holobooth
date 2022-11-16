@@ -23,7 +23,7 @@ class LandingView extends StatelessWidget {
     return const AppPageView(
       background: LandingBackground(),
       body: LandingBody(),
-      footer: BlackFooter(),
+      footer: FullFooter(),
     );
   }
 }

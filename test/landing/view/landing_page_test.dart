@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -21,7 +20,7 @@ void main() {
   group('LandingView', () {
     testWidgets('renders background', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byKey(Key('landingPage_background')), findsOneWidget);
+      expect(find.byType(LandingBackground), findsOneWidget);
     });
 
     testWidgets('renders heading', (tester) async {
@@ -48,13 +47,6 @@ void main() {
     testWidgets('renders take photo button', (tester) async {
       await tester.pumpApp(const LandingView());
       expect(find.byType(LandingTakePhotoButton), findsOneWidget);
-    });
-
-    testWidgets('renders black footer', (tester) async {
-      await tester.pumpApp(const LandingView());
-      await tester.ensureVisible(find.byType(BlackFooter, skipOffstage: false));
-      await tester.pumpAndSettle();
-      expect(find.byType(BlackFooter), findsOneWidget);
     });
 
     testWidgets(
