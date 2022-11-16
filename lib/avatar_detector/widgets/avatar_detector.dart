@@ -46,7 +46,13 @@ class AvatarDetectorContent extends StatelessWidget {
         });
       },
       builder: (context, state) => state is AvatarDetectorDetected
-          ? DashAnimation(avatar: state.avatar)
+          ? Stack(
+              fit: StackFit.expand,
+              children: [
+                SpaceBackground.fromVector3(state.avatar.direction),
+                DashAnimation(avatar: state.avatar),
+              ],
+            )
           : const SizedBox(key: loadingKey),
     );
   }
