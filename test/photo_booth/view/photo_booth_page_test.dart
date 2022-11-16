@@ -63,7 +63,7 @@ void main() {
     when(
       () => cameraPlatform.createCamera(
         cameraDescription,
-        ResolutionPreset.max,
+        ResolutionPreset.high,
       ),
     ).thenAnswer((_) async => 1);
     when(() => cameraPlatform.initializeCamera(cameraId))
