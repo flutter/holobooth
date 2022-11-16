@@ -7,7 +7,12 @@ import 'package:io_photobooth/avatar_animation/avatar_animation.dart';
 void main() {
   group('DashAnimation', () {
     testWidgets('can update', (tester) async {
-      var avatar = Avatar(hasMouthOpen: false, direction: Vector3(0, 0, 0));
+      var avatar = Avatar(
+        hasMouthOpen: false,
+        direction: Vector3(0, 0, 0),
+        leftEyeIsClosed: false,
+        rightEyeIsClosed: false,
+      );
 
       late StateSetter stateSetter;
       await tester.pumpWidget(
@@ -23,18 +28,24 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;
       final controller = state.dashController;
       expect(controller?.mouthIsOpen.value, false);
       stateSetter(
         () => avatar = Avatar(
-          hasMouthOpen: true,
+          hasMouthOpen: !avatar.hasMouthOpen,
           direction: Vector3(0, 0, 0),
+          leftEyeIsClosed: !avatar.leftEyeIsClosed,
+          rightEyeIsClosed: !avatar.rightEyeIsClosed,
         ),
       );
       await tester.pump();
-      expect(controller?.mouthIsOpen.value, true);
+
+      expect(controller?.mouthIsOpen.value, avatar.hasMouthOpen);
+      expect(controller?.leftEyeIsClosed.value, avatar.leftEyeIsClosed);
+      expect(controller?.rightEyeIsClosed.value, avatar.rightEyeIsClosed);
     });
   });
 }
