@@ -109,14 +109,6 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
   /// This data comes from the Rive file.
   static const _yRange = 200;
 
-  /// The total range [z] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _zRange = 200;
-
-  /// The total size of the rive artboard.
-  static const Size size = Size(2000, 2000);
-
   late final SMINumber x;
   late final SMINumber y;
   late final SMINumber z;
