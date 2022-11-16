@@ -21,7 +21,7 @@ void main() {
   group('LandingView', () {
     testWidgets('renders background', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byKey(Key('landingPage_background')), findsOneWidget);
+      expect(find.byType(LandingBackground), findsOneWidget);
     });
 
     testWidgets('renders heading', (tester) async {
