@@ -1,41 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/rive/rive.dart';
 
 class PhotoboothBackground extends StatelessWidget {
   const PhotoboothBackground({super.key});
 
+  static const loadingKey = Key('loading');
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Assets.backgrounds.photoboothBackground.image(
-          repeat: ImageRepeat.repeat,
-          filterQuality: FilterQuality.high,
-        ),
-        Positioned(
-          left: 50,
-          bottom: size.height * 0.2,
-          child: Assets.backgrounds.redBox.image(
-            height: 150,
-          ),
-        ),
-        Positioned(
-          right: -50,
-          top: size.height * 0.1,
-          child: Assets.backgrounds.blueCircle.image(
-            height: 150,
-          ),
-        ),
-        Positioned(
-          right: 50,
-          bottom: size.height * 0.1,
-          child: Assets.backgrounds.yellowPlus.image(
-            height: 150,
-          ),
-        ),
-      ],
+    return BlocBuilder<AvatarDetectorBloc, AvatarDetectorState>(
+      builder: (context, state) {
+        return state is AvatarDetectorDetected
+            ? SpaceBackground.fromVector3(state.avatar.direction)
+            : const SizedBox.expand(key: PhotoboothBackground.loadingKey);
+      },
     );
   }
 }

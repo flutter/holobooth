@@ -8,6 +8,7 @@ class SpaceBackground extends StatefulWidget {
     super.key,
     required this.x,
     required this.y,
+    required this.z,
   });
 
   SpaceBackground.fromVector3(
@@ -17,10 +18,12 @@ class SpaceBackground extends StatefulWidget {
           key: key,
           x: direction.x,
           y: direction.y,
+          z: direction.z,
         );
 
   final double x;
   final double y;
+  final double z;
 
   @override
   State<SpaceBackground> createState() => _SpaceBackgroundState();
@@ -85,6 +88,14 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
     } else {
       throw StateError('Could not find input "$yInputName"');
     }
+
+    const zInputName = 'z';
+    final z = findInput<double>(zInputName);
+    if (z is SMINumber) {
+      this.z = z;
+    } else {
+      throw StateError('Could not find input "$zInputName"');
+    }
   }
 
   /// The total range [x] animates over.
@@ -97,6 +108,15 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
   /// This data comes from the Rive file.
   static const _yRange = 200;
 
+  /// The total range [z] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _zRange = 200;
+
+  /// The total size of the rive artboard.
+  static const Size size = Size(2000, 2000);
+
   late final SMINumber x;
   late final SMINumber y;
+  late final SMINumber z;
 }
