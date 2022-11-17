@@ -40,8 +40,6 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   PhotoConstraint get constraint => PhotoConstraint();
 }
 
-class _FakeCameraImageData extends Fake implements CameraImageData {}
-
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -200,31 +198,6 @@ void main() {
               image: image,
             ),
           ),
-        ).called(1);
-      },
-    );
-
-    testWidgets(
-      'adds AvatarDetectorEstimateRequested when AvatarDetectorLoaded',
-      (WidgetTester tester) async {
-        final frameStreamController = StreamController<CameraImageData>();
-        final frameStream = frameStreamController.stream;
-        when(() => cameraPlatform.onStreamedFrameAvailable(any()))
-            .thenAnswer((_) => frameStream);
-
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          drawerSelectionBloc: drawerSelectionBloc,
-          photoBoothBloc: photoBoothBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-
-        final cameraImage = _FakeCameraImageData();
-
-        frameStreamController.add(cameraImage);
-        verify(
-          () => avatarDetectorBloc
-              .add(AvatarDetectorEstimateRequested(cameraImage)),
         ).called(1);
       },
     );

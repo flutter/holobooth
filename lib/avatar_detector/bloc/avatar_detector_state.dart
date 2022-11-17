@@ -18,12 +18,11 @@ enum AvatarDetectorStatus {
 
 class AvatarDetectorState extends Equatable {
   const AvatarDetectorState({
-    required this.status,
+    this.status = AvatarDetectorStatus.initial,
     this.avatar = Avatar.zero,
   });
 
   final AvatarDetectorStatus status;
-
   final Avatar avatar;
 
   AvatarDetectorState copyWith({

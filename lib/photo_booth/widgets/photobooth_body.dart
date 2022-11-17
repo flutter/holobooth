@@ -23,11 +23,6 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
-    cameraController.startImageStream((image) {
-      context
-          .read<AvatarDetectorBloc>()
-          .add(AvatarDetectorEstimateRequested(image));
-    });
   }
 
   Future<void> _takeSinglePicture() async {
@@ -81,6 +76,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           ),
         ),
         if (_isCameraAvailable) ...[
+          AvatarListener(cameraController: _cameraController!),
           Align(
             alignment: Alignment.bottomCenter,
             child: Column(

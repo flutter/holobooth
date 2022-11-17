@@ -12,9 +12,7 @@ part 'avatar_detector_state.dart';
 class AvatarDetectorBloc
     extends Bloc<AvatarDetectorEvent, AvatarDetectorState> {
   AvatarDetectorBloc(this._avatarDetectorRepository)
-      : super(
-          const AvatarDetectorState(status: AvatarDetectorStatus.initial),
-        ) {
+      : super(const AvatarDetectorState()) {
     on<AvatarDetectorInitialized>(_initialized);
     on<AvatarDetectorEstimateRequested>(_estimateRequested);
   }

@@ -6,21 +6,15 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 void main() {
   group('AvatarDetectorState', () {
     test('can be instantiated', () {
-      const state = AvatarDetectorState(
-        status: AvatarDetectorStatus.initial,
-      );
+      const state = AvatarDetectorState();
       expect(state, isNotNull);
     });
 
     group('supports value comparison', () {
       test('by status', () {
-        const state1 = AvatarDetectorState(
-          status: AvatarDetectorStatus.initial,
-        );
-        const state2 = AvatarDetectorState(
-          status: AvatarDetectorStatus.initial,
-        );
-        const state3 = AvatarDetectorState(
+        const state1 = AvatarDetectorState();
+        final state2 = state1.copyWith();
+        final state3 = state1.copyWith(
           status: AvatarDetectorStatus.loaded,
         );
 
@@ -30,7 +24,6 @@ void main() {
       });
 
       test('by avatar', () {
-        const status = AvatarDetectorStatus.initial;
         const avatar1 = Avatar(
           direction: Vector3(1, 1, 1),
           hasMouthOpen: false,
@@ -45,15 +38,12 @@ void main() {
         );
 
         final state1 = AvatarDetectorState(
-          status: status,
           avatar: avatar1,
         );
         final state2 = AvatarDetectorState(
-          status: status,
           avatar: avatar1,
         );
         final state3 = AvatarDetectorState(
-          status: status,
           avatar: avatar2,
         );
 
