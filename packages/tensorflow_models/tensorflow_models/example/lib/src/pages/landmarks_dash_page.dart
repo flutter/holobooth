@@ -198,6 +198,11 @@ class _DashStateMachineController extends StateMachineController {
   /// This data comes from the Rive file.
   static const _xRange = 200;
 
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
+
   late final SMINumber x;
   late final SMINumber y;
   late final SMIBool openMouth;

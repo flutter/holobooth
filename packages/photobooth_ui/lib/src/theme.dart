@@ -39,14 +39,14 @@ class PhotoboothTheme {
       displaySmall: PhotoboothTextStyle.displaySmall,
       headlineMedium: PhotoboothTextStyle.headlineMedium,
       headlineSmall: PhotoboothTextStyle.headlineSmall,
-      titleLarge: PhotoboothTextStyle.headline6,
+      titleLarge: PhotoboothTextStyle.titleLarge,
       titleMedium: PhotoboothTextStyle.titleMedium,
-      titleSmall: PhotoboothTextStyle.subtitle2,
-      bodyLarge: PhotoboothTextStyle.bodyText1,
-      bodyMedium: PhotoboothTextStyle.bodyText2,
-      bodySmall: PhotoboothTextStyle.caption,
-      labelSmall: PhotoboothTextStyle.overline,
-      labelLarge: PhotoboothTextStyle.button,
+      titleSmall: PhotoboothTextStyle.titleSmall,
+      bodyLarge: PhotoboothTextStyle.bodyLarge,
+      bodyMedium: PhotoboothTextStyle.bodyMedium,
+      bodySmall: PhotoboothTextStyle.bodySmall,
+      labelSmall: PhotoboothTextStyle.labelSmall,
+      labelLarge: PhotoboothTextStyle.labelLarge,
     );
   }
 
@@ -67,28 +67,28 @@ class PhotoboothTheme {
       headlineSmall: PhotoboothTextStyle.headlineSmall.copyWith(
         fontSize: _textTheme.headlineSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      titleLarge: PhotoboothTextStyle.headline6.copyWith(
+      titleLarge: PhotoboothTextStyle.titleLarge.copyWith(
         fontSize: _textTheme.titleLarge!.fontSize! * _smallTextScaleFactor,
       ),
       titleMedium: PhotoboothTextStyle.titleMedium.copyWith(
         fontSize: _textTheme.titleMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      titleSmall: PhotoboothTextStyle.subtitle2.copyWith(
+      titleSmall: PhotoboothTextStyle.titleSmall.copyWith(
         fontSize: _textTheme.titleSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyLarge: PhotoboothTextStyle.bodyText1.copyWith(
+      bodyLarge: PhotoboothTextStyle.bodyLarge.copyWith(
         fontSize: _textTheme.bodyLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyMedium: PhotoboothTextStyle.bodyText2.copyWith(
+      bodyMedium: PhotoboothTextStyle.bodyMedium.copyWith(
         fontSize: _textTheme.bodyMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      bodySmall: PhotoboothTextStyle.caption.copyWith(
+      bodySmall: PhotoboothTextStyle.bodySmall.copyWith(
         fontSize: _textTheme.bodySmall!.fontSize! * _smallTextScaleFactor,
       ),
-      labelSmall: PhotoboothTextStyle.overline.copyWith(
+      labelSmall: PhotoboothTextStyle.labelSmall.copyWith(
         fontSize: _textTheme.labelSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      labelLarge: PhotoboothTextStyle.button.copyWith(
+      labelLarge: PhotoboothTextStyle.labelLarge.copyWith(
         fontSize: _textTheme.labelLarge!.fontSize! * _smallTextScaleFactor,
       ),
     );
