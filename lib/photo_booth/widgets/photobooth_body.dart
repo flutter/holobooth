@@ -30,13 +30,6 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     });
   }
 
-  @override
-  void dispose() {
-    final cameraController = _cameraController;
-    if (cameraController != null) {}
-    super.dispose();
-  }
-
   Future<void> _takeSinglePicture() async {
     final multipleCaptureBloc = context.read<PhotoBoothBloc>();
     final picture = await _cameraController!.takePicture();
