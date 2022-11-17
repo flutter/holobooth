@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -30,9 +31,8 @@ void main() {
         final takePhotoAgainButtonFinder =
             find.byKey(TakePhotoAgainButton.buttonKey);
         tester.widget<AppTooltipButton>(takePhotoAgainButtonFinder).onPressed();
-        await tester.pumpAndSettle();
-
-        // FIXME(alestiago): make this test pass.
+        await tester.pump(kThemeAnimationDuration);
+        await tester.pump(kThemeAnimationDuration);
         expect(find.byType(PhotoBoothPage), findsOneWidget);
       },
     );
