@@ -48,7 +48,7 @@ class _MockCameraPlatform extends Mock
 class _FakeCameraImageData extends Fake implements CameraImageData {}
 
 void main() {
-  group('AvatarListener', () {
+  group('CameraStreamListener', () {
     late CameraController cameraController;
     late CameraImage cameraImage;
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -70,7 +70,7 @@ void main() {
           .thenAnswer((_) => frameStream);
 
       await tester.pumpSubject(
-        AvatarListener(cameraController: cameraController),
+        CameraStreamListener(cameraController: cameraController),
         avatarDetectorBloc,
       );
 
@@ -85,7 +85,7 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    AvatarListener subject,
+    CameraStreamListener subject,
     AvatarDetectorBloc avatarDetectorBloc,
   ) =>
       pumpApp(

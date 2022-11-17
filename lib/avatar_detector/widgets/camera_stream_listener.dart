@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 
-class AvatarListener extends StatefulWidget {
-  const AvatarListener({
+class CameraStreamListener extends StatefulWidget {
+  const CameraStreamListener({
     super.key,
     required this.cameraController,
   });
@@ -12,10 +12,10 @@ class AvatarListener extends StatefulWidget {
   final CameraController cameraController;
 
   @override
-  State<AvatarListener> createState() => _AvatarDeState();
+  State<CameraStreamListener> createState() => _AvatarDeState();
 }
 
-class _AvatarDeState extends State<AvatarListener> {
+class _AvatarDeState extends State<CameraStreamListener> {
   @override
   void initState() {
     super.initState();

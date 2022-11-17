@@ -76,7 +76,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           ),
         ),
         if (_isCameraAvailable) ...[
-          AvatarListener(cameraController: _cameraController!),
+          CameraStreamListener(cameraController: _cameraController!),
           Align(
             alignment: Alignment.bottomCenter,
             child: Column(
