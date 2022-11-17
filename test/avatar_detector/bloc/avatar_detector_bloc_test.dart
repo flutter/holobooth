@@ -42,7 +42,7 @@ void main() {
 
     group('AvatarDetectorInitialized', () {
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorLoading, AvatarDetectorLoaded] '
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded] '
         'if preloadLandmarksModel finishes correctly.',
         setUp: () {
           when(
@@ -52,13 +52,21 @@ void main() {
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) => bloc.add(AvatarDetectorInitialized()),
         expect: () => [
-          AvatarDetectorLoading(),
-          AvatarDetectorLoaded(),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorError, AvatarDetectorLoaded] '
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.error] '
         'if preloadLandmarksModel throws exception.',
         setUp: () {
           when(
@@ -68,8 +76,16 @@ void main() {
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) => bloc.add(AvatarDetectorInitialized()),
         expect: () => [
-          AvatarDetectorLoading(),
-          AvatarDetectorError(),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.error),
+          ),
         ],
       );
     });
@@ -83,10 +99,29 @@ void main() {
 
       setUp(() {
         avatar = _FakeAvatar();
+
+        when(
+          () => avatarDetectorRepository.preloadLandmarksModel(),
+        ).thenAnswer((_) => Future.value());
       });
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
+        'emits nothing if model is not loaded',
+        setUp: () {
+          when(
+            () => avatarDetectorRepository.detectAvatar(any()),
+          ).thenThrow(Exception());
+        },
+        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        act: (bloc) => bloc.add(
+          AvatarDetectorEstimateRequested(_FakeCameraImage()),
+        ),
+        expect: () => <AvatarDetectorState>[],
+      );
+
+      blocTest<AvatarDetectorBloc, AvatarDetectorState>(
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.error] '
         'if detectAvatar throws exception.',
         setUp: () {
           when(
@@ -94,16 +129,38 @@ void main() {
           ).thenThrow(Exception());
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
-        act: (bloc) =>
-            bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
+        act: (bloc) async {
+          bloc
+            ..add(AvatarDetectorInitialized())
+            ..add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+        },
         expect: () => [
-          AvatarDetectorEstimating(),
-          AvatarDetectorNotDetected(),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.estimating),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.error),
+          ),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.notDetected] '
         'if detectAvatar returns null.',
         setUp: () {
           when(
@@ -111,16 +168,38 @@ void main() {
           ).thenAnswer((_) async => null);
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
-        act: (bloc) =>
-            bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
+        act: (bloc) async {
+          bloc
+            ..add(AvatarDetectorInitialized())
+            ..add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+        },
         expect: () => [
-          AvatarDetectorEstimating(),
-          AvatarDetectorNotDetected(),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.estimating),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.notDetected),
+          ),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorEstimating, AvatarDetectorNotDetected] '
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.detected] '
         'if detectAvatar returns null.',
         setUp: () {
           when(
@@ -128,11 +207,38 @@ void main() {
           ).thenAnswer((_) async => avatar);
         },
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
-        act: (bloc) =>
-            bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage())),
+        act: (bloc) async {
+          bloc
+            ..add(AvatarDetectorInitialized())
+            ..add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+        },
         expect: () => [
-          AvatarDetectorEstimating(),
-          AvatarDetectorDetected(avatar),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.estimating),
+          ),
+          isInstanceOf<AvatarDetectorState>()
+            ..having(
+              (state) => state.status,
+              'status',
+              equals(AvatarDetectorStatus.detected),
+            )
+            ..having(
+              (state) => state.avatar,
+              'avatar',
+              equals(avatar),
+            ),
         ],
       );
     });

@@ -12,7 +12,9 @@ part 'avatar_detector_state.dart';
 class AvatarDetectorBloc
     extends Bloc<AvatarDetectorEvent, AvatarDetectorState> {
   AvatarDetectorBloc(this._avatarDetectorRepository)
-      : super(const AvatarDetectorInitial()) {
+      : super(
+          const AvatarDetectorState(status: AvatarDetectorStatus.initial),
+        ) {
     on<AvatarDetectorInitialized>(_initialized);
     on<AvatarDetectorEstimateRequested>(_estimateRequested);
   }
@@ -28,13 +30,20 @@ class AvatarDetectorBloc
     AvatarDetectorInitialized event,
     Emitter<AvatarDetectorState> emit,
   ) async {
-    emit(const AvatarDetectorLoading());
+    emit(
+      state.copyWith(status: AvatarDetectorStatus.loading),
+    );
+
     try {
       await _avatarDetectorRepository.preloadLandmarksModel();
-      emit(const AvatarDetectorLoaded());
+      emit(
+        state.copyWith(status: AvatarDetectorStatus.loaded),
+      );
     } on Exception catch (error, trace) {
       addError(error, trace);
-      emit(const AvatarDetectorError());
+      emit(
+        state.copyWith(status: AvatarDetectorStatus.error),
+      );
     }
   }
 
@@ -42,11 +51,11 @@ class AvatarDetectorBloc
     AvatarDetectorEstimateRequested event,
     Emitter<AvatarDetectorState> emit,
   ) async {
-    // TODO(oscar): Ensure _estimateRequested is not called when currently
-    // estimating.
-    if (state is AvatarDetectorEstimating) return;
+    if (!state.status.hasLoadedModel) return;
+    emit(
+      state.copyWith(status: AvatarDetectorStatus.estimating),
+    );
 
-    emit(const AvatarDetectorEstimating());
     final imageData = tf.ImageData(
       bytes: event.input.planes.first.bytes,
       size: tf.Size(event.input.width, event.input.height),
@@ -54,13 +63,22 @@ class AvatarDetectorBloc
     try {
       final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
       if (avatar == null) {
-        emit(const AvatarDetectorNotDetected());
+        emit(
+          state.copyWith(status: AvatarDetectorStatus.notDetected),
+        );
       } else {
-        emit(AvatarDetectorDetected(avatar));
+        emit(
+          state.copyWith(
+            status: AvatarDetectorStatus.detected,
+            avatar: avatar,
+          ),
+        );
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(const AvatarDetectorNotDetected());
+      emit(
+        state.copyWith(status: AvatarDetectorStatus.error),
+      );
     }
   }
 }

@@ -6,11 +6,15 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('NextButton', () {
-    testWidgets('navigates to PhotoBoothPage on click', (tester) async {
-      await tester.pumpApp(NextButton());
-      await tester.tap(find.byType(NextButton));
-      await tester.pumpAndSettle();
-      expect(find.byType(PhotoBoothPage), findsOneWidget);
+    group('onTap', () {
+      testWidgets('navigates to PhotoBoothPage', (tester) async {
+        await tester.pumpApp(NextButton());
+        await tester.tap(find.byType(NextButton));
+        await tester.pumpAndSettle();
+
+        // FIXME(alestiago): make this test pass.
+        expect(find.byType(PhotoBoothPage), findsOneWidget);
+      });
     });
   });
 }

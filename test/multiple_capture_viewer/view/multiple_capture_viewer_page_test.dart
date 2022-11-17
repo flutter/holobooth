@@ -31,6 +31,8 @@ void main() {
             find.byKey(TakePhotoAgainButton.buttonKey);
         tester.widget<AppTooltipButton>(takePhotoAgainButtonFinder).onPressed();
         await tester.pumpAndSettle();
+
+        // FIXME(alestiago): make this test pass.
         expect(find.byType(PhotoBoothPage), findsOneWidget);
       },
     );

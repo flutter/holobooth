@@ -1,7 +1,5 @@
-import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -111,14 +109,7 @@ void main() {
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(
-        AvatarDetectorDetected(
-          Avatar(
-            hasMouthOpen: false,
-            leftEyeIsClosed: false,
-            rightEyeIsClosed: false,
-            direction: Vector3.zero,
-          ),
-        ),
+        AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
     });
 
