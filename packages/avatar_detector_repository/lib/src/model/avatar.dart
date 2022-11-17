@@ -24,6 +24,14 @@ class Avatar extends Equatable {
         leftEyeIsClosed = faceGeometry.leftEye.isClosed,
         rightEyeIsClosed = faceGeometry.rightEye.isClosed;
 
+  /// {@macro avatar}
+  static const zero = Avatar(
+    hasMouthOpen: false,
+    direction: Vector3.zero,
+    leftEyeIsClosed: false,
+    rightEyeIsClosed: false,
+  );
+
   /// Indicates whether the [Avatar] has the mouth open.
   final bool hasMouthOpen;
 

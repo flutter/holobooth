@@ -21,62 +21,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   bool get _isCameraAvailable =>
       (_cameraController?.value.isInitialized) ?? false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        const PhotoboothBackground(),
-        Align(
-          child: Opacity(
-            opacity: 1,
-            child: SizedBox(
-              height: 0,
-              child: CameraView(
-                onCameraReady: (controller) {
-                  setState(() => _cameraController = controller);
-                },
-                errorBuilder: (context, error) {
-                  if (error is CameraException) {
-                    return PhotoboothError(error: error);
-                  } else {
-                    return const SizedBox.shrink(
-                      key: PhotoboothBody.cameraErrorViewKey,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        ),
-        if (_isCameraAvailable) ...[
-          Align(
-            child: LayoutBuilder(
-              builder: (context, constraints) => SizedBox(
-                height: 500,
-                width: 500,
-                child: AvatarDetector(
-                  cameraController: _cameraController!,
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MultipleShutterButton(
-                  onShutter: _takeSinglePicture,
-                ),
-                const SimplifiedFooter()
-              ],
-            ),
-          ),
-          if (_isCameraAvailable) const SelectionButtons(),
-        ],
-      ],
-    );
+  void _onCameraReady(CameraController cameraController) {
+    setState(() => _cameraController = cameraController);
   }
 
   Future<void> _takeSinglePicture() async {
@@ -93,6 +39,59 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        const PhotoboothBackground(),
+        Align(
+          child: Opacity(
+            opacity: 1,
+            child: SizedBox(
+              height: 0,
+              child: CameraView(
+                onCameraReady: _onCameraReady,
+                errorBuilder: (context, error) {
+                  if (error is CameraException) {
+                    return PhotoboothError(error: error);
+                  } else {
+                    return const SizedBox.shrink(
+                      key: PhotoboothBody.cameraErrorViewKey,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+        const Align(
+          child: SizedBox(
+            height: 500,
+            width: 500,
+            child: PhotoboothCharacter(),
+          ),
+        ),
+        if (_isCameraAvailable) ...[
+          CameraStreamListener(cameraController: _cameraController!),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MultipleShutterButton(
+                  onShutter: _takeSinglePicture,
+                ),
+                const SimplifiedFooter()
+              ],
+            ),
+          ),
+        ],
+        const SelectionButtons(),
+      ],
     );
   }
 }
