@@ -13,6 +13,10 @@ import 'package:rive/rive.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/background.riv
+  RiveGenImage get background =>
+      const RiveGenImage('assets/animations/background.riv');
+
   /// File path: assets/animations/dash.riv
   RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
 }
