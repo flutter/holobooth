@@ -1,9 +1,12 @@
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:collection/collection.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
 import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -26,6 +29,10 @@ class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
 class _MockDrawerSelectionBloc
     extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
     implements DrawerSelectionBloc {}
+
+class _MockAvatarDetectorBloc
+    extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
+    implements AvatarDetectorBloc {}
 
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
@@ -105,14 +112,28 @@ void main() {
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
     late DrawerSelectionBloc drawerSelectionBloc;
+    late AvatarDetectorBloc avatarDetectorBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
-      drawerSelectionBloc = _MockDrawerSelectionBloc();
       when(
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
+
+      drawerSelectionBloc = _MockDrawerSelectionBloc();
       when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
+
+      avatarDetectorBloc = _MockAvatarDetectorBloc();
+      when(() => avatarDetectorBloc.state).thenReturn(
+        AvatarDetectorDetected(
+          Avatar(
+            hasMouthOpen: false,
+            leftEyeIsClosed: false,
+            rightEyeIsClosed: false,
+            direction: Vector3.zero,
+          ),
+        ),
+      );
     });
 
     setUpAll(() {
@@ -132,8 +153,9 @@ void main() {
         );
         await tester.pumpSubject(
           PhotoBoothView(),
-          photoBoothBloc,
-          drawerSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          drawerSelectionBloc: drawerSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
@@ -144,15 +166,17 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    PhotoBoothView subject,
-    PhotoBoothBloc multipleCaptureBloc,
-    DrawerSelectionBloc drawerSelectionBloc,
-  ) =>
+    PhotoBoothView subject, {
+    required PhotoBoothBloc photoBoothBloc,
+    required DrawerSelectionBloc drawerSelectionBloc,
+    required AvatarDetectorBloc avatarDetectorBloc,
+  }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(value: multipleCaptureBloc),
-            BlocProvider.value(value: drawerSelectionBloc)
+            BlocProvider.value(value: photoBoothBloc),
+            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: avatarDetectorBloc),
           ],
           child: subject,
         ),

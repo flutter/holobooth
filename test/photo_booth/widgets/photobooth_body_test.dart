@@ -1,8 +1,11 @@
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
@@ -25,6 +28,10 @@ class _MockDrawerSelectionBloc
     extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
     implements DrawerSelectionBloc {}
 
+class _MockAvatarDetectorBloc
+    extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
+    implements AvatarDetectorBloc {}
+
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   String get data => '';
@@ -35,6 +42,7 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 
 void main() {
   group('PhotoboothBody', () {
+    late AvatarDetectorBloc avatarDetectorBloc;
     late PhotoBoothBloc photoBoothBloc;
     late DrawerSelectionBloc drawerSelectionBloc;
     const cameraId = 1;
@@ -94,11 +102,24 @@ void main() {
           .thenAnswer((_) => Stream.empty());
 
       photoBoothBloc = _MockPhotoBoothBloc();
-      drawerSelectionBloc = _MockDrawerSelectionBloc();
       when(
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
+
+      drawerSelectionBloc = _MockDrawerSelectionBloc();
       when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
+
+      avatarDetectorBloc = _MockAvatarDetectorBloc();
+      when(() => avatarDetectorBloc.state).thenReturn(
+        AvatarDetectorDetected(
+          Avatar(
+            hasMouthOpen: false,
+            leftEyeIsClosed: false,
+            rightEyeIsClosed: false,
+            direction: Vector3.zero,
+          ),
+        ),
+      );
     });
 
     tearDown(() {
@@ -109,53 +130,75 @@ void main() {
       registerFallbackValue(_FakePhotoboothCameraImage());
     });
 
-    testWidgets(
-      'renders empty SizedBox if any unexpected error finding camera',
-      (WidgetTester tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
+    group('renders', () {
+      testWidgets(
+        'empty SizedBox if any unexpected error finding camera',
+        (WidgetTester tester) async {
+          when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
+          await tester.pumpSubject(
+            PhotoboothBody(),
+            drawerSelectionBloc: drawerSelectionBloc,
+            photoBoothBloc: photoBoothBloc,
+            avatarDetectorBloc: avatarDetectorBloc,
+          );
+          await tester.pump();
+
+          expect(
+            find.byKey(PhotoboothBody.cameraErrorViewKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'PhotoboothError if any CameraException finding camera',
+        (WidgetTester tester) async {
+          when(() => cameraPlatform.availableCameras())
+              .thenThrow(CameraException('', ''));
+          await tester.pumpSubject(
+            PhotoboothBody(),
+            drawerSelectionBloc: drawerSelectionBloc,
+            photoBoothBloc: photoBoothBloc,
+            avatarDetectorBloc: avatarDetectorBloc,
+          );
+          await tester.pump();
+
+          expect(find.byType(PhotoboothError), findsOneWidget);
+        },
+      );
+
+      testWidgets('renders SelectionButtons', (tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          photoBoothBloc,
-          drawerSelectionBloc,
+          drawerSelectionBloc: drawerSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
         );
-        await tester.pumpAndSettle();
+        await tester.pump();
+
         expect(
-          find.byKey(PhotoboothBody.cameraErrorViewKey),
+          find.byType(SelectionButtons),
           findsOneWidget,
         );
-      },
-    );
-
-    testWidgets(
-      'renders PhotoboothError if any CameraException finding camera',
-      (WidgetTester tester) async {
-        when(() => cameraPlatform.availableCameras())
-            .thenThrow(CameraException('', ''));
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          photoBoothBloc,
-          drawerSelectionBloc,
-        );
-        await tester.pumpAndSettle();
-        expect(find.byType(PhotoboothError), findsOneWidget);
-      },
-    );
+      });
+    });
 
     testWidgets(
       'adds PhotoBoothOnPhotoTaken when onShutter is called',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          photoBoothBloc,
-          drawerSelectionBloc,
+          drawerSelectionBloc: drawerSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
         );
-        await tester.pumpAndSettle();
+        await tester.pump();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
           find.byType(MultipleShutterButton),
         );
 
         await multipleShutterButton.onShutter();
-        await tester.pumpAndSettle();
+        await tester.pump();
         verify(
           () => photoBoothBloc.add(
             PhotoBoothOnPhotoTaken(
@@ -165,33 +208,28 @@ void main() {
         ).called(1);
       },
     );
-
-    testWidgets('renders SelectionButtons', (tester) async {
-      await tester.pumpSubject(
-        PhotoboothBody(),
-        photoBoothBloc,
-        drawerSelectionBloc,
-      );
-      await tester.pumpAndSettle();
-      expect(
-        find.byType(SelectionButtons),
-        findsOneWidget,
-      );
-    });
   });
 }
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    PhotoboothBody subject,
-    PhotoBoothBloc photoBoothBloc,
-    DrawerSelectionBloc drawerSelectionBloc,
-  ) =>
+    PhotoboothBody subject, {
+    required PhotoBoothBloc photoBoothBloc,
+    required DrawerSelectionBloc drawerSelectionBloc,
+    required AvatarDetectorBloc avatarDetectorBloc,
+  }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc)
+            BlocProvider.value(
+              value: photoBoothBloc,
+            ),
+            BlocProvider.value(
+              value: drawerSelectionBloc,
+            ),
+            BlocProvider.value(
+              value: avatarDetectorBloc,
+            ),
           ],
           child: subject,
         ),
