@@ -93,11 +93,14 @@ class MobileButtonsLayout extends StatelessWidget {
 @visibleForTesting
 class TakeANewPhoto extends StatelessWidget {
   const TakeANewPhoto({super.key});
+
+  static const newPhotoButtonKey = Key('sharePage_newPhotoButtonKey');
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     return OutlinedButton(
+      key: newPhotoButtonKey,
       onPressed: () {
         Navigator.of(context).pushReplacement(PhotoBoothPage.route());
       },
@@ -117,11 +120,14 @@ class TakeANewPhoto extends StatelessWidget {
 class DownloadButton extends StatelessWidget {
   const DownloadButton({super.key});
 
+  static const downloadButtonKey = Key('sharePage_downloadButtonkey');
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     return ElevatedButton(
+      key: downloadButtonKey,
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(184, 54),
       ),

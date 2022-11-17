@@ -17,35 +17,3 @@ class ShareHeading extends StatelessWidget {
     );
   }
 }
-
-class ShareSuccessHeading extends StatelessWidget {
-  const ShareSuccessHeading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    return SelectableText(
-      l10n.sharePageSuccessHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class ShareErrorHeading extends StatelessWidget {
-  const ShareErrorHeading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    return SelectableText(
-      l10n.sharePageErrorHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
-      textAlign: TextAlign.center,
-    );
-  }
-}

@@ -23,7 +23,7 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.footerMadeWithFlutterLinkText,
             recognizer: TapGestureRecognizer()
-              ..onTap = flutterDevExternalLink as GestureTapCallback?,
+              ..onTap = () => openLink(flutterDevExternalLink),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
@@ -32,7 +32,7 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.footerMadeWithFirebaseLinkText,
             recognizer: TapGestureRecognizer()
-              ..onTap = firebaseExternalLink as GestureTapCallback?,
+              ..onTap = () => openLink(firebaseExternalLink),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
@@ -41,43 +41,11 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart4,
             recognizer: TapGestureRecognizer()
-              ..onTap = openSourceLink as GestureTapCallback?,
+              ..onTap = () => openLink(openSourceLink),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
         ],
       ),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class ShareSuccessSubheading extends StatelessWidget {
-  const ShareSuccessSubheading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    return SelectableText(
-      l10n.sharePageSuccessSubheading,
-      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class ShareErrorSubheading extends StatelessWidget {
-  const ShareErrorSubheading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final l10n = context.l10n;
-
-    return SelectableText(
-      l10n.sharePageErrorSubheading,
-      style: theme.textTheme.headline3?.copyWith(color: PhotoboothColors.white),
       textAlign: TextAlign.center,
     );
   }
