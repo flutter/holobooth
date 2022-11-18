@@ -160,7 +160,8 @@ void main() {
       await tester
           .ensureVisible(find.byKey(Key('sharePage_newPhotoButtonKey')));
       await tester.tap(find.byKey(Key('sharePage_newPhotoButtonKey')));
-      await tester.pumpAndSettle();
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
       expect(find.byType(PhotoBoothPage), findsOneWidget);
     });
   });
