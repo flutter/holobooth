@@ -60,7 +60,7 @@ class PhotoBoothView extends StatelessWidget {
         body: const PhotoboothBody(),
         onEndDrawerChanged: (value) {
           if (!value) {
-            drawerSelectionBloc.add(const DrawerSelectionUnselected());
+            drawerSelectionBloc.add(const DrawerSelectionOptionUnselected());
           }
         },
       ),

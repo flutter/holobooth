@@ -244,7 +244,7 @@ void main() {
     });
 
     testWidgets(
-        'adds DrawerSelectionUnselected after closing bottom sheet '
+        'adds DrawerSelectionOptionUnselected after closing bottom sheet '
         'on mobile breakpoint', (tester) async {
       whenListen(
         drawerSelectionBloc,
@@ -262,7 +262,7 @@ void main() {
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() => drawerSelectionBloc.add(DrawerSelectionUnselected()))
+      verify(() => drawerSelectionBloc.add(DrawerSelectionOptionUnselected()))
           .called(1);
     });
   });

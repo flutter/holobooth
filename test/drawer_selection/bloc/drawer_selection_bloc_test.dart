@@ -49,14 +49,14 @@ void main() {
       );
     });
 
-    group('DrawerSelectionUnselected', () {
+    group('DrawerSelectionOptionUnselected', () {
       blocTest<DrawerSelectionBloc, DrawerSelectionState>(
         'emits initial state if previous option selected',
         build: DrawerSelectionBloc.new,
         seed: () =>
             DrawerSelectionState(drawerOption: DrawerOption.backgrounds),
         act: (bloc) => bloc.add(
-          DrawerSelectionUnselected(),
+          DrawerSelectionOptionUnselected(),
         ),
         expect: () => [
           DrawerSelectionState(),

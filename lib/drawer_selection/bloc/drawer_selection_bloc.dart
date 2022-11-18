@@ -11,7 +11,7 @@ class DrawerSelectionBloc
     extends Bloc<DrawerSelectionEvent, DrawerSelectionState> {
   DrawerSelectionBloc() : super(const DrawerSelectionState()) {
     on<DrawerSelectionOptionSelected>(_optionSelected);
-    on<DrawerSelectionUnselected>(_unselected);
+    on<DrawerSelectionOptionUnselected>(_unselected);
   }
 
   FutureOr<void> _optionSelected(
@@ -22,7 +22,7 @@ class DrawerSelectionBloc
   }
 
   FutureOr<void> _unselected(
-    DrawerSelectionUnselected event,
+    DrawerSelectionOptionUnselected event,
     Emitter<DrawerSelectionState> emit,
   ) {
     emit(const DrawerSelectionState());

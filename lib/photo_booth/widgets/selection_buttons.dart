@@ -31,7 +31,7 @@ class SelectionButtons extends StatelessWidget {
 
   void _closeSheet(BuildContext context) {
     context.read<DrawerSelectionBloc>().add(
-          const DrawerSelectionUnselected(),
+          const DrawerSelectionOptionUnselected(),
         );
     Navigator.of(context).pop();
   }
