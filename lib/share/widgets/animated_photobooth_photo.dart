@@ -10,7 +10,7 @@ class AnimatedPhotoboothPhoto extends StatefulWidget {
     required this.image,
   });
 
-  final PhotoboothCameraImage? image;
+  final PhotoboothCameraImage image;
 
   @override
   State<AnimatedPhotoboothPhoto> createState() =>
@@ -55,7 +55,7 @@ class AnimatedPhotoboothPhotoLandscape extends StatelessWidget {
     required this.isPhotoVisible,
   });
 
-  final PhotoboothCameraImage? image;
+  final PhotoboothCameraImage image;
   final bool isPhotoVisible;
 
   static const sprite = AnimatedSprite(
@@ -146,7 +146,7 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   final AnimatedSprite sprite;
   final bool isPhotoVisible;
   final double aspectRatio;
-  final PhotoboothCameraImage? image;
+  final PhotoboothCameraImage image;
   final double top;
   final double left;
   final double right;
@@ -156,8 +156,6 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const reductionFactor = 0.19;
-    // ignore: no_leading_underscores_for_local_identifiers
-    final _image = image;
     return SizedBox(
       height: sprite.sprites.size.height * scale,
       width: sprite.sprites.size.width * scale,
@@ -171,27 +169,24 @@ class _AnimatedPhotoboothPhoto extends StatelessWidget {
               child: sprite,
             ),
           ),
-          if (_image != null)
-            Positioned(
-              top: top * scale,
-              left: left * scale,
-              right: right * scale,
-              bottom: bottom * scale,
-              child: AnimatedOpacity(
-                duration: const Duration(seconds: 2),
-                opacity: isPhotoVisible ? 1 : 0,
-                child: AspectRatio(
-                  aspectRatio: aspectRatio,
-                  child: PreviewImage(
-                    data: _image.data,
-                    height: _image.constraint.height * reductionFactor,
-                    width: _image.constraint.width * reductionFactor,
-                  ),
+          Positioned(
+            top: top * scale,
+            left: left * scale,
+            right: right * scale,
+            bottom: bottom * scale,
+            child: AnimatedOpacity(
+              duration: const Duration(seconds: 2),
+              opacity: isPhotoVisible ? 1 : 0,
+              child: AspectRatio(
+                aspectRatio: aspectRatio,
+                child: PreviewImage(
+                  data: image.data,
+                  height: image.constraint.height * reductionFactor,
+                  width: image.constraint.width * reductionFactor,
                 ),
               ),
-            )
-          else
-            const SizedBox(),
+            ),
+          )
         ],
       ),
     );
