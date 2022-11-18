@@ -12,7 +12,9 @@ class ShareHeading extends StatelessWidget {
 
     return SelectableText(
       l10n.sharePageHeading,
-      style: theme.textTheme.headline1?.copyWith(color: PhotoboothColors.white),
+      style: theme.textTheme.displayLarge?.copyWith(
+        color: PhotoboothColors.white,
+      ),
       textAlign: TextAlign.center,
     );
   }
