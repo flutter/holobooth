@@ -1,15 +1,13 @@
-import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:collection/collection.dart';
-import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
-import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -43,6 +41,8 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
   late XFile xfile;
@@ -103,7 +103,7 @@ void main() {
       'renders PhotoBoothView',
       (WidgetTester tester) async {
         await tester.pumpApp(PhotoBoothPage());
-        await tester.pumpAndSettle();
+        await tester.pump();
         expect(find.byType(PhotoBoothView), findsOneWidget);
       },
     );
@@ -125,14 +125,7 @@ void main() {
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(
-        AvatarDetectorDetected(
-          Avatar(
-            hasMouthOpen: false,
-            leftEyeIsClosed: false,
-            rightEyeIsClosed: false,
-            direction: Vector3.zero,
-          ),
-        ),
+        AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
     });
 
@@ -141,7 +134,7 @@ void main() {
     });
 
     testWidgets(
-      'navigates to MultipleCaptureViewerPage when isFinished',
+      'navigates to SharePage when isFinished',
       (WidgetTester tester) async {
         final images = UnmodifiableListView([
           for (var i = 0; i < PhotoBoothState.totalNumberOfPhotos; i++)
@@ -158,7 +151,7 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
-        expect(find.byType(MultipleCaptureViewerPage), findsOneWidget);
+        expect(find.byType(SharePage), findsOneWidget);
       },
     );
   });
