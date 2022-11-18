@@ -40,6 +40,7 @@ class _AnimatedPhotoboothPhotoState extends State<AnimatedPhotoboothPhoto> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO(oscar): sprite not working
     return AnimatedPhotoboothPhotoLandscape(
       image: widget.image,
       isPhotoVisible: _isPhotoVisible,
