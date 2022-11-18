@@ -21,7 +21,7 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AppPageView(
-        background: const GradientBackground(),
+        background: const ShareBackground(),
         body: ShareBody(
           images: images,
         ),

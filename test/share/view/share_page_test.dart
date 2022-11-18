@@ -24,9 +24,9 @@ void main() {
       expect(SharePage.route(images), isA<AppPageRoute<void>>());
     });
 
-    testWidgets('renders GradientBackground', (tester) async {
+    testWidgets('renders ShareBackground', (tester) async {
       await tester.pumpApp(SharePage(images: images));
-      expect(find.byType(GradientBackground), findsOneWidget);
+      expect(find.byType(ShareBackground), findsOneWidget);
     });
   });
 

@@ -21,7 +21,7 @@ class ShareSubheading extends StatelessWidget {
         ),
         children: <TextSpan>[
           TextSpan(
-            text: l10n.footerMadeWithFlutterLinkText,
+            text: l10n.flutterLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () => openLink(flutterDevExternalLink),
             style: const TextStyle(decoration: TextDecoration.underline),
@@ -30,7 +30,7 @@ class ShareSubheading extends StatelessWidget {
             text: l10n.sharePageLearnMoreAboutTextPart2,
           ),
           TextSpan(
-            text: l10n.footerMadeWithFirebaseLinkText,
+            text: l10n.firebaseLinkText,
             recognizer: TapGestureRecognizer()
               ..onTap = () => openLink(firebaseExternalLink),
             style: const TextStyle(decoration: TextDecoration.underline),
@@ -38,10 +38,10 @@ class ShareSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart3,
           ),
+          // TODO(oscar): update once we have final link
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart4,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink(openSourceLink),
+            recognizer: TapGestureRecognizer()..onTap = () => openLink(''),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
         ],

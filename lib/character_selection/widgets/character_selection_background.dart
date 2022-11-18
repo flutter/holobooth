@@ -26,7 +26,7 @@ class CharacterSelectionBackground extends StatelessWidget {
                 Colors.black.withOpacity(0.5),
                 Colors.black.withOpacity(0),
               ],
-            )
+            ),
           ],
         ),
       ),

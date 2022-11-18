@@ -109,7 +109,6 @@ class TakeANewPhoto extends StatelessWidget {
         l10n.takeANewPhotoButtonText,
         style: theme.textTheme.button?.copyWith(
           color: PhotoboothColors.white,
-          fontSize: 22,
         ),
       ),
     );
@@ -136,10 +135,7 @@ class DownloadButton extends StatelessWidget {
       },
       child: Text(
         l10n.sharePageDownloadButtonText,
-        style: theme.textTheme.button?.copyWith(
-          color: PhotoboothColors.white,
-          fontSize: 22,
-        ),
+        style: theme.textTheme.button?.copyWith(color: PhotoboothColors.white),
       ),
     );
   }
