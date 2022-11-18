@@ -27,7 +27,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
   final Widget Function(BuildContext, T) itemBuilder;
 
   /// The selected item.
-  final T selectedItem;
+  final T? selectedItem;
 
   /// The functionality of the selected item.
   final ValueChanged<T> onSelected;
@@ -38,7 +38,7 @@ class ItemSelectorBottomSheet<T> extends StatelessWidget {
     required String title,
     required List<T> items,
     required Widget Function(BuildContext, T) itemBuilder,
-    required T selectedItem,
+    required T? selectedItem,
     required ValueChanged<T> onSelected,
     Key? key,
   }) =>

@@ -22,6 +22,7 @@ void main() {
               stateSetter = setState;
               return DashAnimation(
                 avatar: avatar,
+                propsSelected: const [],
               );
             },
           ),

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
+import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/props/bloc/props_bloc.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -39,6 +40,9 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
+
+class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
+    implements PropsBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -113,6 +117,7 @@ void main() {
     late PhotoBoothBloc photoBoothBloc;
     late DrawerSelectionBloc drawerSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
+    late PropsBloc propsBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
@@ -127,6 +132,8 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
+      propsBloc = _MockPropsBloc();
+      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     setUpAll(() {
@@ -149,6 +156,7 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           drawerSelectionBloc: drawerSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
+          propsBloc: propsBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
@@ -163,6 +171,7 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required DrawerSelectionBloc drawerSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
+    required PropsBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
@@ -170,6 +179,7 @@ extension on WidgetTester {
             BlocProvider.value(value: photoBoothBloc),
             BlocProvider.value(value: drawerSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
+            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/props/props.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SelectionButtons extends StatelessWidget {
@@ -28,6 +29,13 @@ class SelectionButtons extends StatelessWidget {
   static const backgroundSelectionBottomSheetKey =
       Key('selectionButtons_background_bottomSheet');
 
+  void _closeSheet(BuildContext context) {
+    context.read<DrawerSelectionBloc>().add(
+          const DrawerSelectionUnselected(),
+        );
+    Navigator.of(context).pop();
+  }
+
   void _showCharacterBottomSheet(BuildContext context) {
     ItemSelectorBottomSheet.show<Color>(
       context,
@@ -41,14 +49,30 @@ class SelectionButtons extends StatelessWidget {
   }
 
   void _showPropsBottomSheet(BuildContext context) {
-    ItemSelectorBottomSheet.show<Color>(
+    final propSelected = context.read<PropsBloc>().state.selectedProps;
+    ItemSelectorBottomSheet.show<Prop>(
       context,
       key: propsSelectionBottomSheetKey,
       title: context.l10n.propsSelectorButton,
-      items: const [Colors.red, Colors.yellow, Colors.green],
-      itemBuilder: (context, item) => ColoredBox(color: item),
-      selectedItem: Colors.red,
-      onSelected: print,
+      items: Prop.values,
+      itemBuilder: (_, item) => ColoredBox(
+        key: Key('${item.name}_propSelection'),
+        color: PhotoboothColors.blue,
+        child: Center(
+          child: Text(
+            item.name,
+            style: Theme.of(context)
+                .textTheme
+                .button
+                ?.copyWith(color: PhotoboothColors.white),
+          ),
+        ),
+      ),
+      selectedItem: propSelected.isEmpty ? null : propSelected.first,
+      onSelected: (prop) {
+        _closeSheet(context);
+        context.read<PropsBloc>().add(PropsSelected(prop));
+      },
     );
   }
 

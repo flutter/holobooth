@@ -12,3 +12,10 @@ class DrawerSelectionOptionSelected extends DrawerSelectionEvent {
   @override
   List<Object> get props => [drawerOption];
 }
+
+class DrawerSelectionUnselected extends DrawerSelectionEvent {
+  const DrawerSelectionUnselected();
+
+  @override
+  List<Object> get props => [];
+}
