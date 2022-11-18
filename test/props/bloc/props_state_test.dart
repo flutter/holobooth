@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/props/bloc/props_bloc.dart';
+import 'package:io_photobooth/props/props.dart';
 
 void main() {
   group('PropsState', () {
