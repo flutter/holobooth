@@ -385,5 +385,9 @@
   "mediaPipeLinkFooterText": "MediaPipe",
   "@mediaPipeLinkFooterText": {
     "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
+  },
+  "takeANewPhotoButtonText": "Take a new photo",
+  "@takeANewPhotoButtonText": {
+    "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
   }
 }

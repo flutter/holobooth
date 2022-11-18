@@ -25,7 +25,7 @@ class SharePage extends StatelessWidget {
         body: ShareBody(
           images: images,
         ),
-        footer: const WhiteFooter(),
+        footer: const FullFooter(),
       ),
     );
   }
