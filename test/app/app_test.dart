@@ -8,7 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
-import 'helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}

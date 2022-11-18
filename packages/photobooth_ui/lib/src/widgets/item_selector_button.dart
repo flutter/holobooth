@@ -11,6 +11,7 @@ class ItemSelectorButton extends StatelessWidget {
     required this.buttonBackground,
     required this.title,
     required this.onTap,
+    required this.showTitle,
   });
 
   /// The content of the button.
@@ -18,6 +19,9 @@ class ItemSelectorButton extends StatelessWidget {
 
   /// The title of the button.
   final String title;
+
+  /// Boolean whether to show title of button.
+  final bool showTitle;
 
   /// The function when button is tapped.
   final VoidCallback onTap;
@@ -27,23 +31,25 @@ class ItemSelectorButton extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: PhotoboothColors.black.withOpacity(0.75),
-            borderRadius: BorderRadius.circular(5),
+        if (showTitle)
+          Container(
+            decoration: BoxDecoration(
+              color: PhotoboothColors.black.withOpacity(0.75),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: PhotoboothColors.white),
+            ),
           ),
-          padding: const EdgeInsets.all(12),
-          child: Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+        if (showTitle)
+          const SizedBox(
+            height: 24,
           ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
         Stack(
           children: [
             DecoratedBox(

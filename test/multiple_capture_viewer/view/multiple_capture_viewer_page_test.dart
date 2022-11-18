@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
+
+import '../../helpers/helpers.dart';
+
+void main() {
+  group('MultipleCaptureViewerPage', () {
+    testWidgets('renders n PreviewImage', (tester) async {
+      const numberOfImages = 3;
+      await tester.pumpSubject(
+        MultipleCaptureViewerPage(
+          images: List.generate(
+            numberOfImages,
+            (index) => PhotoboothCameraImage(
+              constraint: PhotoConstraint(height: 100, width: 100),
+              data: '',
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(PreviewImage), findsNWidgets(numberOfImages));
+    });
+
+    testWidgets(
+      'navigates to PhotoBoothPage if click on retake photo button',
+      (tester) async {
+        await tester.pumpSubject(MultipleCaptureViewerPage(images: const []));
+        final takePhotoAgainButtonFinder =
+            find.byKey(TakePhotoAgainButton.buttonKey);
+        tester.widget<AppTooltipButton>(takePhotoAgainButtonFinder).onPressed();
+        await tester.pump(kThemeAnimationDuration);
+        await tester.pump(kThemeAnimationDuration);
+        expect(find.byType(PhotoBoothPage), findsOneWidget);
+      },
+    );
+  });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(
+    MultipleCaptureViewerPage subject,
+  ) =>
+      pumpApp(subject);
+}

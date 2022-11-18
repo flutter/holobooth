@@ -2,6 +2,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -15,6 +16,8 @@ class _MockUrlLauncher extends Mock
 
 class _FakeLaunchOptions extends Fake implements LaunchOptions {}
 
+// TODO(oscar): this is not used anymore after this PR, but
+//it will be used on Share Screen PR
 bool findTextAndTap(InlineSpan visitor, String text) {
   if (visitor is TextSpan && visitor.text == text) {
     (visitor.recognizer as TapGestureRecognizer?)?.onTap?.call();
@@ -65,85 +68,63 @@ void main() {
       ).called(1);
     });
 
-    group('Flutter', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterFlutter());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(widget.link, equals('https://flutter.dev'));
+    group('FlutterFooterLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
+        await tester.pumpApp(FlutterFooterLink());
+        await tester.tap(find.byType(FlutterFooterLink));
+        verify(
+          () => mock.launchUrl(flutterDevExternalLink, any()),
+        ).called(1);
       });
     });
 
-    group('Firebase', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterFirebase());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(widget.link, equals('https://firebase.google.com'));
+    group('FirebaseFooterLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
+        await tester.pumpApp(FirebaseFooterLink());
+        await tester.tap(find.byType(FirebaseFooterLink));
+        verify(
+          () => mock.launchUrl(firebaseExternalLink, any()),
+        ).called(1);
       });
     });
 
-    group('TensorFlow', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterTensorFlow());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(widget.link, equals('https://tensorflow.org'));
+    group('TensorFlowFooterLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
+        await tester.pumpApp(TensorFlowFooterLink());
+        await tester.tap(find.byType(TensorFlowFooterLink));
+        verify(
+          () => mock.launchUrl(tensorFlowLink, any()),
+        ).called(1);
       });
     });
 
-    group('MediaPipe', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
-        await tester.pumpApp(FooterMediaPipe());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(widget.link, equals('https://mediapipe.dev/'));
+    group('MediapipeFooterLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
+        await tester.pumpApp(MediapipeFooterLink());
+        await tester.tap(find.byType(MediapipeFooterLink));
+        verify(
+          () => mock.launchUrl(mediaPipeLink, any()),
+        ).called(1);
       });
     });
 
-    group('Terms of Service', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+    group('FooterTermsOfServiceLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
         await tester.pumpApp(FooterTermsOfServiceLink());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(
-          widget.link,
-          equals(
-            'https://policies.google.com/terms',
-          ),
-        );
+        await tester.tap(find.byType(FooterTermsOfServiceLink));
+        verify(
+          () => mock.launchUrl(termsOfServiceLink, any()),
+        ).called(1);
       });
     });
 
-    group('Privacy Policy', () {
-      testWidgets('renders FooterLink with a proper link', (tester) async {
+    group('FooterPrivacyPolicyLink', () {
+      testWidgets('opens proper link on tap', (tester) async {
         await tester.pumpApp(FooterPrivacyPolicyLink());
-
-        final widget = tester.widget<FooterLink>(
-          find.byType(FooterLink),
-        );
-
-        expect(
-          widget.link,
-          equals(
-            'https://policies.google.com/privacy',
-          ),
-        );
+        await tester.tap(find.byType(FooterPrivacyPolicyLink));
+        verify(
+          () => mock.launchUrl(privacyPolicyLink, any()),
+        ).called(1);
       });
     });
   });

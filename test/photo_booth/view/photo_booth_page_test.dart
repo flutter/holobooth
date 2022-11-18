@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/drawer_selection/bloc/drawer_selection_bloc.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -22,6 +24,14 @@ class _MockXFile extends Mock implements XFile {}
 class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
     implements PhotoBoothBloc {}
 
+class _MockDrawerSelectionBloc
+    extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
+    implements DrawerSelectionBloc {}
+
+class _MockAvatarDetectorBloc
+    extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
+    implements AvatarDetectorBloc {}
+
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   String get data => '';
@@ -36,7 +46,6 @@ void main() {
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
   late XFile xfile;
-  late PhotoboothCameraImage image;
 
   setUp(() {
     xfile = _MockXFile();
@@ -55,21 +64,13 @@ void main() {
       true,
     );
 
-    image = PhotoboothCameraImage(
-      data: xfile.path,
-      constraint: PhotoConstraint(
-        width: event.previewWidth,
-        height: event.previewHeight,
-      ),
-    );
-
     final cameraDescription = _MockCameraDescription();
     when(() => cameraPlatform.availableCameras())
         .thenAnswer((_) async => [cameraDescription]);
     when(
       () => cameraPlatform.createCamera(
         cameraDescription,
-        ResolutionPreset.max,
+        ResolutionPreset.high,
       ),
     ).thenAnswer((_) async => 1);
     when(() => cameraPlatform.initializeCamera(cameraId))
@@ -102,6 +103,7 @@ void main() {
       'renders PhotoBoothView',
       (WidgetTester tester) async {
         await tester.pumpApp(PhotoBoothPage());
+        await tester.pump();
         expect(find.byType(PhotoBoothView), findsOneWidget);
       },
     );
@@ -109,47 +111,27 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
+    late DrawerSelectionBloc drawerSelectionBloc;
+    late AvatarDetectorBloc avatarDetectorBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
       when(
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
+
+      drawerSelectionBloc = _MockDrawerSelectionBloc();
+      when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
+
+      avatarDetectorBloc = _MockAvatarDetectorBloc();
+      when(() => avatarDetectorBloc.state).thenReturn(
+        AvatarDetectorState(status: AvatarDetectorStatus.loaded),
+      );
     });
 
     setUpAll(() {
       registerFallbackValue(_FakePhotoboothCameraImage());
     });
-
-    testWidgets(
-      'renders empty SizedBox if any unexpected error finding camera',
-      (WidgetTester tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
-        await tester.pumpSubject(
-          PhotoBoothView(),
-          photoBoothBloc,
-        );
-        await tester.pumpAndSettle();
-        expect(
-          find.byKey(PhotoBoothView.cameraErrorViewKey),
-          findsOneWidget,
-        );
-      },
-    );
-
-    testWidgets(
-      'renders PhotoboothError if any CameraException finding camera',
-      (WidgetTester tester) async {
-        when(() => cameraPlatform.availableCameras())
-            .thenThrow(CameraException('', ''));
-        await tester.pumpSubject(
-          PhotoBoothView(),
-          photoBoothBloc,
-        );
-        await tester.pumpAndSettle();
-        expect(find.byType(PhotoboothError), findsOneWidget);
-      },
-    );
 
     testWidgets(
       'navigates to SharePage when isFinished',
@@ -164,106 +146,30 @@ void main() {
         );
         await tester.pumpSubject(
           PhotoBoothView(),
-          photoBoothBloc,
+          photoBoothBloc: photoBoothBloc,
+          drawerSelectionBloc: drawerSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
       },
     );
-
-    testWidgets(
-      'adds PhotoBoothOnPhotoTaken when onShutter is called',
-      (WidgetTester tester) async {
-        await tester.pumpSubject(
-          PhotoBoothView(),
-          photoBoothBloc,
-        );
-        await tester.pumpAndSettle();
-        final multipleShutterButton = tester.widget<MultipleShutterButton>(
-          find.byType(MultipleShutterButton),
-        );
-
-        await multipleShutterButton.onShutter();
-        await tester.pumpAndSettle();
-        verify(
-          () => photoBoothBloc.add(
-            PhotoBoothOnPhotoTaken(
-              image: image,
-            ),
-          ),
-        ).called(1);
-      },
-    );
-
-    testWidgets('renders ItemSelectorButton', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(SelectionButtons.itemSelectorButtonKey),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('renders SelectionButtons', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
-      await tester.pumpAndSettle();
-      expect(
-        find.byType(SelectionButtons),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('itemSelectorButton renders itemSelectorDrawer when pressed',
-        (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
-      await tester.pumpAndSettle();
-
-      final itemSelectorButton =
-          find.byKey(SelectionButtons.itemSelectorButtonKey);
-      await tester.tap(itemSelectorButton);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(PhotoBoothView.endDrawerKey),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('Item prints when selected', (tester) async {
-      await tester.pumpSubject(PhotoBoothView(), photoBoothBloc);
-      await tester.pumpAndSettle();
-
-      final itemSelectorButton =
-          find.byKey(SelectionButtons.itemSelectorButtonKey);
-      await tester.tap(itemSelectorButton);
-      await tester.pumpAndSettle();
-      expect(
-        find.byKey(PhotoBoothView.endDrawerKey),
-        findsOneWidget,
-      );
-      await tester.tap(
-        find
-            .descendant(
-              of: find.byKey(
-                PhotoBoothView.endDrawerKey,
-              ),
-              matching: find.byType(ColoredBox),
-            )
-            .first,
-        // TODO(laura177): test onSelected of ItemSelectorDrawer
-      );
-    });
   });
 }
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    PhotoBoothView subject,
-    PhotoBoothBloc multipleCaptureBloc,
-  ) =>
+    PhotoBoothView subject, {
+    required PhotoBoothBloc photoBoothBloc,
+    required DrawerSelectionBloc drawerSelectionBloc,
+    required AvatarDetectorBloc avatarDetectorBloc,
+  }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(value: multipleCaptureBloc),
+            BlocProvider.value(value: photoBoothBloc),
+            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: avatarDetectorBloc),
           ],
           child: subject,
         ),

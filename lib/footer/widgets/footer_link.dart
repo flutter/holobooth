@@ -17,13 +17,18 @@ class FooterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return Clickable(
       onPressed: () => openLink(link),
-      child: Text(text),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+              color: PhotoboothColors.white,
+            ),
+      ),
     );
   }
 }
 
-class FooterFlutter extends StatelessWidget {
-  const FooterFlutter({super.key});
+class FlutterFooterLink extends StatelessWidget {
+  const FlutterFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +36,13 @@ class FooterFlutter extends StatelessWidget {
 
     return FooterLink(
       link: flutterDevExternalLink,
-      text: l10n.footerMadeWithFlutterLinkText,
+      text: l10n.flutterLinkFooterText,
     );
   }
 }
 
-class FooterFirebase extends StatelessWidget {
-  const FooterFirebase({super.key});
+class FirebaseFooterLink extends StatelessWidget {
+  const FirebaseFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +50,13 @@ class FooterFirebase extends StatelessWidget {
 
     return FooterLink(
       link: firebaseExternalLink,
-      text: l10n.footerMadeWithFirebaseLinkText,
+      text: l10n.firebaseLinkFooterText,
     );
   }
 }
 
-class FooterTensorFlow extends StatelessWidget {
-  const FooterTensorFlow({
-    super.key,
-  });
+class TensorFlowFooterLink extends StatelessWidget {
+  const TensorFlowFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +64,13 @@ class FooterTensorFlow extends StatelessWidget {
 
     return FooterLink(
       link: tensorFlowLink,
-      text: l10n.footerTensorFlowLinkText,
+      text: l10n.tensorflowLinkFooterText,
     );
   }
 }
 
-class FooterMediaPipe extends StatelessWidget {
-  const FooterMediaPipe({
-    super.key,
-  });
+class MediapipeFooterLink extends StatelessWidget {
+  const MediapipeFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class FooterMediaPipe extends StatelessWidget {
 
     return FooterLink(
       link: mediaPipeLink,
-      text: l10n.footerMediaPipeLinkText,
+      text: l10n.mediaPipeLinkFooterText,
     );
   }
 }

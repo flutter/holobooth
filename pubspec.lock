@@ -96,8 +96,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/camera/camera"
-      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
-      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
       url: "https://github.com/VGVentures/plugins"
     source: git
     version: "0.10.0+3"
@@ -126,8 +126,8 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/camera/camera_web"
-      ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
-      resolved-ref: "9f6cc6c55b011af552ec5e0d38721efcaf902ef4"
+      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
       url: "https://github.com/VGVentures/plugins"
     source: git
     version: "0.3.0+1"
