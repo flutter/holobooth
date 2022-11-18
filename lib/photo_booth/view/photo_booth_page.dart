@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
-import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoBoothPage extends StatelessWidget {
@@ -47,9 +47,8 @@ class PhotoBoothView extends StatelessWidget {
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
-          final images = state.images;
-          Navigator.of(context)
-              .pushReplacement(MultipleCaptureViewerPage.route(images));
+          final images = context.read<PhotoBoothBloc>().state.images;
+          Navigator.of(context).pushReplacement(SharePage.route(images));
         }
       },
       child: const Scaffold(

@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/character_selection/widgets/character_selection_header.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionBody extends StatelessWidget {

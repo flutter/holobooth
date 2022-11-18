@@ -385,5 +385,17 @@
   "mediaPipeLinkFooterText": "MediaPipe",
   "@mediaPipeLinkFooterText": {
     "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
+  },
+  "takeANewPhotoButtonText": "Take a new photo",
+  "@takeANewPhotoButtonText": {
+    "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
+  },
+  "flutterLinkText": "Flutter",
+  "@flutterLinkText": {
+    "description": "Text on the link which navigates to the Flutter page"
+  },
+  "firebaseLinkText": "Firebase",
+  "@firebaseLinkText": {
+    "description": "Text on the link which navigates to the Firebase page"
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/share/share.dart';
 
 void main() {
-  group('ShareDialog', () {
+  group('ShareBottomSheet', () {
     test('can be instantiated', () {
-      expect(ShareDialog(), isA<ShareDialog>());
+      expect(ShareBottomSheet(), isA<ShareBottomSheet>());
     });
 
     group('renders', () {
       testWidgets('successfully', (tester) async {
-        final subject = ShareDialog();
+        final subject = ShareBottomSheet();
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
       });
@@ -19,7 +19,7 @@ void main() {
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(ShareDialog subject) {
+  Future<void> pumpSubject(ShareBottomSheet subject) {
     return pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,

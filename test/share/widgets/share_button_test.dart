@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/multiple_capture_viewer/multiple_capture_viewer.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/platform_helper.dart';
 
