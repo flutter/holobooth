@@ -162,12 +162,39 @@ void main() {
         expect(find.byType(SharePage), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'calls DrawerSelectionOptionUnselected on end drawer',
+      (WidgetTester tester) async {
+        whenListen(
+          photoBoothBloc,
+          Stream<PhotoBoothState>.empty(),
+        );
+
+        await tester.pumpSubject(
+          PhotoBoothView(),
+          photoBoothBloc: photoBoothBloc,
+          drawerSelectionBloc: drawerSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+          propsBloc: propsBloc,
+        );
+        await tester.pump();
+        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.openEndDrawer();
+
+        await tester.pump();
+        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.closeEndDrawer();
+
+        verify(
+          () => drawerSelectionBloc.add(DrawerSelectionOptionUnselected()),
+        ).called(1);
+      },
+    );
   });
 }
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    PhotoBoothView subject, {
+    Widget subject, {
     required PhotoBoothBloc photoBoothBloc,
     required DrawerSelectionBloc drawerSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
