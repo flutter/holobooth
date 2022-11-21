@@ -10,3 +10,11 @@ abstract class ShareEvent extends Equatable {
 class ShareViewLoaded extends ShareEvent {
   const ShareViewLoaded();
 }
+
+class ShareOnTwitterTapped extends ShareEvent {
+  const ShareOnTwitterTapped();
+}
+
+class ShareOnFacebookTapped extends ShareEvent {
+  const ShareOnFacebookTapped();
+}

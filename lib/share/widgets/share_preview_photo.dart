@@ -1,13 +1,13 @@
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SharePreviewPhoto extends StatelessWidget {
   const SharePreviewPhoto({super.key, required this.image});
 
-  final Uint8List image;
+  final PhotoboothCameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +25,7 @@ class SharePreviewPhoto extends StatelessWidget {
             ),
           ],
         ),
-        child: Image.memory(
-          image,
-          isAntiAlias: true,
-          filterQuality: FilterQuality.high,
-        ),
+        child: const SizedBox(),
       ),
     );
   }
