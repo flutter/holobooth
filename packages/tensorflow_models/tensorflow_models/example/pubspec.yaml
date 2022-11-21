@@ -21,6 +21,8 @@ dependencies:
   js: ^0.6.4
   just_audio: ^0.9.30
   rive: ^0.9.1
+  screen_recorder:
+    path: ../../../screen_recorder
   tensorflow_models:
     path: ../
 
@@ -40,7 +42,6 @@ dependency_overrides:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
       ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
-
 
 flutter_gen:
   output: lib/assets/
