@@ -45,13 +45,23 @@ class SpaceBackgroundState extends State<SpaceBackground> {
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       final x = widget.x;
+      final currentX = num.parse((x * 100).toStringAsFixed(1)).toDouble();
+      final previousX =
+          num.parse((oldWidget.x * 100).toStringAsFixed(1)).toDouble();
+      final diffX = (currentX - previousX).abs();
+      if (diffX >= 1) {
+        backgroundController.x.change(currentX);
+      }
+
       final y = widget.y;
-      backgroundController.x.change(
-        x * ((SpaceBackgroundStateMachineController._xRange / 2) + 50),
-      );
-      backgroundController.y.change(
-        y * ((SpaceBackgroundStateMachineController._yRange / 2) + 50),
-      );
+      final currentY = num.parse((y * 100).toStringAsFixed(1)).toDouble();
+      final previousY =
+          num.parse((oldWidget.y * 100).toStringAsFixed(1)).toDouble();
+      final diffY = (currentY - previousY).abs();
+
+      if (diffY >= 1.5) {
+        backgroundController.y.change(currentY);
+      }
     }
   }
 
