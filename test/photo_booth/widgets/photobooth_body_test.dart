@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -40,6 +41,9 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   PhotoConstraint get constraint => PhotoConstraint();
 }
 
+class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
+    implements PropsBloc {}
+
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -49,6 +53,7 @@ void main() {
     late CameraPlatform cameraPlatform;
     late XFile xfile;
     late PhotoboothCameraImage image;
+    late PropsBloc propsBloc;
 
     setUp(() {
       xfile = _MockXFile();
@@ -113,6 +118,9 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
+
+      propsBloc = _MockPropsBloc();
+      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     tearDown(() {
@@ -133,6 +141,7 @@ void main() {
             drawerSelectionBloc: drawerSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
+            propsBloc: propsBloc,
           );
           await tester.pump();
 
@@ -153,6 +162,7 @@ void main() {
             drawerSelectionBloc: drawerSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
+            propsBloc: propsBloc,
           );
           await tester.pump();
 
@@ -166,6 +176,7 @@ void main() {
           drawerSelectionBloc: drawerSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
+          propsBloc: propsBloc,
         );
         await tester.pump();
 
@@ -184,6 +195,7 @@ void main() {
           drawerSelectionBloc: drawerSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
+          propsBloc: propsBloc,
         );
         await tester.pump();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
@@ -210,19 +222,15 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required DrawerSelectionBloc drawerSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
+    required PropsBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(
-              value: photoBoothBloc,
-            ),
-            BlocProvider.value(
-              value: drawerSelectionBloc,
-            ),
-            BlocProvider.value(
-              value: avatarDetectorBloc,
-            ),
+            BlocProvider.value(value: photoBoothBloc),
+            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: avatarDetectorBloc),
+            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

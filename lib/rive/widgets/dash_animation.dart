@@ -1,15 +1,22 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/props/props.dart';
 import 'package:rive/rive.dart';
+
+extension on List<Prop> {
+  bool get isHelmetSelected => contains(Prop.helmet);
+}
 
 class DashAnimation extends StatefulWidget {
   const DashAnimation({
     super.key,
     required this.avatar,
+    required this.propsSelected,
   });
 
   final Avatar avatar;
+  final List<Prop> propsSelected;
 
   @override
   State<DashAnimation> createState() => DashAnimationState();
@@ -41,6 +48,10 @@ class DashAnimationState extends State<DashAnimation> {
       dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen);
       dashController.rightEyeIsClosed.change(widget.avatar.rightEyeIsClosed);
       dashController.leftEyeIsClosed.change(widget.avatar.leftEyeIsClosed);
+
+      dashController.displayHelmet.change(
+        widget.propsSelected.isHelmetSelected,
+      );
     }
   }
 
@@ -108,6 +119,14 @@ class DashStateMachineController extends StateMachineController {
     } else {
       throw StateError('Could not find input "$rightEyeIsClosedInputName"');
     }
+
+    const helmetInputName = 'helmet';
+    final displayHelmet = findInput<bool>(helmetInputName);
+    if (displayHelmet is SMIBool) {
+      this.displayHelmet = displayHelmet;
+    } else {
+      throw StateError('Could not find input "$helmetInputName"');
+    }
   }
 
   /// The total range [x] animates over.
@@ -125,5 +144,6 @@ class DashStateMachineController extends StateMachineController {
   late final SMIBool mouthIsOpen;
   late final SMIBool leftEyeIsClosed;
   late final SMIBool rightEyeIsClosed;
+  late final SMIBool displayHelmet;
 }
 // coverage:ignore-end

@@ -27,7 +27,7 @@ class ItemSelectorDrawer<T> extends StatelessWidget {
   final Widget Function(BuildContext, T) itemBuilder;
 
   /// The selected item.
-  final T selectedItem;
+  final T? selectedItem;
 
   /// The functionality of the selected item.
   final ValueChanged<T> onSelected;
@@ -56,7 +56,9 @@ class ItemSelectorDrawer<T> extends StatelessWidget {
                     ),
                   ),
                   IconTheme.merge(
-                    child: const CloseButton(color: PhotoboothColors.white),
+                    child: const CloseButton(
+                      color: PhotoboothColors.white,
+                    ),
                     data: const IconThemeData(size: 40),
                   ),
                 ],

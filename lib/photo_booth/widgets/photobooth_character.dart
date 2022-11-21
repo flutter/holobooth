@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/props/props.dart';
 import 'package:io_photobooth/rive/rive.dart';
 
 class PhotoboothCharacter extends StatelessWidget {
@@ -12,6 +13,12 @@ class PhotoboothCharacter extends StatelessWidget {
       (AvatarDetectorBloc bloc) => bloc.state.avatar,
     );
 
-    return DashAnimation(avatar: avatar);
+    final propSelected =
+        context.select((PropsBloc bloc) => bloc.state.selectedProps);
+
+    return DashAnimation(
+      avatar: avatar,
+      propsSelected: propSelected,
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/props/props.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -33,6 +34,7 @@ class PhotoBoothPage extends StatelessWidget {
             context.read<AvatarDetectorRepository>(),
           )..add(const AvatarDetectorInitialized()),
         ),
+        BlocProvider(create: (_) => PropsBloc()),
       ],
       child: const PhotoBoothView(),
     );
@@ -44,6 +46,7 @@ class PhotoBoothView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final drawerSelectionBloc = context.read<DrawerSelectionBloc>();
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -51,9 +54,15 @@ class PhotoBoothView extends StatelessWidget {
           Navigator.of(context).pushReplacement(SharePage.route(images));
         }
       },
-      child: const Scaffold(
-        endDrawer: DrawerLayer(),
-        body: PhotoboothBody(),
+      child: Scaffold(
+        endDrawer: const DrawerLayer(),
+        drawerEdgeDragWidth: 0,
+        body: const PhotoboothBody(),
+        onEndDrawerChanged: (value) {
+          if (!value) {
+            drawerSelectionBloc.add(const DrawerSelectionOptionUnselected());
+          }
+        },
       ),
     );
   }

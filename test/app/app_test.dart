@@ -16,7 +16,11 @@ class _MockAuthenticationRepository extends Mock
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 class _MockAvatarDetectorRepository extends Mock
-    implements AvatarDetectorRepository {}
+    implements AvatarDetectorRepository {
+  _MockAvatarDetectorRepository() {
+    when(preloadLandmarksModel).thenAnswer((_) => Future.value());
+  }
+}
 
 void main() {
   group('App', () {
