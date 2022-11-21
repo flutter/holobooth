@@ -33,18 +33,9 @@ class DrawerLayer extends StatelessWidget {
               key: propsDrawerKey,
               title: DrawerOption.props.localized(context),
               items: Prop.values,
-              itemBuilder: (_, item) => ColoredBox(
+              itemBuilder: (_, item) => PropOption(
                 key: Key('${item.name}_propSelection'),
-                color: PhotoboothColors.blue,
-                child: Center(
-                  child: Text(
-                    item.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
-                        ?.copyWith(color: PhotoboothColors.white),
-                  ),
-                ),
+                name: item.name,
               ),
               selectedItem: propSelected.isEmpty ? null : propSelected.first,
               onSelected: (prop) {
