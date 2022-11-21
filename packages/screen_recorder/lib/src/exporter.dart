@@ -9,7 +9,7 @@ import 'package:image/image.dart' as image;
 /// TODO(arturplaczek): Add tests at final version.
 
 /// {@template exporter}
-/// Abstract class for exporting a list of images.
+/// Abstract class for exporting frames.
 /// {@endtemplate}
 abstract class Exporter {
   /// Callback for new frame.
@@ -31,10 +31,12 @@ class GifExporter implements Exporter {
 
   @override
   Future<XFile> compositeGif(String name) async {
-    return GifCompositor.composite(
-      images: _rawFrame.map((e) => e.uint8list).toList(),
+    final gif = GifCompositor.composite(
+      images: _rawFrame.map((frame) => frame.uint8list).toList(),
       fileName: name,
     );
+    _rawFrame.clear();
+    return gif;
   }
 
   @override
@@ -66,7 +68,7 @@ class GifExporter implements Exporter {
 
     _rawFrame.add(
       UintFrame(
-        frame.timeStamp.inMicroseconds,
+        frame.timeStamp.inMilliseconds,
         byteData!.buffer.asUint8List(),
       ),
     );
@@ -75,6 +77,7 @@ class GifExporter implements Exporter {
   static Future<List<int>?> _export(List<RawFrame> frames) async {
     final animation = image.Animation()
       ..backgroundColor = Colors.transparent.value;
+
     for (final frame in frames) {
       final iAsBytes = frame.image.buffer.asUint8List();
       final decodedImage = image.decodePng(iAsBytes);
@@ -91,23 +94,45 @@ class GifExporter implements Exporter {
   }
 }
 
+/// {@template frame}
+/// Image frame with duration.
+/// {@endtemplate}
 class Frame {
+  /// {@macro frame}
   Frame(this.timeStamp, this.image);
 
+  /// Frame duration.
   final Duration timeStamp;
+
+  /// Frame image.
   final ui.Image image;
 }
 
+/// {@template raw_frame}
+/// Frame with image byte data and duration.
+/// {@endtemplate}
 class RawFrame {
+  /// {@macro raw_frame}
   RawFrame(this.durationInMillis, this.image);
 
+  /// Frame duration.
   final int durationInMillis;
+
+  /// Frame image byte data.
   final ByteData image;
 }
 
+/// {@template uint_frame}
+/// Frame with image byte data and duration.
+/// {@endtemplate}
+/// Frame with image as [Uint8List] and duration.
 class UintFrame {
+  /// {@macro uint_frame}
   UintFrame(this.durationInMillis, this.uint8list);
 
+  /// Frame duration.
   final int durationInMillis;
+
+  /// Frame image uint list.
   final Uint8List uint8list;
 }
