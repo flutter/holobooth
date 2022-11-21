@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
+/// TODO(arturplaczek): Add tests at final version.
+
 /// {@template screen_recorder}
 /// Widget that allows to record the given [child].
 /// {@endtemplate}

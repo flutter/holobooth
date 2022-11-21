@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gif_compositor/gif_compositor.dart';
 import 'package:image/image.dart' as image;
 
+/// TODO(arturplaczek): Add tests at final version.
+
 /// {@template exporter}
 /// Abstract class for exporting a list of images.
 /// {@endtemplate}

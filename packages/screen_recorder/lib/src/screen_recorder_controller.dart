@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/src/exporter.dart';
 
+/// TODO(arturplaczek): Add tests at final version.
+
 /// {@template screen_recorder_controller}
 /// Controller for ScreenRecorder widget.
 /// {@endtemplate}
