@@ -229,16 +229,16 @@ void main() {
             equals(AvatarDetectorStatus.estimating),
           ),
           isInstanceOf<AvatarDetectorState>()
-            ..having(
-              (state) => state.status,
-              'status',
-              equals(AvatarDetectorStatus.detected),
-            )
-            ..having(
-              (state) => state.avatar,
-              'avatar',
-              equals(avatar),
-            ),
+              .having(
+                (state) => state.status,
+                'status',
+                equals(AvatarDetectorStatus.detected),
+              )
+              .having(
+                (state) => state.avatar,
+                'avatar',
+                equals(avatar),
+              ),
         ],
       );
     });
