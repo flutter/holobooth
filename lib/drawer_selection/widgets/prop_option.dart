@@ -15,7 +15,7 @@ class PropOption extends StatelessWidget {
           name,
           style: Theme.of(context)
               .textTheme
-              .button
+              .labelLarge
               ?.copyWith(color: PhotoboothColors.white),
         ),
       ),
