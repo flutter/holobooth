@@ -2,14 +2,17 @@ import 'package:example/assets/assets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 class DashWithBackground extends StatefulWidget {
   const DashWithBackground({
     Key? key,
     required this.faceGeometry,
+    this.screenRecorderController,
   }) : super(key: key);
 
   final FaceGeometry? faceGeometry;
+  final ScreenRecorderController? screenRecorderController;
 
   @override
   State<DashWithBackground> createState() => _DashWithBackgroundState();
@@ -43,8 +46,27 @@ class _DashWithBackgroundState extends State<DashWithBackground> {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.dashWithBackground
-        .rive(onInit: _onRiveInit, fit: BoxFit.contain, artboard: 'bg');
+    if (widget.screenRecorderController != null) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return ScreenRecorder(
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+            controller: widget.screenRecorderController!,
+            child: Assets.dashWithBackground.rive(
+              onInit: _onRiveInit,
+              fit: BoxFit.contain,
+              artboard: 'bg',
+            ),
+          );
+        },
+      );
+    }
+    return Assets.dashWithBackground.rive(
+      onInit: _onRiveInit,
+      fit: BoxFit.contain,
+      artboard: 'bg',
+    );
   }
 }
 
