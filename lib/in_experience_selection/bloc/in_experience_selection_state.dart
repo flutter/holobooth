@@ -23,10 +23,14 @@ class InExperienceSelectionState extends Equatable {
   List<Object?> get props => [drawerOption, selectedProps, background];
 
   InExperienceSelectionState copyWith({
+    DrawerOption? drawerOption,
     List<Prop>? selectedProps,
+    Background? background,
   }) {
     return InExperienceSelectionState(
+      drawerOption: drawerOption ?? this.drawerOption,
       selectedProps: selectedProps ?? this.selectedProps,
+      background: background ?? this.background,
     );
   }
 }
