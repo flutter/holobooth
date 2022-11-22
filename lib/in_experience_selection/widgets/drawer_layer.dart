@@ -20,7 +20,7 @@ class DrawerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final propSelected = context
+    final selectedProps = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
     return BlocBuilder<InExperienceSelectionBloc, InExperienceSelectionState>(
       builder: (context, state) {
@@ -36,7 +36,7 @@ class DrawerLayer extends StatelessWidget {
                 key: Key('${item.name}_propSelection'),
                 name: item.name,
               ),
-              selectedItem: propSelected.isEmpty ? null : propSelected.first,
+              selectedItem: selectedProps.isEmpty ? null : selectedProps.first,
               onSelected: (prop) {
                 Navigator.of(context).pop();
                 context

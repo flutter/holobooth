@@ -3,7 +3,7 @@ import 'package:io_photobooth/in_experience_selection/bloc/in_experience_selecti
 import 'package:io_photobooth/in_experience_selection/drawer_option/drawer_option.dart';
 
 void main() {
-  group('DrawerSelection Event', () {
+  group('InExperienceSelectionEvent', () {
     test('supports value comparisons', () {
       expect(
         InExperienceSelectionOptionSelected(

@@ -44,7 +44,7 @@ class PhotoBoothView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawerSelectionBloc = context.read<InExperienceSelectionBloc>();
+    final inExperienceSelectionBloc = context.read<InExperienceSelectionBloc>();
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -58,7 +58,7 @@ class PhotoBoothView extends StatelessWidget {
         body: const PhotoboothBody(),
         onEndDrawerChanged: (value) {
           if (!value) {
-            drawerSelectionBloc
+            inExperienceSelectionBloc
                 .add(const InExperienceSelectionOptionUnselected());
           }
         },

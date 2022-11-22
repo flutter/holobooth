@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -40,9 +39,6 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
-
-class _MockInExperienceSelectionBloc extends MockBloc<PropsEvent, PropsState>
-    implements InExperienceSelectionBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -115,9 +111,8 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
-    late InExperienceSelectionBloc propsBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
@@ -125,16 +120,14 @@ void main() {
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
 
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
-      propsBloc = _MockInExperienceSelectionBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     setUpAll(() {
@@ -155,9 +148,8 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc: photoBoothBloc,
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          propsBloc: propsBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
@@ -170,17 +162,15 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoBoothView subject, {
     required PhotoBoothBloc photoBoothBloc,
-    required InExperienceSelectionBloc drawerSelectionBloc,
+    required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
-    required InExperienceSelectionBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

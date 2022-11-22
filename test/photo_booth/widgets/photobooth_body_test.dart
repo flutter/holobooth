@@ -8,7 +8,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -41,19 +40,15 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   PhotoConstraint get constraint => PhotoConstraint();
 }
 
-class _MockInExperienceSelectionBloc extends MockBloc<PropsEvent, PropsState>
-    implements InExperienceSelectionBloc {}
-
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
     late PhotoBoothBloc photoBoothBloc;
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
     late PhotoboothCameraImage image;
-    late InExperienceSelectionBloc propsBloc;
 
     setUp(() {
       xfile = _MockXFile();
@@ -111,17 +106,14 @@ void main() {
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
 
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
-
-      propsBloc = _MockInExperienceSelectionBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     tearDown(() {
@@ -139,10 +131,9 @@ void main() {
           when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
           await tester.pumpSubject(
             PhotoboothBody(),
-            drawerSelectionBloc: drawerSelectionBloc,
+            inExperienceSelectionBloc: inExperienceSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
-            propsBloc: propsBloc,
           );
           await tester.pump();
 
@@ -160,10 +151,9 @@ void main() {
               .thenThrow(CameraException('', ''));
           await tester.pumpSubject(
             PhotoboothBody(),
-            drawerSelectionBloc: drawerSelectionBloc,
+            inExperienceSelectionBloc: inExperienceSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
-            propsBloc: propsBloc,
           );
           await tester.pump();
 
@@ -174,10 +164,9 @@ void main() {
       testWidgets('renders SelectionButtons', (tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          propsBloc: propsBloc,
         );
         await tester.pump();
 
@@ -193,10 +182,9 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          propsBloc: propsBloc,
         );
         await tester.pump();
         final multipleShutterButton = tester.widget<MultipleShutterButton>(
@@ -221,17 +209,15 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoboothBody subject, {
     required PhotoBoothBloc photoBoothBloc,
-    required InExperienceSelectionBloc drawerSelectionBloc,
+    required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
-    required InExperienceSelectionBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

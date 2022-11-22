@@ -1,16 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/in_experience_selection/bloc/in_experience_selection_bloc.dart';
-import 'package:io_photobooth/in_experience_selection/drawer_option/drawer_option.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
   group('InExperienceSelectionBloc', () {
-    late InExperienceSelectionState drawerSelectionState;
-
-    setUp(() {
-      drawerSelectionState = InExperienceSelectionState();
-    });
-
     test('initial state is InExperienceSelectionState', () {
       expect(InExperienceSelectionBloc().state, InExperienceSelectionState());
     });
@@ -25,7 +18,7 @@ void main() {
           ),
         ),
         expect: () => [
-          drawerSelectionState.copyWith(drawerOption: DrawerOption.characters)
+          InExperienceSelectionState(drawerOption: DrawerOption.characters),
         ],
       );
 
@@ -35,8 +28,9 @@ void main() {
         act: (bloc) => bloc.add(
           InExperienceSelectionOptionSelected(drawerOption: DrawerOption.props),
         ),
-        expect: () =>
-            [drawerSelectionState.copyWith(drawerOption: DrawerOption.props)],
+        expect: () => [
+          InExperienceSelectionState(drawerOption: DrawerOption.props),
+        ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
@@ -48,7 +42,7 @@ void main() {
           ),
         ),
         expect: () => [
-          drawerSelectionState.copyWith(drawerOption: DrawerOption.backgrounds)
+          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds)
         ],
       );
     });
