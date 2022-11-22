@@ -65,7 +65,9 @@ void main() {
       expect(find.byKey(DrawerLayer.charactersDrawerKey), findsOneWidget);
     });
 
-    testWidgets('closes drawer after selecting prop', (tester) async {
+    testWidgets(
+        'closes drawer and adds InExperienceSelectionPropSelected '
+        'after selecting prop', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.props),
       );
@@ -77,9 +79,15 @@ void main() {
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionPropSelected(prop)),
+      ).called(1);
     });
 
-    testWidgets('closes drawer after selecting background', (tester) async {
+    testWidgets(
+        'closes drawer and adds InExperienceSelectionBackgroundSelected '
+        'after selecting background', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
       );
@@ -92,6 +100,10 @@ void main() {
           .tap(find.byKey(Key('${background.name}_backgroundSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionBackgroundSelected(background)),
+      ).called(1);
     });
 
     testWidgets('closes drawer after selecting character', (tester) async {

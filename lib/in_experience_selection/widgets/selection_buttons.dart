@@ -70,14 +70,24 @@ class SelectionButtons extends StatelessWidget {
   }
 
   void _showBackgroundBottomSheet(BuildContext context) {
-    ItemSelectorBottomSheet.show<Color>(
+    final backgroundSelected =
+        context.read<InExperienceSelectionBloc>().state.background;
+    ItemSelectorBottomSheet.show<Background>(
       context,
       key: backgroundSelectionBottomSheetKey,
       title: context.l10n.backgroundSelectorButton,
-      items: const [Colors.red, Colors.yellow, Colors.green],
-      itemBuilder: (context, item) => ColoredBox(color: item),
-      selectedItem: Colors.red,
-      onSelected: print,
+      items: Background.values,
+      itemBuilder: (_, item) => InExperienceSelectionItem(
+        key: Key('${item.name}_backgroundSelection'),
+        name: item.name,
+      ),
+      selectedItem: backgroundSelected,
+      onSelected: (background) {
+        _closeSheet(context);
+        context
+            .read<InExperienceSelectionBloc>()
+            .add(InExperienceSelectionBackgroundSelected(background));
+      },
     );
   }
 

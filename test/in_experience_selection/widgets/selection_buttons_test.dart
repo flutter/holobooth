@@ -83,7 +83,7 @@ void main() {
 
     testWidgets(
         'shows the characters bottomSheet when screen width is smaller '
-        'than mobile breakpoint', (tester) async {
+        'than mobile breakpoint and DrawerOption.characters', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
         Stream.value(
@@ -105,7 +105,7 @@ void main() {
 
     testWidgets(
         'shows the backgrounds bottomSheet when screen width is smaller '
-        'than mobile breakpoint', (tester) async {
+        'than mobile breakpoint and DrawerOption.backgrounds', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
         Stream.value(
@@ -118,7 +118,7 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      expect(find.byType(ItemSelectorBottomSheet<Color>), findsOneWidget);
+      expect(find.byType(ItemSelectorBottomSheet<Background>), findsOneWidget);
       expect(
         find.byKey(SelectionButtons.backgroundSelectionBottomSheetKey),
         findsOneWidget,
@@ -127,7 +127,7 @@ void main() {
 
     testWidgets(
         'shows the props bottomSheet when screen width is smaller '
-        'than mobile breakpoint', (tester) async {
+        'than mobile breakpoint and DrawerOption.props', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
         Stream.value(
@@ -148,7 +148,7 @@ void main() {
     });
 
     testWidgets(
-        'shows the characters drawer when screen width is greater '
+        'shows the drawer when screen width is greater '
         'than mobile breakpoint', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
@@ -167,47 +167,8 @@ void main() {
     });
 
     testWidgets(
-        'shows the props drawer when screen width is greater '
-        'than mobile breakpoint', (tester) async {
-      whenListen(
-        inExperienceSelectionBloc,
-        Stream.value(
-          InExperienceSelectionState(drawerOption: DrawerOption.props),
-        ),
-      );
-      await tester.pumpSubject(
-        SelectionButtons(),
-        inExperienceSelectionBloc,
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(DrawerLayer), findsOneWidget);
-      expect(find.byKey(DrawerLayer.propsDrawerKey), findsOneWidget);
-    });
-
-    testWidgets(
-        'shows the backgrounds drawer when screen width is greater '
-        'than mobile breakpoint', (tester) async {
-      whenListen(
-        inExperienceSelectionBloc,
-        Stream.value(
-          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
-        ),
-      );
-      await tester.pumpSubject(
-        SelectionButtons(),
-        inExperienceSelectionBloc,
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(DrawerLayer), findsOneWidget);
-      expect(find.byKey(DrawerLayer.backgroundsDrawerKey), findsOneWidget);
-    });
-
-    testWidgets(
         'adds InExperienceSelectionPropSelected on props bottom sheet '
-        'after clicking on any item '
-        'on mobile breakpoint', (tester) async {
+        'after clicking on any item ', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
         Stream.value(
@@ -226,6 +187,32 @@ void main() {
       verify(
         () => inExperienceSelectionBloc
             .add(InExperienceSelectionPropSelected(prop)),
+      ).called(1);
+    });
+
+    testWidgets(
+        'adds InExperienceSelectionBackgroundSelected on '
+        'background bottom sheet '
+        'after clicking on any item ', (tester) async {
+      whenListen(
+        inExperienceSelectionBloc,
+        Stream.value(
+          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
+        ),
+      );
+      tester.setSmallDisplaySize();
+      await tester.pumpSubject(
+        SelectionButtons(),
+        inExperienceSelectionBloc,
+      );
+      await tester.pumpAndSettle();
+      const background = Background.forest;
+      await tester
+          .tap(find.byKey(Key('${background.name}_backgroundSelection')));
+      await tester.pumpAndSettle();
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionBackgroundSelected(background)),
       ).called(1);
     });
 
