@@ -175,7 +175,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc: photoBoothBloc,
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
           propsBloc: propsBloc,
         );
@@ -186,7 +186,9 @@ void main() {
         PhotoBoothView.photoBoothViewScaffoldKey.currentState?.closeEndDrawer();
 
         verify(
-          () => drawerSelectionBloc.add(DrawerSelectionOptionUnselected()),
+          () => inExperienceSelectionBloc.add(
+            InExperienceSelectionOptionUnselected(),
+          ),
         ).called(1);
       },
     );
