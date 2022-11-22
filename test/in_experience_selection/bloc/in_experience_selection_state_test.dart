@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/in_experience_selection/bloc/in_experience_selection_bloc.dart';
-import 'package:io_photobooth/in_experience_selection/drawer_option/drawer_option.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
   group('InExperienceSelectionState', () {

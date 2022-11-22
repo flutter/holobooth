@@ -141,11 +141,11 @@ void main() {
 extension on WidgetTester {
   Future<void> pumpSubject(
     AnimatedPhotoboothPhoto subject,
-    PhotoBoothBloc inExperienceSelectionBloc,
+    PhotoBoothBloc photoBoothBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
-          providers: [BlocProvider.value(value: inExperienceSelectionBloc)],
+          providers: [BlocProvider.value(value: photoBoothBloc)],
           child: subject,
         ),
       );
