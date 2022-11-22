@@ -12,6 +12,8 @@ class InExperienceSelectionBloc
   InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
     on<InExperienceSelectionOptionSelected>(_optionSelected);
     on<InExperienceSelectionOptionUnselected>(_optionUnselected);
+    on<InExperienceSelectionPropSelected>(_propSelected);
+    on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
   }
 
   FutureOr<void> _optionSelected(
@@ -26,5 +28,30 @@ class InExperienceSelectionBloc
     Emitter<InExperienceSelectionState> emit,
   ) {
     emit(const InExperienceSelectionState());
+  }
+
+  FutureOr<void> _propSelected(
+    InExperienceSelectionPropSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
+    final selected = event.prop;
+    final selectedProps = List<Prop>.from(state.selectedProps);
+    if (selectedProps.contains(selected)) {
+      selectedProps.remove(selected);
+    } else {
+      selectedProps.add(selected);
+    }
+    emit(
+      state.copyWith(
+        selectedProps: selectedProps,
+      ),
+    );
+  }
+
+  FutureOr<void> _backgroundSelected(
+    InExperienceSelectionBackgroundSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
+    emit(state.copyWith(background: event.background));
   }
 }

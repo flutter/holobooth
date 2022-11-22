@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -13,17 +12,11 @@ class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
-
 void main() {
   group('DrawerLayer', () {
-    late PropsBloc propsBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
 
     setUp(() {
-      propsBloc = _MockPropsBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
@@ -33,7 +26,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.noOptionSelectedKey), findsOneWidget);
     });
@@ -45,7 +37,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.propsDrawerKey), findsOneWidget);
     });
@@ -58,7 +49,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.backgroundsDrawerKey), findsOneWidget);
     });
@@ -71,40 +61,49 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.charactersDrawerKey), findsOneWidget);
     });
 
-    testWidgets('closes drawer after selecting prop', (tester) async {
+    testWidgets(
+        'closes drawer and adds InExperienceSelectionPropSelected '
+        'after selecting prop', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.props),
       );
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionPropSelected(prop)),
+      ).called(1);
     });
 
-    testWidgets('closes drawer after selecting background', (tester) async {
+    testWidgets(
+        'closes drawer and adds InExperienceSelectionBackgroundSelected '
+        'after selecting background', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
       );
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
-      const background = PhotoboothColors.purple;
+      const background = Background.forest;
       await tester
-          .tap(find.byKey(Key('${background.value}_backgroundSelection')));
+          .tap(find.byKey(Key('${background.name}_backgroundSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionBackgroundSelected(background)),
+      ).called(1);
     });
 
     testWidgets('closes drawer after selecting character', (tester) async {
@@ -114,7 +113,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       const character = PhotoboothColors.orange;
       await tester
@@ -129,13 +127,11 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     DrawerLayer subject,
     InExperienceSelectionBloc inExperienceSelectionBloc,
-    PropsBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: inExperienceSelectionBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

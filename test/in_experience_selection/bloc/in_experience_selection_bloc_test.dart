@@ -61,5 +61,47 @@ void main() {
         ],
       );
     });
+
+    group('InExperienceSelectionPropSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with prop selected.',
+        build: InExperienceSelectionBloc.new,
+        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(selectedProps: [Prop.helmet])
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with prop unselected.',
+        build: InExperienceSelectionBloc.new,
+        seed: () =>
+            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
+        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
+
+    group('InExperienceSelectionBackgroundSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with background selected.',
+        build: InExperienceSelectionBloc.new,
+        act: (bloc) => bloc
+            .add(InExperienceSelectionBackgroundSelected(Background.forest)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(background: Background.forest)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'does not emit new state if background already selected.',
+        build: InExperienceSelectionBloc.new,
+        seed: () => InExperienceSelectionState(background: Background.forest),
+        act: (bloc) => bloc
+            .add(InExperienceSelectionBackgroundSelected(Background.forest)),
+        expect: () => const <InExperienceSelectionState>[],
+      );
+    });
   });
 }

@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -40,9 +39,6 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
-
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -117,7 +113,6 @@ void main() {
     late PhotoBoothBloc photoBoothBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
-    late PropsBloc propsBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
@@ -133,8 +128,6 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
-      propsBloc = _MockPropsBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     setUpAll(() {
@@ -157,7 +150,6 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          propsBloc: propsBloc,
         );
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
@@ -201,7 +193,6 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
-    required PropsBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
@@ -209,7 +200,6 @@ extension on WidgetTester {
             BlocProvider.value(value: photoBoothBloc),
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),

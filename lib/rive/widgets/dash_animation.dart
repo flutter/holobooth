@@ -1,7 +1,7 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/props/props.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:rive/rive.dart';
 
 extension on List<Prop> {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DrawerLayer extends StatelessWidget {
@@ -21,44 +20,56 @@ class DrawerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final propSelected =
-        context.select((PropsBloc bloc) => bloc.state.selectedProps);
     return BlocBuilder<InExperienceSelectionBloc, InExperienceSelectionState>(
       builder: (context, state) {
         switch (state.drawerOption) {
           case null:
             return const SizedBox(key: noOptionSelectedKey);
           case DrawerOption.props:
-            return ItemSelectorDrawer<Prop>(
-              key: propsDrawerKey,
-              title: DrawerOption.props.localized(context),
-              items: Prop.values,
-              itemBuilder: (_, item) => PropOption(
-                key: Key('${item.name}_propSelection'),
-                name: item.name,
-              ),
-              selectedItem: propSelected.isEmpty ? null : propSelected.first,
-              onSelected: (prop) {
-                Navigator.of(context).pop();
-                context.read<PropsBloc>().add(PropsSelected(prop));
+            return BlocSelector<InExperienceSelectionBloc,
+                InExperienceSelectionState, List<Prop>>(
+              selector: (state) => state.selectedProps,
+              builder: (context, selectedProps) {
+                return ItemSelectorDrawer<Prop>(
+                  key: propsDrawerKey,
+                  title: DrawerOption.props.localized(context),
+                  items: Prop.values,
+                  itemBuilder: (_, item) => InExperienceSelectionItem(
+                    key: Key('${item.name}_propSelection'),
+                    name: item.name,
+                  ),
+                  selectedItem:
+                      selectedProps.isEmpty ? null : selectedProps.first,
+                  onSelected: (prop) {
+                    Navigator.of(context).pop();
+                    context
+                        .read<InExperienceSelectionBloc>()
+                        .add(InExperienceSelectionPropSelected(prop));
+                  },
+                );
               },
             );
           case DrawerOption.backgrounds:
-            return ItemSelectorDrawer(
-              key: backgroundsDrawerKey,
-              title: DrawerOption.backgrounds.localized(context),
-              items: const [
-                PhotoboothColors.purple,
-                PhotoboothColors.green,
-                PhotoboothColors.blue
-              ],
-              itemBuilder: (_, item) => ColoredBox(
-                color: item,
-                key: Key('${item.value}_backgroundSelection'),
-              ),
-              selectedItem: PhotoboothColors.red,
-              onSelected: (_) {
-                Navigator.of(context).pop();
+            return BlocSelector<InExperienceSelectionBloc,
+                InExperienceSelectionState, Background>(
+              selector: (state) => state.background,
+              builder: (context, backgroundSelected) {
+                return ItemSelectorDrawer<Background>(
+                  key: backgroundsDrawerKey,
+                  title: DrawerOption.backgrounds.localized(context),
+                  items: Background.values,
+                  itemBuilder: (_, item) => InExperienceSelectionItem(
+                    key: Key('${item.name}_backgroundSelection'),
+                    name: item.name,
+                  ),
+                  selectedItem: backgroundSelected,
+                  onSelected: (background) {
+                    Navigator.of(context).pop();
+                    context.read<InExperienceSelectionBloc>().add(
+                          InExperienceSelectionBackgroundSelected(background),
+                        );
+                  },
+                );
               },
             );
           case DrawerOption.characters:
