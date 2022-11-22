@@ -20,46 +20,56 @@ class DrawerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedProps = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
     return BlocBuilder<InExperienceSelectionBloc, InExperienceSelectionState>(
       builder: (context, state) {
         switch (state.drawerOption) {
           case null:
             return const SizedBox(key: noOptionSelectedKey);
           case DrawerOption.props:
-            return ItemSelectorDrawer<Prop>(
-              key: propsDrawerKey,
-              title: DrawerOption.props.localized(context),
-              items: Prop.values,
-              itemBuilder: (_, item) => PropOption(
-                key: Key('${item.name}_propSelection'),
-                name: item.name,
-              ),
-              selectedItem: selectedProps.isEmpty ? null : selectedProps.first,
-              onSelected: (prop) {
-                Navigator.of(context).pop();
-                context
-                    .read<InExperienceSelectionBloc>()
-                    .add(InExperienceSelectionPropSelected(prop));
+            return BlocSelector<InExperienceSelectionBloc,
+                InExperienceSelectionState, List<Prop>>(
+              selector: (state) => state.selectedProps,
+              builder: (context, selectedProps) {
+                return ItemSelectorDrawer<Prop>(
+                  key: propsDrawerKey,
+                  title: DrawerOption.props.localized(context),
+                  items: Prop.values,
+                  itemBuilder: (_, item) => PropOption(
+                    key: Key('${item.name}_propSelection'),
+                    name: item.name,
+                  ),
+                  selectedItem:
+                      selectedProps.isEmpty ? null : selectedProps.first,
+                  onSelected: (prop) {
+                    Navigator.of(context).pop();
+                    context
+                        .read<InExperienceSelectionBloc>()
+                        .add(InExperienceSelectionPropSelected(prop));
+                  },
+                );
               },
             );
           case DrawerOption.backgrounds:
-            return ItemSelectorDrawer(
-              key: backgroundsDrawerKey,
-              title: DrawerOption.backgrounds.localized(context),
-              items: const [
-                PhotoboothColors.purple,
-                PhotoboothColors.green,
-                PhotoboothColors.blue
-              ],
-              itemBuilder: (_, item) => ColoredBox(
-                color: item,
-                key: Key('${item.value}_backgroundSelection'),
-              ),
-              selectedItem: PhotoboothColors.red,
-              onSelected: (_) {
-                Navigator.of(context).pop();
+            return BlocSelector<InExperienceSelectionBloc,
+                InExperienceSelectionState, Background>(
+              selector: (state) => state.background,
+              builder: (context, backgroundSelected) {
+                return ItemSelectorDrawer<Background>(
+                  key: backgroundsDrawerKey,
+                  title: DrawerOption.backgrounds.localized(context),
+                  items: Background.values,
+                  itemBuilder: (_, item) => PropOption(
+                    key: Key('${item.name}_propSelection_background'),
+                    name: item.name,
+                  ),
+                  selectedItem: backgroundSelected,
+                  onSelected: (background) {
+                    Navigator.of(context).pop();
+                    context.read<InExperienceSelectionBloc>().add(
+                          InExperienceSelectionBackgroundSelected(background),
+                        );
+                  },
+                );
               },
             );
           case DrawerOption.characters:
