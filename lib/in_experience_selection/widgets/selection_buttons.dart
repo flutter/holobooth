@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/props/props.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -30,8 +30,8 @@ class SelectionButtons extends StatelessWidget {
       Key('selectionButtons_background_bottomSheet');
 
   void _closeSheet(BuildContext context) {
-    context.read<DrawerSelectionBloc>().add(
-          const DrawerSelectionOptionUnselected(),
+    context.read<InExperienceSelectionBloc>().add(
+          const InExperienceSelectionOptionUnselected(),
         );
     Navigator.of(context).pop();
   }
@@ -87,7 +87,7 @@ class SelectionButtons extends StatelessWidget {
       height: screenSize >= PhotoboothBreakpoints.small ? 48 : 0,
     );
 
-    return BlocListener<DrawerSelectionBloc, DrawerSelectionState>(
+    return BlocListener<InExperienceSelectionBloc, InExperienceSelectionState>(
       listenWhen: (previous, current) =>
           previous != current && current.drawerOption != null,
       listener: (context, state) {
@@ -119,8 +119,8 @@ class SelectionButtons extends StatelessWidget {
               buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.characterSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<DrawerSelectionBloc>().add(
-                    const DrawerSelectionOptionSelected(
+              onTap: () => context.read<InExperienceSelectionBloc>().add(
+                    const InExperienceSelectionOptionSelected(
                       drawerOption: DrawerOption.characters,
                     ),
                   ),
@@ -131,8 +131,8 @@ class SelectionButtons extends StatelessWidget {
               buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.propsSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<DrawerSelectionBloc>().add(
-                    const DrawerSelectionOptionSelected(
+              onTap: () => context.read<InExperienceSelectionBloc>().add(
+                    const InExperienceSelectionOptionSelected(
                       drawerOption: DrawerOption.props,
                     ),
                   ),
@@ -143,8 +143,8 @@ class SelectionButtons extends StatelessWidget {
               buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.backgroundSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<DrawerSelectionBloc>().add(
-                    const DrawerSelectionOptionSelected(
+              onTap: () => context.read<InExperienceSelectionBloc>().add(
+                    const InExperienceSelectionOptionSelected(
                       drawerOption: DrawerOption.backgrounds,
                     ),
                   ),
