@@ -169,7 +169,6 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          propsBloc: propsBloc,
         );
         await tester.pump();
         PhotoBoothView.photoBoothViewScaffoldKey.currentState?.openEndDrawer();
