@@ -75,13 +75,9 @@ class DashAnimationState extends State<DashAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      alignment: Alignment.center,
-      child: Assets.animations.dash.rive(
-        onInit: _onRiveInit,
-        fit: BoxFit.cover,
-      ),
+    return Assets.animations.dash.rive(
+      onInit: _onRiveInit,
+      fit: BoxFit.cover,
     );
   }
 }
