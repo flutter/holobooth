@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/props/props.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -25,9 +25,9 @@ class _MockXFile extends Mock implements XFile {}
 class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
     implements PhotoBoothBloc {}
 
-class _MockDrawerSelectionBloc
-    extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
-    implements DrawerSelectionBloc {}
+class _MockInExperienceSelectionBloc
+    extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
+    implements InExperienceSelectionBloc {}
 
 class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
@@ -115,7 +115,7 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
-    late DrawerSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
     late PropsBloc propsBloc;
 
@@ -125,8 +125,9 @@ void main() {
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
 
-      drawerSelectionBloc = _MockDrawerSelectionBloc();
-      when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
+          .thenReturn(InExperienceSelectionState());
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(
@@ -154,7 +155,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc: photoBoothBloc,
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
           propsBloc: propsBloc,
         );
@@ -169,7 +170,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoBoothView subject, {
     required PhotoBoothBloc photoBoothBloc,
-    required DrawerSelectionBloc drawerSelectionBloc,
+    required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
     required PropsBloc propsBloc,
   }) =>
@@ -177,7 +178,7 @@ extension on WidgetTester {
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
             BlocProvider.value(value: propsBloc),
           ],
