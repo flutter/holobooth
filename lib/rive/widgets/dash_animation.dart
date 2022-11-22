@@ -38,21 +38,32 @@ class DashAnimationState extends State<DashAnimation> {
     final dashController = this.dashController;
     if (dashController != null) {
       final direction = widget.avatar.direction;
-      /* dashController.x.change(
+      dashController.x.change(
         direction.x * ((DashStateMachineController._xRange / 2) + 50),
       );
       dashController.y.change(
         direction.y * ((DashStateMachineController._yRange / 2) + 50),
-      );*/
+      );
+      if (widget.avatar.hasMouthOpen != oldWidget.avatar.hasMouthOpen) {
+        dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen ? 100 : 0);
+      }
 
-      //dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen ? 100 : 0);
-      /* dashController.rightEyeIsClosed
-          .change(widget.avatar.rightEyeIsClosed ? 99 : 0);
-      dashController.leftEyeIsClosed
-          .change(widget.avatar.leftEyeIsClosed ? 99 : 0);*/
-      /*dashController.displayHelmet.change(
-        widget.propsSelected.isHelmetSelected,
-      );*/
+      if (widget.avatar.rightEyeIsClosed != oldWidget.avatar.rightEyeIsClosed) {
+        dashController.rightEyeIsClosed
+            .change(widget.avatar.rightEyeIsClosed ? 99 : 0);
+      }
+
+      if (widget.avatar.leftEyeIsClosed != oldWidget.avatar.leftEyeIsClosed) {
+        dashController.leftEyeIsClosed
+            .change(widget.avatar.leftEyeIsClosed ? 99 : 0);
+      }
+
+      if (widget.propsSelected.isHelmetSelected !=
+          oldWidget.propsSelected.isHelmetSelected) {
+        dashController.displayHelmet.change(
+          widget.propsSelected.isHelmetSelected,
+        );
+      }
     }
   }
 
