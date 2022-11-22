@@ -62,7 +62,9 @@ class SelectionButtons extends StatelessWidget {
       selectedItem: propSelected.isEmpty ? null : propSelected.first,
       onSelected: (prop) {
         _closeSheet(context);
-        context.read<InExperienceSelectionBloc>().add(PropsSelected(prop));
+        context
+            .read<InExperienceSelectionBloc>()
+            .add(InExperienceSelectionPropSelected(prop));
       },
     );
   }

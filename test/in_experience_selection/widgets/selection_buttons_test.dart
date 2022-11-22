@@ -223,7 +223,7 @@ void main() {
     });
 
     testWidgets(
-        'adds PropsSelected on props bottom sheet after clicking on any item '
+        'adds InExperienceSelectionPropSelected on props bottom sheet after clicking on any item '
         'on mobile breakpoint', (tester) async {
       whenListen(
         drawerSelectionBloc,
@@ -241,7 +241,8 @@ void main() {
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() => propsBloc.add(PropsSelected(prop))).called(1);
+      verify(() => propsBloc.add(InExperienceSelectionPropSelected(prop)))
+          .called(1);
     });
 
     testWidgets(

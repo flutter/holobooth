@@ -11,7 +11,7 @@ enum Background {
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
     this.selectedProps = const [],
-    this.drawerOption = DrawerOption.backgrounds,
+    this.drawerOption,
     this.background = Background.space,
   });
 
@@ -20,7 +20,7 @@ class InExperienceSelectionState extends Equatable {
   final Background background;
 
   @override
-  List<Object> get props => [selectedProps];
+  List<Object?> get props => [drawerOption, selectedProps, background];
 
   InExperienceSelectionState copyWith({
     List<Prop>? selectedProps,

@@ -41,7 +41,7 @@ class DrawerLayer extends StatelessWidget {
                 Navigator.of(context).pop();
                 context
                     .read<InExperienceSelectionBloc>()
-                    .add(PropsSelected(prop));
+                    .add(InExperienceSelectionPropSelected(prop));
               },
             );
           case DrawerOption.backgrounds:

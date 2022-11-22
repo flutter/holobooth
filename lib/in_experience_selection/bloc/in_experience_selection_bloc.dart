@@ -10,11 +10,12 @@ part 'in_experience_selection_state.dart';
 class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
   InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
-    on<PropsSelected>(_selected);
+    on<InExperienceSelectionOptionSelected>(_optionSelected);
+    on<InExperienceSelectionPropSelected>(_propSelected);
   }
 
-  FutureOr<void> _selected(
-    PropsSelected event,
+  FutureOr<void> _propSelected(
+    InExperienceSelectionPropSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
     final selected = event.prop;
@@ -27,6 +28,19 @@ class InExperienceSelectionBloc
     emit(
       state.copyWith(
         selectedProps: selectedProps,
+      ),
+    );
+  }
+
+  FutureOr<void> _optionSelected(
+    InExperienceSelectionOptionSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
+    emit(
+      InExperienceSelectionState(
+        selectedProps: state.selectedProps,
+        background: state.background,
+        drawerOption: event.drawerOption,
       ),
     );
   }

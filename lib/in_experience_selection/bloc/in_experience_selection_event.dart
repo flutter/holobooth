@@ -4,8 +4,8 @@ abstract class InExperienceSelectionEvent extends Equatable {
   const InExperienceSelectionEvent();
 }
 
-class PropsSelected extends InExperienceSelectionEvent {
-  const PropsSelected(this.prop);
+class InExperienceSelectionPropSelected extends InExperienceSelectionEvent {
+  const InExperienceSelectionPropSelected(this.prop);
 
   final Prop prop;
 
