@@ -18,12 +18,12 @@ class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
 
 void main() {
   group('SelectionButtons', () {
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     late PropsBloc propsBloc;
 
     setUp(() {
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
       propsBloc = _MockPropsBloc();
@@ -36,12 +36,12 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpSubject(
           SelectionButtons(),
-          drawerSelectionBloc,
+          inExperienceSelectionBloc,
           propsBloc,
         );
         await tester.tap(find.byKey(SelectionButtons.propsSelectionButtonKey));
         verify(
-          () => drawerSelectionBloc.add(
+          () => inExperienceSelectionBloc.add(
             InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.props,
             ),
@@ -56,13 +56,13 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpSubject(
           SelectionButtons(),
-          drawerSelectionBloc,
+          inExperienceSelectionBloc,
           propsBloc,
         );
         await tester
             .tap(find.byKey(SelectionButtons.charactersSelectionButtonKey));
         verify(
-          () => drawerSelectionBloc.add(
+          () => inExperienceSelectionBloc.add(
             InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.characters,
             ),
@@ -77,13 +77,13 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpSubject(
           SelectionButtons(),
-          drawerSelectionBloc,
+          inExperienceSelectionBloc,
           propsBloc,
         );
         await tester
             .tap(find.byKey(SelectionButtons.backgroundSelectorButtonKey));
         verify(
-          () => drawerSelectionBloc.add(
+          () => inExperienceSelectionBloc.add(
             InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.backgrounds,
             ),
@@ -96,7 +96,7 @@ void main() {
         'shows the characters bottomSheet when screen width is smaller '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.characters),
         ),
@@ -104,7 +104,7 @@ void main() {
       tester.setSmallDisplaySize();
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -119,7 +119,7 @@ void main() {
         'shows the backgrounds bottomSheet when screen width is smaller '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
         ),
@@ -127,7 +127,7 @@ void main() {
       tester.setSmallDisplaySize();
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -142,7 +142,7 @@ void main() {
         'shows the props bottomSheet when screen width is smaller '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
@@ -150,7 +150,7 @@ void main() {
       tester.setSmallDisplaySize();
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -165,14 +165,14 @@ void main() {
         'shows the characters drawer when screen width is greater '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.characters),
         ),
       );
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -185,14 +185,14 @@ void main() {
         'shows the props drawer when screen width is greater '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
       );
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -205,14 +205,14 @@ void main() {
         'shows the backgrounds drawer when screen width is greater '
         'than mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
         ),
       );
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -225,7 +225,7 @@ void main() {
         'adds PropsSelected on props bottom sheet after clicking on any item '
         'on mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
@@ -233,7 +233,7 @@ void main() {
       tester.setSmallDisplaySize();
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -247,7 +247,7 @@ void main() {
         'adds InExperienceSelectionOptionUnselected after closing bottom sheet '
         'on mobile breakpoint', (tester) async {
       whenListen(
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         Stream.value(
           InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
@@ -255,7 +255,7 @@ void main() {
       tester.setSmallDisplaySize();
       await tester.pumpSubject(
         SelectionButtons(),
-        drawerSelectionBloc,
+        inExperienceSelectionBloc,
         propsBloc,
       );
       await tester.pumpAndSettle();
@@ -263,7 +263,8 @@ void main() {
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       verify(
-        () => drawerSelectionBloc.add(InExperienceSelectionOptionUnselected()),
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionOptionUnselected()),
       ).called(1);
     });
   });
@@ -272,13 +273,13 @@ void main() {
 extension on WidgetTester {
   Future<void> pumpSubject(
     SelectionButtons subject,
-    InExperienceSelectionBloc drawerSelectionBloc,
+    InExperienceSelectionBloc inExperienceSelectionBloc,
     PropsBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: propsBloc),
           ],
           child: Scaffold(

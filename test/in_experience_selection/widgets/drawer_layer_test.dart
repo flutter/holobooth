@@ -19,52 +19,72 @@ class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
 void main() {
   group('DrawerLayer', () {
     late PropsBloc propsBloc;
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
 
     setUp(() {
       propsBloc = _MockPropsBloc();
       when(() => propsBloc.state).thenReturn(PropsState());
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
     });
 
     testWidgets('renders nothing if no option selected', (tester) async {
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       expect(find.byKey(DrawerLayer.noOptionSelectedKey), findsOneWidget);
     });
 
     testWidgets('renders props drawer if DrawerOption.props', (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.props),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       expect(find.byKey(DrawerLayer.propsDrawerKey), findsOneWidget);
     });
 
     testWidgets('renders backgrounds drawer if DrawerOption.backgrounds',
         (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       expect(find.byKey(DrawerLayer.backgroundsDrawerKey), findsOneWidget);
     });
 
     testWidgets('renders characters drawer if DrawerOption.characters',
         (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.characters),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       expect(find.byKey(DrawerLayer.charactersDrawerKey), findsOneWidget);
     });
 
     testWidgets('closes drawer after selecting prop', (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.props),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
@@ -72,10 +92,14 @@ void main() {
     });
 
     testWidgets('closes drawer after selecting background', (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       const background = PhotoboothColors.purple;
       await tester
           .tap(find.byKey(Key('${background.value}_backgroundSelection')));
@@ -84,10 +108,14 @@ void main() {
     });
 
     testWidgets('closes drawer after selecting character', (tester) async {
-      when(() => drawerSelectionBloc.state).thenReturn(
+      when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.characters),
       );
-      await tester.pumpSubject(DrawerLayer(), drawerSelectionBloc, propsBloc);
+      await tester.pumpSubject(
+        DrawerLayer(),
+        inExperienceSelectionBloc,
+        propsBloc,
+      );
       const character = PhotoboothColors.orange;
       await tester
           .tap(find.byKey(Key('${character.value}_characterSelection')));
@@ -100,13 +128,13 @@ void main() {
 extension on WidgetTester {
   Future<void> pumpSubject(
     DrawerLayer subject,
-    InExperienceSelectionBloc drawerSelectionBloc,
+    InExperienceSelectionBloc inExperienceSelectionBloc,
     PropsBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: propsBloc),
           ],
           child: subject,

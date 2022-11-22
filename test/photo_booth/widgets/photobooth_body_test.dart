@@ -48,7 +48,7 @@ void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
     late PhotoBoothBloc photoBoothBloc;
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
@@ -111,8 +111,8 @@ void main() {
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
 
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
@@ -139,7 +139,7 @@ void main() {
           when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
           await tester.pumpSubject(
             PhotoboothBody(),
-            drawerSelectionBloc: drawerSelectionBloc,
+            inExperienceSelectionBloc: inExperienceSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
             propsBloc: propsBloc,
@@ -160,7 +160,7 @@ void main() {
               .thenThrow(CameraException('', ''));
           await tester.pumpSubject(
             PhotoboothBody(),
-            drawerSelectionBloc: drawerSelectionBloc,
+            inExperienceSelectionBloc: inExperienceSelectionBloc,
             photoBoothBloc: photoBoothBloc,
             avatarDetectorBloc: avatarDetectorBloc,
             propsBloc: propsBloc,
@@ -174,7 +174,7 @@ void main() {
       testWidgets('renders SelectionButtons', (tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
           propsBloc: propsBloc,
@@ -193,7 +193,7 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           photoBoothBloc: photoBoothBloc,
           avatarDetectorBloc: avatarDetectorBloc,
           propsBloc: propsBloc,
@@ -221,7 +221,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoboothBody subject, {
     required PhotoBoothBloc photoBoothBloc,
-    required InExperienceSelectionBloc drawerSelectionBloc,
+    required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
     required PropsBloc propsBloc,
   }) =>
@@ -229,7 +229,7 @@ extension on WidgetTester {
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
             BlocProvider.value(value: propsBloc),
           ],

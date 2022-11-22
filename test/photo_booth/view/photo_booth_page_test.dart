@@ -115,7 +115,7 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
-    late InExperienceSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
     late PropsBloc propsBloc;
 
@@ -125,8 +125,8 @@ void main() {
         () => photoBoothBloc.state,
       ).thenReturn(PhotoBoothState.empty());
 
-      drawerSelectionBloc = _MockInExperienceSelectionBloc();
-      when(() => drawerSelectionBloc.state)
+      inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
       avatarDetectorBloc = _MockAvatarDetectorBloc();
@@ -155,7 +155,7 @@ void main() {
         await tester.pumpSubject(
           PhotoBoothView(),
           photoBoothBloc: photoBoothBloc,
-          drawerSelectionBloc: drawerSelectionBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
           propsBloc: propsBloc,
         );
@@ -170,7 +170,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     PhotoBoothView subject, {
     required PhotoBoothBloc photoBoothBloc,
-    required InExperienceSelectionBloc drawerSelectionBloc,
+    required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
     required PropsBloc propsBloc,
   }) =>
@@ -178,7 +178,7 @@ extension on WidgetTester {
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: photoBoothBloc),
-            BlocProvider.value(value: drawerSelectionBloc),
+            BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
             BlocProvider.value(value: propsBloc),
           ],
