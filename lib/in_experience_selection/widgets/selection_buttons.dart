@@ -55,7 +55,7 @@ class SelectionButtons extends StatelessWidget {
       key: propsSelectionBottomSheetKey,
       title: context.l10n.propsSelectorButton,
       items: Prop.values,
-      itemBuilder: (_, item) => PropOption(
+      itemBuilder: (_, item) => InExperienceSelectionItem(
         key: Key('${item.name}_propSelection'),
         name: item.name,
       ),

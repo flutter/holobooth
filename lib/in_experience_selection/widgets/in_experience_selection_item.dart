@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class PropOption extends StatelessWidget {
-  const PropOption({super.key, required this.name});
+class InExperienceSelectionItem extends StatelessWidget {
+  const InExperienceSelectionItem({super.key, required this.name});
 
   final String name;
 

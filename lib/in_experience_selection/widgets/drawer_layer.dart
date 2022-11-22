@@ -34,7 +34,7 @@ class DrawerLayer extends StatelessWidget {
                   key: propsDrawerKey,
                   title: DrawerOption.props.localized(context),
                   items: Prop.values,
-                  itemBuilder: (_, item) => PropOption(
+                  itemBuilder: (_, item) => InExperienceSelectionItem(
                     key: Key('${item.name}_propSelection'),
                     name: item.name,
                   ),
@@ -58,8 +58,8 @@ class DrawerLayer extends StatelessWidget {
                   key: backgroundsDrawerKey,
                   title: DrawerOption.backgrounds.localized(context),
                   items: Background.values,
-                  itemBuilder: (_, item) => PropOption(
-                    key: Key('${item.name}_propSelection_background'),
+                  itemBuilder: (_, item) => InExperienceSelectionItem(
+                    key: Key('${item.name}_backgroundSelection'),
                     name: item.name,
                   ),
                   selectedItem: backgroundSelected,

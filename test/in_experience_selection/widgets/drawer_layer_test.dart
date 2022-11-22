@@ -87,9 +87,9 @@ void main() {
         DrawerLayer(),
         inExperienceSelectionBloc,
       );
-      const background = PhotoboothColors.purple;
+      const background = Background.forest;
       await tester
-          .tap(find.byKey(Key('${background.value}_backgroundSelection')));
+          .tap(find.byKey(Key('${background.name}_backgroundSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
     });

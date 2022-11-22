@@ -18,7 +18,7 @@ class InExperienceSelectionState extends Equatable {
   final Background background;
 
   @override
-  List<Object?> get props => [drawerOption, selectedProps];
+  List<Object?> get props => [drawerOption, selectedProps, background];
 
   InExperienceSelectionState copyWith({
     DrawerOption? drawerOption,
