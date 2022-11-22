@@ -40,7 +40,9 @@ class ShareDialog extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SharePreviewPhoto(image: image),
+                    SharePreviewPhoto(
+                      image: image,
+                    ),
                     const SizedBox(height: 60),
                     SelectableText(
                       l10n.shareDialogHeading,

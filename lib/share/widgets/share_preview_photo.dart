@@ -5,7 +5,10 @@ import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SharePreviewPhoto extends StatelessWidget {
-  const SharePreviewPhoto({super.key, required this.image});
+  const SharePreviewPhoto({
+    super.key,
+    required this.image,
+  });
 
   final PhotoboothCameraImage image;
 
@@ -25,7 +28,9 @@ class SharePreviewPhoto extends StatelessWidget {
             ),
           ],
         ),
-        child: const SizedBox(),
+        child: const DecoratedBox(
+          decoration: BoxDecoration(color: PhotoboothColors.blue),
+        ),
       ),
     );
   }

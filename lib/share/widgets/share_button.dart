@@ -31,7 +31,7 @@ class ShareButton extends StatelessWidget {
         await showAppModal<void>(
           context: context,
           platformHelper: platformHelper,
-          portraitChild: const ShareBottomSheet(),
+          portraitChild: ShareBottomSheet(image: image),
           landscapeChild: ShareDialog(
             image: image,
           ),
