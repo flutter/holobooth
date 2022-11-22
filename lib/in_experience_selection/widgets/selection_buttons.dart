@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SelectionButtons extends StatelessWidget {
@@ -49,7 +48,8 @@ class SelectionButtons extends StatelessWidget {
   }
 
   void _showPropsBottomSheet(BuildContext context) {
-    final propSelected = context.read<PropsBloc>().state.selectedProps;
+    final propSelected =
+        context.read<InExperienceSelectionBloc>().state.selectedProps;
     ItemSelectorBottomSheet.show<Prop>(
       context,
       key: propsSelectionBottomSheetKey,
@@ -62,7 +62,9 @@ class SelectionButtons extends StatelessWidget {
       selectedItem: propSelected.isEmpty ? null : propSelected.first,
       onSelected: (prop) {
         _closeSheet(context);
-        context.read<PropsBloc>().add(PropsSelected(prop));
+        context
+            .read<InExperienceSelectionBloc>()
+            .add(InExperienceSelectionPropSelected(prop));
       },
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -13,21 +12,14 @@ class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
-
 void main() {
   group('SelectionButtons', () {
     late InExperienceSelectionBloc inExperienceSelectionBloc;
-    late PropsBloc propsBloc;
 
     setUp(() {
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
-
-      propsBloc = _MockPropsBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     testWidgets(
@@ -37,7 +29,6 @@ void main() {
         await tester.pumpSubject(
           SelectionButtons(),
           inExperienceSelectionBloc,
-          propsBloc,
         );
         await tester.tap(find.byKey(SelectionButtons.propsSelectionButtonKey));
         verify(
@@ -57,7 +48,6 @@ void main() {
         await tester.pumpSubject(
           SelectionButtons(),
           inExperienceSelectionBloc,
-          propsBloc,
         );
         await tester
             .tap(find.byKey(SelectionButtons.charactersSelectionButtonKey));
@@ -78,7 +68,6 @@ void main() {
         await tester.pumpSubject(
           SelectionButtons(),
           inExperienceSelectionBloc,
-          propsBloc,
         );
         await tester
             .tap(find.byKey(SelectionButtons.backgroundSelectorButtonKey));
@@ -105,7 +94,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
       expect(find.byType(ItemSelectorBottomSheet<Color>), findsOneWidget);
@@ -128,7 +116,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
       expect(find.byType(ItemSelectorBottomSheet<Color>), findsOneWidget);
@@ -151,7 +138,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
       expect(find.byType(ItemSelectorBottomSheet<Prop>), findsOneWidget);
@@ -173,7 +159,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
 
@@ -193,7 +178,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
 
@@ -213,7 +197,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
 
@@ -222,7 +205,8 @@ void main() {
     });
 
     testWidgets(
-        'adds PropsSelected on props bottom sheet after clicking on any item '
+        'adds InExperienceSelectionPropSelected on props bottom sheet '
+        'after clicking on any item '
         'on mobile breakpoint', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
@@ -234,13 +218,15 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() => propsBloc.add(PropsSelected(prop))).called(1);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionPropSelected(prop)),
+      ).called(1);
     });
 
     testWidgets(
@@ -256,7 +242,6 @@ void main() {
       await tester.pumpSubject(
         SelectionButtons(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       await tester.pumpAndSettle();
       const prop = Prop.helmet;
@@ -274,13 +259,11 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     SelectionButtons subject,
     InExperienceSelectionBloc inExperienceSelectionBloc,
-    PropsBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: inExperienceSelectionBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: Scaffold(
             endDrawer: DrawerLayer(),

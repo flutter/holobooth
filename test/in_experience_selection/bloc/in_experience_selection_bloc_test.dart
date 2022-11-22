@@ -61,5 +61,26 @@ void main() {
         ],
       );
     });
+
+    group('InExperienceSelectionPropSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with prop selected.',
+        build: InExperienceSelectionBloc.new,
+        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(selectedProps: [Prop.helmet])
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with prop unselected.',
+        build: InExperienceSelectionBloc.new,
+        seed: () =>
+            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
+        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
   });
 }

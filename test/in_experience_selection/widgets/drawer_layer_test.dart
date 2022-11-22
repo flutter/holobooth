@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -13,17 +12,11 @@ class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
-
 void main() {
   group('DrawerLayer', () {
-    late PropsBloc propsBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
 
     setUp(() {
-      propsBloc = _MockPropsBloc();
-      when(() => propsBloc.state).thenReturn(PropsState());
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
@@ -33,7 +26,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.noOptionSelectedKey), findsOneWidget);
     });
@@ -45,7 +37,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.propsDrawerKey), findsOneWidget);
     });
@@ -58,7 +49,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.backgroundsDrawerKey), findsOneWidget);
     });
@@ -71,7 +61,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       expect(find.byKey(DrawerLayer.charactersDrawerKey), findsOneWidget);
     });
@@ -83,7 +72,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
@@ -98,7 +86,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       const background = PhotoboothColors.purple;
       await tester
@@ -114,7 +101,6 @@ void main() {
       await tester.pumpSubject(
         DrawerLayer(),
         inExperienceSelectionBloc,
-        propsBloc,
       );
       const character = PhotoboothColors.orange;
       await tester
@@ -129,13 +115,11 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     DrawerLayer subject,
     InExperienceSelectionBloc inExperienceSelectionBloc,
-    PropsBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(
           providers: [
             BlocProvider.value(value: inExperienceSelectionBloc),
-            BlocProvider.value(value: propsBloc),
           ],
           child: subject,
         ),
