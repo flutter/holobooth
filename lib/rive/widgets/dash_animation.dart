@@ -139,6 +139,8 @@ class DashStateMachineController extends StateMachineController {
   /// This data comes from the Rive file.
   static const _yRange = 200;
 
+  static const _eyesRange = 99;
+
   late final SMINumber x;
   late final SMINumber y;
   late final SMIBool mouthIsOpen;
