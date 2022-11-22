@@ -2,35 +2,36 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/props/props.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockDrawerSelectionBloc
-    extends MockBloc<DrawerSelectionEvent, DrawerSelectionState>
-    implements DrawerSelectionBloc {}
+class _MockInExperienceSelectionBloc
+    extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
+    implements InExperienceSelectionBloc {}
 
 class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
     implements PropsBloc {}
 
 void main() {
   group('SelectionButtons', () {
-    late DrawerSelectionBloc drawerSelectionBloc;
+    late InExperienceSelectionBloc drawerSelectionBloc;
     late PropsBloc propsBloc;
 
     setUp(() {
-      drawerSelectionBloc = _MockDrawerSelectionBloc();
-      when(() => drawerSelectionBloc.state).thenReturn(DrawerSelectionState());
+      drawerSelectionBloc = _MockInExperienceSelectionBloc();
+      when(() => drawerSelectionBloc.state)
+          .thenReturn(InExperienceSelectionState());
 
       propsBloc = _MockPropsBloc();
       when(() => propsBloc.state).thenReturn(PropsState());
     });
 
     testWidgets(
-      'adds DrawerSelectionOptionSelected with DrawerOption.props '
+      'adds InExperienceSelectionOptionSelected with DrawerOption.props '
       'clicking on props button',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -41,7 +42,7 @@ void main() {
         await tester.tap(find.byKey(SelectionButtons.propsSelectionButtonKey));
         verify(
           () => drawerSelectionBloc.add(
-            DrawerSelectionOptionSelected(
+            InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.props,
             ),
           ),
@@ -50,7 +51,7 @@ void main() {
     );
 
     testWidgets(
-      'adds DrawerSelectionOptionSelected with DrawerOption.characters '
+      'adds InExperienceSelectionOptionSelected with DrawerOption.characters '
       'clicking on characters button',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -62,7 +63,7 @@ void main() {
             .tap(find.byKey(SelectionButtons.charactersSelectionButtonKey));
         verify(
           () => drawerSelectionBloc.add(
-            DrawerSelectionOptionSelected(
+            InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.characters,
             ),
           ),
@@ -71,7 +72,7 @@ void main() {
     );
 
     testWidgets(
-      'adds DrawerSelectionOptionSelected with DrawerOption.background '
+      'adds InExperienceSelectionOptionSelected with DrawerOption.background '
       'clicking on background button',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -83,7 +84,7 @@ void main() {
             .tap(find.byKey(SelectionButtons.backgroundSelectorButtonKey));
         verify(
           () => drawerSelectionBloc.add(
-            DrawerSelectionOptionSelected(
+            InExperienceSelectionOptionSelected(
               drawerOption: DrawerOption.backgrounds,
             ),
           ),
@@ -97,7 +98,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.characters),
+          InExperienceSelectionState(drawerOption: DrawerOption.characters),
         ),
       );
       tester.setSmallDisplaySize();
@@ -120,7 +121,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.backgrounds),
+          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
         ),
       );
       tester.setSmallDisplaySize();
@@ -143,7 +144,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.props),
+          InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
       );
       tester.setSmallDisplaySize();
@@ -166,7 +167,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.characters),
+          InExperienceSelectionState(drawerOption: DrawerOption.characters),
         ),
       );
       await tester.pumpSubject(
@@ -186,7 +187,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.props),
+          InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
       );
       await tester.pumpSubject(
@@ -206,7 +207,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.backgrounds),
+          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
         ),
       );
       await tester.pumpSubject(
@@ -226,7 +227,7 @@ void main() {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.props),
+          InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
       );
       tester.setSmallDisplaySize();
@@ -243,12 +244,12 @@ void main() {
     });
 
     testWidgets(
-        'adds DrawerSelectionOptionUnselected after closing bottom sheet '
+        'adds InExperienceSelectionOptionUnselected after closing bottom sheet '
         'on mobile breakpoint', (tester) async {
       whenListen(
         drawerSelectionBloc,
         Stream.value(
-          DrawerSelectionState(drawerOption: DrawerOption.props),
+          InExperienceSelectionState(drawerOption: DrawerOption.props),
         ),
       );
       tester.setSmallDisplaySize();
@@ -261,7 +262,8 @@ void main() {
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() => drawerSelectionBloc.add(DrawerSelectionOptionUnselected()))
+      verify(() =>
+              drawerSelectionBloc.add(InExperienceSelectionOptionUnselected()))
           .called(1);
     });
   });
@@ -270,7 +272,7 @@ void main() {
 extension on WidgetTester {
   Future<void> pumpSubject(
     SelectionButtons subject,
-    DrawerSelectionBloc drawerSelectionBloc,
+    InExperienceSelectionBloc drawerSelectionBloc,
     PropsBloc propsBloc,
   ) =>
       pumpApp(
