@@ -7,13 +7,16 @@ void main() {
     test('supports value comparisons', () {
       expect(
         InExperienceSelectionOptionSelected(
-            drawerOption: DrawerOption.backgrounds),
+          drawerOption: DrawerOption.backgrounds,
+        ),
         InExperienceSelectionOptionSelected(
-            drawerOption: DrawerOption.backgrounds),
+          drawerOption: DrawerOption.backgrounds,
+        ),
       );
       expect(
         InExperienceSelectionOptionSelected(
-            drawerOption: DrawerOption.backgrounds),
+          drawerOption: DrawerOption.backgrounds,
+        ),
         isNot(
           InExperienceSelectionOptionSelected(drawerOption: DrawerOption.props),
         ),

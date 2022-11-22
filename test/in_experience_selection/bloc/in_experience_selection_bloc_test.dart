@@ -21,7 +21,8 @@ void main() {
         build: InExperienceSelectionBloc.new,
         act: (bloc) => bloc.add(
           InExperienceSelectionOptionSelected(
-              drawerOption: DrawerOption.characters),
+            drawerOption: DrawerOption.characters,
+          ),
         ),
         expect: () => [
           drawerSelectionState.copyWith(drawerOption: DrawerOption.characters)
@@ -43,7 +44,8 @@ void main() {
         build: InExperienceSelectionBloc.new,
         act: (bloc) => bloc.add(
           InExperienceSelectionOptionSelected(
-              drawerOption: DrawerOption.backgrounds),
+            drawerOption: DrawerOption.backgrounds,
+          ),
         ),
         expect: () => [
           drawerSelectionState.copyWith(drawerOption: DrawerOption.backgrounds)

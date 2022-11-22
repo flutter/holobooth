@@ -262,9 +262,9 @@ void main() {
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() =>
-              drawerSelectionBloc.add(InExperienceSelectionOptionUnselected()))
-          .called(1);
+      verify(
+        () => drawerSelectionBloc.add(InExperienceSelectionOptionUnselected()),
+      ).called(1);
     });
   });
 }
