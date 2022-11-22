@@ -38,20 +38,21 @@ class DashAnimationState extends State<DashAnimation> {
     final dashController = this.dashController;
     if (dashController != null) {
       final direction = widget.avatar.direction;
-      dashController.x.change(
+      /* dashController.x.change(
         direction.x * ((DashStateMachineController._xRange / 2) + 50),
       );
       dashController.y.change(
         direction.y * ((DashStateMachineController._yRange / 2) + 50),
-      );
+      );*/
 
-      dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen);
-      dashController.rightEyeIsClosed.change(widget.avatar.rightEyeIsClosed);
-      dashController.leftEyeIsClosed.change(widget.avatar.leftEyeIsClosed);
-
-      dashController.displayHelmet.change(
+      //dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen ? 100 : 0);
+      /* dashController.rightEyeIsClosed
+          .change(widget.avatar.rightEyeIsClosed ? 99 : 0);
+      dashController.leftEyeIsClosed
+          .change(widget.avatar.leftEyeIsClosed ? 99 : 0);*/
+      /*dashController.displayHelmet.change(
         widget.propsSelected.isHelmetSelected,
-      );
+      );*/
     }
   }
 
@@ -63,9 +64,13 @@ class DashAnimationState extends State<DashAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.animations.dash.rive(
-      onInit: _onRiveInit,
-      fit: BoxFit.cover,
+    return Container(
+      color: Colors.red,
+      alignment: Alignment.center,
+      child: Assets.animations.dash.rive(
+        onInit: _onRiveInit,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
@@ -76,9 +81,9 @@ class DashAnimationState extends State<DashAnimation> {
 class DashStateMachineController extends StateMachineController {
   DashStateMachineController(Artboard artboard)
       : super(
-          artboard.animations
-              .whereType<StateMachine>()
-              .firstWhere((stateMachine) => stateMachine.name == 'dash'),
+          artboard.animations.whereType<StateMachine>().firstWhere(
+                (stateMachine) => stateMachine.name == 'State Machine 1',
+              ),
         ) {
     const xInputName = 'x';
     final x = findInput<double>(xInputName);
@@ -96,25 +101,25 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const mouthIsOpenInputName = 'mouthIsOpen';
-    final mouthIsOpen = findInput<bool>(mouthIsOpenInputName);
-    if (mouthIsOpen is SMIBool) {
+    const mouthIsOpenInputName = 'Mouth Open';
+    final mouthIsOpen = findInput<double>(mouthIsOpenInputName);
+    if (mouthIsOpen is SMINumber) {
       this.mouthIsOpen = mouthIsOpen;
     } else {
       throw StateError('Could not find input "$mouthIsOpenInputName"');
     }
 
-    const leftEyeIsClosedInputName = 'leftEyeIsClosed';
-    final leftEyeIsClosed = findInput<bool>(leftEyeIsClosedInputName);
-    if (leftEyeIsClosed is SMIBool) {
+    const leftEyeIsClosedInputName = 'Eyelid RT';
+    final leftEyeIsClosed = findInput<double>(leftEyeIsClosedInputName);
+    if (leftEyeIsClosed is SMINumber) {
       this.leftEyeIsClosed = leftEyeIsClosed;
     } else {
       throw StateError('Could not find input "$leftEyeIsClosedInputName"');
     }
 
-    const rightEyeIsClosedInputName = 'rightEyeIsClosed';
-    final rightEyeIsClosed = findInput<bool>(rightEyeIsClosedInputName);
-    if (rightEyeIsClosed is SMIBool) {
+    const rightEyeIsClosedInputName = 'Eyelid LF';
+    final rightEyeIsClosed = findInput<double>(rightEyeIsClosedInputName);
+    if (rightEyeIsClosed is SMINumber) {
       this.rightEyeIsClosed = rightEyeIsClosed;
     } else {
       throw StateError('Could not find input "$rightEyeIsClosedInputName"');
@@ -139,13 +144,11 @@ class DashStateMachineController extends StateMachineController {
   /// This data comes from the Rive file.
   static const _yRange = 200;
 
-  static const _eyesRange = 99;
-
   late final SMINumber x;
   late final SMINumber y;
-  late final SMIBool mouthIsOpen;
-  late final SMIBool leftEyeIsClosed;
-  late final SMIBool rightEyeIsClosed;
+  late final SMINumber mouthIsOpen;
+  late final SMINumber leftEyeIsClosed;
+  late final SMINumber rightEyeIsClosed;
   late final SMIBool displayHelmet;
 }
 // coverage:ignore-end
