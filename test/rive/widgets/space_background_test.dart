@@ -1,10 +1,11 @@
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/rive/rive.dart';
 
 void main() {
-  group('SpaceBackground', () {
+  group('BackgroundAnimation', () {
     testWidgets('udpates x and y when position changes', (tester) async {
       late StateSetter stateSetter;
       var vector3 = Vector3.zero;
@@ -13,15 +14,18 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return SpaceBackground.fromVector3(vector3);
+              return BackgroundAnimation.fromVector3(
+                vector3,
+                backgroundSelected: Background.forest,
+              );
             },
           ),
         ),
       );
       await tester.pump();
 
-      final state =
-          tester.state(find.byType(SpaceBackground)) as SpaceBackgroundState;
+      final state = tester.state(find.byType(BackgroundAnimation))
+          as BackgroundAnimationState;
       final controller = state.backgroundController!;
 
       final x = controller.x.value;
