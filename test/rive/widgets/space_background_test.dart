@@ -13,15 +13,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return SpaceBackground.fromVector3(vector3);
+              return Background.fromVector3(vector3);
             },
           ),
         ),
       );
       await tester.pump();
 
-      final state =
-          tester.state(find.byType(SpaceBackground)) as SpaceBackgroundState;
+      final state = tester.state(find.byType(Background)) as BackgroundState;
       final controller = state.backgroundController!;
 
       final x = controller.x.value;

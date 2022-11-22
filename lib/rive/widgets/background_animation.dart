@@ -1,56 +1,64 @@
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/widgets.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/in_experience_selection/bloc/in_experience_selection_bloc.dart';
 import 'package:rive/rive.dart';
 
-class SpaceBackground extends StatefulWidget {
-  const SpaceBackground({
+class BackgroundAnimation extends StatefulWidget {
+  const BackgroundAnimation({
     super.key,
     required this.x,
     required this.y,
     required this.z,
+    required this.backgroundSelected,
   });
 
-  SpaceBackground.fromVector3(
+  BackgroundAnimation.fromVector3(
     Vector3 direction, {
     Key? key,
+    required Background backgroundSelected,
   }) : this(
           key: key,
           x: direction.x,
           y: direction.y,
           z: direction.z,
+          backgroundSelected: backgroundSelected,
         );
 
   final double x;
   final double y;
   final double z;
-
+  final Background backgroundSelected;
   @override
-  State<SpaceBackground> createState() => SpaceBackgroundState();
+  State<BackgroundAnimation> createState() => BackgroundAnimationState();
 }
 
 @visibleForTesting
-class SpaceBackgroundState extends State<SpaceBackground> {
+class BackgroundAnimationState extends State<BackgroundAnimation> {
   @visibleForTesting
-  SpaceBackgroundStateMachineController? backgroundController;
+  BackgroundStateMachineController? backgroundController;
 
   void _onRiveInit(Artboard artboard) {
-    backgroundController = SpaceBackgroundStateMachineController(artboard);
+    backgroundController = BackgroundStateMachineController(artboard);
     artboard.addController(backgroundController!);
   }
 
   @override
-  void didUpdateWidget(covariant SpaceBackground oldWidget) {
+  void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       final x = widget.x;
       final y = widget.y;
       backgroundController.x.change(
-        x * ((SpaceBackgroundStateMachineController._xRange / 2) + 50),
+        x * ((BackgroundStateMachineController._xRange / 2) + 50),
       );
       backgroundController.y.change(
-        y * ((SpaceBackgroundStateMachineController._yRange / 2) + 50),
+        y * ((BackgroundStateMachineController._yRange / 2) + 50),
+      );
+
+      backgroundController.backgroundSelected.change(
+        widget.backgroundSelected.index.toDouble(),
       );
     }
   }
@@ -67,14 +75,14 @@ class SpaceBackgroundState extends State<SpaceBackground> {
 // TODO(oscar): remove on the scope of this task https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3428762748
 // coverage:ignore-start
 @visibleForTesting
-class SpaceBackgroundStateMachineController extends StateMachineController {
-  SpaceBackgroundStateMachineController(Artboard artboard)
+class BackgroundStateMachineController extends StateMachineController {
+  BackgroundStateMachineController(Artboard artboard)
       : super(
-          artboard.animations
-              .whereType<StateMachine>()
-              .firstWhere((stateMachine) => stateMachine.name == 'background'),
+          artboard.animations.whereType<StateMachine>().firstWhere(
+                (stateMachine) => stateMachine.name == 'State Machine 1',
+              ),
         ) {
-    const xInputName = 'x';
+    const xInputName = 'X';
     final x = findInput<double>(xInputName);
     if (x is SMINumber) {
       this.x = x;
@@ -82,7 +90,7 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$xInputName"');
     }
 
-    const yInputName = 'y';
+    const yInputName = 'Y';
     final y = findInput<double>(yInputName);
     if (y is SMINumber) {
       this.y = y;
@@ -90,12 +98,20 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const zInputName = 'z';
+    const zInputName = 'Z';
     final z = findInput<double>(zInputName);
     if (z is SMINumber) {
       this.z = z;
     } else {
       throw StateError('Could not find input "$zInputName"');
+    }
+
+    const backgroundInputName = 'BG';
+    final backgroundSelected = findInput<double>(backgroundInputName);
+    if (backgroundSelected is SMINumber) {
+      this.backgroundSelected = backgroundSelected;
+    } else {
+      throw StateError('Could not find input "$backgroundInputName"');
     }
   }
 
@@ -112,5 +128,6 @@ class SpaceBackgroundStateMachineController extends StateMachineController {
   late final SMINumber x;
   late final SMINumber y;
   late final SMINumber z;
+  late final SMINumber backgroundSelected;
 }
 // coverage:ignore-end
