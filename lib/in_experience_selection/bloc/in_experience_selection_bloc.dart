@@ -29,8 +29,10 @@ class InExperienceSelectionBloc
     emit(const InExperienceSelectionState());
   }
 
-  FutureOr<void> _propSelected(InExperienceSelectionPropSelected event,
-      Emitter<InExperienceSelectionState> emit) {
+  FutureOr<void> _propSelected(
+    InExperienceSelectionPropSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
     final selected = event.prop;
     final selectedProps = List<Prop>.from(state.selectedProps);
     if (selectedProps.contains(selected)) {
