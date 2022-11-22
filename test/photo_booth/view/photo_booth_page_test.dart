@@ -41,8 +41,8 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   PhotoConstraint get constraint => PhotoConstraint();
 }
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
+class _MockInExperienceSelectionBloc extends MockBloc<PropsEvent, PropsState>
+    implements InExperienceSelectionBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -117,7 +117,7 @@ void main() {
     late PhotoBoothBloc photoBoothBloc;
     late InExperienceSelectionBloc drawerSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
-    late PropsBloc propsBloc;
+    late InExperienceSelectionBloc propsBloc;
 
     setUp(() {
       photoBoothBloc = _MockPhotoBoothBloc();
@@ -133,7 +133,7 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
-      propsBloc = _MockPropsBloc();
+      propsBloc = _MockInExperienceSelectionBloc();
       when(() => propsBloc.state).thenReturn(PropsState());
     });
 
@@ -172,7 +172,7 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc drawerSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
-    required PropsBloc propsBloc,
+    required InExperienceSelectionBloc propsBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(

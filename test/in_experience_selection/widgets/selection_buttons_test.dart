@@ -13,20 +13,20 @@ class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
+class _MockInExperienceSelectionBloc extends MockBloc<PropsEvent, PropsState>
+    implements InExperienceSelectionBloc {}
 
 void main() {
   group('SelectionButtons', () {
     late InExperienceSelectionBloc drawerSelectionBloc;
-    late PropsBloc propsBloc;
+    late InExperienceSelectionBloc propsBloc;
 
     setUp(() {
       drawerSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => drawerSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
 
-      propsBloc = _MockPropsBloc();
+      propsBloc = _MockInExperienceSelectionBloc();
       when(() => propsBloc.state).thenReturn(PropsState());
     });
 
@@ -222,7 +222,7 @@ void main() {
     });
 
     testWidgets(
-        'adds PropsSelected on props bottom sheet after clicking on any item '
+        'adds InExperienceSelectionPropSelected on props bottom sheet after clicking on any item '
         'on mobile breakpoint', (tester) async {
       whenListen(
         drawerSelectionBloc,
@@ -240,7 +240,8 @@ void main() {
       const prop = Prop.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
-      verify(() => propsBloc.add(PropsSelected(prop))).called(1);
+      verify(() => propsBloc.add(InExperienceSelectionPropSelected(prop)))
+          .called(1);
     });
 
     testWidgets(
@@ -273,7 +274,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     SelectionButtons subject,
     InExperienceSelectionBloc drawerSelectionBloc,
-    PropsBloc propsBloc,
+    InExperienceSelectionBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(

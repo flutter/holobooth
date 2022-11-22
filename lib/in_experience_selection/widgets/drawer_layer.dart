@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/props/props.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class DrawerLayer extends StatelessWidget {
@@ -21,8 +20,8 @@ class DrawerLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final propSelected =
-        context.select((PropsBloc bloc) => bloc.state.selectedProps);
+    final propSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
     return BlocBuilder<InExperienceSelectionBloc, InExperienceSelectionState>(
       builder: (context, state) {
         switch (state.drawerOption) {
@@ -40,7 +39,9 @@ class DrawerLayer extends StatelessWidget {
               selectedItem: propSelected.isEmpty ? null : propSelected.first,
               onSelected: (prop) {
                 Navigator.of(context).pop();
-                context.read<PropsBloc>().add(PropsSelected(prop));
+                context
+                    .read<InExperienceSelectionBloc>()
+                    .add(InExperienceSelectionPropSelected(prop));
               },
             );
           case DrawerOption.backgrounds:

@@ -13,16 +13,16 @@ class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
 
-class _MockPropsBloc extends MockBloc<PropsEvent, PropsState>
-    implements PropsBloc {}
+class _MockInExperienceSelectionBloc extends MockBloc<PropsEvent, PropsState>
+    implements InExperienceSelectionBloc {}
 
 void main() {
   group('DrawerLayer', () {
-    late PropsBloc propsBloc;
+    late InExperienceSelectionBloc propsBloc;
     late InExperienceSelectionBloc drawerSelectionBloc;
 
     setUp(() {
-      propsBloc = _MockPropsBloc();
+      propsBloc = _MockInExperienceSelectionBloc();
       when(() => propsBloc.state).thenReturn(PropsState());
       drawerSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => drawerSelectionBloc.state)
@@ -101,7 +101,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     DrawerLayer subject,
     InExperienceSelectionBloc drawerSelectionBloc,
-    PropsBloc propsBloc,
+    InExperienceSelectionBloc propsBloc,
   ) =>
       pumpApp(
         MultiBlocProvider(

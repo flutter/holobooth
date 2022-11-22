@@ -3,22 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/props/props.dart';
 
 void main() {
-  group('PropsBloc', () {
-    group('PropsSelected', () {
-      blocTest<PropsBloc, PropsState>(
+  group('InExperienceSelectionBloc', () {
+    group('InExperienceSelectionPropSelected', () {
+      blocTest<InExperienceSelectionBloc, PropsState>(
         'emits state with prop selected.',
-        build: PropsBloc.new,
-        act: (bloc) => bloc.add(PropsSelected(Prop.helmet)),
+        build: InExperienceSelectionBloc.new,
+        act: (bloc) => bloc.add(propsSelected(Prop.helmet)),
         expect: () => const <PropsState>[
           PropsState(selectedProps: [Prop.helmet])
         ],
       );
 
-      blocTest<PropsBloc, PropsState>(
+      blocTest<InExperienceSelectionBloc, PropsState>(
         'emits state with prop unselected.',
-        build: PropsBloc.new,
+        build: InExperienceSelectionBloc.new,
         seed: () => PropsState(selectedProps: const [Prop.helmet]),
-        act: (bloc) => bloc.add(PropsSelected(Prop.helmet)),
+        act: (bloc) => bloc.add(propsSelected(Prop.helmet)),
         expect: () => const <PropsState>[PropsState()],
       );
     });
