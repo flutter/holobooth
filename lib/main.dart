@@ -23,7 +23,7 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
-    print(details.stack.toString());
+    print(details.stack);
   };
 
   await Firebase.initializeApp(
@@ -58,8 +58,8 @@ Future<void> main() async {
       ),
     ),
     (error, stackTrace) {
-      print(error.toString());
-      print(stackTrace.toString());
+      print(error);
+      print(stackTrace);
     },
   );
 

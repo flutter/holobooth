@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
@@ -19,6 +19,9 @@ class $AssetsAnimationsGen {
 
   /// File path: assets/animations/dash.riv
   RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
+
+  /// List of all assets
+  List<RiveGenImage> get values => [background, dash];
 }
 
 class $AssetsAudioGen {
@@ -26,6 +29,9 @@ class $AssetsAudioGen {
 
   /// File path: assets/audio/camera.mp3
   String get camera => 'assets/audio/camera.mp3';
+
+  /// List of all assets
+  List<String> get values => [camera];
 }
 
 class $AssetsBackgroundsGen {
@@ -50,6 +56,10 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [blueCircle, landingBackground, photoboothBackground, redBox, yellowPlus];
 }
 
 class $AssetsCharactersGen {
@@ -61,6 +71,9 @@ class $AssetsCharactersGen {
   /// File path: assets/characters/sparky.png
   AssetGenImage get sparky =>
       const AssetGenImage('assets/characters/sparky.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [dash, sparky];
 }
 
 class $AssetsIconsGen {
@@ -89,6 +102,39 @@ class $AssetsIconsGen {
   /// File path: assets/icons/tensorflow_icon.png
   AssetGenImage get tensorflowIcon =>
       const AssetGenImage('assets/icons/tensorflow_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        cameraButtonIcon,
+        firebaseIcon,
+        flutterIcon,
+        goNextButtonIcon,
+        retakeButtonIcon,
+        tensorflowIcon
+      ];
+}
+
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
+  AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
+      'assets/images/photo_frame_spritesheet_landscape.jpg');
+
+  /// File path: assets/images/photo_frame_spritesheet_portrait.png
+  AssetGenImage get photoFrameSpritesheetPortrait =>
+      const AssetGenImage('assets/images/photo_frame_spritesheet_portrait.png');
+
+  /// File path: assets/images/photo_indicator_spritesheet.png
+  AssetGenImage get photoIndicatorSpritesheet =>
+      const AssetGenImage('assets/images/photo_indicator_spritesheet.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        photoFrameSpritesheetLandscape,
+        photoFrameSpritesheetPortrait,
+        photoIndicatorSpritesheet
+      ];
 }
 
 class Assets {
@@ -99,6 +145,7 @@ class Assets {
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
   static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {
@@ -159,6 +206,8 @@ class AssetGenImage {
     );
   }
 
+  ImageProvider provider() => AssetImage(_assetName);
+
   String get path => _assetName;
 
   String get keyName => _assetName;
@@ -195,4 +244,6 @@ class RiveGenImage {
   }
 
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }

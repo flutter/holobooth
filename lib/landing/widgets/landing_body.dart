@@ -20,16 +20,18 @@ class LandingBody extends StatelessWidget {
           SelectableText(
             l10n.landingPageHeading,
             key: const Key('landingPage_heading_text'),
-            style: theme.textTheme.headline1
-                ?.copyWith(color: PhotoboothColors.white),
+            style: theme.textTheme.displayLarge!.copyWith(
+              color: PhotoboothColors.white,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           SelectableText(
             l10n.landingPageSubheading,
             key: const Key('landingPage_subheading_text'),
-            style: theme.textTheme.headline3
-                ?.copyWith(color: PhotoboothColors.white),
+            style: theme.textTheme.displaySmall!.copyWith(
+              color: PhotoboothColors.white,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
