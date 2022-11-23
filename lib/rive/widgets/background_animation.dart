@@ -58,17 +58,11 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       /// Parallax effect
-      const increment = 0.1;
       final currentX = _parseCoordinate(widget.x);
       final previousX = _parseCoordinate(oldWidget.x);
       final diffX = _numberDifference(currentX, previousX);
       if (diffX >= 1) {
-        final factor = diffX / increment;
-        var newValue = currentX + increment;
-        for (var i = 0; i < factor; i++) {
-          backgroundController.x.change(newValue);
-          newValue = newValue + increment;
-        }
+        backgroundController.x.change(currentX);
       }
 
       final currentY = _parseCoordinate(widget.y);
@@ -76,12 +70,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
       final diffY = _numberDifference(currentY, previousY);
 
       if (diffY >= 1) {
-        final factor = diffY / increment;
-        var newValue = currentY + increment;
-        for (var i = 0; i < factor; i++) {
-          backgroundController.y.change(newValue);
-          newValue = newValue + increment;
-        }
+        backgroundController.y.change(currentY);
       }
 
       // Change background
