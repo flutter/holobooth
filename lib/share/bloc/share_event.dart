@@ -11,10 +11,11 @@ class ShareViewLoaded extends ShareEvent {
   const ShareViewLoaded();
 }
 
-class ShareOnTwitterTapped extends ShareEvent {
-  const ShareOnTwitterTapped();
-}
+class ShareTapped extends ShareEvent {
+  const ShareTapped({required this.shareUrl});
 
-class ShareOnFacebookTapped extends ShareEvent {
-  const ShareOnFacebookTapped();
+  final ShareUrl shareUrl;
+
+  @override
+  List<Object> get props => [shareUrl];
 }

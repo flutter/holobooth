@@ -31,24 +31,24 @@ void main() {
       );
     });
 
-    test('returns updated instance when uploadStatus is loading', () {
+    test('returns updated instance when shareStatus is loading', () {
       expect(
-        ShareState().copyWith(uploadStatus: ShareStatus.loading),
-        ShareState(uploadStatus: ShareStatus.loading),
+        ShareState().copyWith(shareStatus: ShareStatus.loading),
+        ShareState(shareStatus: ShareStatus.loading),
       );
     });
 
-    test('returns updated instance when uploadStatus is success', () {
+    test('returns updated instance when shareStatus is success', () {
       expect(
-        ShareState().copyWith(uploadStatus: ShareStatus.success),
-        ShareState(uploadStatus: ShareStatus.success),
+        ShareState().copyWith(shareStatus: ShareStatus.success),
+        ShareState(shareStatus: ShareStatus.success),
       );
     });
 
-    test('returns updated instance when uploadStatus is failure', () {
+    test('returns updated instance when shareStatus is failure', () {
       expect(
-        ShareState().copyWith(uploadStatus: ShareStatus.failure),
-        ShareState(uploadStatus: ShareStatus.failure),
+        ShareState().copyWith(shareStatus: ShareStatus.failure),
+        ShareState(shareStatus: ShareStatus.failure),
       );
     });
   });

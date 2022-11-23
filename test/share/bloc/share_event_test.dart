@@ -11,18 +11,10 @@ void main() {
       });
     });
 
-    group('ShareOnTwitterTapped', () {
+    group('ShareTapped', () {
       test('support value equality', () {
-        final instanceA = ShareOnTwitterTapped();
-        final instanceB = ShareOnTwitterTapped();
-        expect(instanceA, equals(instanceB));
-      });
-    });
-
-    group('ShareOnFacebookTapped', () {
-      test('support value equality', () {
-        final instanceA = ShareOnFacebookTapped();
-        final instanceB = ShareOnFacebookTapped();
+        final instanceA = ShareTapped(shareUrl: ShareUrl.facebook);
+        final instanceB = ShareTapped(shareUrl: ShareUrl.facebook);
         expect(instanceA, equals(instanceB));
       });
     });

@@ -13,13 +13,15 @@ class TwitterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         final state = context.read<ShareBloc>().state;
-        if (state.uploadStatus.isSuccess) {
+        if (state.shareStatus.isSuccess && state.shareUrl == ShareUrl.twitter) {
           Navigator.of(context).pop();
           openLink(state.twitterShareUrl);
           return;
         }
 
-        context.read<ShareBloc>().add(const ShareOnTwitterTapped());
+        context
+            .read<ShareBloc>()
+            .add(const ShareTapped(shareUrl: ShareUrl.twitter));
 
         Navigator.of(context).pop();
       },

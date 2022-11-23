@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -31,9 +32,15 @@ class ShareButton extends StatelessWidget {
         await showAppModal<void>(
           context: context,
           platformHelper: platformHelper,
-          portraitChild: ShareBottomSheet(image: image),
-          landscapeChild: ShareDialog(
-            image: image,
+          portraitChild: BlocProvider.value(
+            value: context.read<ShareBloc>(),
+            child: ShareBottomSheet(image: image),
+          ),
+          landscapeChild: BlocProvider.value(
+            value: context.read<ShareBloc>(),
+            child: ShareDialog(
+              image: image,
+            ),
           ),
         );
       },
