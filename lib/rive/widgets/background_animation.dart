@@ -35,58 +35,65 @@ class BackgroundAnimation extends StatefulWidget {
 }
 
 @visibleForTesting
-class BackgroundAnimationState extends State<BackgroundAnimation> {
+class BackgroundAnimationState extends State<BackgroundAnimation>
+    with TickerProviderStateMixin {
   @visibleForTesting
   BackgroundAnimationStateMachineController? backgroundController;
 
   void _onRiveInit(Artboard artboard) {
     backgroundController = BackgroundAnimationStateMachineController(artboard);
     artboard.addController(backgroundController!);
+
+    _controller.addListener(() {
+      final backgroundController = this.backgroundController;
+      print('hello');
+      if (backgroundController != null) {
+        final offset = _tween.evaluate(_controller);
+        print('offset $offset');
+        backgroundController.x.change(offset.dx);
+        backgroundController.y.change(offset.dy);
+      }
+    });
   }
 
-  double _parseCoordinate(double value) {
-    return num.parse((value * 100).toStringAsFixed(1)).toDouble();
-  }
+  var latestValuesX = <double>[];
+  var latestValuesY = <double>[];
 
-  double _numberDifference(double current, double previous) {
-    return (current - previous).abs();
-  }
+  late final AnimationController _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+
+  Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
   @override
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
+
     if (backgroundController != null) {
-      /// Parallax effect
-      const increment = 0.1;
-      final currentX = _parseCoordinate(widget.x);
-      final previousX = _parseCoordinate(oldWidget.x);
-      final diffX = _numberDifference(currentX, previousX);
-      if (diffX >= 1) {
-        final factor = diffX / increment;
-        var newValue = currentX + increment;
-        for (var i = 0; i < factor; i++) {
-          backgroundController.x.change(newValue);
-          newValue = newValue + increment;
-        }
+      if (latestValuesX.length == 5) {
+        latestValuesX.removeAt(0);
       }
+      latestValuesX.add(widget.x);
+      final newX = latestValuesX.fold(
+              0.0, (previousValue, element) => previousValue + element) /
+          latestValuesX.length;
 
-      final currentY = _parseCoordinate(widget.y);
-      final previousY = _parseCoordinate(oldWidget.y);
-      final diffY = _numberDifference(currentY, previousY);
-
-      if (diffY >= 1) {
-        final factor = diffY / increment;
-        var newValue = currentY + increment;
-        for (var i = 0; i < factor; i++) {
-          backgroundController.y.change(newValue);
-          newValue = newValue + increment;
-        }
+      if (latestValuesY.length == 5) {
+        latestValuesY.removeAt(0);
       }
+      latestValuesY.add(widget.y);
+      final newY = latestValuesY.fold(
+              0.0, (previousValue, element) => previousValue + element) /
+          latestValuesY.length;
 
-      // Change background
-      backgroundController.background
-          .change(widget.backgroundSelected.toDouble());
+      final Offset previousOffset =
+          Offset(backgroundController.x.value, backgroundController.y.value);
+      final Offset newOffset = Offset(newX * 100, newY * 100);
+      if ((newOffset - previousOffset).distance > 2) {
+        _tween.begin = previousOffset;
+        _tween.end = newOffset;
+        _controller.forward(from: 0);
+      }
     }
   }
 
