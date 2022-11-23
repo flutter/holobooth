@@ -49,9 +49,8 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
-      final x = widget.x;
-      final currentX = num.parse((x * 100).toStringAsFixed(1)).toDouble();
-      final test = backgroundController.x;
+      final currentX =
+          num.parse((widget.x * 100).toStringAsFixed(1)).toDouble();
       final previousX =
           num.parse((oldWidget.x * 100).toStringAsFixed(1)).toDouble();
       final diffX = (currentX - previousX).abs();
@@ -61,7 +60,6 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
         for (var i = 0; i < factor; i++) {
           backgroundController.x.change(newValue);
           newValue = newValue + 0.1;
-          print('newvalue $newValue');
         }
       }
 
