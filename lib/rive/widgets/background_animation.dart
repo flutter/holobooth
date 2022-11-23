@@ -44,35 +44,47 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
     artboard.addController(backgroundController!);
   }
 
+  double _parseCoordinate(double value) {
+    return num.parse((value * 100).toStringAsFixed(1)).toDouble();
+  }
+
+  double _numberDifference(double current, double previous) {
+    return (current - previous).abs();
+  }
+
   @override
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
-      final currentX =
-          num.parse((widget.x * 100).toStringAsFixed(1)).toDouble();
-      final previousX =
-          num.parse((oldWidget.x * 100).toStringAsFixed(1)).toDouble();
-      final diffX = (currentX - previousX).abs();
+      /// Parallax effect
+      const increment = 0.1;
+      final currentX = _parseCoordinate(widget.x);
+      final previousX = _parseCoordinate(oldWidget.x);
+      final diffX = _numberDifference(currentX, previousX);
       if (diffX >= 1) {
-        final factor = diffX / 0.1;
-        var newValue = currentX + 0.1;
+        final factor = diffX / increment;
+        var newValue = currentX + increment;
         for (var i = 0; i < factor; i++) {
           backgroundController.x.change(newValue);
-          newValue = newValue + 0.1;
+          newValue = newValue + increment;
         }
       }
 
-      final y = widget.y;
-      final currentY = num.parse((y * 100).toStringAsFixed(1)).toDouble();
-      final previousY =
-          num.parse((oldWidget.y * 100).toStringAsFixed(1)).toDouble();
-      final diffY = (currentY - previousY).abs();
+      final currentY = _parseCoordinate(widget.y);
+      final previousY = _parseCoordinate(oldWidget.y);
+      final diffY = _numberDifference(currentY, previousY);
 
-      if (diffY >= 1.5) {
-        backgroundController.y.change(currentY);
+      if (diffY >= 1) {
+        final factor = diffY / increment;
+        var newValue = currentY + increment;
+        for (var i = 0; i < factor; i++) {
+          backgroundController.y.change(newValue);
+          newValue = newValue + increment;
+        }
       }
 
+      // Change background
       backgroundController.background
           .change(widget.backgroundSelected.toDouble());
     }
