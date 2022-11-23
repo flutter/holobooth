@@ -15,7 +15,7 @@ class ShareSubheading extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
-        style: theme.textTheme.headline3?.copyWith(
+        style: theme.textTheme.displaySmall?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
           color: PhotoboothColors.white,
         ),

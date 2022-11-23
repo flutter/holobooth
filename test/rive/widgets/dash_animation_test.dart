@@ -28,7 +28,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;

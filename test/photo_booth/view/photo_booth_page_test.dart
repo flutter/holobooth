@@ -155,12 +155,40 @@ void main() {
         expect(find.byType(SharePage), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'calls DrawerSelectionOptionUnselected on end drawer',
+      (WidgetTester tester) async {
+        whenListen(
+          photoBoothBloc,
+          Stream<PhotoBoothState>.empty(),
+        );
+
+        await tester.pumpSubject(
+          PhotoBoothView(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
+        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.openEndDrawer();
+
+        await tester.pump();
+        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.closeEndDrawer();
+
+        verify(
+          () => inExperienceSelectionBloc.add(
+            InExperienceSelectionOptionUnselected(),
+          ),
+        ).called(1);
+      },
+    );
   });
 }
 
 extension on WidgetTester {
   Future<void> pumpSubject(
-    PhotoBoothView subject, {
+    Widget subject, {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
