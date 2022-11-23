@@ -74,6 +74,9 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
       if (diffY >= 1.5) {
         backgroundController.y.change(currentY);
       }
+
+      backgroundController.background
+          .change(widget.backgroundSelected.toDouble());
     }
   }
 
