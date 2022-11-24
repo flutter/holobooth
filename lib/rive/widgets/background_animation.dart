@@ -42,7 +42,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
 
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 200),
+    duration: const Duration(milliseconds: 150),
   );
 
   final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
@@ -57,9 +57,16 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       final offset = _tween.evaluate(_animationController);
+      print(offset);
       backgroundController.x.change(offset.dx);
       backgroundController.y.change(offset.dy);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
   }
 
   @override
