@@ -46,23 +46,23 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
 
     _controller.addListener(() {
       final backgroundController = this.backgroundController;
-      print('hello');
       if (backgroundController != null) {
         final offset = _tween.evaluate(_controller);
-        print('offset $offset');
         backgroundController.x.change(offset.dx);
         backgroundController.y.change(offset.dy);
       }
     });
   }
 
-  var latestValuesX = <double>[];
-  var latestValuesY = <double>[];
+  List<double> latestValuesX = <double>[];
+  List<double> latestValuesY = <double>[];
 
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
 
-  Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
+  final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
   @override
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
@@ -70,30 +70,40 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
     final backgroundController = this.backgroundController;
 
     if (backgroundController != null) {
+      // Parallax
       if (latestValuesX.length == 5) {
         latestValuesX.removeAt(0);
       }
       latestValuesX.add(widget.x);
-      final newX = latestValuesX.fold(
-              0.0, (previousValue, element) => previousValue + element) /
+      final newX = latestValuesX.fold<double>(
+            0,
+            (previousValue, element) => previousValue + element,
+          ) /
           latestValuesX.length;
 
       if (latestValuesY.length == 5) {
         latestValuesY.removeAt(0);
       }
       latestValuesY.add(widget.y);
-      final newY = latestValuesY.fold(
-              0.0, (previousValue, element) => previousValue + element) /
+      final newY = latestValuesY.fold<double>(
+            0,
+            (previousValue, element) => previousValue + element,
+          ) /
           latestValuesY.length;
 
-      final Offset previousOffset =
+      final previousOffset =
           Offset(backgroundController.x.value, backgroundController.y.value);
-      final Offset newOffset = Offset(newX * 100, newY * 100);
+      final newOffset = Offset(newX * 100, newY * 100);
       if ((newOffset - previousOffset).distance > 2) {
-        _tween.begin = previousOffset;
-        _tween.end = newOffset;
+        _tween
+          ..begin = previousOffset
+          ..end = newOffset;
         _controller.forward(from: 0);
       }
+
+      // Background @override
+      backgroundController.background
+          .change(widget.backgroundSelected.toDouble());
     }
   }
 
