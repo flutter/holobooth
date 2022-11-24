@@ -57,7 +57,6 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       final offset = _tween.evaluate(_animationController);
-      print(offset);
       backgroundController.x.change(offset.dx);
       backgroundController.y.change(offset.dy);
     }
@@ -143,16 +142,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$backgroundInputName"');
     }
   }
-
-  /// The total range [x] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _xRange = 200;
-
-  /// The total range [y] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
