@@ -40,29 +40,27 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
   @visibleForTesting
   BackgroundAnimationStateMachineController? backgroundController;
 
-  void _onRiveInit(Artboard artboard) {
-    backgroundController = BackgroundAnimationStateMachineController(artboard);
-    artboard.addController(backgroundController!);
-
-    _controller.addListener(() {
-      final backgroundController = this.backgroundController;
-      if (backgroundController != null) {
-        final offset = _tween.evaluate(_controller);
-        backgroundController.x.change(offset.dx);
-        backgroundController.y.change(offset.dy);
-      }
-    });
-  }
-
-  List<double> latestValuesX = <double>[];
-  List<double> latestValuesY = <double>[];
-
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 200),
   );
 
   final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
+
+  void _onRiveInit(Artboard artboard) {
+    backgroundController = BackgroundAnimationStateMachineController(artboard);
+    artboard.addController(backgroundController!);
+    _animationController.addListener(_controlBackground);
+  }
+
+  void _controlBackground() {
+    final backgroundController = this.backgroundController;
+    if (backgroundController != null) {
+      final offset = _tween.evaluate(_animationController);
+      backgroundController.x.change(offset.dx);
+      backgroundController.y.change(offset.dy);
+    }
+  }
 
   @override
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
@@ -71,37 +69,17 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
 
     if (backgroundController != null) {
       // Parallax
-      if (latestValuesX.length == 5) {
-        latestValuesX.removeAt(0);
-      }
-      latestValuesX.add(widget.x);
-      final newX = latestValuesX.fold<double>(
-            0,
-            (previousValue, element) => previousValue + element,
-          ) /
-          latestValuesX.length;
-
-      if (latestValuesY.length == 5) {
-        latestValuesY.removeAt(0);
-      }
-      latestValuesY.add(widget.y);
-      final newY = latestValuesY.fold<double>(
-            0,
-            (previousValue, element) => previousValue + element,
-          ) /
-          latestValuesY.length;
-
       final previousOffset =
           Offset(backgroundController.x.value, backgroundController.y.value);
-      final newOffset = Offset(newX * 100, newY * 100);
-      if ((newOffset - previousOffset).distance > 2) {
+      final newOffset = Offset(widget.x * 100, widget.y * 100);
+      if ((newOffset - previousOffset).distance > 5) {
         _tween
           ..begin = previousOffset
           ..end = newOffset;
-        _controller.forward(from: 0);
+        _animationController.forward(from: 0);
       }
 
-      // Background @override
+      // Background change
       backgroundController.background
           .change(widget.backgroundSelected.toDouble());
     }
