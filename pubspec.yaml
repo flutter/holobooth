@@ -8,7 +8,6 @@ environment:
   flutter: 3.6.0-0.1.pre
 
 dependencies:
-  alchemist: ^0.6.0-dev.1
   analytics:
     path: packages/analytics
   audio_session: ^0.1.10
@@ -34,8 +33,6 @@ dependencies:
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
-  js_interop_utils:
-    path: packages/js_interop_utils
   just_audio: ^0.9.30
   meta: ^1.8.0
   photobooth_ui:
@@ -45,7 +42,6 @@ dependencies:
   platform_helper:
     path: packages/platform_helper
   rive: ^0.9.1
-  rxdart: ^0.26.0
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6
@@ -63,6 +59,7 @@ dependency_overrides:
       ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
 
 dev_dependencies:
+  alchemist: ^0.6.0-dev.1
   bloc_test: ^9.1.0
   camera_platform_interface: ^2.2.0
   flutter_test:
