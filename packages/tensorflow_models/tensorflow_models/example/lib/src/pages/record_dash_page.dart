@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
-import 'package:example/src/widgets/dash.dart';
 import 'package:example/src/widgets/dash_with_background.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +27,11 @@ class _RecordDashView extends StatefulWidget {
 class _RecordDashViewState extends State<_RecordDashView> {
   CameraController? _cameraController;
   FaceGeometry? _faceGeometry;
-  bool _displayDashBackground = true;
   late TextEditingController _pixelRatioContoller;
   late TextEditingController _framesContoller;
   ScreenRecorderController? screenRecorderController;
-  var _isCameraVisible = false;
   bool isRecording = false;
+  bool isExporting = false;
   XFile? currentGif;
 
   void _onCameraReady(CameraController cameraController) {
@@ -55,14 +53,6 @@ class _RecordDashViewState extends State<_RecordDashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.refresh),
-        onPressed: () {
-          setState(() {
-            _displayDashBackground = !_displayDashBackground;
-          });
-        },
-      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -71,36 +61,28 @@ class _RecordDashViewState extends State<_RecordDashView> {
             child: CameraView(onCameraReady: _onCameraReady),
           ),
           if (_cameraController != null) ...[
-            FacesDetectorBuilder(
-              cameraController: _cameraController!,
-              builder: (context, faces) {
-                if (faces.isEmpty) {
-                  if (_faceGeometry == null) {
-                    return const SizedBox();
-                  }
-                } else {
-                  final face = faces.first;
-                  _faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
-                }
-
-                return Stack(
-                  children: [
-                    if (_displayDashBackground)
-                      DashWithBackground(
-                        faceGeometry: _faceGeometry,
-                        screenRecorderController: screenRecorderController,
-                      )
-                    else
-                      Center(
-                        child: Dash(
-                          faceGeometry: _faceGeometry!,
-                          screenRecorderController: screenRecorderController!,
-                        ),
-                      ),
-                    FaceGeometryOverlay(faceGeometry: _faceGeometry!),
-                  ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return ScreenRecorder(
+                  height: constraints.maxHeight,
+                  width: constraints.maxWidth,
+                  controller: screenRecorderController!,
+                  child: FacesDetectorBuilder(
+                    cameraController: _cameraController!,
+                    builder: (context, faces) {
+                      if (faces.isEmpty) {
+                        if (_faceGeometry == null) {
+                          return const SizedBox();
+                        }
+                      } else {
+                        final face = faces.first;
+                        _faceGeometry = _faceGeometry == null
+                            ? FaceGeometry.fromFace(face)
+                            : _faceGeometry!.update(face);
+                      }
+                      return DashWithBackground(faceGeometry: _faceGeometry);
+                    },
+                  ),
                 );
               },
             ),
@@ -112,36 +94,33 @@ class _RecordDashViewState extends State<_RecordDashView> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _isCameraVisible = !_isCameraVisible;
-                        });
-                      },
-                      child: Text(
-                        _isCameraVisible
-                            ? 'Hide the camera'
-                            : 'Show the camera',
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (isRecording) {
-                          screenRecorderController?.stop();
-                          await _showDialog();
-                        } else {
+                    if (!isRecording && !isExporting)
+                      ElevatedButton(
+                        onPressed: () async {
                           setState(() {
                             isRecording = true;
                           });
-                          _setUpScreenContoller();
+                          // _setUpScreenContoller();
                           screenRecorderController?.start();
-                        }
-                      },
-                      child: Text(
-                        isRecording ? 'stop recording' : 'start recording',
+                        },
+                        child: const Text('Start recording'),
                       ),
-                    ),
+                    if (isRecording)
+                      ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            isExporting = true;
+                            isRecording = false;
+                          });
+                          screenRecorderController?.stop();
+                          await _export();
+                        },
+                        child: const Text('Stop recording and export GIF'),
+                      ),
+                    if (isExporting) ...[
+                      const Text('Generating GIF'),
+                      const CircularProgressIndicator(),
+                    ],
                     const SizedBox(height: 10),
                     _Timer(isRecording: isRecording),
                     const SizedBox(height: 10),
@@ -164,8 +143,7 @@ class _RecordDashViewState extends State<_RecordDashView> {
     );
   }
 
-  Future<void> _showDialog() async {
-    final now = DateTime.now();
+  Future<void> _export() async {
     final fileName = 'dash_'
         'skip_ratio${_pixelRatioContoller.text}'
         '_skip${_framesContoller.text}'
@@ -178,27 +156,25 @@ class _RecordDashViewState extends State<_RecordDashView> {
       print(error);
       print(stackTrace);
     }
+    setState(() {
+      isExporting = false;
+    });
     final file = await currentGif?.readAsBytes();
     await showDialog<void>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Column(
-            children: [
-              Text(
-                'gif inMilliseconds '
-                '${DateTime.now().difference(now).inMilliseconds}',
-              ),
-              if (file != null) Image.memory(file) else const SizedBox.shrink(),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (file != null)
+                  Image.memory(file)
+                else
+                  const SizedBox.shrink(),
+              ],
+            ),
           ),
         );
-      },
-    ).then(
-      (_) => {
-        setState(() {
-          isRecording = false;
-        })
       },
     );
   }
