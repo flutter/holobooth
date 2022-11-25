@@ -35,29 +35,57 @@ class BackgroundAnimation extends StatefulWidget {
 }
 
 @visibleForTesting
-class BackgroundAnimationState extends State<BackgroundAnimation> {
+class BackgroundAnimationState extends State<BackgroundAnimation>
+    with TickerProviderStateMixin {
   @visibleForTesting
   BackgroundAnimationStateMachineController? backgroundController;
+
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 150),
+  );
+
+  final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
   void _onRiveInit(Artboard artboard) {
     backgroundController = BackgroundAnimationStateMachineController(artboard);
     artboard.addController(backgroundController!);
+    _animationController.addListener(_controlBackground);
+  }
+
+  void _controlBackground() {
+    final backgroundController = this.backgroundController;
+    if (backgroundController != null) {
+      final offset = _tween.evaluate(_animationController);
+      backgroundController.x.change(offset.dx);
+      backgroundController.y.change(offset.dy);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
   }
 
   @override
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
-    if (backgroundController != null) {
-      final x = widget.x;
-      final y = widget.y;
-      backgroundController.x.change(
-        x * ((BackgroundAnimationStateMachineController._xRange / 2) + 50),
-      );
-      backgroundController.y.change(
-        y * ((BackgroundAnimationStateMachineController._yRange / 2) + 50),
-      );
 
+    if (backgroundController != null) {
+      // Parallax
+      final previousOffset =
+          Offset(backgroundController.x.value, backgroundController.y.value);
+      final newOffset = Offset(widget.x * 100, widget.y * 100);
+      if ((newOffset - previousOffset).distance > 5) {
+        _tween
+          ..begin = previousOffset
+          ..end = newOffset;
+        _animationController.forward(from: 0);
+      }
+
+      // Background change
       backgroundController.background
           .change(widget.backgroundSelected.toDouble());
     }
@@ -114,16 +142,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$backgroundInputName"');
     }
   }
-
-  /// The total range [x] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _xRange = 200;
-
-  /// The total range [y] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
