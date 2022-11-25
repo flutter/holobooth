@@ -23,13 +23,31 @@ class DashAnimation extends StatefulWidget {
 }
 
 @visibleForTesting
-class DashAnimationState extends State<DashAnimation> {
+class DashAnimationState extends State<DashAnimation>
+    with TickerProviderStateMixin {
   @visibleForTesting
   DashStateMachineController? dashController;
+
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 150),
+  );
+
+  final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
   void _onRiveInit(Artboard artboard) {
     dashController = DashStateMachineController(artboard);
     artboard.addController(dashController!);
+    _animationController.addListener(_controlDashPosition);
+  }
+
+  void _controlDashPosition() {
+    final dashController = this.dashController;
+    if (dashController != null) {
+      final offset = _tween.evaluate(_animationController);
+      dashController.x.change(offset.dx);
+      dashController.y.change(offset.dy);
+    }
   }
 
   @override
@@ -37,13 +55,19 @@ class DashAnimationState extends State<DashAnimation> {
     super.didUpdateWidget(oldWidget);
     final dashController = this.dashController;
     if (dashController != null) {
-      final direction = widget.avatar.direction;
-      dashController.x.change(
-        direction.x * ((DashStateMachineController._xRange / 2) + 50),
+      // Dash movement
+      final previousOffset =
+          Offset(dashController.x.value, dashController.y.value);
+      final newOffset = Offset(
+        widget.avatar.direction.x * 100,
+        widget.avatar.direction.y * 100,
       );
-      dashController.y.change(
-        direction.y * ((DashStateMachineController._yRange / 2) + 50),
-      );
+      if ((newOffset - previousOffset).distance > 5) {
+        _tween
+          ..begin = previousOffset
+          ..end = newOffset;
+        _animationController.forward(from: 0);
+      }
 
       dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen);
       dashController.rightEyeIsClosed.change(widget.avatar.rightEyeIsClosed);
@@ -128,16 +152,6 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$helmetInputName"');
     }
   }
-
-  /// The total range [x] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _xRange = 200;
-
-  /// The total range [y] animates over.
-  ///
-  /// This data comes from the Rive file.
-  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
