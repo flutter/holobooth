@@ -16,8 +16,8 @@ class PhotoboothCharacter extends StatelessWidget {
     final propSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
 
-    // TODO(alestiago): Instead of directly using avatar.distance consider adding
-    // logic to define a maximum, minimum and a normal distance.
+    // TODO(alestiago): Instead of directly using avatar.distance consider
+    // adding logic to define a maximum, minimum and a normal distance.
     return AnimatedScale(
       scale: avatar.distance,
       duration: const Duration(milliseconds: 200),
