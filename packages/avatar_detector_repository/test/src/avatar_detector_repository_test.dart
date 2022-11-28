@@ -17,8 +17,8 @@ class _MockTensorflowModelsPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements TensorflowModelsPlatform {}
 
-class _MockFaceLandmarksDetector extends Mock implements FaceLandmarksDetector {
-}
+class _MockFaceLandmarksDetector extends Mock
+    implements FaceLandmarksDetector {}
 
 class _FakeEstimationConfig extends Fake implements EstimationConfig {}
 
@@ -92,6 +92,7 @@ void main() {
 
       setUp(() {
         imageData = _MockImageData();
+        when(() => imageData.size).thenReturn(Size(1280, 720));
       });
 
       test(

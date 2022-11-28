@@ -36,6 +36,7 @@ void main() {
     setUp(() {
       boundingBox = _MockBoundingBox();
       when(() => boundingBox.height).thenReturn(0);
+      when(() => boundingBox.width).thenReturn(0);
 
       face = _MockFace();
       when(() => face.boundingBox).thenReturn(boundingBox);
