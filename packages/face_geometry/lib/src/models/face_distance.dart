@@ -31,15 +31,12 @@ class FaceDistance extends Equatable {
           imageSize: imageSize,
         );
 
-  /// An empty instance of [MouthGeometry].
-  ///
-  /// This is used when the keypoints are not available.
-  const FaceDistance._empty() : value = 0.5;
-
   static double _value({
     required tf.Size boundingBoxSize,
     required tf.Size imageSize,
   }) {
+    // TODO(alestiago): Check what width value is received when the bounding box
+    // is not detected.
     assert(
       imageSize.width > 0,
       'The imageSize width must be greater than 0.',
