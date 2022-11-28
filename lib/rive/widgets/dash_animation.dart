@@ -35,6 +35,8 @@ class DashAnimationState extends State<DashAnimation>
 
   final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
+  static const _distanceToleration = 5;
+
   void _onRiveInit(Artboard artboard) {
     dashController = DashStateMachineController(artboard);
     artboard.addController(dashController!);
@@ -62,7 +64,7 @@ class DashAnimationState extends State<DashAnimation>
         widget.avatar.direction.x * 100,
         widget.avatar.direction.y * 100,
       );
-      if ((newOffset - previousOffset).distance > 5) {
+      if ((newOffset - previousOffset).distance > _distanceToleration) {
         _tween
           ..begin = previousOffset
           ..end = newOffset;
