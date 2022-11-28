@@ -43,7 +43,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     }
   }
 
-  // TODO(laura177): once final shareable asset is defined, call sharePhoto url methods.
+  // TODO(laura177): change to sharePhoto methods when we have final asset.
   Future<ShareUrls> _shareImage() async {
     return const ShareUrls(
       explicitShareUrl: 'https://google.com',
