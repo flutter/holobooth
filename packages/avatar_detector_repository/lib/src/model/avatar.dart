@@ -47,7 +47,11 @@ class Avatar extends Equatable {
   /// Whether the [Avatar] has the right eye closed.
   final bool rightEyeIsClosed;
 
-  /// The distance that the [Avatar] is from the camera.
+  /// The value that correlates to the distance the [Avatar] is from the camera.
+  ///
+  /// The greater the value, the closer the user is to the camera.
+  ///
+  /// The value is between 0 and 1.
   final double distance;
 
   @override
