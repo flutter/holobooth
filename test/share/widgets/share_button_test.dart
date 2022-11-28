@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -49,7 +51,12 @@ void main() {
             image: image,
             platformHelper: platformHelper,
           );
-          await tester.pumpSubject(subject);
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
           await tester.tap(find.byWidget(subject));
           await tester.pumpAndSettle();
 
@@ -67,7 +74,12 @@ void main() {
             image: image,
             platformHelper: platformHelper,
           );
-          await tester.pumpSubject(subject);
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
           await tester.tap(find.byWidget(subject));
           await tester.pumpAndSettle();
 
@@ -85,7 +97,12 @@ void main() {
             image: image,
             platformHelper: platformHelper,
           );
-          await tester.pumpSubject(subject);
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
           await tester.tap(find.byWidget(subject));
           await tester.pumpAndSettle();
 
@@ -103,7 +120,12 @@ void main() {
             image: image,
             platformHelper: platformHelper,
           );
-          await tester.pumpSubject(subject);
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
           await tester.tap(find.byWidget(subject));
           await tester.pumpAndSettle();
 
@@ -116,6 +138,10 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(ShareButton subject) {
-    return pumpApp(subject);
+    return pumpApp(
+      Scaffold(
+        body: subject,
+      ),
+    );
   }
 }

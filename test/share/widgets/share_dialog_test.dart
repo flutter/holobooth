@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -28,7 +27,6 @@ void main() {
     group('renders', () {
       final image = FakePhotoboothCameraImage();
       testWidgets('successfully', (tester) async {
-        // tester.setDisplaySize(Size(PhotoboothBreakpoints.large, 800));
         final subject = ShareDialog(
           image: image,
         );
@@ -41,9 +39,8 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(ShareDialog subject) {
-    return pumpWidget(
-      Directionality(
-        textDirection: TextDirection.ltr,
+    return pumpApp(
+      Material(
         child: subject,
       ),
     );
