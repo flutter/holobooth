@@ -20,13 +20,45 @@ void main() {
     });
 
     group('factory constructor', () {
-      test('returns normally', () {
-        expect(
-          () => FaceDistance(
-            boundingBox: boundingBox,
-            imageSize: imageSize,
-          ),
-          returnsNormally,
+      group('returns normally when', () {
+        test(
+            'the boundingBox width and height are smaller than '
+            'image width and height', () {
+          expect(
+            () => FaceDistance(
+              boundingBox: boundingBox,
+              imageSize: imageSize,
+            ),
+            returnsNormally,
+          );
+        });
+
+        test(
+          'the boundingBox width is greater than image width',
+          () {
+            when(() => boundingBox.width).thenReturn(imageSize.width + 1);
+            expect(
+              () => FaceDistance(
+                boundingBox: boundingBox,
+                imageSize: imageSize,
+              ),
+              returnsNormally,
+            );
+          },
+        );
+
+        test(
+          'the boundingBox height is greater than image height',
+          () {
+            when(() => boundingBox.height).thenReturn(imageSize.height + 1);
+            expect(
+              () => FaceDistance(
+                boundingBox: boundingBox,
+                imageSize: imageSize,
+              ),
+              returnsNormally,
+            );
+          },
         );
       });
 
@@ -60,42 +92,6 @@ void main() {
             const assertionMessage =
                 'The imageSize height must be greater than 0.';
             imageSize = Size(10, 0);
-
-            expect(
-              () => FaceDistance(
-                boundingBox: boundingBox,
-                imageSize: imageSize,
-              ),
-              throwsAssertionErrorWithMessage(assertionMessage),
-            );
-          },
-        );
-
-        test(
-          'boundingBox width is greater than image width',
-          () {
-            const assertionMessage =
-                'The boundingBoxSize width must be less than the imageSize '
-                'width.';
-            when(() => boundingBox.width).thenReturn(imageSize.width + 1);
-
-            expect(
-              () => FaceDistance(
-                boundingBox: boundingBox,
-                imageSize: imageSize,
-              ),
-              throwsAssertionErrorWithMessage(assertionMessage),
-            );
-          },
-        );
-
-        test(
-          'boundingBox height is greater than image height',
-          () {
-            const assertionMessage =
-                'The boundingBoxSize height must be less than the imageSize '
-                'height.';
-            when(() => boundingBox.height).thenReturn(imageSize.height + 1);
 
             expect(
               () => FaceDistance(
