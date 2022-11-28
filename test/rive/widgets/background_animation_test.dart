@@ -6,7 +6,8 @@ import 'package:io_photobooth/rive/rive.dart';
 
 void main() {
   group('BackgroundAnimation', () {
-    testWidgets('udpates x and y when position changes', (tester) async {
+    testWidgets('udpates x and y when position changes on the animation',
+        (tester) async {
       late StateSetter stateSetter;
       var vector3 = Vector3.zero;
       await tester.pumpWidget(
@@ -22,7 +23,6 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
 
       final state = tester.state(find.byType(BackgroundAnimation))
           as BackgroundAnimationState;
@@ -32,10 +32,13 @@ void main() {
       final y = controller.y.value;
 
       stateSetter(() => vector3 = Vector3(1, 1, 1));
-      await tester.pump();
+
+      await tester.pump(Duration(milliseconds: 150));
+      await tester.pump(Duration(milliseconds: 150));
 
       expect(controller.x.value, isNot(equals(x)));
       expect(controller.y.value, isNot(equals(y)));
+      await tester.pump(kThemeAnimationDuration);
     });
   });
 }

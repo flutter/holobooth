@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "1.0.9"
   alchemist:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: alchemist
       sha256: "504606db9ab1b3dce1465de97064f82bc4bb7f5a91873be553686807dcf0b418"
@@ -466,7 +466,7 @@ packages:
     source: hosted
     version: "0.6.5"
   js_interop_utils:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/js_interop_utils"
       relative: true
@@ -734,7 +734,7 @@ packages:
     source: hosted
     version: "0.9.1"
   rxdart:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: rxdart
       sha256: "2ef8b4e91cb3b55d155e0e34eeae0ac7107974e451495c955ac04ddee8cc21fd"
