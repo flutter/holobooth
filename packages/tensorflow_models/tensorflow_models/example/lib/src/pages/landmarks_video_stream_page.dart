@@ -24,6 +24,8 @@ class _LandmarksVideoStreamView extends StatefulWidget {
 
 class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
   CameraController? _cameraController;
+
+  final _imageSize = tf.Size(1280, 720);
   FaceGeometry? _faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
@@ -46,8 +48,8 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
                   _faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
 
                   return Stack(
                     children: [

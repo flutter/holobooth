@@ -29,6 +29,8 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 
   late final AudioPlayer _audioPlayer;
   var _isPlaying = false;
+
+  final _imageSize = tf.Size(1280, 720);
   FaceGeometry? _faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
@@ -70,8 +72,8 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
                   final faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
                   _faceGeometry = faceGeometry;
 
                   if (faceGeometry.mouth.isOpen) {
