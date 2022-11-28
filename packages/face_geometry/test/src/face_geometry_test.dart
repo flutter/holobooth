@@ -30,6 +30,7 @@ void main() {
 
   group('FaceGeometry', () {
     late tf.Face face;
+    late tf.Size size;
     late tf.BoundingBox boundingBox;
 
     setUp(() {
@@ -38,6 +39,8 @@ void main() {
 
       face = _MockFace();
       when(() => face.boundingBox).thenReturn(boundingBox);
+
+      size = tf.Size(1, 1);
     });
 
     group('constructor', () {
@@ -45,7 +48,7 @@ void main() {
         when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
 
         expect(
-          () => FaceGeometry.fromFace(face),
+          () => FaceGeometry(face: face, size: size),
           returnsNormally,
         );
       });
@@ -55,7 +58,7 @@ void main() {
         when(() => face.keypoints).thenReturn(UnmodifiableListView(keypoints));
 
         expect(
-          () => FaceGeometry.fromFace(face),
+          () => FaceGeometry(face: face, size: size),
           returnsNormally,
         );
       });
@@ -65,10 +68,10 @@ void main() {
       test('returns normally when keypoints are given', () {
         final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0, 0));
         when(() => face.keypoints).thenReturn(UnmodifiableListView(keypoints));
-        final faceGeometry = FaceGeometry.fromFace(face);
+        final faceGeometry = FaceGeometry(face: face, size: size);
 
         expect(
-          () => faceGeometry.update(face),
+          () => faceGeometry.update(face: face, size: size),
           returnsNormally,
         );
       });
@@ -76,8 +79,8 @@ void main() {
 
     test('supports value equality', () {
       when(() => face.keypoints).thenReturn(UnmodifiableListView([]));
-      final faceGeometry1 = FaceGeometry.fromFace(face);
-      final faceGeometry2 = FaceGeometry.fromFace(face);
+      final faceGeometry1 = FaceGeometry(face: face, size: size);
+      final faceGeometry2 = FaceGeometry(face: face, size: size);
 
       expect(faceGeometry1, equals(faceGeometry2));
     });

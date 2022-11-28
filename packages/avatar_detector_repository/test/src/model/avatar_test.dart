@@ -10,18 +10,21 @@ void main() {
         direction: Vector3.zero,
         leftEyeIsClosed: true,
         rightEyeIsClosed: true,
+        distance: 0,
       );
       const avatar2 = Avatar(
         hasMouthOpen: true,
         direction: Vector3.zero,
         leftEyeIsClosed: true,
         rightEyeIsClosed: true,
+        distance: 0,
       );
       const avatar3 = Avatar(
         hasMouthOpen: false,
         direction: Vector3(1, 0, 0),
         leftEyeIsClosed: false,
         rightEyeIsClosed: false,
+        distance: 1,
       );
 
       expect(avatar1, equals(avatar2));

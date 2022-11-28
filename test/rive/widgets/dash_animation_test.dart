@@ -12,6 +12,7 @@ void main() {
         direction: Vector3(0, 0, 0),
         leftEyeIsClosed: false,
         rightEyeIsClosed: false,
+        distance: 0.5,
       );
 
       late StateSetter stateSetter;
@@ -40,6 +41,7 @@ void main() {
           direction: Vector3(0, 0, 0),
           leftEyeIsClosed: !avatar.leftEyeIsClosed,
           rightEyeIsClosed: !avatar.rightEyeIsClosed,
+          distance: avatar.distance,
         ),
       );
       await tester.pump();

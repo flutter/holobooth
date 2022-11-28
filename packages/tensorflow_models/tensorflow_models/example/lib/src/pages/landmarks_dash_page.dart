@@ -61,8 +61,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 } else {
                   final face = faces.first;
                   _faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
+                      ? FaceGeometry(face: face, size: Size.zero)
+                      : _faceGeometry!.update(face: face, size: Size.zero);
                 }
 
                 return Stack(
