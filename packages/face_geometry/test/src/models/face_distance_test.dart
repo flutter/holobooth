@@ -109,6 +109,21 @@ void main() {
       });
     });
 
+    test('supports value equality', () {
+      final faceDistance1 =
+          FaceDistance(boundingBox: boundingBox, imageSize: imageSize);
+      final faceDistance2 =
+          FaceDistance(boundingBox: boundingBox, imageSize: imageSize);
+      final faceDistance3 = FaceDistance(
+        boundingBox: boundingBox,
+        imageSize: Size(imageSize.width + 1, imageSize.height + 1),
+      );
+
+      expect(faceDistance1, equals(faceDistance2));
+      expect(faceDistance1, isNot(equals(faceDistance3)));
+      expect(faceDistance2, isNot(equals(faceDistance3)));
+    });
+
     group('value', () {
       test('is greater when face is closer to camera', () {
         final face11 = fixtures.face11;
