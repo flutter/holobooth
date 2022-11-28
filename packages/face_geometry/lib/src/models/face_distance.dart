@@ -9,6 +9,11 @@ import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_
 @immutable
 class FaceDistance extends Equatable {
   /// {@macro face_distance}
+  ///
+  /// **Note:** The [tf.BoundingBox.width] and [tf.BoundingBox.height] may be
+  /// greater than the [imageSize] width and [imageSize] height respectively
+  /// when the user is extremely close to the camera and the model predicts a
+  /// bounding box that is larger than the image.
   factory FaceDistance({
     required tf.BoundingBox boundingBox,
     required tf.Size imageSize,
