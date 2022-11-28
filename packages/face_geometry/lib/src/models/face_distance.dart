@@ -15,8 +15,8 @@ class FaceDistance extends Equatable {
   }) {
     return FaceDistance._compute(
       boundingBoxSize: tf.Size(
-        boundingBox.width.toInt(),
-        boundingBox.height.toInt(),
+        boundingBox.width.toInt().clamp(0, imageSize.width),
+        boundingBox.height.toInt().clamp(0, imageSize.height),
       ),
       imageSize: imageSize,
     );
@@ -43,11 +43,11 @@ class FaceDistance extends Equatable {
       'The imageSize height must be greater than 0.',
     );
     assert(
-      boundingBoxSize.width < imageSize.width,
+      boundingBoxSize.width <= imageSize.width,
       'The boundingBoxSize width must be less than the imageSize width.',
     );
     assert(
-      boundingBoxSize.height < imageSize.height,
+      boundingBoxSize.height <= imageSize.height,
       'The boundingBoxSize height must be less than the imageSize height.',
     );
 
