@@ -55,7 +55,7 @@ class AvatarDetectorRepository {
         ? FaceGeometry.fromFace(face)
         : _faceGeometry!.update(face);
 
-    return Avatar.fromFaceGeomtry(_faceGeometry!);
+    return Avatar.fromFaceGeometry(_faceGeometry!);
   }
 
   /// Disposes the instance of [FaceLandmarksDetector]

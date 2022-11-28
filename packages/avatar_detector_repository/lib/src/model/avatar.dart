@@ -17,7 +17,7 @@ class Avatar extends Equatable {
   });
 
   /// {@macro avatar}
-  Avatar.fromFaceGeomtry(
+  Avatar.fromFaceGeometry(
     FaceGeometry faceGeometry,
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
         direction = faceGeometry.direction.value,
