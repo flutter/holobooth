@@ -34,8 +34,6 @@ class FaceDistance extends Equatable {
     required tf.Size boundingBoxSize,
     required tf.Size imageSize,
   }) {
-    // TODO(alestiago): Check what width value is received when the bounding box
-    // is not detected.
     assert(
       imageSize.width > 0,
       'The imageSize width must be greater than 0.',
