@@ -82,7 +82,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   /// Creating a new [LeftEyeGeometry] instead of using [update] will clear the
   /// previous eye data.
   ///
-  /// It is recommened to use [LeftEyeGeometry] once and then [update] to
+  /// It is recommended to use [LeftEyeGeometry] once and then [update] to
   /// update the face data.
   factory LeftEyeGeometry({
     required List<tf.Keypoint> keypoints,
@@ -143,7 +143,7 @@ class RightEyeGeometry extends _EyeGeometry {
   /// Creating a new [RightEyeGeometry] instead of using [update] will clear the
   /// previous eye data.
   ///
-  /// It is recommened to use [RightEyeGeometry] once and then [update] to
+  /// It is recommended to use [RightEyeGeometry] once and then [update] to
   /// update the face data.
   factory RightEyeGeometry({
     required List<tf.Keypoint> keypoints,

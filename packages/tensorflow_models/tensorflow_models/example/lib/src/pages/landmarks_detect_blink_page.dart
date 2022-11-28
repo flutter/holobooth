@@ -25,6 +25,7 @@ class _LandmarksDetectBlinkView extends StatefulWidget {
 class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
   CameraController? _cameraController;
 
+  final _imageSize = tf.Size(1280, 720);
   FaceGeometry? _faceGeometry;
 
   void _onCameraReady(CameraController cameraController) {
@@ -46,8 +47,8 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
                   if (faces.isEmpty) return const SizedBox.shrink();
                   final face = faces.first;
                   final faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
                   _faceGeometry = faceGeometry;
 
                   return CustomPaint(

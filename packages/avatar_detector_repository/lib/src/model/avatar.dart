@@ -14,15 +14,17 @@ class Avatar extends Equatable {
     required this.direction,
     required this.leftEyeIsClosed,
     required this.rightEyeIsClosed,
+    required this.distance,
   });
 
   /// {@macro avatar}
-  Avatar.fromFaceGeomtry(
+  Avatar.fromFaceGeometry(
     FaceGeometry faceGeometry,
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
         direction = faceGeometry.direction.value,
         leftEyeIsClosed = faceGeometry.leftEye.isClosed,
-        rightEyeIsClosed = faceGeometry.rightEye.isClosed;
+        rightEyeIsClosed = faceGeometry.rightEye.isClosed,
+        distance = faceGeometry.distance.value;
 
   /// {@macro avatar}
   static const zero = Avatar(
@@ -30,6 +32,7 @@ class Avatar extends Equatable {
     direction: Vector3.zero,
     leftEyeIsClosed: false,
     rightEyeIsClosed: false,
+    distance: 1,
   );
 
   /// Indicates whether the [Avatar] has the mouth open.
@@ -44,11 +47,19 @@ class Avatar extends Equatable {
   /// Whether the [Avatar] has the right eye closed.
   final bool rightEyeIsClosed;
 
+  /// The value that correlates to the distance the [Avatar] is from the camera.
+  ///
+  /// The greater the value, the closer the user is to the camera.
+  ///
+  /// The value is between 0 and 1.
+  final double distance;
+
   @override
   List<Object?> get props => [
         hasMouthOpen,
         direction,
         leftEyeIsClosed,
         rightEyeIsClosed,
+        distance,
       ];
 }

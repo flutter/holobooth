@@ -12,10 +12,10 @@ class CameraStreamListener extends StatefulWidget {
   final CameraController cameraController;
 
   @override
-  State<CameraStreamListener> createState() => _AvatarDeState();
+  State<CameraStreamListener> createState() => _CameraStreamListenerState();
 }
 
-class _AvatarDeState extends State<CameraStreamListener> {
+class _CameraStreamListenerState extends State<CameraStreamListener> {
   @override
   void initState() {
     super.initState();

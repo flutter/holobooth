@@ -1,5 +1,7 @@
 export 'face1.dart';
 export 'face10.dart';
+export 'face11.dart';
+export 'face12.dart';
 export 'face2.dart';
 export 'face3.dart';
 export 'face4.dart';

@@ -92,6 +92,7 @@ void main() {
 
       setUp(() {
         imageData = _MockImageData();
+        when(() => imageData.size).thenReturn(Size(1280, 720));
       });
 
       test(
