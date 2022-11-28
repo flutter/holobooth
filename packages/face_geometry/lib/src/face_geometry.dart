@@ -14,10 +14,14 @@ class FaceGeometry extends Equatable {
   /// Creating a new face instead of using [update] will clear the previous
   /// face data.
   ///
-  /// It is recommened to use [FaceGeometry.fromFace] once and then
+  /// It is recommened to use the [FaceGeometry] constructor once and then
   /// use [update] to update the face data.
-  FaceGeometry.fromFace(tf.Face face)
-      : this._(
+  ///
+  /// The [size] is the size of the image that the face was detected on.
+  FaceGeometry({
+    required tf.Face face,
+    required tf.Size size,
+  }) : this._(
           direction: FaceDirection(keypoints: face.keypoints),
           leftEye: LeftEyeGeometry(
             keypoints: face.keypoints,
@@ -31,6 +35,10 @@ class FaceGeometry extends Equatable {
             keypoints: face.keypoints,
             boundingBox: face.boundingBox,
           ),
+          distance: FaceDistance(
+            boundingBox: face.boundingBox,
+            imageSize: size,
+          ),
         );
 
   const FaceGeometry._({
@@ -38,6 +46,7 @@ class FaceGeometry extends Equatable {
     required this.mouth,
     required this.leftEye,
     required this.rightEye,
+    required this.distance,
   });
 
   /// {@macro face_direction}
@@ -52,8 +61,16 @@ class FaceGeometry extends Equatable {
   /// {@macro mouth_geometry}
   final MouthGeometry mouth;
 
+  /// {@macro face_distance}
+  final FaceDistance distance;
+
   /// Updates the [FaceGeometry] with the new [face].
-  FaceGeometry update(tf.Face face) {
+  ///
+  /// The [size] is the size of the image that the face was detected on.
+  FaceGeometry update({
+    required tf.Face face,
+    required tf.Size size,
+  }) {
     return FaceGeometry._(
       direction: FaceDirection(keypoints: face.keypoints),
       mouth: MouthGeometry(
@@ -62,6 +79,10 @@ class FaceGeometry extends Equatable {
       ),
       leftEye: leftEye.update(face.keypoints, face.boundingBox),
       rightEye: rightEye.update(face.keypoints, face.boundingBox),
+      distance: FaceDistance(
+        boundingBox: face.boundingBox,
+        imageSize: size,
+      ),
     );
   }
 

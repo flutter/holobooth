@@ -52,8 +52,8 @@ class AvatarDetectorRepository {
 
     final face = faces.first;
     _faceGeometry = _faceGeometry == null
-        ? FaceGeometry.fromFace(face)
-        : _faceGeometry!.update(face);
+        ? FaceGeometry(face: face, size: input.size)
+        : _faceGeometry!.update(face: face, size: input.size);
 
     return Avatar.fromFaceGeometry(_faceGeometry!);
   }

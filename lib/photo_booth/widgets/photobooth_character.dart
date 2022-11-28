@@ -16,9 +16,13 @@ class PhotoboothCharacter extends StatelessWidget {
     final propSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
 
-    return DashAnimation(
-      avatar: avatar,
-      propsSelected: propSelected,
+    return AnimatedScale(
+      scale: avatar.distance,
+      duration: const Duration(milliseconds: 200),
+      child: DashAnimation(
+        avatar: avatar,
+        propsSelected: propSelected,
+      ),
     );
   }
 }
