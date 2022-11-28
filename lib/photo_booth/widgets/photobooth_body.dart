@@ -50,8 +50,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
       children: [
         const PhotoboothBackground(),
         Align(
-          child: SizedBox(
-            height: 0,
+          child: SizedBox.fromSize(
+            size: Size.zero,
             child: CameraView(
               onCameraReady: _onCameraReady,
               errorBuilder: (context, error) {
