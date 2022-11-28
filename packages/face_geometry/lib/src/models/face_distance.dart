@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
 /// {@template face_distance}
-/// Calculation to detect the direction of the face.
+/// Calculation to detect the distance of the face from the camera.
 /// {@endtemplate}
 @immutable
 class FaceDistance extends Equatable {
@@ -59,7 +58,11 @@ class FaceDistance extends Equatable {
     return boundingBoxArea / imageArea;
   }
 
-  /// The value of the distance.
+  /// The value that correlates to the distance the face is from the camera.
+  ///
+  /// The greater the value, the closer the user is to the camera.
+  ///
+  /// The value is between 0 and 1.
   final double value;
 
   @override
