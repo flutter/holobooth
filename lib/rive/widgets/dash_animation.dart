@@ -59,6 +59,10 @@ class DashAnimationState extends State<DashAnimation>
     if (dashController != null) {
       final previousOffset =
           Offset(dashController.x.value, dashController.y.value);
+
+      // Direction has range of values [-1,1], and the
+      // animation controller [-100, 100] so we multiply
+      // by 100 to correlate the values
       final newOffset = Offset(
         widget.avatar.direction.x * 100,
         widget.avatar.direction.y * 100,
