@@ -30,12 +30,12 @@ class DashAnimationState extends State<DashAnimation>
 
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 150),
+    duration: const Duration(milliseconds: 50),
   );
 
   final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
-  static const _distanceToleration = 5;
+  static const _distanceToleration = 3;
 
   void _onRiveInit(Artboard artboard) {
     dashController = DashStateMachineController(artboard);
