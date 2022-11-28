@@ -14,7 +14,7 @@ class FaceGeometry extends Equatable {
   /// Creating a new face instead of using [update] will clear the previous
   /// face data.
   ///
-  /// It is recommened to use the [FaceGeometry] constructor once and then
+  /// It is recommended to use the [FaceGeometry] constructor once and then
   /// use [update] to update the face data.
   ///
   /// The [size] is the size of the image that the face was detected on.
