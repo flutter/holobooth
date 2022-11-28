@@ -23,7 +23,7 @@ class CameraView extends StatefulWidget {
   State<CameraView> createState() => _CameraViewState();
 }
 
-class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
+class _CameraViewState extends State<CameraView> {
   CameraController? _cameraController;
   Completer<void>? _cameraControllerCompleter;
 
@@ -31,13 +31,11 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     _initializeCamera();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     _cameraController?.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -56,18 +54,6 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
       _cameraControllerCompleter?.complete();
     } catch (error) {
       _cameraControllerCompleter?.completeError(error);
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
-      _cameraController?.dispose();
-      _cameraController = null;
-    } else if (state == AppLifecycleState.resumed &&
-        _cameraController == null) {
-      _initializeCamera();
-      setState(() {});
     }
   }
 

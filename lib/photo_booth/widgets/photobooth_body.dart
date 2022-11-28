@@ -50,22 +50,19 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
       children: [
         const PhotoboothBackground(),
         Align(
-          child: Opacity(
-            opacity: 1,
-            child: SizedBox(
-              height: 0,
-              child: CameraView(
-                onCameraReady: _onCameraReady,
-                errorBuilder: (context, error) {
-                  if (error is CameraException) {
-                    return PhotoboothError(error: error);
-                  } else {
-                    return const SizedBox.shrink(
-                      key: PhotoboothBody.cameraErrorViewKey,
-                    );
-                  }
-                },
-              ),
+          child: SizedBox.fromSize(
+            size: Size.zero,
+            child: CameraView(
+              onCameraReady: _onCameraReady,
+              errorBuilder: (context, error) {
+                if (error is CameraException) {
+                  return PhotoboothError(error: error);
+                } else {
+                  return const SizedBox.shrink(
+                    key: PhotoboothBody.cameraErrorViewKey,
+                  );
+                }
+              },
             ),
           ),
         ),
