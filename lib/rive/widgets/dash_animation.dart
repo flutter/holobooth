@@ -57,7 +57,6 @@ class DashAnimationState extends State<DashAnimation>
     super.didUpdateWidget(oldWidget);
     final dashController = this.dashController;
     if (dashController != null) {
-      // Dash movement
       final previousOffset =
           Offset(dashController.x.value, dashController.y.value);
       final newOffset = Offset(
