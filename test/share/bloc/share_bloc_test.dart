@@ -33,5 +33,75 @@ void main() {
         )
       ],
     );
+
+    blocTest<ShareBloc, ShareState>(
+      'shareStatus emits success after sharing to Twitter',
+      build: ShareBloc.new,
+      act: (bloc) => bloc.add(ShareTapped(shareUrl: ShareUrl.twitter)),
+      expect: () => [
+        ShareState(shareUrl: ShareUrl.twitter),
+        ShareState(
+          shareStatus: ShareStatus.loading,
+          shareUrl: ShareUrl.twitter,
+        ),
+        ShareState(
+          shareStatus: ShareStatus.success,
+          shareUrl: ShareUrl.twitter,
+          explicitShareUrl: 'https://google.com',
+          facebookShareUrl: 'https://facebook.com',
+          twitterShareUrl: 'https://twitter.com',
+        )
+      ],
+    );
+
+    blocTest<ShareBloc, ShareState>(
+      'shareStatus emits success after sharing to Facebook',
+      build: ShareBloc.new,
+      act: (bloc) => bloc.add(ShareTapped(shareUrl: ShareUrl.facebook)),
+      expect: () => [
+        ShareState(shareUrl: ShareUrl.facebook),
+        ShareState(
+          shareStatus: ShareStatus.loading,
+          shareUrl: ShareUrl.facebook,
+        ),
+        ShareState(
+          shareStatus: ShareStatus.success,
+          shareUrl: ShareUrl.facebook,
+          explicitShareUrl: 'https://google.com',
+          facebookShareUrl: 'https://facebook.com',
+          twitterShareUrl: 'https://twitter.com',
+        )
+      ],
+    );
+
+    blocTest<ShareBloc, ShareState>(
+      'if status is already loaded successfully it will not reload',
+      build: ShareBloc.new,
+      seed: () => ShareState(shareStatus: ShareStatus.success),
+      act: (bloc) => bloc.add(ShareTapped(shareUrl: ShareUrl.facebook)),
+      expect: () => [
+        ShareState(
+          shareUrl: ShareUrl.facebook,
+          shareStatus: ShareStatus.success,
+        ),
+      ],
+    );
+
+    blocTest<ShareBloc, ShareState>(
+      'shareStatus is failure when an exception is thrown',
+      build: () => ShareBloc(shareImage: () => throw Exception()),
+      act: (bloc) => bloc.add(ShareTapped(shareUrl: ShareUrl.facebook)),
+      expect: () => [
+        ShareState(shareUrl: ShareUrl.facebook),
+        ShareState(
+          shareStatus: ShareStatus.loading,
+          shareUrl: ShareUrl.facebook,
+        ),
+        ShareState(
+          shareStatus: ShareStatus.failure,
+          shareUrl: ShareUrl.facebook,
+        )
+      ],
+    );
   });
 }

@@ -1,14 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 part 'share_event.dart';
 part 'share_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
-  ShareBloc() : super(const ShareState()) {
+  ShareBloc({AsyncValueGetter<ShareUrls>? shareImage})
+      : _shareImage = shareImage ?? _defaultShareImage,
+        super(const ShareState()) {
     on<ShareTapped>(_onShareTapped);
   }
+
+  final AsyncValueGetter<ShareUrls> _shareImage;
 
   Future<void> _onShareTapped(
     ShareTapped event,
@@ -24,6 +29,8 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     if (state.shareStatus.isSuccess) return;
 
     try {
+      emit(state.copyWith(shareStatus: ShareStatus.loading));
+
       final shareUrls = await _shareImage();
 
       emit(
@@ -44,7 +51,7 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
   }
 
   // TODO(laura177): change to sharePhoto methods when we have final asset.
-  Future<ShareUrls> _shareImage() async {
+  static Future<ShareUrls> _defaultShareImage() async {
     return const ShareUrls(
       explicitShareUrl: 'https://google.com',
       facebookShareUrl: 'https://facebook.com',

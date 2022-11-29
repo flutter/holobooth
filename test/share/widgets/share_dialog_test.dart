@@ -24,6 +24,13 @@ void main() {
       );
     });
 
+    testWidgets('tapping on close will dismiss the popup', (tester) async {
+      await tester.pumpApp(Material(child: ShareDialog(image: image)));
+      await tester.tap(find.byIcon(Icons.clear));
+      await tester.pumpAndSettle();
+      expect(find.byType(ShareDialog), findsNothing);
+    });
+
     group('renders', () {
       final image = FakePhotoboothCameraImage();
       testWidgets('successfully', (tester) async {

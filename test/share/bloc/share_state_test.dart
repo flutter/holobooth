@@ -51,5 +51,35 @@ void main() {
         ShareState(shareStatus: ShareStatus.failure),
       );
     });
+
+    test('isLoading is only true for loading ShareStatus', () {
+      expect(ShareStatus.initial.isLoading, isFalse);
+
+      expect(ShareStatus.loading.isLoading, isTrue);
+
+      expect(ShareStatus.failure.isLoading, isFalse);
+
+      expect(ShareStatus.success.isLoading, isFalse);
+    });
+
+    test('isSuccess is only true for success ShareStatus', () {
+      expect(ShareStatus.initial.isSuccess, isFalse);
+
+      expect(ShareStatus.loading.isSuccess, isFalse);
+
+      expect(ShareStatus.failure.isSuccess, isFalse);
+
+      expect(ShareStatus.success.isSuccess, isTrue);
+    });
+
+    test('isFailure is only true for failure ShareStatus', () {
+      expect(ShareStatus.initial.isFailure, isFalse);
+
+      expect(ShareStatus.loading.isFailure, isFalse);
+
+      expect(ShareStatus.failure.isFailure, isTrue);
+
+      expect(ShareStatus.success.isFailure, isFalse);
+    });
   });
 }
