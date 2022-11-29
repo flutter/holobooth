@@ -8,7 +8,7 @@ class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
 
   // Minimum height calculated to avoid overlap in the stack
-  static const _minBodyHeight = 600.0;
+  static const _minBodyHeight = 450.0;
 
   @override
   Widget build(BuildContext context) {
