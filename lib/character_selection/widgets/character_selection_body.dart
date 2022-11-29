@@ -8,7 +8,7 @@ class CharacterSelectionBody extends StatelessWidget {
   const CharacterSelectionBody({super.key});
 
   // Minimum height calculated to avoid overlap in the stack
-  static const _minBodyHeight = 850.0;
+  static const _minBodyHeight = 600.0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +38,14 @@ class CharacterSelectionBody extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: Transform.translate(
-                  offset: Offset(0, -250),
-                  child: CharacterSpotlight(
-                    bodyHeight: bodyHeight,
-                    viewPortFraction: viewportFraction,
-                  ),
+                child: CharacterSpotlight(
+                  bodyHeight: bodyHeight,
+                  viewPortFraction: viewportFraction,
                 ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Transform.translate(
-                    offset: Offset(0, -250),
-                    child:
-                        CharacterSelector(viewportFraction: viewportFraction)),
+                child: CharacterSelector(viewportFraction: viewportFraction),
               ),
             ],
           ),

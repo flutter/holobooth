@@ -40,10 +40,10 @@ class SpotlightBeam extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final pathLightBody = Path()
-      ..moveTo(size.width / 2, 0)
+      ..moveTo(size.width / 3, 0)
       ..lineTo(0, size.height)
       ..lineTo(size.width, size.height)
-      ..lineTo((size.width / 2), 0)
+      ..lineTo((size.width / 3) * 2, 0)
       ..close();
 
     final paintLightBody = Paint()
