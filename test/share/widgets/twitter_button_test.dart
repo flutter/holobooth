@@ -57,9 +57,10 @@ void main() {
       (tester) async {
     when(() => shareBloc.state).thenReturn(
       ShareState(
-          shareStatus: ShareStatus.success,
-          shareUrl: ShareUrl.twitter,
-          twitterShareUrl: 'https://twitter.com'),
+        shareStatus: ShareStatus.success,
+        shareUrl: ShareUrl.twitter,
+        twitterShareUrl: 'https://twitter.com',
+      ),
     );
     await tester.pumpApp(buildSubject());
     await tester.tap(find.byType(ElevatedButton));
