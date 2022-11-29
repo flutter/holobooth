@@ -16,14 +16,14 @@ class CharacterSelectionHeader extends StatelessWidget {
           const SizedBox(height: 24),
           SelectableText(
             l10n.chooseYourCharacterTitleText,
-            style: theme.textTheme.headline1
+            style: theme.textTheme.displayLarge
                 ?.copyWith(color: PhotoboothColors.white),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           SelectableText(
             l10n.youCanChangeThemLaterSubheading,
-            style: theme.textTheme.headline3
+            style: theme.textTheme.displaySmall
                 ?.copyWith(color: PhotoboothColors.white),
             textAlign: TextAlign.center,
           ),

@@ -29,12 +29,14 @@ void main() {
           hasMouthOpen: false,
           leftEyeIsClosed: false,
           rightEyeIsClosed: false,
+          distance: 0.5,
         );
-        const avatar2 = Avatar(
+        final avatar2 = Avatar(
           direction: Vector3(1, 2, 3),
-          hasMouthOpen: true,
-          leftEyeIsClosed: true,
-          rightEyeIsClosed: true,
+          hasMouthOpen: !avatar1.hasMouthOpen,
+          leftEyeIsClosed: !avatar1.leftEyeIsClosed,
+          rightEyeIsClosed: !avatar1.rightEyeIsClosed,
+          distance: avatar1.distance + 0.1,
         );
 
         final state1 = AvatarDetectorState(

@@ -27,7 +27,7 @@ class FaceDirection extends Equatable {
           rightCheeckBone: keypoints[446],
         );
 
-  /// An empty instance of [MouthGeometry].
+  /// An empty instance of [FaceDirection].
   ///
   /// This is used when the keypoints are not available.
   const FaceDirection._empty() : value = Vector3.zero;

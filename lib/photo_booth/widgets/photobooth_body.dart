@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/drawer_selection/drawer_selection.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 
 class PhotoboothBody extends StatefulWidget {
@@ -50,22 +50,19 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
       children: [
         const PhotoboothBackground(),
         Align(
-          child: Opacity(
-            opacity: 1,
-            child: SizedBox(
-              height: 0,
-              child: CameraView(
-                onCameraReady: _onCameraReady,
-                errorBuilder: (context, error) {
-                  if (error is CameraException) {
-                    return PhotoboothError(error: error);
-                  } else {
-                    return const SizedBox.shrink(
-                      key: PhotoboothBody.cameraErrorViewKey,
-                    );
-                  }
-                },
-              ),
+          child: SizedBox.fromSize(
+            size: Size.zero,
+            child: CameraView(
+              onCameraReady: _onCameraReady,
+              errorBuilder: (context, error) {
+                if (error is CameraException) {
+                  return PhotoboothError(error: error);
+                } else {
+                  return const SizedBox.shrink(
+                    key: PhotoboothBody.cameraErrorViewKey,
+                  );
+                }
+              },
             ),
           ),
         ),

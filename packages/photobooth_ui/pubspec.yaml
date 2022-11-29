@@ -16,7 +16,7 @@ dependencies:
   url_launcher: ^6.1.5
 
 dev_dependencies:
-  alchemist: ^0.5.1
+  alchemist: ^0.6.0-dev.1
   flutter_test:
     sdk: flutter
   mocktail: ^0.1.1

@@ -66,77 +66,15 @@ void main() {
       );
     });
 
-    group('onCameraReady', () {
-      testWidgets('called when ready', (tester) async {
-        var calls = 0;
-        final subject = CameraView(
-          onCameraReady: (_) => calls++,
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
-
-        expect(calls, equals(1));
-      });
-
-      testWidgets('called again when resumed', (tester) async {
-        var calls = 0;
-        final subject = CameraView(
-          onCameraReady: (_) => calls++,
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
-
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-        await tester.pumpAndSettle();
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-
-        expect(calls, equals(2));
-      });
-    });
-
-    group('didChangeAppLifecycleState', () {
-      testWidgets('disposes camera when inactive', (tester) async {
-        final subject = CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
-
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.dispose(cameraId)).called(1);
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-      });
-
-      testWidgets('intializes camera again when resumed', (tester) async {
-        final subject = CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
-
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.inactive);
-        await tester.pumpAndSettle();
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-
-        verify(() => cameraPlatform.onCameraInitialized(cameraId)).called(1);
-      });
+    testWidgets('called when ready', (tester) async {
+      var calls = 0;
+      final subject = CameraView(
+        onCameraReady: (_) => calls++,
+        errorBuilder: (_, __) => const SizedBox(),
+      );
+      await tester.pumpWidget(subject);
+      await tester.pumpAndSettle();
+      expect(calls, equals(1));
     });
 
     group('renders', () {

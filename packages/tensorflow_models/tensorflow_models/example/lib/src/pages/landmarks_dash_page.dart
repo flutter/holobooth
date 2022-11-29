@@ -5,6 +5,7 @@ import 'package:example/src/widgets/dash_with_background.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDashPage extends StatelessWidget {
   const LandmarksDashPage({Key? key}) : super(key: key);
@@ -25,7 +26,10 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
+
+  final _imageSize = tf.Size(1280, 720);
   FaceGeometry? _faceGeometry;
+
   bool _displayDashBackground = true;
 
   void _onCameraReady(CameraController cameraController) {
@@ -61,8 +65,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
                 } else {
                   final face = faces.first;
                   _faceGeometry = _faceGeometry == null
-                      ? FaceGeometry.fromFace(face)
-                      : _faceGeometry!.update(face);
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
                 }
 
                 return Stack(
@@ -119,7 +123,7 @@ class _DashState extends State<_Dash> {
         -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
       );
       _dashController?.y.change(
-        direction.y * ((_DashStateMachineController._xRange / 2) + 50),
+        direction.y * ((_DashStateMachineController._yRange / 2) + 50),
       );
     }
   }
@@ -197,6 +201,11 @@ class _DashStateMachineController extends StateMachineController {
   ///
   /// This data comes from the Rive file.
   static const _xRange = 200;
+
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;

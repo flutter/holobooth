@@ -12,6 +12,7 @@ void main() {
         direction: Vector3(0, 0, 0),
         leftEyeIsClosed: false,
         rightEyeIsClosed: false,
+        distance: 0.5,
       );
 
       late StateSetter stateSetter;
@@ -28,25 +29,33 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;
       final controller = state.dashController;
+      final x = controller?.x.value;
+      final y = controller?.y.value;
       expect(controller?.mouthIsOpen.value, false);
+
       stateSetter(
         () => avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
-          direction: Vector3(0, 0, 0),
+          direction: Vector3(1, 1, 1),
           leftEyeIsClosed: !avatar.leftEyeIsClosed,
           rightEyeIsClosed: !avatar.rightEyeIsClosed,
+          distance: avatar.distance,
         ),
       );
-      await tester.pump();
+      await tester.pump(Duration(milliseconds: 150));
+      await tester.pump(Duration(milliseconds: 150));
 
       expect(controller?.mouthIsOpen.value, avatar.hasMouthOpen);
       expect(controller?.leftEyeIsClosed.value, avatar.leftEyeIsClosed);
       expect(controller?.rightEyeIsClosed.value, avatar.rightEyeIsClosed);
+      expect(controller?.x.value, isNot(equals(x)));
+      expect(controller?.y.value, isNot(equals(y)));
+      await tester.pump(kThemeAnimationDuration);
     });
   });
 }

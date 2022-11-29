@@ -16,6 +16,7 @@ jobs:
   build:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
-      flutter_version: 3.3.1
+      flutter_channel: "beta"
+      flutter_version: 3.6.0-0.1.pre
       coverage_excludes: "**/*.gen.dart"
       working_directory: packages/photos_repository

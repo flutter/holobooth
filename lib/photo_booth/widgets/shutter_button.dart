@@ -122,7 +122,7 @@ class CountdownTimer extends StatelessWidget {
           Align(
             child: Text(
               '$seconds',
-              style: theme.textTheme.headline1?.copyWith(
+              style: theme.textTheme.displayLarge?.copyWith(
                 color: PhotoboothColors.white,
                 fontWeight: FontWeight.w500,
               ),

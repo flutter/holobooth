@@ -48,7 +48,7 @@ class ShareButton extends StatelessWidget {
         l10n.sharePageShareButtonText,
         style: Theme.of(context)
             .textTheme
-            .button
+            .labelLarge
             ?.copyWith(color: PhotoboothColors.blue),
       ),
     );

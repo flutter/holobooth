@@ -19,7 +19,7 @@ class FooterLink extends StatelessWidget {
       onPressed: () => openLink(link),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyText2?.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: PhotoboothColors.white,
             ),
       ),
