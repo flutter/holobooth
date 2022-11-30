@@ -120,48 +120,50 @@ class SelectionButtons extends StatelessWidget {
         alignment: screenSize >= PhotoboothBreakpoints.small
             ? Alignment.centerRight
             : Alignment.topCenter,
-        child: Flex(
-          mainAxisSize: MainAxisSize.min,
-          direction: screenSize >= PhotoboothBreakpoints.small
-              ? Axis.vertical
-              : Axis.horizontal,
-          children: [
-            ItemSelectorButton(
-              key: SelectionButtons.charactersSelectionButtonKey,
-              title: context.l10n.characterSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.characters,
+        child: SingleChildScrollView(
+          child: Flex(
+            mainAxisSize: MainAxisSize.min,
+            direction: screenSize >= PhotoboothBreakpoints.small
+                ? Axis.vertical
+                : Axis.horizontal,
+            children: [
+              ItemSelectorButton(
+                key: SelectionButtons.charactersSelectionButtonKey,
+                title: context.l10n.characterSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                onTap: () => context.read<InExperienceSelectionBloc>().add(
+                      const InExperienceSelectionOptionSelected(
+                        drawerOption: DrawerOption.characters,
+                      ),
                     ),
-                  ),
-              child: const _ButtonBackground(),
-            ),
-            spacer,
-            ItemSelectorButton(
-              key: SelectionButtons.propsSelectionButtonKey,
-              title: context.l10n.propsSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.props,
+                child: const _ButtonBackground(),
+              ),
+              spacer,
+              ItemSelectorButton(
+                key: SelectionButtons.propsSelectionButtonKey,
+                title: context.l10n.propsSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                onTap: () => context.read<InExperienceSelectionBloc>().add(
+                      const InExperienceSelectionOptionSelected(
+                        drawerOption: DrawerOption.props,
+                      ),
                     ),
-                  ),
-              child: const _ButtonBackground(),
-            ),
-            spacer,
-            ItemSelectorButton(
-              key: SelectionButtons.backgroundSelectorButtonKey,
-              title: context.l10n.backgroundSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.backgrounds,
+                child: const _ButtonBackground(),
+              ),
+              spacer,
+              ItemSelectorButton(
+                key: SelectionButtons.backgroundSelectorButtonKey,
+                title: context.l10n.backgroundSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                onTap: () => context.read<InExperienceSelectionBloc>().add(
+                      const InExperienceSelectionOptionSelected(
+                        drawerOption: DrawerOption.backgrounds,
+                      ),
                     ),
-                  ),
-              child: const _ButtonBackground(),
-            ),
-          ],
+                child: const _ButtonBackground(),
+              ),
+            ],
+          ),
         ),
       ),
     );
