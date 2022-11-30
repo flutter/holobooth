@@ -178,7 +178,14 @@ class _BackgroundSelectionButton extends StatelessWidget {
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
 
-    return _Button(imageProvider: backgroundSelected.toImageProvider());
+    return _Button(
+      imageProvider: backgroundSelected.toImageProvider(),
+      onTap: () => context.read<InExperienceSelectionBloc>().add(
+            const InExperienceSelectionOptionSelected(
+              drawerOption: DrawerOption.backgrounds,
+            ),
+          ),
+    );
   }
 }
 
@@ -193,6 +200,11 @@ class _CharacterSelectionButton extends StatelessWidget {
     return _Button(
       imageProvider: characterSelected.toImageProvider(),
       backgroundColor: characterSelected.toBackgroundColor(),
+      onTap: () => context.read<InExperienceSelectionBloc>().add(
+            const InExperienceSelectionOptionSelected(
+              drawerOption: DrawerOption.characters,
+            ),
+          ),
     );
   }
 }
@@ -201,10 +213,12 @@ class _Button extends StatelessWidget {
   const _Button({
     required this.imageProvider,
     this.backgroundColor,
+    required this.onTap,
   });
 
   final ImageProvider imageProvider;
   final Color? backgroundColor;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -212,9 +226,17 @@ class _Button extends StatelessWidget {
       radius: 55,
       backgroundColor: PhotoboothColors.white,
       child: CircleAvatar(
-        foregroundImage: imageProvider,
-        backgroundColor: backgroundColor,
         radius: 50,
+        backgroundImage: imageProvider,
+        backgroundColor: backgroundColor,
+        child: Material(
+          shape: const CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+          ),
+        ),
       ),
     );
   }

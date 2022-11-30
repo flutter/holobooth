@@ -47,15 +47,7 @@ class ItemSelectorButton extends StatelessWidget {
             ),
           ),
         if (showTitle) const SizedBox(height: 24),
-        Material(
-          clipBehavior: Clip.hardEdge,
-          shape: const CircleBorder(),
-          color: PhotoboothColors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            child: child,
-          ),
-        ),
+        child,
       ],
     );
   }
