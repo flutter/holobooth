@@ -9,7 +9,6 @@ class ItemSelectorButton extends StatelessWidget {
   const ItemSelectorButton({
     super.key,
     required this.title,
-    required this.onTap,
     required this.showTitle,
     required this.child,
   });
@@ -19,9 +18,6 @@ class ItemSelectorButton extends StatelessWidget {
 
   /// Boolean whether to show title of button.
   final bool showTitle;
-
-  /// The function when button is tapped.
-  final VoidCallback onTap;
 
   /// The content of the button.
   final Widget child;

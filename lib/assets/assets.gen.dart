@@ -152,6 +152,16 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsPropsGen {
+  const $AssetsPropsGen();
+
+  /// File path: assets/props/prop1.png
+  AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [prop1];
+}
+
 class Assets {
   Assets._();
 
@@ -161,6 +171,7 @@ class Assets {
   static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsPropsGen props = $AssetsPropsGen();
 }
 
 class AssetGenImage {

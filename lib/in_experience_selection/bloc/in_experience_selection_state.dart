@@ -1,9 +1,5 @@
 part of 'in_experience_selection_bloc.dart';
 
-enum Prop {
-  helmet,
-}
-
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
     this.drawerOption,
