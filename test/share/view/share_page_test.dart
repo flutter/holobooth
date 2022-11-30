@@ -94,7 +94,7 @@ void main() {
         ShareView(
           images: images,
         ),
-        ShareBloc(),
+        shareBloc,
       );
       await tester.pumpAndSettle();
       verify(
@@ -119,7 +119,7 @@ void main() {
         ShareView(
           images: images,
         ),
-        ShareBloc(),
+        shareBloc,
       );
       await tester.pumpAndSettle();
       verify(
@@ -143,7 +143,7 @@ void main() {
         ShareView(
           images: images,
         ),
-        ShareBloc(),
+        shareBloc,
       );
       await tester.pumpAndSettle();
       verify(
@@ -171,7 +171,7 @@ void main() {
         ShareView(
           images: images,
         ),
-        ShareBloc(),
+        shareBloc,
       );
       await tester.pumpAndSettle();
       verify(
