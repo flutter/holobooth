@@ -217,7 +217,8 @@ void main() {
     });
 
     testWidgets(
-        'adds InExperienceSelectionOptionUnselected after closing bottom sheet '
+        'adds InExperienceSelectionOptionSelected with DrawerOption.none '
+        'after closing bottom sheet '
         'on mobile breakpoint', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
@@ -235,8 +236,9 @@ void main() {
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       verify(
-        () => inExperienceSelectionBloc
-            .add(InExperienceSelectionOptionUnselected()),
+        () => inExperienceSelectionBloc.add(
+          InExperienceSelectionOptionSelected(drawerOption: DrawerOption.none),
+        ),
       ).called(1);
     });
   });

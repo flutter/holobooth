@@ -30,11 +30,10 @@ void main() {
           name: 'button',
           child: _SubjectBuilder(
             builder: (_) {
-              return ItemSelectorButton(
-                buttonBackground: const ColoredBox(color: Colors.blue),
+              return const ItemSelectorButton(
                 title: 'title',
                 showTitle: true,
-                onTap: () {},
+                child: Text('1'),
               );
             },
           ),

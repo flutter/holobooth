@@ -47,21 +47,6 @@ void main() {
       );
     });
 
-    group('InExperienceSelectionOptionUnselected', () {
-      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits initial state if previous option selected',
-        build: InExperienceSelectionBloc.new,
-        seed: () =>
-            InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
-        act: (bloc) => bloc.add(
-          InExperienceSelectionOptionUnselected(),
-        ),
-        expect: () => [
-          InExperienceSelectionState(),
-        ],
-      );
-    });
-
     group('InExperienceSelectionPropSelected', () {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state with prop selected.',
