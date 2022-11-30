@@ -19,7 +19,17 @@ class InExperienceSelectionBloc
     InExperienceSelectionOptionSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
-    emit(state.copyWith(drawerOption: event.drawerOption));
+    if (event.drawerOption != null) {
+      emit(state.copyWith(drawerOption: event.drawerOption));
+    } else {
+      emit(
+        InExperienceSelectionState(
+          background: state.background,
+          character: state.character,
+          selectedProps: state.selectedProps,
+        ),
+      );
+    }
   }
 
   FutureOr<void> _propSelected(

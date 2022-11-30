@@ -45,6 +45,17 @@ void main() {
           InExperienceSelectionState(drawerOption: DrawerOption.backgrounds)
         ],
       );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits with option unselected',
+        build: InExperienceSelectionBloc.new,
+        seed: () =>
+            InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
+        act: (bloc) => bloc.add(
+          InExperienceSelectionOptionSelected(),
+        ),
+        expect: () => [InExperienceSelectionState()],
+      );
     });
 
     group('InExperienceSelectionPropSelected', () {
