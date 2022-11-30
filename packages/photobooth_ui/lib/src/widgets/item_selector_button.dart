@@ -46,11 +46,16 @@ class ItemSelectorButton extends StatelessWidget {
                   ?.copyWith(color: PhotoboothColors.white),
             ),
           ),
-        if (showTitle)
-          const SizedBox(
-            height: 24,
+        if (showTitle) const SizedBox(height: 24),
+        Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const CircleBorder(),
+          color: PhotoboothColors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: child,
           ),
-        child,
+        ),
       ],
     );
   }

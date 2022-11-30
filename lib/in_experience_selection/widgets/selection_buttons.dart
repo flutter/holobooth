@@ -136,7 +136,7 @@ class SelectionButtons extends StatelessWidget {
                         drawerOption: DrawerOption.characters,
                       ),
                     ),
-                child: const _ButtonBackground(),
+                child: const _CharacterSelectionButton(),
               ),
               spacer,
               ItemSelectorButton(
@@ -148,7 +148,7 @@ class SelectionButtons extends StatelessWidget {
                         drawerOption: DrawerOption.props,
                       ),
                     ),
-                child: const _ButtonBackground(),
+                child: const _BackgroundSelectionButton(),
               ),
               spacer,
               ItemSelectorButton(
@@ -160,7 +160,7 @@ class SelectionButtons extends StatelessWidget {
                         drawerOption: DrawerOption.backgrounds,
                       ),
                     ),
-                child: const _ButtonBackground(),
+                child: const _BackgroundSelectionButton(),
               ),
             ],
           ),
@@ -170,8 +170,8 @@ class SelectionButtons extends StatelessWidget {
   }
 }
 
-class _ButtonBackground extends StatelessWidget {
-  const _ButtonBackground();
+class _BackgroundSelectionButton extends StatelessWidget {
+  const _BackgroundSelectionButton();
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +182,29 @@ class _ButtonBackground extends StatelessWidget {
   }
 }
 
+class _CharacterSelectionButton extends StatelessWidget {
+  const _CharacterSelectionButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final characterSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.character);
+
+    return _Button(
+      imageProvider: characterSelected.toImageProvider(),
+      backgroundColor: characterSelected.toBackgroundColor(),
+    );
+  }
+}
+
 class _Button extends StatelessWidget {
-  const _Button({required this.imageProvider});
+  const _Button({
+    required this.imageProvider,
+    this.backgroundColor,
+  });
 
   final ImageProvider imageProvider;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +213,7 @@ class _Button extends StatelessWidget {
       backgroundColor: PhotoboothColors.white,
       child: CircleAvatar(
         foregroundImage: imageProvider,
+        backgroundColor: backgroundColor,
         radius: 50,
       ),
     );

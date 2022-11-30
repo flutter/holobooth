@@ -9,11 +9,13 @@ class InExperienceSelectionState extends Equatable {
     this.drawerOption,
     this.selectedProps = const [],
     this.background = Background.space,
+    this.character = Character.dash,
   });
 
   final DrawerOption? drawerOption;
   final List<Prop> selectedProps;
   final Background background;
+  final Character character;
 
   @override
   List<Object?> get props => [drawerOption, selectedProps, background];
