@@ -255,10 +255,10 @@ class _Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 35,
+      radius: 38,
       backgroundColor: PhotoboothColors.white,
       child: CircleAvatar(
-        radius: 30,
+        radius: 34,
         backgroundImage: imageProvider,
         backgroundColor: backgroundColor,
         child: Material(
