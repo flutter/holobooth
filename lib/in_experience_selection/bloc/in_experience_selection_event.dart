@@ -13,13 +13,6 @@ class InExperienceSelectionOptionSelected extends InExperienceSelectionEvent {
   List<Object> get props => [drawerOption];
 }
 
-class InExperienceSelectionOptionUnselected extends InExperienceSelectionEvent {
-  const InExperienceSelectionOptionUnselected();
-
-  @override
-  List<Object> get props => [];
-}
-
 class InExperienceSelectionPropSelected extends InExperienceSelectionEvent {
   const InExperienceSelectionPropSelected(this.prop);
 

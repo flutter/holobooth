@@ -11,7 +11,6 @@ class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
   InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
     on<InExperienceSelectionOptionSelected>(_optionSelected);
-    on<InExperienceSelectionOptionUnselected>(_optionUnselected);
     on<InExperienceSelectionPropSelected>(_propSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
   }
@@ -21,13 +20,6 @@ class InExperienceSelectionBloc
     Emitter<InExperienceSelectionState> emit,
   ) {
     emit(state.copyWith(drawerOption: event.drawerOption));
-  }
-
-  FutureOr<void> _optionUnselected(
-    InExperienceSelectionOptionUnselected event,
-    Emitter<InExperienceSelectionState> emit,
-  ) {
-    emit(const InExperienceSelectionState());
   }
 
   FutureOr<void> _propSelected(

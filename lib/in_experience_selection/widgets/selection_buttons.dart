@@ -30,7 +30,9 @@ class SelectionButtons extends StatelessWidget {
 
   void _closeSheet(BuildContext context) {
     context.read<InExperienceSelectionBloc>().add(
-          const InExperienceSelectionOptionUnselected(),
+          const InExperienceSelectionOptionSelected(
+            drawerOption: DrawerOption.none,
+          ),
         );
     Navigator.of(context).pop();
   }
@@ -101,18 +103,20 @@ class SelectionButtons extends StatelessWidget {
 
     return BlocListener<InExperienceSelectionBloc, InExperienceSelectionState>(
       listenWhen: (previous, current) =>
-          previous != current && current.drawerOption != null,
+          previous != current && current.drawerOption != DrawerOption.none,
       listener: (context, state) {
         if (MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small) {
           return Scaffold.of(context).openEndDrawer();
         } else {
-          switch (state.drawerOption!) {
+          switch (state.drawerOption) {
             case DrawerOption.characters:
               return _showCharacterBottomSheet(context);
             case DrawerOption.props:
               return _showPropsBottomSheet(context);
             case DrawerOption.backgrounds:
               return _showBackgroundBottomSheet(context);
+            case DrawerOption.none:
+              break;
           }
         }
       },
