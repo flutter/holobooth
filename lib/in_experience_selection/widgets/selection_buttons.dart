@@ -132,24 +132,27 @@ class SelectionButtons extends StatelessWidget {
                 : Axis.horizontal,
             children: [
               ItemSelectorButton(
-                key: SelectionButtons.charactersSelectionButtonKey,
                 title: context.l10n.characterSelectorButton,
                 showTitle: screenSize >= PhotoboothBreakpoints.small,
-                child: const _CharacterSelectionButton(),
+                child: const _CharacterSelectionButton(
+                  key: SelectionButtons.charactersSelectionButtonKey,
+                ),
               ),
               spacer,
               ItemSelectorButton(
-                key: SelectionButtons.propsSelectionButtonKey,
                 title: context.l10n.propsSelectorButton,
                 showTitle: screenSize >= PhotoboothBreakpoints.small,
-                child: const _PropsSelectionButton(),
+                child: const _PropsSelectionButton(
+                  key: SelectionButtons.propsSelectionButtonKey,
+                ),
               ),
               spacer,
               ItemSelectorButton(
-                key: SelectionButtons.backgroundSelectorButtonKey,
                 title: context.l10n.backgroundSelectorButton,
                 showTitle: screenSize >= PhotoboothBreakpoints.small,
-                child: const _BackgroundSelectionButton(),
+                child: const _BackgroundSelectionButton(
+                  key: SelectionButtons.backgroundSelectorButtonKey,
+                ),
               ),
             ],
           ),
@@ -160,7 +163,7 @@ class SelectionButtons extends StatelessWidget {
 }
 
 class _BackgroundSelectionButton extends StatelessWidget {
-  const _BackgroundSelectionButton();
+  const _BackgroundSelectionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +182,7 @@ class _BackgroundSelectionButton extends StatelessWidget {
 }
 
 class _CharacterSelectionButton extends StatelessWidget {
-  const _CharacterSelectionButton();
+  const _CharacterSelectionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +202,7 @@ class _CharacterSelectionButton extends StatelessWidget {
 }
 
 class _PropsSelectionButton extends StatelessWidget {
-  const _PropsSelectionButton();
+  const _PropsSelectionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
