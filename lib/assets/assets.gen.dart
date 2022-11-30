@@ -41,6 +41,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
 
+  /// File path: assets/backgrounds/forest.png
+  AssetGenImage get forest =>
+      const AssetGenImage('assets/backgrounds/forest.png');
+
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
@@ -53,13 +57,24 @@ class $AssetsBackgroundsGen {
   AssetGenImage get redBox =>
       const AssetGenImage('assets/backgrounds/red_box.png');
 
+  /// File path: assets/backgrounds/space.png
+  AssetGenImage get space =>
+      const AssetGenImage('assets/backgrounds/space.png');
+
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [blueCircle, landingBackground, photoboothBackground, redBox, yellowPlus];
+  List<AssetGenImage> get values => [
+        blueCircle,
+        forest,
+        landingBackground,
+        photoboothBackground,
+        redBox,
+        space,
+        yellowPlus
+      ];
 }
 
 class $AssetsCharactersGen {
