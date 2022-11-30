@@ -16,7 +16,7 @@ import '../../helpers/helpers.dart';
 class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
     implements PhotoBoothBloc {}
 
-class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
+class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
   @override
@@ -24,7 +24,7 @@ class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 }
 
 void main() {
-  final image = FakePhotoboothCameraImage();
+  final image = _FakePhotoboothCameraImage();
 
   late PhotoBoothBloc photoboothBloc;
 

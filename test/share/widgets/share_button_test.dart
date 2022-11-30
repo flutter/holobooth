@@ -10,7 +10,7 @@ import '../../helpers/helpers.dart';
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
-class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
+class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
   @override
@@ -26,13 +26,13 @@ void main() {
     });
 
     test('can be instantiated', () {
-      final image = FakePhotoboothCameraImage();
+      final image = _FakePhotoboothCameraImage();
       expect(ShareButton(image: image), isA<ShareButton>());
     });
 
     group('renders', () {
       testWidgets('successfully', (tester) async {
-        final image = FakePhotoboothCameraImage();
+        final image = _FakePhotoboothCameraImage();
         final subject = ShareButton(image: image);
         await tester.pumpSubject(subject);
         expect(find.byWidget(subject), findsOneWidget);
@@ -40,7 +40,7 @@ void main() {
     });
 
     group('onPressed', () {
-      final image = FakePhotoboothCameraImage();
+      final image = _FakePhotoboothCameraImage();
       testWidgets(
         'opens ShareDialog when on desktop and landscape',
         (tester) async {

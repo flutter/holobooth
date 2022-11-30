@@ -11,7 +11,7 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockShareBloc extends MockBloc<ShareEvent, ShareState>
+class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
     implements ShareBloc {}
 
 class _MockUrlLauncher extends Mock
@@ -49,7 +49,7 @@ void main() {
     setUp(() {
       mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
-      shareBloc = MockShareBloc();
+      shareBloc = _MockShareBloc();
 
       when(() => shareBloc.state).thenReturn(ShareState());
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
@@ -67,17 +67,13 @@ void main() {
       FakePhotoboothCameraImage()
     ];
 
-    Widget buildSubject() {
-      return BlocProvider.value(
-        value: shareBloc,
-        child: ShareView(
+    testWidgets('contains a ShareBody', (tester) async {
+      await tester.pumpSubject(
+        ShareView(
           images: images,
         ),
+        ShareBloc(),
       );
-    }
-
-    testWidgets('contains a ShareBody', (tester) async {
-      await tester.pumpApp(buildSubject());
       expect(find.byType(ShareBody), findsOneWidget);
     });
 
@@ -94,7 +90,12 @@ void main() {
           )
         ]),
       );
-      await tester.pumpApp(buildSubject());
+      await tester.pumpSubject(
+        ShareView(
+          images: images,
+        ),
+        ShareBloc(),
+      );
       await tester.pumpAndSettle();
       verify(
         () => mock.launchUrl('http://twitter.com', any()),
@@ -114,7 +115,12 @@ void main() {
           )
         ]),
       );
-      await tester.pumpApp(buildSubject());
+      await tester.pumpSubject(
+        ShareView(
+          images: images,
+        ),
+        ShareBloc(),
+      );
       await tester.pumpAndSettle();
       verify(
         () => mock.launchUrl('http://facebook.com', any()),
@@ -133,7 +139,12 @@ void main() {
           )
         ]),
       );
-      await tester.pumpApp(buildSubject());
+      await tester.pumpSubject(
+        ShareView(
+          images: images,
+        ),
+        ShareBloc(),
+      );
       await tester.pumpAndSettle();
       verify(
         () => mock.launchUrl('http://google.com', any()),
@@ -156,7 +167,12 @@ void main() {
           )
         ]),
       );
-      await tester.pumpApp(buildSubject());
+      await tester.pumpSubject(
+        ShareView(
+          images: images,
+        ),
+        ShareBloc(),
+      );
       await tester.pumpAndSettle();
       verify(
         () => mock.launchUrl('http://twitter.com', any()),
@@ -321,4 +337,13 @@ void main() {
       // TODO(laura177): test for download when functionality is added.
     });
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(ShareView subject, ShareBloc bloc) => pumpApp(
+        MultiBlocProvider(
+          providers: [BlocProvider.value(value: bloc)],
+          child: subject,
+        ),
+      );
 }

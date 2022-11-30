@@ -5,7 +5,7 @@ import 'package:io_photobooth/share/share.dart';
 
 import '../../helpers/helpers.dart';
 
-class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
+class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
   @override
@@ -14,7 +14,7 @@ class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 
 void main() {
   group('ShareBottomSheet', () {
-    final image = FakePhotoboothCameraImage();
+    final image = _FakePhotoboothCameraImage();
     test('can be instantiated', () {
       expect(
         ShareBottomSheet(

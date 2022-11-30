@@ -10,7 +10,7 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class MockShareBloc extends MockBloc<ShareEvent, ShareState>
+class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
     implements ShareBloc {}
 
 class _MockUrlLauncher extends Mock
@@ -24,7 +24,7 @@ void main() {
   setUp(() {
     mock = _MockUrlLauncher();
     UrlLauncherPlatform.instance = mock;
-    shareBloc = MockShareBloc();
+    shareBloc = _MockShareBloc();
 
     when(() => shareBloc.state).thenReturn(ShareState());
     when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
