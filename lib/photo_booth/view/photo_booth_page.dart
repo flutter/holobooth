@@ -62,9 +62,7 @@ class PhotoBoothView extends StatelessWidget {
         onEndDrawerChanged: (value) {
           if (!value) {
             inExperienceSelectionBloc.add(
-              const InExperienceSelectionOptionSelected(
-                drawerOption: DrawerOption.none,
-              ),
+              const InExperienceSelectionOptionSelected(),
             );
           }
         },

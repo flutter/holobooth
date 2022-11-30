@@ -2,13 +2,13 @@ part of 'in_experience_selection_bloc.dart';
 
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
-    this.drawerOption = DrawerOption.none,
+    this.drawerOption,
     this.selectedProps = const [],
     this.background = Background.space,
     this.character = Character.dash,
   });
 
-  final DrawerOption drawerOption;
+  final DrawerOption? drawerOption;
   final List<Prop> selectedProps;
   final Background background;
   final Character character;

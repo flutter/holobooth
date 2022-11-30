@@ -23,8 +23,10 @@ class DrawerLayer extends StatelessWidget {
     return BlocBuilder<InExperienceSelectionBloc, InExperienceSelectionState>(
       builder: (context, state) {
         switch (state.drawerOption) {
-          case DrawerOption.none:
-            return const SizedBox(key: noOptionSelectedKey);
+          case null:
+            return const SizedBox(
+              key: noOptionSelectedKey,
+            );
           case DrawerOption.props:
             return BlocSelector<InExperienceSelectionBloc,
                 InExperienceSelectionState, List<Prop>>(

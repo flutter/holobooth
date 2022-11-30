@@ -5,12 +5,12 @@ abstract class InExperienceSelectionEvent extends Equatable {
 }
 
 class InExperienceSelectionOptionSelected extends InExperienceSelectionEvent {
-  const InExperienceSelectionOptionSelected({required this.drawerOption});
+  const InExperienceSelectionOptionSelected({this.drawerOption});
 
-  final DrawerOption drawerOption;
+  final DrawerOption? drawerOption;
 
   @override
-  List<Object> get props => [drawerOption];
+  List<Object?> get props => [drawerOption];
 }
 
 class InExperienceSelectionPropSelected extends InExperienceSelectionEvent {

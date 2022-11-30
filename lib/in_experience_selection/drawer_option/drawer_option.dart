@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 
-enum DrawerOption { props, backgrounds, characters, none }
+enum DrawerOption { props, backgrounds, characters }
 
 extension LocalizedDrawerOption on DrawerOption {
   String localized(BuildContext context) {
@@ -14,8 +14,6 @@ extension LocalizedDrawerOption on DrawerOption {
         return l10n.backgroundSelectorButton;
       case DrawerOption.characters:
         return l10n.characterSelectorButton;
-      case DrawerOption.none:
-        return '';
     }
   }
 }
