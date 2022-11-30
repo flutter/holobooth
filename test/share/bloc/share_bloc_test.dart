@@ -21,23 +21,6 @@ void main() {
       ],
     );
 
-    blocTest<ShareBloc, ShareState>(
-      'shareStatus is failure when an exception is thrown',
-      build: () => ShareBloc(shareImage: () => throw Exception()),
-      act: (bloc) => bloc.add(ShareTapped(shareUrl: ShareUrl.facebook)),
-      expect: () => [
-        ShareState(shareUrl: ShareUrl.facebook),
-        ShareState(
-          shareStatus: ShareStatus.loading,
-          shareUrl: ShareUrl.facebook,
-        ),
-        ShareState(
-          shareStatus: ShareStatus.failure,
-          shareUrl: ShareUrl.facebook,
-        )
-      ],
-    );
-
     group('on sharing to Twitter', () {
       blocTest<ShareBloc, ShareState>(
         'tapping Twitter updates the shareStatus and shareUrl',

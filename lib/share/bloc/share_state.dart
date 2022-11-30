@@ -1,13 +1,12 @@
 part of 'share_bloc.dart';
 
-enum ShareStatus { initial, loading, success, failure }
+enum ShareStatus { initial, loading, success }
 
 enum ShareUrl { none, twitter, facebook }
 
 extension ShareStatusX on ShareStatus {
   bool get isLoading => this == ShareStatus.loading;
   bool get isSuccess => this == ShareStatus.success;
-  bool get isFailure => this == ShareStatus.failure;
 }
 
 class ShareState extends Equatable {
