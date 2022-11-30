@@ -4,8 +4,6 @@ enum Prop {
   helmet,
 }
 
-enum Background { space, forest }
-
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
     this.drawerOption,

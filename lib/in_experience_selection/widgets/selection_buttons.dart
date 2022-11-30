@@ -128,7 +128,6 @@ class SelectionButtons extends StatelessWidget {
           children: [
             ItemSelectorButton(
               key: SelectionButtons.charactersSelectionButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.characterSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
               onTap: () => context.read<InExperienceSelectionBloc>().add(
@@ -136,11 +135,11 @@ class SelectionButtons extends StatelessWidget {
                       drawerOption: DrawerOption.characters,
                     ),
                   ),
+              child: const _ButtonBackground(),
             ),
             spacer,
             ItemSelectorButton(
               key: SelectionButtons.propsSelectionButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.propsSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
               onTap: () => context.read<InExperienceSelectionBloc>().add(
@@ -148,11 +147,11 @@ class SelectionButtons extends StatelessWidget {
                       drawerOption: DrawerOption.props,
                     ),
                   ),
+              child: const _ButtonBackground(),
             ),
             spacer,
             ItemSelectorButton(
               key: SelectionButtons.backgroundSelectorButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
               title: context.l10n.backgroundSelectorButton,
               showTitle: screenSize >= PhotoboothBreakpoints.small,
               onTap: () => context.read<InExperienceSelectionBloc>().add(
@@ -160,9 +159,40 @@ class SelectionButtons extends StatelessWidget {
                       drawerOption: DrawerOption.backgrounds,
                     ),
                   ),
+              child: const _ButtonBackground(),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ButtonBackground extends StatelessWidget {
+  const _ButtonBackground();
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.background);
+
+    return _Button(imageProvider: backgroundSelected.toImageProvider());
+  }
+}
+
+class _Button extends StatelessWidget {
+  const _Button({required this.imageProvider});
+
+  final ImageProvider imageProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 55,
+      backgroundColor: PhotoboothColors.white,
+      child: CircleAvatar(
+        foregroundImage: imageProvider,
+        radius: 50,
       ),
     );
   }

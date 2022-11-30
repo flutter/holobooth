@@ -8,14 +8,11 @@ class ItemSelectorButton extends StatelessWidget {
   /// {@macro item_selector_button}
   const ItemSelectorButton({
     super.key,
-    required this.buttonBackground,
     required this.title,
     required this.onTap,
     required this.showTitle,
+    required this.child,
   });
-
-  /// The content of the button.
-  final Widget buttonBackground;
 
   /// The title of the button.
   final String title;
@@ -25,6 +22,9 @@ class ItemSelectorButton extends StatelessWidget {
 
   /// The function when button is tapped.
   final VoidCallback onTap;
+
+  /// The content of the button.
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -50,37 +50,7 @@ class ItemSelectorButton extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-        Stack(
-          children: [
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: PhotoboothColors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: SizedBox.square(
-                    dimension: 80,
-                    child: buttonBackground,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox.square(
-              dimension: 90,
-              child: Material(
-                type: MaterialType.transparency,
-                clipBehavior: Clip.hardEdge,
-                shape: const CircleBorder(),
-                child: InkWell(
-                  onTap: onTap,
-                ),
-              ),
-            ),
-          ],
-        ),
+        child,
       ],
     );
   }
