@@ -223,7 +223,15 @@ class _PropsSelectionButton extends StatelessWidget {
       imageProvider = propsSelected.first.toImageProvider();
     } else {
       backgroundColor = PhotoboothColors.blue;
-      child = Text(propsSelected.length.toString());
+      child = Center(
+        child: Text(
+          propsSelected.length.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .displayLarge
+              ?.copyWith(color: PhotoboothColors.white),
+        ),
+      );
     }
 
     return _Button(
