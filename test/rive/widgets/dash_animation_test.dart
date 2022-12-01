@@ -36,7 +36,7 @@ void main() {
       final controller = state.dashController;
       final x = controller?.x.value;
       final y = controller?.y.value;
-      expect(controller?.mouthIsOpen.value, false);
+      expect(controller?.mouthIsOpen.value, 0);
 
       stateSetter(
         () => avatar = Avatar(
@@ -50,9 +50,9 @@ void main() {
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller?.mouthIsOpen.value, avatar.hasMouthOpen);
-      expect(controller?.leftEyeIsClosed.value, avatar.leftEyeIsClosed);
-      expect(controller?.rightEyeIsClosed.value, avatar.rightEyeIsClosed);
+      expect(controller?.mouthIsOpen.value, 100);
+      expect(controller?.leftEyeIsClosed.value, 99);
+      expect(controller?.rightEyeIsClosed.value, 99);
       expect(controller?.x.value, isNot(equals(x)));
       expect(controller?.y.value, isNot(equals(y)));
       await tester.pump(kThemeAnimationDuration);
