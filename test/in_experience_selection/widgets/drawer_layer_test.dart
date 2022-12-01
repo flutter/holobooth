@@ -95,7 +95,7 @@ void main() {
         DrawerLayer(),
         inExperienceSelectionBloc,
       );
-      const background = Background.forest;
+      const background = Background.beach;
       await tester
           .tap(find.byKey(Key('${background.name}_backgroundSelection')));
       await tester.pumpAndSettle();

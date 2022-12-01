@@ -17,7 +17,7 @@ void main() {
               stateSetter = setState;
               return BackgroundAnimation.fromVector3(
                 vector3,
-                backgroundSelected: Background.forest,
+                backgroundSelected: Background.beach,
               );
             },
           ),

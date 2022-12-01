@@ -241,7 +241,7 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      const background = Background.forest;
+      const background = Background.beach;
       await tester
           .tap(find.byKey(Key('${background.name}_backgroundSelection')));
       await tester.pumpAndSettle();
@@ -330,10 +330,10 @@ void main() {
       );
 
       testWidgets(
-        'when Forest selected',
+        'when Beach selected',
         (WidgetTester tester) async {
           when(() => inExperienceSelectionBloc.state).thenReturn(
-            InExperienceSelectionState(background: Background.forest),
+            InExperienceSelectionState(background: Background.beach),
           );
           await tester.pumpSubject(
             SelectionButtons(),
@@ -484,11 +484,11 @@ void main() {
               ),
             ),
             GoldenTestScenario(
-              name: 'forest',
+              name: 'beach',
               child: Builder(
                 builder: (context) {
                   when(() => inExperienceSelectionBloc.state).thenReturn(
-                    InExperienceSelectionState(background: Background.forest),
+                    InExperienceSelectionState(background: Background.beach),
                   );
                   return BlocProvider.value(
                     value: inExperienceSelectionBloc,
