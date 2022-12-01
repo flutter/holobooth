@@ -61,8 +61,9 @@ class PhotoBoothView extends StatelessWidget {
         body: const PhotoboothBody(),
         onEndDrawerChanged: (value) {
           if (!value) {
-            inExperienceSelectionBloc
-                .add(const InExperienceSelectionOptionUnselected());
+            inExperienceSelectionBloc.add(
+              const InExperienceSelectionOptionSelected(),
+            );
           }
         },
       ),

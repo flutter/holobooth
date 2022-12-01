@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:alchemist/alchemist.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -11,6 +16,36 @@ import '../../helpers/helpers.dart';
 class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
+
+class _SubjectBuilder extends StatelessWidget {
+  const _SubjectBuilder({required this.widget});
+
+  final SelectionButtons Function(BuildContext) widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery.fromWindow(
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Localizations(
+          locale: Locale('en'),
+          delegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          child: Theme(
+            data: PhotoboothTheme.standard,
+            child: SizedBox.fromSize(
+              size: Size(300, 600),
+              child: Builder(builder: widget),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 void main() {
   group('SelectionButtons', () {
@@ -217,7 +252,8 @@ void main() {
     });
 
     testWidgets(
-        'adds InExperienceSelectionOptionUnselected after closing bottom sheet '
+        'adds InExperienceSelectionOptionSelected with DrawerOption null '
+        'after closing bottom sheet '
         'on mobile breakpoint', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
@@ -235,10 +271,276 @@ void main() {
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       verify(
-        () => inExperienceSelectionBloc
-            .add(InExperienceSelectionOptionUnselected()),
+        () => inExperienceSelectionBloc.add(
+          InExperienceSelectionOptionSelected(),
+        ),
       ).called(1);
     });
+
+    group('renders for characters', () {
+      testWidgets(
+        'when Dash selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.charactersSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when Sparky selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(character: Character.sparky),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.charactersSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
+    group('renders for backgrounds', () {
+      testWidgets(
+        'when Space selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.backgroundSelectorButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when Forest selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(background: Background.forest),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.backgroundSelectorButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
+    group('renders for props', () {
+      testWidgets(
+        'when no props selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when one prop selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when more than one prop selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(
+              selectedProps: const [
+                Prop.helmet,
+                Prop.helmet,
+              ],
+            ),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
+    goldenTest(
+      'renders prop button on SelectionButtons',
+      fileName: 'selection_buttons_props',
+      pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
+      builder: () {
+        return GoldenTestGroup(
+          children: [
+            GoldenTestScenario(
+              name: 'no props selected',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state)
+                      .thenReturn(InExperienceSelectionState());
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+            GoldenTestScenario(
+              name: 'one prop selected',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state).thenReturn(
+                    InExperienceSelectionState(
+                      selectedProps: const [Prop.helmet],
+                    ),
+                  );
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+            GoldenTestScenario(
+              name: 'more than one prop selected',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state).thenReturn(
+                    InExperienceSelectionState(
+                      selectedProps: const [Prop.helmet, Prop.helmet],
+                    ),
+                  );
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    goldenTest(
+      'renders background button on SelectionButtons',
+      fileName: 'selection_buttons_background',
+      pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
+      builder: () {
+        return GoldenTestGroup(
+          children: [
+            GoldenTestScenario(
+              name: 'space',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state)
+                      .thenReturn(InExperienceSelectionState());
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+            GoldenTestScenario(
+              name: 'forest',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state).thenReturn(
+                    InExperienceSelectionState(background: Background.forest),
+                  );
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    goldenTest(
+      'renders character button on SelectionButtons',
+      fileName: 'selection_buttons_character',
+      pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
+      builder: () {
+        return GoldenTestGroup(
+          children: [
+            GoldenTestScenario(
+              name: 'dash',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state)
+                      .thenReturn(InExperienceSelectionState());
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+            GoldenTestScenario(
+              name: 'sparky',
+              child: Builder(
+                builder: (context) {
+                  when(() => inExperienceSelectionBloc.state).thenReturn(
+                    InExperienceSelectionState(character: Character.sparky),
+                  );
+                  return BlocProvider.value(
+                    value: inExperienceSelectionBloc,
+                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   });
 }
 

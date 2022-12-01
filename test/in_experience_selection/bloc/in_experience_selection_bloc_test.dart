@@ -45,20 +45,16 @@ void main() {
           InExperienceSelectionState(drawerOption: DrawerOption.backgrounds)
         ],
       );
-    });
 
-    group('InExperienceSelectionOptionUnselected', () {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits initial state if previous option selected',
+        'emits with option unselected',
         build: InExperienceSelectionBloc.new,
         seed: () =>
             InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
         act: (bloc) => bloc.add(
-          InExperienceSelectionOptionUnselected(),
+          InExperienceSelectionOptionSelected(),
         ),
-        expect: () => [
-          InExperienceSelectionState(),
-        ],
+        expect: () => [InExperienceSelectionState()],
       );
     });
 
