@@ -20,7 +20,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter_channel: "beta"
+          channel: "beta"
           flutter_version: 3.6.0-0.1.pre
 
       - name: 📦 Install Dependencies
