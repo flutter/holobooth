@@ -6,10 +6,10 @@ import 'package:io_photobooth/rive/rive.dart';
 
 void main() {
   group('BackgroundAnimation', () {
-    testWidgets('udpates x and y when position changes on the animation',
-        (tester) async {
+    testWidgets('can update', (tester) async {
       late StateSetter stateSetter;
       var vector3 = Vector3.zero;
+      var background = Background.space;
       await tester.pumpWidget(
         MaterialApp(
           home: StatefulBuilder(
@@ -17,7 +17,7 @@ void main() {
               stateSetter = setState;
               return BackgroundAnimation.fromVector3(
                 vector3,
-                backgroundSelected: Background.beach,
+                backgroundSelected: background,
               );
             },
           ),
@@ -30,14 +30,19 @@ void main() {
 
       final x = controller.x.value;
       final y = controller.y.value;
+      final backgroundValue = controller.background.value;
 
-      stateSetter(() => vector3 = Vector3(1, 1, 1));
+      stateSetter(() {
+        vector3 = Vector3(1, 1, 1);
+        background = Background.beach;
+      });
 
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
       expect(controller.x.value, isNot(equals(x)));
       expect(controller.y.value, isNot(equals(y)));
+      expect(controller.background.value, isNot(equals(backgroundValue)));
       await tester.pump(kThemeAnimationDuration);
     });
   });
