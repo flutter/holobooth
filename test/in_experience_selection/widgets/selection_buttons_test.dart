@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alchemist/alchemist.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
@@ -275,10 +277,138 @@ void main() {
       ).called(1);
     });
 
+    group('renders for characters', () {
+      testWidgets(
+        'when Dash selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.charactersSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when Sparky selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(character: Character.sparky),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.charactersSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
+    group('renders for backgrounds', () {
+      testWidgets(
+        'when Space selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.backgroundSelectorButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when Forest selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(background: Background.forest),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.backgroundSelectorButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
+    group('renders for props', () {
+      testWidgets(
+        'when no props selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state)
+              .thenReturn(InExperienceSelectionState());
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when one prop selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+
+      testWidgets(
+        'when more than one prop selected',
+        (WidgetTester tester) async {
+          when(() => inExperienceSelectionBloc.state).thenReturn(
+            InExperienceSelectionState(
+              selectedProps: const [
+                Prop.helmet,
+                Prop.helmet,
+              ],
+            ),
+          );
+          await tester.pumpSubject(
+            SelectionButtons(),
+            inExperienceSelectionBloc,
+          );
+          expect(
+            find.byKey(SelectionButtons.propsSelectionButtonKey),
+            findsOneWidget,
+          );
+        },
+      );
+    });
+
     goldenTest(
       'renders prop button on SelectionButtons',
       fileName: 'selection_buttons_props',
       pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
       builder: () {
         return GoldenTestGroup(
           children: [
@@ -336,6 +466,7 @@ void main() {
       'renders background button on SelectionButtons',
       fileName: 'selection_buttons_background',
       pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
       builder: () {
         return GoldenTestGroup(
           children: [
@@ -375,6 +506,7 @@ void main() {
       'renders character button on SelectionButtons',
       fileName: 'selection_buttons_character',
       pumpBeforeTest: precacheImages,
+      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
       builder: () {
         return GoldenTestGroup(
           children: [
