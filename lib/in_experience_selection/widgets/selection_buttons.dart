@@ -30,7 +30,7 @@ class SelectionButtons extends StatelessWidget {
 
   void _closeSheet(BuildContext context) {
     context.read<InExperienceSelectionBloc>().add(
-          const InExperienceSelectionOptionUnselected(),
+          const InExperienceSelectionOptionSelected(),
         );
     Navigator.of(context).pop();
   }
@@ -106,13 +106,17 @@ class SelectionButtons extends StatelessWidget {
         if (MediaQuery.of(context).size.width >= PhotoboothBreakpoints.small) {
           return Scaffold.of(context).openEndDrawer();
         } else {
-          switch (state.drawerOption!) {
+          switch (state.drawerOption) {
             case DrawerOption.characters:
               return _showCharacterBottomSheet(context);
             case DrawerOption.props:
               return _showPropsBottomSheet(context);
             case DrawerOption.backgrounds:
               return _showBackgroundBottomSheet(context);
+            // It will not happen ever
+            // ignore: no_default_cases
+            default:
+              break;
           }
         }
       },
@@ -120,48 +124,159 @@ class SelectionButtons extends StatelessWidget {
         alignment: screenSize >= PhotoboothBreakpoints.small
             ? Alignment.centerRight
             : Alignment.topCenter,
-        child: Flex(
-          mainAxisSize: MainAxisSize.min,
-          direction: screenSize >= PhotoboothBreakpoints.small
-              ? Axis.vertical
-              : Axis.horizontal,
-          children: [
-            ItemSelectorButton(
-              key: SelectionButtons.charactersSelectionButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
-              title: context.l10n.characterSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.characters,
-                    ),
-                  ),
+        child: SingleChildScrollView(
+          child: Flex(
+            mainAxisSize: MainAxisSize.min,
+            direction: screenSize >= PhotoboothBreakpoints.small
+                ? Axis.vertical
+                : Axis.horizontal,
+            children: [
+              ItemSelectorButton(
+                title: context.l10n.characterSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                child: const _CharacterSelectionButton(
+                  key: SelectionButtons.charactersSelectionButtonKey,
+                ),
+              ),
+              spacer,
+              ItemSelectorButton(
+                title: context.l10n.propsSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                child: const _PropsSelectionButton(
+                  key: SelectionButtons.propsSelectionButtonKey,
+                ),
+              ),
+              spacer,
+              ItemSelectorButton(
+                title: context.l10n.backgroundSelectorButton,
+                showTitle: screenSize >= PhotoboothBreakpoints.small,
+                child: const _BackgroundSelectionButton(
+                  key: SelectionButtons.backgroundSelectorButtonKey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BackgroundSelectionButton extends StatelessWidget {
+  const _BackgroundSelectionButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.background);
+
+    return _Button(
+      imageProvider: backgroundSelected.toImageProvider(),
+      onTap: () => context.read<InExperienceSelectionBloc>().add(
+            const InExperienceSelectionOptionSelected(
+              drawerOption: DrawerOption.backgrounds,
             ),
-            spacer,
-            ItemSelectorButton(
-              key: SelectionButtons.propsSelectionButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
-              title: context.l10n.propsSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.props,
-                    ),
-                  ),
+          ),
+    );
+  }
+}
+
+class _CharacterSelectionButton extends StatelessWidget {
+  const _CharacterSelectionButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final characterSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.character);
+
+    return _Button(
+      imageProvider: characterSelected.toImageProvider(),
+      backgroundColor: characterSelected.toBackgroundColor(),
+      onTap: () => context.read<InExperienceSelectionBloc>().add(
+            const InExperienceSelectionOptionSelected(
+              drawerOption: DrawerOption.characters,
             ),
-            spacer,
-            ItemSelectorButton(
-              key: SelectionButtons.backgroundSelectorButtonKey,
-              buttonBackground: const ColoredBox(color: Colors.red),
-              title: context.l10n.backgroundSelectorButton,
-              showTitle: screenSize >= PhotoboothBreakpoints.small,
-              onTap: () => context.read<InExperienceSelectionBloc>().add(
-                    const InExperienceSelectionOptionSelected(
-                      drawerOption: DrawerOption.backgrounds,
-                    ),
-                  ),
+          ),
+    );
+  }
+}
+
+class _PropsSelectionButton extends StatelessWidget {
+  const _PropsSelectionButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final propsSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
+    ImageProvider? imageProvider;
+    Widget? child;
+    Color backgroundColor;
+    if (propsSelected.isEmpty) {
+      backgroundColor = PhotoboothColors.green;
+      child = const Icon(
+        Icons.add,
+        color: PhotoboothColors.white,
+        size: 40,
+      );
+    } else if (propsSelected.length == 1) {
+      backgroundColor = PhotoboothColors.white;
+      imageProvider = propsSelected.first.toImageProvider();
+    } else {
+      backgroundColor = PhotoboothColors.blue;
+      child = Center(
+        child: Text(
+          propsSelected.length.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .displayLarge
+              ?.copyWith(color: PhotoboothColors.white),
+        ),
+      );
+    }
+
+    return _Button(
+      imageProvider: imageProvider,
+      backgroundColor: backgroundColor,
+      onTap: () => context.read<InExperienceSelectionBloc>().add(
+            const InExperienceSelectionOptionSelected(
+              drawerOption: DrawerOption.props,
             ),
-          ],
+          ),
+      child: child,
+    );
+  }
+}
+
+class _Button extends StatelessWidget {
+  const _Button({
+    required this.imageProvider,
+    this.backgroundColor,
+    required this.onTap,
+    this.child,
+  });
+
+  final ImageProvider? imageProvider;
+  final Color? backgroundColor;
+  final VoidCallback onTap;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 38,
+      backgroundColor: PhotoboothColors.white,
+      child: CircleAvatar(
+        radius: 34,
+        backgroundImage: imageProvider,
+        backgroundColor: backgroundColor,
+        child: Material(
+          shape: const CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: child,
+          ),
         ),
       ),
     );

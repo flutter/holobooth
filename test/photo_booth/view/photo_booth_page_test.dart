@@ -157,7 +157,8 @@ void main() {
     );
 
     testWidgets(
-      'calls DrawerSelectionOptionUnselected on end drawer',
+      'calls InExperienceSelectionOptionSelected with DrawerOption null '
+      'on end drawer',
       (WidgetTester tester) async {
         whenListen(
           photoBoothBloc,
@@ -178,7 +179,7 @@ void main() {
 
         verify(
           () => inExperienceSelectionBloc.add(
-            InExperienceSelectionOptionUnselected(),
+            InExperienceSelectionOptionSelected(),
           ),
         ).called(1);
       },
