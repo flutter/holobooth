@@ -27,8 +27,12 @@ class ShareBody extends StatelessWidget {
                 const ShareHeading(),
                 const SizedBox(height: 20),
                 ResponsiveLayoutBuilder(
-                  small: (_, __) => const MobileButtonsLayout(),
-                  large: (_, __) => const DesktopButtonsLayout(),
+                  small: (_, __) => MobileButtonsLayout(
+                    image: image,
+                  ),
+                  large: (_, __) => DesktopButtonsLayout(
+                    image: image,
+                  ),
                 ),
                 const SizedBox(height: 28),
               ],
@@ -44,7 +48,10 @@ class ShareBody extends StatelessWidget {
 class DesktopButtonsLayout extends StatelessWidget {
   const DesktopButtonsLayout({
     super.key,
+    required this.image,
   });
+
+  final PhotoboothCameraImage image;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +63,14 @@ class DesktopButtonsLayout extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            ShareButton(),
-            SizedBox(width: 36),
-            DownloadButton(),
-            SizedBox(width: 36),
-            TakeANewPhoto(),
+          children: [
+            ShareButton(
+              image: image,
+            ),
+            const SizedBox(width: 36),
+            const DownloadButton(),
+            const SizedBox(width: 36),
+            const TakeANewPhoto(),
           ],
         ),
       ],
@@ -73,18 +82,23 @@ class DesktopButtonsLayout extends StatelessWidget {
 class MobileButtonsLayout extends StatelessWidget {
   const MobileButtonsLayout({
     super.key,
+    required this.image,
   });
+
+  final PhotoboothCameraImage image;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        ShareButton(),
-        SizedBox(height: 16),
-        DownloadButton(),
-        SizedBox(height: 16),
-        TakeANewPhoto(),
+      children: [
+        ShareButton(
+          image: image,
+        ),
+        const SizedBox(height: 16),
+        const DownloadButton(),
+        const SizedBox(height: 16),
+        const TakeANewPhoto(),
       ],
     );
   }
