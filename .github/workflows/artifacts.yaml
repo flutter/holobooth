@@ -18,5 +18,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: alchemist-failures
-          path: **/test/**/failures
+          path: '**/test/**/failures'
           retention-days: 7
