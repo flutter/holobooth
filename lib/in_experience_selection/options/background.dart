@@ -12,4 +12,13 @@ extension BackgroundX on Background {
         return Assets.backgrounds.forest.provider();
     }
   }
+
+  double toDouble() {
+    switch (this) {
+      case Background.space:
+        return 1;
+      case Background.forest:
+        return 2;
+    }
+  }
 }

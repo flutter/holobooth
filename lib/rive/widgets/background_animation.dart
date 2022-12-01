@@ -49,6 +49,8 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
 
   void _onRiveInit(Artboard artboard) {
     backgroundController = BackgroundAnimationStateMachineController(artboard);
+    backgroundController!.background
+        .change(widget.backgroundSelected.toDouble());
     artboard.addController(backgroundController!);
     _animationController.addListener(_controlBackground);
   }
@@ -86,8 +88,12 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
       }
 
       // Background change
-      backgroundController.background
-          .change(widget.backgroundSelected.toDouble());
+      final newBackground = widget.backgroundSelected;
+      final oldBackground = oldWidget.backgroundSelected;
+      if (newBackground != oldBackground) {
+        backgroundController.background
+            .change(widget.backgroundSelected.toDouble());
+      }
     }
   }
 
@@ -149,14 +155,3 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
   late final SMINumber background;
 }
 // coverage:ignore-end
-
-extension on Background {
-  double toDouble() {
-    switch (this) {
-      case Background.space:
-        return 1;
-      case Background.forest:
-        return 2;
-    }
-  }
-}
