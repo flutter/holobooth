@@ -34,6 +34,7 @@ jobs:
 
       - name: Archive Alchemist failures
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: alchemist-failures
           path: test/**/failures
