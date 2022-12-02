@@ -21,10 +21,12 @@ void main() {
     });
 
     testWidgets('navigates to PhotoBoothPage on tap', (tester) async {
-      await tester.pumpApp(BlocProvider.value(
-        value: characterSelectionBloc,
-        child: NextButton(),
-      ));
+      await tester.pumpApp(
+        BlocProvider.value(
+          value: characterSelectionBloc,
+          child: NextButton(),
+        ),
+      );
       await tester.tap(find.byType(NextButton));
       await tester.pump(kThemeAnimationDuration);
       await tester.pump(kThemeAnimationDuration);
