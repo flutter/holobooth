@@ -80,8 +80,18 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                MultipleShutterButton(
-                  onShutter: _takeSinglePicture,
+                ShutterButton(
+                  onCountdownStarted: () {
+                    context
+                        .read<PhotoBoothBloc>()
+                        .add(const PhotoBoothRecordingStarted());
+                  },
+                  onCountdownCompleted: () {
+                    context
+                        .read<PhotoBoothBloc>()
+                        .add(const PhotoBoothRecordingFinished());
+                    _takeSinglePicture();
+                  },
                 ),
                 const SimplifiedFooter()
               ],

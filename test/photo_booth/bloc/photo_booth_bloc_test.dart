@@ -25,5 +25,23 @@ void main() {
         ],
       );
     });
+
+    group('PhotoBoothRecordingStarted', () {
+      blocTest<PhotoBoothBloc, PhotoBoothState>(
+        'emits nothing.',
+        build: PhotoBoothBloc.new,
+        act: (bloc) => bloc.add(PhotoBoothRecordingStarted()),
+        expect: () => <PhotoBoothState>[],
+      );
+    });
+
+    group('PhotoBoothRecordingFinished', () {
+      blocTest<PhotoBoothBloc, PhotoBoothState>(
+        'emits nothing.',
+        build: PhotoBoothBloc.new,
+        act: (bloc) => bloc.add(PhotoBoothRecordingFinished()),
+        expect: () => <PhotoBoothState>[],
+      );
+    });
   });
 }

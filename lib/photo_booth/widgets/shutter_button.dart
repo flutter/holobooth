@@ -8,28 +8,34 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _shutterCountdownDuration = Duration(seconds: 3);
-
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class ShutterButton extends StatefulWidget {
   const ShutterButton({
     super.key,
-    required this.onCountdownComplete,
+    required this.onCountdownCompleted,
+    required this.onCountdownStarted,
     ValueGetter<AudioPlayer>? audioPlayer,
   }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
 
-  final VoidCallback onCountdownComplete;
+  final VoidCallback onCountdownCompleted;
+  final VoidCallback onCountdownStarted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
+  static const shutterCountdownDuration = Duration(seconds: 5);
   @override
-  State<ShutterButton> createState() => _ShutterButtonState();
+  State<ShutterButton> createState() => ShutterButtonState();
 }
 
-class _ShutterButtonState extends State<ShutterButton>
+@visibleForTesting
+class ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
+  var _animationFinished = false;
+
+  @visibleForTesting
+  static const emptySizedBox = Key('empty_sizedBox');
 
   @override
   void initState() {
@@ -40,7 +46,10 @@ class _ShutterButtonState extends State<ShutterButton>
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
-      widget.onCountdownComplete();
+      widget.onCountdownCompleted();
+      setState(() {
+        _animationFinished = true;
+      });
     }
   }
 
@@ -48,7 +57,7 @@ class _ShutterButtonState extends State<ShutterButton>
     audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
-      duration: _shutterCountdownDuration,
+      duration: ShutterButton.shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
     final audioSession = await AudioSession.instance;
@@ -87,6 +96,7 @@ class _ShutterButtonState extends State<ShutterButton>
 
   Future<void> _onShutterPressed() async {
     unawaited(audioPlayer.play());
+    widget.onCountdownStarted();
     unawaited(controller.reverse(from: 1));
   }
 
@@ -95,9 +105,14 @@ class _ShutterButtonState extends State<ShutterButton>
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        return controller.isAnimating
-            ? CountdownTimer(controller: controller)
-            : CameraButton(onPressed: _onShutterPressed);
+        if (controller.isAnimating) {
+          return CountdownTimer(controller: controller);
+        } else if (!_animationFinished) {
+          return CameraButton(onPressed: _onShutterPressed);
+        }
+        return const SizedBox(
+          key: emptySizedBox,
+        );
       },
     );
   }
@@ -111,7 +126,8 @@ class CountdownTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final seconds =
-        (_shutterCountdownDuration.inSeconds * controller.value).ceil();
+        (ShutterButton.shutterCountdownDuration.inSeconds * controller.value)
+            .ceil();
     final theme = Theme.of(context);
     return Container(
       height: 70,
@@ -130,7 +146,10 @@ class CountdownTimer extends StatelessWidget {
           ),
           Positioned.fill(
             child: CustomPaint(
-              painter: TimerPainter(animation: controller, countdown: seconds),
+              painter: TimerPainter(
+                animation: controller,
+                controllerValue: controller.value,
+              ),
             ),
           )
         ],
@@ -158,7 +177,7 @@ class CameraButton extends StatelessWidget {
         color: PhotoboothColors.transparent,
         child: InkWell(
           onTap: onPressed,
-          child: Assets.icons.cameraButtonIcon.image(
+          child: Assets.icons.recordingButtonIcon.image(
             height: 100,
             width: 100,
           ),
@@ -171,32 +190,25 @@ class CameraButton extends StatelessWidget {
 class TimerPainter extends CustomPainter {
   const TimerPainter({
     required this.animation,
-    required this.countdown,
+    required this.controllerValue,
   }) : super(repaint: animation);
 
   final Animation<double> animation;
-  final int countdown;
-  @visibleForTesting
-  Color calculateColor() {
-    if (countdown == 3) return PhotoboothColors.blue;
-    if (countdown == 2) return PhotoboothColors.orange;
-    return PhotoboothColors.green;
-  }
+  final double controllerValue;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final progressColor = calculateColor();
-    final progress = ((1 - animation.value) * (2 * math.pi) * 3) -
-        ((3 - countdown) * (2 * math.pi));
+    final progress = (controllerValue / 360) *
+        (2 * math.pi * size.width) *
+        ShutterButton.shutterCountdownDuration.inSeconds;
 
     final paint = Paint()
-      ..color = progressColor
+      ..color = PhotoboothColors.white
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-    paint.color = PhotoboothColors.white;
+    paint.color = PhotoboothColors.red;
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 
