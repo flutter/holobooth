@@ -2,6 +2,8 @@ part of 'photo_booth_bloc.dart';
 
 abstract class PhotoBoothEvent extends Equatable {
   const PhotoBoothEvent();
+  @override
+  List<Object> get props => [];
 }
 
 class PhotoBoothOnPhotoTaken extends PhotoBoothEvent {
@@ -15,14 +17,8 @@ class PhotoBoothOnPhotoTaken extends PhotoBoothEvent {
 
 class PhotoBoothRecordingStarted extends PhotoBoothEvent {
   const PhotoBoothRecordingStarted();
-
-  @override
-  List<Object> get props => [];
 }
 
 class PhotoBoothRecordingFinished extends PhotoBoothEvent {
   const PhotoBoothRecordingFinished();
-
-  @override
-  List<Object> get props => [];
 }
