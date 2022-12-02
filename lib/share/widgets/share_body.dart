@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
@@ -116,7 +117,8 @@ class TakeANewPhoto extends StatelessWidget {
     return OutlinedButton(
       key: newPhotoButtonKey,
       onPressed: () {
-        Navigator.of(context).pushReplacement(PhotoBoothPage.route());
+        Navigator.of(context)
+            .pushReplacement(PhotoBoothPage.route(character: Character.dash));
       },
       style: OutlinedButton.styleFrom(minimumSize: const Size(259, 54)),
       child: Text(
