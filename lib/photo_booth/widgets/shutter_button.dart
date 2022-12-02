@@ -5,7 +5,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/widgets/video_tooltip.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -111,7 +111,8 @@ class ShutterButtonState extends State<ShutterButton>
         } else if (!_animationFinished) {
           return Column(
             children: [
-              VideoTooltip(message: 'Capture a short video'),
+              // TODO(oscar): update when message is ready
+              const VideoTooltip(message: 'Capture a short video'),
               CameraButton(onPressed: _onShutterPressed),
             ],
           );
@@ -135,12 +136,13 @@ class CountdownTimer extends StatelessWidget {
         (ShutterButton.shutterCountdownDuration.inSeconds * controller.value)
             .ceil();
     final theme = Theme.of(context);
+    final messageCount =
+        (seconds - ShutterButton.shutterCountdownDuration.inSeconds).abs() + 1;
+    // TODO(oscar): update when message is ready
+    final message = 'Message $messageCount';
     return Column(
       children: [
-        VideoTooltip(
-          message:
-              'Message ${(seconds - ShutterButton.shutterCountdownDuration.inSeconds).abs() + 1}',
-        ),
+        VideoTooltip(message: message),
         const SizedBox(height: 15),
         Container(
           height: 70,
