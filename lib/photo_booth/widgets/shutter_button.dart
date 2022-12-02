@@ -8,8 +8,6 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _shutterCountdownDuration = Duration(seconds: 5);
-
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class ShutterButton extends StatefulWidget {
@@ -22,6 +20,7 @@ class ShutterButton extends StatefulWidget {
   final VoidCallback onCountdownComplete;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
+  static const shutterCountdownDuration = Duration(seconds: 5);
   @override
   State<ShutterButton> createState() => _ShutterButtonState();
 }
@@ -48,7 +47,7 @@ class _ShutterButtonState extends State<ShutterButton>
     audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
-      duration: _shutterCountdownDuration,
+      duration: ShutterButton.shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
     final audioSession = await AudioSession.instance;
@@ -111,7 +110,8 @@ class CountdownTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final seconds =
-        (_shutterCountdownDuration.inSeconds * controller.value).ceil();
+        (ShutterButton.shutterCountdownDuration.inSeconds * controller.value)
+            .ceil();
     final theme = Theme.of(context);
     return Container(
       height: 70,
@@ -177,15 +177,13 @@ class TimerPainter extends CustomPainter {
 
   final Animation<double> animation;
   final double controllerValue;
-  @visibleForTesting
+
   @override
   void paint(Canvas canvas, Size size) {
-    const progressColor = PhotoboothColors.red;
+    final progress = (controllerValue / 360) *
+        (2 * math.pi * size.width) *
+        ShutterButton.shutterCountdownDuration.inSeconds;
 
-    print('progress: $controllerValue');
-
-    final circunferenceRadius =
-        (2 * math.pi * size.width * controllerValue) * (math.pi / 180);
     final paint = Paint()
       ..color = PhotoboothColors.white
       ..strokeWidth = 5.0
@@ -193,8 +191,7 @@ class TimerPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
     paint.color = PhotoboothColors.red;
-    canvas.drawArc(
-        Offset.zero & size, math.pi * 1.5, circunferenceRadius, false, paint);
+    canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 
   @override
