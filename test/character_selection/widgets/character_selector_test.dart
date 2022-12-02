@@ -67,6 +67,10 @@ void main() {
             .state<CharacterSelectorState>(find.byType(CharacterSelector));
         final controller = state.pageController;
         expect(controller?.page, 1);
+        verify(
+          () => characterSelectionBloc
+              .add(CharacterSelectionSelected(Character.sparky)),
+        ).called(1);
       },
     );
 
@@ -109,10 +113,13 @@ extension on WidgetTester {
     CharacterSelector subject,
     CharacterSelectionBloc characterSelectionBloc,
   ) {
-    return pumpApp(Scaffold(
+    return pumpApp(
+      Scaffold(
         body: BlocProvider.value(
-      value: characterSelectionBloc,
-      child: subject,
-    )));
+          value: characterSelectionBloc,
+          child: subject,
+        ),
+      ),
+    );
   }
 }
