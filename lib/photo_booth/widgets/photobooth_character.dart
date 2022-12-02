@@ -25,6 +25,7 @@ class PhotoboothCharacter extends StatelessWidget {
       toMax: 1,
     );
 
+    // TODO(oscar): check from bloc which character is selected.
     return AnimatedScale(
       scale: normalizedDistance,
       duration: const Duration(milliseconds: 200),

@@ -14,17 +14,24 @@ class InExperienceSelectionState extends Equatable {
   final Character character;
 
   @override
-  List<Object?> get props => [drawerOption, selectedProps, background];
+  List<Object?> get props => [
+        drawerOption,
+        selectedProps,
+        background,
+        character,
+      ];
 
   InExperienceSelectionState copyWith({
     DrawerOption? drawerOption,
     List<Prop>? selectedProps,
     Background? background,
+    Character? character,
   }) {
     return InExperienceSelectionState(
       drawerOption: drawerOption ?? this.drawerOption,
       selectedProps: selectedProps ?? this.selectedProps,
       background: background ?? this.background,
+      character: character ?? this.character,
     );
   }
 }

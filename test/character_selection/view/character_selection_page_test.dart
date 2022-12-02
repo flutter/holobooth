@@ -6,7 +6,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+
+import '../../helpers/helpers.dart';
 // TODO(oscar): golden test having issues with gradients in CI
 
 class _SubjectBuilder extends StatelessWidget {
@@ -65,6 +68,20 @@ void main() {
         expect(find.byType(CharacterSelectionView), findsOneWidget);
       });
     });
+
+    testWidgets(
+      'can navigate to PhotoBoothPage',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(const CharacterSelectionPage());
+        await tester.pumpAndSettle();
+        final finder = find.byType(NextButton);
+
+        await tester.tap(finder);
+        await tester.pump(kThemeAnimationDuration);
+        await tester.pump(kThemeAnimationDuration);
+        expect(find.byType(PhotoBoothPage), findsOneWidget);
+      },
+    );
   });
 
   group('CharacterSelectionView', () {
@@ -154,25 +171,7 @@ extension on WidgetTester {
   Future<void> pumpSubject(
     CharacterSelectionPage subject,
   ) =>
-      pumpWidget(
-        MediaQuery.fromWindow(
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Localizations(
-              locale: Locale('en'),
-              delegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              child: Theme(
-                data: PhotoboothTheme.standard,
-                child: subject,
-              ),
-            ),
-          ),
-        ),
-      );
+      pumpApp(subject);
 }
 
 extension on WidgetTester {

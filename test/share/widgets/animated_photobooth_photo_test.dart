@@ -28,8 +28,6 @@ void main() {
 
   late PhotoBoothBloc photoboothBloc;
 
-  setUpAll(() {});
-
   setUp(() {
     photoboothBloc = _MockPhotoBoothBloc();
     when(() => photoboothBloc.state)
