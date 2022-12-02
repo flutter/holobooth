@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 
 class CharacterSelector extends StatefulWidget {
   const CharacterSelector({super.key, required this.viewportFraction});
@@ -68,6 +70,11 @@ class CharacterSelectorState extends State<CharacterSelector> {
       itemCount: 2,
       controller: pageController,
       onPageChanged: (value) {
+        context.read<CharacterSelectionBloc>().add(
+              CharacterSelectionSelected(
+                value == 0 ? Character.dash : Character.sparky,
+              ),
+            );
         setState(() {
           _activePage = value;
         });
