@@ -127,24 +127,28 @@ void main() {
     });
 
     test('verifies should not repaint', () async {
-      final timePainter = TimerPainter(animation: animation, countdown: 3);
+      final timePainter =
+          TimerPainter(animation: animation, controllerValue: 3);
       expect(timePainter.shouldRepaint(timePainter), false);
     });
 
     test('counter is blue with value 3', () async {
-      final timePainter = TimerPainter(animation: animation, countdown: 3);
+      final timePainter =
+          TimerPainter(animation: animation, controllerValue: 3);
       final blue = timePainter.calculateColor();
       expect(blue, PhotoboothColors.blue);
     });
 
     test('counter is orange with value 2', () async {
-      final timePainter = TimerPainter(animation: animation, countdown: 2);
+      final timePainter =
+          TimerPainter(animation: animation, controllerValue: 2);
       final blue = timePainter.calculateColor();
       expect(blue, PhotoboothColors.orange);
     });
 
     test('counter is green with value 1', () async {
-      final timePainter = TimerPainter(animation: animation, countdown: 1);
+      final timePainter =
+          TimerPainter(animation: animation, controllerValue: 1);
       final blue = timePainter.calculateColor();
       expect(blue, PhotoboothColors.green);
     });
@@ -154,7 +158,7 @@ void main() {
 
       final canvas = _MockCanvas();
 
-      TimerPainter(animation: animation, countdown: 3)
+      TimerPainter(animation: animation, controllerValue: 3)
           .paint(canvas, const Size(200, 200));
 
       verify(() => canvas.drawCircle(any(), any(), any())).called(1);
