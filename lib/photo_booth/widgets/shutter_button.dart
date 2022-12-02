@@ -5,6 +5,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:io_photobooth/photo_booth/widgets/video_tooltip.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -108,7 +109,12 @@ class ShutterButtonState extends State<ShutterButton>
         if (controller.isAnimating) {
           return CountdownTimer(controller: controller);
         } else if (!_animationFinished) {
-          return CameraButton(onPressed: _onShutterPressed);
+          return Column(
+            children: [
+              VideoTooltip(message: 'Capture a short video'),
+              CameraButton(onPressed: _onShutterPressed),
+            ],
+          );
         }
         return const SizedBox(
           key: emptySizedBox,
@@ -129,31 +135,40 @@ class CountdownTimer extends StatelessWidget {
         (ShutterButton.shutterCountdownDuration.inSeconds * controller.value)
             .ceil();
     final theme = Theme.of(context);
-    return Container(
-      height: 70,
-      width: 70,
-      margin: const EdgeInsets.only(bottom: 15),
-      child: Stack(
-        children: [
-          Align(
-            child: Text(
-              '$seconds',
-              style: theme.textTheme.displayLarge?.copyWith(
-                color: PhotoboothColors.white,
-                fontWeight: FontWeight.w500,
+    return Column(
+      children: [
+        VideoTooltip(
+          message:
+              'Message ${(seconds - ShutterButton.shutterCountdownDuration.inSeconds).abs() + 1}',
+        ),
+        const SizedBox(height: 15),
+        Container(
+          height: 70,
+          width: 70,
+          margin: const EdgeInsets.only(bottom: 15),
+          child: Stack(
+            children: [
+              Align(
+                child: Text(
+                  '$seconds',
+                  style: theme.textTheme.displayLarge?.copyWith(
+                    color: PhotoboothColors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            ),
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: TimerPainter(
+                    animation: controller,
+                    controllerValue: controller.value,
+                  ),
+                ),
+              )
+            ],
           ),
-          Positioned.fill(
-            child: CustomPaint(
-              painter: TimerPainter(
-                animation: controller,
-                controllerValue: controller.value,
-              ),
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
