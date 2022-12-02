@@ -15,6 +15,7 @@ class InExperienceSelectionBloc
     on<InExperienceSelectionOptionSelected>(_optionSelected);
     on<InExperienceSelectionPropSelected>(_propSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
+    on<InExperienceSelectionCharacterSelected>(_characterSelected);
   }
 
   FutureOr<void> _optionSelected(
@@ -57,5 +58,12 @@ class InExperienceSelectionBloc
     Emitter<InExperienceSelectionState> emit,
   ) {
     emit(state.copyWith(background: event.background));
+  }
+
+  FutureOr<void> _characterSelected(
+    InExperienceSelectionCharacterSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
+    emit(state.copyWith(character: event.character));
   }
 }

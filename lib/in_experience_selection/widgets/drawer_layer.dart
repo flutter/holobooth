@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -75,21 +76,26 @@ class DrawerLayer extends StatelessWidget {
               },
             );
           case DrawerOption.characters:
-            return ItemSelectorDrawer(
-              key: charactersDrawerKey,
-              title: DrawerOption.characters.localized(context),
-              items: const [
-                PhotoboothColors.orange,
-                PhotoboothColors.green,
-                PhotoboothColors.blue
-              ],
-              itemBuilder: (_, item) => ColoredBox(
-                color: item,
-                key: Key('${item.value}_characterSelection'),
-              ),
-              selectedItem: PhotoboothColors.red,
-              onSelected: (prop) {
-                Navigator.of(context).pop();
+            return BlocSelector<InExperienceSelectionBloc,
+                InExperienceSelectionState, Character>(
+              selector: (state) => state.character,
+              builder: (context, characterSelected) {
+                return ItemSelectorDrawer<Character>(
+                  key: charactersDrawerKey,
+                  title: DrawerOption.characters.localized(context),
+                  items: Character.values,
+                  itemBuilder: (_, item) => InExperienceSelectionItem(
+                    key: Key('${item.name}_characterSelection'),
+                    name: item.name,
+                  ),
+                  selectedItem: characterSelected,
+                  onSelected: (character) {
+                    Navigator.of(context).pop();
+                    context
+                        .read<InExperienceSelectionBloc>()
+                        .add(InExperienceSelectionCharacterSelected(character));
+                  },
+                );
               },
             );
         }

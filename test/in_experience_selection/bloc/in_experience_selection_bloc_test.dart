@@ -111,5 +111,28 @@ void main() {
         expect: () => const <InExperienceSelectionState>[],
       );
     });
+
+    group('InExperienceSelectionCharacterSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with character selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionCharacterSelected(Character.sparky)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(character: Character.sparky)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'does not emit new state if character already selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: InExperienceSelectionState.new,
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionCharacterSelected(Character.dash)),
+        expect: () => const <InExperienceSelectionState>[],
+      );
+    });
   });
 }
