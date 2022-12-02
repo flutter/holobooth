@@ -81,7 +81,17 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ShutterButton(
-                  onCountdownComplete: () {},
+                  onCountdownCompleted: () {
+                    context
+                        .read<PhotoBoothBloc>()
+                        .add(const PhotoBoothCountdownFinished());
+                    _takeSinglePicture();
+                  },
+                  onCountdownStarted: () {
+                    context
+                        .read<PhotoBoothBloc>()
+                        .add(const PhotoBoothCountdownStarted());
+                  },
                 ),
                 const SimplifiedFooter()
               ],

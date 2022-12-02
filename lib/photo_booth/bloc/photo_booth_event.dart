@@ -12,3 +12,17 @@ class PhotoBoothOnPhotoTaken extends PhotoBoothEvent {
   @override
   List<Object> get props => [image];
 }
+
+class PhotoBoothCountdownStarted extends PhotoBoothEvent {
+  const PhotoBoothCountdownStarted();
+
+  @override
+  List<Object> get props => [];
+}
+
+class PhotoBoothCountdownFinished extends PhotoBoothEvent {
+  const PhotoBoothCountdownFinished();
+
+  @override
+  List<Object> get props => [];
+}
