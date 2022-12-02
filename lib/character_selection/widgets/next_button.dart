@@ -12,22 +12,26 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Semantics(
-      focusable: true,
-      button: true,
-      label: l10n.stickersNextButtonLabelText,
-      child: Material(
-        clipBehavior: Clip.hardEdge,
-        shape: const CircleBorder(),
-        color: PhotoboothColors.transparent,
-        child: InkWell(
-          onTap: () {
-            final characterSelected =
-                context.read<CharacterSelectionBloc>().state;
-            Navigator.of(context)
-                .push(PhotoBoothPage.route(character: characterSelected));
-          },
-          child: Assets.icons.goNextButtonIcon.image(height: 100),
+    return SizedBox(
+      height: 100,
+      width: 100,
+      child: Semantics(
+        focusable: true,
+        button: true,
+        label: l10n.stickersNextButtonLabelText,
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const CircleBorder(),
+          color: PhotoboothColors.transparent,
+          child: InkWell(
+            onTap: () {
+              final characterSelected =
+                  context.read<CharacterSelectionBloc>().state;
+              Navigator.of(context)
+                  .push(PhotoBoothPage.route(character: characterSelected));
+            },
+            child: Assets.icons.goNextButtonIcon.image(height: 100),
+          ),
         ),
       ),
     );
