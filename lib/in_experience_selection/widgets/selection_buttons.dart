@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -36,14 +37,24 @@ class SelectionButtons extends StatelessWidget {
   }
 
   void _showCharacterBottomSheet(BuildContext context) {
-    ItemSelectorBottomSheet.show<Color>(
+    final characterSelected =
+        context.read<InExperienceSelectionBloc>().state.character;
+    ItemSelectorBottomSheet.show<Character>(
       context,
       key: characterSelectionBottomSheetKey,
       title: context.l10n.characterSelectorButton,
-      items: const [Colors.red, Colors.yellow, Colors.green],
-      itemBuilder: (context, item) => ColoredBox(color: item),
-      selectedItem: Colors.red,
-      onSelected: print,
+      items: Character.values,
+      itemBuilder: (_, item) => InExperienceSelectionItem(
+        key: Key('${item.name}_characterSelection'),
+        name: item.name,
+      ),
+      selectedItem: characterSelected,
+      onSelected: (character) {
+        _closeSheet(context);
+        context
+            .read<InExperienceSelectionBloc>()
+            .add(InExperienceSelectionCharacterSelected(character));
+      },
     );
   }
 

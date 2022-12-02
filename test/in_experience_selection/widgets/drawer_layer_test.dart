@@ -2,9 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -106,7 +106,9 @@ void main() {
       ).called(1);
     });
 
-    testWidgets('closes drawer after selecting character', (tester) async {
+    testWidgets(
+        'closes drawer and adds InExperienceSelectionCharacterSelected '
+        'after selecting character', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.characters),
       );
@@ -114,11 +116,14 @@ void main() {
         DrawerLayer(),
         inExperienceSelectionBloc,
       );
-      const character = PhotoboothColors.orange;
-      await tester
-          .tap(find.byKey(Key('${character.value}_characterSelection')));
+      const character = Character.sparky;
+      await tester.tap(find.byKey(Key('${character.name}_characterSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionCharacterSelected(character)),
+      ).called(1);
     });
   });
 }

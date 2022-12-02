@@ -132,7 +132,7 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      expect(find.byType(ItemSelectorBottomSheet<Color>), findsOneWidget);
+      expect(find.byType(ItemSelectorBottomSheet<Character>), findsOneWidget);
       expect(
         find.byKey(SelectionButtons.characterSelectionBottomSheetKey),
         findsOneWidget,
@@ -249,6 +249,30 @@ void main() {
       verify(
         () => inExperienceSelectionBloc
             .add(InExperienceSelectionBackgroundSelected(background)),
+      ).called(1);
+    });
+
+    testWidgets(
+        'adds InExperienceSelectionCharacterSelected on character bottom sheet '
+        'after clicking on any item ', (tester) async {
+      whenListen(
+        inExperienceSelectionBloc,
+        Stream.value(
+          InExperienceSelectionState(drawerOption: DrawerOption.characters),
+        ),
+      );
+      tester.setSmallDisplaySize();
+      await tester.pumpSubject(
+        SelectionButtons(),
+        inExperienceSelectionBloc,
+      );
+      await tester.pumpAndSettle();
+      const character = Character.sparky;
+      await tester.tap(find.byKey(Key('${character.name}_characterSelection')));
+      await tester.pumpAndSettle();
+      verify(
+        () => inExperienceSelectionBloc
+            .add(InExperienceSelectionCharacterSelected(character)),
       ).called(1);
     });
 

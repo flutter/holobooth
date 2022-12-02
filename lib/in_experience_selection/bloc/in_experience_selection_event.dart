@@ -31,3 +31,13 @@ class InExperienceSelectionBackgroundSelected
   @override
   List<Object> get props => [background];
 }
+
+class InExperienceSelectionCharacterSelected
+    extends InExperienceSelectionEvent {
+  const InExperienceSelectionCharacterSelected(this.character);
+
+  final Character character;
+
+  @override
+  List<Object> get props => [character];
+}
