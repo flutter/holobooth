@@ -178,7 +178,7 @@ void main() {
     });
 
     testWidgets(
-      'adds PhotoBoothOnPhotoTaken when onShutter is called',
+      'adds PhotoBoothOnPhotoTaken when onCountdownCompleted is called',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PhotoboothBody(),
@@ -200,6 +200,48 @@ void main() {
             ),
           ),
         ).called(1);
+      },
+    );
+
+    testWidgets(
+      'adds PhotoBoothRecordingFinished when onCountdownCompleted is called',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
+        final shutterButton = tester.widget<ShutterButton>(
+          find.byType(ShutterButton),
+        );
+
+        shutterButton.onCountdownCompleted();
+        await tester.pump();
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished()))
+            .called(1);
+      },
+    );
+
+    testWidgets(
+      'adds PhotoBoothRecordingStarted when onCountdownStarted is called',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
+        final shutterButton = tester.widget<ShutterButton>(
+          find.byType(ShutterButton),
+        );
+
+        shutterButton.onCountdownStarted();
+        await tester.pump();
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingStarted()))
+            .called(1);
       },
     );
   });

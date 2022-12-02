@@ -11,8 +11,8 @@ part 'photo_booth_state.dart';
 class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
   PhotoBoothBloc() : super(PhotoBoothState.empty()) {
     on<PhotoBoothOnPhotoTaken>(_onPhotoTaken);
-    on<PhotoBoothCountdownStarted>(_countdownStarted);
-    on<PhotoBoothCountdownFinished>(_countdownFinished);
+    on<PhotoBoothRecordingStarted>(_countdownStarted);
+    on<PhotoBoothRecordingFinished>(_countdownFinished);
   }
 
   FutureOr<void> _onPhotoTaken(
@@ -27,12 +27,16 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
   }
 
   FutureOr<void> _countdownStarted(
-    PhotoBoothCountdownStarted event,
+    PhotoBoothRecordingStarted event,
     Emitter<PhotoBoothState> emit,
-  ) {}
+  ) {
+    // TODO(oscar): start recording
+  }
 
   FutureOr<void> _countdownFinished(
-    PhotoBoothCountdownFinished event,
+    PhotoBoothRecordingFinished event,
     Emitter<PhotoBoothState> emit,
-  ) {}
+  ) {
+    // TODO(oscar): stop recording
+  }
 }
