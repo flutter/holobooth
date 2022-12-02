@@ -82,12 +82,12 @@ class _ShutterButtonState extends State<ShutterButton>
       // Release the player's resources when not in use. We use "stop" so that
       // if the app resumes later, it will still remember what position to
       // resume from.
-      //audioPlayer.stop();
+      audioPlayer.stop();
     }
   }
 
   Future<void> _onShutterPressed() async {
-    //unawaited(audioPlayer.play());
+    unawaited(audioPlayer.play());
     widget.onCountdownStarted();
     unawaited(controller.reverse(from: 1));
   }
@@ -134,7 +134,9 @@ class CountdownTimer extends StatelessWidget {
           Positioned.fill(
             child: CustomPaint(
               painter: TimerPainter(
-                  animation: controller, controllerValue: controller.value),
+                animation: controller,
+                controllerValue: controller.value,
+              ),
             ),
           )
         ],

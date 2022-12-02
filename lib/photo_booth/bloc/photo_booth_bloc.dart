@@ -27,8 +27,12 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
   }
 
   FutureOr<void> _countdownStarted(
-      PhotoBoothCountdownStarted event, Emitter<PhotoBoothState> emit) {}
+    PhotoBoothCountdownStarted event,
+    Emitter<PhotoBoothState> emit,
+  ) {}
 
   FutureOr<void> _countdownFinished(
-      PhotoBoothCountdownFinished event, Emitter<PhotoBoothState> emit) {}
+    PhotoBoothCountdownFinished event,
+    Emitter<PhotoBoothState> emit,
+  ) {}
 }

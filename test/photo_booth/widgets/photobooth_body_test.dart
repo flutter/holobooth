@@ -187,11 +187,11 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pump();
-        final multipleShutterButton = tester.widget<MultipleShutterButton>(
-          find.byType(MultipleShutterButton),
+        final shutterButton = tester.widget<ShutterButton>(
+          find.byType(ShutterButton),
         );
 
-        await multipleShutterButton.onShutter();
+        shutterButton.onCountdownCompleted();
         await tester.pump();
         verify(
           () => photoBoothBloc.add(

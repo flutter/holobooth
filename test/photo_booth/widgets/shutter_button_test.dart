@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -53,7 +52,8 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpApp(
           ShutterButton(
-            onCountdownComplete: () {},
+            onCountdownCompleted: () {},
+            onCountdownStarted: () {},
             audioPlayer: () => audioPlayer,
           ),
         );
@@ -64,7 +64,8 @@ void main() {
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
         ShutterButton(
-          onCountdownComplete: () {},
+          onCountdownCompleted: () {},
+          onCountdownStarted: () {},
         ),
       );
       await tester.pumpAndSettle();
@@ -75,7 +76,8 @@ void main() {
         (tester) async {
       await tester.pumpApp(
         ShutterButton(
-          onCountdownComplete: () {},
+          onCountdownCompleted: () {},
+          onCountdownStarted: () {},
         ),
       );
       expect(find.byType(CameraButton), findsOneWidget);
@@ -86,7 +88,8 @@ void main() {
         (tester) async {
       await tester.pumpApp(
         ShutterButton(
-          onCountdownComplete: () {},
+          onCountdownCompleted: () {},
+          onCountdownStarted: () {},
           audioPlayer: () => audioPlayer,
         ),
       );
@@ -102,7 +105,8 @@ void main() {
       (WidgetTester tester) async {
         await tester.pumpApp(
           ShutterButton(
-            onCountdownComplete: () {},
+            onCountdownCompleted: () {},
+            onCountdownStarted: () {},
             audioPlayer: () => audioPlayer,
           ),
         );
@@ -130,27 +134,6 @@ void main() {
       final timePainter =
           TimerPainter(animation: animation, controllerValue: 3);
       expect(timePainter.shouldRepaint(timePainter), false);
-    });
-
-    test('counter is blue with value 3', () async {
-      final timePainter =
-          TimerPainter(animation: animation, controllerValue: 3);
-      final blue = timePainter.calculateColor();
-      expect(blue, PhotoboothColors.blue);
-    });
-
-    test('counter is orange with value 2', () async {
-      final timePainter =
-          TimerPainter(animation: animation, controllerValue: 2);
-      final blue = timePainter.calculateColor();
-      expect(blue, PhotoboothColors.orange);
-    });
-
-    test('counter is green with value 1', () async {
-      final timePainter =
-          TimerPainter(animation: animation, controllerValue: 1);
-      final blue = timePainter.calculateColor();
-      expect(blue, PhotoboothColors.green);
     });
 
     test('verify paints correctly', () {
