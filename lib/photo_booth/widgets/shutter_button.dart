@@ -24,13 +24,18 @@ class ShutterButton extends StatefulWidget {
 
   static const shutterCountdownDuration = Duration(seconds: 5);
   @override
-  State<ShutterButton> createState() => _ShutterButtonState();
+  State<ShutterButton> createState() => ShutterButtonState();
 }
 
-class _ShutterButtonState extends State<ShutterButton>
+@visibleForTesting
+class ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
+  var _animationFinished = false;
+
+  @visibleForTesting
+  static const emptySizedBox = Key('empty_sizedBox');
 
   @override
   void initState() {
@@ -42,6 +47,9 @@ class _ShutterButtonState extends State<ShutterButton>
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
       widget.onCountdownCompleted();
+      setState(() {
+        _animationFinished = true;
+      });
     }
   }
 
@@ -97,9 +105,14 @@ class _ShutterButtonState extends State<ShutterButton>
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        return controller.isAnimating
-            ? CountdownTimer(controller: controller)
-            : CameraButton(onPressed: _onShutterPressed);
+        if (controller.isAnimating) {
+          return CountdownTimer(controller: controller);
+        } else if (!_animationFinished) {
+          return CameraButton(onPressed: _onShutterPressed);
+        }
+        return const SizedBox(
+          key: emptySizedBox,
+        );
       },
     );
   }

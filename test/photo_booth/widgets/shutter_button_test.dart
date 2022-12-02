@@ -96,8 +96,23 @@ void main() {
       await tester.tap(find.byType(CameraButton));
       await tester.pump();
       expect(find.byType(CountdownTimer), findsOneWidget);
-      await tester.pumpAndSettle();
       verify(() => audioPlayer.play()).called(1);
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('renders emptySizedBox when animation finished',
+        (tester) async {
+      await tester.pumpApp(
+        ShutterButton(
+          onCountdownCompleted: () {},
+          onCountdownStarted: () {},
+          audioPlayer: () => audioPlayer,
+        ),
+      );
+      await tester.tap(find.byType(CameraButton));
+      await tester.pump();
+      await tester.pumpAndSettle();
+      expect(find.byKey(ShutterButtonState.emptySizedBox), findsOneWidget);
     });
 
     testWidgets(
