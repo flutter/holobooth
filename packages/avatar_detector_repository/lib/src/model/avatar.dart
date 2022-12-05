@@ -32,7 +32,7 @@ class Avatar extends Equatable {
     direction: Vector3.zero,
     leftEyeIsClosed: false,
     rightEyeIsClosed: false,
-    distance: 1,
+    distance: 0,
   );
 
   /// Indicates whether the [Avatar] has the mouth open.
