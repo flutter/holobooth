@@ -18,11 +18,11 @@ class PhotoboothCharacter extends StatelessWidget {
 
     // TODO(alestiago): Check out if normalizations is sufficient for all
     // characters and devices.
-    final normalizedDistance = (avatar.distance / 2) + 0.5;
+    final adjustedDistance = (avatar.distance * 5) + 0.5;
 
     // TODO(oscar): check from bloc which character is selected.
     return AnimatedScale(
-      scale: normalizedDistance,
+      scale: adjustedDistance.clamp(0.5, 1),
       duration: const Duration(milliseconds: 50),
       child: DashAnimation(
         avatar: avatar,
