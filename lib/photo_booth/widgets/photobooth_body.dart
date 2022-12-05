@@ -67,9 +67,10 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           ),
         ),
         const Align(
-          child: SizedBox(
-            height: 500,
-            width: 500,
+          child: AspectRatio(
+            // TODO(alestiago): Change this to the rive file arboart size when
+            // the rive file is ready and with no padding.
+            aspectRatio: 1200 / 1200,
             child: PhotoboothCharacter(),
           ),
         ),

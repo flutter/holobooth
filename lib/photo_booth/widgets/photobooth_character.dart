@@ -12,40 +12,22 @@ class PhotoboothCharacter extends StatelessWidget {
     final avatar = context.select(
       (AvatarDetectorBloc bloc) => bloc.state.avatar,
     );
-
-    final propSelected = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
+    final propSelected = context.select(
+      (InExperienceSelectionBloc bloc) => bloc.state.selectedProps,
+    );
 
     // TODO(alestiago): Check out if normalizations is sufficient for all
     // characters and devices.
-    final normalizedDistance = avatar.distance.normalize(
-      fromMin: 0,
-      fromMax: 1,
-      toMin: 0.5,
-      toMax: 1,
-    );
+    final normalizedDistance = (avatar.distance / 2) + 0.5;
 
     // TODO(oscar): check from bloc which character is selected.
     return AnimatedScale(
       scale: normalizedDistance,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 50),
       child: DashAnimation(
         avatar: avatar,
         propsSelected: propSelected,
       ),
     );
-  }
-}
-
-extension NormalizeNumber on num {
-  double normalize({
-    required num fromMin,
-    required num fromMax,
-    required num toMin,
-    required num toMax,
-  }) {
-    assert(fromMin < fromMax, 'fromMin must be smaller than fromMax');
-    assert(toMin < toMax, 'toMin must be smaller than toMax');
-    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
   }
 }
