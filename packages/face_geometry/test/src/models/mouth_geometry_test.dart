@@ -50,7 +50,7 @@ void main() {
     });
 
     group('distance', () {
-      test('is less than 0 when no keypoints are given', () {
+      test('is less than 1 when no keypoints are given', () {
         final mouthGeometry = MouthGeometry(
           keypoints: const [],
           boundingBox: boundingBox,
@@ -59,7 +59,7 @@ void main() {
         expect(mouthGeometry.distance, equals(0));
       });
 
-      test('is less than 0 with face1', () {
+      test('is less than 1 with face1', () {
         final face = fixtures.face1;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
@@ -89,7 +89,7 @@ void main() {
         expect(mouthGeometry.distance, greaterThan(1));
       });
 
-      test('is less than 0 with face4', () {
+      test('is less than 1 with face4', () {
         final face = fixtures.face4;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
@@ -99,7 +99,7 @@ void main() {
         expect(mouthGeometry.distance, lessThan(1));
       });
 
-      test('is less than 0 with face5', () {
+      test('is less than 1 with face5', () {
         final face = fixtures.face5;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
@@ -109,7 +109,7 @@ void main() {
         expect(mouthGeometry.distance, lessThan(1));
       });
 
-      test('is less than 0 with face6', () {
+      test('is less than 1 with face6', () {
         final face = fixtures.face6;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
@@ -139,7 +139,7 @@ void main() {
         expect(mouthGeometry.distance, greaterThan(1));
       });
 
-      test('is less than 0 with face9', () {
+      test('is less than 1 with face9', () {
         final face = fixtures.face9;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
@@ -149,7 +149,7 @@ void main() {
         expect(mouthGeometry.distance, lessThan(1));
       });
 
-      test('is less than 0 with face10', () {
+      test('is less than 1 with face10', () {
         final face = fixtures.face10;
         final mouthGeometry = MouthGeometry(
           keypoints: face.keypoints,
