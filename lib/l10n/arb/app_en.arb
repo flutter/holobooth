@@ -397,5 +397,13 @@
   "firebaseLinkText": "Firebase",
   "@firebaseLinkText": {
     "description": "Text on the link which navigates to the Firebase page"
+  },
+  "classicPhotoboothHeading": "Classic",
+  "@classicPhotoboothHeading": {
+    "description": "Text show on the top of the classic photo booth banner"
+  },
+  "classicPhotoboothLabel": "Photo Booth",
+  "@classicPhotoboothLabel": {
+    "description": "Text show on the label of the classic photo booth banner"
   }
 }
