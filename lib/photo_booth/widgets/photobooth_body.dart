@@ -70,6 +70,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           child: AspectRatio(
             // TODO(alestiago): Change this to the rive file arboart size when
             // the rive file is ready and with no padding.
+            // TODO(alestiago): Decide if we want to clamp the size of the
+            // character.
             aspectRatio: 1200 / 1200,
             child: PhotoboothCharacter(),
           ),
