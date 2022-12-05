@@ -108,7 +108,7 @@ class DashStateMachineController extends StateMachineController {
   DashStateMachineController(Artboard artboard)
       : super(
           artboard.animations.whereType<StateMachine>().firstWhere(
-                (stateMachine) => stateMachine.name == 'State Machine 1',
+                (stateMachine) => stateMachine.name == 'dash',
               ),
         ) {
     const xInputName = 'x';
