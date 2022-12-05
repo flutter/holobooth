@@ -13,18 +13,6 @@ class BackgroundAnimation extends StatefulWidget {
     required this.backgroundSelected,
   });
 
-  BackgroundAnimation.fromVector3(
-    Vector3 direction, {
-    Key? key,
-    required Background backgroundSelected,
-  }) : this(
-          key: key,
-          x: direction.x,
-          y: direction.y,
-          z: direction.z,
-          backgroundSelected: backgroundSelected,
-        );
-
   final double x;
   final double y;
   final double z;

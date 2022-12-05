@@ -15,8 +15,10 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BackgroundAnimation.fromVector3(
-                vector3,
+              return BackgroundAnimation(
+                x: vector3.x,
+                y: vector3.y,
+                z: vector3.z,
                 backgroundSelected: background,
               );
             },

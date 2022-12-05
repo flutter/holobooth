@@ -18,7 +18,7 @@ class PhotoboothBackground extends StatelessWidget {
     return BackgroundAnimation(
       x: avatar.direction.x,
       y: avatar.direction.y,
-      z: avatar.distance,
+      z: 0,
       backgroundSelected: backgroundSelected,
     );
   }
