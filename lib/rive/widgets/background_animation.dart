@@ -13,6 +13,18 @@ class BackgroundAnimation extends StatefulWidget {
     required this.backgroundSelected,
   });
 
+  BackgroundAnimation.fromVector3(
+    Vector3 direction, {
+    Key? key,
+    required Background backgroundSelected,
+  }) : this(
+          key: key,
+          x: direction.x,
+          y: direction.y,
+          z: direction.z,
+          backgroundSelected: backgroundSelected,
+        );
+
   final double x;
   final double y;
   final double z;
@@ -33,7 +45,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
     duration: const Duration(milliseconds: 150),
   );
 
-  final Tween<Vector3> _tween = Tween(begin: Vector3.zero, end: Vector3.zero);
+  final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
 
   void _onRiveInit(Artboard artboard) {
     backgroundController = BackgroundAnimationStateMachineController(artboard);
@@ -47,9 +59,8 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
       final offset = _tween.evaluate(_animationController);
-      backgroundController.x.change(offset.x);
-      backgroundController.y.change(offset.y);
-      backgroundController.z.change(offset.z);
+      backgroundController.x.change(offset.dx);
+      backgroundController.y.change(offset.dy);
     }
   }
 
@@ -63,30 +74,26 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
   void didUpdateWidget(covariant BackgroundAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     final backgroundController = this.backgroundController;
-    if (backgroundController == null) return;
 
-    final previousVector = Vector3(
-      backgroundController.x.value,
-      backgroundController.y.value,
-      backgroundController.z.value,
-    );
-    final newVector = Vector3(
-      widget.x * 100,
-      widget.y * 100,
-      widget.z * 100,
-    );
-    if ((newVector - previousVector).length > 5) {
-      _tween
-        ..begin = previousVector
-        ..end = newVector;
-      _animationController.forward(from: 0);
-    }
+    if (backgroundController != null) {
+      // Parallax
+      final previousOffset =
+          Offset(backgroundController.x.value, backgroundController.y.value);
+      final newOffset = Offset(widget.x * 100, widget.y * 100);
+      if ((newOffset - previousOffset).distance > 5) {
+        _tween
+          ..begin = previousOffset
+          ..end = newOffset;
+        _animationController.forward(from: 0);
+      }
 
-    final newBackground = widget.backgroundSelected;
-    final oldBackground = oldWidget.backgroundSelected;
-    if (newBackground != oldBackground) {
-      backgroundController.background
-          .change(widget.backgroundSelected.toDouble());
+      // Background change
+      final newBackground = widget.backgroundSelected;
+      final oldBackground = oldWidget.backgroundSelected;
+      if (newBackground != oldBackground) {
+        backgroundController.background
+            .change(widget.backgroundSelected.toDouble());
+      }
     }
   }
 
