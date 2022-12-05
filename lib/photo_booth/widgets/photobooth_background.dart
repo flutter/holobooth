@@ -14,8 +14,11 @@ class PhotoboothBackground extends StatelessWidget {
     );
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
-    return BackgroundAnimation.fromVector3(
-      avatar.direction,
+
+    return BackgroundAnimation(
+      x: avatar.direction.x,
+      y: avatar.direction.y,
+      z: avatar.distance,
       backgroundSelected: backgroundSelected,
     );
   }
