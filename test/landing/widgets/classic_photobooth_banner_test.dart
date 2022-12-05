@@ -44,6 +44,40 @@ void main() {
     });
 
     testWidgets(
+      'hides and show on hover',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+            ],
+            home: Center(child: ClassicPhotoboothBanner()),
+          ),
+        );
+
+        final gesture = await tester.createGesture(
+          kind: PointerDeviceKind.mouse,
+        );
+        await gesture.addPointer(location: Offset.zero);
+        addTearDown(gesture.removePointer);
+        await tester.pump();
+
+        await gesture.moveTo(
+          tester.getTopLeft(find.byType(AnimatedPositioned)),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Classic').hitTestable(), findsOneWidget);
+
+        await gesture.moveTo(Offset.zero);
+        await tester.pumpAndSettle();
+
+        expect(find.text('Classic').hitTestable(), findsNothing);
+      },
+    );
+
+    testWidgets(
       'opens the classic photo booth url when clicking the banner',
       (tester) async {
         await tester.pumpWidget(
@@ -59,12 +93,13 @@ void main() {
         final gesture = await tester.createGesture(
           kind: PointerDeviceKind.mouse,
         );
-        await gesture.addPointer(location: Offset(0, 0));
+        await gesture.addPointer(location: Offset.zero);
         addTearDown(gesture.removePointer);
         await tester.pump();
 
-        await gesture
-            .moveTo(tester.getTopLeft(find.byType(AnimatedPositioned)));
+        await gesture.moveTo(
+          tester.getTopLeft(find.byType(AnimatedPositioned)),
+        );
         await tester.pumpAndSettle();
 
         await tester.tap(find.text('Classic'));
