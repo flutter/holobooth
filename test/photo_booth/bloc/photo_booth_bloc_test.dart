@@ -3,9 +3,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 class _MockPhotoboothCameraImage extends Mock
     implements PhotoboothCameraImage {}
+
+class _MockRawFrame extends Mock implements RawFrame {}
 
 void main() {
   group('PhotoBoothBloc', () {
@@ -36,11 +39,15 @@ void main() {
     });
 
     group('PhotoBoothRecordingFinished', () {
+      final frames = UnmodifiableListView([_MockRawFrame()]);
+
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits nothing.',
         build: PhotoBoothBloc.new,
-        act: (bloc) => bloc.add(PhotoBoothRecordingFinished(const [])),
-        expect: () => <PhotoBoothState>[],
+        act: (bloc) => bloc.add(PhotoBoothRecordingFinished(frames)),
+        expect: () => <PhotoBoothState>[
+          PhotoBoothState.empty().copyWith(frames: frames),
+        ],
       );
     });
   });
