@@ -2,8 +2,10 @@ part of 'photo_booth_bloc.dart';
 
 class PhotoBoothState extends Equatable {
   @visibleForTesting
-  const PhotoBoothState({required this.images})
-      : assert(
+  const PhotoBoothState({
+    required this.images,
+    this.frames = const [],
+  }) : assert(
           images.length <= totalNumberOfPhotos,
           'The total number of photos should be less than $totalNumberOfPhotos',
         );
@@ -18,17 +20,21 @@ class PhotoBoothState extends Equatable {
   /// The length is not expected to be greater than [totalNumberOfPhotos].
   final UnmodifiableListView<PhotoboothCameraImage> images;
 
+  final List<RawFrame> frames;
+
   /// Whether all of the pictures has been taken.
-  bool get isFinished => images.length == totalNumberOfPhotos;
+  bool get isFinished => images.isNotEmpty && frames.isNotEmpty;
 
   @override
-  List<Object> get props => [images];
+  List<Object?> get props => [images, frames];
 
   PhotoBoothState copyWith({
     UnmodifiableListView<PhotoboothCameraImage>? images,
+    UnmodifiableListView<RawFrame>? frames,
   }) {
     return PhotoBoothState(
       images: images ?? this.images,
+      frames: frames ?? this.frames,
     );
   }
 }

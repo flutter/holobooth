@@ -219,7 +219,7 @@ void main() {
 
         shutterButton.onCountdownCompleted();
         await tester.pump();
-        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished()))
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished(const [])))
             .called(1);
       },
     );
