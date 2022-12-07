@@ -27,12 +27,14 @@ void main() {
         const avatar1 = Avatar(
           direction: Vector3(1, 1, 1),
           hasMouthOpen: false,
+          mouthDistance: 0,
           leftEyeIsClosed: false,
           rightEyeIsClosed: false,
           distance: 0.5,
         );
         final avatar2 = Avatar(
           direction: Vector3(1, 2, 3),
+          mouthDistance: avatar1.mouthDistance + 1,
           hasMouthOpen: !avatar1.hasMouthOpen,
           leftEyeIsClosed: !avatar1.leftEyeIsClosed,
           rightEyeIsClosed: !avatar1.rightEyeIsClosed,

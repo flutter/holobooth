@@ -7,6 +7,7 @@ void main() {
     test('supports value comparison', () {
       const avatar1 = Avatar(
         hasMouthOpen: true,
+        mouthDistance: 0,
         direction: Vector3.zero,
         leftEyeIsClosed: true,
         rightEyeIsClosed: true,
@@ -14,6 +15,7 @@ void main() {
       );
       const avatar2 = Avatar(
         hasMouthOpen: true,
+        mouthDistance: 0,
         direction: Vector3.zero,
         leftEyeIsClosed: true,
         rightEyeIsClosed: true,
@@ -21,6 +23,7 @@ void main() {
       );
       const avatar3 = Avatar(
         hasMouthOpen: false,
+        mouthDistance: 1,
         direction: Vector3(1, 0, 0),
         leftEyeIsClosed: false,
         rightEyeIsClosed: false,

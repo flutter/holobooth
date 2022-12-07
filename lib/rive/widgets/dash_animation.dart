@@ -74,12 +74,15 @@ class DashAnimationState extends State<DashAnimation>
         _animationController.forward(from: 0);
       }
 
-      dashController.mouthIsOpen.change(widget.avatar.hasMouthOpen ? 100 : 0);
-      dashController.rightEyeIsClosed
-          .change(widget.avatar.rightEyeIsClosed ? 99 : 0);
-      dashController.leftEyeIsClosed
-          .change(widget.avatar.leftEyeIsClosed ? 99 : 0);
-
+      dashController.mouthDistance.change(
+        widget.avatar.mouthDistance,
+      );
+      dashController.rightEyeIsClosed.change(
+        widget.avatar.rightEyeIsClosed ? 99 : 0,
+      );
+      dashController.leftEyeIsClosed.change(
+        widget.avatar.leftEyeIsClosed ? 99 : 0,
+      );
       dashController.displayHelmet.change(
         widget.propsSelected.isHelmetSelected,
       );
@@ -127,12 +130,12 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const mouthIsOpenInputName = 'Mouth Open';
-    final mouthIsOpen = findInput<double>(mouthIsOpenInputName);
-    if (mouthIsOpen is SMINumber) {
-      this.mouthIsOpen = mouthIsOpen;
+    const mouthDistanceInputName = 'Mouth Open';
+    final mouthDistance = findInput<double>(mouthDistanceInputName);
+    if (mouthDistance is SMINumber) {
+      this.mouthDistance = mouthDistance;
     } else {
-      throw StateError('Could not find input "$mouthIsOpenInputName"');
+      throw StateError('Could not find input "$mouthDistanceInputName"');
     }
 
     const leftEyeIsClosedInputName = 'Eyelid LF';
@@ -162,7 +165,7 @@ class DashStateMachineController extends StateMachineController {
 
   late final SMINumber x;
   late final SMINumber y;
-  late final SMINumber mouthIsOpen;
+  late final SMINumber mouthDistance;
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
   late final SMIBool displayHelmet;

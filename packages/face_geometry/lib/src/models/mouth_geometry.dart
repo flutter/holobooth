@@ -21,20 +21,33 @@ class MouthGeometry extends Equatable {
   MouthGeometry._compute({
     required List<tf.Keypoint> keypoints,
     required tf.BoundingBox boundingBox,
-  }) : isOpen = _isOpen(
+  })  : isOpen = _isOpen(
           topLip: keypoints[13],
           bottomLip: keypoints[14],
           faceHeight: boundingBox.height,
+        ),
+        distance = _distance(
+          topLip: keypoints[13],
+          bottomLip: keypoints[14],
         );
 
   /// An empty instance of [MouthGeometry].
   ///
   /// This is used when the keypoints are not available.
-  const MouthGeometry._empty() : isOpen = false;
+  const MouthGeometry._empty()
+      : isOpen = false,
+        distance = 0;
 
   /// This represents the minimum height of the mouth in comparison to the face
   /// height.
   static const _minMouthFaceRatio = 0.02;
+
+  static double _distance({
+    required tf.Keypoint topLip,
+    required tf.Keypoint bottomLip,
+  }) {
+    return topLip.distanceTo(bottomLip);
+  }
 
   static bool _isOpen({
     required tf.Keypoint topLip,
@@ -57,6 +70,9 @@ class MouthGeometry extends Equatable {
   /// Defines if the mouth is open based on hight and face height.
   final bool isOpen;
 
+  /// The distance between the top and bottom lip.
+  final double distance;
+
   @override
-  List<Object?> get props => [isOpen];
+  List<Object?> get props => [isOpen, distance];
 }
