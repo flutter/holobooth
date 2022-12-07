@@ -35,11 +35,12 @@ abstract class _EyeGeometry extends Equatable {
   _EyeGeometry._compute({
     required EyeKeypoint eyeKeypoint,
     required tf.BoundingBox boundingBox,
-    List<EyeKeypoint> previousEyeKeypoints = const [],
     double? previousMinRatio,
     double? previousMaxRatio,
     double? previousMinDistance,
     double? previousMaxDistance,
+    double? previousMeanDistance,
+    int generation = 0,
   })  : distance = eyeKeypoint.distance,
         minDistance = math.min(
           eyeKeypoint.distance,
@@ -51,7 +52,8 @@ abstract class _EyeGeometry extends Equatable {
         ),
         meanDistance = _computeMeanDistance(
           newEyeKeypoints: eyeKeypoint,
-          previousEyeKeypoints: previousEyeKeypoints,
+          previousMeanDistance: previousMeanDistance,
+          generation: generation,
         ),
         _minRatio = _computeMinRatio(
           distance: eyeKeypoint.distance,
@@ -63,10 +65,7 @@ abstract class _EyeGeometry extends Equatable {
           faceHeight: boundingBox.height,
           previousMaxRatio: previousMaxRatio,
         ),
-        _eyeKeypoints = [
-          ...previousEyeKeypoints,
-          eyeKeypoint,
-        ] {
+        _generation = generation + 1 {
     isClosed = _computeIsClosed(
       distance: eyeKeypoint.distance,
       faceHeight: boundingBox.height,
@@ -84,30 +83,25 @@ abstract class _EyeGeometry extends Equatable {
     this.maxDistance,
     this.minDistance,
     this.meanDistance,
-    List<EyeKeypoint>? eyeKeypoints,
+    int generation = 0,
   })  : distance = 0,
         isClosed = false,
         _maxRatio = minRatio,
         _minRatio = maxRatio,
-        _eyeKeypoints = eyeKeypoints ?? [];
+        _generation = generation;
 
   /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
 
   /// Computes the mean distance of some [EyeKeypoint].
   static double _computeMeanDistance({
-    required List<EyeKeypoint>? previousEyeKeypoints,
+    required double? previousMeanDistance,
+    required int generation,
     required EyeKeypoint newEyeKeypoints,
   }) {
-    if (previousEyeKeypoints == null || previousEyeKeypoints.isEmpty) {
-      return newEyeKeypoints.distance;
-    }
-
-    final sum = previousEyeKeypoints.fold<double>(
-      newEyeKeypoints.distance,
-      (value, element) => value + element.distance,
-    );
-    return sum / (previousEyeKeypoints.length + 1);
+    final totalDistance =
+        (previousMeanDistance ?? 0) * generation + newEyeKeypoints.distance;
+    return totalDistance / (generation + 1);
   }
 
   static double? _computeMaxRatio({
@@ -158,8 +152,8 @@ abstract class _EyeGeometry extends Equatable {
     }
   }
 
-  /// The previous eye keypoints.
-  final List<EyeKeypoint> _eyeKeypoints;
+  /// The number of keypoints that have been used to compute [meanDistance].
+  final int _generation;
 
   /// The maxmium ratio between the eye distance and the face height.
   final double? _maxRatio;
@@ -221,11 +215,12 @@ class LeftEyeGeometry extends _EyeGeometry {
   LeftEyeGeometry._compute({
     required super.eyeKeypoint,
     required super.boundingBox,
-    super.previousEyeKeypoints,
+    super.generation,
     super.previousMinRatio,
     super.previousMaxRatio,
     super.previousMinDistance,
     super.previousMaxDistance,
+    super.previousMeanDistance,
   }) : super._compute();
 
   LeftEyeGeometry._empty({
@@ -234,7 +229,7 @@ class LeftEyeGeometry extends _EyeGeometry {
     super.maxDistance,
     super.minDistance,
     super.meanDistance,
-    super.eyeKeypoints,
+    super.generation,
   }) : super._empty();
 
   @override
@@ -246,11 +241,11 @@ class LeftEyeGeometry extends _EyeGeometry {
       return LeftEyeGeometry._compute(
         eyeKeypoint: EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
-        previousEyeKeypoints: _eyeKeypoints,
         previousMinRatio: _minRatio,
         previousMaxRatio: _maxRatio,
         previousMinDistance: minDistance,
         previousMaxDistance: maxDistance,
+        generation: _generation,
       );
     } else {
       return LeftEyeGeometry._empty(
@@ -259,7 +254,7 @@ class LeftEyeGeometry extends _EyeGeometry {
         maxDistance: maxDistance,
         minDistance: minDistance,
         meanDistance: meanDistance,
-        eyeKeypoints: _eyeKeypoints,
+        generation: _generation,
       );
     }
   }
@@ -283,11 +278,11 @@ class RightEyeGeometry extends _EyeGeometry {
   RightEyeGeometry._compute({
     required super.eyeKeypoint,
     required super.boundingBox,
-    super.previousEyeKeypoints,
     super.previousMinRatio,
     super.previousMaxRatio,
     super.previousMinDistance,
     super.previousMaxDistance,
+    super.generation,
   }) : super._compute();
 
   RightEyeGeometry._empty({
@@ -296,7 +291,7 @@ class RightEyeGeometry extends _EyeGeometry {
     super.maxDistance,
     super.minDistance,
     super.meanDistance,
-    super.eyeKeypoints,
+    super.generation,
   }) : super._empty();
 
   @override
@@ -308,11 +303,11 @@ class RightEyeGeometry extends _EyeGeometry {
       return RightEyeGeometry._compute(
         eyeKeypoint: EyeKeypoint.right(keypoints),
         boundingBox: boundingBox,
-        previousEyeKeypoints: _eyeKeypoints,
         previousMinRatio: _minRatio,
         previousMaxRatio: _maxRatio,
         previousMinDistance: minDistance,
         previousMaxDistance: maxDistance,
+        generation: _generation,
       );
     } else {
       return RightEyeGeometry._empty(
@@ -321,7 +316,7 @@ class RightEyeGeometry extends _EyeGeometry {
         maxDistance: maxDistance,
         minDistance: minDistance,
         meanDistance: meanDistance,
-        eyeKeypoints: _eyeKeypoints,
+        generation: _generation,
       );
     }
   }
