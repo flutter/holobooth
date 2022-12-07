@@ -65,19 +65,26 @@ abstract class _EyeGeometry extends Equatable {
           faceHeight: boundingBox.height,
           previousMaxRatio: previousMaxRatio,
         ),
-        _generation = generation + 1 {
-    isClosed = _computeIsClosed(
-      distance: eyeKeypoint.distance,
-      faceHeight: boundingBox.height,
-      minRatio: _minRatio,
-      maxRatio: _maxRatio,
-    );
-  }
+        isClosed = _computeIsClosed(
+          distance: eyeKeypoint.distance,
+          faceHeight: boundingBox.height,
+          minRatio: _computeMinRatio(
+            distance: eyeKeypoint.distance,
+            faceHeight: boundingBox.height,
+            previousMinRatio: previousMinRatio,
+          ),
+          maxRatio: _computeMaxRatio(
+            distance: eyeKeypoint.distance,
+            faceHeight: boundingBox.height,
+            previousMaxRatio: previousMaxRatio,
+          ),
+        ),
+        _generation = generation + 1;
 
   /// An empty instance of [_EyeGeometry].
   ///
   /// This is used when the keypoints are not available.
-  _EyeGeometry._empty({
+  const _EyeGeometry._empty({
     double? minRatio,
     double? maxRatio,
     this.maxDistance,
@@ -165,7 +172,7 @@ abstract class _EyeGeometry extends Equatable {
   ///
   /// Detection works after the first blink to make sure we have the correct
   /// minimum and maximum values.
-  late final bool isClosed;
+  final bool isClosed;
 
   /// The distance between the top and bottom eye lids.
   final double distance;
@@ -208,7 +215,7 @@ class LeftEyeGeometry extends _EyeGeometry {
         boundingBox: boundingBox,
       );
     } else {
-      return LeftEyeGeometry._empty();
+      return const LeftEyeGeometry.empty();
     }
   }
 
@@ -223,7 +230,7 @@ class LeftEyeGeometry extends _EyeGeometry {
     super.previousMeanDistance,
   }) : super._compute();
 
-  LeftEyeGeometry._empty({
+  const LeftEyeGeometry.empty({
     super.minRatio,
     super.maxRatio,
     super.maxDistance,
@@ -245,10 +252,11 @@ class LeftEyeGeometry extends _EyeGeometry {
         previousMaxRatio: _maxRatio,
         previousMinDistance: minDistance,
         previousMaxDistance: maxDistance,
+        previousMeanDistance: meanDistance,
         generation: _generation,
       );
     } else {
-      return LeftEyeGeometry._empty(
+      return LeftEyeGeometry.empty(
         minRatio: _minRatio,
         maxRatio: _maxRatio,
         maxDistance: maxDistance,
@@ -271,7 +279,7 @@ class RightEyeGeometry extends _EyeGeometry {
         boundingBox: boundingBox,
       );
     } else {
-      return RightEyeGeometry._empty();
+      return const RightEyeGeometry.empty();
     }
   }
 
@@ -282,10 +290,11 @@ class RightEyeGeometry extends _EyeGeometry {
     super.previousMaxRatio,
     super.previousMinDistance,
     super.previousMaxDistance,
+    super.previousMeanDistance,
     super.generation,
   }) : super._compute();
 
-  RightEyeGeometry._empty({
+  const RightEyeGeometry.empty({
     super.minRatio,
     super.maxRatio,
     super.maxDistance,
@@ -307,10 +316,11 @@ class RightEyeGeometry extends _EyeGeometry {
         previousMaxRatio: _maxRatio,
         previousMinDistance: minDistance,
         previousMaxDistance: maxDistance,
+        previousMeanDistance: meanDistance,
         generation: _generation,
       );
     } else {
-      return RightEyeGeometry._empty(
+      return RightEyeGeometry.empty(
         minRatio: _minRatio,
         maxRatio: _maxRatio,
         maxDistance: maxDistance,

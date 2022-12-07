@@ -74,14 +74,48 @@ class DashAnimationState extends State<DashAnimation>
         _animationController.forward(from: 0);
       }
 
+      final leftEyeGeometry = widget.avatar.leftEyeGeometry;
+      late final double leftEyeDistance;
+      if (leftEyeGeometry.minDistance != null &&
+          leftEyeGeometry.meanDistance != null &&
+          leftEyeGeometry.meanDistance! > leftEyeGeometry.minDistance!) {
+        leftEyeDistance = leftEyeGeometry.distance.normalize(
+          fromMin: leftEyeGeometry.minDistance!,
+          fromMax: leftEyeGeometry.meanDistance!,
+          toMin: 0,
+          toMax: 100,
+        );
+      } else {
+        leftEyeDistance = 100;
+      }
+
+      final rightEyeGeometry = widget.avatar.rightEyeGeometry;
+      late final double rightEyeDistance;
+      print('meanDistance: ${rightEyeGeometry.meanDistance}');
+      print('minDistance: ${rightEyeGeometry.minDistance}');
+      print('distance: ${rightEyeGeometry.distance}');
+      print('maxDistance: ${rightEyeGeometry.maxDistance}');
+      if (rightEyeGeometry.minDistance != null &&
+          rightEyeGeometry.meanDistance != null &&
+          rightEyeGeometry.meanDistance! > rightEyeGeometry.minDistance!) {
+        rightEyeDistance = rightEyeGeometry.distance.normalize(
+          fromMin: rightEyeGeometry.minDistance!,
+          fromMax: rightEyeGeometry.meanDistance!,
+          toMin: 0,
+          toMax: 100,
+        );
+      } else {
+        rightEyeDistance = 100;
+      }
+
       dashController.mouthDistance.change(
         widget.avatar.mouthDistance,
       );
       dashController.rightEyeIsClosed.change(
-        widget.avatar.rightEyeIsClosed ? 99 : 0,
+        100 - rightEyeDistance,
       );
       dashController.leftEyeIsClosed.change(
-        widget.avatar.leftEyeIsClosed ? 99 : 0,
+        100 - leftEyeDistance,
       );
       dashController.displayHelmet.change(
         widget.propsSelected.isHelmetSelected,
@@ -171,3 +205,14 @@ class DashStateMachineController extends StateMachineController {
   late final SMIBool displayHelmet;
 }
 // coverage:ignore-end
+
+extension on num {
+  double normalize({
+    required num fromMin,
+    required num fromMax,
+    required num toMin,
+    required num toMax,
+  }) {
+    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
+  }
+}
