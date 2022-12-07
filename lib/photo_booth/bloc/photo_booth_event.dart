@@ -20,5 +20,10 @@ class PhotoBoothRecordingStarted extends PhotoBoothEvent {
 }
 
 class PhotoBoothRecordingFinished extends PhotoBoothEvent {
-  const PhotoBoothRecordingFinished();
+  const PhotoBoothRecordingFinished(this.frames);
+
+  final List<RawFrame> frames;
+
+  @override
+  List<Object> get props => [frames];
 }

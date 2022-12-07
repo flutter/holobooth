@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 part 'photo_booth_event.dart';
 part 'photo_booth_state.dart';
@@ -37,6 +38,10 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
     PhotoBoothRecordingFinished event,
     Emitter<PhotoBoothState> emit,
   ) {
-    // TODO(oscar): stop recording
+    emit(
+      state.copyWith(
+        frames: UnmodifiableListView(event.frames),
+      ),
+    );
   }
 }

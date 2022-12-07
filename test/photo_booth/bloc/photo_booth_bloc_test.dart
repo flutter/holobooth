@@ -39,7 +39,7 @@ void main() {
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits nothing.',
         build: PhotoBoothBloc.new,
-        act: (bloc) => bloc.add(PhotoBoothRecordingFinished()),
+        act: (bloc) => bloc.add(PhotoBoothRecordingFinished(const [])),
         expect: () => <PhotoBoothState>[],
       );
     });
