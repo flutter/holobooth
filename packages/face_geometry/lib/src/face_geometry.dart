@@ -23,11 +23,11 @@ class FaceGeometry extends Equatable {
     required tf.Size size,
   }) : this._(
           direction: FaceDirection(keypoints: face.keypoints),
-          leftEye: EyeGeometry.left(
+          leftEye: LeftEyeGeometry(
             keypoints: face.keypoints,
             boundingBox: face.boundingBox,
           ),
-          rightEye: EyeGeometry.right(
+          rightEye: RightEyeGeometry(
             keypoints: face.keypoints,
             boundingBox: face.boundingBox,
           ),
@@ -53,10 +53,10 @@ class FaceGeometry extends Equatable {
   final FaceDirection direction;
 
   /// {@macro eye_geometry}
-  final EyeGeometry leftEye;
+  final LeftEyeGeometry leftEye;
 
   /// {@macro eye_geometry}
-  final EyeGeometry rightEye;
+  final RightEyeGeometry rightEye;
 
   /// {@macro mouth_geometry}
   final MouthGeometry mouth;

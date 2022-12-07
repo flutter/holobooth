@@ -31,36 +31,8 @@ class EyeKeypoint extends Equatable {
 }
 
 @immutable
-class EyeGeometry extends Equatable {
-  factory EyeGeometry.left({
-    required List<tf.Keypoint> keypoints,
-    required tf.BoundingBox boundingBox,
-  }) {
-    if (keypoints.length > 160) {
-      return EyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints),
-        boundingBox: boundingBox,
-      );
-    } else {
-      return EyeGeometry.empty();
-    }
-  }
-
-  factory EyeGeometry.right({
-    required List<tf.Keypoint> keypoints,
-    required tf.BoundingBox boundingBox,
-  }) {
-    if (keypoints.length > 387) {
-      return EyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.right(keypoints),
-        boundingBox: boundingBox,
-      );
-    } else {
-      return EyeGeometry.empty();
-    }
-  }
-
-  EyeGeometry._compute({
+abstract class _EyeGeometry extends Equatable {
+  _EyeGeometry._compute({
     required EyeKeypoint eyeKeypoint,
     required tf.BoundingBox boundingBox,
     List<EyeKeypoint> previousEyeKeypoints = const [],
@@ -103,10 +75,10 @@ class EyeGeometry extends Equatable {
     );
   }
 
-  /// An empty instance of [EyeGeometry].
+  /// An empty instance of [_EyeGeometry].
   ///
   /// This is used when the keypoints are not available.
-  EyeGeometry.empty({
+  _EyeGeometry._empty({
     double? minRatio,
     double? maxRatio,
     this.maxDistance,
@@ -119,7 +91,7 @@ class EyeGeometry extends Equatable {
         _minRatio = maxRatio,
         _eyeKeypoints = eyeKeypoints ?? [];
 
-  /// The minimum value at which [EyeGeometry] recognizes an eye closure.
+  /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
 
   /// Computes the mean distance of some [EyeKeypoint].
@@ -214,12 +186,10 @@ class EyeGeometry extends Equatable {
   final double? meanDistance;
 
   /// Update the eye geometry.
-  EyeGeometry update(
+  _EyeGeometry update(
     List<tf.Keypoint> keypoints,
     tf.BoundingBox boundingBox,
-  ) {
-    return this;
-  }
+  );
 
   @override
   List<Object?> get props => [
@@ -231,4 +201,128 @@ class EyeGeometry extends Equatable {
         _minRatio,
         _maxRatio,
       ];
+}
+
+class LeftEyeGeometry extends _EyeGeometry {
+  factory LeftEyeGeometry({
+    required List<tf.Keypoint> keypoints,
+    required tf.BoundingBox boundingBox,
+  }) {
+    if (keypoints.length > 160) {
+      return LeftEyeGeometry._compute(
+        eyeKeypoint: EyeKeypoint.left(keypoints),
+        boundingBox: boundingBox,
+      );
+    } else {
+      return LeftEyeGeometry._empty();
+    }
+  }
+
+  LeftEyeGeometry._compute({
+    required super.eyeKeypoint,
+    required super.boundingBox,
+    super.previousEyeKeypoints,
+    super.previousMinRatio,
+    super.previousMaxRatio,
+    super.previousMinDistance,
+    super.previousMaxDistance,
+  }) : super._compute();
+
+  LeftEyeGeometry._empty({
+    super.minRatio,
+    super.maxRatio,
+    super.maxDistance,
+    super.minDistance,
+    super.meanDistance,
+    super.eyeKeypoints,
+  }) : super._empty();
+
+  @override
+  LeftEyeGeometry update(
+    List<tf.Keypoint> keypoints,
+    tf.BoundingBox boundingBox,
+  ) {
+    if (keypoints.length > 160) {
+      return LeftEyeGeometry._compute(
+        eyeKeypoint: EyeKeypoint.left(keypoints),
+        boundingBox: boundingBox,
+        previousEyeKeypoints: _eyeKeypoints,
+        previousMinRatio: _minRatio,
+        previousMaxRatio: _maxRatio,
+        previousMinDistance: minDistance,
+        previousMaxDistance: maxDistance,
+      );
+    } else {
+      return LeftEyeGeometry._empty(
+        minRatio: _minRatio,
+        maxRatio: _maxRatio,
+        maxDistance: maxDistance,
+        minDistance: minDistance,
+        meanDistance: meanDistance,
+        eyeKeypoints: _eyeKeypoints,
+      );
+    }
+  }
+}
+
+class RightEyeGeometry extends _EyeGeometry {
+  factory RightEyeGeometry({
+    required List<tf.Keypoint> keypoints,
+    required tf.BoundingBox boundingBox,
+  }) {
+    if (keypoints.length > 160) {
+      return RightEyeGeometry._compute(
+        eyeKeypoint: EyeKeypoint.left(keypoints),
+        boundingBox: boundingBox,
+      );
+    } else {
+      return RightEyeGeometry._empty();
+    }
+  }
+
+  RightEyeGeometry._compute({
+    required super.eyeKeypoint,
+    required super.boundingBox,
+    super.previousEyeKeypoints,
+    super.previousMinRatio,
+    super.previousMaxRatio,
+    super.previousMinDistance,
+    super.previousMaxDistance,
+  }) : super._compute();
+
+  RightEyeGeometry._empty({
+    super.minRatio,
+    super.maxRatio,
+    super.maxDistance,
+    super.minDistance,
+    super.meanDistance,
+    super.eyeKeypoints,
+  }) : super._empty();
+
+  @override
+  RightEyeGeometry update(
+    List<tf.Keypoint> keypoints,
+    tf.BoundingBox boundingBox,
+  ) {
+    if (keypoints.length > 160) {
+      return RightEyeGeometry._compute(
+        eyeKeypoint: EyeKeypoint.right(keypoints),
+        boundingBox: boundingBox,
+        previousEyeKeypoints: _eyeKeypoints,
+        previousMinRatio: _minRatio,
+        previousMaxRatio: _maxRatio,
+        previousMinDistance: minDistance,
+        previousMaxDistance: maxDistance,
+      );
+    } else {
+      return RightEyeGeometry._empty(
+        minRatio: _minRatio,
+        maxRatio: _maxRatio,
+        maxDistance: maxDistance,
+        minDistance: minDistance,
+        meanDistance: meanDistance,
+        eyeKeypoints: _eyeKeypoints,
+      );
+    }
+  }
 }
