@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -52,7 +53,7 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'assets/icons/classic_photobooth.png',
+                          Assets.icons.classicPhotobooth.path,
                           width: 32,
                           height: 44,
                         ),
