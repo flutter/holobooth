@@ -7,6 +7,6 @@ void main() {
   final dashbook = Dashbook(theme: PhotoboothTheme.standard);
 
   addGradientElevatedButtonStories(dashbook);
-  
+
   runApp(dashbook);
 }

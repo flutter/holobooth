@@ -6,10 +6,9 @@ void addGradientElevatedButtonStories(Dashbook dashbook) {
   dashbook.storiesOf('GradientElevatedButton').add(
         'default',
         (_) => Center(
-           child: GradientElevatedButton(
-            child: const Text('Press me'),
-            onPressed: () {},
-          )
-        ),
+            child: GradientElevatedButton(
+          child: const Text('Press me'),
+          onPressed: () {},
+        )),
       );
 }

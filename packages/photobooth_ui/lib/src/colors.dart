@@ -46,6 +46,7 @@ abstract class PhotoboothColors {
 abstract class HoloboothColors {
   /// Purple
   static const Color purple = Color(0xFF4100E0);
+
   /// Light purple
   static const Color lightPurple = Color(0xFF9455D9);
 
