@@ -7,6 +7,9 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class LandingBody extends StatelessWidget {
   const LandingBody({super.key});
 
+  @visibleForTesting
+  static const landingPageImageKey = Key('landingPage_image');
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -40,7 +43,7 @@ class LandingBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Assets.backgrounds.landingBackground.image(
-              key: const Key('landingPage_image'),
+              key: landingPageImageKey,
               height: size.width <= PhotoboothBreakpoints.small
                   ? size.height * 0.4
                   : size.height * 0.5,

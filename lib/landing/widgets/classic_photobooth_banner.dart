@@ -3,8 +3,7 @@ import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _width = 170.0;
-const _height = 72.0;
+const _bannerSize = Size(170, 72);
 
 class ClassicPhotoboothBanner extends StatefulWidget {
   const ClassicPhotoboothBanner({super.key});
@@ -21,8 +20,8 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return SizedBox(
-      width: _width,
-      height: _height,
+      width: _bannerSize.width,
+      height: _bannerSize.height,
       child: Stack(
         children: [
           AnimatedPositioned(
@@ -46,9 +45,8 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                     ),
                     color: PhotoboothColors.black20,
                   ),
-                  //width: 48,
-                  width: _width,
-                  height: _height,
+                  width: _bannerSize.width,
+                  height: _bannerSize.height,
                   child: OverflowBox(
                     maxWidth: double.infinity,
                     child: Row(

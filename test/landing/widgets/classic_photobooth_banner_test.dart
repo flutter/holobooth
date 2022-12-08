@@ -39,8 +39,10 @@ void main() {
         ClassicPhotoboothBanner(),
       );
 
-      expect(find.text('Classic'), findsOneWidget);
-      expect(find.text('Photo Booth'), findsOneWidget);
+      final l10n = tester.element(find.byType(ClassicPhotoboothBanner)).l10n;
+
+      expect(find.text(l10n.classicPhotoboothHeading), findsOneWidget);
+      expect(find.text(l10n.classicPhotoboothLabel), findsOneWidget);
     });
 
     testWidgets(
@@ -56,6 +58,8 @@ void main() {
           ),
         );
 
+        final l10n = tester.element(find.byType(ClassicPhotoboothBanner)).l10n;
+
         final gesture = await tester.createGesture(
           kind: PointerDeviceKind.mouse,
         );
@@ -68,12 +72,18 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        expect(find.text('Classic').hitTestable(), findsOneWidget);
+        expect(
+          find.text(l10n.classicPhotoboothHeading).hitTestable(),
+          findsOneWidget,
+        );
 
         await gesture.moveTo(Offset.zero);
         await tester.pumpAndSettle();
 
-        expect(find.text('Classic').hitTestable(), findsNothing);
+        expect(
+          find.text(l10n.classicPhotoboothHeading).hitTestable(),
+          findsNothing,
+        );
       },
     );
 
@@ -90,6 +100,8 @@ void main() {
           ),
         );
 
+        final l10n = tester.element(find.byType(ClassicPhotoboothBanner)).l10n;
+
         final gesture = await tester.createGesture(
           kind: PointerDeviceKind.mouse,
         );
@@ -102,7 +114,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('Classic'));
+        await tester.tap(find.text(l10n.classicPhotoboothHeading));
         await tester.pumpAndSettle();
 
         verify(

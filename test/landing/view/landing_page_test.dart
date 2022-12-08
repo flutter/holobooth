@@ -36,7 +36,7 @@ void main() {
     testWidgets('renders image on small screens', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(const LandingView());
-      expect(find.byKey(Key('landingPage_image')), findsOneWidget);
+      expect(find.byKey(LandingBody.landingPageImageKey), findsOneWidget);
     });
 
     testWidgets('renders subheading', (tester) async {
