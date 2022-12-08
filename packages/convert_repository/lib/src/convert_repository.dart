@@ -20,16 +20,13 @@ class ConvertException implements Exception {
 /// {@endtemplate}
 class ConvertRepository {
   /// {@macro convert_repository}
-  ConvertRepository({MultipartRequest? multipartRequest})
-      : _multipartRequest = multipartRequest ?? MultipartRequest('POST', _url);
+  ConvertRepository({
+    required String url,
+    MultipartRequest? multipartRequest,
+  }) : _multipartRequest =
+            multipartRequest ?? MultipartRequest('POST', Uri.parse(url));
 
   final MultipartRequest _multipartRequest;
-
-  // TODO(arturplaczek): Update this to use the correct url
-  static final _url = Uri.http(
-    'localhost:5001',
-    '/io-photobooth-dev/us-central1/convert',
-  );
 
   /// Converts a list of images to video using firebase functions.
   /// On success, returns the video path from the cloud storage.

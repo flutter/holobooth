@@ -14,7 +14,7 @@ class _MockStreamedResponse extends Mock implements StreamedResponse {}
 void main() {
   group('ConvertRepository', () {
     test('can be instantiated', () {
-      expect(ConvertRepository(), isNotNull);
+      expect(ConvertRepository(url: ''), isNotNull);
     });
 
     group('convertFrames', () {
@@ -26,11 +26,12 @@ void main() {
         multipartRequest = _MockMultipartRequest();
         convertRepository = ConvertRepository(
           multipartRequest: multipartRequest,
+          url: '',
         );
         streamedResponse = _MockStreamedResponse();
 
         when(() => multipartRequest.files).thenReturn([]);
-        when(() => multipartRequest.send()).thenAnswer(
+        when(multipartRequest.send).thenAnswer(
           (_) async => streamedResponse,
         );
       });
@@ -50,7 +51,7 @@ void main() {
 
         final path = await convertRepository.convertFrames([Uint8List(0)]);
 
-        expect(path, 'path');
+        expect(path, equals('path'));
       });
 
       test('throws on status code different than 200', () async {
