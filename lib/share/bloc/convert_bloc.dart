@@ -33,7 +33,8 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       final videoPath = await _convertRepository.convertFrames(frames);
 
       emit(ConvertSuccess(videoPath));
-    } catch (error) {
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
       emit(ConvertError());
     }
   }
