@@ -33,11 +33,16 @@ void main() {
       FakePhotoboothCameraImage()
     ];
     test('is routable', () {
-      expect(SharePage.route(images), isA<AppPageRoute<void>>());
+      expect(SharePage.route(images, []), isA<AppPageRoute<void>>());
     });
 
     testWidgets('renders ShareBackground', (tester) async {
-      await tester.pumpApp(SharePage(images: images));
+      await tester.pumpApp(
+        SharePage(
+          images: images,
+          frames: const [],
+        ),
+      );
       expect(find.byType(ShareBackground), findsOneWidget);
     });
   });
