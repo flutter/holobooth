@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/app/app.dart';
@@ -14,6 +15,8 @@ class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
+
+class _MockConvertRepository extends Mock implements ConvertRepository {}
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {
@@ -31,6 +34,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
+          convertRepository: _MockConvertRepository(),
         ),
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -47,6 +51,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
+          convertRepository: _MockConvertRepository(),
         ),
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -62,6 +67,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
+          convertRepository: _MockConvertRepository(),
         ),
       );
       expect(find.byType(LandingPage), findsOneWidget);
