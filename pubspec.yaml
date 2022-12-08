@@ -42,6 +42,7 @@ dependencies:
   platform_helper:
     path: packages/platform_helper
   rive: ^0.9.1
+  screen_recorder: 0.2.0
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6

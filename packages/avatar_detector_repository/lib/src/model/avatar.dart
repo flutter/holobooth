@@ -11,6 +11,7 @@ class Avatar extends Equatable {
   @visibleForTesting
   const Avatar({
     required this.hasMouthOpen,
+    required this.mouthDistance,
     required this.direction,
     required this.leftEyeIsClosed,
     required this.rightEyeIsClosed,
@@ -21,6 +22,7 @@ class Avatar extends Equatable {
   Avatar.fromFaceGeometry(
     FaceGeometry faceGeometry,
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
+        mouthDistance = faceGeometry.mouth.distance,
         direction = faceGeometry.direction.value,
         leftEyeIsClosed = faceGeometry.leftEye.isClosed,
         rightEyeIsClosed = faceGeometry.rightEye.isClosed,
@@ -29,6 +31,7 @@ class Avatar extends Equatable {
   /// {@macro avatar}
   static const zero = Avatar(
     hasMouthOpen: false,
+    mouthDistance: 0,
     direction: Vector3.zero,
     leftEyeIsClosed: false,
     rightEyeIsClosed: false,
@@ -37,6 +40,9 @@ class Avatar extends Equatable {
 
   /// Indicates whether the [Avatar] has the mouth open.
   final bool hasMouthOpen;
+
+  /// The distance between the top and bottom lip.
+  final double mouthDistance;
 
   /// Direction of the [Avatar] represented by x, y and z.
   final Vector3 direction;
@@ -57,6 +63,7 @@ class Avatar extends Equatable {
   @override
   List<Object?> get props => [
         hasMouthOpen,
+        mouthDistance,
         direction,
         leftEyeIsClosed,
         rightEyeIsClosed,

@@ -11,6 +11,7 @@ import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -40,6 +41,8 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
+
+class _MockRawFrame extends Mock implements RawFrame {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -151,7 +154,12 @@ void main() {
         ]);
         whenListen(
           photoBoothBloc,
-          Stream.value(PhotoBoothState(images: images)),
+          Stream.value(
+            PhotoBoothState(
+              images: images,
+              frames: [_MockRawFrame()],
+            ),
+          ),
         );
         await tester.pumpSubject(
           PhotoBoothView(),

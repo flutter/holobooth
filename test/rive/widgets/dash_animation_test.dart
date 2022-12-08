@@ -9,6 +9,7 @@ void main() {
     testWidgets('can update', (tester) async {
       var avatar = Avatar(
         hasMouthOpen: false,
+        mouthDistance: 0,
         direction: Vector3(0, 0, 0),
         leftEyeIsClosed: false,
         rightEyeIsClosed: false,
@@ -36,11 +37,12 @@ void main() {
       final controller = state.dashController;
       final x = controller?.x.value;
       final y = controller?.y.value;
-      expect(controller?.mouthIsOpen.value, 0);
+      expect(controller?.mouthDistance.value, 0);
 
       stateSetter(
         () => avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
+          mouthDistance: avatar.mouthDistance + 1,
           direction: Vector3(1, 1, 1),
           leftEyeIsClosed: !avatar.leftEyeIsClosed,
           rightEyeIsClosed: !avatar.rightEyeIsClosed,
@@ -50,7 +52,7 @@ void main() {
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller?.mouthIsOpen.value, 100);
+      expect(controller?.mouthDistance.value, avatar.mouthDistance);
       expect(controller?.leftEyeIsClosed.value, 99);
       expect(controller?.rightEyeIsClosed.value, 99);
       expect(controller?.x.value, isNot(equals(x)));

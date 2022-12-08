@@ -49,6 +49,117 @@ void main() {
       });
     });
 
+    group('distance', () {
+      test('is less than 1 when no keypoints are given', () {
+        final mouthGeometry = MouthGeometry(
+          keypoints: const [],
+          boundingBox: boundingBox,
+        );
+
+        expect(mouthGeometry.distance, equals(0));
+      });
+
+      test('is less than 1 with face1', () {
+        final face = fixtures.face1;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+
+      test('is greater than 1 with face2', () {
+        final face = fixtures.face2;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, greaterThan(1));
+      });
+
+      test('is greater than 1 with face3', () {
+        final face = fixtures.face3;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, greaterThan(1));
+      });
+
+      test('is less than 1 with face4', () {
+        final face = fixtures.face4;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+
+      test('is less than 1 with face5', () {
+        final face = fixtures.face5;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+
+      test('is less than 1 with face6', () {
+        final face = fixtures.face6;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+
+      test('is greater than 1 with face7', () {
+        final face = fixtures.face7;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, greaterThan(1));
+      });
+
+      test('is greater than 1 with face8', () {
+        final face = fixtures.face8;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, greaterThan(1));
+      });
+
+      test('is less than 1 with face9', () {
+        final face = fixtures.face9;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+
+      test('is less than 1 with face10', () {
+        final face = fixtures.face10;
+        final mouthGeometry = MouthGeometry(
+          keypoints: face.keypoints,
+          boundingBox: face.boundingBox,
+        );
+
+        expect(mouthGeometry.distance, lessThan(1));
+      });
+    });
+
     group('isOpen', () {
       test('is false when no keypoints are given', () {
         final mouthGeometry = MouthGeometry(
