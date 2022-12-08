@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
   );
 
   final avatarDetectorRepository = AvatarDetectorRepository();
+  final convertRepository = ConvertRepository();
 
   unawaited(
     Future.wait([
@@ -55,6 +57,7 @@ Future<void> main() async {
         authenticationRepository: authenticationRepository,
         photosRepository: photosRepository,
         avatarDetectorRepository: avatarDetectorRepository,
+        convertRepository: convertRepository,
       ),
     ),
     (error, stackTrace) {
