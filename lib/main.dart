@@ -41,7 +41,9 @@ Future<void> main() async {
   );
 
   final avatarDetectorRepository = AvatarDetectorRepository();
-  final convertRepository = ConvertRepository();
+  final convertRepository = ConvertRepository(
+    url: 'https://io-photobooth-dev.web.app/convert',
+  );
 
   unawaited(
     Future.wait([
