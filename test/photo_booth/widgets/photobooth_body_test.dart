@@ -246,7 +246,7 @@ extension on WidgetTester {
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
           ],
-          child: subject,
+          child: Scaffold(body: subject),
         ),
       );
 }
