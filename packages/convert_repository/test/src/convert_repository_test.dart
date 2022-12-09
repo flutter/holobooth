@@ -25,7 +25,7 @@ void main() {
       setUp(() {
         multipartRequest = _MockMultipartRequest();
         convertRepository = ConvertRepository(
-          multipartRequest: multipartRequest,
+          multipartRequestBuilder: () => multipartRequest,
           url: '',
         );
         streamedResponse = _MockStreamedResponse();
