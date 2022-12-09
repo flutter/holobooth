@@ -8,11 +8,13 @@ class DashAnimation extends StatefulWidget {
   const DashAnimation({
     super.key,
     required this.avatar,
-    required this.hatSelected,
+    required this.selectedHat,
+    required this.selectedGlasses,
   });
 
   final Avatar avatar;
-  final Hats hatSelected;
+  final Hats selectedHat;
+  final Glasses selectedGlasses;
 
   @override
   State<DashAnimation> createState() => DashAnimationState();
@@ -88,9 +90,15 @@ class DashAnimationState extends State<DashAnimation>
         );
       }
 
-      if (oldWidget.hatSelected != widget.hatSelected) {
+      if (oldWidget.selectedHat != widget.selectedHat) {
         dashController.hatSelected.change(
-          widget.hatSelected.index.toDouble(),
+          widget.selectedHat.index.toDouble(),
+        );
+      }
+
+      if (oldWidget.selectedGlasses != widget.selectedGlasses) {
+        dashController.glassesSelected.change(
+          widget.selectedGlasses.toDouble(),
         );
       }
     }
@@ -168,6 +176,14 @@ class DashStateMachineController extends StateMachineController {
     } else {
       throw StateError('Could not find input "$hatsInputName"');
     }
+
+    const glassesInputName = 'Glasses';
+    final glassesSelected = findInput<double>(glassesInputName);
+    if (glassesSelected is SMINumber) {
+      this.glassesSelected = glassesSelected;
+    } else {
+      throw StateError('Could not find input "$glassesInputName"');
+    }
   }
 
   late final SMINumber x;
@@ -176,5 +192,6 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
   late final SMINumber hatSelected;
+  late final SMINumber glassesSelected;
 }
 // coverage:ignore-end

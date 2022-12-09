@@ -64,7 +64,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             controller: _tabController,
             children: const [
               HatsSelectionTabBarView(),
-              SizedBox(),
+              GlassesSelectionTabBarView(),
               SizedBox(),
               SizedBox(),
             ],
@@ -123,6 +123,32 @@ class HatsSelectionTabBarView extends StatelessWidget {
         );
       },
       itemCount: Hats.values.length,
+    );
+  }
+}
+
+class GlassesSelectionTabBarView extends StatelessWidget {
+  const GlassesSelectionTabBarView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedGlasses = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedGlasses);
+    const items = Glasses.values;
+    return _PropsGridView(
+      itemBuilder: (context, index) {
+        final glasses = items[index];
+        return _PropSelectionElement(
+          onTap: () {
+            context
+                .read<InExperienceSelectionBloc>()
+                .add(InExperienceSelectionGlassesSelected(glasses));
+          },
+          name: glasses.name,
+          isSelected: glasses == selectedGlasses,
+        );
+      },
+      itemCount: items.length,
     );
   }
 }

@@ -16,7 +16,8 @@ void main() {
         rightEyeIsClosed: false,
         distance: 0.5,
       );
-      var hatSelected = Hats.none;
+      var selectedHat = Hats.none;
+      var selectedGlasses = Glasses.none;
 
       late StateSetter stateSetter;
       await tester.pumpWidget(
@@ -26,7 +27,8 @@ void main() {
               stateSetter = setState;
               return DashAnimation(
                 avatar: avatar,
-                hatSelected: hatSelected,
+                selectedHat: selectedHat,
+                selectedGlasses: selectedGlasses,
               );
             },
           ),
@@ -40,6 +42,7 @@ void main() {
       final x = controller?.x.value;
       final y = controller?.y.value;
       final hatSelectedValue = controller?.hatSelected.value;
+      final selectedGlassesValue = controller?.glassesSelected.value;
 
       stateSetter(() {
         avatar = Avatar(
@@ -50,7 +53,8 @@ void main() {
           rightEyeIsClosed: !avatar.rightEyeIsClosed,
           distance: avatar.distance,
         );
-        hatSelected = Hats.helmet;
+        selectedHat = Hats.helmet;
+        selectedGlasses = Glasses.glasses1;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -61,6 +65,7 @@ void main() {
       expect(controller?.x.value, isNot(equals(x)));
       expect(controller?.y.value, isNot(equals(y)));
       expect(controller?.hatSelected.value, isNot(hatSelectedValue));
+      expect(controller?.glassesSelected.value, isNot(selectedGlassesValue));
       await tester.pump(kThemeAnimationDuration);
     });
   });

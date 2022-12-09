@@ -13,8 +13,10 @@ class PhotoboothCharacter extends StatelessWidget {
       (AvatarDetectorBloc bloc) => bloc.state.avatar,
     );
 
-    final hatSelected = context
+    final selectedHat = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedHat);
+    final selectedGlasses = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedGlasses);
 
     // TODO(alestiago): Check out if normalizations is sufficient for all
     // characters and devices.
@@ -31,7 +33,8 @@ class PhotoboothCharacter extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       child: DashAnimation(
         avatar: avatar,
-        hatSelected: hatSelected,
+        selectedHat: selectedHat,
+        selectedGlasses: selectedGlasses,
       ),
     );
   }
