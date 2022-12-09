@@ -50,7 +50,6 @@ class PhotoBoothView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inExperienceSelectionBloc = context.read<InExperienceSelectionBloc>();
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -64,16 +63,8 @@ class PhotoBoothView extends StatelessWidget {
       },
       child: Scaffold(
         key: photoBoothViewScaffoldKey,
-        endDrawer: const DrawerLayer(),
         drawerEdgeDragWidth: 0,
         body: const PhotoboothBody(),
-        onEndDrawerChanged: (value) {
-          if (!value) {
-            inExperienceSelectionBloc.add(
-              const InExperienceSelectionOptionSelected(),
-            );
-          }
-        },
       ),
     );
   }
