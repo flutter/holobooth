@@ -39,10 +39,15 @@ class MobileSelectionLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: PhotoboothColors.red,
-      width: 300,
-      height: 100,
+    return Positioned(
+      right: 0,
+      left: 0,
+      bottom: 0,
+      child: Container(
+        color: PhotoboothColors.black,
+        height: 300,
+        child: PrimarySelectionView(onTabChanged: (_) {}),
+      ),
     );
   }
 }
