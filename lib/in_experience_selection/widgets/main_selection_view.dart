@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class MainSelectionView extends StatefulWidget {
@@ -66,7 +67,7 @@ class _MainSelectionViewState extends State<MainSelectionView>
           child: TabBarView(
             controller: _tabController,
             children: const [
-              SelectionTabBarView(),
+              CharacterSelectionTabBarView(),
               SelectionTabBarView(),
               SelectionTabBarView(),
             ],

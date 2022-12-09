@@ -13,6 +13,15 @@ extension CharacterX on Character {
     }
   }
 
+  Image toImage() {
+    switch (this) {
+      case Character.dash:
+        return Assets.characters.dash.image();
+      case Character.sparky:
+        return Assets.characters.sparky.image();
+    }
+  }
+
   Color toBackgroundColor() {
     switch (this) {
       case Character.dash:
