@@ -109,10 +109,7 @@ class HatsSelectionTabBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     final hatSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedHat);
-    return GridView.builder(
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemCount: Hats.values.length,
+    return _PropsGridView(
       itemBuilder: (context, index) {
         final hat = Hats.values[index];
         return _PropSelectionElement(
@@ -125,6 +122,27 @@ class HatsSelectionTabBarView extends StatelessWidget {
           isSelected: hat == hatSelected,
         );
       },
+      itemCount: Hats.values.length,
+    );
+  }
+}
+
+class _PropsGridView extends StatelessWidget {
+  const _PropsGridView({
+    required this.itemBuilder,
+    required this.itemCount,
+  });
+
+  final Widget? Function(BuildContext context, int index) itemBuilder;
+  final int itemCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
     );
   }
 }
