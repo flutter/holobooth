@@ -4,12 +4,12 @@ import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 extension CharacterX on Character {
-  ImageProvider toImageProvider() {
+  Image toImage() {
     switch (this) {
       case Character.dash:
-        return Assets.characters.dash.provider();
+        return Assets.characters.dash.image();
       case Character.sparky:
-        return Assets.characters.sparky.provider();
+        return Assets.characters.sparky.image();
     }
   }
 

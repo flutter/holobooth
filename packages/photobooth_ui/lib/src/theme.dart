@@ -159,11 +159,11 @@ class PhotoboothTheme {
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
           width: 2,
-          color: PhotoboothColors.blue,
+          color: PhotoboothColors.green,
         ),
       ),
-      labelColor: PhotoboothColors.blue,
-      unselectedLabelColor: PhotoboothColors.black25,
+      labelColor: PhotoboothColors.green,
+      unselectedLabelColor: PhotoboothColors.blue,
       indicatorSize: TabBarIndicatorSize.tab,
     );
   }
