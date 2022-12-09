@@ -13,7 +13,7 @@ class InExperienceSelectionBloc
   InExperienceSelectionBloc({required Character characterPreSelected})
       : super(InExperienceSelectionState(character: characterPreSelected)) {
     on<InExperienceSelectionOptionSelected>(_optionSelected);
-    on<InExperienceSelectionHatSelected>(_propSelected);
+    on<InExperienceSelectionHatSelected>(_hatSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
   }
@@ -35,7 +35,7 @@ class InExperienceSelectionBloc
     }
   }
 
-  FutureOr<void> _propSelected(
+  FutureOr<void> _hatSelected(
     InExperienceSelectionHatSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
