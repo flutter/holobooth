@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,6 +13,8 @@ import 'package:photos_repository/photos_repository.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class _MockPhotosRepository extends Mock implements PhotosRepository {}
+
+class _MockConvertRepository extends Mock implements ConvertRepository {}
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {
@@ -31,6 +34,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     PhotosRepository? photosRepository,
     AvatarDetectorRepository? avatarDetectorRepository,
+    ConvertRepository? convertRepository,
   }) async {
     return mockNetworkImages(() async {
       return pumpWidget(
@@ -42,6 +46,9 @@ extension PumpApp on WidgetTester {
             RepositoryProvider.value(
               value:
                   avatarDetectorRepository ?? _MockAvatarDetectorRepository(),
+            ),
+            RepositoryProvider.value(
+              value: convertRepository ?? _MockConvertRepository(),
             ),
           ],
           child: MaterialApp(
