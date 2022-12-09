@@ -403,5 +403,13 @@
     "description": "Title text displayed on the character selection tab",
     "type": "text",
     "placeholders": {}
+  },
+  "classicPhotoboothHeading": "Classic",
+  "@classicPhotoboothHeading": {
+    "description": "Text show on the top of the classic photo booth banner"
+  },
+  "classicPhotoboothLabel": "Photo Booth",
+  "@classicPhotoboothLabel": {
+    "description": "Text show on the label of the classic photo booth banner"
   }
 }

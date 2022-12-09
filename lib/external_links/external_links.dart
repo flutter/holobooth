@@ -7,5 +7,6 @@ const mediaPipeLink = 'https://mediapipe.dev/';
 const photoboothEmail = 'mailto:flutter-photo-booth@google.com';
 const termsOfServiceLink = 'https://policies.google.com/terms';
 const privacyPolicyLink = 'https://policies.google.com/privacy';
+const classicPhotoboothLink = 'https://photobooth.flutter.dev';
 
 Future<void> launchPhotoboothEmail() => openLink(photoboothEmail);

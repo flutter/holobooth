@@ -98,6 +98,10 @@ class $AssetsIconsGen {
   AssetGenImage get cameraButtonIcon =>
       const AssetGenImage('assets/icons/camera_button_icon.png');
 
+  /// File path: assets/icons/classic_photobooth.png
+  AssetGenImage get classicPhotobooth =>
+      const AssetGenImage('assets/icons/classic_photobooth.png');
+
   /// File path: assets/icons/firebase_icon.png
   AssetGenImage get firebaseIcon =>
       const AssetGenImage('assets/icons/firebase_icon.png');
@@ -125,6 +129,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         cameraButtonIcon,
+        classicPhotobooth,
         firebaseIcon,
         flutterIcon,
         goNextButtonIcon,

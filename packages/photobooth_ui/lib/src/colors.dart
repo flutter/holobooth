@@ -11,6 +11,9 @@ abstract class PhotoboothColors {
   /// Black 25% opacity
   static const Color black25 = Color(0x40202124);
 
+  /// Black 20% opacity
+  static const Color black20 = Color(0x40202124);
+
   /// Gray
   static const Color gray = Color(0xFFCFCFCF);
 
@@ -40,4 +43,16 @@ abstract class PhotoboothColors {
 
   /// Purple
   static const Color purple = Color(0xFFBB42F4);
+}
+
+/// Defines the color palette for the Holobooth UI.
+abstract class HoloBoothColors {
+  /// Purple
+  static const Color purple = Color(0xFF4100E0);
+
+  /// Light purple
+  static const Color lightPurple = Color(0xFF9455D9);
+
+  /// Light pink
+  static const Color pink = Color(0xFFF8BBD0);
 }

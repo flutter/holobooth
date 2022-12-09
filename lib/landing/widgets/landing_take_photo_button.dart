@@ -2,6 +2,7 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class LandingTakePhotoButton extends StatelessWidget {
   const LandingTakePhotoButton({super.key});
@@ -9,7 +10,7 @@ class LandingTakePhotoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ElevatedButton(
+    return GradientElevatedButton(
       onPressed: () {
         trackEvent(
           category: 'button',
