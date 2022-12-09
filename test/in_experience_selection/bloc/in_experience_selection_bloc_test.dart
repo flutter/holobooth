@@ -79,5 +79,30 @@ void main() {
         expect: () => const <InExperienceSelectionState>[],
       );
     });
+
+    group('InExperienceSelectionGlassesSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with glasses selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionGlassesSelected(Glasses.glasses1)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(selectedGlasses: Glasses.glasses1)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with glasses unselected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () =>
+            InExperienceSelectionState(selectedGlasses: Glasses.glasses1),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionGlassesSelected(Glasses.glasses1)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
   });
 }
