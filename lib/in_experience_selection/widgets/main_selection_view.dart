@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 
-class MainSelectionView extends StatefulWidget {
-  const MainSelectionView({
+class PrimarySelectionView extends StatefulWidget {
+  const PrimarySelectionView({
     super.key,
     required this.onTabChanged,
     this.initialIndex = 0,
@@ -14,10 +12,10 @@ class MainSelectionView extends StatefulWidget {
   final int initialIndex;
 
   @override
-  State<MainSelectionView> createState() => _MainSelectionViewState();
+  State<PrimarySelectionView> createState() => _PrimarySelectionViewState();
 }
 
-class _MainSelectionViewState extends State<MainSelectionView>
+class _PrimarySelectionViewState extends State<PrimarySelectionView>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -51,13 +49,13 @@ class _MainSelectionViewState extends State<MainSelectionView>
           onTap: widget.onTabChanged,
           controller: _tabController,
           tabs: const [
-            MainSelectionTab(
+            PrimarySelectionTab(
               iconData: Icons.face,
             ),
-            MainSelectionTab(
+            PrimarySelectionTab(
               iconData: Icons.wallpaper,
             ),
-            MainSelectionTab(
+            PrimarySelectionTab(
               iconData: Icons.color_lens,
             ),
           ],
@@ -68,8 +66,8 @@ class _MainSelectionViewState extends State<MainSelectionView>
             controller: _tabController,
             children: const [
               CharacterSelectionTabBarView(),
-              SelectionTabBarView(),
-              SelectionTabBarView(),
+              SizedBox(),
+              SizedBox(),
             ],
           ),
         ),
@@ -79,8 +77,8 @@ class _MainSelectionViewState extends State<MainSelectionView>
 }
 
 @visibleForTesting
-class MainSelectionTab extends StatefulWidget {
-  const MainSelectionTab({
+class PrimarySelectionTab extends StatefulWidget {
+  const PrimarySelectionTab({
     super.key,
     required this.iconData,
   });
@@ -88,11 +86,11 @@ class MainSelectionTab extends StatefulWidget {
   final IconData iconData;
 
   @override
-  State<MainSelectionTab> createState() => _MainSelectionTabState();
+  State<PrimarySelectionTab> createState() => _PrimarySelectionTabState();
 }
 
-class _MainSelectionTabState extends State<MainSelectionTab>
-    with AutomaticKeepAliveClientMixin<MainSelectionTab> {
+class _PrimarySelectionTabState extends State<PrimarySelectionTab>
+    with AutomaticKeepAliveClientMixin<PrimarySelectionTab> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -104,72 +102,4 @@ class _MainSelectionTabState extends State<MainSelectionTab>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-@visibleForTesting
-class SelectionTabBarView extends StatelessWidget {
-  const SelectionTabBarView({
-    super.key,
-  });
-
-  static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-    maxCrossAxisExtent: 150,
-    mainAxisSpacing: 64,
-    crossAxisSpacing: 42,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      key: PageStorageKey<String>('$key'),
-      gridDelegate: _defaultGridDelegate,
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return StickerChoice(
-          asset: Assets.props.prop1.path,
-          onPressed: () {},
-        );
-      },
-    );
-  }
-}
-
-@visibleForTesting
-class StickerChoice extends StatelessWidget {
-  const StickerChoice({
-    super.key,
-    required this.asset,
-    required this.onPressed,
-  });
-
-  final String asset;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-      asset,
-      frameBuilder: (
-        BuildContext context,
-        Widget child,
-        int? frame,
-        bool wasSynchronouslyLoaded,
-      ) {
-        return AppAnimatedCrossFade(
-          firstChild: SizedBox.fromSize(
-            size: const Size(20, 20),
-            child: const AppCircularProgressIndicator(strokeWidth: 2),
-          ),
-          secondChild: InkWell(
-            onTap: onPressed,
-            child: child,
-          ),
-          crossFadeState: frame == null
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-        );
-      },
-    );
-  }
 }
