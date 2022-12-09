@@ -22,6 +22,12 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   final ScreenRecorderController _screenRecorderController =
       ScreenRecorderController();
 
+  @override
+  void dispose() {
+    _screenRecorderController.stop();
+    super.dispose();
+  }
+
   bool get _isCameraAvailable =>
       (_cameraController?.value.isInitialized) ?? false;
 

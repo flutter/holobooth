@@ -41,8 +41,6 @@ class PhotoBoothPage extends StatelessWidget {
 class PhotoBoothView extends StatelessWidget {
   const PhotoBoothView({super.key});
 
-  static final photoBoothViewScaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
@@ -56,11 +54,7 @@ class PhotoBoothView extends StatelessWidget {
           );
         }
       },
-      child: Scaffold(
-        key: photoBoothViewScaffoldKey,
-        drawerEdgeDragWidth: 0,
-        body: const PhotoboothBody(),
-      ),
+      child: const Scaffold(body: PhotoboothBody()),
     );
   }
 }
