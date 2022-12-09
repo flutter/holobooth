@@ -54,8 +54,12 @@ class PhotoBoothView extends StatelessWidget {
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
-          final images = context.read<PhotoBoothBloc>().state.images;
-          Navigator.of(context).pushReplacement(SharePage.route(images));
+          Navigator.of(context).pushReplacement(
+            SharePage.route(
+              state.images,
+              state.frames,
+            ),
+          );
         }
       },
       child: Scaffold(

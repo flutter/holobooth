@@ -1,27 +1,48 @@
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage({required this.images, super.key});
+  const SharePage({
+    required this.images,
+    required this.frames,
+    super.key,
+  });
 
   final List<PhotoboothCameraImage> images;
+  final List<RawFrame> frames;
 
-  static Route<void> route(List<PhotoboothCameraImage> images) {
+  static Route<void> route(
+    List<PhotoboothCameraImage> images,
+    List<RawFrame> frames,
+  ) {
     return AppPageRoute(
       builder: (_) => SharePage(
         images: images,
+        frames: frames,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ShareBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ShareBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ConvertBloc(
+            convertRepository: context.read<ConvertRepository>(),
+          )..add(ConvertFrames(frames)),
+          lazy: false,
+        ),
+      ],
       child: ShareView(
         images: images,
       ),
