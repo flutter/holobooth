@@ -13,7 +13,7 @@ class InExperienceSelectionBloc
   InExperienceSelectionBloc({required Character characterPreSelected})
       : super(InExperienceSelectionState(character: characterPreSelected)) {
     on<InExperienceSelectionOptionSelected>(_optionSelected);
-    on<InExperienceSelectionPropSelected>(_propSelected);
+    on<InExperienceSelectionHatSelected>(_hatSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
   }
@@ -29,28 +29,21 @@ class InExperienceSelectionBloc
         InExperienceSelectionState(
           background: state.background,
           character: state.character,
-          selectedProps: state.selectedProps,
+          selectedHat: state.selectedHat,
         ),
       );
     }
   }
 
-  FutureOr<void> _propSelected(
-    InExperienceSelectionPropSelected event,
+  FutureOr<void> _hatSelected(
+    InExperienceSelectionHatSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
-    final selected = event.prop;
-    final selectedProps = List<Prop>.from(state.selectedProps);
-    if (selectedProps.contains(selected)) {
-      selectedProps.remove(selected);
+    if (event.hat == state.selectedHat) {
+      emit(state.copyWith(selectedHat: Hats.none));
     } else {
-      selectedProps.add(selected);
+      emit(state.copyWith(selectedHat: event.hat));
     }
-    emit(
-      state.copyWith(
-        selectedProps: selectedProps,
-      ),
-    );
   }
 
   FutureOr<void> _backgroundSelected(
