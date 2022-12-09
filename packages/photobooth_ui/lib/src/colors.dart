@@ -43,7 +43,7 @@ abstract class PhotoboothColors {
 }
 
 /// Defines the color palette for the Holobooth UI.
-abstract class HoloboothColors {
+abstract class HoloBoothColors {
   /// Purple
   static const Color purple = Color(0xFF4100E0);
 

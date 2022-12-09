@@ -28,13 +28,13 @@ class GradientElevatedButton extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(50)),
         gradient: const LinearGradient(
           colors: [
-            HoloboothColors.purple,
-            HoloboothColors.pink,
+            HoloBoothColors.purple,
+            HoloBoothColors.pink,
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: HoloboothColors.lightPurple.withOpacity(.25),
+            color: HoloBoothColors.lightPurple.withOpacity(.25),
             offset: const Offset(0, 6),
             blurRadius: 6,
           ),
