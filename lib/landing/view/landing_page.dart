@@ -24,6 +24,13 @@ class LandingView extends StatelessWidget {
       background: LandingBackground(),
       body: LandingBody(),
       footer: FullFooter(),
+      overlays: [
+        Positioned(
+          bottom: 100,
+          right: 0,
+          child: ClassicPhotoboothBanner(),
+        ),
+      ],
     );
   }
 }
