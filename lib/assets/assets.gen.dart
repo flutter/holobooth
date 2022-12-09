@@ -45,6 +45,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get forest =>
       const AssetGenImage('assets/backgrounds/forest.png');
 
+  /// File path: assets/backgrounds/holobooth.png
+  AssetGenImage get holobooth =>
+      const AssetGenImage('assets/backgrounds/holobooth.png');
+
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
@@ -69,6 +73,7 @@ class $AssetsBackgroundsGen {
   List<AssetGenImage> get values => [
         blueCircle,
         forest,
+        holobooth,
         landingBackground,
         photoboothBackground,
         redBox,
@@ -142,6 +147,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/flutter_forward_logo.png
+  AssetGenImage get flutterForwardLogo =>
+      const AssetGenImage('assets/images/flutter_forward_logo.png');
+
   /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
   AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
       'assets/images/photo_frame_spritesheet_landscape.jpg');
@@ -156,6 +165,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        flutterForwardLogo,
         photoFrameSpritesheetLandscape,
         photoFrameSpritesheetPortrait,
         photoIndicatorSpritesheet

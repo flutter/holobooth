@@ -12,45 +12,78 @@ class LandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final small = size.width <= PhotoboothBreakpoints.small;
+
+    final content = _LandingBodyContent(
+      smallScreen: small,
+    );
+    final image = Assets.backgrounds.holobooth.image();
+
+    return small
+        ? SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                children: [
+                  const SizedBox(height: 54),
+                  content,
+                  const SizedBox(height: 54),
+                  image,
+                ],
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              children: [
+                Expanded(child: image),
+                Expanded(child: content),
+              ],
+            ),
+          );
+  }
+}
+
+class _LandingBodyContent extends StatelessWidget {
+  const _LandingBodyContent({required this.smallScreen});
+
+  final bool smallScreen;
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          const SizedBox(height: 48),
-          SelectableText(
-            l10n.landingPageHeading,
-            key: const Key('landingPage_heading_text'),
-            style: theme.textTheme.displayLarge!.copyWith(
-              color: PhotoboothColors.white,
-            ),
-            textAlign: TextAlign.center,
+    return Column(
+      mainAxisAlignment:
+          smallScreen ? MainAxisAlignment.start : MainAxisAlignment.center,
+      crossAxisAlignment:
+          smallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Assets.images.flutterForwardLogo.image(width: 300),
+        const SizedBox(height: 32),
+        SelectableText(
+          l10n.landingPageHeading,
+          key: const Key('landingPage_heading_text'),
+          style: theme.textTheme.displayLarge!.copyWith(
+            color: PhotoboothColors.white,
           ),
-          const SizedBox(height: 16),
-          SelectableText(
-            l10n.landingPageSubheading,
-            key: const Key('landingPage_subheading_text'),
-            style: theme.textTheme.displaySmall!.copyWith(
-              color: PhotoboothColors.white,
-            ),
-            textAlign: TextAlign.center,
+          textAlign: smallScreen ? TextAlign.center : TextAlign.left,
+        ),
+        const SizedBox(height: 16),
+        SelectableText(
+          l10n.landingPageSubheading,
+          key: const Key('landingPage_subheading_text'),
+          style: theme.textTheme.displaySmall!.copyWith(
+            color: PhotoboothColors.white,
           ),
-          const SizedBox(height: 24),
-          const LandingTakePhotoButton(),
-          const SizedBox(height: 48),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
-            child: Assets.backgrounds.landingBackground.image(
-              key: landingPageImageKey,
-              height: size.width <= PhotoboothBreakpoints.small
-                  ? size.height * 0.4
-                  : size.height * 0.5,
-            ),
-          ),
-        ],
-      ),
+          textAlign: smallScreen ? TextAlign.center : TextAlign.left,
+        ),
+        const SizedBox(height: 24),
+        const LandingTakePhotoButton(),
+      ],
     );
   }
 }
