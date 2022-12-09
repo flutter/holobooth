@@ -85,7 +85,7 @@ class PhotoboothTextStyle {
   /// Body medium text style (the default)
   static TextStyle get bodyMedium {
     return _baseTextStyle.copyWith(
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }

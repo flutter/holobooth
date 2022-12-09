@@ -160,21 +160,6 @@ void main() {
           expect(find.byType(PhotoboothError), findsOneWidget);
         },
       );
-
-      testWidgets('renders SelectionButtons', (tester) async {
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          photoBoothBloc: photoBoothBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-
-        expect(
-          find.byType(SelectionButtons),
-          findsOneWidget,
-        );
-      });
     });
 
     testWidgets(

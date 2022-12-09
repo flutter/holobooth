@@ -397,5 +397,11 @@
   "firebaseLinkText": "Firebase",
   "@firebaseLinkText": {
     "description": "Text on the link which navigates to the Firebase page"
+  },
+  "charactersTabTitle": "Characters",
+  "@charactersTabTitle": {
+    "description": "Title text displayed on the character selection tab",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -2,28 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionTabBarView extends StatelessWidget {
   const CharacterSelectionTabBarView({super.key});
 
-  static const _defaultGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-    maxCrossAxisExtent: 150,
-    mainAxisSpacing: 64,
-    crossAxisSpacing: 42,
-  );
-
   @override
   Widget build(BuildContext context) {
     final characterSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.character);
+    final l10n = context.l10n;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 48),
           child: Text(
-            'Characters',
+            l10n.charactersTabTitle,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
