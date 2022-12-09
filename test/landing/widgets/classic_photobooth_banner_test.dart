@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
@@ -48,14 +47,8 @@ void main() {
     testWidgets(
       'hides and show on hover',
       (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-            ],
-            home: Center(child: ClassicPhotoboothBanner()),
-          ),
+        await tester.pumpApp(
+          Center(child: ClassicPhotoboothBanner()),
         );
 
         final l10n = tester.element(find.byType(ClassicPhotoboothBanner)).l10n;
@@ -90,14 +83,8 @@ void main() {
     testWidgets(
       'opens the classic photo booth url when clicking the banner',
       (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-            ],
-            home: Center(child: ClassicPhotoboothBanner()),
-          ),
+        await tester.pumpApp(
+          Center(child: ClassicPhotoboothBanner()),
         );
 
         final l10n = tester.element(find.byType(ClassicPhotoboothBanner)).l10n;

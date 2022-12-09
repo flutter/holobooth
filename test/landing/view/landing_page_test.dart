@@ -30,7 +30,7 @@ void main() {
 
     testWidgets('renders image', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byKey(Key('landingPage_image')), findsOneWidget);
+      expect(find.byKey(LandingBody.landingPageImageKey), findsOneWidget);
     });
 
     testWidgets('renders image on small screens', (tester) async {
