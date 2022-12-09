@@ -171,35 +171,6 @@ void main() {
         expect(find.byType(SharePage), findsOneWidget);
       },
     );
-
-    testWidgets(
-      'calls InExperienceSelectionOptionSelected with DrawerOption null '
-      'on end drawer',
-      (WidgetTester tester) async {
-        whenListen(
-          photoBoothBloc,
-          Stream<PhotoBoothState>.empty(),
-        );
-
-        await tester.pumpSubject(
-          PhotoBoothView(),
-          photoBoothBloc: photoBoothBloc,
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.openEndDrawer();
-
-        await tester.pump();
-        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.closeEndDrawer();
-
-        verify(
-          () => inExperienceSelectionBloc.add(
-            InExperienceSelectionOptionSelected(),
-          ),
-        ).called(1);
-      },
-    );
   });
 }
 

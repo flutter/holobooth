@@ -25,12 +25,7 @@ class PhotoBoothPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>
-              InExperienceSelectionBloc(characterPreSelected: character)
-                ..add(
-                  const InExperienceSelectionOptionSelected(
-                    drawerOption: DrawerOption.backgrounds,
-                  ),
-                ),
+              InExperienceSelectionBloc(characterPreSelected: character),
         ),
         BlocProvider(
           create: (_) => AvatarDetectorBloc(
@@ -50,7 +45,6 @@ class PhotoBoothView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inExperienceSelectionBloc = context.read<InExperienceSelectionBloc>();
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
@@ -64,16 +58,8 @@ class PhotoBoothView extends StatelessWidget {
       },
       child: Scaffold(
         key: photoBoothViewScaffoldKey,
-        endDrawer: const DrawerLayer(),
         drawerEdgeDragWidth: 0,
         body: const PhotoboothBody(),
-        onEndDrawerChanged: (value) {
-          if (!value) {
-            inExperienceSelectionBloc.add(
-              const InExperienceSelectionOptionSelected(),
-            );
-          }
-        },
       ),
     );
   }
