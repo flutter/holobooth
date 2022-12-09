@@ -110,7 +110,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   ),
                 ),
               ],
-              const SelectionButtons(),
+              const SelectionLayer(),
             ],
           ),
         );
