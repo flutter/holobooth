@@ -66,24 +66,23 @@ void main() {
       );
     });
 
-    group('InExperienceSelectionPropSelected', () {
+    group('InExperienceSelectionHatSelected', () {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with prop selected.',
+        'emits state with hat selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(selectedProps: [Prop.helmet])
+          InExperienceSelectionState(selectedHat: Hats.helmet)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with prop unselected.',
+        'emits state with hat unselected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        seed: () =>
-            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
-        act: (bloc) => bloc.add(InExperienceSelectionPropSelected(Prop.helmet)),
+        seed: () => InExperienceSelectionState(selectedHat: Hats.helmet),
+        act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );

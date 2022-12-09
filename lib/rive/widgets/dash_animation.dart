@@ -4,19 +4,15 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:rive/rive.dart';
 
-extension on List<Prop> {
-  bool get isHelmetSelected => contains(Prop.helmet);
-}
-
 class DashAnimation extends StatefulWidget {
   const DashAnimation({
     super.key,
     required this.avatar,
-    required this.propsSelected,
+    required this.hatSelected,
   });
 
   final Avatar avatar;
-  final List<Prop> propsSelected;
+  final Hats hatSelected;
 
   @override
   State<DashAnimation> createState() => DashAnimationState();
@@ -74,18 +70,29 @@ class DashAnimationState extends State<DashAnimation>
         _animationController.forward(from: 0);
       }
 
-      dashController.mouthDistance.change(
-        widget.avatar.mouthDistance,
-      );
-      dashController.rightEyeIsClosed.change(
-        widget.avatar.rightEyeIsClosed ? 99 : 0,
-      );
-      dashController.leftEyeIsClosed.change(
-        widget.avatar.leftEyeIsClosed ? 99 : 0,
-      );
-      dashController.displayHelmet.change(
-        widget.propsSelected.isHelmetSelected,
-      );
+      if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
+        dashController.mouthDistance.change(
+          widget.avatar.mouthDistance,
+        );
+      }
+
+      if (oldWidget.avatar.rightEyeIsClosed != widget.avatar.rightEyeIsClosed) {
+        dashController.rightEyeIsClosed.change(
+          widget.avatar.rightEyeIsClosed ? 99 : 0,
+        );
+      }
+
+      if (oldWidget.avatar.leftEyeIsClosed != widget.avatar.leftEyeIsClosed) {
+        dashController.leftEyeIsClosed.change(
+          widget.avatar.leftEyeIsClosed ? 99 : 0,
+        );
+      }
+
+      if (oldWidget.hatSelected != widget.hatSelected) {
+        dashController.hatSelected.change(
+          widget.hatSelected.index.toDouble(),
+        );
+      }
     }
   }
 
@@ -154,12 +161,12 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$rightEyeIsClosedInputName"');
     }
 
-    const helmetInputName = 'helmet';
-    final displayHelmet = findInput<bool>(helmetInputName);
-    if (displayHelmet is SMIBool) {
-      this.displayHelmet = displayHelmet;
+    const hatsInputName = 'Hats';
+    final hatSelected = findInput<double>(hatsInputName);
+    if (hatSelected is SMINumber) {
+      this.hatSelected = hatSelected;
     } else {
-      throw StateError('Could not find input "$helmetInputName"');
+      throw StateError('Could not find input "$hatsInputName"');
     }
   }
 
@@ -168,6 +175,6 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber mouthDistance;
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
-  late final SMIBool displayHelmet;
+  late final SMINumber hatSelected;
 }
 // coverage:ignore-end

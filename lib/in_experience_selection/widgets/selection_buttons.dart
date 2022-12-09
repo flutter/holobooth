@@ -59,23 +59,23 @@ class SelectionButtons extends StatelessWidget {
   }
 
   void _showPropsBottomSheet(BuildContext context) {
-    final propSelected =
-        context.read<InExperienceSelectionBloc>().state.selectedProps;
-    ItemSelectorBottomSheet.show<Prop>(
+    final selectedHat =
+        context.read<InExperienceSelectionBloc>().state.selectedHat;
+    ItemSelectorBottomSheet.show<Hats>(
       context,
       key: propsSelectionBottomSheetKey,
       title: context.l10n.propsSelectorButton,
-      items: Prop.values,
+      items: Hats.values,
       itemBuilder: (_, item) => InExperienceSelectionItem(
         key: Key('${item.name}_propSelection'),
         name: item.name,
       ),
-      selectedItem: propSelected.isEmpty ? null : propSelected.first,
+      selectedItem: selectedHat,
       onSelected: (prop) {
         _closeSheet(context);
         context
             .read<InExperienceSelectionBloc>()
-            .add(InExperienceSelectionPropSelected(prop));
+            .add(InExperienceSelectionHatSelected(prop));
       },
     );
   }
@@ -217,33 +217,15 @@ class _PropsSelectionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final propsSelected = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedProps);
     ImageProvider? imageProvider;
     Widget? child;
     Color backgroundColor;
-    if (propsSelected.isEmpty) {
-      backgroundColor = PhotoboothColors.green;
-      child = const Icon(
-        Icons.add,
-        color: PhotoboothColors.white,
-        size: 40,
-      );
-    } else if (propsSelected.length == 1) {
-      backgroundColor = PhotoboothColors.white;
-      imageProvider = propsSelected.first.toImageProvider();
-    } else {
-      backgroundColor = PhotoboothColors.blue;
-      child = Center(
-        child: Text(
-          propsSelected.length.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .displayLarge
-              ?.copyWith(color: PhotoboothColors.white),
-        ),
-      );
-    }
+    backgroundColor = PhotoboothColors.green;
+    child = const Icon(
+      Icons.add,
+      color: PhotoboothColors.white,
+      size: 40,
+    );
 
     return _Button(
       imageProvider: imageProvider,

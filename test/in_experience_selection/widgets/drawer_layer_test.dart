@@ -66,7 +66,7 @@ void main() {
     });
 
     testWidgets(
-        'closes drawer and adds InExperienceSelectionPropSelected '
+        'closes drawer and adds InExperienceSelectionHatSelected '
         'after selecting prop', (tester) async {
       when(() => inExperienceSelectionBloc.state).thenReturn(
         InExperienceSelectionState(drawerOption: DrawerOption.props),
@@ -75,13 +75,13 @@ void main() {
         DrawerLayer(),
         inExperienceSelectionBloc,
       );
-      const prop = Prop.helmet;
+      const prop = Hats.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       expect(find.byType(DrawerLayer), findsNothing);
       verify(
         () => inExperienceSelectionBloc
-            .add(InExperienceSelectionPropSelected(prop)),
+            .add(InExperienceSelectionHatSelected(prop)),
       ).called(1);
     });
 

@@ -30,24 +30,23 @@ class DrawerLayer extends StatelessWidget {
             );
           case DrawerOption.props:
             return BlocSelector<InExperienceSelectionBloc,
-                InExperienceSelectionState, List<Prop>>(
-              selector: (state) => state.selectedProps,
-              builder: (context, selectedProps) {
-                return ItemSelectorDrawer<Prop>(
+                InExperienceSelectionState, Hats>(
+              selector: (state) => state.selectedHat,
+              builder: (context, selectedHat) {
+                return ItemSelectorDrawer<Hats>(
                   key: propsDrawerKey,
                   title: DrawerOption.props.localized(context),
-                  items: Prop.values,
+                  items: Hats.values,
                   itemBuilder: (_, item) => InExperienceSelectionItem(
                     key: Key('${item.name}_propSelection'),
                     name: item.name,
                   ),
-                  selectedItem:
-                      selectedProps.isEmpty ? null : selectedProps.first,
-                  onSelected: (prop) {
+                  selectedItem: selectedHat,
+                  onSelected: (hatSelected) {
                     Navigator.of(context).pop();
                     context
                         .read<InExperienceSelectionBloc>()
-                        .add(InExperienceSelectionPropSelected(prop));
+                        .add(InExperienceSelectionHatSelected(hatSelected));
                   },
                 );
               },
