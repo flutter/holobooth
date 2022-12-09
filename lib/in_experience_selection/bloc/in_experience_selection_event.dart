@@ -4,15 +4,6 @@ abstract class InExperienceSelectionEvent extends Equatable {
   const InExperienceSelectionEvent();
 }
 
-class InExperienceSelectionOptionSelected extends InExperienceSelectionEvent {
-  const InExperienceSelectionOptionSelected({this.drawerOption});
-
-  final DrawerOption? drawerOption;
-
-  @override
-  List<Object?> get props => [drawerOption];
-}
-
 class InExperienceSelectionHatSelected extends InExperienceSelectionEvent {
   const InExperienceSelectionHatSelected(this.hat);
 

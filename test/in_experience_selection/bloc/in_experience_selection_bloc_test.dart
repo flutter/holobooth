@@ -12,60 +12,6 @@ void main() {
       );
     });
 
-    group('InExperienceSelectionOptionSelected', () {
-      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits Characters when Characters is selected',
-        build: () =>
-            InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        act: (bloc) => bloc.add(
-          InExperienceSelectionOptionSelected(
-            drawerOption: DrawerOption.characters,
-          ),
-        ),
-        expect: () => [
-          InExperienceSelectionState(drawerOption: DrawerOption.characters),
-        ],
-      );
-
-      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits Props when Props is selected',
-        build: () =>
-            InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        act: (bloc) => bloc.add(
-          InExperienceSelectionOptionSelected(drawerOption: DrawerOption.props),
-        ),
-        expect: () => [
-          InExperienceSelectionState(drawerOption: DrawerOption.props),
-        ],
-      );
-
-      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits Backgrounds when Backgrounds is selected',
-        build: () =>
-            InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        act: (bloc) => bloc.add(
-          InExperienceSelectionOptionSelected(
-            drawerOption: DrawerOption.backgrounds,
-          ),
-        ),
-        expect: () => [
-          InExperienceSelectionState(drawerOption: DrawerOption.backgrounds)
-        ],
-      );
-
-      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits with option unselected',
-        build: () =>
-            InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        seed: () =>
-            InExperienceSelectionState(drawerOption: DrawerOption.backgrounds),
-        act: (bloc) => bloc.add(
-          InExperienceSelectionOptionSelected(),
-        ),
-        expect: () => [InExperienceSelectionState()],
-      );
-    });
-
     group('InExperienceSelectionHatSelected', () {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state with hat selected.',

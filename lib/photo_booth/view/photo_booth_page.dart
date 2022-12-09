@@ -25,12 +25,7 @@ class PhotoBoothPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>
-              InExperienceSelectionBloc(characterPreSelected: character)
-                ..add(
-                  const InExperienceSelectionOptionSelected(
-                    drawerOption: DrawerOption.backgrounds,
-                  ),
-                ),
+              InExperienceSelectionBloc(characterPreSelected: character),
         ),
         BlocProvider(
           create: (_) => AvatarDetectorBloc(

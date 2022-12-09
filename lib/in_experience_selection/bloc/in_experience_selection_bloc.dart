@@ -12,27 +12,9 @@ class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
   InExperienceSelectionBloc({required Character characterPreSelected})
       : super(InExperienceSelectionState(character: characterPreSelected)) {
-    on<InExperienceSelectionOptionSelected>(_optionSelected);
     on<InExperienceSelectionHatSelected>(_hatSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
-  }
-
-  FutureOr<void> _optionSelected(
-    InExperienceSelectionOptionSelected event,
-    Emitter<InExperienceSelectionState> emit,
-  ) {
-    if (event.drawerOption != null) {
-      emit(state.copyWith(drawerOption: event.drawerOption));
-    } else {
-      emit(
-        InExperienceSelectionState(
-          background: state.background,
-          character: state.character,
-          selectedHat: state.selectedHat,
-        ),
-      );
-    }
   }
 
   FutureOr<void> _hatSelected(
