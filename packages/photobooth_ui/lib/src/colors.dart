@@ -55,4 +55,7 @@ abstract class HoloBoothColors {
 
   /// Light pink
   static const Color pink = Color(0xFFF8BBD0);
+
+  /// Dark blue
+  static const Color darkBlue = Color(0xFF061A4A);
 }

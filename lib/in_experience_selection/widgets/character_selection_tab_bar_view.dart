@@ -59,7 +59,7 @@ class _CharacterSelectionElement extends StatelessWidget {
       child: CircleAvatar(
         radius: 55,
         backgroundColor:
-            isSelected ? PhotoboothColors.white : const Color(0xff061A4A),
+            isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
         child: CircleAvatar(
           radius: 50,
           backgroundColor: character.toBackgroundColor(),
