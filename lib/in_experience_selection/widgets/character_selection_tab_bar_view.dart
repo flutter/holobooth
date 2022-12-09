@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
-import 'package:io_photobooth/in_experience_selection/options/character.dart';
+import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionTabBarView extends StatelessWidget {
@@ -15,28 +15,34 @@ class CharacterSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final characterSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.character);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'Characters',
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: PhotoboothColors.white),
+        Padding(
+          padding: const EdgeInsets.only(top: 24, bottom: 48),
+          child: Text(
+            'Characters',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: PhotoboothColors.white),
+          ),
         ),
         Flexible(
-          child: GridView.builder(
-            key: PageStorageKey<String>('$key'),
-            gridDelegate: _defaultGridDelegate,
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+          child: ListView.builder(
             itemCount: Character.values.length,
             itemBuilder: (context, index) {
               final character = Character.values[index];
               return _CharacterSelectionElement(
                 character: character,
-                isSelected: false,
-                onSelected: (_) {},
+                isSelected: characterSelected == character,
+                onSelected: (_) {
+                  context
+                      .read<InExperienceSelectionBloc>()
+                      .add(InExperienceSelectionCharacterSelected(character));
+                },
               );
             },
           ),
@@ -59,10 +65,12 @@ class _CharacterSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: isSelected ? PhotoboothColors.white : Color(0xff061A4A),
-      child: Padding(
-        padding: const EdgeInsets.all(5),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: CircleAvatar(
+        radius: 55,
+        backgroundColor:
+            isSelected ? PhotoboothColors.white : const Color(0xff061A4A),
         child: CircleAvatar(
           radius: 50,
           backgroundColor: character.toBackgroundColor(),
@@ -76,26 +84,6 @@ class _CharacterSelectionElement extends StatelessWidget {
                 onSelected(character);
               },
             ),
-          ),
-        ),
-      ),
-    );
-    return CircleAvatar(
-      radius: 38,
-      backgroundColor: PhotoboothColors.white,
-      child: CircleAvatar(
-        radius: 36,
-        backgroundImage: Assets.characters.dash.provider(),
-        backgroundColor: PhotoboothColors.blue,
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              onSelected(character);
-            },
-            child: const SizedBox(),
           ),
         ),
       ),
