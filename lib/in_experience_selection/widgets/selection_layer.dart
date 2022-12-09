@@ -28,7 +28,7 @@ class DesktopSelectionLayer extends StatelessWidget {
       child: Container(
         color: PhotoboothColors.black,
         width: 300,
-        child: PrimarySelectionView(onTabChanged: (_) {}),
+        child: const PrimarySelectionView(),
       ),
     );
   }
@@ -46,7 +46,7 @@ class MobileSelectionLayer extends StatelessWidget {
       child: Container(
         color: PhotoboothColors.black,
         height: 300,
-        child: PrimarySelectionView(onTabChanged: (_) {}),
+        child: const PrimarySelectionView(),
       ),
     );
   }

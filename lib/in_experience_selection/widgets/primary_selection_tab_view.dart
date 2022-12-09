@@ -4,11 +4,9 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 class PrimarySelectionView extends StatefulWidget {
   const PrimarySelectionView({
     super.key,
-    required this.onTabChanged,
     this.initialIndex = 0,
   });
 
-  final ValueSetter<int> onTabChanged;
   final int initialIndex;
 
   @override
@@ -27,12 +25,6 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
       vsync: this,
       initialIndex: widget.initialIndex,
     );
-    _tabController.addListener(() {
-      // False when swipe
-      if (!_tabController.indexIsChanging) {
-        widget.onTabChanged(_tabController.index);
-      }
-    });
   }
 
   @override
@@ -46,7 +38,6 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
     return Column(
       children: [
         TabBar(
-          onTap: widget.onTabChanged,
           controller: _tabController,
           tabs: const [
             PrimarySelectionTab(

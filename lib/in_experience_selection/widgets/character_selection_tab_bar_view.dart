@@ -34,11 +34,6 @@ class CharacterSelectionTabBarView extends StatelessWidget {
               return _CharacterSelectionElement(
                 character: character,
                 isSelected: characterSelected == character,
-                onSelected: (_) {
-                  context
-                      .read<InExperienceSelectionBloc>()
-                      .add(InExperienceSelectionCharacterSelected(character));
-                },
               );
             },
           ),
@@ -52,12 +47,10 @@ class _CharacterSelectionElement extends StatelessWidget {
   const _CharacterSelectionElement({
     required this.character,
     required this.isSelected,
-    required this.onSelected,
   });
 
   final Character character;
   final bool isSelected;
-  final ValueSetter<Character> onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +68,16 @@ class _CharacterSelectionElement extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             color: Colors.transparent,
             child: InkWell(
-              child: character.toImage(),
+              key: Key('characterSelectionElement_${character.name}'),
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: character.toImage(),
+              ),
               onTap: () {
-                onSelected(character);
+                context
+                    .read<InExperienceSelectionBloc>()
+                    .add(InExperienceSelectionCharacterSelected(character));
               },
             ),
           ),
