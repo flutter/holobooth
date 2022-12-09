@@ -25,7 +25,7 @@ void main() {
       setUp(() {
         multipartRequest = _MockMultipartRequest();
         convertRepository = ConvertRepository(
-          multipartRequest: multipartRequest,
+          multipartRequestBuilder: () => multipartRequest,
           url: '',
         );
         streamedResponse = _MockStreamedResponse();
@@ -33,6 +33,14 @@ void main() {
         when(() => multipartRequest.files).thenReturn([]);
         when(multipartRequest.send).thenAnswer(
           (_) async => streamedResponse,
+        );
+      });
+
+      test('throws ConvertException with empty url', () async {
+        final convertRepository = ConvertRepository(url: '');
+        await expectLater(
+          () async => convertRepository.convertFrames([Uint8List(0)]),
+          throwsA(isA<ConvertException>()),
         );
       });
 

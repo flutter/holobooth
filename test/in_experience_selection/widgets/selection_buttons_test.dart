@@ -1,14 +1,9 @@
-import 'dart:io';
-
-import 'package:alchemist/alchemist.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -17,36 +12,6 @@ import '../../helpers/helpers.dart';
 class _MockInExperienceSelectionBloc
     extends MockBloc<InExperienceSelectionEvent, InExperienceSelectionState>
     implements InExperienceSelectionBloc {}
-
-class _SubjectBuilder extends StatelessWidget {
-  const _SubjectBuilder({required this.widget});
-
-  final SelectionButtons Function(BuildContext) widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return MediaQuery.fromWindow(
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: Localizations(
-          locale: Locale('en'),
-          delegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          child: Theme(
-            data: PhotoboothTheme.standard,
-            child: SizedBox.fromSize(
-              size: Size(300, 600),
-              child: Builder(builder: widget),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 void main() {
   group('SelectionButtons', () {
@@ -176,7 +141,7 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      expect(find.byType(ItemSelectorBottomSheet<Prop>), findsOneWidget);
+      expect(find.byType(ItemSelectorBottomSheet<Hats>), findsOneWidget);
       expect(
         find.byKey(SelectionButtons.propsSelectionBottomSheetKey),
         findsOneWidget,
@@ -203,7 +168,7 @@ void main() {
     });
 
     testWidgets(
-        'adds InExperienceSelectionPropSelected on props bottom sheet '
+        'adds InExperienceSelectionHatSelected on props bottom sheet '
         'after clicking on any item ', (tester) async {
       whenListen(
         inExperienceSelectionBloc,
@@ -217,12 +182,12 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      const prop = Prop.helmet;
+      const prop = Hats.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       verify(
         () => inExperienceSelectionBloc
-            .add(InExperienceSelectionPropSelected(prop)),
+            .add(InExperienceSelectionHatSelected(prop)),
       ).called(1);
     });
 
@@ -292,7 +257,7 @@ void main() {
         inExperienceSelectionBloc,
       );
       await tester.pumpAndSettle();
-      const prop = Prop.helmet;
+      const prop = Hats.helmet;
       await tester.tap(find.byKey(Key('${prop.name}_propSelection')));
       await tester.pumpAndSettle();
       verify(
@@ -371,201 +336,6 @@ void main() {
         },
       );
     });
-
-    group('renders for props', () {
-      testWidgets(
-        'when no props selected',
-        (WidgetTester tester) async {
-          when(() => inExperienceSelectionBloc.state)
-              .thenReturn(InExperienceSelectionState());
-          await tester.pumpSubject(
-            SelectionButtons(),
-            inExperienceSelectionBloc,
-          );
-          expect(
-            find.byKey(SelectionButtons.propsSelectionButtonKey),
-            findsOneWidget,
-          );
-        },
-      );
-
-      testWidgets(
-        'when one prop selected',
-        (WidgetTester tester) async {
-          when(() => inExperienceSelectionBloc.state).thenReturn(
-            InExperienceSelectionState(selectedProps: const [Prop.helmet]),
-          );
-          await tester.pumpSubject(
-            SelectionButtons(),
-            inExperienceSelectionBloc,
-          );
-          expect(
-            find.byKey(SelectionButtons.propsSelectionButtonKey),
-            findsOneWidget,
-          );
-        },
-      );
-
-      testWidgets(
-        'when more than one prop selected',
-        (WidgetTester tester) async {
-          when(() => inExperienceSelectionBloc.state).thenReturn(
-            InExperienceSelectionState(
-              selectedProps: const [
-                Prop.helmet,
-                Prop.helmet,
-              ],
-            ),
-          );
-          await tester.pumpSubject(
-            SelectionButtons(),
-            inExperienceSelectionBloc,
-          );
-          expect(
-            find.byKey(SelectionButtons.propsSelectionButtonKey),
-            findsOneWidget,
-          );
-        },
-      );
-    });
-
-    goldenTest(
-      'renders prop button on SelectionButtons',
-      fileName: 'selection_buttons_props',
-      pumpBeforeTest: precacheImages,
-      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
-      builder: () {
-        return GoldenTestGroup(
-          children: [
-            GoldenTestScenario(
-              name: 'no props selected',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state)
-                      .thenReturn(InExperienceSelectionState());
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-            GoldenTestScenario(
-              name: 'one prop selected',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state).thenReturn(
-                    InExperienceSelectionState(
-                      selectedProps: const [Prop.helmet],
-                    ),
-                  );
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-            GoldenTestScenario(
-              name: 'more than one prop selected',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state).thenReturn(
-                    InExperienceSelectionState(
-                      selectedProps: const [Prop.helmet, Prop.helmet],
-                    ),
-                  );
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
-
-    goldenTest(
-      'renders background button on SelectionButtons',
-      fileName: 'selection_buttons_background',
-      pumpBeforeTest: precacheImages,
-      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
-      builder: () {
-        return GoldenTestGroup(
-          children: [
-            GoldenTestScenario(
-              name: 'space',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state)
-                      .thenReturn(InExperienceSelectionState());
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-            GoldenTestScenario(
-              name: 'beach',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state).thenReturn(
-                    InExperienceSelectionState(background: Background.beach),
-                  );
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
-
-    goldenTest(
-      'renders character button on SelectionButtons',
-      fileName: 'selection_buttons_character',
-      pumpBeforeTest: precacheImages,
-      skip: Platform.environment.containsKey('GITHUB_ACTIONS'),
-      builder: () {
-        return GoldenTestGroup(
-          children: [
-            GoldenTestScenario(
-              name: 'dash',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state)
-                      .thenReturn(InExperienceSelectionState());
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-            GoldenTestScenario(
-              name: 'sparky',
-              child: Builder(
-                builder: (context) {
-                  when(() => inExperienceSelectionBloc.state).thenReturn(
-                    InExperienceSelectionState(character: Character.sparky),
-                  );
-                  return BlocProvider.value(
-                    value: inExperienceSelectionBloc,
-                    child: _SubjectBuilder(widget: (_) => SelectionButtons()),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-      },
-    );
   });
 }
 

@@ -22,11 +22,13 @@ class ConvertRepository {
   /// {@macro convert_repository}
   ConvertRepository({
     required String url,
-    MultipartRequest? multipartRequest,
-  }) : _multipartRequest =
-            multipartRequest ?? MultipartRequest('POST', Uri.parse(url));
+    MultipartRequest Function()? multipartRequestBuilder,
+  }) {
+    _multipartRequestBuilder = multipartRequestBuilder ??
+        () => MultipartRequest('POST', Uri.parse(url));
+  }
 
-  final MultipartRequest _multipartRequest;
+  late final MultipartRequest Function() _multipartRequestBuilder;
 
   /// Converts a list of images to video using firebase functions.
   /// On success, returns the video path from the cloud storage.
@@ -36,8 +38,9 @@ class ConvertRepository {
       throw const ConvertException('No frames to convert');
     }
     try {
+      final multipartRequest = _multipartRequestBuilder();
       for (var index = 0; index < frames.length; index++) {
-        _multipartRequest.files.add(
+        multipartRequest.files.add(
           MultipartFile.fromBytes(
             'frames',
             frames[index],
@@ -46,7 +49,7 @@ class ConvertRepository {
         );
       }
 
-      final response = await _multipartRequest.send();
+      final response = await multipartRequest.send();
       if (response.statusCode == 200) {
         return response.stream.bytesToString();
       } else {

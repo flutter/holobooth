@@ -1,0 +1,4 @@
+enum Hats {
+  none,
+  helmet,
+}
