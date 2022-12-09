@@ -411,5 +411,11 @@
   "classicPhotoboothLabel": "Photo Booth",
   "@classicPhotoboothLabel": {
     "description": "Text show on the label of the classic photo booth banner"
+  },
+  "backgroundsTabTitle": "Backgrounds",
+  "@backgroundsTabTitle": {
+    "description": "Title text displayed on the background selection tab",
+    "type": "text",
+    "placeholders": {}
   }
 }

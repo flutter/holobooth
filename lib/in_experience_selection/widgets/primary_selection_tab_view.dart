@@ -57,7 +57,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             controller: _tabController,
             children: const [
               CharacterSelectionTabBarView(),
-              SizedBox(),
+              BackgroundSelectionTabBarView(),
               SizedBox(),
             ],
           ),

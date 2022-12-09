@@ -37,13 +37,13 @@ class $AssetsAudioGen {
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
+  /// File path: assets/backgrounds/beach.png
+  AssetGenImage get beach =>
+      const AssetGenImage('assets/backgrounds/beach.png');
+
   /// File path: assets/backgrounds/blue_circle.png
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
-
-  /// File path: assets/backgrounds/forest.png
-  AssetGenImage get forest =>
-      const AssetGenImage('assets/backgrounds/forest.png');
 
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
@@ -61,18 +61,23 @@ class $AssetsBackgroundsGen {
   AssetGenImage get space =>
       const AssetGenImage('assets/backgrounds/space.png');
 
+  /// File path: assets/backgrounds/underwater.png
+  AssetGenImage get underwater =>
+      const AssetGenImage('assets/backgrounds/underwater.png');
+
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        beach,
         blueCircle,
-        forest,
         landingBackground,
         photoboothBackground,
         redBox,
         space,
+        underwater,
         yellowPlus
       ];
 }
