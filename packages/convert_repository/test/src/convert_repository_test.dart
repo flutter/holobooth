@@ -36,6 +36,14 @@ void main() {
         );
       });
 
+      test('throws ConvertException with empty url', () async {
+        final convertRepository = ConvertRepository(url: '');
+        await expectLater(
+          () async => convertRepository.convertFrames([Uint8List(0)]),
+          throwsA(isA<ConvertException>()),
+        );
+      });
+
       test('throws ConvertException on empty frames', () async {
         await expectLater(
           () async => convertRepository.convertFrames([]),
