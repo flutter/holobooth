@@ -43,12 +43,12 @@ void main() {
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;
       final controller = state.dashController;
-      final x = controller?.x.value;
-      final y = controller?.y.value;
-      final hatSelectedValue = controller?.hats.value;
-      final selectedGlassesValue = controller?.glasses.value;
-      final selectedClothesValue = controller?.clothes.value;
-      final selectedHandheldlLeftValue = controller?.handheldlLeft.value;
+      final xValue = controller?.x.value;
+      final yValue = controller?.y.value;
+      final hatsValue = controller?.hats.value;
+      final glassesValue = controller?.glasses.value;
+      final clothesValue = controller?.clothes.value;
+      final handheldlLeftValue = controller?.handheldlLeft.value;
 
       stateSetter(() {
         avatar = Avatar(
@@ -70,14 +70,14 @@ void main() {
       expect(controller?.mouthDistance.value, avatar.mouthDistance);
       expect(controller?.leftEyeIsClosed.value, 99);
       expect(controller?.rightEyeIsClosed.value, 99);
-      expect(controller?.x.value, isNot(equals(x)));
-      expect(controller?.y.value, isNot(equals(y)));
-      expect(controller?.hats.value, isNot(hatSelectedValue));
-      expect(controller?.glasses.value, isNot(selectedGlassesValue));
-      expect(controller?.clothes.value, isNot(selectedClothesValue));
+      expect(controller?.x.value, isNot(equals(xValue)));
+      expect(controller?.y.value, isNot(equals(yValue)));
+      expect(controller?.hats.value, isNot(hatsValue));
+      expect(controller?.glasses.value, isNot(glassesValue));
+      expect(controller?.clothes.value, isNot(clothesValue));
       expect(
         controller?.handheldlLeft.value,
-        isNot(selectedHandheldlLeftValue),
+        isNot(handheldlLeftValue),
       );
       await tester.pump(kThemeAnimationDuration);
     });
