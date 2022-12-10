@@ -120,20 +120,20 @@ class HatsSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hatSelected =
+    final selectedHat =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
     return _PropsGridView(
       itemBuilder: (context, index) {
-        final hat = Hats.values[index];
+        final item = Hats.values[index];
         return _PropSelectionElement(
-          key: Key('hat_selection_${hat.name}'),
+          key: Key('hat_selection_${item.name}'),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionHatSelected(hat));
+                .add(InExperienceSelectionHatSelected(item));
           },
-          name: hat.name,
-          isSelected: hat == hatSelected,
+          name: item.name,
+          isSelected: item == selectedHat,
         );
       },
       itemCount: Hats.values.length,
@@ -151,16 +151,16 @@ class GlassesSelectionTabBarView extends StatelessWidget {
     const items = Glasses.values;
     return _PropsGridView(
       itemBuilder: (context, index) {
-        final glasses = items[index];
+        final item = items[index];
         return _PropSelectionElement(
-          key: Key('glasses_selection_${glasses.name}'),
+          key: Key('glasses_selection_${item.name}'),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionGlassesSelected(glasses));
+                .add(InExperienceSelectionGlassesSelected(item));
           },
-          name: glasses.name,
-          isSelected: glasses == selectedGlasses,
+          name: item.name,
+          isSelected: item == selectedGlasses,
         );
       },
       itemCount: items.length,
@@ -173,21 +173,21 @@ class ClothesSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final clothesSelected =
+    final selectedClothes =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.clothes);
     const items = Clothes.values;
     return _PropsGridView(
       itemBuilder: (context, index) {
-        final clothes = items[index];
+        final item = items[index];
         return _PropSelectionElement(
-          key: Key('clothes_selection_${clothes.name}'),
+          key: Key('clothes_selection_${item.name}'),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionClothesSelected(clothes));
+                .add(InExperienceSelectionClothesSelected(item));
           },
-          name: clothes.name,
-          isSelected: clothes == clothesSelected,
+          name: item.name,
+          isSelected: item == selectedClothes,
         );
       },
       itemCount: items.length,
@@ -200,7 +200,7 @@ class OthersSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final handheldlLeftSelected = context
+    final selectedHandheldlLeft = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.handheldlLeft);
     const items = HandheldlLeft.values;
     return _PropsGridView(
@@ -214,7 +214,7 @@ class OthersSelectionTabBarView extends StatelessWidget {
                 .add(InExperienceSelectionHandleheldLeftSelected(item));
           },
           name: item.name,
-          isSelected: item == handheldlLeftSelected,
+          isSelected: item == selectedHandheldlLeft,
         );
       },
       itemCount: items.length,
