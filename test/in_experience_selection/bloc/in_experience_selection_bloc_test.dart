@@ -19,7 +19,7 @@ void main() {
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
         act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(selectedHat: Hats.helmet)
+          InExperienceSelectionState(hat: Hats.helmet)
         ],
       );
 
@@ -27,7 +27,7 @@ void main() {
         'emits state with hat unselected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        seed: () => InExperienceSelectionState(selectedHat: Hats.helmet),
+        seed: () => InExperienceSelectionState(hat: Hats.helmet),
         act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
@@ -88,7 +88,7 @@ void main() {
         act: (bloc) =>
             bloc.add(InExperienceSelectionGlassesSelected(Glasses.glasses1)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(selectedGlasses: Glasses.glasses1)
+          InExperienceSelectionState(glasses: Glasses.glasses1)
         ],
       );
 
@@ -96,8 +96,7 @@ void main() {
         'emits state with glasses unselected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        seed: () =>
-            InExperienceSelectionState(selectedGlasses: Glasses.glasses1),
+        seed: () => InExperienceSelectionState(glasses: Glasses.glasses1),
         act: (bloc) =>
             bloc.add(InExperienceSelectionGlassesSelected(Glasses.glasses1)),
         expect: () =>

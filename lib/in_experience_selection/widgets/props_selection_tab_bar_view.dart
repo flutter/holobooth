@@ -120,8 +120,8 @@ class HatsSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hatSelected = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedHat);
+    final hatSelected =
+        context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
     return _PropsGridView(
       itemBuilder: (context, index) {
         final hat = Hats.values[index];
@@ -146,8 +146,8 @@ class GlassesSelectionTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedGlasses = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedGlasses);
+    final selectedGlasses =
+        context.select((InExperienceSelectionBloc bloc) => bloc.state.glasses);
     const items = Glasses.values;
     return _PropsGridView(
       itemBuilder: (context, index) {

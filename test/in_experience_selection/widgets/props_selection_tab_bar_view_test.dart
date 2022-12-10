@@ -126,7 +126,8 @@ void main() {
     );
 
     testWidgets(
-      'adds InExperienceSelectionHandleheldLeftSelected tapping on handheld left',
+      'adds InExperienceSelectionHandleheldLeftSelected tapping on '
+      'handheld left',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(initialIndex: 3),

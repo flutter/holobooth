@@ -24,10 +24,10 @@ class InExperienceSelectionBloc
     InExperienceSelectionHatSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
-    if (event.hat == state.selectedHat) {
-      emit(state.copyWith(selectedHat: Hats.none));
+    if (event.hat == state.hat) {
+      emit(state.copyWith(hat: Hats.none));
     } else {
-      emit(state.copyWith(selectedHat: event.hat));
+      emit(state.copyWith(hat: event.hat));
     }
   }
 
@@ -49,10 +49,10 @@ class InExperienceSelectionBloc
     InExperienceSelectionGlassesSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
-    if (event.glasses == state.selectedGlasses) {
-      emit(state.copyWith(selectedGlasses: Glasses.none));
+    if (event.glasses == state.glasses) {
+      emit(state.copyWith(glasses: Glasses.none));
     } else {
-      emit(state.copyWith(selectedGlasses: event.glasses));
+      emit(state.copyWith(glasses: event.glasses));
     }
   }
 

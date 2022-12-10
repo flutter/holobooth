@@ -13,10 +13,10 @@ class PhotoboothCharacter extends StatelessWidget {
       (AvatarDetectorBloc bloc) => bloc.state.avatar,
     );
 
-    final selectedHat = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedHat);
-    final selectedGlasses = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.selectedGlasses);
+    final selectedHat =
+        context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
+    final selectedGlasses =
+        context.select((InExperienceSelectionBloc bloc) => bloc.state.glasses);
     final clothes =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.clothes);
     final handheldlLeft = context

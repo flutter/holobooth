@@ -2,44 +2,44 @@ part of 'in_experience_selection_bloc.dart';
 
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
-    this.selectedHat = Hats.none,
+    this.hat = Hats.none,
     this.background = Background.space,
     this.character = Character.dash,
-    this.selectedGlasses = Glasses.none,
+    this.glasses = Glasses.none,
     this.clothes = Clothes.none,
     this.handheldlLeft = HandheldlLeft.none,
   });
 
-  final Hats selectedHat;
+  final Hats hat;
   final Background background;
   final Character character;
-  final Glasses selectedGlasses;
+  final Glasses glasses;
   final Clothes clothes;
   final HandheldlLeft handheldlLeft;
 
   @override
   List<Object?> get props => [
-        selectedHat,
+        hat,
         background,
         character,
-        selectedGlasses,
+        glasses,
         clothes,
         handheldlLeft,
       ];
 
   InExperienceSelectionState copyWith({
-    Hats? selectedHat,
+    Hats? hat,
     Background? background,
     Character? character,
-    Glasses? selectedGlasses,
+    Glasses? glasses,
     Clothes? clothes,
     HandheldlLeft? handheldlLeft,
   }) {
     return InExperienceSelectionState(
-      selectedHat: selectedHat ?? this.selectedHat,
+      hat: hat ?? this.hat,
       background: background ?? this.background,
       character: character ?? this.character,
-      selectedGlasses: selectedGlasses ?? this.selectedGlasses,
+      glasses: glasses ?? this.glasses,
       clothes: clothes ?? this.clothes,
       handheldlLeft: handheldlLeft ?? this.handheldlLeft,
     );
