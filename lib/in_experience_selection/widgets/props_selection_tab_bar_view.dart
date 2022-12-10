@@ -5,12 +5,11 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
-  const PropsSelectionTabBarView({
-    super.key,
-    this.initialIndex = 0,
-  });
+  const PropsSelectionTabBarView({super.key});
 
-  final int initialIndex;
+  static const glassesTabKey = ValueKey('glasses_tab');
+  static const clothesTabKey = ValueKey('clothes_tab');
+  static const othersTabKey = ValueKey('others_tab');
 
   @override
   State<PropsSelectionTabBarView> createState() =>
@@ -27,7 +26,6 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
     _tabController = TabController(
       length: 4,
       vsync: this,
-      initialIndex: widget.initialIndex,
     );
   }
 
@@ -48,6 +46,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               assetGenImage: Assets.props.hatsIcon,
             ),
             PropSelectionTab(
+              key: PropsSelectionTabBarView.glassesTabKey,
               assetGenImage: Assets.props.glassesIcon,
             ),
             PropSelectionTab(
@@ -77,7 +76,10 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
 
 @visibleForTesting
 class PropSelectionTab extends StatefulWidget {
-  const PropSelectionTab({super.key, required this.assetGenImage});
+  const PropSelectionTab({
+    super.key,
+    required this.assetGenImage,
+  });
 
   final AssetGenImage assetGenImage;
 
@@ -92,8 +94,12 @@ class _PropSelectionTabState extends State<PropSelectionTab>
     super.build(context);
     return Tab(
       iconMargin: const EdgeInsets.only(bottom: 24),
-      icon: widget.assetGenImage.image(
-        color: IconTheme.of(context).color,
+      icon: SizedBox(
+        child: widget.assetGenImage.image(
+          color: IconTheme.of(context).color,
+          height: 46,
+          width: 46,
+        ),
       ),
     );
   }
