@@ -63,6 +63,21 @@ void main() {
     );
 
     testWidgets(
+      'display OthersSelectionTabBarView by tapping on others tab',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(),
+          inExperienceSelectionBloc,
+        );
+        final finder = find.byKey(PropsSelectionTabBarView.othersTabKey);
+        expect(finder, findsOneWidget);
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+        expect(find.byType(OthersSelectionTabBarView), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'adds InExperienceSelectionHatSelected tapping on a hat',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -106,6 +121,23 @@ void main() {
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionClothesSelected(clothes)),
+        ).called(1);
+      },
+    );
+
+    testWidgets(
+      'adds InExperienceSelectionHandleheldLeftSelected tapping on handheld left',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(initialIndex: 3),
+          inExperienceSelectionBloc,
+        );
+        const item = HandheldlLeft.handheldLeft1;
+        await tester
+            .tap(find.byKey(Key('handheldlLeft_selection_${item.name}')));
+        verify(
+          () => inExperienceSelectionBloc
+              .add(InExperienceSelectionHandleheldLeftSelected(item)),
         ).called(1);
       },
     );

@@ -19,6 +19,8 @@ class PhotoboothCharacter extends StatelessWidget {
         .select((InExperienceSelectionBloc bloc) => bloc.state.selectedGlasses);
     final clothes =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.clothes);
+    final handheldlLeft = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.handheldlLeft);
 
     // TODO(alestiago): Check out if normalizations is sufficient for all
     // characters and devices.
@@ -38,6 +40,7 @@ class PhotoboothCharacter extends StatelessWidget {
         selectedHat: selectedHat,
         selectedGlasses: selectedGlasses,
         selectedClothes: clothes,
+        handheldlLeft: handheldlLeft,
       ),
     );
   }

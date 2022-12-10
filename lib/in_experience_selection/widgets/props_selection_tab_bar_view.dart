@@ -60,6 +60,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               assetGenImage: Assets.props.clothes,
             ),
             PropSelectionTab(
+              key: PropsSelectionTabBarView.othersTabKey,
               assetGenImage: Assets.props.othersIcon,
             ),
           ],
@@ -72,7 +73,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               HatsSelectionTabBarView(),
               GlassesSelectionTabBarView(),
               ClothesSelectionTabBarView(),
-              SizedBox(),
+              OthersSelectionTabBarView(),
             ],
           ),
         ),
@@ -187,6 +188,33 @@ class ClothesSelectionTabBarView extends StatelessWidget {
           },
           name: clothes.name,
           isSelected: clothes == clothesSelected,
+        );
+      },
+      itemCount: items.length,
+    );
+  }
+}
+
+class OthersSelectionTabBarView extends StatelessWidget {
+  const OthersSelectionTabBarView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final handheldlLeftSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.handheldlLeft);
+    const items = HandheldlLeft.values;
+    return _PropsGridView(
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return _PropSelectionElement(
+          key: Key('handheldlLeft_selection_${item.name}'),
+          onTap: () {
+            context
+                .read<InExperienceSelectionBloc>()
+                .add(InExperienceSelectionHandleheldLeftSelected(item));
+          },
+          name: item.name,
+          isSelected: item == handheldlLeftSelected,
         );
       },
       itemCount: items.length,

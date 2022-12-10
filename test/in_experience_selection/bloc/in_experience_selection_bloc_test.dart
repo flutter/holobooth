@@ -118,7 +118,7 @@ void main() {
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with glasses unselected.',
+        'emits state with clothes unselected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
         seed: () => InExperienceSelectionState(clothes: Clothes.clothes1),
@@ -126,6 +126,41 @@ void main() {
             bloc.add(InExperienceSelectionClothesSelected(Clothes.clothes1)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
+
+    group('InExperienceSelectionHandleheldLeftSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with handleheld left selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) => bloc.add(
+          InExperienceSelectionHandleheldLeftSelected(
+            HandheldlLeft.handheldLeft1,
+          ),
+        ),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(
+            handheldlLeft: HandheldlLeft.handheldLeft1,
+          )
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with handleheld left unselected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () => InExperienceSelectionState(
+          handheldlLeft: HandheldlLeft.handheldLeft1,
+        ),
+        act: (bloc) => bloc.add(
+          InExperienceSelectionHandleheldLeftSelected(
+            HandheldlLeft.handheldLeft1,
+          ),
+        ),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(),
+        ],
       );
     });
   });
