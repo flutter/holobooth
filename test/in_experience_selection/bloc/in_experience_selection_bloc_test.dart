@@ -104,5 +104,29 @@ void main() {
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );
     });
+
+    group('InExperienceSelectionClothesSelected', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with clothes selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionClothesSelected(Clothes.clothes1)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(clothes: Clothes.clothes1)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with glasses unselected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () => InExperienceSelectionState(clothes: Clothes.clothes1),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionClothesSelected(Clothes.clothes1)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
   });
 }

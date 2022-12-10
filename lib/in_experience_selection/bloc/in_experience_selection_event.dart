@@ -41,3 +41,12 @@ class InExperienceSelectionGlassesSelected extends InExperienceSelectionEvent {
   @override
   List<Object> get props => [glasses];
 }
+
+class InExperienceSelectionClothesSelected extends InExperienceSelectionEvent {
+  const InExperienceSelectionClothesSelected(this.clothes);
+
+  final Clothes clothes;
+
+  @override
+  List<Object> get props => [clothes];
+}

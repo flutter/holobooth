@@ -56,6 +56,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               assetGenImage: Assets.props.glassesIcon,
             ),
             PropSelectionTab(
+              key: PropsSelectionTabBarView.clothesTabKey,
               assetGenImage: Assets.props.clothes,
             ),
             PropSelectionTab(
@@ -70,7 +71,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             children: const [
               HatsSelectionTabBarView(),
               GlassesSelectionTabBarView(),
-              SizedBox(),
+              ClothesSelectionTabBarView(),
               SizedBox(),
             ],
           ),
@@ -159,6 +160,33 @@ class GlassesSelectionTabBarView extends StatelessWidget {
           },
           name: glasses.name,
           isSelected: glasses == selectedGlasses,
+        );
+      },
+      itemCount: items.length,
+    );
+  }
+}
+
+class ClothesSelectionTabBarView extends StatelessWidget {
+  const ClothesSelectionTabBarView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final clothesSelected =
+        context.select((InExperienceSelectionBloc bloc) => bloc.state.clothes);
+    const items = Clothes.values;
+    return _PropsGridView(
+      itemBuilder: (context, index) {
+        final clothes = items[index];
+        return _PropSelectionElement(
+          key: Key('clothes_selection_${clothes.name}'),
+          onTap: () {
+            context
+                .read<InExperienceSelectionBloc>()
+                .add(InExperienceSelectionClothesSelected(clothes));
+          },
+          name: clothes.name,
+          isSelected: clothes == clothesSelected,
         );
       },
       itemCount: items.length,

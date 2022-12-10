@@ -6,12 +6,14 @@ class InExperienceSelectionState extends Equatable {
     this.background = Background.space,
     this.character = Character.dash,
     this.selectedGlasses = Glasses.none,
+    this.clothes = Clothes.none,
   });
 
   final Hats selectedHat;
   final Background background;
   final Character character;
   final Glasses selectedGlasses;
+  final Clothes clothes;
 
   @override
   List<Object?> get props => [
@@ -19,6 +21,7 @@ class InExperienceSelectionState extends Equatable {
         background,
         character,
         selectedGlasses,
+        clothes,
       ];
 
   InExperienceSelectionState copyWith({
@@ -26,12 +29,14 @@ class InExperienceSelectionState extends Equatable {
     Background? background,
     Character? character,
     Glasses? selectedGlasses,
+    Clothes? clothes,
   }) {
     return InExperienceSelectionState(
       selectedHat: selectedHat ?? this.selectedHat,
       background: background ?? this.background,
       character: character ?? this.character,
       selectedGlasses: selectedGlasses ?? this.selectedGlasses,
+      clothes: clothes ?? this.clothes,
     );
   }
 }

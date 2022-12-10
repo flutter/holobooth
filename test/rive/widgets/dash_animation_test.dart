@@ -18,6 +18,7 @@ void main() {
       );
       var selectedHat = Hats.none;
       var selectedGlasses = Glasses.none;
+      var selectedClothes = Clothes.none;
 
       late StateSetter stateSetter;
       await tester.pumpWidget(
@@ -29,6 +30,7 @@ void main() {
                 avatar: avatar,
                 selectedHat: selectedHat,
                 selectedGlasses: selectedGlasses,
+                selectedClothes: selectedClothes,
               );
             },
           ),
@@ -43,6 +45,7 @@ void main() {
       final y = controller?.y.value;
       final hatSelectedValue = controller?.hatSelected.value;
       final selectedGlassesValue = controller?.glassesSelected.value;
+      final selectedClothesValue = controller?.selectedClothes.value;
 
       stateSetter(() {
         avatar = Avatar(
@@ -55,6 +58,7 @@ void main() {
         );
         selectedHat = Hats.helmet;
         selectedGlasses = Glasses.glasses1;
+        selectedClothes = Clothes.clothes1;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -66,6 +70,7 @@ void main() {
       expect(controller?.y.value, isNot(equals(y)));
       expect(controller?.hatSelected.value, isNot(hatSelectedValue));
       expect(controller?.glassesSelected.value, isNot(selectedGlassesValue));
+      expect(controller?.selectedClothes.value, isNot(selectedClothesValue));
       await tester.pump(kThemeAnimationDuration);
     });
   });

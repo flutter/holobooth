@@ -16,6 +16,7 @@ class InExperienceSelectionBloc
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
     on<InExperienceSelectionGlassesSelected>(_glassesSelected);
+    on<InExperienceSelectionClothesSelected>(_clothesSelected);
   }
 
   FutureOr<void> _hatSelected(
@@ -51,6 +52,17 @@ class InExperienceSelectionBloc
       emit(state.copyWith(selectedGlasses: Glasses.none));
     } else {
       emit(state.copyWith(selectedGlasses: event.glasses));
+    }
+  }
+
+  FutureOr<void> _clothesSelected(
+    InExperienceSelectionClothesSelected event,
+    Emitter<InExperienceSelectionState> emit,
+  ) {
+    if (event.clothes == state.clothes) {
+      emit(state.copyWith(clothes: Clothes.none));
+    } else {
+      emit(state.copyWith(clothes: event.clothes));
     }
   }
 }
