@@ -39,13 +39,43 @@ void main() {
           PropsSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
-        await tester.pumpAndSettle();
-
         final finder = find.byKey(PropsSelectionTabBarView.glassesTabKey);
         expect(finder, findsOneWidget);
         await tester.tap(finder);
         await tester.pumpAndSettle();
         expect(find.byType(GlassesSelectionTabBarView), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'adds InExperienceSelectionHatSelected tapping on a hat',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(),
+          inExperienceSelectionBloc,
+        );
+        const hat = Hats.helmet;
+        await tester.tap(find.byKey(Key('hat_selection_${hat.name}')));
+        verify(
+          () => inExperienceSelectionBloc
+              .add(InExperienceSelectionHatSelected(hat)),
+        ).called(1);
+      },
+    );
+
+    testWidgets(
+      'adds InExperienceSelectionGlassesSelected tapping on a hat',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(initialIndex: 1),
+          inExperienceSelectionBloc,
+        );
+        const glasses = Glasses.glasses1;
+        await tester.tap(find.byKey(Key('glasses_selection_${glasses.name}')));
+        verify(
+          () => inExperienceSelectionBloc
+              .add(InExperienceSelectionGlassesSelected(glasses)),
+        ).called(1);
       },
     );
   });

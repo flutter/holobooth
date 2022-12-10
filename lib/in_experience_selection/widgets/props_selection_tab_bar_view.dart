@@ -5,11 +5,16 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
-  const PropsSelectionTabBarView({super.key});
+  const PropsSelectionTabBarView({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   static const glassesTabKey = ValueKey('glasses_tab');
   static const clothesTabKey = ValueKey('clothes_tab');
   static const othersTabKey = ValueKey('others_tab');
+
+  final int initialIndex;
 
   @override
   State<PropsSelectionTabBarView> createState() =>
@@ -26,6 +31,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
     _tabController = TabController(
       length: 4,
       vsync: this,
+      initialIndex: widget.initialIndex,
     );
   }
 
@@ -92,14 +98,13 @@ class _PropSelectionTabState extends State<PropSelectionTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    // Setting default icon size to avoid tap issues on testing
+    final iconSize = IconTheme.of(context).size;
     return Tab(
-      iconMargin: const EdgeInsets.only(bottom: 24),
-      icon: SizedBox(
-        child: widget.assetGenImage.image(
-          color: IconTheme.of(context).color,
-          height: 46,
-          width: 46,
-        ),
+      child: widget.assetGenImage.image(
+        color: IconTheme.of(context).color,
+        height: iconSize,
+        width: iconSize,
       ),
     );
   }
@@ -119,6 +124,7 @@ class HatsSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final hat = Hats.values[index];
         return _PropSelectionElement(
+          key: Key('hat_selection_${hat.name}'),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
@@ -145,6 +151,7 @@ class GlassesSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final glasses = items[index];
         return _PropSelectionElement(
+          key: Key('glasses_selection_${glasses.name}'),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
@@ -184,6 +191,7 @@ class _PropSelectionElement extends StatelessWidget {
     required this.name,
     required this.isSelected,
     required this.onTap,
+    super.key,
   });
 
   final String name;
