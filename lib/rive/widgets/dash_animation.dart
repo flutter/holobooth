@@ -8,16 +8,16 @@ class DashAnimation extends StatefulWidget {
   const DashAnimation({
     super.key,
     required this.avatar,
-    required this.selectedHat,
-    required this.selectedGlasses,
-    required this.selectedClothes,
+    required this.hat,
+    required this.glasses,
+    required this.clothes,
     required this.handheldlLeft,
   });
 
   final Avatar avatar;
-  final Hats selectedHat;
-  final Glasses selectedGlasses;
-  final Clothes selectedClothes;
+  final Hats hat;
+  final Glasses glasses;
+  final Clothes clothes;
   final HandheldlLeft handheldlLeft;
 
   @override
@@ -94,20 +94,20 @@ class DashAnimationState extends State<DashAnimation>
         );
       }
 
-      if (oldWidget.selectedHat != widget.selectedHat) {
-        dashController.hatSelected.change(
-          widget.selectedHat.index.toDouble(),
+      if (oldWidget.hat != widget.hat) {
+        dashController.hats.change(
+          widget.hat.index.toDouble(),
         );
       }
 
-      if (oldWidget.selectedGlasses != widget.selectedGlasses) {
-        dashController.glassesSelected.change(
-          widget.selectedGlasses.toDouble(),
+      if (oldWidget.glasses != widget.glasses) {
+        dashController.glasses.change(
+          widget.glasses.toDouble(),
         );
       }
-      if (oldWidget.selectedClothes != widget.selectedClothes) {
-        dashController.selectedClothes.change(
-          widget.selectedClothes.index.toDouble(),
+      if (oldWidget.clothes != widget.clothes) {
+        dashController.clothes.change(
+          widget.clothes.index.toDouble(),
         );
       }
       if (oldWidget.handheldlLeft != widget.handheldlLeft) {
@@ -184,25 +184,25 @@ class DashStateMachineController extends StateMachineController {
     }
 
     const hatsInputName = 'Hats';
-    final hatSelected = findInput<double>(hatsInputName);
-    if (hatSelected is SMINumber) {
-      this.hatSelected = hatSelected;
+    final hats = findInput<double>(hatsInputName);
+    if (hats is SMINumber) {
+      this.hats = hats;
     } else {
       throw StateError('Could not find input "$hatsInputName"');
     }
 
     const glassesInputName = 'Glasses';
-    final glassesSelected = findInput<double>(glassesInputName);
-    if (glassesSelected is SMINumber) {
-      this.glassesSelected = glassesSelected;
+    final glasses = findInput<double>(glassesInputName);
+    if (glasses is SMINumber) {
+      this.glasses = glasses;
     } else {
       throw StateError('Could not find input "$glassesInputName"');
     }
 
     const clothesInputName = 'Clothes';
-    final selectedClothes = findInput<double>(clothesInputName);
-    if (selectedClothes is SMINumber) {
-      this.selectedClothes = selectedClothes;
+    final clothes = findInput<double>(clothesInputName);
+    if (clothes is SMINumber) {
+      this.clothes = clothes;
     } else {
       throw StateError('Could not find input "$clothesInputName"');
     }
@@ -221,9 +221,9 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber mouthDistance;
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
-  late final SMINumber hatSelected;
-  late final SMINumber glassesSelected;
-  late final SMINumber selectedClothes;
+  late final SMINumber hats;
+  late final SMINumber glasses;
+  late final SMINumber clothes;
   late final SMINumber handheldlLeft;
 }
 // coverage:ignore-end

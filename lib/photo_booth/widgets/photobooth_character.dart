@@ -13,9 +13,9 @@ class PhotoboothCharacter extends StatelessWidget {
       (AvatarDetectorBloc bloc) => bloc.state.avatar,
     );
 
-    final selectedHat =
+    final hat =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
-    final selectedGlasses =
+    final glasses =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.glasses);
     final clothes =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.clothes);
@@ -37,9 +37,9 @@ class PhotoboothCharacter extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       child: DashAnimation(
         avatar: avatar,
-        selectedHat: selectedHat,
-        selectedGlasses: selectedGlasses,
-        selectedClothes: clothes,
+        hat: hat,
+        glasses: glasses,
+        clothes: clothes,
         handheldlLeft: handheldlLeft,
       ),
     );
