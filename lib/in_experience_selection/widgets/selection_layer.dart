@@ -28,7 +28,6 @@ class DesktopSelectionLayer extends StatelessWidget {
       child: BlurryContainer(
         borderRadius: BorderRadius.circular(24),
         width: 300,
-        blur: 4,
         color: const Color.fromRGBO(32, 34, 90, 0.84),
         child: const PrimarySelectionView(),
       ),

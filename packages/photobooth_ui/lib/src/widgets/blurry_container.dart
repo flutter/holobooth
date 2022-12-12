@@ -2,17 +2,21 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 
-/// Widget that displays a [child] with a background blurry effect
+/// {@template blurry_container}
+/// Widget that displays a [child] with a background blurry effect.
+/// {@endtemplate}
+
 class BlurryContainer extends StatelessWidget {
+  /// {@macro blurry_container}
   const BlurryContainer({
-    Key? key,
+    super.key,
     required this.child,
     this.height,
     this.width,
-    this.blur = 5,
+    this.blur = 4,
     this.color = Colors.transparent,
-    this.borderRadius = const BorderRadius.all(Radius.circular(20)),
-  }) : super(key: key);
+    this.borderRadius,
+  });
 
   /// The child shown in top of the container.
   final Widget child;
@@ -23,14 +27,14 @@ class BlurryContainer extends StatelessWidget {
   /// Width of the container.
   final double? width;
 
-  /// Blur value for the container.
+  /// Blur value for the container. Default to 4.
   final double blur;
 
   /// Background color of the container.
   final Color color;
 
   /// Border radius for the container.
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
