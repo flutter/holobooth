@@ -8,12 +8,10 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PhotoBoothPage extends StatelessWidget {
-  const PhotoBoothPage({super.key, required this.character});
+  const PhotoBoothPage({super.key});
 
-  final Character character;
-
-  static Route<void> route({required Character character}) =>
-      AppPageRoute<void>(builder: (_) => PhotoBoothPage(character: character));
+  static Route<void> route() =>
+      AppPageRoute<void>(builder: (_) => const PhotoBoothPage());
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +20,7 @@ class PhotoBoothPage extends StatelessWidget {
         BlocProvider(
           create: (_) => PhotoBoothBloc(),
         ),
-        BlocProvider(
-          create: (_) =>
-              InExperienceSelectionBloc(characterPreSelected: character),
-        ),
+        BlocProvider(create: (_) => InExperienceSelectionBloc()),
         BlocProvider(
           create: (_) => AvatarDetectorBloc(
             context.read<AvatarDetectorRepository>(),

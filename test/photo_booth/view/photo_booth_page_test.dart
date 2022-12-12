@@ -100,7 +100,7 @@ void main() {
   group('PhotoBoothPage', () {
     test('is routable', () {
       expect(
-        PhotoBoothPage.route(character: Character.dash),
+        PhotoBoothPage.route(),
         isA<MaterialPageRoute<void>>(),
       );
     });
@@ -108,11 +108,7 @@ void main() {
     testWidgets(
       'renders PhotoBoothView',
       (WidgetTester tester) async {
-        await tester.pumpApp(
-          PhotoBoothPage(
-            character: Character.dash,
-          ),
-        );
+        await tester.pumpApp(PhotoBoothPage());
         await tester.pump();
         expect(find.byType(PhotoBoothView), findsOneWidget);
       },

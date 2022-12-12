@@ -9,8 +9,7 @@ part '../../in_experience_selection/bloc/in_experience_selection_state.dart';
 
 class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
-  InExperienceSelectionBloc({required Character characterPreSelected})
-      : super(InExperienceSelectionState(character: characterPreSelected)) {
+  InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
     on<InExperienceSelectionHatToggled>(_hatToggled);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
