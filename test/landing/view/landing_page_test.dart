@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/landing/landing.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
@@ -49,8 +49,7 @@ void main() {
       expect(find.byType(LandingTakePhotoButton), findsOneWidget);
     });
 
-    testWidgets(
-        'tapping on take photo button navigates to Background Selection Page',
+    testWidgets('tapping on take photo button navigates to PhotoBoothPage',
         (tester) async {
       await runZonedGuarded(
         () async {
@@ -73,7 +72,7 @@ void main() {
         (_, __) {},
       );
 
-      expect(find.byType(CharacterSelectionPage), findsOneWidget);
+      expect(find.byType(PhotoBoothPage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);
     });
   });

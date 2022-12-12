@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 
 part '../../in_experience_selection/bloc/in_experience_selection_event.dart';
@@ -10,8 +9,7 @@ part '../../in_experience_selection/bloc/in_experience_selection_state.dart';
 
 class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
-  InExperienceSelectionBloc({required Character characterPreSelected})
-      : super(InExperienceSelectionState(character: characterPreSelected)) {
+  InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
     on<InExperienceSelectionHatSelected>(_hatSelected);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
