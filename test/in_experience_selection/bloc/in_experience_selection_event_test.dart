@@ -3,11 +3,11 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 
 void main() {
   group('InExperienceSelectionEvent', () {
-    group('InExperienceSelectionHatSelected', () {
+    group('InExperienceSelectionHatToggled', () {
       test('support value comparison', () {
-        final eventA = InExperienceSelectionHatSelected(Hats.helmet);
-        final eventB = InExperienceSelectionHatSelected(Hats.helmet);
-        final eventC = InExperienceSelectionHatSelected(Hats.none);
+        final eventA = InExperienceSelectionHatToggled(Hats.helmet);
+        final eventB = InExperienceSelectionHatToggled(Hats.helmet);
+        final eventC = InExperienceSelectionHatToggled(Hats.none);
         expect(eventA, equals(eventB));
         expect(eventA, isNot(equals(eventC)));
       });

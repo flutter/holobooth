@@ -23,7 +23,7 @@ class ClothesSelectionTabBarView extends StatelessWidget {
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionClothesSelected(item));
+                .add(InExperienceSelectionClothesToggled(item));
           },
           name: item.name,
           isSelected: item == selectedClothes,

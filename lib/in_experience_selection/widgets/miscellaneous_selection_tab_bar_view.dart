@@ -23,7 +23,7 @@ class MiscellaneousSelectionTabBarView extends StatelessWidget {
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionHandleheldLeftSelected(item));
+                .add(InExperienceSelectionHandleheldLeftToggled(item));
           },
           name: item.name,
           isSelected: item == selectedHandheldlLeft,

@@ -78,7 +78,7 @@ void main() {
     );
 
     testWidgets(
-      'adds InExperienceSelectionHatSelected tapping on a hat',
+      'adds InExperienceSelectionHatToggled tapping on a hat',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(),
@@ -89,13 +89,13 @@ void main() {
             .tap(find.byKey(HatsSelectionTabBarView.hatSelectionKey(hat)));
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionHatSelected(hat)),
+              .add(InExperienceSelectionHatToggled(hat)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionGlassesSelected tapping on a glasses',
+      'adds InExperienceSelectionGlassesToggled tapping on a glasses',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(initialIndex: 1),
@@ -107,13 +107,13 @@ void main() {
         );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionGlassesSelected(glasses)),
+              .add(InExperienceSelectionGlassesToggled(glasses)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionClothesSelected tapping on a clothes',
+      'adds InExperienceSelectionClothesToggled tapping on a clothes',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(initialIndex: 2),
@@ -125,13 +125,13 @@ void main() {
         );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionClothesSelected(clothes)),
+              .add(InExperienceSelectionClothesToggled(clothes)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionHandleheldLeftSelected tapping on '
+      'adds InExperienceSelectionHandleheldLeftToggled tapping on '
       'handheld left',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -146,7 +146,7 @@ void main() {
         );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionHandleheldLeftSelected(item)),
+              .add(InExperienceSelectionHandleheldLeftToggled(item)),
         ).called(1);
       },
     );
