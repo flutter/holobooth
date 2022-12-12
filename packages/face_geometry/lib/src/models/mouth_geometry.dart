@@ -69,7 +69,9 @@ class MouthGeometry extends Equatable {
 
   /// Eye-balled distance that represents the minimum height of the mouth to be
   /// considered open.
-  static const _minMouthFaceRatio = 0.02;
+  ///
+  /// This value considers the distance to be a ratio of the face height.
+  static const _minMouthOpenedDistance = 0.02;
 
   static bool _isOpen({
     required _MouthKeypoints mouthKeypoints,
@@ -79,7 +81,7 @@ class MouthGeometry extends Equatable {
       if (distance == 0) {
         return false;
       } else {
-        return distance > _minMouthFaceRatio;
+        return distance > _minMouthOpenedDistance;
       }
     }
     return false;
