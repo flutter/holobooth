@@ -229,6 +229,35 @@ void main() {
             .called(1);
       },
     );
+
+    testWidgets(
+      'renders RecordingLayer if PhotoBoothState.isRecording',
+      (WidgetTester tester) async {
+        when(() => photoBoothBloc.state)
+            .thenReturn(PhotoBoothState.empty().copyWith(isRecording: true));
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(RecordingLayer), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders SelectionLayer if !PhotoBoothState.isRecording',
+      (WidgetTester tester) async {
+        when(() => photoBoothBloc.state).thenReturn(PhotoBoothState.empty());
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(SelectionLayer), findsOneWidget);
+      },
+    );
   });
 }
 
