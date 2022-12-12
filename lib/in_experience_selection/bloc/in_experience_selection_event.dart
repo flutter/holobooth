@@ -4,8 +4,8 @@ abstract class InExperienceSelectionEvent extends Equatable {
   const InExperienceSelectionEvent();
 }
 
-class InExperienceSelectionHatSelected extends InExperienceSelectionEvent {
-  const InExperienceSelectionHatSelected(this.hat);
+class InExperienceSelectionHatToggled extends InExperienceSelectionEvent {
+  const InExperienceSelectionHatToggled(this.hat);
 
   final Hats hat;
 
@@ -33,8 +33,8 @@ class InExperienceSelectionCharacterSelected
   List<Object> get props => [character];
 }
 
-class InExperienceSelectionGlassesSelected extends InExperienceSelectionEvent {
-  const InExperienceSelectionGlassesSelected(this.glasses);
+class InExperienceSelectionGlassesToggled extends InExperienceSelectionEvent {
+  const InExperienceSelectionGlassesToggled(this.glasses);
 
   final Glasses glasses;
 
@@ -42,8 +42,8 @@ class InExperienceSelectionGlassesSelected extends InExperienceSelectionEvent {
   List<Object> get props => [glasses];
 }
 
-class InExperienceSelectionClothesSelected extends InExperienceSelectionEvent {
-  const InExperienceSelectionClothesSelected(this.clothes);
+class InExperienceSelectionClothesToggled extends InExperienceSelectionEvent {
+  const InExperienceSelectionClothesToggled(this.clothes);
 
   final Clothes clothes;
 
@@ -51,9 +51,9 @@ class InExperienceSelectionClothesSelected extends InExperienceSelectionEvent {
   List<Object> get props => [clothes];
 }
 
-class InExperienceSelectionHandleheldLeftSelected
+class InExperienceSelectionHandleheldLeftToggled
     extends InExperienceSelectionEvent {
-  const InExperienceSelectionHandleheldLeftSelected(this.handheldlLeft);
+  const InExperienceSelectionHandleheldLeftToggled(this.handheldlLeft);
 
   final HandheldlLeft handheldlLeft;
 

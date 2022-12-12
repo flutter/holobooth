@@ -75,34 +75,29 @@ class DashAnimationState extends State<DashAnimation>
           ..end = newOffset;
         _animationController.forward(from: 0);
       }
-
       if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
         dashController.mouthDistance.change(
-          widget.avatar.mouthDistance,
+          widget.avatar.mouthDistance * 100,
         );
       }
-
       if (oldWidget.avatar.rightEyeIsClosed != widget.avatar.rightEyeIsClosed) {
         dashController.rightEyeIsClosed.change(
           widget.avatar.rightEyeIsClosed ? 99 : 0,
         );
       }
-
       if (oldWidget.avatar.leftEyeIsClosed != widget.avatar.leftEyeIsClosed) {
         dashController.leftEyeIsClosed.change(
           widget.avatar.leftEyeIsClosed ? 99 : 0,
         );
       }
-
       if (oldWidget.hat != widget.hat) {
         dashController.hats.change(
           widget.hat.index.toDouble(),
         );
       }
-
       if (oldWidget.glasses != widget.glasses) {
         dashController.glasses.change(
-          widget.glasses.toDouble(),
+          widget.glasses.riveIndex,
         );
       }
       if (oldWidget.clothes != widget.clothes) {

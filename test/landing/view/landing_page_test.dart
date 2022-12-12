@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/landing/landing.dart';
@@ -51,26 +49,18 @@ void main() {
 
     testWidgets('tapping on take photo button navigates to PhotoBoothPage',
         (tester) async {
-      await runZonedGuarded(
-        () async {
-          await tester.pumpApp(const LandingView());
-          await tester.ensureVisible(
-            find.byType(
-              LandingTakePhotoButton,
-              skipOffstage: false,
-            ),
-          );
-          await tester.pumpAndSettle();
-          await tester.tap(
-            find.byType(
-              LandingTakePhotoButton,
-              skipOffstage: false,
-            ),
-          );
-          await tester.pumpAndSettle();
-        },
-        (_, __) {},
+      await tester.pumpApp(const LandingView());
+      await tester.ensureVisible(find.byType(LandingTakePhotoButton));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byType(
+          LandingTakePhotoButton,
+          skipOffstage: false,
+        ),
       );
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
 
       expect(find.byType(PhotoBoothPage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);

@@ -73,44 +73,47 @@ void main() {
         expect(finder, findsOneWidget);
         await tester.tap(finder);
         await tester.pumpAndSettle();
-        expect(find.byType(OthersSelectionTabBarView), findsOneWidget);
+        expect(find.byType(MiscellaneousSelectionTabBarView), findsOneWidget);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionHatSelected tapping on a hat',
+      'adds InExperienceSelectionHatToggled tapping on a hat',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         const hat = Hats.helmet;
-        await tester.tap(find.byKey(Key('hat_selection_${hat.name}')));
+        await tester
+            .tap(find.byKey(HatsSelectionTabBarView.hatSelectionKey(hat)));
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionHatSelected(hat)),
+              .add(InExperienceSelectionHatToggled(hat)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionGlassesSelected tapping on a glasses',
+      'adds InExperienceSelectionGlassesToggled tapping on a glasses',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(initialIndex: 1, onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         const glasses = Glasses.glasses1;
-        await tester.tap(find.byKey(Key('glasses_selection_${glasses.name}')));
+        await tester.tap(
+          find.byKey(GlassesSelectionTabBarView.glassesSelectionKey(glasses)),
+        );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionGlassesSelected(glasses)),
+              .add(InExperienceSelectionGlassesToggled(glasses)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionClothesSelected tapping on a clothes',
+      'adds InExperienceSelectionClothesToggled tapping on a clothes',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(
@@ -120,16 +123,18 @@ void main() {
           inExperienceSelectionBloc,
         );
         const clothes = Clothes.clothes1;
-        await tester.tap(find.byKey(Key('clothes_selection_${clothes.name}')));
+        await tester.tap(
+          find.byKey(ClothesSelectionTabBarView.clothesSelectionKey(clothes)),
+        );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionClothesSelected(clothes)),
+              .add(InExperienceSelectionClothesToggled(clothes)),
         ).called(1);
       },
     );
 
     testWidgets(
-      'adds InExperienceSelectionHandleheldLeftSelected tapping on '
+      'adds InExperienceSelectionHandleheldLeftToggled tapping on '
       'handheld left',
       (WidgetTester tester) async {
         await tester.pumpSubject(
@@ -137,11 +142,14 @@ void main() {
           inExperienceSelectionBloc,
         );
         const item = HandheldlLeft.handheldLeft1;
-        await tester
-            .tap(find.byKey(Key('handheldlLeft_selection_${item.name}')));
+        await tester.tap(
+          find.byKey(
+            MiscellaneousSelectionTabBarView.miscellaneousSelectionKey(item),
+          ),
+        );
         verify(
           () => inExperienceSelectionBloc
-              .add(InExperienceSelectionHandleheldLeftSelected(item)),
+              .add(InExperienceSelectionHandleheldLeftToggled(item)),
         ).called(1);
       },
     );

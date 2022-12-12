@@ -1,15 +1,8 @@
 enum Glasses {
-  none,
-  glasses1,
-}
+  none(0),
+  glasses1(2);
 
-extension GlassesX on Glasses {
-  double toDouble() {
-    switch (this) {
-      case Glasses.none:
-        return 0;
-      case Glasses.glasses1:
-        return 2;
-    }
-  }
+  const Glasses(this.riveIndex);
+
+  final double riveIndex;
 }
