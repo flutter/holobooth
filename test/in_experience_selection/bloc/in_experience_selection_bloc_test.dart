@@ -23,7 +23,7 @@ void main() {
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with hat unselected.',
+        'emits state without hat when hat was previously selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
         seed: () => InExperienceSelectionState(hat: Hats.helmet),
@@ -92,7 +92,7 @@ void main() {
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with glasses unselected.',
+        'emits state without glasses when glasses were previously selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
         seed: () => InExperienceSelectionState(glasses: Glasses.glasses1),
@@ -116,7 +116,7 @@ void main() {
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with clothes unselected.',
+        'emits state without clothes when clothes was previously selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
         seed: () => InExperienceSelectionState(clothes: Clothes.clothes1),

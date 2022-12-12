@@ -9,9 +9,13 @@ class PropsSelectionTabBarView extends StatefulWidget {
     super.key,
     this.initialIndex = 0,
   });
-
+  @visibleForTesting
   static const glassesTabKey = ValueKey('glasses_tab');
+
+  @visibleForTesting
   static const clothesTabKey = ValueKey('clothes_tab');
+
+  @visibleForTesting
   static const othersTabKey = ValueKey('others_tab');
 
   final int initialIndex;
