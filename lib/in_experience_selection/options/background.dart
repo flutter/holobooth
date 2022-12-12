@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
-enum Background { space, beach, underwater }
+enum Background {
+  space(
+    1,
+  ),
+  beach(2),
+  underwater(3);
 
-extension BackgroundX on Background {
-  double toDouble() {
-    switch (this) {
-      case Background.space:
-        return 1;
-      case Background.beach:
-        return 2;
-      case Background.underwater:
-        return 3;
-    }
-  }
+  const Background(this.riveIndex);
+  final double riveIndex;
 
   ImageProvider toImageProvider() {
     switch (this) {

@@ -102,7 +102,7 @@ class DashAnimationState extends State<DashAnimation>
 
       if (oldWidget.glasses != widget.glasses) {
         dashController.glasses.change(
-          widget.glasses.toDouble(),
+          widget.glasses.riveIndex,
         );
       }
       if (oldWidget.clothes != widget.clothes) {
