@@ -73,7 +73,7 @@ void main() {
         expect(finder, findsOneWidget);
         await tester.tap(finder);
         await tester.pumpAndSettle();
-        expect(find.byType(OthersSelectionTabBarView), findsOneWidget);
+        expect(find.byType(MiscellaneousSelectionTabBarView), findsOneWidget);
       },
     );
 
@@ -140,7 +140,9 @@ void main() {
         );
         const item = HandheldlLeft.handheldLeft1;
         await tester.tap(
-          find.byKey(OthersSelectionTabBarView.handHeldLeftSelectionKey(item)),
+          find.byKey(
+            MiscellaneousSelectionTabBarView.miscellaneousSelectionKey(item),
+          ),
         );
         verify(
           () => inExperienceSelectionBloc
