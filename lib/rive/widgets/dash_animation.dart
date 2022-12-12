@@ -92,6 +92,9 @@ class DashAnimationState extends State<DashAnimation>
       } else {
         leftEyeDistance = 0;
       }
+      dashController.leftEyeIsClosed.change(
+        leftEyeDistance,
+      );
 
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double rightEyeDistance;
@@ -109,15 +112,8 @@ class DashAnimationState extends State<DashAnimation>
       } else {
         rightEyeDistance = 0;
       }
-
-      dashController.mouthDistance.change(
-        widget.avatar.mouthDistance,
-      );
       dashController.rightEyeIsClosed.change(
         rightEyeDistance,
-      );
-      dashController.leftEyeIsClosed.change(
-        leftEyeDistance,
       );
 
       if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
