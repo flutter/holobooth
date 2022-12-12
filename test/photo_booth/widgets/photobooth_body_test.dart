@@ -246,7 +246,7 @@ void main() {
     );
 
     testWidgets(
-      'renders SelectionLayer if !PhotoBoothState.isRecording',
+      'renders SelectionLayer if not PhotoBoothState.isRecording',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state).thenReturn(PhotoBoothState.empty());
         await tester.pumpSubject(
