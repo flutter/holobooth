@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.gen.dart';
+import 'package:io_photobooth/assets/assets.dart';
 
-enum Background { space, beach }
+enum Background {
+  space(1),
+  beach(2),
+  underwater(3);
 
-extension BackgroundX on Background {
+  const Background(this.riveIndex);
+  final double riveIndex;
+
   ImageProvider toImageProvider() {
     switch (this) {
       case Background.space:
         return Assets.backgrounds.space.provider();
       case Background.beach:
-        return Assets.backgrounds.forest.provider();
-    }
-  }
+        return Assets.backgrounds.beach.provider();
 
-  double toDouble() {
-    switch (this) {
-      case Background.space:
-        return 1;
-      case Background.beach:
-        return 2;
+      case Background.underwater:
+        return Assets.backgrounds.underwater.provider();
     }
   }
 }

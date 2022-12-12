@@ -34,7 +34,7 @@ void main() {
 
       stateSetter(() {
         vector3 = Vector3(1, 1, 1);
-        background = Background.beach;
+        background = Background.underwater;
       });
 
       await tester.pump(Duration(milliseconds: 150));

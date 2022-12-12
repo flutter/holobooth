@@ -37,13 +37,13 @@ class $AssetsAudioGen {
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
+  /// File path: assets/backgrounds/beach.png
+  AssetGenImage get beach =>
+      const AssetGenImage('assets/backgrounds/beach.png');
+
   /// File path: assets/backgrounds/blue_circle.png
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
-
-  /// File path: assets/backgrounds/forest.png
-  AssetGenImage get forest =>
-      const AssetGenImage('assets/backgrounds/forest.png');
 
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
@@ -61,18 +61,23 @@ class $AssetsBackgroundsGen {
   AssetGenImage get space =>
       const AssetGenImage('assets/backgrounds/space.png');
 
+  /// File path: assets/backgrounds/underwater.png
+  AssetGenImage get underwater =>
+      const AssetGenImage('assets/backgrounds/underwater.png');
+
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        beach,
         blueCircle,
-        forest,
         landingBackground,
         photoboothBackground,
         redBox,
         space,
+        underwater,
         yellowPlus
       ];
 }
@@ -97,6 +102,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/camera_button_icon.png
   AssetGenImage get cameraButtonIcon =>
       const AssetGenImage('assets/icons/camera_button_icon.png');
+
+  /// File path: assets/icons/classic_photobooth.png
+  AssetGenImage get classicPhotobooth =>
+      const AssetGenImage('assets/icons/classic_photobooth.png');
 
   /// File path: assets/icons/firebase_icon.png
   AssetGenImage get firebaseIcon =>
@@ -125,6 +134,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         cameraButtonIcon,
+        classicPhotobooth,
         firebaseIcon,
         flutterIcon,
         goNextButtonIcon,
@@ -160,11 +170,27 @@ class $AssetsImagesGen {
 class $AssetsPropsGen {
   const $AssetsPropsGen();
 
+  /// File path: assets/props/clothes.png
+  AssetGenImage get clothes => const AssetGenImage('assets/props/clothes.png');
+
+  /// File path: assets/props/glasses_icon.png
+  AssetGenImage get glassesIcon =>
+      const AssetGenImage('assets/props/glasses_icon.png');
+
+  /// File path: assets/props/hats_icon.png
+  AssetGenImage get hatsIcon =>
+      const AssetGenImage('assets/props/hats_icon.png');
+
+  /// File path: assets/props/others_icon.png
+  AssetGenImage get othersIcon =>
+      const AssetGenImage('assets/props/others_icon.png');
+
   /// File path: assets/props/prop1.png
   AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [prop1];
+  List<AssetGenImage> get values =>
+      [clothes, glassesIcon, hatsIcon, othersIcon, prop1];
 }
 
 class Assets {

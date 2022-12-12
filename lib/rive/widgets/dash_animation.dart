@@ -4,19 +4,21 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:rive/rive.dart';
 
-extension on List<Prop> {
-  bool get isHelmetSelected => contains(Prop.helmet);
-}
-
 class DashAnimation extends StatefulWidget {
   const DashAnimation({
     super.key,
     required this.avatar,
-    required this.propsSelected,
+    required this.hat,
+    required this.glasses,
+    required this.clothes,
+    required this.handheldlLeft,
   });
 
   final Avatar avatar;
-  final List<Prop> propsSelected;
+  final Hats hat;
+  final Glasses glasses;
+  final Clothes clothes;
+  final HandheldlLeft handheldlLeft;
 
   @override
   State<DashAnimation> createState() => DashAnimationState();
@@ -80,48 +82,70 @@ class DashAnimationState extends State<DashAnimation>
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio!) {
-        leftEyeDistance = leftEyeGeometry.distance!.normalize(
-          fromMin: leftEyeGeometry.minRatio!,
-          fromMax: leftEyeGeometry.meanRatio!,
-          toMin: 0,
-          toMax: 100,
-        );
+        leftEyeDistance = 100 -
+            leftEyeGeometry.distance!.normalize(
+              fromMin: leftEyeGeometry.minRatio!,
+              fromMax: leftEyeGeometry.meanRatio!,
+              toMin: 0,
+              toMax: 100,
+            );
       } else {
-        leftEyeDistance = 100;
+        leftEyeDistance = 0;
       }
 
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double rightEyeDistance;
-      print('minRatio: ${rightEyeGeometry.minRatio}');
-      print('meanRatio: ${rightEyeGeometry.meanRatio}');
-      print('maxRatio: ${rightEyeGeometry.maxRatio}');
-      print('distance: ${rightEyeGeometry.distance}');
       if (rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio!) {
-        rightEyeDistance = rightEyeGeometry.distance!.normalize(
-          fromMin: rightEyeGeometry.minRatio!,
-          fromMax: rightEyeGeometry.meanRatio!,
-          toMin: 0,
-          toMax: 100,
-        );
+        rightEyeDistance = 100 -
+            rightEyeGeometry.distance!.normalize(
+              fromMin: rightEyeGeometry.minRatio!,
+              fromMax: rightEyeGeometry.meanRatio!,
+              toMin: 0,
+              toMax: 100,
+            );
       } else {
-        rightEyeDistance = 100;
+        rightEyeDistance = 0;
       }
 
       dashController.mouthDistance.change(
         widget.avatar.mouthDistance,
       );
       dashController.rightEyeIsClosed.change(
-        100 - rightEyeDistance,
+        rightEyeDistance,
       );
       dashController.leftEyeIsClosed.change(
-        100 - leftEyeDistance,
+        leftEyeDistance,
       );
-      dashController.displayHelmet.change(
-        widget.propsSelected.isHelmetSelected,
-      );
+
+      if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
+        dashController.mouthDistance.change(
+          widget.avatar.mouthDistance * 100,
+        );
+      }
+
+      if (oldWidget.hat != widget.hat) {
+        dashController.hats.change(
+          widget.hat.index.toDouble(),
+        );
+      }
+      if (oldWidget.glasses != widget.glasses) {
+        dashController.glasses.change(
+          widget.glasses.riveIndex,
+        );
+      }
+      if (oldWidget.clothes != widget.clothes) {
+        dashController.clothes.change(
+          widget.clothes.index.toDouble(),
+        );
+      }
+      if (oldWidget.handheldlLeft != widget.handheldlLeft) {
+        dashController.handheldlLeft.change(
+          widget.handheldlLeft.index.toDouble(),
+        );
+      }
     }
   }
 
@@ -190,12 +214,36 @@ class DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$rightEyeIsClosedInputName"');
     }
 
-    const helmetInputName = 'helmet';
-    final displayHelmet = findInput<bool>(helmetInputName);
-    if (displayHelmet is SMIBool) {
-      this.displayHelmet = displayHelmet;
+    const hatsInputName = 'Hats';
+    final hats = findInput<double>(hatsInputName);
+    if (hats is SMINumber) {
+      this.hats = hats;
     } else {
-      throw StateError('Could not find input "$helmetInputName"');
+      throw StateError('Could not find input "$hatsInputName"');
+    }
+
+    const glassesInputName = 'Glasses';
+    final glasses = findInput<double>(glassesInputName);
+    if (glasses is SMINumber) {
+      this.glasses = glasses;
+    } else {
+      throw StateError('Could not find input "$glassesInputName"');
+    }
+
+    const clothesInputName = 'Clothes';
+    final clothes = findInput<double>(clothesInputName);
+    if (clothes is SMINumber) {
+      this.clothes = clothes;
+    } else {
+      throw StateError('Could not find input "$clothesInputName"');
+    }
+
+    const handheldLeftInputName = 'HandheldLeft';
+    final handheldlLeft = findInput<double>(handheldLeftInputName);
+    if (handheldlLeft is SMINumber) {
+      this.handheldlLeft = handheldlLeft;
+    } else {
+      throw StateError('Could not find input "$handheldLeftInputName"');
     }
   }
 
@@ -204,7 +252,10 @@ class DashStateMachineController extends StateMachineController {
   late final SMINumber mouthDistance;
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
-  late final SMIBool displayHelmet;
+  late final SMINumber hats;
+  late final SMINumber glasses;
+  late final SMINumber clothes;
+  late final SMINumber handheldlLeft;
 }
 // coverage:ignore-end
 

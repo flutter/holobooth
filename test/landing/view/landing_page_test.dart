@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/landing/landing.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
@@ -30,13 +28,13 @@ void main() {
 
     testWidgets('renders image', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byType(Image), findsOneWidget);
+      expect(find.byKey(LandingBody.landingPageImageKey), findsOneWidget);
     });
 
     testWidgets('renders image on small screens', (tester) async {
       tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
       await tester.pumpApp(const LandingView());
-      expect(find.byType(Image), findsOneWidget);
+      expect(find.byKey(LandingBody.landingPageImageKey), findsOneWidget);
     });
 
     testWidgets('renders subheading', (tester) async {
@@ -49,31 +47,22 @@ void main() {
       expect(find.byType(LandingTakePhotoButton), findsOneWidget);
     });
 
-    testWidgets(
-        'tapping on take photo button navigates to Background Selection Page',
+    testWidgets('tapping on take photo button navigates to PhotoBoothPage',
         (tester) async {
-      await runZonedGuarded(
-        () async {
-          await tester.pumpApp(const LandingView());
-          await tester.ensureVisible(
-            find.byType(
-              LandingTakePhotoButton,
-              skipOffstage: false,
-            ),
-          );
-          await tester.pumpAndSettle();
-          await tester.tap(
-            find.byType(
-              LandingTakePhotoButton,
-              skipOffstage: false,
-            ),
-          );
-          await tester.pumpAndSettle();
-        },
-        (_, __) {},
+      await tester.pumpApp(const LandingView());
+      await tester.ensureVisible(find.byType(LandingTakePhotoButton));
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byType(
+          LandingTakePhotoButton,
+          skipOffstage: false,
+        ),
       );
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
 
-      expect(find.byType(CharacterSelectionPage), findsOneWidget);
+      expect(find.byType(PhotoBoothPage), findsOneWidget);
       expect(find.byType(LandingView), findsNothing);
     });
   });

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -40,6 +40,8 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
   PhotoConstraint get constraint => PhotoConstraint();
 }
+
+class _MockRawFrame extends Mock implements RawFrame {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -98,7 +100,7 @@ void main() {
   group('PhotoBoothPage', () {
     test('is routable', () {
       expect(
-        PhotoBoothPage.route(character: Character.dash),
+        PhotoBoothPage.route(),
         isA<MaterialPageRoute<void>>(),
       );
     });
@@ -106,11 +108,7 @@ void main() {
     testWidgets(
       'renders PhotoBoothView',
       (WidgetTester tester) async {
-        await tester.pumpApp(
-          PhotoBoothPage(
-            character: Character.dash,
-          ),
-        );
+        await tester.pumpApp(PhotoBoothPage());
         await tester.pump();
         expect(find.byType(PhotoBoothView), findsOneWidget);
       },
@@ -151,7 +149,12 @@ void main() {
         ]);
         whenListen(
           photoBoothBloc,
-          Stream.value(PhotoBoothState(images: images)),
+          Stream.value(
+            PhotoBoothState(
+              images: images,
+              frames: [_MockRawFrame()],
+            ),
+          ),
         );
         await tester.pumpSubject(
           PhotoBoothView(),
@@ -161,35 +164,6 @@ void main() {
         );
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'calls InExperienceSelectionOptionSelected with DrawerOption null '
-      'on end drawer',
-      (WidgetTester tester) async {
-        whenListen(
-          photoBoothBloc,
-          Stream<PhotoBoothState>.empty(),
-        );
-
-        await tester.pumpSubject(
-          PhotoBoothView(),
-          photoBoothBloc: photoBoothBloc,
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.openEndDrawer();
-
-        await tester.pump();
-        PhotoBoothView.photoBoothViewScaffoldKey.currentState?.closeEndDrawer();
-
-        verify(
-          () => inExperienceSelectionBloc.add(
-            InExperienceSelectionOptionSelected(),
-          ),
-        ).called(1);
       },
     );
   });

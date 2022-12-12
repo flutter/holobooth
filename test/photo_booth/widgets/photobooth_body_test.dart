@@ -160,21 +160,6 @@ void main() {
           expect(find.byType(PhotoboothError), findsOneWidget);
         },
       );
-
-      testWidgets('renders SelectionButtons', (tester) async {
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          photoBoothBloc: photoBoothBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-
-        expect(
-          find.byType(SelectionButtons),
-          findsOneWidget,
-        );
-      });
     });
 
     testWidgets(
@@ -219,7 +204,7 @@ void main() {
 
         shutterButton.onCountdownCompleted();
         await tester.pump();
-        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished()))
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished(const [])))
             .called(1);
       },
     );
@@ -261,7 +246,7 @@ extension on WidgetTester {
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
           ],
-          child: subject,
+          child: Scaffold(body: subject),
         ),
       );
 }

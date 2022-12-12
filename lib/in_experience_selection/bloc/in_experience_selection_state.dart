@@ -2,36 +2,46 @@ part of 'in_experience_selection_bloc.dart';
 
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
-    this.drawerOption,
-    this.selectedProps = const [],
+    this.hat = Hats.none,
     this.background = Background.space,
     this.character = Character.dash,
+    this.glasses = Glasses.none,
+    this.clothes = Clothes.none,
+    this.handheldlLeft = HandheldlLeft.none,
   });
 
-  final DrawerOption? drawerOption;
-  final List<Prop> selectedProps;
+  final Hats hat;
   final Background background;
   final Character character;
+  final Glasses glasses;
+  final Clothes clothes;
+  final HandheldlLeft handheldlLeft;
 
   @override
   List<Object?> get props => [
-        drawerOption,
-        selectedProps,
+        hat,
         background,
         character,
+        glasses,
+        clothes,
+        handheldlLeft,
       ];
 
   InExperienceSelectionState copyWith({
-    DrawerOption? drawerOption,
-    List<Prop>? selectedProps,
+    Hats? hat,
     Background? background,
     Character? character,
+    Glasses? glasses,
+    Clothes? clothes,
+    HandheldlLeft? handheldlLeft,
   }) {
     return InExperienceSelectionState(
-      drawerOption: drawerOption ?? this.drawerOption,
-      selectedProps: selectedProps ?? this.selectedProps,
+      hat: hat ?? this.hat,
       background: background ?? this.background,
       character: character ?? this.character,
+      glasses: glasses ?? this.glasses,
+      clothes: clothes ?? this.clothes,
+      handheldlLeft: handheldlLeft ?? this.handheldlLeft,
     );
   }
 }
