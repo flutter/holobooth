@@ -10,16 +10,16 @@ part '../../in_experience_selection/bloc/in_experience_selection_state.dart';
 class InExperienceSelectionBloc
     extends Bloc<InExperienceSelectionEvent, InExperienceSelectionState> {
   InExperienceSelectionBloc() : super(const InExperienceSelectionState()) {
-    on<InExperienceSelectionHatSelected>(_hatSelected);
+    on<InExperienceSelectionHatToggled>(_hatToggled);
     on<InExperienceSelectionBackgroundSelected>(_backgroundSelected);
     on<InExperienceSelectionCharacterSelected>(_characterSelected);
-    on<InExperienceSelectionGlassesSelected>(_glassesSelected);
-    on<InExperienceSelectionClothesSelected>(_clothesSelected);
-    on<InExperienceSelectionHandleheldLeftSelected>(_handleheldLeftSelected);
+    on<InExperienceSelectionGlassesToggled>(_glassesToggled);
+    on<InExperienceSelectionClothesToggled>(_clothesToggled);
+    on<InExperienceSelectionHandleheldLeftToggled>(_handleheldLeftToggled);
   }
 
-  FutureOr<void> _hatSelected(
-    InExperienceSelectionHatSelected event,
+  FutureOr<void> _hatToggled(
+    InExperienceSelectionHatToggled event,
     Emitter<InExperienceSelectionState> emit,
   ) {
     if (event.hat == state.hat) {
@@ -43,8 +43,8 @@ class InExperienceSelectionBloc
     emit(state.copyWith(character: event.character));
   }
 
-  FutureOr<void> _glassesSelected(
-    InExperienceSelectionGlassesSelected event,
+  FutureOr<void> _glassesToggled(
+    InExperienceSelectionGlassesToggled event,
     Emitter<InExperienceSelectionState> emit,
   ) {
     if (event.glasses == state.glasses) {
@@ -54,8 +54,8 @@ class InExperienceSelectionBloc
     }
   }
 
-  FutureOr<void> _clothesSelected(
-    InExperienceSelectionClothesSelected event,
+  FutureOr<void> _clothesToggled(
+    InExperienceSelectionClothesToggled event,
     Emitter<InExperienceSelectionState> emit,
   ) {
     if (event.clothes == state.clothes) {
@@ -65,8 +65,8 @@ class InExperienceSelectionBloc
     }
   }
 
-  FutureOr<void> _handleheldLeftSelected(
-    InExperienceSelectionHandleheldLeftSelected event,
+  FutureOr<void> _handleheldLeftToggled(
+    InExperienceSelectionHandleheldLeftToggled event,
     Emitter<InExperienceSelectionState> emit,
   ) {
     if (event.handheldlLeft == state.handheldlLeft) {

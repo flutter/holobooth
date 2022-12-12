@@ -4,10 +4,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 enum Character {
   dash,
-  sparky,
-}
+  sparky;
 
-extension CharacterX on Character {
   Image toImage() {
     switch (this) {
       case Character.dash:
