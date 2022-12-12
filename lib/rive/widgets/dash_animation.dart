@@ -72,7 +72,7 @@ class DashAnimationState extends State<DashAnimation>
 
       if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
         dashController.mouthDistance.change(
-          widget.avatar.mouthDistance,
+          widget.avatar.mouthDistance * 100,
         );
       }
 
