@@ -104,7 +104,9 @@ class _PropSelectionTabState extends State<PropSelectionTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // Setting default icon size to avoid tap issues on testing
+    // Setting default icon size to avoid tap issues on testing.
+    //As the child will be an image, if there is no default size, on tap will
+    //throw a warning because the child will have no size
     final iconSize = IconTheme.of(context).size;
     return Tab(
       child: widget.assetGenImage.image(
