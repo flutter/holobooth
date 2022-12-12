@@ -9,13 +9,9 @@ class _MouthKeypoints {
     required this.bottomLip,
   }) : distance = topLip.distanceTo(bottomLip);
 
-  /// The top lip keypoint.
-  ///
   /// The highest lip keypoint when facing straight to the camera.
   final tf.Keypoint topLip;
 
-  /// The bottom lip keypoint.
-  ///
   /// The lowest lip keypoint when facing straight to the camera.
   final tf.Keypoint bottomLip;
 
