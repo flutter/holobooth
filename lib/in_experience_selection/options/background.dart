@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
 enum Background {
-  space(
-    1,
-  ),
+  space(1),
   beach(2),
   underwater(3);
 
