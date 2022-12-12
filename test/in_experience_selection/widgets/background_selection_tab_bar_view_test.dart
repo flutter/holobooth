@@ -25,7 +25,7 @@ void main() {
       'adds InExperienceSelectionBackgroundSelected clicking on a background',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          BackgroundSelectionTabBarView(),
+          BackgroundSelectionTabBarView(onNextPressed: () {}),
           inExperienceSelectionBloc,
         );
         await tester.pumpAndSettle();

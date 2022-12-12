@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:io_photobooth/photo_booth/bloc/photo_booth_bloc.dart';
 
 class PrimarySelectionView extends StatefulWidget {
   const PrimarySelectionView({
@@ -55,10 +57,24 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              CharacterSelectionTabBarView(),
-              BackgroundSelectionTabBarView(),
-              PropsSelectionTabBarView(),
+            children: [
+              CharacterSelectionTabBarView(
+                onNextPressed: () {
+                  _tabController.animateTo(1);
+                },
+              ),
+              BackgroundSelectionTabBarView(
+                onNextPressed: () {
+                  _tabController.animateTo(2);
+                },
+              ),
+              PropsSelectionTabBarView(
+                onRecordingPressed: () {
+                  context
+                      .read<PhotoBoothBloc>()
+                      .add(const PhotoBoothRecordingStarted());
+                },
+              ),
             ],
           ),
         ),
