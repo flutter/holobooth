@@ -43,15 +43,15 @@ class MouthGeometry extends Equatable {
 
     final distance = mouthKeypoints.distance / boundingBox.height;
     return MouthGeometry._(
-      isOpen: _isOpen(mouthKeypoints: mouthKeypoints, distance: distance),
       distance: distance,
+      isOpen: _isOpen(mouthKeypoints: mouthKeypoints, distance: distance),
     );
   }
 
   /// {@macro mouth_geometry}
   const MouthGeometry._({
-    required this.isOpen,
     required this.distance,
+    required this.isOpen,
   });
 
   /// An empty instance of [MouthGeometry].
