@@ -85,7 +85,8 @@ void main() {
           inExperienceSelectionBloc,
         );
         const hat = Hats.helmet;
-        await tester.tap(find.byKey(Key('hat_selection_${hat.name}')));
+        await tester
+            .tap(find.byKey(HatsSelectionTabBarView.hatSelectionKey(hat)));
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionHatSelected(hat)),
@@ -101,7 +102,9 @@ void main() {
           inExperienceSelectionBloc,
         );
         const glasses = Glasses.glasses1;
-        await tester.tap(find.byKey(Key('glasses_selection_${glasses.name}')));
+        await tester.tap(
+          find.byKey(GlassesSelectionTabBarView.glassesSelectionKey(glasses)),
+        );
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionGlassesSelected(glasses)),
@@ -117,7 +120,9 @@ void main() {
           inExperienceSelectionBloc,
         );
         const clothes = Clothes.clothes1;
-        await tester.tap(find.byKey(Key('clothes_selection_${clothes.name}')));
+        await tester.tap(
+          find.byKey(ClothesSelectionTabBarView.clothesSelectionKey(clothes)),
+        );
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionClothesSelected(clothes)),
@@ -134,8 +139,9 @@ void main() {
           inExperienceSelectionBloc,
         );
         const item = HandheldlLeft.handheldLeft1;
-        await tester
-            .tap(find.byKey(Key('handheldlLeft_selection_${item.name}')));
+        await tester.tap(
+          find.byKey(OthersSelectionTabBarView.handHeldLeftSelectionKey(item)),
+        );
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionHandleheldLeftSelected(item)),

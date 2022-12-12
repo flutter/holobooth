@@ -9,6 +9,7 @@ class PropsSelectionTabBarView extends StatefulWidget {
     super.key,
     this.initialIndex = 0,
   });
+
   @visibleForTesting
   static const glassesTabKey = ValueKey('glasses_tab');
 
@@ -52,18 +53,18 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
         TabBar(
           controller: _tabController,
           tabs: [
-            PropSelectionTab(
+            _PropSelectionTab(
               assetGenImage: Assets.props.hatsIcon,
             ),
-            PropSelectionTab(
+            _PropSelectionTab(
               key: PropsSelectionTabBarView.glassesTabKey,
               assetGenImage: Assets.props.glassesIcon,
             ),
-            PropSelectionTab(
+            _PropSelectionTab(
               key: PropsSelectionTabBarView.clothesTabKey,
               assetGenImage: Assets.props.clothes,
             ),
-            PropSelectionTab(
+            _PropSelectionTab(
               key: PropsSelectionTabBarView.othersTabKey,
               assetGenImage: Assets.props.othersIcon,
             ),
@@ -86,9 +87,8 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
   }
 }
 
-@visibleForTesting
-class PropSelectionTab extends StatefulWidget {
-  const PropSelectionTab({
+class _PropSelectionTab extends StatefulWidget {
+  const _PropSelectionTab({
     super.key,
     required this.assetGenImage,
   });
@@ -96,11 +96,11 @@ class PropSelectionTab extends StatefulWidget {
   final AssetGenImage assetGenImage;
 
   @override
-  State<PropSelectionTab> createState() => _PropSelectionTabState();
+  State<_PropSelectionTab> createState() => _PropSelectionTabState();
 }
 
-class _PropSelectionTabState extends State<PropSelectionTab>
-    with AutomaticKeepAliveClientMixin<PropSelectionTab> {
+class _PropSelectionTabState extends State<_PropSelectionTab>
+    with AutomaticKeepAliveClientMixin<_PropSelectionTab> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -121,8 +121,14 @@ class _PropSelectionTabState extends State<PropSelectionTab>
   bool get wantKeepAlive => true;
 }
 
+@visibleForTesting
 class HatsSelectionTabBarView extends StatelessWidget {
   const HatsSelectionTabBarView({super.key});
+
+  @visibleForTesting
+  static Key hatSelectionKey(Hats item) {
+    return Key('hat_selection_${item.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +138,7 @@ class HatsSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = Hats.values[index];
         return _PropSelectionElement(
-          key: Key('hat_selection_${item.name}'),
+          key: hatSelectionKey(item),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
@@ -147,8 +153,14 @@ class HatsSelectionTabBarView extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class GlassesSelectionTabBarView extends StatelessWidget {
   const GlassesSelectionTabBarView({super.key});
+
+  @visibleForTesting
+  static Key glassesSelectionKey(Glasses item) {
+    return Key('glasses_selection_${item.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +171,7 @@ class GlassesSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
         return _PropSelectionElement(
-          key: Key('glasses_selection_${item.name}'),
+          key: glassesSelectionKey(item),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
@@ -174,8 +186,14 @@ class GlassesSelectionTabBarView extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class ClothesSelectionTabBarView extends StatelessWidget {
   const ClothesSelectionTabBarView({super.key});
+
+  @visibleForTesting
+  static Key clothesSelectionKey(Clothes item) {
+    return Key('clothes_selection_${item.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +204,7 @@ class ClothesSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
         return _PropSelectionElement(
-          key: Key('clothes_selection_${item.name}'),
+          key: clothesSelectionKey(item),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
@@ -201,8 +219,14 @@ class ClothesSelectionTabBarView extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class OthersSelectionTabBarView extends StatelessWidget {
   const OthersSelectionTabBarView({super.key});
+
+  @visibleForTesting
+  static Key handHeldLeftSelectionKey(HandheldlLeft item) {
+    return Key('handheldlLeft_selection_${item.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +237,7 @@ class OthersSelectionTabBarView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = items[index];
         return _PropSelectionElement(
-          key: Key('handheldlLeft_selection_${item.name}'),
+          key: handHeldLeftSelectionKey(item),
           onTap: () {
             context
                 .read<InExperienceSelectionBloc>()
