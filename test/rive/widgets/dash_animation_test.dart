@@ -55,7 +55,7 @@ void main() {
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller?.mouthDistance.value, avatar.mouthDistance);
+      expect(controller?.mouthDistance.value, avatar.mouthDistance * 100);
       expect(controller?.leftEyeIsClosed.value, 99);
       expect(controller?.rightEyeIsClosed.value, 99);
       expect(controller?.x.value, isNot(equals(x)));
