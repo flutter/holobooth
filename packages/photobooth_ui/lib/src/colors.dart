@@ -58,4 +58,7 @@ abstract class HoloBoothColors {
 
   /// Dark blue
   static const Color darkBlue = Color(0xFF061A4A);
+
+  /// Sparky color
+  static const Color sparkyColor = Color.fromRGBO(238, 87, 66, 1);
 }
