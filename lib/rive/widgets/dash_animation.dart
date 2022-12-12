@@ -76,12 +76,13 @@ class DashAnimationState extends State<DashAnimation>
 
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
       late final double leftEyeDistance;
-      if (leftEyeGeometry.minDistance != null &&
-          leftEyeGeometry.meanDistance != null &&
-          leftEyeGeometry.meanDistance! > leftEyeGeometry.minDistance!) {
-        leftEyeDistance = leftEyeGeometry.distance.normalize(
-          fromMin: leftEyeGeometry.minDistance!,
-          fromMax: leftEyeGeometry.meanDistance!,
+      if (leftEyeGeometry.minRatio != null &&
+          leftEyeGeometry.meanRatio != null &&
+          leftEyeGeometry.distance != null &&
+          leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio!) {
+        leftEyeDistance = leftEyeGeometry.distance!.normalize(
+          fromMin: leftEyeGeometry.minRatio!,
+          fromMax: leftEyeGeometry.meanRatio!,
           toMin: 0,
           toMax: 100,
         );
@@ -91,16 +92,17 @@ class DashAnimationState extends State<DashAnimation>
 
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double rightEyeDistance;
-      print('meanDistance: ${rightEyeGeometry.meanDistance}');
-      print('minDistance: ${rightEyeGeometry.minDistance}');
+      print('minRatio: ${rightEyeGeometry.minRatio}');
+      print('meanRatio: ${rightEyeGeometry.meanRatio}');
+      print('maxRatio: ${rightEyeGeometry.maxRatio}');
       print('distance: ${rightEyeGeometry.distance}');
-      print('maxDistance: ${rightEyeGeometry.maxDistance}');
-      if (rightEyeGeometry.minDistance != null &&
-          rightEyeGeometry.meanDistance != null &&
-          rightEyeGeometry.meanDistance! > rightEyeGeometry.minDistance!) {
-        rightEyeDistance = rightEyeGeometry.distance.normalize(
-          fromMin: rightEyeGeometry.minDistance!,
-          fromMax: rightEyeGeometry.meanDistance!,
+      if (rightEyeGeometry.minRatio != null &&
+          rightEyeGeometry.meanRatio != null &&
+          leftEyeGeometry.distance != null &&
+          rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio!) {
+        rightEyeDistance = rightEyeGeometry.distance!.normalize(
+          fromMin: rightEyeGeometry.minRatio!,
+          fromMax: rightEyeGeometry.meanRatio!,
           toMin: 0,
           toMax: 100,
         );

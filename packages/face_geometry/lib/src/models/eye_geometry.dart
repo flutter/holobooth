@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs
 
-import 'dart:math' as math;
-
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
@@ -37,30 +35,24 @@ abstract class _EyeGeometry extends Equatable {
     required tf.BoundingBox boundingBox,
     double? previousMinRatio,
     double? previousMaxRatio,
-    double? previousMinDistance,
-    double? previousMaxDistance,
-    double? previousMeanDistance,
+    double? previousMeanRatio,
     int generation = 0,
-  })  : distance = eyeKeypoint.distance,
-        minDistance = math.min(
-          eyeKeypoint.distance,
-          previousMinDistance ?? eyeKeypoint.distance,
+  })  : distance = _computeDistanceRatio(
+          distance: eyeKeypoint.distance,
+          faceHeight: boundingBox.height,
         ),
-        maxDistance = math.max(
-          eyeKeypoint.distance,
-          previousMaxDistance ?? eyeKeypoint.distance,
-        ),
-        meanDistance = _computeMeanDistance(
-          newEyeKeypoints: eyeKeypoint,
-          previousMeanDistance: previousMeanDistance,
+        meanRatio = _computeMeanRatio(
+          distance: eyeKeypoint.distance,
+          faceHeight: boundingBox.height,
+          previousMeanRatio: previousMeanRatio,
           generation: generation,
         ),
-        _minRatio = _computeMinRatio(
+        minRatio = _computeMinRatio(
           distance: eyeKeypoint.distance,
           faceHeight: boundingBox.height,
           previousMinRatio: previousMinRatio,
         ),
-        _maxRatio = _computeMaxRatio(
+        maxRatio = _computeMaxRatio(
           distance: eyeKeypoint.distance,
           faceHeight: boundingBox.height,
           previousMaxRatio: previousMaxRatio,
@@ -87,28 +79,37 @@ abstract class _EyeGeometry extends Equatable {
   const _EyeGeometry._empty({
     double? minRatio,
     double? maxRatio,
-    this.maxDistance,
-    this.minDistance,
-    this.meanDistance,
+    this.meanRatio,
     int generation = 0,
   })  : distance = 0,
         isClosed = false,
-        _maxRatio = minRatio,
-        _minRatio = maxRatio,
+        maxRatio = minRatio,
+        minRatio = maxRatio,
         _generation = generation;
 
   /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
   static const _minEyeRatio = 0.3;
 
-  /// Computes the mean distance of some [EyeKeypoint].
-  static double _computeMeanDistance({
-    required double? previousMeanDistance,
-    required int generation,
-    required EyeKeypoint newEyeKeypoints,
+  static double? _computeDistanceRatio({
+    required double distance,
+    required num faceHeight,
   }) {
-    final totalDistance =
-        (previousMeanDistance ?? 0) * generation + newEyeKeypoints.distance;
-    return totalDistance / (generation + 1);
+    if (faceHeight == 0 || faceHeight < distance) return null;
+    return distance / faceHeight;
+  }
+
+  /// Computes the mean distance of some [EyeKeypoint].
+  static double? _computeMeanRatio({
+    required double distance,
+    required int generation,
+    required num faceHeight,
+    required double? previousMeanRatio,
+  }) {
+    if (faceHeight == 0 || faceHeight < distance) return previousMeanRatio;
+
+    final heightRatio = distance / faceHeight;
+    final total = (previousMeanRatio ?? 0) * generation + heightRatio;
+    return total / (generation + 1);
   }
 
   static double? _computeMaxRatio({
@@ -159,14 +160,14 @@ abstract class _EyeGeometry extends Equatable {
     }
   }
 
-  /// The number of keypoints that have been used to compute [meanDistance].
+  /// The number of keypoints that have been used to compute [meanRatio].
   final int _generation;
 
   /// The maxmium ratio between the eye distance and the face height.
-  final double? _maxRatio;
+  final double? maxRatio;
 
   /// The minimum ratio between the eye distance and the face height.
-  final double? _minRatio;
+  final double? minRatio;
 
   /// Whether the eye is closed or not.
   ///
@@ -175,16 +176,10 @@ abstract class _EyeGeometry extends Equatable {
   final bool isClosed;
 
   /// The distance between the top and bottom eye lids.
-  final double distance;
-
-  /// The maximum distance between the top and bottom eye lids.
-  final double? maxDistance;
-
-  /// The minimum distance between the top and bottom eye lids.
-  final double? minDistance;
+  final double? distance;
 
   /// The mean distance between the top and bottom eye lids.
-  final double? meanDistance;
+  final double? meanRatio;
 
   /// Update the eye geometry.
   _EyeGeometry update(
@@ -196,11 +191,9 @@ abstract class _EyeGeometry extends Equatable {
   List<Object?> get props => [
         isClosed,
         distance,
-        maxDistance,
-        minDistance,
-        meanDistance,
-        _minRatio,
-        _maxRatio,
+        meanRatio,
+        minRatio,
+        maxRatio,
       ];
 }
 
@@ -225,17 +218,13 @@ class LeftEyeGeometry extends _EyeGeometry {
     super.generation,
     super.previousMinRatio,
     super.previousMaxRatio,
-    super.previousMinDistance,
-    super.previousMaxDistance,
-    super.previousMeanDistance,
+    super.previousMeanRatio,
   }) : super._compute();
 
   const LeftEyeGeometry.empty({
     super.minRatio,
     super.maxRatio,
-    super.maxDistance,
-    super.minDistance,
-    super.meanDistance,
+    super.meanRatio,
     super.generation,
   }) : super._empty();
 
@@ -248,20 +237,16 @@ class LeftEyeGeometry extends _EyeGeometry {
       return LeftEyeGeometry._compute(
         eyeKeypoint: EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
-        previousMinRatio: _minRatio,
-        previousMaxRatio: _maxRatio,
-        previousMinDistance: minDistance,
-        previousMaxDistance: maxDistance,
-        previousMeanDistance: meanDistance,
+        previousMinRatio: minRatio,
+        previousMaxRatio: maxRatio,
+        previousMeanRatio: meanRatio,
         generation: _generation,
       );
     } else {
       return LeftEyeGeometry.empty(
-        minRatio: _minRatio,
-        maxRatio: _maxRatio,
-        maxDistance: maxDistance,
-        minDistance: minDistance,
-        meanDistance: meanDistance,
+        minRatio: minRatio,
+        maxRatio: maxRatio,
+        meanRatio: meanRatio,
         generation: _generation,
       );
     }
@@ -288,18 +273,14 @@ class RightEyeGeometry extends _EyeGeometry {
     required super.boundingBox,
     super.previousMinRatio,
     super.previousMaxRatio,
-    super.previousMinDistance,
-    super.previousMaxDistance,
-    super.previousMeanDistance,
+    super.previousMeanRatio,
     super.generation,
   }) : super._compute();
 
   const RightEyeGeometry.empty({
     super.minRatio,
     super.maxRatio,
-    super.maxDistance,
-    super.minDistance,
-    super.meanDistance,
+    super.meanRatio,
     super.generation,
   }) : super._empty();
 
@@ -312,20 +293,16 @@ class RightEyeGeometry extends _EyeGeometry {
       return RightEyeGeometry._compute(
         eyeKeypoint: EyeKeypoint.right(keypoints),
         boundingBox: boundingBox,
-        previousMinRatio: _minRatio,
-        previousMaxRatio: _maxRatio,
-        previousMinDistance: minDistance,
-        previousMaxDistance: maxDistance,
-        previousMeanDistance: meanDistance,
+        previousMinRatio: minRatio,
+        previousMaxRatio: maxRatio,
+        previousMeanRatio: meanRatio,
         generation: _generation,
       );
     } else {
       return RightEyeGeometry.empty(
-        minRatio: _minRatio,
-        maxRatio: _maxRatio,
-        maxDistance: maxDistance,
-        minDistance: minDistance,
-        meanDistance: meanDistance,
+        minRatio: minRatio,
+        maxRatio: maxRatio,
+        meanRatio: meanRatio,
         generation: _generation,
       );
     }
