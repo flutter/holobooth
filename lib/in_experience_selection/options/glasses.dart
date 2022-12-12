@@ -3,5 +3,6 @@ enum Glasses {
   glasses1(2);
 
   const Glasses(this.riveIndex);
+
   final double riveIndex;
 }
