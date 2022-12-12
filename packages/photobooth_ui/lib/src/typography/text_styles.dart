@@ -109,7 +109,7 @@ class PhotoboothTextStyle {
   /// Label large text style
   static TextStyle get labelLarge {
     return _baseTextStyle.copyWith(
-      fontSize: 18,
+      fontSize: 21,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }

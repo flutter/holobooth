@@ -83,7 +83,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(50),
+          padding: const EdgeInsets.all(15),
           child: RecordingButton(onRecordingPressed: widget.onRecordingPressed),
         ),
       ],

@@ -40,7 +40,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(50),
+          padding: const EdgeInsets.all(15),
           child: NextButton(onNextPressed: onNextPressed),
         ),
       ],
