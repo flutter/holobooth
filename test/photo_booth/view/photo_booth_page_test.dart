@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';

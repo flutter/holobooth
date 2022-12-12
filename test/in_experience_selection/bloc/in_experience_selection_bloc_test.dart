@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
@@ -12,23 +11,23 @@ void main() {
       );
     });
 
-    group('InExperienceSelectionHatSelected', () {
+    group('InExperienceSelectionHatToggled', () {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state with hat selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
+        act: (bloc) => bloc.add(InExperienceSelectionHatToggled(Hats.helmet)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(selectedHat: Hats.helmet)
+          InExperienceSelectionState(hat: Hats.helmet)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
-        'emits state with hat unselected.',
+        'emits state without hat when hat was previously selected.',
         build: () =>
             InExperienceSelectionBloc(characterPreSelected: Character.dash),
-        seed: () => InExperienceSelectionState(selectedHat: Hats.helmet),
-        act: (bloc) => bloc.add(InExperienceSelectionHatSelected(Hats.helmet)),
+        seed: () => InExperienceSelectionState(hat: Hats.helmet),
+        act: (bloc) => bloc.add(InExperienceSelectionHatToggled(Hats.helmet)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );
@@ -77,6 +76,89 @@ void main() {
         act: (bloc) =>
             bloc.add(InExperienceSelectionCharacterSelected(Character.dash)),
         expect: () => const <InExperienceSelectionState>[],
+      );
+    });
+
+    group('InExperienceSelectionGlassesToggled', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with glasses selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionGlassesToggled(Glasses.glasses1)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(glasses: Glasses.glasses1)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state without glasses when glasses were previously selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () => InExperienceSelectionState(glasses: Glasses.glasses1),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionGlassesToggled(Glasses.glasses1)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
+
+    group('InExperienceSelectionClothesToggled', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with clothes selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionClothesToggled(Clothes.clothes1)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(clothes: Clothes.clothes1)
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state without clothes when clothes was previously selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () => InExperienceSelectionState(clothes: Clothes.clothes1),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionClothesToggled(Clothes.clothes1)),
+        expect: () =>
+            const <InExperienceSelectionState>[InExperienceSelectionState()],
+      );
+    });
+
+    group('InExperienceSelectionHandleheldLeftToggled', () {
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with handleheld left selected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        act: (bloc) => bloc.add(
+          InExperienceSelectionHandleheldLeftToggled(
+            HandheldlLeft.handheldLeft1,
+          ),
+        ),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(
+            handheldlLeft: HandheldlLeft.handheldLeft1,
+          )
+        ],
+      );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state with handleheld left unselected.',
+        build: () =>
+            InExperienceSelectionBloc(characterPreSelected: Character.dash),
+        seed: () => InExperienceSelectionState(
+          handheldlLeft: HandheldlLeft.handheldLeft1,
+        ),
+        act: (bloc) => bloc.add(
+          InExperienceSelectionHandleheldLeftToggled(
+            HandheldlLeft.handheldLeft1,
+          ),
+        ),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(),
+        ],
       );
     });
   });
