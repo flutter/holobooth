@@ -172,8 +172,6 @@ class PhotoboothTheme {
   }
 
   static DividerThemeData get _dividerTheme {
-    return const DividerThemeData(
-      color: PhotoboothColors.transparent,
-    );
+    return const DividerThemeData(color: PhotoboothColors.transparent);
   }
 }
