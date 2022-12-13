@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide UnderlineTabIndicator;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
   const PropsSelectionTabBarView({
@@ -135,17 +136,21 @@ class _PropSelectionTabState extends State<_PropSelectionTab>
       width: iconSize,
     );
     return Tab(
-        child: widget.isSelected
-            ? ShaderMask(
-                shaderCallback: (bounds) {
-                  return LinearGradient(colors: [
+      child: widget.isSelected
+          ? ShaderMask(
+              shaderCallback: (bounds) {
+                return const LinearGradient(
+                  // TODO(oscar): use theming colors once they are ready.
+                  colors: [
                     Color(0xffF9F8C4),
                     Color(0xff27F5DD),
-                  ]).createShader(bounds);
-                },
-                child: icon,
-              )
-            : icon);
+                  ],
+                ).createShader(bounds);
+              },
+              child: icon,
+            )
+          : icon,
+    );
   }
 
   @override

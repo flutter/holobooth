@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: omit_local_variable_types
+
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -16,15 +18,14 @@ import 'package:flutter/material.dart';
 /// bounds in terms of its (centered) widget with [TabBarIndicatorSize.label],
 /// or the entire tab with [TabBarIndicatorSize.tab].
 class UnderlineTabIndicator extends Decoration {
-  /// Create an underline style selected tab indicator.
-  ///
-  /// The [borderSide] and [insets] arguments must not be null.
+  /// Create an underline style selected tab indicator with a single
+  /// [color] or [gradients] color.
   const UnderlineTabIndicator({
-    this.borderSide = const BorderSide(width: 2.0, color: Colors.white),
+    this.borderSide = const BorderSide(width: 2),
     this.insets = EdgeInsets.zero,
     this.gradients,
-  })  : assert(borderSide != null),
-        assert(insets != null);
+    this.color,
+  });
 
   /// The color and weight of the horizontal line drawn below the selected tab.
   final BorderSide borderSide;
@@ -37,7 +38,11 @@ class UnderlineTabIndicator extends Decoration {
   /// [TabBarIndicatorSize.tab].
   final EdgeInsetsGeometry insets;
 
+  /// List of [Color] applied to the gradient of the indicator.
   final List<Color>? gradients;
+
+  /// Color of the indicator. If [gradients] is provided this will be ignored.
+  final Color? color;
 
   @override
   Decoration? lerpFrom(Decoration? a, double t) {
@@ -45,6 +50,8 @@ class UnderlineTabIndicator extends Decoration {
       return UnderlineTabIndicator(
         borderSide: BorderSide.lerp(a.borderSide, borderSide, t),
         insets: EdgeInsetsGeometry.lerp(a.insets, insets, t)!,
+        color: Color.lerp(a.color, color, t),
+        // TODO(oscar): lerp gradients
       );
     }
     return super.lerpFrom(a, t);
@@ -56,6 +63,7 @@ class UnderlineTabIndicator extends Decoration {
       return UnderlineTabIndicator(
         borderSide: BorderSide.lerp(borderSide, b.borderSide, t),
         insets: EdgeInsetsGeometry.lerp(insets, b.insets, t)!,
+        // TODO(oscar): lerp gradients
       );
     }
     return super.lerpTo(b, t);
@@ -67,8 +75,6 @@ class UnderlineTabIndicator extends Decoration {
   }
 
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
-    assert(rect != null);
-    assert(textDirection != null);
     final Rect indicator = insets.resolve(textDirection).deflateRect(rect);
     return Rect.fromLTWH(
       indicator.left,
@@ -85,23 +91,23 @@ class UnderlineTabIndicator extends Decoration {
 }
 
 class _UnderlinePainter extends BoxPainter {
-  _UnderlinePainter(this.decoration, super.onChanged)
-      : assert(decoration != null);
+  _UnderlinePainter(this.decoration, super.onChanged);
 
   final UnderlineTabIndicator decoration;
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    assert(configuration != null);
-    assert(configuration.size != null);
     final Rect rect = offset & configuration.size!;
     final TextDirection textDirection = configuration.textDirection!;
     final Rect indicator = decoration
         ._indicatorRectFor(rect, textDirection)
         .deflate(decoration.borderSide.width / 2.0);
     Paint paint;
+
     if (decoration.gradients == null) {
-      paint = decoration.borderSide.toPaint()..strokeCap = StrokeCap.square;
+      paint = decoration.borderSide.toPaint()
+        ..strokeCap = StrokeCap.square
+        ..color;
     } else {
       paint = decoration.borderSide.toPaint()
         ..strokeCap = StrokeCap.square

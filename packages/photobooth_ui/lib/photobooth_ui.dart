@@ -3,6 +3,7 @@ library photobooth_ui;
 export 'package:flame/flame.dart' show Flame;
 
 export 'src/colors.dart';
+export 'src/decoration/decoration.dart';
 export 'src/helpers/helpers.dart';
 export 'src/layout/layout.dart';
 export 'src/models/models.dart';
