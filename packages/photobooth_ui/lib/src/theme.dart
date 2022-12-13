@@ -162,8 +162,8 @@ class PhotoboothTheme {
           color: PhotoboothColors.green,
         ),
       ),
-      labelColor: PhotoboothColors.green,
-      unselectedLabelColor: PhotoboothColors.blue,
+      labelColor: PhotoboothColors.white,
+      unselectedLabelColor: Color(0xff7A7C93),
       indicatorSize: TabBarIndicatorSize.tab,
     );
   }
