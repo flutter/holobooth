@@ -30,15 +30,25 @@ class PropsSelectionTabBarView extends StatefulWidget {
 class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  late int _indexSelected;
 
   @override
   void initState() {
     super.initState();
+    _indexSelected = widget.initialIndex;
     _tabController = TabController(
       length: 4,
       vsync: this,
-      initialIndex: widget.initialIndex,
+      initialIndex: _indexSelected,
     );
+
+    // This instance of [TabController] does not get updated
+    // at least we add a listener
+    _tabController.addListener(() {
+      setState(() {
+        _indexSelected = _tabController.index;
+      });
+    });
   }
 
   @override
@@ -66,22 +76,22 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             tabs: [
               _PropSelectionTab(
                 assetGenImage: Assets.props.hatsIcon,
-                isSelected: _tabController.index == 0,
+                isSelected: _indexSelected == 0,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.glassesTabKey,
                 assetGenImage: Assets.props.glassesIcon,
-                isSelected: _tabController.index == 1,
+                isSelected: _indexSelected == 1,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.clothesTabKey,
                 assetGenImage: Assets.props.clothes,
-                isSelected: _tabController.index == 2,
+                isSelected: _indexSelected == 2,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.othersTabKey,
                 assetGenImage: Assets.props.othersIcon,
-                isSelected: _tabController.index == 3,
+                isSelected: _indexSelected == 3,
               ),
             ],
           ),
