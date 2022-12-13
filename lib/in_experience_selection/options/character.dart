@@ -20,7 +20,7 @@ enum Character {
       case Character.dash:
         return PhotoboothColors.blue;
       case Character.sparky:
-        return PhotoboothColors.red;
+        return HoloBoothColors.sparkyColor;
     }
   }
 }

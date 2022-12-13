@@ -22,12 +22,13 @@ class DesktopSelectionLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      right: 0,
-      top: 0,
-      bottom: 0,
-      child: Container(
-        color: PhotoboothColors.black,
+      right: 30,
+      top: 60,
+      bottom: 100,
+      child: BlurryContainer(
+        borderRadius: BorderRadius.circular(24),
         width: 300,
+        color: HoloBoothColors.darkPurple.withOpacity(0.84),
         child: const PrimarySelectionView(),
       ),
     );

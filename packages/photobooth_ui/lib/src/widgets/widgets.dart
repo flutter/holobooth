@@ -7,6 +7,7 @@ export 'app_dialog.dart';
 export 'app_page_view.dart';
 export 'app_tooltip.dart';
 export 'app_tooltip_button.dart';
+export 'blurry_container.dart';
 export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'gradient_elevated_button.dart';
