@@ -16,6 +16,7 @@ class BlurryContainer extends StatelessWidget {
     this.blur = 4,
     this.color = Colors.transparent,
     this.borderRadius,
+    this.padding = EdgeInsets.zero,
   });
 
   /// The child shown in top of the container.
@@ -36,6 +37,9 @@ class BlurryContainer extends StatelessWidget {
   /// Border radius for the container.
   final BorderRadius? borderRadius;
 
+  /// Padding for the container.
+  final EdgeInsetsGeometry padding;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -46,7 +50,7 @@ class BlurryContainer extends StatelessWidget {
           height: height,
           width: width,
           color: color,
-          padding: EdgeInsets.all(15),
+          padding: padding,
           child: child,
         ),
       ),
