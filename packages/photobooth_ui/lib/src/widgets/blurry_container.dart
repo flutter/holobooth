@@ -15,8 +15,8 @@ class BlurryContainer extends StatelessWidget {
     this.width,
     this.blur = 4,
     this.color = Colors.transparent,
-    this.borderRadius,
     this.padding = EdgeInsets.zero,
+    this.borderRadius = BorderRadius.zero,
   });
 
   /// The child shown in top of the container.
