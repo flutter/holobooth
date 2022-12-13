@@ -29,6 +29,7 @@ class DesktopSelectionLayer extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         width: 300,
         color: HoloBoothColors.darkPurple.withOpacity(0.84),
+        padding: const EdgeInsets.all(15),
         child: const PrimarySelectionView(),
       ),
     );

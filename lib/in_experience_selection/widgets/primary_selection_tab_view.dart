@@ -101,10 +101,7 @@ class _PrimarySelectionTabState extends State<PrimarySelectionTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Tab(
-      iconMargin: const EdgeInsets.only(bottom: 24),
-      icon: Icon(widget.iconData),
-    );
+    return Tab(height: 40, icon: Icon(widget.iconData));
   }
 
   @override

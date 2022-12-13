@@ -155,24 +155,23 @@ class PhotoboothTheme {
   }
 
   static TabBarTheme get _tabBarTheme {
-    return const TabBarTheme(
-      indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          width: 2,
-          color: PhotoboothColors.green,
+    return TabBarTheme(
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(80),
+        gradient: LinearGradient(
+          colors: [
+            // TODO(oscar): use theming color once design is ready
+            const Color(0xFF9e81ef).withOpacity(1),
+            HoloBoothColors.purple,
+          ],
         ),
       ),
-      labelColor: PhotoboothColors.green,
-      unselectedLabelColor: PhotoboothColors.blue,
-      indicatorSize: TabBarIndicatorSize.tab,
+      labelColor: PhotoboothColors.white,
+      unselectedLabelColor: HoloBoothColors.gray,
     );
   }
 
   static DividerThemeData get _dividerTheme {
-    return const DividerThemeData(
-      space: 0,
-      thickness: 1,
-      color: PhotoboothColors.black25,
-    );
+    return const DividerThemeData(color: PhotoboothColors.transparent);
   }
 }
