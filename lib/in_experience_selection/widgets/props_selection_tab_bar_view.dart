@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' hide UnderlineTabIndicator;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/in_experience_selection/widgets/flutter_tab_indicator.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
   const PropsSelectionTabBarView({
@@ -66,18 +65,22 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             tabs: [
               _PropSelectionTab(
                 assetGenImage: Assets.props.hatsIcon,
+                isSelected: _tabController.index == 0,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.glassesTabKey,
                 assetGenImage: Assets.props.glassesIcon,
+                isSelected: _tabController.index == 1,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.clothesTabKey,
                 assetGenImage: Assets.props.clothes,
+                isSelected: _tabController.index == 2,
               ),
               _PropSelectionTab(
                 key: PropsSelectionTabBarView.othersTabKey,
                 assetGenImage: Assets.props.othersIcon,
+                isSelected: _tabController.index == 3,
               ),
             ],
           ),
@@ -107,9 +110,11 @@ class _PropSelectionTab extends StatefulWidget {
   const _PropSelectionTab({
     super.key,
     required this.assetGenImage,
+    required this.isSelected,
   });
 
   final AssetGenImage assetGenImage;
+  final bool isSelected;
 
   @override
   State<_PropSelectionTab> createState() => _PropSelectionTabState();
@@ -124,13 +129,23 @@ class _PropSelectionTabState extends State<_PropSelectionTab>
     // As the child will be an image, if there is no default size, on tap will
     // throw a warning because the child will have no size
     final iconSize = IconTheme.of(context).size;
-    return Tab(
-      child: widget.assetGenImage.image(
-        color: IconTheme.of(context).color,
-        height: iconSize,
-        width: iconSize,
-      ),
+    final icon = widget.assetGenImage.image(
+      color: IconTheme.of(context).color,
+      height: iconSize,
+      width: iconSize,
     );
+    return Tab(
+        child: widget.isSelected
+            ? ShaderMask(
+                shaderCallback: (bounds) {
+                  return LinearGradient(colors: [
+                    Color(0xffF9F8C4),
+                    Color(0xff27F5DD),
+                  ]).createShader(bounds);
+                },
+                child: icon,
+              )
+            : icon);
   }
 
   @override
