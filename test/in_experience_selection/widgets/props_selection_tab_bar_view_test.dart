@@ -25,7 +25,7 @@ void main() {
       'display HatsSelectionTabBarView by default',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(),
+          PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         expect(find.byType(HatsSelectionTabBarView), findsOneWidget);
@@ -36,7 +36,7 @@ void main() {
       'display GlassesSelectionTabBarView by tapping on glasses tab',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(),
+          PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         final finder = find.byKey(PropsSelectionTabBarView.glassesTabKey);
@@ -51,7 +51,7 @@ void main() {
       'display ClothesSelectionTabBarView by tapping on clothes tab',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(),
+          PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         final finder = find.byKey(PropsSelectionTabBarView.clothesTabKey);
@@ -66,7 +66,7 @@ void main() {
       'display OthersSelectionTabBarView by tapping on others tab',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(),
+          PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         final finder = find.byKey(PropsSelectionTabBarView.othersTabKey);
@@ -81,7 +81,7 @@ void main() {
       'adds InExperienceSelectionHatToggled tapping on a hat',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(),
+          PropsSelectionTabBarView(onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         const hat = Hats.helmet;
@@ -98,7 +98,7 @@ void main() {
       'adds InExperienceSelectionGlassesToggled tapping on a glasses',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(initialIndex: 1),
+          PropsSelectionTabBarView(initialIndex: 1, onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         const glasses = Glasses.glasses1;
@@ -116,7 +116,10 @@ void main() {
       'adds InExperienceSelectionClothesToggled tapping on a clothes',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(initialIndex: 2),
+          PropsSelectionTabBarView(
+            initialIndex: 2,
+            onRecordingPressed: () {},
+          ),
           inExperienceSelectionBloc,
         );
         const clothes = Clothes.clothes1;
@@ -135,7 +138,7 @@ void main() {
       'handheld left',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(initialIndex: 3),
+          PropsSelectionTabBarView(initialIndex: 3, onRecordingPressed: () {}),
           inExperienceSelectionBloc,
         );
         const item = HandheldlLeft.handheldLeft1;

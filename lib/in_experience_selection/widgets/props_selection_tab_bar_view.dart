@@ -6,6 +6,7 @@ class PropsSelectionTabBarView extends StatefulWidget {
   const PropsSelectionTabBarView({
     super.key,
     this.initialIndex = 0,
+    required this.onRecordingPressed,
   });
 
   @visibleForTesting
@@ -18,6 +19,7 @@ class PropsSelectionTabBarView extends StatefulWidget {
   static const othersTabKey = ValueKey('others_tab');
 
   final int initialIndex;
+  final VoidCallback onRecordingPressed;
 
   @override
   State<PropsSelectionTabBarView> createState() =>
@@ -79,6 +81,10 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               MiscellaneousSelectionTabBarView(),
             ],
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: RecordingButton(onRecordingPressed: widget.onRecordingPressed),
         ),
       ],
     );

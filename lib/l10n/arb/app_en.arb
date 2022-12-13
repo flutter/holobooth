@@ -354,7 +354,7 @@
   },
   "nextButtonText": "Next",
   "@nextButtonText": {
-    "description": "Text displayed on button after selecting a background and navigates to select a character"
+    "description": "Text displayed on a next button."
   },
   "toThePhotoBoothButtonText": "To the photobooth!",
   "@toThePhotoBoothButtonText": {
@@ -417,5 +417,9 @@
     "description": "Title text displayed on the background selection tab",
     "type": "text",
     "placeholders": {}
+  },
+  "recordingButtonText": "Recording",
+  "@recordingButtonText": {
+    "description": "Text displayed on a recording button."
   }
 }

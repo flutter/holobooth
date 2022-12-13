@@ -5,6 +5,7 @@ class PhotoBoothState extends Equatable {
   const PhotoBoothState({
     required this.images,
     this.frames = const [],
+    this.isRecording = false,
   }) : assert(
           images.length <= totalNumberOfPhotos,
           'The total number of photos should be less than $totalNumberOfPhotos',
@@ -22,6 +23,8 @@ class PhotoBoothState extends Equatable {
 
   final List<RawFrame> frames;
 
+  final bool isRecording;
+
   /// Whether all of the pictures has been taken.
   bool get isFinished => images.isNotEmpty && frames.isNotEmpty;
 
@@ -30,11 +33,13 @@ class PhotoBoothState extends Equatable {
 
   PhotoBoothState copyWith({
     UnmodifiableListView<PhotoboothCameraImage>? images,
-    UnmodifiableListView<RawFrame>? frames,
+    List<RawFrame>? frames,
+    bool? isRecording,
   }) {
     return PhotoBoothState(
       images: images ?? this.images,
       frames: frames ?? this.frames,
+      isRecording: isRecording ?? this.isRecording,
     );
   }
 }
