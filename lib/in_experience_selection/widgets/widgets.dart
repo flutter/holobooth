@@ -1,8 +1,8 @@
 export 'background_selection_tab_bar_view.dart';
 export 'character_selection_tab_bar_view.dart';
 export 'clothes_selection_tab_bar_view.dart';
+export 'flutter_tab_indicator.dart';
 export 'glasses_selection_tab_bar_view.dart';
-export 'gradient_indicator.dart';
 export 'hats_selection_tab_bar_view.dart';
 export 'miscellaneous_selection_tab_bar_view.dart';
 export 'next_button.dart';
