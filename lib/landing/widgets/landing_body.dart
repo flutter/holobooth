@@ -12,39 +12,38 @@ class LandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    final small = size.width <= PhotoboothBreakpoints.small;
-
-    final content = _LandingBodyContent(
-      smallScreen: small,
-    );
     final image = Assets.backgrounds.holobooth.image(
       key: landingPageImageKey,
     );
 
     return Align(
-      alignment: small ? Alignment.topCenter : Alignment.center,
       child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            children: [
-              if (small) ...[
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: ResponsiveLayoutBuilder(
+          small: (context, _) {
+            return Column(
+              children: [
                 const SizedBox(height: 54),
-                content,
+                const _LandingBodyContent(smallScreen: true),
                 const SizedBox(height: 54),
                 image,
-              ] else ...[
+              ],
+            );
+          },
+          large: (context, _) {
+            return Column(
+              children: [
                 Row(
                   children: [
                     Expanded(child: image),
-                    Expanded(child: content),
+                    const Expanded(
+                      child: _LandingBodyContent(smallScreen: false),
+                    ),
                   ],
                 ),
-              ]
-            ],
-          ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -72,6 +71,7 @@ class _LandingBodyContent extends StatelessWidget {
           shaderCallback: (bounds) {
             return const LinearGradient(
               colors: [
+                // TODO(willhlas): use theme colors once it's ready.
                 Color(0xFFEFBDCF),
                 Color(0xFF9E81EF),
               ],
