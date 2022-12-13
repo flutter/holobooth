@@ -22,6 +22,12 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   final ScreenRecorderController _screenRecorderController =
       ScreenRecorderController();
 
+  @override
+  void dispose() {
+    _screenRecorderController.stop();
+    super.dispose();
+  }
+
   bool get _isCameraAvailable =>
       (_cameraController?.value.isInitialized) ?? false;
 
@@ -110,7 +116,15 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   ),
                 ),
               ],
-              const SelectionLayer(),
+              BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
+                selector: (state) => state.isRecording,
+                builder: (context, isRecording) {
+                  if (isRecording) {
+                    return const RecordingLayer();
+                  }
+                  return const SelectionLayer();
+                },
+              ),
             ],
           ),
         );

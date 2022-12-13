@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class CharacterSelectionTabBarView extends StatelessWidget {
-  const CharacterSelectionTabBarView({super.key});
+  const CharacterSelectionTabBarView({super.key, required this.onNextPressed});
+
+  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,10 @@ class CharacterSelectionTabBarView extends StatelessWidget {
               );
             },
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: NextButton(onNextPressed: onNextPressed),
         ),
       ],
     );

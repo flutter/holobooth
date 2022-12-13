@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/character_selection/character_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-extension CharacterX on Character {
+enum Character {
+  dash,
+  sparky;
+
   Image toImage() {
     switch (this) {
       case Character.dash:
@@ -18,7 +20,7 @@ extension CharacterX on Character {
       case Character.dash:
         return PhotoboothColors.blue;
       case Character.sparky:
-        return PhotoboothColors.red;
+        return HoloBoothColors.sparkyColor;
     }
   }
 }

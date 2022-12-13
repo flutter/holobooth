@@ -185,11 +185,27 @@ class $AssetsImagesGen {
 class $AssetsPropsGen {
   const $AssetsPropsGen();
 
+  /// File path: assets/props/clothes.png
+  AssetGenImage get clothes => const AssetGenImage('assets/props/clothes.png');
+
+  /// File path: assets/props/glasses_icon.png
+  AssetGenImage get glassesIcon =>
+      const AssetGenImage('assets/props/glasses_icon.png');
+
+  /// File path: assets/props/hats_icon.png
+  AssetGenImage get hatsIcon =>
+      const AssetGenImage('assets/props/hats_icon.png');
+
+  /// File path: assets/props/others_icon.png
+  AssetGenImage get othersIcon =>
+      const AssetGenImage('assets/props/others_icon.png');
+
   /// File path: assets/props/prop1.png
   AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [prop1];
+  List<AssetGenImage> get values =>
+      [clothes, glassesIcon, hatsIcon, othersIcon, prop1];
 }
 
 class Assets {

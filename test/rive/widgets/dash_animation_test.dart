@@ -16,7 +16,10 @@ void main() {
         rightEyeIsClosed: false,
         distance: 0.5,
       );
-      var hatSelected = Hats.none;
+      var selectedHat = Hats.none;
+      var selectedGlasses = Glasses.none;
+      var selectedClothes = Clothes.none;
+      var selectedHandheldlLeft = HandheldlLeft.none;
 
       late StateSetter stateSetter;
       await tester.pumpWidget(
@@ -26,7 +29,10 @@ void main() {
               stateSetter = setState;
               return DashAnimation(
                 avatar: avatar,
-                hatSelected: hatSelected,
+                hat: selectedHat,
+                glasses: selectedGlasses,
+                clothes: selectedClothes,
+                handheldlLeft: selectedHandheldlLeft,
               );
             },
           ),
@@ -37,9 +43,12 @@ void main() {
       final state =
           tester.state(find.byType(DashAnimation)) as DashAnimationState;
       final controller = state.dashController;
-      final x = controller?.x.value;
-      final y = controller?.y.value;
-      final hatSelectedValue = controller?.hatSelected.value;
+      final xValue = controller?.x.value;
+      final yValue = controller?.y.value;
+      final hatsValue = controller?.hats.value;
+      final glassesValue = controller?.glasses.value;
+      final clothesValue = controller?.clothes.value;
+      final handheldlLeftValue = controller?.handheldlLeft.value;
 
       stateSetter(() {
         avatar = Avatar(
@@ -50,17 +59,26 @@ void main() {
           rightEyeIsClosed: !avatar.rightEyeIsClosed,
           distance: avatar.distance,
         );
-        hatSelected = Hats.helmet;
+        selectedHat = Hats.helmet;
+        selectedGlasses = Glasses.glasses1;
+        selectedClothes = Clothes.clothes1;
+        selectedHandheldlLeft = HandheldlLeft.handheldLeft1;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller?.mouthDistance.value, avatar.mouthDistance);
+      expect(controller?.mouthDistance.value, avatar.mouthDistance * 100);
       expect(controller?.leftEyeIsClosed.value, 99);
       expect(controller?.rightEyeIsClosed.value, 99);
-      expect(controller?.x.value, isNot(equals(x)));
-      expect(controller?.y.value, isNot(equals(y)));
-      expect(controller?.hatSelected.value, isNot(hatSelectedValue));
+      expect(controller?.x.value, isNot(equals(xValue)));
+      expect(controller?.y.value, isNot(equals(yValue)));
+      expect(controller?.hats.value, isNot(hatsValue));
+      expect(controller?.glasses.value, isNot(glassesValue));
+      expect(controller?.clothes.value, isNot(clothesValue));
+      expect(
+        controller?.handheldlLeft.value,
+        isNot(handheldlLeftValue),
+      );
       await tester.pump(kThemeAnimationDuration);
     });
   });

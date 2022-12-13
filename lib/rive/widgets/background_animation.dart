@@ -50,7 +50,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
   void _onRiveInit(Artboard artboard) {
     backgroundController = BackgroundAnimationStateMachineController(artboard);
     backgroundController!.background
-        .change(widget.backgroundSelected.toDouble());
+        .change(widget.backgroundSelected.riveIndex);
     artboard.addController(backgroundController!);
     _animationController.addListener(_controlBackground);
   }
@@ -92,7 +92,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
       final oldBackground = oldWidget.backgroundSelected;
       if (newBackground != oldBackground) {
         backgroundController.background
-            .change(widget.backgroundSelected.toDouble());
+            .change(widget.backgroundSelected.riveIndex);
       }
     }
   }

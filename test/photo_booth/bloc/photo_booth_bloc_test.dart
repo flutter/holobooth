@@ -31,10 +31,12 @@ void main() {
 
     group('PhotoBoothRecordingStarted', () {
       blocTest<PhotoBoothBloc, PhotoBoothState>(
-        'emits nothing.',
+        'emits recording.',
         build: PhotoBoothBloc.new,
         act: (bloc) => bloc.add(PhotoBoothRecordingStarted()),
-        expect: () => <PhotoBoothState>[],
+        expect: () => <PhotoBoothState>[
+          PhotoBoothState.empty().copyWith(isRecording: true),
+        ],
       );
     });
 
