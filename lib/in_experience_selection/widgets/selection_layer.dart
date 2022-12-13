@@ -26,8 +26,8 @@ class DesktopSelectionLayer extends StatelessWidget {
       top: 60,
       bottom: 100,
       child: BlurryContainer(
-        borderRadius: BorderRadius.circular(24),
         width: 300,
+        borderRadius: BorderRadius.circular(24),
         color: HoloBoothColors.darkPurple.withOpacity(0.84),
         padding: const EdgeInsets.all(15),
         child: const PrimarySelectionView(),
@@ -45,9 +45,14 @@ class MobileSelectionLayer extends StatelessWidget {
       right: 0,
       left: 0,
       bottom: 0,
-      child: Container(
-        color: PhotoboothColors.black,
-        height: 300,
+      child: BlurryContainer(
+        height: 350,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+        color: HoloBoothColors.darkPurple.withOpacity(0.84),
+        padding: const EdgeInsets.all(15),
         child: const PrimarySelectionView(),
       ),
     );

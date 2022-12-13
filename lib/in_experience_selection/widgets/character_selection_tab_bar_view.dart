@@ -14,11 +14,14 @@ class CharacterSelectionTabBarView extends StatelessWidget {
     final characterSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.character);
     final l10n = context.l10n;
+    final isPortrait =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 48),
+          padding: const EdgeInsets.only(bottom: 15),
           child: Text(
             l10n.charactersTabTitle,
             style: Theme.of(context)
@@ -27,16 +30,18 @@ class CharacterSelectionTabBarView extends StatelessWidget {
                 ?.copyWith(color: PhotoboothColors.white),
           ),
         ),
-        Flexible(
-          child: ListView.builder(
-            itemCount: Character.values.length,
-            itemBuilder: (context, index) {
-              final character = Character.values[index];
-              return _CharacterSelectionElement(
-                character: character,
-                isSelected: characterSelected == character,
-              );
-            },
+        Expanded(
+          child: Wrap(
+            direction: isPortrait ? Axis.horizontal : Axis.vertical,
+            spacing: 24,
+            runSpacing: 1,
+            children: [
+              for (var i = 0; i < Character.values.length; i++)
+                _CharacterSelectionElement(
+                  character: Character.values[i],
+                  isSelected: characterSelected == Character.values[i],
+                )
+            ],
           ),
         ),
         Padding(
