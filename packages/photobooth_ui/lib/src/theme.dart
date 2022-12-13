@@ -168,7 +168,6 @@ class PhotoboothTheme {
       ),
       labelColor: PhotoboothColors.white,
       unselectedLabelColor: HoloBoothColors.gray,
-      indicatorSize: TabBarIndicatorSize.tab,
     );
   }
 
