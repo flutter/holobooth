@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide UnderlineTabIndicator;
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:io_photobooth/in_experience_selection/widgets/flutter_tab_indicator.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
   const PropsSelectionTabBarView({
@@ -50,25 +51,36 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          tabs: [
-            _PropSelectionTab(
-              assetGenImage: Assets.props.hatsIcon,
+        Theme(
+          data: ThemeData(
+            tabBarTheme: const TabBarTheme(),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            indicator: const UnderlineTabIndicator(
+              gradients: [
+                Color(0xffF9F8C4),
+                Color(0xff27F5DD),
+              ],
             ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.glassesTabKey,
-              assetGenImage: Assets.props.glassesIcon,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.clothesTabKey,
-              assetGenImage: Assets.props.clothes,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.othersTabKey,
-              assetGenImage: Assets.props.othersIcon,
-            ),
-          ],
+            tabs: [
+              _PropSelectionTab(
+                assetGenImage: Assets.props.hatsIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.glassesTabKey,
+                assetGenImage: Assets.props.glassesIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.clothesTabKey,
+                assetGenImage: Assets.props.clothes,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.othersTabKey,
+                assetGenImage: Assets.props.othersIcon,
+              ),
+            ],
+          ),
         ),
         const Divider(),
         Expanded(
