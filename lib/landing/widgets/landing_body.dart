@@ -19,31 +19,35 @@ class LandingBody extends StatelessWidget {
     final content = _LandingBodyContent(
       smallScreen: small,
     );
-    final image = Assets.backgrounds.holobooth.image();
+    final image = Assets.backgrounds.holobooth.image(
+      key: landingPageImageKey,
+    );
 
-    return small
-        ? SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Column(
-                children: [
-                  const SizedBox(height: 54),
-                  content,
-                  const SizedBox(height: 54),
-                  image,
-                ],
-              ),
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Row(
-              children: [
-                Expanded(child: image),
-                Expanded(child: content),
-              ],
-            ),
-          );
+    return Align(
+      alignment: small ? Alignment.topCenter : Alignment.center,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            children: [
+              if (small) ...[
+                const SizedBox(height: 54),
+                content,
+                const SizedBox(height: 54),
+                image,
+              ] else ...[
+                Row(
+                  children: [
+                    Expanded(child: image),
+                    Expanded(child: content),
+                  ],
+                ),
+              ]
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -64,13 +68,23 @@ class _LandingBodyContent extends StatelessWidget {
       children: [
         Assets.images.flutterForwardLogo.image(width: 300),
         const SizedBox(height: 32),
-        SelectableText(
-          l10n.landingPageHeading,
-          key: const Key('landingPage_heading_text'),
-          style: theme.textTheme.displayLarge!.copyWith(
-            color: PhotoboothColors.white,
+        ShaderMask(
+          shaderCallback: (bounds) {
+            return const LinearGradient(
+              colors: [
+                Color(0xFFEFBDCF),
+                Color(0xFF9E81EF),
+              ],
+            ).createShader(Offset.zero & bounds.size);
+          },
+          child: SelectableText(
+            l10n.landingPageHeading,
+            key: const Key('landingPage_heading_text'),
+            style: theme.textTheme.displayLarge!.copyWith(
+              color: PhotoboothColors.white,
+            ),
+            textAlign: smallScreen ? TextAlign.center : TextAlign.left,
           ),
-          textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),
         const SizedBox(height: 16),
         SelectableText(
