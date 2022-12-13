@@ -41,14 +41,6 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
       children: [
         TabBar(
           controller: _tabController,
-          indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(80),
-              gradient: LinearGradient(
-                colors: [
-                  const Color(0xFF9e81ef).withOpacity(1),
-                  const Color(0xFf4100E0),
-                ],
-              )),
           tabs: const [
             PrimarySelectionTab(
               iconData: Icons.face,

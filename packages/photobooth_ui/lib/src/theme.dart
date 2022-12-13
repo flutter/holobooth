@@ -155,15 +155,19 @@ class PhotoboothTheme {
   }
 
   static TabBarTheme get _tabBarTheme {
-    return const TabBarTheme(
-      indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          width: 2,
-          color: PhotoboothColors.green,
+    return TabBarTheme(
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(80),
+        gradient: LinearGradient(
+          colors: [
+            // TODO(oscar): use theming color once design is ready
+            const Color(0xFF9e81ef).withOpacity(1),
+            HoloBoothColors.purple,
+          ],
         ),
       ),
       labelColor: PhotoboothColors.white,
-      unselectedLabelColor: Color(0xff7A7C93),
+      unselectedLabelColor: HoloBoothColors.gray,
       indicatorSize: TabBarIndicatorSize.tab,
     );
   }
