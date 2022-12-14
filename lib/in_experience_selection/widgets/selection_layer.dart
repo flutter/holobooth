@@ -61,7 +61,6 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
           color: HoloBoothColors.darkPurple.withOpacity(0.84),
           // TODO(oscar): add animation
           height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
-          borderRadius: const BorderRadius.only(topRight: Radius.circular(15)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
