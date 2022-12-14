@@ -58,43 +58,40 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
       bottom: 0,
       child: ClipPath(
         clipper: CustomClipPath(),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+        child: BlurryContainer(
+          color: HoloBoothColors.darkPurple.withOpacity(0.84),
+          // TODO(oscar): add animation
           height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
-          child: BlurryContainer(
-            color: HoloBoothColors.darkPurple.withOpacity(0.84),
-            borderRadius:
-                const BorderRadius.only(topRight: Radius.circular(15)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    width: 100,
-                    height: 50,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          collapsed = !collapsed;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.expand_more,
-                        color: Colors.white,
-                      ),
+          borderRadius: const BorderRadius.only(topRight: Radius.circular(15)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        collapsed = !collapsed;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.expand_more,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                Flexible(
-                  child: Center(
-                    child: PrimarySelectionView(
-                      collapsed: collapsed,
-                    ),
+              ),
+              Flexible(
+                child: Center(
+                  child: PrimarySelectionView(
+                    collapsed: collapsed,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
