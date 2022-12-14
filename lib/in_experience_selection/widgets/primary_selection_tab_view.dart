@@ -13,6 +13,9 @@ class PrimarySelectionView extends StatefulWidget {
   final int initialIndex;
   final bool collapsed;
 
+  @visibleForTesting
+  static const primaryTabBarViewKey = Key('primaryTabBarView');
+
   @override
   State<PrimarySelectionView> createState() => _PrimarySelectionViewState();
 }
@@ -71,6 +74,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
         if (!widget.collapsed)
           Expanded(
             child: TabBarView(
+              key: PrimarySelectionView.primaryTabBarViewKey,
               controller: _tabController,
               children: const [
                 CharacterSelectionTabBarView(),

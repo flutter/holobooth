@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _heightCurve = 50.0;
-const _widthCurve = 100.0;
-const collapseButtonSize = Size(_widthCurve, _heightCurve);
+const _collapseButtonHeight = 50.0;
+const _collapseButtonWidth = 100.0;
 const _panelHeightCollapsed = 200.0;
 const _panelHeightNotCollapsed = 350.0;
 
@@ -57,7 +56,7 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
       left: 0,
       bottom: 0,
       child: ClipPath(
-        clipper: CustomClipPath(),
+        clipper: _CustomClipPath(),
         child: BlurryContainer(
           color: HoloBoothColors.darkPurple.withOpacity(0.84),
           // TODO(oscar): add animation
@@ -68,20 +67,8 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
             children: [
               Align(
                 alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: 100,
-                  height: 50,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        collapsed = !collapsed;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.expand_more,
-                      color: Colors.white,
-                    ),
-                  ),
+                child: CollapseButton(
+                  onPressed: () => setState(() => collapsed = !collapsed),
                 ),
               ),
               Flexible(
@@ -99,7 +86,29 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
   }
 }
 
-class CustomClipPath extends CustomClipper<Path> {
+@visibleForTesting
+class CollapseButton extends StatelessWidget {
+  const CollapseButton({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _collapseButtonWidth,
+      height: _collapseButtonHeight,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: const Icon(
+          Icons.expand_more,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
@@ -107,9 +116,9 @@ class CustomClipPath extends CustomClipper<Path> {
     final totalHeight = size.height;
     path
       ..moveTo(totalWidth, 0)
-      ..lineTo(totalWidth - _widthCurve, 0)
-      ..lineTo(totalWidth - _widthCurve, _heightCurve)
-      ..lineTo(0, _heightCurve)
+      ..lineTo(totalWidth - _collapseButtonWidth, 0)
+      ..lineTo(totalWidth - _collapseButtonWidth, _collapseButtonHeight)
+      ..lineTo(0, _collapseButtonHeight)
       ..lineTo(0, totalHeight)
       ..lineTo(totalWidth, totalHeight)
       ..close();
