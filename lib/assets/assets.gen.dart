@@ -20,8 +20,11 @@ class $AssetsAnimationsGen {
   /// File path: assets/animations/dash.riv
   RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
 
+  /// File path: assets/animations/sparky.riv
+  RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
+
   /// List of all assets
-  List<RiveGenImage> get values => [background, dash];
+  List<RiveGenImage> get values => [background, dash, sparky];
 }
 
 class $AssetsAudioGen {
@@ -44,10 +47,6 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/blue_circle.png
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
-
-  /// File path: assets/backgrounds/forest.png
-  AssetGenImage get forest =>
-      const AssetGenImage('assets/backgrounds/forest.png');
 
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
@@ -81,7 +80,6 @@ class $AssetsBackgroundsGen {
   List<AssetGenImage> get values => [
         beach,
         blueCircle,
-        forest,
         holobooth,
         landingBackground,
         photoboothBackground,

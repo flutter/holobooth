@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/rive/widgets/base_character_animation.dart';
 
-class DashAnimation extends BaseCharacterAnimation {
-  const DashAnimation({
+class SparkyAnimation extends BaseCharacterAnimation {
+  const SparkyAnimation({
     super.key,
     required super.avatar,
     required super.hat,
@@ -10,9 +10,9 @@ class DashAnimation extends BaseCharacterAnimation {
     required super.clothes,
     required super.handheldlLeft,
     required super.assetGenImage,
-  }) : super();
+  });
 
   @override
-  State<DashAnimation> createState() =>
-      BaseCharacterAnimationState<DashAnimation>();
+  State<SparkyAnimation> createState() =>
+      BaseCharacterAnimationState<SparkyAnimation>();
 }
