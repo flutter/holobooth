@@ -12,8 +12,11 @@ class LandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Assets.backgrounds.holobooth.image(
-      key: landingPageImageKey,
+    final image = Padding(
+      padding: const EdgeInsets.all(96),
+      child: Assets.backgrounds.holobooth.image(
+        key: landingPageImageKey,
+      ),
     );
 
     return Align(
