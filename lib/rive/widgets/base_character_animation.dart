@@ -5,8 +5,8 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
-class BaseAnimation extends StatefulWidget {
-  const BaseAnimation({
+class BaseCharacterAnimation extends StatefulWidget {
+  const BaseCharacterAnimation({
     super.key,
     required this.avatar,
     required this.hat,
@@ -24,11 +24,11 @@ class BaseAnimation extends StatefulWidget {
   final RiveGenImage assetGenImage;
 
   @override
-  State<BaseAnimation> createState() => BaseAnimationState();
+  State<BaseCharacterAnimation> createState() => BaseCharacterAnimationState();
 }
 
-class BaseAnimationState<T extends BaseAnimation> extends State<T>
-    with TickerProviderStateMixin {
+class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
+    extends State<T> with TickerProviderStateMixin {
   @visibleForTesting
   CharacterStateMachineController? dashController;
 

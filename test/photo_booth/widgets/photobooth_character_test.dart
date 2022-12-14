@@ -49,7 +49,8 @@ void main() {
       'renders SparkyAnimation if sparky selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
-            InExperienceSelectionState(character: Character.sparky));
+          InExperienceSelectionState(character: Character.sparky),
+        );
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,

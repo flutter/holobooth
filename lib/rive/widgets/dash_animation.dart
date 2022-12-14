@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/rive/widgets/base_state.dart';
+import 'package:io_photobooth/rive/widgets/base_character_animation.dart';
 
-class DashAnimation extends BaseAnimation {
+class DashAnimation extends BaseCharacterAnimation {
   const DashAnimation({
     super.key,
     required super.avatar,
@@ -17,7 +17,7 @@ class DashAnimation extends BaseAnimation {
 }
 
 @visibleForTesting
-class DashAnimationState extends BaseAnimationState<DashAnimation> {
+class DashAnimationState extends BaseCharacterAnimationState<DashAnimation> {
   @override
   Widget build(BuildContext context) {
     return super.build(context);

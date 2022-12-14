@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/rive/widgets/base_state.dart';
+import 'package:io_photobooth/rive/widgets/base_character_animation.dart';
 
-class SparkyAnimation extends BaseAnimation {
+class SparkyAnimation extends BaseCharacterAnimation {
   const SparkyAnimation({
     super.key,
     required super.avatar,
@@ -17,7 +17,8 @@ class SparkyAnimation extends BaseAnimation {
 }
 
 @visibleForTesting
-class SparkyAnimationState extends BaseAnimationState<SparkyAnimation> {
+class SparkyAnimationState
+    extends BaseCharacterAnimationState<SparkyAnimation> {
   @override
   Widget build(BuildContext context) {
     return super.build(context);
