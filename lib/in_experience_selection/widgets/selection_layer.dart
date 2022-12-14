@@ -56,7 +56,7 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
       left: 0,
       bottom: 0,
       child: ClipPath(
-        clipper: _CustomClipPath(),
+        clipper: BlurryContainerClipPath(),
         child: BlurryContainer(
           color: HoloBoothColors.darkPurple.withOpacity(0.84),
           // TODO(oscar): add animation
@@ -108,7 +108,8 @@ class CollapseButton extends StatelessWidget {
   }
 }
 
-class _CustomClipPath extends CustomClipper<Path> {
+@visibleForTesting
+class BlurryContainerClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();

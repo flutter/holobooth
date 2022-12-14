@@ -57,6 +57,13 @@ void main() {
       },
     );
   });
+
+  group('BlurryContainerClipPath', () {
+    test('verifies should not reclip', () async {
+      final path = BlurryContainerClipPath();
+      expect(path.shouldReclip(path), false);
+    });
+  });
 }
 
 extension on WidgetTester {
