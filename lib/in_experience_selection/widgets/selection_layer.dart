@@ -45,15 +45,44 @@ class MobileSelectionLayer extends StatelessWidget {
       right: 0,
       left: 0,
       bottom: 0,
-      child: BlurryContainer(
-        height: 350,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
+      child: SizedBox(
+        height: 400,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              right: 0,
+              child: BlurryContainer(
+                height: 50,
+                width: 100,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                color: HoloBoothColors.darkPurple.withOpacity(0.84),
+                child: const SizedBox(
+                  width: 50,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: BlurryContainer(
+                height: 350,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                ),
+                color: HoloBoothColors.darkPurple.withOpacity(0.84),
+                padding: const EdgeInsets.all(15),
+                child: const PrimarySelectionView(),
+              ),
+            ),
+          ],
         ),
-        color: HoloBoothColors.darkPurple.withOpacity(0.84),
-        padding: const EdgeInsets.all(15),
-        child: const PrimarySelectionView(),
       ),
     );
   }
