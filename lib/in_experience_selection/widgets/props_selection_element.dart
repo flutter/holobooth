@@ -25,7 +25,7 @@ class PropSelectionElement extends StatelessWidget {
           height: 75,
           width: 100,
           alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
