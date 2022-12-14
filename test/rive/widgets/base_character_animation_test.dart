@@ -28,7 +28,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseAnimation(
+              return BaseCharacterAnimation(
                 avatar: avatar,
                 hat: selectedHat,
                 glasses: selectedGlasses,
@@ -42,8 +42,8 @@ void main() {
       );
       await tester.pump();
 
-      final state =
-          tester.state(find.byType(BaseAnimation)) as BaseAnimationState;
+      final state = tester.state(find.byType(BaseCharacterAnimation))
+          as BaseCharacterAnimationState;
       final controller = state.dashController;
       final xValue = controller?.x.value;
       final yValue = controller?.y.value;
