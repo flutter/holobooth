@@ -51,25 +51,28 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: TabBar(
-            controller: _tabController,
-            tabs: const [
-              PrimarySelectionTab(
-                iconData: Icons.face,
-              ),
-              PrimarySelectionTab(
-                iconData: Icons.wallpaper,
-              ),
-              PrimarySelectionTab(
-                iconData: Icons.color_lens,
-              ),
-            ],
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: TabBar(
+              controller: _tabController,
+              tabs: const [
+                PrimarySelectionTab(
+                  iconData: Icons.face,
+                ),
+                PrimarySelectionTab(
+                  iconData: Icons.wallpaper,
+                ),
+                PrimarySelectionTab(
+                  iconData: Icons.color_lens,
+                ),
+              ],
+            ),
           ),
         ),
         if (!widget.collapsed)
           Expanded(
+            flex: 2,
             child: TabBarView(
               controller: _tabController,
               children: const [
@@ -79,7 +82,6 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
               ],
             ),
           ),
-        if (widget.collapsed) const Spacer(),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),
