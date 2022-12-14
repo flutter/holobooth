@@ -43,6 +43,7 @@ class GradientElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          shadowColor: MaterialStateProperty.all(Colors.transparent),
         ),
         onPressed: onPressed,
         child: child,
