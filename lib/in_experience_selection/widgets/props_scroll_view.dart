@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class PropsGridView extends StatelessWidget {
-  const PropsGridView({
+class PropsScrollView extends StatelessWidget {
+  const PropsScrollView({
     super.key,
     required this.itemBuilder,
     required this.itemCount,
@@ -13,9 +13,9 @@ class PropsGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPortrait =
+    final isSmall =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
-    if (isPortrait) {
+    if (isSmall) {
       return ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: itemBuilder,

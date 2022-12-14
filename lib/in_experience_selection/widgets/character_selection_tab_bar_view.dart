@@ -12,7 +12,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
     final characterSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.character);
     final l10n = context.l10n;
-    final isPortrait =
+    final isSmall =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
 
     return Column(
@@ -30,7 +30,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
         ),
         Expanded(
           child: Wrap(
-            direction: isPortrait ? Axis.horizontal : Axis.vertical,
+            direction: isSmall ? Axis.horizontal : Axis.vertical,
             spacing: 24,
             runSpacing: 1,
             children: [

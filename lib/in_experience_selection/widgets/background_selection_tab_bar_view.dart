@@ -12,7 +12,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
     final l10n = context.l10n;
-    final isPortrait =
+    final isSmall =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -29,17 +29,17 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
         ),
         Flexible(
           child: Padding(
-            padding: isPortrait
+            padding: isSmall
                 ? const EdgeInsets.only(left: 16, bottom: 16, top: 16)
                 : const EdgeInsets.symmetric(horizontal: 60),
             child: ListView.separated(
-              scrollDirection: isPortrait ? Axis.horizontal : Axis.vertical,
+              scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
               itemCount: Background.values.length,
               itemBuilder: (context, index) {
                 final background = Background.values[index];
                 return SizedBox(
-                  height: isPortrait ? null : 120,
-                  width: isPortrait ? 85 : 120,
+                  height: isSmall ? null : 120,
+                  width: isSmall ? 85 : 120,
                   child: _BackgroundSelectionElement(
                     background: background,
                     isSelected: backgroundSelected == background,
