@@ -13,14 +13,6 @@ class SparkyAnimation extends BaseCharacterAnimation {
   });
 
   @override
-  State<SparkyAnimation> createState() => SparkyAnimationState();
-}
-
-@visibleForTesting
-class SparkyAnimationState
-    extends BaseCharacterAnimationState<SparkyAnimation> {
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
+  State<SparkyAnimation> createState() =>
+      BaseCharacterAnimationState<SparkyAnimation>();
 }

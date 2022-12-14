@@ -13,13 +13,6 @@ class DashAnimation extends BaseCharacterAnimation {
   }) : super();
 
   @override
-  State<DashAnimation> createState() => DashAnimationState();
-}
-
-@visibleForTesting
-class DashAnimationState extends BaseCharacterAnimationState<DashAnimation> {
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
-  }
+  State<DashAnimation> createState() =>
+      BaseCharacterAnimationState<DashAnimation>();
 }
