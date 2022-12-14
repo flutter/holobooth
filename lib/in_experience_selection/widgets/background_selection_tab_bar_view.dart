@@ -5,9 +5,7 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class BackgroundSelectionTabBarView extends StatelessWidget {
-  const BackgroundSelectionTabBarView({super.key, required this.onNextPressed});
-
-  final VoidCallback onNextPressed;
+  const BackgroundSelectionTabBarView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +36,6 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
               );
             },
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: NextButton(onNextPressed: onNextPressed),
         ),
       ],
     );

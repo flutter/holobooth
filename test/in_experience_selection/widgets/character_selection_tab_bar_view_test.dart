@@ -25,7 +25,7 @@ void main() {
       'adds InExperienceSelectionCharacterSelected clicking on a character',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          CharacterSelectionTabBarView(onNextPressed: () {}),
+          CharacterSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
         await tester.pumpAndSettle();
