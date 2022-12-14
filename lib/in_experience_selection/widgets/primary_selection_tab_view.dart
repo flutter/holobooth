@@ -7,11 +7,11 @@ class PrimarySelectionView extends StatefulWidget {
   const PrimarySelectionView({
     super.key,
     this.initialIndex = 0,
-    this.contentCollapsed = false,
+    this.collapsed = false,
   });
 
   final int initialIndex;
-  final bool contentCollapsed;
+  final bool collapsed;
 
   @override
   State<PrimarySelectionView> createState() => _PrimarySelectionViewState();
@@ -49,32 +49,36 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TabBar(
-          controller: _tabController,
-          tabs: const [
-            PrimarySelectionTab(
-              iconData: Icons.face,
-            ),
-            PrimarySelectionTab(
-              iconData: Icons.wallpaper,
-            ),
-            PrimarySelectionTab(
-              iconData: Icons.color_lens,
-            ),
-          ],
-        ),
-        const Divider(),
-        Expanded(
-          child: TabBarView(
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: TabBar(
             controller: _tabController,
-            children: const [
-              CharacterSelectionTabBarView(),
-              BackgroundSelectionTabBarView(),
-              PropsSelectionTabBarView(),
+            tabs: const [
+              PrimarySelectionTab(
+                iconData: Icons.face,
+              ),
+              PrimarySelectionTab(
+                iconData: Icons.wallpaper,
+              ),
+              PrimarySelectionTab(
+                iconData: Icons.color_lens,
+              ),
             ],
           ),
         ),
+        if (!widget.collapsed)
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                CharacterSelectionTabBarView(),
+                BackgroundSelectionTabBarView(),
+                PropsSelectionTabBarView(),
+              ],
+            ),
+          ),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),
