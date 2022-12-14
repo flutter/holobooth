@@ -45,45 +45,40 @@ class MobileSelectionLayer extends StatelessWidget {
       right: 0,
       left: 0,
       bottom: 0,
-      child: SizedBox(
-        height: 400,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: BlurryContainer(
-                height: 50,
-                width: 100,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                color: HoloBoothColors.darkPurple.withOpacity(0.84),
-                child: const SizedBox(
-                  width: 50,
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: BlurryContainer(
-                height: 350,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                ),
-                color: HoloBoothColors.darkPurple.withOpacity(0.84),
-                padding: const EdgeInsets.all(15),
-                child: const PrimarySelectionView(),
-              ),
-            ),
-          ],
+      child: ClipPath(
+        clipper: CustomClipPath(),
+        child: BlurryContainer(
+          color: HoloBoothColors.darkPurple.withOpacity(0.84),
+          height: 450,
+          padding: const EdgeInsets.only(top: 65, left: 15, right: 15),
+          borderRadius: const BorderRadius.only(topRight: Radius.circular(15)),
+          child: const PrimarySelectionView(),
         ),
       ),
     );
   }
+}
+
+class CustomClipPath extends CustomClipper<Path> {
+  static const heightCurve = 50.0;
+  static const widthCurve = 100.0;
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    final totalWidth = size.width;
+    final totalHeight = size.height;
+    path
+      ..moveTo(totalWidth, 0)
+      ..lineTo(totalWidth - widthCurve, 0)
+      ..lineTo(totalWidth - widthCurve, heightCurve)
+      ..lineTo(0, heightCurve)
+      ..lineTo(0, totalHeight)
+      ..lineTo(totalWidth, totalHeight)
+      ..close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
