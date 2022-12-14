@@ -79,6 +79,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
               ],
             ),
           ),
+        if (widget.collapsed) const Spacer(),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),
