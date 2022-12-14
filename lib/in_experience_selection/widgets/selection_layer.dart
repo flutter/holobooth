@@ -80,7 +80,7 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
                         });
                       },
                       icon: const Icon(
-                        Icons.add,
+                        Icons.expand_more,
                         color: Colors.white,
                       ),
                     ),
