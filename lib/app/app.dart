@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -14,11 +14,13 @@ class App extends StatelessWidget {
     required this.authenticationRepository,
     required this.photosRepository,
     required this.avatarDetectorRepository,
+    required this.convertRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
   final PhotosRepository photosRepository;
   final AvatarDetectorRepository avatarDetectorRepository;
+  final ConvertRepository convertRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: photosRepository),
         RepositoryProvider.value(value: avatarDetectorRepository),
+        RepositoryProvider.value(value: convertRepository),
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
@@ -49,10 +52,7 @@ class _App extends StatelessWidget {
     return MaterialApp(
       title: 'I/O Photo Booth',
       theme: theme,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const LandingPage(),
     );

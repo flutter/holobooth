@@ -5,7 +5,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
-  flutter: 3.3.1
+  flutter: 3.6.0-0.1.pre
 
 dependencies:
   analytics:
@@ -18,11 +18,15 @@ dependencies:
   bloc: ^8.1.0
   camera: ^0.10.0+3
   collection: ^1.16.0
+  convert_repository:
+    path: packages/convert_repository
   cross_file: ^0.3.3+2
   equatable: ^2.0.5
-  firebase_auth: ^3.10.0
-  firebase_core: ^1.23.0
-  firebase_storage: ^10.3.9
+  face_geometry:
+    path: packages/face_geometry
+  firebase_auth: ^4.1.3
+  firebase_core: ^2.3.0
+  firebase_storage: ^11.0.6
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
@@ -31,9 +35,7 @@ dependencies:
   image_compositor:
     path: packages/image_compositor
   intl: ^0.17.0
-  js_interop_utils:
-    path: packages/js_interop_utils
-  just_audio: ^0.9.29
+  just_audio: ^0.9.30
   meta: ^1.8.0
   photobooth_ui:
     path: packages/photobooth_ui
@@ -41,7 +43,8 @@ dependencies:
     path: packages/photos_repository
   platform_helper:
     path: packages/platform_helper
-  rxdart: ^0.26.0
+  rive: ^0.9.1
+  screen_recorder: 0.2.0
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6
@@ -51,14 +54,15 @@ dependency_overrides:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera
-      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
   camera_web:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: 9f6cc6c55b011af552ec5e0d38721efcaf902ef4
+      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
 
 dev_dependencies:
+  alchemist: ^0.6.0-dev.1
   bloc_test: ^9.1.0
   camera_platform_interface: ^2.2.0
   flutter_test:
@@ -71,11 +75,17 @@ dev_dependencies:
 
 flutter_gen:
   output: lib/assets/
+  integrations:
+    rive: true
 
 flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/backgrounds/
-    - assets/icons/
+    - assets/animations/
     - assets/audio/
+    - assets/backgrounds/
+    - assets/characters/
+    - assets/icons/
+    - assets/images/
+    - assets/props/

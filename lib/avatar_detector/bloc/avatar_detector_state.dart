@@ -1,40 +1,40 @@
 part of 'avatar_detector_bloc.dart';
 
-abstract class AvatarDetectorState extends Equatable {
-  const AvatarDetectorState();
-  @override
-  List<Object?> get props => [];
+enum AvatarDetectorStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  estimating,
+  detected,
+  notDetected;
+
+  bool get hasLoadedModel =>
+      this == loaded ||
+      this == estimating ||
+      this == detected ||
+      this == notDetected;
 }
 
-class AvatarDetectorInitial extends AvatarDetectorState {
-  const AvatarDetectorInitial();
-}
+class AvatarDetectorState extends Equatable {
+  const AvatarDetectorState({
+    this.status = AvatarDetectorStatus.initial,
+    this.avatar = Avatar.zero,
+  });
 
-class AvatarDetectorLoading extends AvatarDetectorState {
-  const AvatarDetectorLoading();
-}
-
-class AvatarDetectorError extends AvatarDetectorState {
-  const AvatarDetectorError();
-}
-
-class AvatarDetectorLoaded extends AvatarDetectorState {
-  const AvatarDetectorLoaded();
-}
-
-class AvatarDetectorEstimating extends AvatarDetectorState {
-  const AvatarDetectorEstimating();
-}
-
-class AvatarDetectorDetected extends AvatarDetectorState {
-  const AvatarDetectorDetected(this.avatar);
-
+  final AvatarDetectorStatus status;
   final Avatar avatar;
 
-  @override
-  List<Object?> get props => [avatar];
-}
+  AvatarDetectorState copyWith({
+    AvatarDetectorStatus? status,
+    Avatar? avatar,
+  }) {
+    return AvatarDetectorState(
+      status: status ?? this.status,
+      avatar: avatar ?? this.avatar,
+    );
+  }
 
-class AvatarDetectorNotDetected extends AvatarDetectorState {
-  const AvatarDetectorNotDetected();
+  @override
+  List<Object> get props => [status, avatar];
 }

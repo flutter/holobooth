@@ -25,6 +25,9 @@ class _LandmarksDetectBlinkView extends StatefulWidget {
 class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
   CameraController? _cameraController;
 
+  final _imageSize = tf.Size(1280, 720);
+  FaceGeometry? _faceGeometry;
+
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
   }
@@ -42,9 +45,18 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
+                  final faceGeometry = _faceGeometry == null
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
+                  _faceGeometry = faceGeometry;
+
                   return CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: faces.first,
+                      // Mirrored since the camera is mirrored.
+                      isLeftEyeClose: faceGeometry.rightEye.isClosed,
+                      isRightEyeClose: faceGeometry.leftEye.isClosed,
                     ),
                   );
                 },
@@ -59,9 +71,13 @@ class _LandmarksDetectBlinkViewState extends State<_LandmarksDetectBlinkView> {
 class _FaceLandmarkCustomPainter extends CustomPainter {
   _FaceLandmarkCustomPainter({
     required this.face,
+    required this.isLeftEyeClose,
+    required this.isRightEyeClose,
   });
 
   final tf.Face face;
+  final bool isLeftEyeClose;
+  final bool isRightEyeClose;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -78,8 +94,8 @@ class _FaceLandmarkCustomPainter extends CustomPainter {
         face.keypoints.where((keypoint) => keypoint.name == 'leftEye');
     final rightEye =
         face.keypoints.where((keypoint) => keypoint.name == 'rightEye');
-    final leftEyePaint = face.isLeftEyeClose ? highlightPaint : paint;
-    final rightEyePaint = face.isRightEyeClose ? highlightPaint : paint;
+    final leftEyePaint = isLeftEyeClose ? highlightPaint : paint;
+    final rightEyePaint = isRightEyeClose ? highlightPaint : paint;
 
     for (final keypoint in leftEye) {
       final offset = Offset(keypoint.x.toDouble(), keypoint.y.toDouble());

@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:example/src/src.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
@@ -24,6 +25,9 @@ class _LandmarksVideoStreamView extends StatefulWidget {
 class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
   CameraController? _cameraController;
 
+  final _imageSize = tf.Size(1280, 720);
+  FaceGeometry? _faceGeometry;
+
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
   }
@@ -36,16 +40,25 @@ class _LandmarksVideoStreamViewState extends State<_LandmarksVideoStreamView> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
-                  return CustomPaint(
-                    painter: _FaceLandmarkCustomPainter(
-                      face: faces.first,
-                    ),
+                  final face = faces.first;
+                  _faceGeometry = _faceGeometry == null
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
+
+                  return Stack(
+                    children: [
+                      CustomPaint(
+                        painter: _FaceLandmarkCustomPainter(face: face),
+                      ),
+                      if (_faceGeometry != null)
+                        FaceGeometryOverlay(faceGeometry: _faceGeometry!),
+                    ],
                   );
                 },
               )

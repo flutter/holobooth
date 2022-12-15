@@ -14,10 +14,12 @@ dependencies:
     path: ../../../face_geometry
   flutter:
     sdk: flutter
+  gif_compositor:
+    path: ../../../gif_compositor/gif_compositor
   image: ^3.2.0
   isolated_worker: ^0.1.1
   js: ^0.6.4
-  just_audio: ^0.9.29
+  just_audio: ^0.9.30
   rive: ^0.9.1
   tensorflow_models:
     path: ../
@@ -32,12 +34,12 @@ dependency_overrides:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera
-      ref: 32c5055ac2e48a432f47a25d3238d81142a26d62
+      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
   camera_web:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: 32c5055ac2e48a432f47a25d3238d81142a26d62
+      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
 
 
 flutter_gen:

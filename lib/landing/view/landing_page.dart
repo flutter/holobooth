@@ -20,10 +20,25 @@ class LandingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppPageView(
-      background: LandingBackground(),
-      body: LandingBody(),
-      footer: BlackFooter(),
+    return Stack(
+      children: [
+        const Positioned.fill(
+          child: LandingBackground(),
+        ),
+        Positioned.fill(
+          child: Column(
+            children: const [
+              Expanded(child: LandingBody()),
+              FullFooter(showIconsForSmall: false),
+            ],
+          ),
+        ),
+        const Positioned(
+          bottom: 100,
+          right: 0,
+          child: ClassicPhotoboothBanner(),
+        ),
+      ],
     );
   }
 }

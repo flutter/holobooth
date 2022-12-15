@@ -17,8 +17,8 @@ class _MockTensorflowModelsPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements TensorflowModelsPlatform {}
 
-class _MockFaceLandmarksDetector extends Mock implements FaceLandmarksDetector {
-}
+class _MockFaceLandmarksDetector extends Mock
+    implements FaceLandmarksDetector {}
 
 class _FakeEstimationConfig extends Fake implements EstimationConfig {}
 
@@ -38,9 +38,14 @@ class _FakeKeypoint extends Fake implements Keypoint {
 class _FakeFace extends Fake implements Face {
   @override
   UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
-        List.generate(357, (_) => _FakeKeypoint(0, 0, 0)),
+        List.generate(468, (_) => _FakeKeypoint(0, 0, 0)),
       );
+
+  @override
+  BoundingBox get boundingBox => const BoundingBox(10, 10, 110, 110, 100, 100);
 }
+
+class _MockImageData extends Mock implements ImageData {}
 
 void main() {
   group('AvatarDetectorRepository', () {
@@ -83,28 +88,35 @@ void main() {
     });
 
     group('detectAvatar', () {
+      late ImageData imageData;
+
+      setUp(() {
+        imageData = _MockImageData();
+        when(() => imageData.size).thenReturn(Size(1280, 720));
+      });
+
       test(
           'calls preloadLandmarksModel if '
           'faceLandmarksDetector is not initialized yet', () async {
         when(
           () => faceLandmarksDetector.estimateFaces(
-            '',
+            imageData,
             estimationConfig: any(named: 'estimationConfig'),
           ),
         ).thenAnswer((_) async => <Face>[_FakeFace()]);
-        await avatarDetectorRepository.detectAvatar('');
+        await avatarDetectorRepository.detectAvatar(imageData);
         verify(() => tensorflowModelsPlatform.loadFaceLandmark()).called(1);
       });
 
       test('throws DetectAvatarException if estimateFaces fails', () {
         when(
           () => faceLandmarksDetector.estimateFaces(
-            '',
+            imageData,
             estimationConfig: any(named: 'estimationConfig'),
           ),
         ).thenThrow(Exception());
         expect(
-          avatarDetectorRepository.detectAvatar(''),
+          avatarDetectorRepository.detectAvatar(imageData),
           throwsA(isA<DetectAvatarException>()),
         );
       });
@@ -112,13 +124,13 @@ void main() {
       test('returns null if estimateFaces returns empty list', () async {
         when(
           () => faceLandmarksDetector.estimateFaces(
-            '',
+            imageData,
             estimationConfig: any(named: 'estimationConfig'),
           ),
         ).thenAnswer((_) async => List<Face>.empty());
 
         await expectLater(
-          avatarDetectorRepository.detectAvatar(''),
+          avatarDetectorRepository.detectAvatar(imageData),
           completion(isNull),
         );
       });
@@ -126,13 +138,31 @@ void main() {
       test('return an Avatar', () async {
         when(
           () => faceLandmarksDetector.estimateFaces(
-            '',
+            imageData,
             estimationConfig: any(named: 'estimationConfig'),
           ),
         ).thenAnswer((_) async => <Face>[_FakeFace()]);
         await expectLater(
-          avatarDetectorRepository.detectAvatar(''),
+          avatarDetectorRepository.detectAvatar(imageData),
           completion(isA<Avatar>()),
+        );
+      });
+
+      test('return an Avatar when called multiple times', () async {
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            imageData,
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace()]);
+
+        await expectLater(
+          await avatarDetectorRepository.detectAvatar(imageData),
+          isA<Avatar>(),
+        );
+        await expectLater(
+          await avatarDetectorRepository.detectAvatar(imageData),
+          isA<Avatar>(),
         );
       });
     });

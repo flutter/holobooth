@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-/// Photobooth Text Style Definitions
+/// Photobooth text style definitions
 class PhotoboothTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'photobooth_ui',
@@ -10,106 +10,106 @@ class PhotoboothTextStyle {
     fontWeight: PhotoboothFontWeight.regular,
   );
 
-  /// Headline 1 Text Style
-  static TextStyle get headline1 {
+  /// Display large text style
+  static TextStyle get displayLarge {
     return _baseTextStyle.copyWith(
       fontSize: 56,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }
 
-  /// Headline 2 Text Style
-  static TextStyle get headline2 {
+  /// Display medium text style
+  static TextStyle get displayMedium {
     return _baseTextStyle.copyWith(
       fontSize: 30,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
-  /// Headline 3 Text Style
-  static TextStyle get headline3 {
+  /// Display small text style
+  static TextStyle get displaySmall {
     return _baseTextStyle.copyWith(
       fontSize: 24,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
-  /// Headline 4 Text Style
-  static TextStyle get headline4 {
+  /// Headline medium text style
+  static TextStyle get headlineMedium {
     return _baseTextStyle.copyWith(
       fontSize: 22,
       fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
-  /// Headline 5 Text Style
-  static TextStyle get headline5 {
+  /// Headline small text style
+  static TextStyle get headlineSmall {
     return _baseTextStyle.copyWith(
       fontSize: 22,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }
 
-  /// Headline 6 Text Style
-  static TextStyle get headline6 {
+  /// Title large text style
+  static TextStyle get titleLarge {
     return _baseTextStyle.copyWith(
       fontSize: 22,
       fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
-  /// Subtitle 1 Text Style
-  static TextStyle get subtitle1 {
+  /// Title medium text style
+  static TextStyle get titleMedium {
     return _baseTextStyle.copyWith(
       fontSize: 16,
       fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
-  /// Subtitle 2 Text Style
-  static TextStyle get subtitle2 {
+  /// Title small text style
+  static TextStyle get titleSmall {
     return _baseTextStyle.copyWith(
       fontSize: 14,
       fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
-  /// Body Text 1 Text Style
-  static TextStyle get bodyText1 {
+  /// Body large text style
+  static TextStyle get bodyLarge {
     return _baseTextStyle.copyWith(
       fontSize: 18,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }
 
-  /// Body Text 2 Text Style (the default)
-  static TextStyle get bodyText2 {
+  /// Body medium text style (the default)
+  static TextStyle get bodyMedium {
     return _baseTextStyle.copyWith(
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
-  /// Caption Text Style
-  static TextStyle get caption {
+  /// Body small text style
+  static TextStyle get bodySmall {
     return _baseTextStyle.copyWith(
       fontSize: 14,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
-  /// Overline Text Style
-  static TextStyle get overline {
+  /// Label small text style
+  static TextStyle get labelSmall {
     return _baseTextStyle.copyWith(
       fontSize: 16,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
-  /// Button Text Style
-  static TextStyle get button {
+  /// Label large text style
+  static TextStyle get labelLarge {
     return _baseTextStyle.copyWith(
-      fontSize: 18,
+      fontSize: 21,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }

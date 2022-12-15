@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:example/assets/assets.dart';
 import 'package:example/src/src.dart';
+import 'package:example/src/widgets/dash_with_background.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -25,7 +26,11 @@ class _LandmarksDashView extends StatefulWidget {
 
 class _LandmarksDashViewState extends State<_LandmarksDashView> {
   CameraController? _cameraController;
-  var _isCameraVisible = false;
+
+  final _imageSize = tf.Size(1280, 720);
+  FaceGeometry? _faceGeometry;
+
+  bool _displayDashBackground = true;
 
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
@@ -34,41 +39,50 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AspectRatio(
-        aspectRatio: _cameraController?.value.aspectRatio ?? 1,
-        child: Stack(
-          children: [
-            Opacity(
-              opacity: _isCameraVisible ? 1 : 0,
-              child: CameraView(onCameraReady: _onCameraReady),
-            ),
-            if (_cameraController != null) ...[
-              FacesDetectorBuilder(
-                cameraController: _cameraController!,
-                builder: (context, faces) {
-                  if (faces.isEmpty) return const SizedBox.shrink();
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.refresh),
+        onPressed: () {
+          setState(() {
+            _displayDashBackground = !_displayDashBackground;
+          });
+        },
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0,
+            child: CameraView(onCameraReady: _onCameraReady),
+          ),
+          if (_cameraController != null) ...[
+            FacesDetectorBuilder(
+              cameraController: _cameraController!,
+              builder: (context, faces) {
+                if (faces.isEmpty) {
+                  if (_faceGeometry == null) {
+                    return const SizedBox();
+                  }
+                } else {
                   final face = faces.first;
+                  _faceGeometry = _faceGeometry == null
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
+                }
 
-                  return Center(
-                    child: _Dash(face: face),
-                  );
-                },
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _isCameraVisible = !_isCameraVisible;
-                    });
-                  },
-                  child: Text(
-                      _isCameraVisible ? 'Hide the camera' : 'Show the camera'),
-                ),
-              )
-            ]
-          ],
-        ),
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (_displayDashBackground)
+                      DashWithBackground(faceGeometry: _faceGeometry)
+                    else
+                      Center(child: _Dash(faceGeometry: _faceGeometry!)),
+                    FaceGeometryOverlay(faceGeometry: _faceGeometry!),
+                  ],
+                );
+              },
+            ),
+          ]
+        ],
       ),
     );
   }
@@ -77,10 +91,10 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
 class _Dash extends StatefulWidget {
   const _Dash({
     Key? key,
-    required this.face,
+    required this.faceGeometry,
   }) : super(key: key);
 
-  final tf.Face face;
+  final FaceGeometry faceGeometry;
 
   @override
   _DashState createState() => _DashState();
@@ -99,11 +113,18 @@ class _DashState extends State<_Dash> {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null) {
-      final direction = widget.face.direction().unit();
-      dashController.x.change(direction.x * 1000);
-      dashController.y.change(direction.z * -1000);
-
-      dashController.openMouth.change(widget.face.isMouthOpen);
+      dashController.helmet.change(true);
+      dashController.openMouth.change(widget.faceGeometry.mouth.isOpen);
+      dashController.leftEyeClosed.change(widget.faceGeometry.leftEye.isClosed);
+      dashController.rightEyeClosed
+          .change(widget.faceGeometry.rightEye.isClosed);
+      final direction = widget.faceGeometry.direction.value;
+      _dashController?.x.change(
+        -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
+      );
+      _dashController?.y.change(
+        direction.y * ((_DashStateMachineController._yRange / 2) + 50),
+      );
     }
   }
 
@@ -116,9 +137,9 @@ class _DashState extends State<_Dash> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 100,
-      child: Assets.dash.rive(
+      width: 300,
+      height: 300,
+      child: Assets.dashWithBackground.rive(
         onInit: _onRiveInit,
         fit: BoxFit.cover,
       ),
@@ -129,9 +150,9 @@ class _DashState extends State<_Dash> {
 class _DashStateMachineController extends StateMachineController {
   _DashStateMachineController(Artboard artboard)
       : super(
-          artboard.animations
-              .whereType<StateMachine>()
-              .firstWhere((stateMachine) => stateMachine.name == 'dash'),
+          artboard.animations.whereType<StateMachine>().firstWhere(
+                (stateMachine) => stateMachine.name == 'State Machine 1',
+              ),
         ) {
     final x = findInput<double>('x');
     if (x is SMINumber) {
@@ -147,15 +168,49 @@ class _DashStateMachineController extends StateMachineController {
       throw StateError('Could not find input "y"');
     }
 
-    final openMouth = findInput<bool>('openMouth');
+    final openMouth = findInput<bool>('MouthisOpen');
     if (openMouth is SMIBool) {
       this.openMouth = openMouth;
     } else {
-      throw StateError('Could not find input "openMouth"');
+      throw StateError('Could not find input "MouthisOpen"');
+    }
+
+    final leftEyeClosed = findInput<bool>('Left Eye Wink');
+    if (leftEyeClosed is SMIBool) {
+      this.leftEyeClosed = leftEyeClosed;
+    } else {
+      throw StateError('Could not find input "Left Eye Wink"');
+    }
+
+    final rightEyeClosed = findInput<bool>('Right Eye Wink');
+    if (rightEyeClosed is SMIBool) {
+      this.rightEyeClosed = rightEyeClosed;
+    } else {
+      throw StateError('Could not find input "Right Eye Wink"');
+    }
+
+    final helmet = findInput<bool>('helmet');
+    if (helmet is SMIBool) {
+      this.helmet = helmet;
+    } else {
+      throw StateError('Could not find input "helmet"');
     }
   }
+
+  /// The total range [x] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _xRange = 200;
+
+  /// The total range [y] animates over.
+  ///
+  /// This data comes from the Rive file.
+  static const _yRange = 200;
 
   late final SMINumber x;
   late final SMINumber y;
   late final SMIBool openMouth;
+  late final SMIBool leftEyeClosed;
+  late final SMIBool rightEyeClosed;
+  late final SMIBool helmet;
 }

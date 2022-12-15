@@ -4,40 +4,56 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 void main() {
   group('ItemSelectorButton', () {
-    const buttonBackground = SizedBox();
-    const title = 'title';
-    late bool wasPressed;
-
-    Widget buildSubject() => MaterialApp(
-          home: Scaffold(
-            body: ItemSelectorButton(
-              buttonBackground: buttonBackground,
-              title: title,
-              onTap: () {
-                wasPressed = true;
-              },
+    testWidgets(
+      'renders title if title=true',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: ItemSelectorButton(
+              title: 'title',
+              showTitle: true,
+              child: SizedBox(),
             ),
           ),
         );
+        expect(find.byType(Text), findsOneWidget);
+        expect(find.text('title'), findsOneWidget);
+      },
+    );
 
-    setUp(() {
-      wasPressed = false;
-    });
+    testWidgets(
+      'does not render title if title=false',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: ItemSelectorButton(
+              title: 'title',
+              showTitle: false,
+              child: SizedBox(),
+            ),
+          ),
+        );
+        expect(find.byType(Text), findsNothing);
+        expect(find.text('title'), findsNothing);
+      },
+    );
 
-    testWidgets('renders the title', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      expect(find.text(title), findsOneWidget);
-    });
-
-    testWidgets('renders button background', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      expect(find.byWidget(buttonBackground), findsOneWidget);
-    });
-
-    testWidgets('calls onTap when icon is tapped', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      await tester.tap(find.byWidget(buttonBackground));
-      expect(wasPressed, isTrue);
-    });
+    testWidgets(
+      'renders child',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: ItemSelectorButton(
+              title: 'title',
+              showTitle: true,
+              child: SizedBox(
+                key: Key('child'),
+              ),
+            ),
+          ),
+        );
+        expect(find.byKey(const Key('child')), findsOneWidget);
+      },
+    );
   });
 }

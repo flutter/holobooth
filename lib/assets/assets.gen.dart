@@ -5,23 +5,56 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
+import 'package:rive/rive.dart';
+
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/background.riv
+  RiveGenImage get background =>
+      const RiveGenImage('assets/animations/background.riv');
+
+  /// File path: assets/animations/dash.riv
+  RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
+
+  /// File path: assets/animations/sparky.riv
+  RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
+
+  /// List of all assets
+  List<RiveGenImage> get values => [background, dash, sparky];
+}
 
 class $AssetsAudioGen {
   const $AssetsAudioGen();
 
   /// File path: assets/audio/camera.mp3
   String get camera => 'assets/audio/camera.mp3';
+
+  /// List of all assets
+  List<String> get values => [camera];
 }
 
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
+  /// File path: assets/backgrounds/animoji_intro_background.png
+  AssetGenImage get animojiIntroBackground =>
+      const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
+
+  /// File path: assets/backgrounds/beach.png
+  AssetGenImage get beach =>
+      const AssetGenImage('assets/backgrounds/beach.png');
+
   /// File path: assets/backgrounds/blue_circle.png
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
+
+  /// File path: assets/backgrounds/holobooth.png
+  AssetGenImage get holobooth =>
+      const AssetGenImage('assets/backgrounds/holobooth.png');
 
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
@@ -35,9 +68,45 @@ class $AssetsBackgroundsGen {
   AssetGenImage get redBox =>
       const AssetGenImage('assets/backgrounds/red_box.png');
 
+  /// File path: assets/backgrounds/space.png
+  AssetGenImage get space =>
+      const AssetGenImage('assets/backgrounds/space.png');
+
+  /// File path: assets/backgrounds/underwater.png
+  AssetGenImage get underwater =>
+      const AssetGenImage('assets/backgrounds/underwater.png');
+
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        animojiIntroBackground,
+        beach,
+        blueCircle,
+        holobooth,
+        landingBackground,
+        photoboothBackground,
+        redBox,
+        space,
+        underwater,
+        yellowPlus
+      ];
+}
+
+class $AssetsCharactersGen {
+  const $AssetsCharactersGen();
+
+  /// File path: assets/characters/dash.png
+  AssetGenImage get dash => const AssetGenImage('assets/characters/dash.png');
+
+  /// File path: assets/characters/sparky.png
+  AssetGenImage get sparky =>
+      const AssetGenImage('assets/characters/sparky.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [dash, sparky];
 }
 
 class $AssetsIconsGen {
@@ -47,17 +116,111 @@ class $AssetsIconsGen {
   AssetGenImage get cameraButtonIcon =>
       const AssetGenImage('assets/icons/camera_button_icon.png');
 
+  /// File path: assets/icons/classic_photobooth.png
+  AssetGenImage get classicPhotobooth =>
+      const AssetGenImage('assets/icons/classic_photobooth.png');
+
+  /// File path: assets/icons/firebase_icon.png
+  AssetGenImage get firebaseIcon =>
+      const AssetGenImage('assets/icons/firebase_icon.png');
+
+  /// File path: assets/icons/flutter_icon.png
+  AssetGenImage get flutterIcon =>
+      const AssetGenImage('assets/icons/flutter_icon.png');
+
+  /// File path: assets/icons/go_next_button_icon.png
+  AssetGenImage get goNextButtonIcon =>
+      const AssetGenImage('assets/icons/go_next_button_icon.png');
+
+  /// File path: assets/icons/recording_button_icon.png
+  AssetGenImage get recordingButtonIcon =>
+      const AssetGenImage('assets/icons/recording_button_icon.png');
+
   /// File path: assets/icons/retake_button_icon.png
   AssetGenImage get retakeButtonIcon =>
       const AssetGenImage('assets/icons/retake_button_icon.png');
+
+  /// File path: assets/icons/tensorflow_icon.png
+  AssetGenImage get tensorflowIcon =>
+      const AssetGenImage('assets/icons/tensorflow_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        cameraButtonIcon,
+        classicPhotobooth,
+        firebaseIcon,
+        flutterIcon,
+        goNextButtonIcon,
+        recordingButtonIcon,
+        retakeButtonIcon,
+        tensorflowIcon
+      ];
+}
+
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/flutter_forward_logo.png
+  AssetGenImage get flutterForwardLogo =>
+      const AssetGenImage('assets/images/flutter_forward_logo.png');
+
+  /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
+  AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
+      'assets/images/photo_frame_spritesheet_landscape.jpg');
+
+  /// File path: assets/images/photo_frame_spritesheet_portrait.png
+  AssetGenImage get photoFrameSpritesheetPortrait =>
+      const AssetGenImage('assets/images/photo_frame_spritesheet_portrait.png');
+
+  /// File path: assets/images/photo_indicator_spritesheet.png
+  AssetGenImage get photoIndicatorSpritesheet =>
+      const AssetGenImage('assets/images/photo_indicator_spritesheet.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        flutterForwardLogo,
+        photoFrameSpritesheetLandscape,
+        photoFrameSpritesheetPortrait,
+        photoIndicatorSpritesheet
+      ];
+}
+
+class $AssetsPropsGen {
+  const $AssetsPropsGen();
+
+  /// File path: assets/props/clothes.png
+  AssetGenImage get clothes => const AssetGenImage('assets/props/clothes.png');
+
+  /// File path: assets/props/glasses_icon.png
+  AssetGenImage get glassesIcon =>
+      const AssetGenImage('assets/props/glasses_icon.png');
+
+  /// File path: assets/props/hats_icon.png
+  AssetGenImage get hatsIcon =>
+      const AssetGenImage('assets/props/hats_icon.png');
+
+  /// File path: assets/props/others_icon.png
+  AssetGenImage get othersIcon =>
+      const AssetGenImage('assets/props/others_icon.png');
+
+  /// File path: assets/props/prop1.png
+  AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [clothes, glassesIcon, hatsIcon, othersIcon, prop1];
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsBackgroundsGen backgrounds = $AssetsBackgroundsGen();
+  static const $AssetsCharactersGen characters = $AssetsCharactersGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsPropsGen props = $AssetsPropsGen();
 }
 
 class AssetGenImage {
@@ -115,6 +278,43 @@ class AssetGenImage {
       filterQuality: filterQuality,
       cacheWidth: cacheWidth,
       cacheHeight: cacheHeight,
+    );
+  }
+
+  ImageProvider provider() => AssetImage(_assetName);
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
+}
+
+class RiveGenImage {
+  const RiveGenImage(this._assetName);
+
+  final String _assetName;
+
+  RiveAnimation rive({
+    String? artboard,
+    List<String> animations = const [],
+    List<String> stateMachines = const [],
+    BoxFit? fit,
+    Alignment? alignment,
+    Widget? placeHolder,
+    bool antialiasing = true,
+    List<RiveAnimationController> controllers = const [],
+    OnInitCallback? onInit,
+  }) {
+    return RiveAnimation.asset(
+      _assetName,
+      artboard: artboard,
+      animations: animations,
+      stateMachines: stateMachines,
+      fit: fit,
+      alignment: alignment,
+      placeHolder: placeHolder,
+      antialiasing: antialiasing,
+      controllers: controllers,
+      onInit: onInit,
     );
   }
 

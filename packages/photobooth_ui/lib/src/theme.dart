@@ -34,62 +34,62 @@ class PhotoboothTheme {
 
   static TextTheme get _textTheme {
     return TextTheme(
-      headline1: PhotoboothTextStyle.headline1,
-      headline2: PhotoboothTextStyle.headline2,
-      headline3: PhotoboothTextStyle.headline3,
-      headline4: PhotoboothTextStyle.headline4,
-      headline5: PhotoboothTextStyle.headline5,
-      headline6: PhotoboothTextStyle.headline6,
-      subtitle1: PhotoboothTextStyle.subtitle1,
-      subtitle2: PhotoboothTextStyle.subtitle2,
-      bodyText1: PhotoboothTextStyle.bodyText1,
-      bodyText2: PhotoboothTextStyle.bodyText2,
-      caption: PhotoboothTextStyle.caption,
-      overline: PhotoboothTextStyle.overline,
-      button: PhotoboothTextStyle.button,
+      displayLarge: PhotoboothTextStyle.displayLarge,
+      displayMedium: PhotoboothTextStyle.displayMedium,
+      displaySmall: PhotoboothTextStyle.displaySmall,
+      headlineMedium: PhotoboothTextStyle.headlineMedium,
+      headlineSmall: PhotoboothTextStyle.headlineSmall,
+      titleLarge: PhotoboothTextStyle.titleLarge,
+      titleMedium: PhotoboothTextStyle.titleMedium,
+      titleSmall: PhotoboothTextStyle.titleSmall,
+      bodyLarge: PhotoboothTextStyle.bodyLarge,
+      bodyMedium: PhotoboothTextStyle.bodyMedium,
+      bodySmall: PhotoboothTextStyle.bodySmall,
+      labelSmall: PhotoboothTextStyle.labelSmall,
+      labelLarge: PhotoboothTextStyle.labelLarge,
     );
   }
 
   static TextTheme get _smallTextTheme {
     return TextTheme(
-      headline1: PhotoboothTextStyle.headline1.copyWith(
-        fontSize: _textTheme.headline1!.fontSize! * _smallTextScaleFactor,
+      displayLarge: PhotoboothTextStyle.displayLarge.copyWith(
+        fontSize: _textTheme.displayLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      headline2: PhotoboothTextStyle.headline2.copyWith(
-        fontSize: _textTheme.headline2!.fontSize! * _smallTextScaleFactor,
+      displayMedium: PhotoboothTextStyle.displayMedium.copyWith(
+        fontSize: _textTheme.displayMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      headline3: PhotoboothTextStyle.headline3.copyWith(
-        fontSize: _textTheme.headline3!.fontSize! * _smallTextScaleFactor,
+      displaySmall: PhotoboothTextStyle.displaySmall.copyWith(
+        fontSize: _textTheme.displaySmall!.fontSize! * _smallTextScaleFactor,
       ),
-      headline4: PhotoboothTextStyle.headline4.copyWith(
-        fontSize: _textTheme.headline4!.fontSize! * _smallTextScaleFactor,
+      headlineMedium: PhotoboothTextStyle.headlineMedium.copyWith(
+        fontSize: _textTheme.headlineMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      headline5: PhotoboothTextStyle.headline5.copyWith(
-        fontSize: _textTheme.headline5!.fontSize! * _smallTextScaleFactor,
+      headlineSmall: PhotoboothTextStyle.headlineSmall.copyWith(
+        fontSize: _textTheme.headlineSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      headline6: PhotoboothTextStyle.headline6.copyWith(
-        fontSize: _textTheme.headline6!.fontSize! * _smallTextScaleFactor,
+      titleLarge: PhotoboothTextStyle.titleLarge.copyWith(
+        fontSize: _textTheme.titleLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      subtitle1: PhotoboothTextStyle.subtitle1.copyWith(
-        fontSize: _textTheme.subtitle1!.fontSize! * _smallTextScaleFactor,
+      titleMedium: PhotoboothTextStyle.titleMedium.copyWith(
+        fontSize: _textTheme.titleMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      subtitle2: PhotoboothTextStyle.subtitle2.copyWith(
-        fontSize: _textTheme.subtitle2!.fontSize! * _smallTextScaleFactor,
+      titleSmall: PhotoboothTextStyle.titleSmall.copyWith(
+        fontSize: _textTheme.titleSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyText1: PhotoboothTextStyle.bodyText1.copyWith(
-        fontSize: _textTheme.bodyText1!.fontSize! * _smallTextScaleFactor,
+      bodyLarge: PhotoboothTextStyle.bodyLarge.copyWith(
+        fontSize: _textTheme.bodyLarge!.fontSize! * _smallTextScaleFactor,
       ),
-      bodyText2: PhotoboothTextStyle.bodyText2.copyWith(
-        fontSize: _textTheme.bodyText2!.fontSize! * _smallTextScaleFactor,
+      bodyMedium: PhotoboothTextStyle.bodyMedium.copyWith(
+        fontSize: _textTheme.bodyMedium!.fontSize! * _smallTextScaleFactor,
       ),
-      caption: PhotoboothTextStyle.caption.copyWith(
-        fontSize: _textTheme.caption!.fontSize! * _smallTextScaleFactor,
+      bodySmall: PhotoboothTextStyle.bodySmall.copyWith(
+        fontSize: _textTheme.bodySmall!.fontSize! * _smallTextScaleFactor,
       ),
-      overline: PhotoboothTextStyle.overline.copyWith(
-        fontSize: _textTheme.overline!.fontSize! * _smallTextScaleFactor,
+      labelSmall: PhotoboothTextStyle.labelSmall.copyWith(
+        fontSize: _textTheme.labelSmall!.fontSize! * _smallTextScaleFactor,
       ),
-      button: PhotoboothTextStyle.button.copyWith(
-        fontSize: _textTheme.button!.fontSize! * _smallTextScaleFactor,
+      labelLarge: PhotoboothTextStyle.labelLarge.copyWith(
+        fontSize: _textTheme.labelLarge!.fontSize! * _smallTextScaleFactor,
       ),
     );
   }
@@ -155,24 +155,23 @@ class PhotoboothTheme {
   }
 
   static TabBarTheme get _tabBarTheme {
-    return const TabBarTheme(
-      indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          width: 2,
-          color: PhotoboothColors.blue,
+    return TabBarTheme(
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(80),
+        gradient: LinearGradient(
+          colors: [
+            // TODO(oscar): use theming color once design is ready
+            const Color(0xFF9e81ef).withOpacity(1),
+            HoloBoothColors.purple,
+          ],
         ),
       ),
-      labelColor: PhotoboothColors.blue,
-      unselectedLabelColor: PhotoboothColors.black25,
-      indicatorSize: TabBarIndicatorSize.tab,
+      labelColor: PhotoboothColors.white,
+      unselectedLabelColor: HoloBoothColors.gray,
     );
   }
 
   static DividerThemeData get _dividerTheme {
-    return const DividerThemeData(
-      space: 0,
-      thickness: 1,
-      color: PhotoboothColors.black25,
-    );
+    return const DividerThemeData(color: PhotoboothColors.transparent);
   }
 }

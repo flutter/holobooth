@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:example/assets/assets.dart';
 import 'package:example/src/widgets/widgets.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,9 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
   late final AudioPlayer _audioPlayer;
   var _isPlaying = false;
 
+  final _imageSize = tf.Size(1280, 720);
+  FaceGeometry? _faceGeometry;
+
   void _onCameraReady(CameraController cameraController) {
     setState(() => _cameraController = cameraController);
   }
@@ -43,7 +47,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
     _audioPlayer = AudioPlayer();
 
     try {
-      await _audioPlayer.setAsset('Lion_roar.mp3');
+      await _audioPlayer.setAsset(Assets.lionRoar);
     } catch (_) {}
   }
 
@@ -60,14 +64,19 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
         aspectRatio: _cameraController?.value.aspectRatio ?? 1,
         child: Stack(
           children: [
-            CameraView(onCameraReady: _onCameraReady),
+            Center(child: CameraView(onCameraReady: _onCameraReady)),
             if (_cameraController != null)
               FacesDetectorBuilder(
                 cameraController: _cameraController!,
                 builder: (context, faces) {
                   if (faces.isEmpty) return const SizedBox.shrink();
+                  final face = faces.first;
+                  final faceGeometry = _faceGeometry == null
+                      ? FaceGeometry(face: face, size: _imageSize)
+                      : _faceGeometry!.update(face: face, size: _imageSize);
+                  _faceGeometry = faceGeometry;
 
-                  if (faces.first.isMouthOpen) {
+                  if (faceGeometry.mouth.isOpen) {
                     if (!_isPlaying) {
                       _audioPlayer.play();
                       _isPlaying = true;
@@ -80,6 +89,7 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
                   return CustomPaint(
                     painter: _FaceLandmarkCustomPainter(
                       face: faces.first,
+                      isMouthOpen: faceGeometry.mouth.isOpen,
                     ),
                   );
                 },
@@ -94,14 +104,16 @@ class _LandmarksOpenMouthPageState extends State<_LandmarksOpenMouthPage> {
 class _FaceLandmarkCustomPainter extends CustomPainter {
   const _FaceLandmarkCustomPainter({
     required this.face,
+    required this.isMouthOpen,
   });
 
   final tf.Face face;
+  final bool isMouthOpen;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = face.isMouthOpen ? Colors.yellow : Colors.red
+      ..color = isMouthOpen ? Colors.yellow : Colors.red
       ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 

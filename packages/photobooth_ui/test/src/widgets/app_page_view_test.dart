@@ -8,7 +8,7 @@ void main() {
   group('AppPageView', () {
     const footerKey = Key('footer');
     const bodyKey = Key('body');
-    const backgroundKey = Key('background');
+    const backgroundKey = Key('backgroundKey');
     const firstOverlayKey = Key('firstOverlay');
     const secondOverlayKey = Key('secondOverlayKey');
 
@@ -70,7 +70,6 @@ void main() {
               height: 200,
               key: bodyKey,
             ),
-            background: Container(key: backgroundKey),
             overlays: [
               Container(key: firstOverlayKey),
               Container(key: secondOverlayKey),

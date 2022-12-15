@@ -33,6 +33,12 @@
             "command": "cd ${input:dartFolder} && dart test --coverage=coverage --platform='chrome,vm' && dart pub global run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.dart_tool/package_config.json --report-on='lib' && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html",
             "problemMatcher": []
         },
+        {
+            "label": "flutter: Regenerate goldens",
+            "type": "shell",
+            "command": "very_good test --tags golden --update-goldens",
+            "problemMatcher": []
+        },
     ],
     "inputs": [
         {

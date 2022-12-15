@@ -1,0 +1,17 @@
+name: gif_compositor
+
+on:
+  pull_request:
+    paths:
+      - "package/gif_compositor/gif_compositor/**"
+      - ".github/workflows/gif_compositor.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_channel: "beta"
+      flutter_version: 3.6.0-0.1.pre
+      working_directory: packages/gif_compositor/gif_compositor

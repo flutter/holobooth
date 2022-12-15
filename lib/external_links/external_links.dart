@@ -1,13 +1,12 @@
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const googleIOExternalLink = 'https://events.google.com/io/';
 const flutterDevExternalLink = 'https://flutter.dev';
 const firebaseExternalLink = 'https://firebase.google.com';
+const tensorFlowLink = 'https://tensorflow.org';
+const mediaPipeLink = 'https://mediapipe.dev/';
 const photoboothEmail = 'mailto:flutter-photo-booth@google.com';
-const openSourceLink = 'https://github.com/flutter/photobooth';
+const termsOfServiceLink = 'https://policies.google.com/terms';
+const privacyPolicyLink = 'https://policies.google.com/privacy';
+const classicPhotoboothLink = 'https://photobooth.flutter.dev';
 
-Future<void> launchGoogleIOLink() => openLink(googleIOExternalLink);
-Future<void> launchFlutterDevLink() => openLink(flutterDevExternalLink);
-Future<void> launchFirebaseLink() => openLink(firebaseExternalLink);
 Future<void> launchPhotoboothEmail() => openLink(photoboothEmail);
-Future<void> launchOpenSourceLink() => openLink(openSourceLink);

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,6 +16,7 @@ import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
 
 Future<void> main() async {
@@ -22,7 +24,7 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
-    print(details.stack.toString());
+    print(details.stack);
   };
 
   await Firebase.initializeApp(
@@ -39,6 +41,17 @@ Future<void> main() async {
   );
 
   final avatarDetectorRepository = AvatarDetectorRepository();
+  final convertRepository = ConvertRepository(
+    url: 'https://io-photobooth-dev.web.app/convert',
+  );
+
+  unawaited(
+    Future.wait([
+      Flame.images.load('photo_frame_spritesheet_landscape.jpg'),
+      Flame.images.load('photo_frame_spritesheet_portrait.png'),
+      Flame.images.load('photo_indicator_spritesheet.png'),
+    ]),
+  );
 
   runZonedGuarded(
     () => runApp(
@@ -46,11 +59,12 @@ Future<void> main() async {
         authenticationRepository: authenticationRepository,
         photosRepository: photosRepository,
         avatarDetectorRepository: avatarDetectorRepository,
+        convertRepository: convertRepository,
       ),
     ),
     (error, stackTrace) {
-      print(error.toString());
-      print(stackTrace.toString());
+      print(error);
+      print(stackTrace);
     },
   );
 
