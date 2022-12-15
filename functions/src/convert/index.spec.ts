@@ -264,7 +264,6 @@ describe('readFramesFromRequest', () => {
   it('returns list of frames for request', async () => {
     setUpBusboy('file', 'close');
 
-
     await expect(
       convert.readFramesFromRequest(busboy, mockRequest, tempDir)
     ).resolves.toStrictEqual([ 'test-temp-dir/filename' ]);
