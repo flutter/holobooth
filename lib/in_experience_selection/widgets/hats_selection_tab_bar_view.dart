@@ -14,7 +14,7 @@ class HatsSelectionTabBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedHat =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
-    return PropsGridView(
+    return PropsScrollView(
       itemBuilder: (context, index) {
         final item = Hats.values[index];
         return PropSelectionElement(

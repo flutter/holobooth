@@ -25,14 +25,16 @@ void main() {
       'adds InExperienceSelectionBackgroundSelected clicking on a background',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          BackgroundSelectionTabBarView(onNextPressed: () {}),
+          BackgroundSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
+        const background = Background.beach;
+        final finder =
+            find.byKey(Key('backgroundSelectionElement_${background.name}'));
+        await tester.scrollUntilVisible(finder, 50);
         await tester.pumpAndSettle();
-        const background = Background.underwater;
-        await tester.tap(
-          find.byKey(Key('backgroundSelectionElement_${background.name}')),
-        );
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionBackgroundSelected(background)),

@@ -12,7 +12,7 @@ class RecordingButton extends StatelessWidget {
     final l10n = context.l10n;
     return GradientElevatedButton(
       onPressed: onRecordingPressed,
-      child: Text(l10n.recordingButtonText),
+      child: Text(l10n.recordButtonText),
     );
   }
 }

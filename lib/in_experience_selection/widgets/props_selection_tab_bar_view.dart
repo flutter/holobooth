@@ -6,7 +6,6 @@ class PropsSelectionTabBarView extends StatefulWidget {
   const PropsSelectionTabBarView({
     super.key,
     this.initialIndex = 0,
-    required this.onRecordingPressed,
   });
 
   @visibleForTesting
@@ -19,7 +18,6 @@ class PropsSelectionTabBarView extends StatefulWidget {
   static const othersTabKey = ValueKey('others_tab');
 
   final int initialIndex;
-  final VoidCallback onRecordingPressed;
 
   @override
   State<PropsSelectionTabBarView> createState() =>
@@ -50,25 +48,28 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          tabs: [
-            _PropSelectionTab(
-              assetGenImage: Assets.props.hatsIcon,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.glassesTabKey,
-              assetGenImage: Assets.props.glassesIcon,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.clothesTabKey,
-              assetGenImage: Assets.props.clothes,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.othersTabKey,
-              assetGenImage: Assets.props.othersIcon,
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: TabBar(
+            controller: _tabController,
+            tabs: [
+              _PropSelectionTab(
+                assetGenImage: Assets.props.hatsIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.glassesTabKey,
+                assetGenImage: Assets.props.glassesIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.clothesTabKey,
+                assetGenImage: Assets.props.clothes,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.othersTabKey,
+                assetGenImage: Assets.props.othersIcon,
+              ),
+            ],
+          ),
         ),
         const Divider(),
         Expanded(
@@ -81,10 +82,6 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
               MiscellaneousSelectionTabBarView(),
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: RecordingButton(onRecordingPressed: widget.onRecordingPressed),
         ),
       ],
     );
