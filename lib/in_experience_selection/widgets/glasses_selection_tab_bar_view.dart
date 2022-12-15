@@ -15,7 +15,7 @@ class GlassesSelectionTabBarView extends StatelessWidget {
     final selectedGlasses =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.glasses);
     const items = Glasses.values;
-    return PropsGridView(
+    return PropsScrollView(
       itemBuilder: (context, index) {
         final item = items[index];
         return PropSelectionElement(

@@ -38,6 +38,31 @@ void main() {
         expect(find.byType(DesktopSelectionLayer), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'collapse layout clicking CollapseButton on mobile breakpoint',
+      (tester) async {
+        tester.setPortraitDisplaySize();
+        await tester.pumpSubject(SelectionLayer(), inExperienceSelectionBloc);
+        expect(
+          find.byKey(PrimarySelectionView.primaryTabBarViewKey),
+          findsOneWidget,
+        );
+        await tester.tap(find.byType(CollapseButton));
+        await tester.pumpAndSettle();
+        expect(
+          find.byKey(PrimarySelectionView.primaryTabBarViewKey),
+          findsNothing,
+        );
+      },
+    );
+  });
+
+  group('BlurryContainerClipPath', () {
+    test('verifies should not reclip', () async {
+      final path = BlurryContainerClipPath();
+      expect(path.shouldReclip(path), false);
+    });
   });
 }
 
