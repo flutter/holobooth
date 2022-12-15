@@ -19,7 +19,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 15),
+          padding: EdgeInsets.only(bottom: isSmall ? 12 : 40),
           child: Text(
             l10n.charactersTabTitle,
             style: Theme.of(context)

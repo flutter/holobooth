@@ -398,7 +398,7 @@
   "@firebaseLinkText": {
     "description": "Text on the link which navigates to the Firebase page"
   },
-  "charactersTabTitle": "Characters",
+  "charactersTabTitle": "Select a character:",
   "@charactersTabTitle": {
     "description": "Title text displayed on the character selection tab",
     "type": "text",
@@ -412,7 +412,7 @@
   "@classicPhotoboothLabel": {
     "description": "Text show on the label of the classic photo booth banner"
   },
-  "backgroundsTabTitle": "Backgrounds",
+  "backgroundsTabTitle": "Choose a background",
   "@backgroundsTabTitle": {
     "description": "Title text displayed on the background selection tab",
     "type": "text",
