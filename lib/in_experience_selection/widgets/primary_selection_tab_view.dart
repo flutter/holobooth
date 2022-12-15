@@ -36,7 +36,8 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
       initialIndex: _indexSelected,
     );
     // This instance of [TabController] does not get updated
-    // at least we add a listener
+    // so we need to explicitly add a listener to get the reference
+    // to the selected index
     _tabController.addListener(() {
       setState(() {
         _indexSelected = _tabController.index;
