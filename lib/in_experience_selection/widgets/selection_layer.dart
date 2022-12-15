@@ -111,18 +111,30 @@ class CollapseButton extends StatelessWidget {
 class BlurryContainerClipPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    final path = Path();
     final totalWidth = size.width;
     final totalHeight = size.height;
-    path
-      ..moveTo(totalWidth, 0)
-      ..lineTo(totalWidth - _collapseButtonWidth, 0)
-      ..lineTo(totalWidth - _collapseButtonWidth, _collapseButtonHeight)
-      ..lineTo(0, _collapseButtonHeight)
-      ..lineTo(0, totalHeight)
-      ..lineTo(totalWidth, totalHeight)
-      ..close();
+    const radius = Radius.circular(15);
 
+    final path = Path()
+      ..addRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromPoints(
+            const Offset(0, _collapseButtonHeight),
+            Offset(totalWidth, totalHeight),
+          ),
+          topLeft: radius,
+        ),
+      )
+      ..addRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromPoints(
+            Offset(totalWidth - _collapseButtonWidth, 0),
+            Offset(totalWidth, _collapseButtonHeight),
+          ),
+          topLeft: radius,
+          topRight: radius,
+        ),
+      );
     return path;
   }
 
