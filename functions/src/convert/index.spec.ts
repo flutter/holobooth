@@ -1,12 +1,4 @@
-import {
-  convert,
-  convertImages,
-  convertToVideo,
-  createTempDirectory,
-  proceedFile,
-  readFramesFromRequest,
-  uploadFile,
-} from './index';
+import * as convert from './index';
 import * as functions from 'firebase-functions';
 import { mockDeep } from 'jest-mock-extended';
 import ffmpeg from 'fluent-ffmpeg';
@@ -26,12 +18,14 @@ let busboy: _busboy;
 function setUpMockReadStream(currentEvent: string) {
   mockReadStream = {
     pipe: jest.fn().mockReturnThis(),
+    end: jest.fn(),
     on: jest.fn((event, handler) => {
       if (currentEvent == event && event === 'error') {
         handler(Error());
-      }
-      if (currentEvent == event && event === 'finish') {
+      } else if (currentEvent == event && event === 'finish') {
         handler();
+      } else if (currentEvent == event && event === 'end') {
+        handler('file');
       }
       return mockReadStream;
     }),
@@ -43,11 +37,13 @@ function setUpMockWriteStream(currentEvent: string) {
     pipe: jest.fn().mockReturnThis(),
     once: jest.fn(),
     emit: jest.fn(),
+    close: jest.fn().mockReturnThis(),
+    end: jest.fn(),
     on: jest.fn((event, handler) => {
       if (currentEvent == event && event === 'error') {
         handler(Error());
       } else if (currentEvent == event && event === 'end') {
-        handler();
+        handler('file');
       } else if (currentEvent == event && event === 'close') {
         handler();
       }
@@ -86,20 +82,37 @@ function setUpFfmpeg(currentEvent: string) {
 
 
 function setUpBusboy(currentEvent: string, fileEvent: string) {
-  busboy = mockDeep<_busboy>({
+  return busboy = mockDeep<_busboy>({
     end: jest.fn(),
-    on: jest.fn(function(event, handler) {
+    on: jest.fn((event, handler) => {
       setUpMockReadStream('finish');
+      setUpMockWriteStream('close');
 
       if (currentEvent == event && event === 'finish') {
         handler();
       } else if (currentEvent == event && event === 'error') {
         handler(Error());
       } else if (currentEvent == event && event === 'file') {
-        setUpMockReadStream(fileEvent);
-        handler('fieldname', mockReadStream, { filename: 'filename' });
+        handler('', setUpReadable(fileEvent), { filename: 'filename' });
+        busboy = setUpBusboy('finish', fileEvent);
       }
       return busboy;
+    }),
+  });
+}
+
+function setUpReadable(currentEvent: string) {
+  return mockDeep<stream.Readable>({
+    pipe: jest.fn().mockReturnThis(),
+    on: jest.fn((event, handler) => {
+      if (currentEvent == event && event === 'error') {
+        handler(Error());
+      } else if (currentEvent == event && event === 'end') {
+        handler('file');
+      } else if (currentEvent == event && event === 'close') {
+        handler();
+      }
+      return mockWriteStream;
     }),
   });
 }
@@ -173,7 +186,7 @@ jest.mock('firebase-admin', () => {
 });
 
 describe('convert', () => {
-  it('returns response', async () => {
+  it('returns response with status 200 on success', async () => {
     const mockRequest = mockDeep<functions.https.Request>();
     mockRequest.get.mockReturnValue('localhost:5001');
     mockRequest.protocol = 'https';
@@ -187,7 +200,7 @@ describe('convert', () => {
       send: jest.fn().mockReturnThis(),
     });
 
-    await convert(mockRequest, mockResponse);
+    await convert.convert(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.send).toHaveBeenCalledWith(
@@ -206,7 +219,7 @@ describe('convert', () => {
       status: jest.fn().mockReturnThis(),
       send: jest.fn().mockReturnThis(),
     });
-    await convert(mockRequest, mockResponse);
+    await convert.convert(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
   });
@@ -218,10 +231,10 @@ describe('convertImages', () => {
     const mockRequest = mockDeep<functions.https.Request>();
     mockRequest.protocol ='https';
 
-    await expect(convertImages(mockRequest)).rejects.toThrow();
+    await expect(convert.convertImages(mockRequest)).rejects.toThrow();
   });
 
-  it('returns response', async () => {
+  it('returns response with status 200 and file url on success', async () => {
     const mockRequest = mockDeep<functions.https.Request>();
     mockRequest.get.mockReturnValue('localhost:5001');
     mockRequest.protocol = 'https';
@@ -231,7 +244,7 @@ describe('convertImages', () => {
     setUpMockReadStream('finish');
     setUpFileMakePublicFunction(true);
 
-    const { status, url } = await convertImages(mockRequest);
+    const { status, url } = await convert.convertImages(mockRequest);
     expect(status).toEqual(200);
     expect(url).toEqual('https://storage.googleapis.com/test-bucket/test-file');
   });
@@ -242,7 +255,7 @@ describe('createTempDirectory', () => {
   it('returns path to temp directory', async () => {
     const testPath = tempDir + '/' + userId;
 
-    const expectedPath = await createTempDirectory(userId);
+    const expectedPath = await convert.createTempDirectory(userId);
     expect(expectedPath).toEqual(testPath);
   });
 });
@@ -250,46 +263,67 @@ describe('createTempDirectory', () => {
 describe('readFramesFromRequest', () => {
   const mockRequest = mockDeep<functions.https.Request>();
 
-  it('returns list of frames from request', async () => {
-    setUpBusboy('finish', 'end');
-
-    const files = await readFramesFromRequest(busboy, mockRequest, tempDir);
-    expect(files).toEqual([]);
-  });
-
   it('returns list of frames from request with a list of files', async () => {
-    setUpBusboy('file', 'end');
-    setUpBusboy('finish', 'end');
+    setUpBusboy('file', 'close');
 
-    const files = await readFramesFromRequest(busboy, mockRequest, tempDir);
-    expect(files).toEqual([]);
+
+    await expect(
+      convert.readFramesFromRequest(busboy, mockRequest, tempDir)
+    ).resolves.toStrictEqual([ 'test-temp-dir/filename' ]);
   });
+
 
   it('throws error when unable to read frames.', async () => {
     setUpBusboy('error', 'error');
 
     await expect(
-      readFramesFromRequest(busboy, mockRequest, tempDir)
+      convert.readFramesFromRequest(busboy, mockRequest, tempDir)
     ).rejects.toThrow();
   });
 });
 
 describe('proceedFile', () => {
-  const mockedStream = new stream.Readable();
-  mockedStream._read = function() {/* */};
   const filePath = `${tempDir}/frame_1.png`;
 
+  describe('returns path for the file', () => {
+    it('on close', async () => {
+      setUpMockWriteStream('close');
 
-  it('returns path for the file', async () => {
-    setUpMockWriteStream('close');
+      await expect(
+        convert.proceedFile(filePath, setUpReadable('close'))
+      ).resolves.toBe(filePath);
+    });
 
-    await expect(proceedFile(filePath, mockedStream)).resolves.toBe(filePath);
+    it('on end', async () => {
+      setUpMockWriteStream('end');
+
+      await expect(convert.proceedFile(filePath, setUpReadable('end'))).resolves.toBe(filePath);
+    });
   });
+
+
+  describe('rejects on error', () => {
+    it('in file', async () => {
+      const files = convert.proceedFile(filePath, setUpReadable('error'));
+
+      await expect(files).rejects.toThrow();
+    });
+
+    it('in write stream', async () => {
+      setUpMockWriteStream('error');
+      const files = convert.proceedFile(filePath, setUpReadable('end'));
+
+      await expect(files).rejects.toThrow();
+    });
+  });
+
 
   it('throws error when unable to read file.', async () => {
     setUpMockWriteStream('error');
 
-    await expect(proceedFile(filePath, mockedStream)).rejects.toThrow();
+    await expect(
+      convert.proceedFile(filePath, setUpReadable('end'))
+    ).rejects.toThrow();
   });
 });
 
@@ -298,7 +332,7 @@ describe('convertToVideo', () => {
     setUpFfmpeg('end');
 
     await expect(
-      convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
+      convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
     ).resolves.toBe(`${tempDir}/video.mp4`);
   });
 
@@ -306,7 +340,7 @@ describe('convertToVideo', () => {
     setUpFfmpeg('error');
 
     await expect(
-      convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
+      convert. convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
     ).rejects.toThrow();
   });
 });
@@ -318,21 +352,21 @@ describe('uploadFile', () => {
   it('throws error when unable to write file to storage.', async () => {
     setUpMockReadStream('error');
 
-    await expect(uploadFile(videoName, videoPath)).rejects.toThrow();
+    await expect(convert.uploadFile(videoName, videoPath)).rejects.toThrow();
   });
 
   it('throws error when make a file public throws.', async () => {
     setUpMockReadStream('finish');
     setUpFileMakePublicFunction(Error());
 
-    await expect(uploadFile(videoName, videoPath)).rejects.toThrow();
+    await expect(convert.uploadFile(videoName, videoPath)).rejects.toThrow();
   });
 
   it('returns path for the file.', async () => {
     setUpMockReadStream('finish');
     setUpFileMakePublicFunction(true);
 
-    await expect(uploadFile(videoName, videoPath)).resolves.toBe(
+    await expect(convert.uploadFile(videoName, videoPath)).resolves.toBe(
       'https://storage.googleapis.com/test-bucket/test-file'
     );
   });

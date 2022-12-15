@@ -12,7 +12,6 @@ import { Readable } from 'stream';
 
 export const errorMessage = 'Something went wrong';
 
-// TODO(arturplaczek): add unit tests
 /**
  * Public convert function
  */
@@ -107,59 +106,23 @@ export async function proceedFile(
   return new Promise((resolve, reject) => {
     const writeStream = fs.createWriteStream(filepath);
     file.pipe(writeStream)
-      .on('end', () => {
-        writeStream.end();
-      })
       .on('error', (error) => {
         functions.logger.error(error);
-        reject(error.message);
+        reject(error);
+      })
+      .on('end', () => {
+        writeStream.end();
       });
-    writeStream.on('close', () => resolve(filepath));
-    writeStream.on('error', reject);
+
+    writeStream
+      .on('end', () => resolve(filepath))
+      .on('close', () => resolve(filepath))
+      .on('error', function(error) {
+        functions.logger.error(error);
+        return reject(error);
+      });
   });
 }
-
-// export async function readFramesFromRequest(
-//   busboy: _busboy,
-//   req: functions.https.Request,
-//   folder: string
-// ): Promise<string[]> {
-//   const paths: string[] = [];
-//   const fileWrites = new Map();
-
-//   return new Promise<string[]>((resolve, reject) => {
-//     busboy
-//       .on("file", (fieldname, file, { filename }) => {
-//         const filepath = path.join(folder, filename);
-//         paths.push(filepath);
-//         const writeStream = fs.createWriteStream(filepath);
-//         const promise = new Promise((resolve, reject) => {
-//           file.pipe(writeStream);
-//           file
-//             .on("end", () => {
-//               writeStream.end();
-//             })
-//             .on("error", (error) => {
-//               functions.logger.error(error);
-//               reject(new Error(error));
-//             });
-//           writeStream.on("close", resolve);
-//           writeStream.on("error", reject);
-//         });
-//         fileWrites[fieldname] = promise;
-//       })
-//       .on("finish", async () => {
-//         await Promise.all([...fileWrites.values()]);
-//         resolve(paths);
-//       })
-//       .on("error", function (error) {
-//         functions.logger.error(error);
-//         reject(error);
-//       });
-
-//     busboy.end(req.rawBody);
-//   });
-// }
 
 export async function convertToVideo(
   ffmpeg: ffmpeg,
@@ -200,9 +163,6 @@ export function uploadFile(
         file
           .makePublic()
           .then(() => {
-            console.log(
-              `https://storage.googleapis.com/${bucket.name}/${file.name}`
-            );
             resolve(
               `https://storage.googleapis.com/${bucket.name}/${file.name}`
             );
@@ -212,7 +172,6 @@ export function uploadFile(
           });
       })
       .on('error', function(error) {
-        console.log(error);
         functions.logger.error(error);
         return reject(error);
       });
