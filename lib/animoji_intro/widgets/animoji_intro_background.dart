@@ -7,7 +7,6 @@ class AnimojiIntroBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Assets.backgrounds.animojiIntroBackground.image(
-      key: const Key('animojiIntro_background'),
       fit: BoxFit.cover,
     );
   }
