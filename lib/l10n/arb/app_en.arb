@@ -12,6 +12,10 @@
   "@landingPageTakePhotoButtonText": {
     "description": "Button text shown on the landing page which navigates to the photo booth."
   },
+  "animojiIntroPageSubheading": "Activate your camera and move your face to control the character expressions and movements.",
+  "@animojiIntroPageSubheading": {
+    "description": "Subheading shown on the animoji intro page."
+  },
   "footerMadeWithText": "Made with ",
   "@footerMadeWithText": {
     "description": "Text shown on the footer which mentions technologies used to build the app."
