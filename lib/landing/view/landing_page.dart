@@ -29,7 +29,7 @@ class LandingView extends StatelessWidget {
           child: Column(
             children: const [
               Expanded(child: LandingBody()),
-              FullFooter(),
+              FullFooter(showIconsForSmall: false),
             ],
           ),
         ),
