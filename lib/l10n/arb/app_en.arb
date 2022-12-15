@@ -418,8 +418,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "recordingButtonText": "Recording",
-  "@recordingButtonText": {
-    "description": "Text displayed on a recording button."
+  "recordButtonText": "Record",
+  "@recordButtonText": {
+    "description": "Text displayed on a record button."
   }
 }
