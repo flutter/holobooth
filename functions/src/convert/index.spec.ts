@@ -5,7 +5,6 @@ import ffmpeg from 'fluent-ffmpeg';
 import _busboy from 'busboy';
 import * as stream from 'stream';
 
-
 const userId = 'test-user-id';
 const tempDir = 'test-temp-dir';
 
@@ -16,7 +15,7 @@ let ffmpeg: ffmpeg;
 let busboy: _busboy;
 
 function setUpMockReadStream(currentEvent: string) {
-  mockReadStream = {
+  return mockReadStream = {
     pipe: jest.fn().mockReturnThis(),
     end: jest.fn(),
     on: jest.fn((event, handler) => {
@@ -33,7 +32,7 @@ function setUpMockReadStream(currentEvent: string) {
 }
 
 function setUpMockWriteStream(currentEvent: string) {
-  mockWriteStream = {
+  return mockWriteStream = {
     pipe: jest.fn().mockReturnThis(),
     once: jest.fn(),
     emit: jest.fn(),
@@ -102,7 +101,7 @@ function setUpBusboy(currentEvent: string, fileEvent: string) {
 }
 
 function setUpReadable(currentEvent: string) {
-  return mockDeep<stream.Readable>({
+  const readable = mockDeep<stream.Readable>({
     pipe: jest.fn().mockReturnThis(),
     on: jest.fn((event, handler) => {
       if (currentEvent == event && event === 'error') {
@@ -112,9 +111,10 @@ function setUpReadable(currentEvent: string) {
       } else if (currentEvent == event && event === 'close') {
         handler();
       }
-      return mockWriteStream;
+      return readable;
     }),
   });
+  return readable;
 }
 
 
@@ -132,7 +132,6 @@ jest.mock('busboy', () => () => {
   };
 });
 
-
 jest.mock('fluent-ffmpeg', () => () => {
   return {
     addInput: jest.fn().mockReturnThis(),
@@ -147,7 +146,6 @@ jest.mock('fluent-ffmpeg', () => () => {
     }),
   };
 });
-
 
 jest.mock('fs', () => {
   return {
@@ -263,7 +261,7 @@ describe('createTempDirectory', () => {
 describe('readFramesFromRequest', () => {
   const mockRequest = mockDeep<functions.https.Request>();
 
-  it('returns list of frames from request with a list of files', async () => {
+  it('returns list of frames for request', async () => {
     setUpBusboy('file', 'close');
 
 
