@@ -47,17 +47,16 @@ void main() {
           when(() => platformHelper.isMobile).thenReturn(false);
           tester.setLandscapeDisplaySize();
 
-          final subject = ShareButton(
-            image: image,
-            platformHelper: platformHelper,
-          );
           await tester.pumpApp(
             BlocProvider.value(
               value: ShareBloc(),
-              child: subject,
+              child: ShareButton(
+                image: image,
+                platformHelper: platformHelper,
+              ),
             ),
           );
-          await tester.tap(find.byWidget(subject));
+          await tester.tap(find.byIcon(Icons.share));
           await tester.pumpAndSettle();
 
           expect(find.byType(ShareDialog), findsOneWidget);
@@ -70,17 +69,16 @@ void main() {
           when(() => platformHelper.isMobile).thenReturn(false);
           tester.setPortraitDisplaySize();
 
-          final subject = ShareButton(
-            image: image,
-            platformHelper: platformHelper,
-          );
           await tester.pumpApp(
             BlocProvider.value(
               value: ShareBloc(),
-              child: subject,
+              child: ShareButton(
+                image: image,
+                platformHelper: platformHelper,
+              ),
             ),
           );
-          await tester.tap(find.byWidget(subject));
+          await tester.tap(find.byIcon(Icons.share));
           await tester.pumpAndSettle();
 
           expect(find.byType(ShareBottomSheet), findsOneWidget);
@@ -93,17 +91,16 @@ void main() {
           when(() => platformHelper.isMobile).thenReturn(true);
           tester.setLandscapeDisplaySize();
 
-          final subject = ShareButton(
-            image: image,
-            platformHelper: platformHelper,
-          );
           await tester.pumpApp(
             BlocProvider.value(
               value: ShareBloc(),
-              child: subject,
+              child: ShareButton(
+                image: image,
+                platformHelper: platformHelper,
+              ),
             ),
           );
-          await tester.tap(find.byWidget(subject));
+          await tester.tap(find.byIcon(Icons.share));
           await tester.pumpAndSettle();
 
           expect(find.byType(ShareBottomSheet), findsOneWidget);
@@ -116,17 +113,16 @@ void main() {
           when(() => platformHelper.isMobile).thenReturn(true);
           tester.setPortraitDisplaySize();
 
-          final subject = ShareButton(
-            image: image,
-            platformHelper: platformHelper,
-          );
           await tester.pumpApp(
             BlocProvider.value(
               value: ShareBloc(),
-              child: subject,
+              child: ShareButton(
+                image: image,
+                platformHelper: platformHelper,
+              ),
             ),
           );
-          await tester.tap(find.byWidget(subject));
+          await tester.tap(find.byIcon(Icons.share));
           await tester.pumpAndSettle();
 
           expect(find.byType(ShareBottomSheet), findsOneWidget);

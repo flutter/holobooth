@@ -5,7 +5,12 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareSubheading extends StatelessWidget {
-  const ShareSubheading({super.key});
+  const ShareSubheading({
+    super.key,
+    required this.smallScreen,
+  });
+
+  final bool smallScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class ShareSubheading extends StatelessWidget {
           ),
         ],
       ),
-      textAlign: TextAlign.center,
+      textAlign: smallScreen ? TextAlign.center : TextAlign.left,
     );
   }
 }

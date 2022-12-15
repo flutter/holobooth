@@ -48,7 +48,7 @@
   "@footerPrivacyPolicyLinkText": {
     "description": "Text on the link shown on the footer which navigates to the Privacy Policy page."
   },
-  "sharePageHeading": "Share your photo with the community!",
+  "sharePageHeading": "Share your video with the community!",
   "@sharePageHeading": {
     "description": "Heading shown on the share page."
   },
@@ -76,7 +76,7 @@
   "@sharePageSuccessCaption3": {
     "description": "Third part of the caption shown at the bottom of the share page after successful share."
   },
-  "sharePageRetakeButtonText": "Take new photo",
+  "sharePageRetakeButtonText": "Retake",
   "@sharePageRetakeButtonText": {
     "description": "Button text shown on the share page which navigates back to the photo booth."
   },

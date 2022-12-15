@@ -24,10 +24,7 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: PhotoboothColors.white,
-      ),
+    return GradientOutlinedButton(
       onPressed: () async {
         await showAppModal<void>(
           context: context,
@@ -44,13 +41,37 @@ class ShareButton extends StatelessWidget {
           ),
         );
       },
-      child: Text(
-        l10n.sharePageShareButtonText,
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: PhotoboothColors.blue),
-      ),
+      icon: const Icon(Icons.share),
+      label: Text(l10n.sharePageShareButtonText),
     );
+
+    // ElevatedButton(
+    //   style: ElevatedButton.styleFrom(
+    //     backgroundColor: PhotoboothColors.white,
+    //   ),
+    //   onPressed: () async {
+    //     await showAppModal<void>(
+    //       context: context,
+    //       platformHelper: platformHelper,
+    //       portraitChild: BlocProvider.value(
+    //         value: context.read<ShareBloc>(),
+    //         child: ShareBottomSheet(image: image),
+    //       ),
+    //       landscapeChild: BlocProvider.value(
+    //         value: context.read<ShareBloc>(),
+    //         child: ShareDialog(
+    //           image: image,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    //   child: Text(
+    //     l10n.sharePageShareButtonText,
+    //     style: Theme.of(context)
+    //         .textTheme
+    //         .labelLarge
+    //         ?.copyWith(color: PhotoboothColors.blue),
+    //   ),
+    // );
   }
 }

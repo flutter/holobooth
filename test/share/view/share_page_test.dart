@@ -35,16 +35,6 @@ void main() {
     test('is routable', () {
       expect(SharePage.route(images, []), isA<AppPageRoute<void>>());
     });
-
-    testWidgets('renders ShareBackground', (tester) async {
-      await tester.pumpApp(
-        SharePage(
-          images: images,
-          frames: const [],
-        ),
-      );
-      expect(find.byType(ShareBackground), findsOneWidget);
-    });
   });
 
   group('ShareView', () {
@@ -66,11 +56,22 @@ void main() {
     setUpAll(() {
       registerFallbackValue(LaunchOptions());
     });
+
     final images = [
       FakePhotoboothCameraImage(),
       FakePhotoboothCameraImage(),
       FakePhotoboothCameraImage()
     ];
+
+    testWidgets('renders ShareBackground', (tester) async {
+      await tester.pumpApp(
+        SharePage(
+          images: images,
+          frames: const [],
+        ),
+      );
+      expect(find.byType(ShareBackground), findsOneWidget);
+    });
 
     testWidgets('contains a ShareBody', (tester) async {
       await tester.pumpSubject(
@@ -191,17 +192,6 @@ void main() {
       FakePhotoboothCameraImage(),
       FakePhotoboothCameraImage()
     ];
-    testWidgets('displays a AnimatedPhotoIndicator', (tester) async {
-      tester.setDisplaySize(Size(PhotoboothBreakpoints.medium, 800));
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
-      );
-      expect(find.byType(AnimatedPhotoIndicator), findsOneWidget);
-    });
 
     testWidgets('displays a AnimatedPhotoboothPhoto in medium layout',
         (tester) async {
@@ -240,7 +230,7 @@ void main() {
       expect(find.byType(ShareButton), findsOneWidget);
     });
 
-    testWidgets('displays a DownloadButton', (tester) async {
+    testWidgets('displays a download button', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(
           child: ShareBody(
@@ -248,10 +238,17 @@ void main() {
           ),
         ),
       );
-      expect(find.byType(DownloadButton), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is GradientOutlinedButton &&
+              widget.icon.icon == Icons.file_download_rounded,
+        ),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('displays a TakeANewPhoto button', (tester) async {
+    testWidgets('displays a retake button', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(
           child: ShareBody(
@@ -259,33 +256,42 @@ void main() {
           ),
         ),
       );
-      expect(find.byType(TakeANewPhoto), findsOneWidget);
-    });
-  });
-
-  group('ResponsiveLayout', () {
-    final images = [
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage()
-    ];
-
-    testWidgets('displays a DesktopButtonsLayout when layout is large',
-        (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is GradientOutlinedButton &&
+              widget.icon.icon == Icons.videocam_rounded,
         ),
+        findsOneWidget,
       );
-      expect(find.byType(DesktopButtonsLayout), findsOneWidget);
     });
 
-    testWidgets('displays a MobileButtonsLayout when layout is small',
-        (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+    testWidgets(
+      'retake button navigates to photobooth when pressed',
+      (tester) async {
+        await tester.pumpApp(
+          SingleChildScrollView(
+            child: ShareBody(
+              images: images,
+            ),
+          ),
+        );
+
+        final finder = find.byWidgetPredicate(
+          (widget) =>
+              widget is GradientOutlinedButton &&
+              widget.icon.icon == Icons.videocam_rounded,
+        );
+
+        await tester.ensureVisible(finder);
+        await tester.tap(finder);
+        await tester.pump(kThemeAnimationDuration);
+        await tester.pump(kThemeAnimationDuration);
+        expect(find.byType(PhotoBoothPage), findsOneWidget);
+      },
+    );
+
+    testWidgets('download button is invoked when pressed', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(
           child: ShareBody(
@@ -293,52 +299,14 @@ void main() {
           ),
         ),
       );
-      expect(find.byType(MobileButtonsLayout), findsOneWidget);
-    });
-  });
 
-  group('TakeANewPhoto button', () {
-    final images = [
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage()
-    ];
-
-    testWidgets('Navigates to photobooth when pressed', (tester) async {
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
+      final finder = find.byWidgetPredicate(
+        (widget) =>
+            widget is GradientOutlinedButton &&
+            widget.icon.icon == Icons.file_download_rounded,
       );
-      await tester
-          .ensureVisible(find.byKey(Key('sharePage_newPhotoButtonKey')));
-      await tester.tap(find.byKey(Key('sharePage_newPhotoButtonKey')));
-      await tester.pump(kThemeAnimationDuration);
-      await tester.pump(kThemeAnimationDuration);
-      expect(find.byType(PhotoBoothPage), findsOneWidget);
-    });
-  });
-
-  group('DownloadButton', () {
-    final images = [
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage()
-    ];
-
-    testWidgets('invoked when pressed', (tester) async {
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
-      );
-      await tester
-          .ensureVisible(find.byKey(Key('sharePage_downloadButtonkey')));
-      await tester.tap(find.byKey(Key('sharePage_downloadButtonkey')));
+      await tester.ensureVisible(finder);
+      await tester.tap(finder);
       // TODO(laura177): test for download when functionality is added.
     });
   });
