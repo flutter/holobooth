@@ -3,11 +3,21 @@ import 'package:io_photobooth/footer/footer.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class FullFooter extends StatelessWidget {
-  const FullFooter({super.key});
+  const FullFooter({
+    super.key,
+    this.showIconsForSmall = true,
+  });
+
+  final bool showIconsForSmall;
 
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(width: 32);
+    const icons = [
+      FlutterIconLink(),
+      FirebaseIconLink(),
+      TensorflowIconLink(),
+    ];
 
     return SizedBox(
       height: 100,
@@ -23,11 +33,23 @@ class FullFooter extends StatelessWidget {
                 horizontal: 32,
                 vertical: 12,
               ),
-              decoration: BoxDecoration(
-                color: const Color(0xFF1D1D1D).withOpacity(0.5),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: child,
+              decoration: showIconsForSmall
+                  ? null
+                  : BoxDecoration(
+                      color: const Color(0xFF1D1D1D).withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+              child: showIconsForSmall
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (final icon in icons) ...[
+                          icon,
+                          if (icon != icons.last) gap,
+                        ],
+                      ],
+                    )
+                  : child,
             ),
           );
         },
@@ -40,11 +62,10 @@ class FullFooter extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const FlutterIconLink(),
-                gap,
-                const FirebaseIconLink(),
-                gap,
-                const TensorflowIconLink(),
+                for (final icon in icons) ...[
+                  icon,
+                  if (icon != icons.last) gap,
+                ],
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomRight,
