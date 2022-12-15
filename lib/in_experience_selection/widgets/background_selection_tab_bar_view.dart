@@ -18,7 +18,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 14),
+          padding: EdgeInsets.only(bottom: isSmall ? 12 : 40),
           child: Text(
             l10n.backgroundsTabTitle,
             style: Theme.of(context)
@@ -28,27 +28,26 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
           ),
         ),
         Flexible(
-          child: Padding(
-            padding: isSmall
-                ? const EdgeInsets.only(left: 16, bottom: 16, top: 16)
-                : const EdgeInsets.symmetric(horizontal: 60),
-            child: ListView.separated(
-              scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
-              itemCount: Background.values.length,
-              itemBuilder: (context, index) {
-                final background = Background.values[index];
-                return SizedBox(
-                  height: isSmall ? null : 120,
-                  width: isSmall ? 85 : 120,
+          child: ListView.separated(
+            scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
+            itemCount: Background.values.length,
+            itemBuilder: (context, index) {
+              final background = Background.values[index];
+              return Padding(
+                padding: isSmall
+                    ? const EdgeInsets.only(left: 16, top: 12, bottom: 12)
+                    : const EdgeInsets.only(left: 60, right: 60, top: 5),
+                child: AspectRatio(
+                  aspectRatio: 120 / 80,
                   child: _BackgroundSelectionElement(
                     background: background,
                     isSelected: backgroundSelected == background,
                   ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox.square(
-                dimension: 32,
-              ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox.square(
+              dimension: 32,
             ),
           ),
         ),
@@ -79,7 +78,7 @@ class _BackgroundSelectionElement extends StatelessWidget {
                 isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
             width: 4,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
           image: DecorationImage(
             image: background.toImageProvider(),
             fit: BoxFit.cover,

@@ -19,7 +19,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: isSmall ? 12 : 40),
+          padding: EdgeInsets.only(bottom: isSmall ? 16 : 40),
           child: Text(
             l10n.charactersTabTitle,
             style: Theme.of(context)
@@ -58,32 +58,29 @@ class _CharacterSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+    return CircleAvatar(
+      radius: 55,
+      backgroundColor:
+          isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
       child: CircleAvatar(
-        radius: 55,
-        backgroundColor:
-            isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
-        child: CircleAvatar(
-          radius: 50,
-          backgroundColor: character.toBackgroundColor(),
-          child: Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.transparent,
-            child: InkWell(
-              key: Key('characterSelectionElement_${character.name}'),
-              child: SizedBox(
-                height: 100,
-                width: 100,
-                child: character.toImage(),
-              ),
-              onTap: () {
-                context
-                    .read<InExperienceSelectionBloc>()
-                    .add(InExperienceSelectionCharacterSelected(character));
-              },
+        radius: 50,
+        backgroundColor: character.toBackgroundColor(),
+        child: Material(
+          shape: const CircleBorder(),
+          clipBehavior: Clip.hardEdge,
+          color: Colors.transparent,
+          child: InkWell(
+            key: Key('characterSelectionElement_${character.name}'),
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: character.toImage(),
             ),
+            onTap: () {
+              context
+                  .read<InExperienceSelectionBloc>()
+                  .add(InExperienceSelectionCharacterSelected(character));
+            },
           ),
         ),
       ),

@@ -48,25 +48,28 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TabBar(
-          controller: _tabController,
-          tabs: [
-            _PropSelectionTab(
-              assetGenImage: Assets.props.hatsIcon,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.glassesTabKey,
-              assetGenImage: Assets.props.glassesIcon,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.clothesTabKey,
-              assetGenImage: Assets.props.clothes,
-            ),
-            _PropSelectionTab(
-              key: PropsSelectionTabBarView.othersTabKey,
-              assetGenImage: Assets.props.othersIcon,
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: TabBar(
+            controller: _tabController,
+            tabs: [
+              _PropSelectionTab(
+                assetGenImage: Assets.props.hatsIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.glassesTabKey,
+                assetGenImage: Assets.props.glassesIcon,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.clothesTabKey,
+                assetGenImage: Assets.props.clothes,
+              ),
+              _PropSelectionTab(
+                key: PropsSelectionTabBarView.othersTabKey,
+                assetGenImage: Assets.props.othersIcon,
+              ),
+            ],
+          ),
         ),
         const Divider(),
         Expanded(
