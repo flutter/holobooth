@@ -73,4 +73,7 @@ abstract class HoloBoothColors {
 
   /// Second color of gradient secondary
   static const Color gradientSecondaryTwo = Color(0xff27F5DD);
+
+  /// Color for prop tab
+  static const Color propTabSelection = Color(0xffB7F7CC);
 }
