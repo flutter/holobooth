@@ -83,7 +83,14 @@ class _CharacterSelectionElement extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           color: character.toBackgroundColor(),
           shape: const CircleBorder(),
-          child: InkWell(onTap: () {}, child: character.toImage()),
+          child: InkWell(
+              key: Key('characterSelectionElement_${character.name}'),
+              onTap: () {
+                context
+                    .read<InExperienceSelectionBloc>()
+                    .add(InExperienceSelectionCharacterSelected(character));
+              },
+              child: character.toImage()),
         ),
       ),
     );
