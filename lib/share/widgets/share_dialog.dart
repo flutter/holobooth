@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class ShareDialog extends StatelessWidget {
   const ShareDialog({
@@ -7,6 +8,8 @@ class ShareDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
     return Container(
       margin: const EdgeInsets.all(150),
       padding: const EdgeInsets.all(1),

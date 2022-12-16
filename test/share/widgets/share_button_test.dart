@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
+
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
 class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   @override
@@ -15,6 +19,12 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 
 void main() {
   group('ShareButton', () {
+    late PlatformHelper platformHelper;
+
+    setUp(() {
+      platformHelper = _MockPlatformHelper();
+    });
+
     test('can be instantiated', () {
       final image = _FakePhotoboothCameraImage();
       expect(ShareButton(image: image), isA<ShareButton>());
@@ -32,12 +42,14 @@ void main() {
     group('onPressed', () {
       final image = _FakePhotoboothCameraImage();
       testWidgets(
-        'opens ShareDialog',
+        'opens ShareDialog when on desktop and landscape',
         (tester) async {
+          when(() => platformHelper.isMobile).thenReturn(false);
           tester.setLandscapeDisplaySize();
 
           final subject = ShareButton(
             image: image,
+            platformHelper: platformHelper,
           );
           await tester.pumpApp(
             BlocProvider.value(
@@ -49,6 +61,75 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(find.byType(ShareDialog), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'opens ShareBottomSheet when on desktop and portrait',
+        (tester) async {
+          when(() => platformHelper.isMobile).thenReturn(false);
+          tester.setPortraitDisplaySize();
+
+          final subject = ShareButton(
+            image: image,
+            platformHelper: platformHelper,
+          );
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
+          await tester.tap(find.byWidget(subject));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(ShareBottomSheet), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'opens ShareBottomSheet when on mobile and landscape',
+        (tester) async {
+          when(() => platformHelper.isMobile).thenReturn(true);
+          tester.setLandscapeDisplaySize();
+
+          final subject = ShareButton(
+            image: image,
+            platformHelper: platformHelper,
+          );
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
+          await tester.tap(find.byWidget(subject));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(ShareBottomSheet), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'opens ShareBottomSheet when on mobile and portrait',
+        (tester) async {
+          when(() => platformHelper.isMobile).thenReturn(true);
+          tester.setPortraitDisplaySize();
+
+          final subject = ShareButton(
+            image: image,
+            platformHelper: platformHelper,
+          );
+          await tester.pumpApp(
+            BlocProvider.value(
+              value: ShareBloc(),
+              child: subject,
+            ),
+          );
+          await tester.tap(find.byWidget(subject));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(ShareBottomSheet), findsOneWidget);
         },
       );
     });

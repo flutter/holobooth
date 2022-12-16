@@ -60,7 +60,7 @@ class _App extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       home: SharePage(
         frames: [RawFrame(1, ByteData(1))],
-        images: const [
+        images: [
           PhotoboothCameraImage(constraint: PhotoConstraint(), data: '')
         ],
       ),
