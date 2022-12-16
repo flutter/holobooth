@@ -63,14 +63,12 @@ class DesktopButtonsLayout extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShareButton(
-              image: image,
-            ),
-            const SizedBox(width: 36),
-            const DownloadButton(),
-            const SizedBox(width: 36),
-            const TakeANewPhoto(),
+          children: const [
+            ShareButton(),
+            SizedBox(width: 36),
+            DownloadButton(),
+            SizedBox(width: 36),
+            TakeANewPhoto(),
           ],
         ),
       ],
@@ -91,14 +89,12 @@ class MobileButtonsLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ShareButton(
-          image: image,
-        ),
-        const SizedBox(height: 16),
-        const DownloadButton(),
-        const SizedBox(height: 16),
-        const TakeANewPhoto(),
+      children: const [
+        ShareButton(),
+        SizedBox(height: 16),
+        DownloadButton(),
+        SizedBox(height: 16),
+        TakeANewPhoto(),
       ],
     );
   }
