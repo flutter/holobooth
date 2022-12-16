@@ -15,15 +15,6 @@ enum Character {
     }
   }
 
-  ImageProvider toImageProvider() {
-    switch (this) {
-      case Character.dash:
-        return Assets.characters.dash.provider();
-      case Character.sparky:
-        return Assets.characters.sparky.provider();
-    }
-  }
-
   Color toBackgroundColor() {
     switch (this) {
       case Character.dash:
