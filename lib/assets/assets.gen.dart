@@ -40,6 +40,10 @@ class $AssetsAudioGen {
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
+  /// File path: assets/backgrounds/animoji_intro_background.png
+  AssetGenImage get animojiIntroBackground =>
+      const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
+
   /// File path: assets/backgrounds/beach.png
   AssetGenImage get beach =>
       const AssetGenImage('assets/backgrounds/beach.png');
@@ -78,6 +82,7 @@ class $AssetsBackgroundsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        animojiIntroBackground,
         beach,
         blueCircle,
         holobooth,
