@@ -70,24 +70,10 @@ class _LandingBodyContent extends StatelessWidget {
       children: [
         Assets.images.flutterForwardLogo.image(width: 300),
         const SizedBox(height: 32),
-        ShaderMask(
-          shaderCallback: (bounds) {
-            return const LinearGradient(
-              colors: [
-                // TODO(willhlas): use theme colors once it's ready.
-                Color(0xFFEFBDCF),
-                Color(0xFF9E81EF),
-              ],
-            ).createShader(Offset.zero & bounds.size);
-          },
-          child: SelectableText(
-            l10n.landingPageHeading,
-            key: const Key('landingPage_heading_text'),
-            style: theme.textTheme.displayLarge!.copyWith(
-              color: PhotoboothColors.white,
-            ),
-            textAlign: smallScreen ? TextAlign.center : TextAlign.left,
-          ),
+        GradientText(
+          text: l10n.landingPageHeading,
+          style: theme.textTheme.displayLarge,
+          textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),
         const SizedBox(height: 16),
         SelectableText(

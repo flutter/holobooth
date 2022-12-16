@@ -4,8 +4,6 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-// TODO(willhlas): use theme colors once it's ready.
-
 class AnimojiIntroBody extends StatelessWidget {
   const AnimojiIntroBody({super.key});
 

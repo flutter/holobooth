@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/animoji_intro/view/animoji_intro_page.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -23,7 +24,10 @@ void main() {
 
     testWidgets('renders heading', (tester) async {
       await tester.pumpApp(const LandingView());
-      expect(find.byKey(Key('landingPage_heading_text')), findsOneWidget);
+
+      final l10n = tester.element(find.byType(LandingView)).l10n;
+
+      expect(find.text(l10n.landingPageHeading), findsOneWidget);
     });
 
     testWidgets('renders image', (tester) async {
