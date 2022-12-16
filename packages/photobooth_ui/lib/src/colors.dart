@@ -72,5 +72,5 @@ abstract class HoloBoothColors {
   static const Color gradientSecondaryOne = Color(0xffF9F8C4);
 
   /// Second color of gradient secondary
-  static const Color gradientSecondaryTwo = Color(0xffF9F8C4);
+  static const Color gradientSecondaryTwo = Color(0xff27F5DD);
 }
