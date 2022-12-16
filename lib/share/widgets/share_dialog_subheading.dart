@@ -10,7 +10,7 @@ class ShareDialogSubheading extends StatelessWidget {
     final theme = Theme.of(context);
     return SelectableText(
       l10n.shareDialogSubheading,
-      style: theme.textTheme.displayMedium?.copyWith(color: Colors.white),
+      style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
     );
   }
 }

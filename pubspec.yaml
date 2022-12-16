@@ -77,7 +77,6 @@ flutter_gen:
   output: lib/assets/
   integrations:
     rive: true
-    flutter_svg: true
 
 flutter:
   uses-material-design: true

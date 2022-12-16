@@ -30,19 +30,44 @@ class LargeShareDialogBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        const Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: ShareDialogAnimation(),
+          ),
+        ),
         Expanded(
-            child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: ShareDialogAnimation(),
-        )),
-        Expanded(
-          child: Column(
-            
-            children: [
-              ShareDialogCloseButton(),
-              ShareDialogHeading(),
-              ShareDialogSubheading(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16, right: 24, bottom: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 40, right: 48),
+                    child: ShareDialogCloseButton(),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 45),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        ShareDialogHeading(),
+                        SizedBox(height: 24),
+                        ShareDialogSubheading(),
+                        SizedBox(height: 60),
+                        Align(child: LargeShareSocialButtons()),
+                        Spacer(),
+                        SocialMediaShareClarificationNote(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         )
       ],

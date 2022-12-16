@@ -15,7 +15,7 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         style: theme.textTheme.bodySmall?.copyWith(
-          color: PhotoboothColors.black,
+          color: const Color(0xffC8C8C8),
           fontWeight: PhotoboothFontWeight.regular,
         ),
         children: <TextSpan>[
@@ -29,12 +29,8 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
               decoration: TextDecoration.underline,
             ),
           ),
-          TextSpan(
-            text: l10n.sharePageSocialMediaShareClarification3,
-          ),
         ],
       ),
-      textAlign: TextAlign.center,
     );
   }
 }

@@ -10,7 +10,7 @@ class FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return ElevatedButton(
+    return GradientOutlinedButton(
       onPressed: () {
         final state = context.read<ShareBloc>().state;
         if (state.shareStatus.isSuccess &&
@@ -25,7 +25,8 @@ class FacebookButton extends StatelessWidget {
 
         Navigator.of(context).pop();
       },
-      child: Text(l10n.shareDialogFacebookButtonText),
+      label: Text(l10n.shareDialogFacebookButtonText),
+      icon: Icon(Icons.abc),
     );
   }
 }
