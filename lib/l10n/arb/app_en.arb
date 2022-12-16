@@ -124,11 +124,11 @@
   "@sharePageErrorSubheading": {
     "description": "Subheading shown on the share page when an error occurs."
   },
-  "shareDialogHeading": "Share your photo!",
+  "shareDialogHeading": "Share your video!",
   "@shareDialogHeading": {
     "description": "Heading shown on the share dialog."
   },
-  "shareDialogSubheading": "Let everyone know you're at Google I∕O by sharing your photo & updating your profile picture during the event!",
+  "shareDialogSubheading": "Let everyone know you're at Flutter Forward by sharing your video during the event!",
   "@shareDialogSubheading": {
     "description": "Subheading shown on the share dialog."
   },

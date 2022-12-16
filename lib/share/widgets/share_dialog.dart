@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/share/widgets/widgets.dart';
 
 class ShareDialog extends StatelessWidget {
   const ShareDialog({
@@ -24,6 +25,7 @@ class ShareDialog extends StatelessWidget {
           color: const Color(0xFF020320).withOpacity(0.95),
           borderRadius: BorderRadius.circular(38),
         ),
+        child: ShareDialogBody(),
       ),
     );
   }
