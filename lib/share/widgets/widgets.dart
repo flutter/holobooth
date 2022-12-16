@@ -3,6 +3,7 @@ export 'animated_photobooth_photo.dart';
 export 'facebook_button.dart';
 export 'share_background.dart';
 export 'share_body.dart';
+export 'share_bottom_sheet.dart';
 export 'share_button.dart';
 export 'share_dialog.dart';
 export 'share_heading.dart';
