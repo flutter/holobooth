@@ -4,12 +4,19 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class ShareButton extends StatelessWidget {
   const ShareButton({
     super.key,
+    this.platformHelper,
     required this.image,
   });
+
+  /// Optional [PlatformHelper] instance.
+  ///
+  /// Used to decide whether to show a [ShareBottomSheet] or [ShareDialog].
+  final PlatformHelper? platformHelper;
 
   final PhotoboothCameraImage image;
 
@@ -21,12 +28,19 @@ class ShareButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: PhotoboothColors.white,
       ),
-      onPressed: () {
-        showAppDialog<void>(
+      onPressed: () async {
+        await showAppModal<void>(
           context: context,
-          child: BlocProvider.value(
+          platformHelper: platformHelper,
+          portraitChild: BlocProvider.value(
             value: context.read<ShareBloc>(),
-            child: const ShareDialog(),
+            child: ShareBottomSheet(image: image),
+          ),
+          landscapeChild: BlocProvider.value(
+            value: context.read<ShareBloc>(),
+            child: ShareDialog(
+              image: image,
+            ),
           ),
         );
       },
