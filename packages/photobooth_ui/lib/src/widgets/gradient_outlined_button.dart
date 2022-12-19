@@ -27,11 +27,13 @@ class GradientOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        OutlinedButton.icon(
-          onPressed: onPressed,
-          icon: icon,
-          label: label,
-          style: OutlinedButton.styleFrom(side: BorderSide.none),
+        Align(
+          child: OutlinedButton.icon(
+            onPressed: onPressed,
+            icon: icon,
+            label: label,
+            style: OutlinedButton.styleFrom(side: BorderSide.none),
+          ),
         ),
         Positioned.fill(
           child: IgnorePointer(

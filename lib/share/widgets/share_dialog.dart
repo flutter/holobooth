@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/share/widgets/widgets.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareDialog extends StatelessWidget {

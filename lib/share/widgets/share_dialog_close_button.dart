@@ -8,13 +8,16 @@ class ShareDialogCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        child: Assets.icons.closeIcon.image(height: size),
-        onTap: () {
-          Navigator.of(context).pop();
-        },
+    return SizedBox.square(
+      dimension: size,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          child: Assets.icons.closeIcon.image(height: size),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
     );
   }
