@@ -18,7 +18,7 @@ class GradientOutlinedButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   /// The icon for the button.
-  final Icon icon;
+  final Widget icon;
 
   /// The label for the button.
   final Widget label;
@@ -29,17 +29,7 @@ class GradientOutlinedButton extends StatelessWidget {
       children: [
         OutlinedButton.icon(
           onPressed: onPressed,
-          icon: ShaderMask(
-            shaderCallback: (bounds) {
-              return const LinearGradient(
-                colors: [
-                  Color(0xFFEFBDCF),
-                  Color(0xFF9E81EF),
-                ],
-              ).createShader(Offset.zero & bounds.size);
-            },
-            child: icon,
-          ),
+          icon: icon,
           label: label,
           style: OutlinedButton.styleFrom(side: BorderSide.none),
         ),
