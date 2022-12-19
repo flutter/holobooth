@@ -68,14 +68,14 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   late final AnimationController _leftEyeAnimationController =
       AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 70),
+    duration: const Duration(milliseconds: 60),
   );
   final Tween<double> _leftEyeTween = Tween(begin: 0, end: 0);
 
   late final AnimationController _rightEyeAnimationController =
       AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 70),
+    duration: const Duration(milliseconds: 60),
   );
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
 
