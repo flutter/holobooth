@@ -7,13 +7,16 @@ class ShareDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isSmall =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       backgroundColor: PhotoboothColors.transparent,
       content: Container(
         padding: const EdgeInsets.all(1),
-        height: 600,
-        width: 900,
+        height: isSmall ? 900 : 600,
+        width: isSmall ? 500 : 900,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(38),
           gradient: const LinearGradient(

@@ -19,7 +19,23 @@ class SmallShareDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.only(top: 40, right: 48),
+            child: ShareDialogCloseButton(),
+          ),
+        ),
+        ShareDialogHeading(),
+        SizedBox(height: 24),
+        ShareDialogSubheading(),
+        SmallShareSocialButtons(),
+        ShareDialogAnimation(),
+        SocialMediaShareClarificationNote()
+      ],
+    );
   }
 }
 
