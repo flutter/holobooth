@@ -33,7 +33,7 @@ class Avatar extends Equatable {
     hasMouthOpen: false,
     mouthDistance: 0,
     direction: Vector3.zero,
-    distance: 1,
+    distance: 0,
     leftEyeGeometry: LeftEyeGeometry.empty(),
     rightEyeGeometry: RightEyeGeometry.empty(),
   );
