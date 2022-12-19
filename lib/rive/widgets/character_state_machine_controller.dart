@@ -25,6 +25,14 @@ class CharacterStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$yInputName"');
     }
 
+    const zInputName = 'z';
+    final z = findInput<double>(zInputName);
+    if (z is SMINumber) {
+      this.z = z;
+    } else {
+      throw StateError('Could not find input "$zInputName"');
+    }
+
     const mouthDistanceInputName = 'Mouth Open';
     final mouthDistance = findInput<double>(mouthDistanceInputName);
     if (mouthDistance is SMINumber) {
@@ -84,6 +92,7 @@ class CharacterStateMachineController extends StateMachineController {
 
   late final SMINumber x;
   late final SMINumber y;
+  late final SMINumber z;
   late final SMINumber mouthDistance;
   late final SMINumber leftEyeIsClosed;
   late final SMINumber rightEyeIsClosed;
