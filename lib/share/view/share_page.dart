@@ -82,9 +82,7 @@ class ShareView extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            const Positioned.fill(
-              child: ShareBackground(),
-            ),
+            const Positioned.fill(child: ShareBackground()),
             Positioned.fill(
               child: Column(
                 children: [
