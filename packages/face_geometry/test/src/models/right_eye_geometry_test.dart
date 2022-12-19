@@ -49,6 +49,59 @@ void main() {
       });
     });
 
+    group('update', () {
+      test('return normally when no keypoints are given', () {
+        final geometry = RightEyeGeometry(
+          keypoints: const [],
+          boundingBox: boundingBox,
+        );
+        expect(
+          () => geometry.update([], boundingBox),
+          returnsNormally,
+        );
+      });
+
+      test('return normally when keypoints are given', () {
+        final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0));
+        final geometry = RightEyeGeometry(
+          keypoints: keypoints,
+          boundingBox: boundingBox,
+        );
+        expect(
+          () => geometry.update(keypoints, boundingBox),
+          returnsNormally,
+        );
+      });
+    });
+
+    group('supports value equality', () {
+      test('when all properties are equal', () {
+        final geometry1 = RightEyeGeometry(
+          keypoints: const [],
+          boundingBox: boundingBox,
+        );
+        final geometry2 = RightEyeGeometry(
+          keypoints: const [],
+          boundingBox: boundingBox,
+        );
+
+        expect(geometry1, equals(geometry2));
+      });
+
+      test('when keypoints are different', () {
+        final geometry1 = RightEyeGeometry(
+          keypoints: const [],
+          boundingBox: boundingBox,
+        );
+        final geometry2 = RightEyeGeometry(
+          keypoints: List.generate(468, (_) => _FakeKeypoint(0, 0)),
+          boundingBox: boundingBox,
+        );
+
+        expect(geometry1, isNot(equals(geometry2)));
+      });
+    });
+
     group('isClosed', () {
       test('is false when no keypoints are given', () {
         final rightEyeGeometry = RightEyeGeometry(

@@ -6,22 +6,23 @@ import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart'
     as tf;
 
-class EyeKeypoint extends Equatable {
-  EyeKeypoint({
+@immutable
+class _EyeKeypoint {
+  _EyeKeypoint({
     required this.topEyeLid,
     required this.bottomEyeLid,
   }) : distance = topEyeLid.distanceTo(bottomEyeLid);
 
-  /// Creates an instance of [EyeKeypoint] from the left eye keypoints.
-  EyeKeypoint.left(
+  /// Creates an instance of [_EyeKeypoint] from the left eye keypoints.
+  _EyeKeypoint.left(
     List<tf.Keypoint> keypoints,
   ) : this(
           topEyeLid: keypoints[159],
           bottomEyeLid: keypoints[145],
         );
 
-  /// Creates an instance of [EyeKeypoint] from the right eye keypoints.
-  EyeKeypoint.right(
+  /// Creates an instance of [_EyeKeypoint] from the right eye keypoints.
+  _EyeKeypoint.right(
     List<tf.Keypoint> keypoints,
   ) : this(
           topEyeLid: keypoints[386],
@@ -31,15 +32,12 @@ class EyeKeypoint extends Equatable {
   final tf.Keypoint topEyeLid;
   final tf.Keypoint bottomEyeLid;
   final double distance;
-
-  @override
-  List<Object?> get props => [topEyeLid, bottomEyeLid, distance];
 }
 
 @immutable
 abstract class _EyeGeometry extends Equatable {
   _EyeGeometry._compute({
-    required EyeKeypoint eyeKeypoint,
+    required _EyeKeypoint eyeKeypoint,
     required tf.BoundingBox boundingBox,
     double? previousMinRatio,
     double? previousMaxRatio,
@@ -107,7 +105,7 @@ abstract class _EyeGeometry extends Equatable {
     return distance / faceHeight;
   }
 
-  /// Computes the mean distance of some [EyeKeypoint].
+  /// Computes the mean distance of some [_EyeKeypoint].
   static double? _computeMeanRatio({
     required double distance,
     required int population,
@@ -218,7 +216,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   }) {
     if (keypoints.length > 160) {
       return LeftEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints),
+        eyeKeypoint: _EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
       );
     } else {
@@ -249,7 +247,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   ) {
     if (keypoints.length > 160) {
       return LeftEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints),
+        eyeKeypoint: _EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
@@ -272,9 +270,9 @@ class RightEyeGeometry extends _EyeGeometry {
     required List<tf.Keypoint> keypoints,
     required tf.BoundingBox boundingBox,
   }) {
-    if (keypoints.length > 160) {
+    if (keypoints.length > 375) {
       return RightEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints),
+        eyeKeypoint: _EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
       );
     } else {
@@ -303,9 +301,9 @@ class RightEyeGeometry extends _EyeGeometry {
     List<tf.Keypoint> keypoints,
     tf.BoundingBox boundingBox,
   ) {
-    if (keypoints.length > 160) {
+    if (keypoints.length > 375) {
       return RightEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.right(keypoints),
+        eyeKeypoint: _EyeKeypoint.right(keypoints),
         boundingBox: boundingBox,
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
