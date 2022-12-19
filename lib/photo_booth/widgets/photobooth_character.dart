@@ -41,7 +41,7 @@ class PhotoboothCharacter extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       child: characterSelected == Character.dash
           ? AspectRatio(
-              aspectRatio: 2500 / 2100,
+              aspectRatio: 2100 / 2100,
               child: DashAnimation(
                 avatar: avatar,
                 hat: hat,
