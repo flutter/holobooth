@@ -67,33 +67,42 @@ class _BackgroundSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      key: Key('backgroundSelectionElement_${background.name}'),
-      child: Container(
-        alignment: Alignment.center,
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: isSelected ? null : HoloBoothColors.darkBlue,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [
+                  HoloBoothColors.gradientSecondaryOne,
+                  HoloBoothColors.gradientSecondaryTwo,
+                ],
+              )
+            : null,
+      ),
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          border: Border.all(
-            strokeAlign: BorderSide.strokeAlignOutside,
-            color:
-                isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
-            width: 4,
-          ),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           image: DecorationImage(
             image: background.toImageProvider(),
             fit: BoxFit.cover,
           ),
         ),
-        child: Text(
-          background.name,
-          style: Theme.of(context).textTheme.bodyMedium,
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const RoundedRectangleBorder(),
+          color: PhotoboothColors.transparent,
+          child: InkWell(
+            key: Key('backgroundSelectionElement_${background.name}'),
+            onTap: () {
+              context
+                  .read<InExperienceSelectionBloc>()
+                  .add(InExperienceSelectionBackgroundSelected(background));
+            },
+          ),
         ),
       ),
-      onTap: () {
-        context
-            .read<InExperienceSelectionBloc>()
-            .add(InExperienceSelectionBackgroundSelected(background));
-      },
     );
   }
 }
