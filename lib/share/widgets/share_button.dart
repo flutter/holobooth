@@ -13,10 +13,7 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: PhotoboothColors.white,
-      ),
+    return GradientOutlinedButton(
       onPressed: () async {
         await showAppDialog<void>(
           context: context,
@@ -26,13 +23,8 @@ class ShareButton extends StatelessWidget {
           ),
         );
       },
-      child: Text(
-        l10n.sharePageShareButtonText,
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: PhotoboothColors.blue),
-      ),
+      icon: const Icon(Icons.share),
+      label: Text(l10n.sharePageShareButtonText),
     );
   }
 }

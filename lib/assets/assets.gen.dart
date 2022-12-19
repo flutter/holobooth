@@ -68,6 +68,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get redBox =>
       const AssetGenImage('assets/backgrounds/red_box.png');
 
+  /// File path: assets/backgrounds/share_background.png
+  AssetGenImage get shareBackground =>
+      const AssetGenImage('assets/backgrounds/share_background.png');
+
   /// File path: assets/backgrounds/space.png
   AssetGenImage get space =>
       const AssetGenImage('assets/backgrounds/space.png');
@@ -89,6 +93,7 @@ class $AssetsBackgroundsGen {
         landingBackground,
         photoboothBackground,
         redBox,
+        shareBackground,
         space,
         underwater,
         yellowPlus

@@ -9,13 +9,13 @@ class GradientOutlinedButton extends StatelessWidget {
   /// {@macro gradient_outlined_button}
   const GradientOutlinedButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.icon,
     required this.label,
   });
 
   /// Called when the button is pressed.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The icon for the button.
   final Widget icon;
