@@ -62,10 +62,11 @@ class LargeShareDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Expanded(
                 child: Padding(
@@ -74,32 +75,34 @@ class LargeShareDialogBody extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 40, right: 48),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 40, right: 48, bottom: 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Align(
+                        alignment: Alignment.centerRight,
                         child: ShareDialogCloseButton(
                           size: 48,
                         ),
                       ),
-                    ),
-                    ShareDialogHeading(),
-                    SizedBox(height: 24),
-                    ShareDialogSubheading(),
-                    SizedBox(height: 48),
-                    Align(child: LargeShareSocialButtons()),
-                    SocialMediaShareClarificationNote(),
-                  ],
+                      ShareDialogHeading(),
+                      SizedBox(height: 24),
+                      ShareDialogSubheading(),
+                      SizedBox(height: 40),
+                      LargeShareSocialButtons(),
+                      Spacer(),
+                      SocialMediaShareClarificationNote(),
+                    ],
+                  ),
                 ),
               ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

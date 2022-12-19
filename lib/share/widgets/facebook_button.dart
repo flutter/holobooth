@@ -26,7 +26,7 @@ class FacebookButton extends StatelessWidget {
         Navigator.of(context).pop();
       },
       label: Text(l10n.shareDialogFacebookButtonText),
-      icon: Icon(Icons.abc),
+      icon: const Icon(Icons.abc),
     );
   }
 }
