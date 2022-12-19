@@ -40,7 +40,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   /// tolerance applies to both the left and right eye.
   static const _eyeDistanceToleration = 10;
 
-  /// The minimum number of samples taken before the eye animation will be
+  /// The minimum number of samples taken before the eye animation is
   /// enabled.
   ///
   /// This is due to the fact that the eye geometry requires some calibration
