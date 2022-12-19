@@ -56,7 +56,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   static const _eyeClosureToleration = 50;
 
   @visibleForTesting
-  CharacterStateMachineController? dashController;
+  CharacterStateMachineController? characterController;
 
   late final AnimationController _rotationAnimationController =
       AnimationController(
@@ -81,15 +81,15 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
 
   void onRiveInit(Artboard artboard) {
-    dashController = CharacterStateMachineController(artboard);
-    artboard.addController(dashController!);
+    characterController = CharacterStateMachineController(artboard);
+    artboard.addController(characterController!);
     _rotationAnimationController.addListener(_controlDashPosition);
     _leftEyeAnimationController.addListener(_controlLeftEye);
     _rightEyeAnimationController.addListener(_controlRightEye);
   }
 
   void _controlDashPosition() {
-    final dashController = this.dashController;
+    final dashController = this.characterController;
     if (dashController != null) {
       final vector = _rotationTween.evaluate(_rotationAnimationController);
       dashController.x.change(vector.x);
@@ -98,7 +98,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   }
 
   void _controlLeftEye() {
-    final dashController = this.dashController;
+    final dashController = this.characterController;
     if (dashController == null) return;
 
     final distance = _leftEyeTween.evaluate(_leftEyeAnimationController);
@@ -106,7 +106,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   }
 
   void _controlRightEye() {
-    final dashController = this.dashController;
+    final dashController = this.characterController;
     if (dashController == null) return;
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
@@ -116,7 +116,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   @override
   void didUpdateWidget(covariant T oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final characterController = this.dashController;
+    final characterController = this.characterController;
     if (characterController != null) {
       final previousRotationVector = Vector3(
         characterController.x.value,
@@ -233,7 +233,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
   @override
   void dispose() {
-    dashController?.dispose();
+    characterController?.dispose();
     super.dispose();
   }
 
