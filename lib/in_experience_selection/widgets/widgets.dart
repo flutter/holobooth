@@ -6,7 +6,7 @@ export 'hats_selection_tab_bar_view.dart';
 export 'miscellaneous_selection_tab_bar_view.dart';
 export 'next_button.dart';
 export 'primary_selection_tab_view.dart';
-export 'props_grid_view.dart';
+export 'props_scroll_view.dart';
 export 'props_selection_element.dart';
 export 'props_selection_tab_bar_view.dart';
 export 'recording_button.dart';

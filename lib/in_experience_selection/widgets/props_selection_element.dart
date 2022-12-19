@@ -22,10 +22,10 @@ class PropSelectionElement extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 75,
+          height: 40,
           width: 100,
           alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          margin: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(

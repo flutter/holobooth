@@ -15,7 +15,7 @@ class MiscellaneousSelectionTabBarView extends StatelessWidget {
     final selectedHandheldlLeft = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.handheldlLeft);
     const items = HandheldlLeft.values;
-    return PropsGridView(
+    return PropsScrollView(
       itemBuilder: (context, index) {
         final item = items[index];
         return PropSelectionElement(

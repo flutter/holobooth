@@ -5,20 +5,20 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class BackgroundSelectionTabBarView extends StatelessWidget {
-  const BackgroundSelectionTabBarView({super.key, required this.onNextPressed});
-
-  final VoidCallback onNextPressed;
+  const BackgroundSelectionTabBarView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
     final l10n = context.l10n;
+    final isSmall =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 24),
+          padding: EdgeInsets.only(bottom: isSmall ? 12 : 40),
           child: Text(
             l10n.backgroundsTabTitle,
             style: Theme.of(context)
@@ -28,20 +28,28 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
           ),
         ),
         Flexible(
-          child: ListView.builder(
+          child: ListView.separated(
+            scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
             itemCount: Background.values.length,
             itemBuilder: (context, index) {
               final background = Background.values[index];
-              return _BackgroundSelectionElement(
-                background: background,
-                isSelected: backgroundSelected == background,
+              return Padding(
+                padding: isSmall
+                    ? const EdgeInsets.only(left: 16, top: 12, bottom: 12)
+                    : const EdgeInsets.only(left: 60, right: 60, top: 5),
+                child: AspectRatio(
+                  aspectRatio: 120 / 80,
+                  child: _BackgroundSelectionElement(
+                    background: background,
+                    isSelected: backgroundSelected == background,
+                  ),
+                ),
               );
             },
+            separatorBuilder: (context, index) => const SizedBox.square(
+              dimension: 32,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: NextButton(onNextPressed: onNextPressed),
         ),
       ],
     );
@@ -59,36 +67,42 @@ class _BackgroundSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      key: Key('backgroundSelectionElement_${background.name}'),
-      child: Container(
-        height: 90,
-        width: 100,
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(horizontal: 54, vertical: 24),
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: isSelected ? null : HoloBoothColors.darkBlue,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [
+                  HoloBoothColors.gradientSecondaryOne,
+                  HoloBoothColors.gradientSecondaryTwo,
+                ],
+              )
+            : null,
+      ),
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          border: Border.all(
-            strokeAlign: BorderSide.strokeAlignOutside,
-            color:
-                isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
-            width: 4,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
           image: DecorationImage(
             image: background.toImageProvider(),
             fit: BoxFit.cover,
           ),
         ),
-        child: Text(
-          background.name,
-          style: Theme.of(context).textTheme.bodyMedium,
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const RoundedRectangleBorder(),
+          color: PhotoboothColors.transparent,
+          child: InkWell(
+            key: Key('backgroundSelectionElement_${background.name}'),
+            onTap: () {
+              context
+                  .read<InExperienceSelectionBloc>()
+                  .add(InExperienceSelectionBackgroundSelected(background));
+            },
+          ),
         ),
       ),
-      onTap: () {
-        context
-            .read<InExperienceSelectionBloc>()
-            .add(InExperienceSelectionBackgroundSelected(background));
-      },
     );
   }
 }
