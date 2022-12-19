@@ -67,4 +67,13 @@ abstract class HoloBoothColors {
 
   /// Dark blue
   static const Color gray = Color(0xff7A7C93);
+
+  /// First color of gradient secondary
+  static const Color gradientSecondaryOne = Color(0xffF9F8C4);
+
+  /// Second color of gradient secondary
+  static const Color gradientSecondaryTwo = Color(0xff27F5DD);
+
+  /// Color for prop tab
+  static const Color propTabSelection = Color(0xffB7F7CC);
 }

@@ -58,29 +58,39 @@ class _CharacterSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 55,
-      backgroundColor:
-          isSelected ? PhotoboothColors.white : HoloBoothColors.darkBlue,
-      child: CircleAvatar(
-        radius: 50,
-        backgroundColor: character.toBackgroundColor(),
+    return Container(
+      width: 100,
+      height: 100,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isSelected ? null : HoloBoothColors.darkBlue,
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [
+                  HoloBoothColors.gradientSecondaryOne,
+                  HoloBoothColors.gradientSecondaryTwo,
+                ],
+              )
+            : null,
+      ),
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: PhotoboothColors.transparent,
+        ),
         child: Material(
-          shape: const CircleBorder(),
           clipBehavior: Clip.hardEdge,
-          color: Colors.transparent,
+          color: character.toBackgroundColor(),
+          shape: const CircleBorder(),
           child: InkWell(
             key: Key('characterSelectionElement_${character.name}'),
-            child: SizedBox(
-              height: 100,
-              width: 100,
-              child: character.toImage(),
-            ),
             onTap: () {
               context
                   .read<InExperienceSelectionBloc>()
                   .add(InExperienceSelectionCharacterSelected(character));
             },
+            child: character.toImage(),
           ),
         ),
       ),
