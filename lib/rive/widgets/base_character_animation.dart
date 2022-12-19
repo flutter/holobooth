@@ -94,6 +94,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       final vector = _rotationTween.evaluate(_rotationAnimationController);
       dashController.x.change(vector.x);
       dashController.y.change(vector.y);
+      dashController.z.change(vector.z);
     }
   }
 
