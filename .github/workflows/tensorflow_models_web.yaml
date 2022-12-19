@@ -43,4 +43,4 @@ jobs:
           ./chromedriver/chromedriver --port=4444 &
 
       - name: Integration Tests
-        run: flutter drive --driver=test_driver/integration_test.dart --target=test/src/tensorflow_models_plugin_test.dart -d chrome
+        run: flutter drive --driver=test_driver/integration_test.dart --target=test/src/tensorflow_models_plugin_test.dart -d web-server --browser-name=chrome
