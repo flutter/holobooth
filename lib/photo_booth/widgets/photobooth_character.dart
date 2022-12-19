@@ -40,21 +40,27 @@ class PhotoboothCharacter extends StatelessWidget {
       scale: normalizedDistance,
       duration: const Duration(milliseconds: 200),
       child: characterSelected == Character.dash
-          ? DashAnimation(
-              avatar: avatar,
-              hat: hat,
-              glasses: glasses,
-              clothes: clothes,
-              handheldlLeft: handheldlLeft,
-              assetGenImage: Assets.animations.dash,
+          ? AspectRatio(
+              aspectRatio: 2500 / 2100,
+              child: DashAnimation(
+                avatar: avatar,
+                hat: hat,
+                glasses: glasses,
+                clothes: clothes,
+                handheldlLeft: handheldlLeft,
+                assetGenImage: Assets.animations.dash,
+              ),
             )
-          : SparkyAnimation(
-              avatar: avatar,
-              hat: hat,
-              glasses: glasses,
-              clothes: clothes,
-              handheldlLeft: handheldlLeft,
-              assetGenImage: Assets.animations.sparky,
+          : AspectRatio(
+              aspectRatio: 2500 / 2100,
+              child: SparkyAnimation(
+                avatar: avatar,
+                hat: hat,
+                glasses: glasses,
+                clothes: clothes,
+                handheldlLeft: handheldlLeft,
+                assetGenImage: Assets.animations.sparky,
+              ),
             ),
     );
   }

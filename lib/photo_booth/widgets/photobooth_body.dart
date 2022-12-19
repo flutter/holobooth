@@ -89,11 +89,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 ),
               ),
               const Align(
-                child: SizedBox(
-                  height: 500,
-                  width: 500,
-                  child: PhotoboothCharacter(),
-                ),
+                child: PhotoboothCharacter(),
               ),
               if (_isCameraAvailable) ...[
                 CameraStreamListener(cameraController: _cameraController!),
