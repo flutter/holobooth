@@ -11,23 +11,10 @@ class ShareHeading extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final isSmallScreen =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
-    return ShaderMask(
-      shaderCallback: (bounds) {
-        return const LinearGradient(
-          colors: [
-            // TODO(willhlas): use theme colors once it's ready.
-            Color(0xFFEFBDCF),
-            Color(0xFF9E81EF),
-          ],
-        ).createShader(Offset.zero & bounds.size);
-      },
-      child: SelectableText(
-        l10n.sharePageHeading,
-        style: textTheme.displayLarge?.copyWith(
-          color: PhotoboothColors.white,
-        ),
-        textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
-      ),
+    return GradientText(
+      text: l10n.sharePageHeading,
+      textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
+      style: textTheme.displayLarge,
     );
   }
 }

@@ -11,7 +11,7 @@ class ShareSubheading extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final isSmall =
+    final isSmallScreen =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
@@ -47,7 +47,7 @@ class ShareSubheading extends StatelessWidget {
           ),
         ],
       ),
-      textAlign: isSmall ? TextAlign.center : TextAlign.left,
+      textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
     );
   }
 }

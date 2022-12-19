@@ -26,12 +26,12 @@ class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
 }
 
 void main() {
+  final images = [
+    FakePhotoboothCameraImage(),
+    FakePhotoboothCameraImage(),
+    FakePhotoboothCameraImage()
+  ];
   group('SharePage', () {
-    final images = [
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage()
-    ];
     test('is routable', () {
       expect(SharePage.route(images, []), isA<AppPageRoute<void>>());
     });
@@ -56,12 +56,6 @@ void main() {
     setUpAll(() {
       registerFallbackValue(LaunchOptions());
     });
-
-    final images = [
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage(),
-      FakePhotoboothCameraImage()
-    ];
 
     testWidgets('renders ShareBackground', (tester) async {
       await tester.pumpApp(
@@ -230,7 +224,7 @@ void main() {
       expect(find.byType(ShareButton), findsOneWidget);
     });
 
-    testWidgets('displays a download button', (tester) async {
+    testWidgets('displays a DownloadButton', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(
           child: ShareBody(
@@ -239,16 +233,12 @@ void main() {
         ),
       );
       expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is GradientOutlinedButton &&
-              widget.icon.icon == Icons.file_download_rounded,
-        ),
+        find.byType(DownloadButton),
         findsOneWidget,
       );
     });
 
-    testWidgets('displays a retake button', (tester) async {
+    testWidgets('displays a RetakeButton', (tester) async {
       await tester.pumpApp(
         SingleChildScrollView(
           child: ShareBody(
@@ -257,17 +247,13 @@ void main() {
         ),
       );
       expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is GradientOutlinedButton &&
-              widget.icon.icon == Icons.videocam_rounded,
-        ),
+        find.byType(RetakeButton),
         findsOneWidget,
       );
     });
 
     testWidgets(
-      'retake button navigates to photobooth when pressed',
+      'RetakeButton navigates to photobooth when pressed',
       (tester) async {
         await tester.pumpApp(
           SingleChildScrollView(
@@ -277,12 +263,7 @@ void main() {
           ),
         );
 
-        final finder = find.byWidgetPredicate(
-          (widget) =>
-              widget is GradientOutlinedButton &&
-              widget.icon.icon == Icons.videocam_rounded,
-        );
-
+        final finder = find.byType(RetakeButton);
         await tester.ensureVisible(finder);
         await tester.tap(finder);
         await tester.pump(kThemeAnimationDuration);
@@ -290,25 +271,6 @@ void main() {
         expect(find.byType(PhotoBoothPage), findsOneWidget);
       },
     );
-
-    testWidgets('download button is invoked when pressed', (tester) async {
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
-      );
-
-      final finder = find.byWidgetPredicate(
-        (widget) =>
-            widget is GradientOutlinedButton &&
-            widget.icon.icon == Icons.file_download_rounded,
-      );
-      await tester.ensureVisible(finder);
-      await tester.tap(finder);
-      // TODO(laura177): test for download when functionality is added.
-    });
   });
 }
 
