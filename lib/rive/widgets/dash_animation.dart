@@ -27,31 +27,76 @@ class DashAnimation extends StatefulWidget {
 @visibleForTesting
 class DashAnimationState extends State<DashAnimation>
     with TickerProviderStateMixin {
+  static const _rotationToleration = 3;
+  static const _eyeDistanceToleration = 10;
+
   @visibleForTesting
   DashStateMachineController? dashController;
 
-  late final AnimationController _animationController = AnimationController(
+  late final AnimationController _rotationAnimationController =
+      AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 50),
   );
 
-  final Tween<Offset> _tween = Tween(begin: Offset.zero, end: Offset.zero);
+  late final AnimationController _leftEyeAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 70),
+  );
 
-  static const _distanceToleration = 3;
+  late final AnimationController _rightEyeAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 70),
+  );
+
+  final Tween<Offset> _rotationTween = Tween(
+    begin: Offset.zero,
+    end: Offset.zero,
+  );
+
+  final Tween<double> _leftEyeTween = Tween(
+    begin: 0,
+    end: 0,
+  );
+
+  final Tween<double> _rightEyeTween = Tween(
+    begin: 0,
+    end: 0,
+  );
 
   void _onRiveInit(Artboard artboard) {
     dashController = DashStateMachineController(artboard);
     artboard.addController(dashController!);
-    _animationController.addListener(_controlDashPosition);
+    _rotationAnimationController.addListener(_controlRotation);
+    _leftEyeAnimationController.addListener(_controlLeftEye);
+    _rightEyeAnimationController.addListener(_controlRightEye);
   }
 
-  void _controlDashPosition() {
+  void _controlRotation() {
     final dashController = this.dashController;
-    if (dashController != null) {
-      final offset = _tween.evaluate(_animationController);
-      dashController.x.change(offset.dx);
-      dashController.y.change(offset.dy);
-    }
+    if (dashController == null) return;
+
+    final offset = _rotationTween.evaluate(_rotationAnimationController);
+    dashController.x.change(offset.dx);
+    dashController.y.change(offset.dy);
+  }
+
+  void _controlLeftEye() {
+    final dashController = this.dashController;
+    if (dashController == null) return;
+
+    final distance = _leftEyeTween.evaluate(_leftEyeAnimationController);
+    dashController.leftEyeIsClosed.change(distance);
+  }
+
+  void _controlRightEye() {
+    final dashController = this.dashController;
+    if (dashController == null) return;
+
+    final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
+    dashController.rightEyeIsClosed.change(distance);
   }
 
   @override
@@ -69,54 +114,75 @@ class DashAnimationState extends State<DashAnimation>
         widget.avatar.direction.x * 100,
         widget.avatar.direction.y * 100,
       );
-      if ((newOffset - previousOffset).distance > _distanceToleration) {
-        _tween
+      if ((newOffset - previousOffset).distance > _rotationToleration) {
+        _rotationTween
           ..begin = previousOffset
           ..end = newOffset;
-        _animationController.forward(from: 0);
+        _rotationAnimationController.forward(from: 0);
       }
 
+      final previousLeftEyeValue = dashController.leftEyeIsClosed.value;
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
-      late final double leftEyeDistance;
+      late final double newLeftEyeValue;
       if (leftEyeGeometry.generation > 200 &&
           leftEyeGeometry.minRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio!) {
-        leftEyeDistance = 100 -
+        final accurateNewLeftEyeValue = 100 -
             leftEyeGeometry.distance!.normalize(
               fromMin: leftEyeGeometry.minRatio!,
               fromMax: leftEyeGeometry.meanRatio!,
               toMin: 0,
               toMax: 100,
             );
-      } else {
-        leftEyeDistance = 0;
-      }
-      dashController.leftEyeIsClosed.change(
-        leftEyeDistance,
-      );
 
+        if (accurateNewLeftEyeValue > 20) {
+          newLeftEyeValue = 100;
+        } else {
+          newLeftEyeValue = accurateNewLeftEyeValue;
+        }
+      } else {
+        newLeftEyeValue = 0;
+      }
+      if ((newLeftEyeValue - previousLeftEyeValue).abs() >
+          _eyeDistanceToleration) {
+        _leftEyeTween
+          ..begin = previousLeftEyeValue
+          ..end = newLeftEyeValue;
+        _leftEyeAnimationController.forward(from: 0);
+      }
+
+      final previousRightEyeValue = dashController.rightEyeIsClosed.value;
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
-      late final double rightEyeDistance;
+      late final double newRightEyeValue;
       if (rightEyeGeometry.generation > 200 &&
           rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio!) {
-        rightEyeDistance = 100 -
+        final accurateNewLeftEyeValue = 100 -
             rightEyeGeometry.distance!.normalize(
               fromMin: rightEyeGeometry.minRatio!,
               fromMax: rightEyeGeometry.meanRatio!,
               toMin: 0,
               toMax: 100,
             );
+        if (accurateNewLeftEyeValue > 20) {
+          newRightEyeValue = 100;
+        } else {
+          newRightEyeValue = accurateNewLeftEyeValue;
+        }
       } else {
-        rightEyeDistance = 0;
+        newRightEyeValue = 0;
       }
-      dashController.rightEyeIsClosed.change(
-        rightEyeDistance,
-      );
+      if ((newRightEyeValue - previousRightEyeValue).abs() >
+          _eyeDistanceToleration) {
+        _rightEyeTween
+          ..begin = previousRightEyeValue
+          ..end = newRightEyeValue;
+        _rightEyeAnimationController.forward(from: 0);
+      }
 
       if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
         dashController.mouthDistance.change(
