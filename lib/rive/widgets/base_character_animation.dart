@@ -121,7 +121,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       final previousRotationVector = Vector3(
         characterController.x.value,
         characterController.y.value,
-        0,
+        characterController.z.value,
       );
       // Direction has range of values [-1, 1], and the
       // animation controller [-100, 100] so we multiply
@@ -129,7 +129,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       final newRotationVector = Vector3(
         widget.avatar.direction.x * 100,
         widget.avatar.direction.y * 100,
-        0,
+        widget.avatar.direction.z * 100,
       );
       if (newRotationVector.distance(previousRotationVector) >
           _rotationToleration) {
