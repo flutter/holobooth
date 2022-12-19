@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:meta/meta.dart';
-import 'package:tensorflow_models/tensorflow_models.dart';
 
 /// {@template avatar}
 /// Avatar representation.
@@ -55,8 +54,10 @@ class Avatar extends Equatable {
   /// The value is between 0 and 1.
   final double distance;
 
+  /// The [LeftEyeGeometry] of the [Avatar].
   final LeftEyeGeometry leftEyeGeometry;
 
+  /// The [RightEyeGeometry] of the [Avatar].
   final RightEyeGeometry rightEyeGeometry;
 
   @override
