@@ -116,7 +116,15 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   ),
                 ),
               ],
-              const SelectionLayer(),
+              BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
+                selector: (state) => state.isRecording,
+                builder: (context, isRecording) {
+                  if (isRecording) {
+                    return const RecordingLayer();
+                  }
+                  return const SelectionLayer();
+                },
+              ),
             ],
           ),
         );

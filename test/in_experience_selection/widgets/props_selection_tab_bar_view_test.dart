@@ -116,7 +116,9 @@ void main() {
       'adds InExperienceSelectionClothesToggled tapping on a clothes',
       (WidgetTester tester) async {
         await tester.pumpSubject(
-          PropsSelectionTabBarView(initialIndex: 2),
+          PropsSelectionTabBarView(
+            initialIndex: 2,
+          ),
           inExperienceSelectionBloc,
         );
         const clothes = Clothes.clothes1;

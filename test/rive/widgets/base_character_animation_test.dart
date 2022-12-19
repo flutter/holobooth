@@ -2,11 +2,12 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/rive/rive.dart';
 
 void main() {
-  group('DashAnimation', () {
+  group('BaseAnimation', () {
     testWidgets('can update', (tester) async {
       var avatar = Avatar(
         hasMouthOpen: false,
@@ -27,12 +28,13 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return DashAnimation(
+              return BaseCharacterAnimation(
                 avatar: avatar,
                 hat: selectedHat,
                 glasses: selectedGlasses,
                 clothes: selectedClothes,
                 handheldlLeft: selectedHandheldlLeft,
+                assetGenImage: Assets.animations.dash,
               );
             },
           ),
@@ -40,8 +42,8 @@ void main() {
       );
       await tester.pump();
 
-      final state =
-          tester.state(find.byType(DashAnimation)) as DashAnimationState;
+      final state = tester.state(find.byType(BaseCharacterAnimation))
+          as BaseCharacterAnimationState;
       final controller = state.dashController;
       final xValue = controller?.x.value;
       final yValue = controller?.y.value;

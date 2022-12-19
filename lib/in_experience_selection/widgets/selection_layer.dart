@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
+const _collapseButtonHeight = 50.0;
+const _collapseButtonWidth = 100.0;
+const _panelHeightCollapsed = 200.0;
+const _panelHeightNotCollapsed = 350.0;
+
 class SelectionLayer extends StatelessWidget {
   const SelectionLayer({super.key});
 
@@ -22,32 +27,117 @@ class DesktopSelectionLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      right: 0,
-      top: 0,
-      bottom: 0,
-      child: Container(
-        color: PhotoboothColors.black,
+      right: 30,
+      top: 60,
+      bottom: 100,
+      child: BlurryContainer(
         width: 300,
+        borderRadius: BorderRadius.circular(24),
+        color: HoloBoothColors.darkPurple.withOpacity(0.84),
         child: const PrimarySelectionView(),
       ),
     );
   }
 }
 
-class MobileSelectionLayer extends StatelessWidget {
+class MobileSelectionLayer extends StatefulWidget {
   const MobileSelectionLayer({super.key});
 
+  @override
+  State<MobileSelectionLayer> createState() => _MobileSelectionLayerState();
+}
+
+class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
+  bool collapsed = false;
   @override
   Widget build(BuildContext context) {
     return Positioned(
       right: 0,
       left: 0,
       bottom: 0,
-      child: Container(
-        color: PhotoboothColors.black,
-        height: 300,
-        child: const PrimarySelectionView(),
+      child: ClipPath(
+        clipper: BlurryContainerClipPath(),
+        child: BlurryContainer(
+          color: HoloBoothColors.darkPurple.withOpacity(0.84),
+          // TODO(oscar): add animation
+          height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: CollapseButton(
+                  onPressed: () => setState(() => collapsed = !collapsed),
+                ),
+              ),
+              Flexible(
+                child: Center(
+                  child: PrimarySelectionView(
+                    collapsed: collapsed,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
+}
+
+@visibleForTesting
+class CollapseButton extends StatelessWidget {
+  const CollapseButton({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _collapseButtonWidth,
+      height: _collapseButtonHeight,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: const Icon(
+          Icons.expand_more,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+@visibleForTesting
+class BlurryContainerClipPath extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final totalWidth = size.width;
+    final totalHeight = size.height;
+    const radius = Radius.circular(15);
+
+    final path = Path()
+      ..addRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromPoints(
+            const Offset(0, _collapseButtonHeight),
+            Offset(totalWidth, totalHeight),
+          ),
+          topLeft: radius,
+        ),
+      )
+      ..addRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromPoints(
+            Offset(totalWidth - _collapseButtonWidth, 0),
+            Offset(totalWidth, _collapseButtonHeight),
+          ),
+          topLeft: radius,
+          topRight: radius,
+        ),
+      );
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

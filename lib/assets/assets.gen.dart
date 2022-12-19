@@ -20,8 +20,11 @@ class $AssetsAnimationsGen {
   /// File path: assets/animations/dash.riv
   RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
 
+  /// File path: assets/animations/sparky.riv
+  RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
+
   /// List of all assets
-  List<RiveGenImage> get values => [background, dash];
+  List<RiveGenImage> get values => [background, dash, sparky];
 }
 
 class $AssetsAudioGen {
@@ -37,6 +40,10 @@ class $AssetsAudioGen {
 class $AssetsBackgroundsGen {
   const $AssetsBackgroundsGen();
 
+  /// File path: assets/backgrounds/animoji_intro_background.png
+  AssetGenImage get animojiIntroBackground =>
+      const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
+
   /// File path: assets/backgrounds/beach.png
   AssetGenImage get beach =>
       const AssetGenImage('assets/backgrounds/beach.png');
@@ -44,6 +51,10 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/blue_circle.png
   AssetGenImage get blueCircle =>
       const AssetGenImage('assets/backgrounds/blue_circle.png');
+
+  /// File path: assets/backgrounds/holobooth.png
+  AssetGenImage get holobooth =>
+      const AssetGenImage('assets/backgrounds/holobooth.png');
 
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
@@ -71,8 +82,10 @@ class $AssetsBackgroundsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        animojiIntroBackground,
         beach,
         blueCircle,
+        holobooth,
         landingBackground,
         photoboothBackground,
         redBox,
@@ -147,6 +160,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/flutter_forward_logo.png
+  AssetGenImage get flutterForwardLogo =>
+      const AssetGenImage('assets/images/flutter_forward_logo.png');
+
   /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
   AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
       'assets/images/photo_frame_spritesheet_landscape.jpg');
@@ -161,6 +178,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        flutterForwardLogo,
         photoFrameSpritesheetLandscape,
         photoFrameSpritesheetPortrait,
         photoIndicatorSpritesheet

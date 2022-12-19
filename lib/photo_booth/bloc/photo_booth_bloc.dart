@@ -31,7 +31,7 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
     PhotoBoothRecordingStarted event,
     Emitter<PhotoBoothState> emit,
   ) {
-    // TODO(oscar): start recording
+    emit(state.copyWith(isRecording: true));
   }
 
   FutureOr<void> _countdownFinished(

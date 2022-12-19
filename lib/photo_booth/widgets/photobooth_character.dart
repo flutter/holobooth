@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/rive/rive.dart';
@@ -22,6 +23,9 @@ class PhotoboothCharacter extends StatelessWidget {
     final handheldlLeft = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.handheldlLeft);
 
+    final characterSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.character);
+
     // TODO(alestiago): Check out if normalizations is sufficient for all
     // characters and devices.
     final normalizedDistance = avatar.distance.normalize(
@@ -35,13 +39,23 @@ class PhotoboothCharacter extends StatelessWidget {
     return AnimatedScale(
       scale: normalizedDistance,
       duration: const Duration(milliseconds: 200),
-      child: DashAnimation(
-        avatar: avatar,
-        hat: hat,
-        glasses: glasses,
-        clothes: clothes,
-        handheldlLeft: handheldlLeft,
-      ),
+      child: characterSelected == Character.dash
+          ? DashAnimation(
+              avatar: avatar,
+              hat: hat,
+              glasses: glasses,
+              clothes: clothes,
+              handheldlLeft: handheldlLeft,
+              assetGenImage: Assets.animations.dash,
+            )
+          : SparkyAnimation(
+              avatar: avatar,
+              hat: hat,
+              glasses: glasses,
+              clothes: clothes,
+              handheldlLeft: handheldlLeft,
+              assetGenImage: Assets.animations.sparky,
+            ),
     );
   }
 }

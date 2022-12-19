@@ -34,15 +34,16 @@ class GradientElevatedButton extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: HoloBoothColors.lightPurple.withOpacity(.25),
-            offset: const Offset(0, 6),
-            blurRadius: 6,
+            color: HoloBoothColors.lightPurple.withOpacity(.24),
+            offset: const Offset(1, 6),
+            blurRadius: 16,
           ),
         ],
       ),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          shadowColor: MaterialStateProperty.all(Colors.transparent),
         ),
         onPressed: onPressed,
         child: child,

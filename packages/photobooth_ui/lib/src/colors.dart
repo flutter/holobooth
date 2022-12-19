@@ -53,9 +53,27 @@ abstract class HoloBoothColors {
   /// Light purple
   static const Color lightPurple = Color(0xFF9455D9);
 
+  /// Dark purple
+  static const Color darkPurple = Color(0xFF20225A);
+
   /// Light pink
   static const Color pink = Color(0xFFF8BBD0);
 
   /// Dark blue
   static const Color darkBlue = Color(0xFF061A4A);
+
+  /// Sparky color
+  static const Color sparkyColor = Color.fromRGBO(238, 87, 66, 1);
+
+  /// Dark blue
+  static const Color gray = Color(0xff7A7C93);
+
+  /// First color of gradient secondary
+  static const Color gradientSecondaryOne = Color(0xffF9F8C4);
+
+  /// Second color of gradient secondary
+  static const Color gradientSecondaryTwo = Color(0xff27F5DD);
+
+  /// Color for prop tab
+  static const Color propTabSelection = Color(0xffB7F7CC);
 }
