@@ -78,7 +78,8 @@ class DashAnimationState extends State<DashAnimation>
 
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
       late final double leftEyeDistance;
-      if (leftEyeGeometry.minRatio != null &&
+      if (leftEyeGeometry.generation > 200 &&
+          leftEyeGeometry.minRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio!) {
@@ -98,7 +99,8 @@ class DashAnimationState extends State<DashAnimation>
 
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double rightEyeDistance;
-      if (rightEyeGeometry.minRatio != null &&
+      if (rightEyeGeometry.generation > 200 &&
+          rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio!) {
