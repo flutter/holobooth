@@ -9,24 +9,24 @@ void main() {
         hasMouthOpen: true,
         mouthDistance: 0,
         direction: Vector3.zero,
-        leftEyeIsClosed: true,
-        rightEyeIsClosed: true,
+        leftEyeGeometry: LeftEyeGeometry.empty(),
+        rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
       );
       const avatar2 = Avatar(
         hasMouthOpen: true,
         mouthDistance: 0,
         direction: Vector3.zero,
-        leftEyeIsClosed: true,
-        rightEyeIsClosed: true,
+        leftEyeGeometry: LeftEyeGeometry.empty(),
+        rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
       );
       const avatar3 = Avatar(
         hasMouthOpen: false,
         mouthDistance: 1,
         direction: Vector3(1, 0, 0),
-        leftEyeIsClosed: false,
-        rightEyeIsClosed: false,
+        leftEyeGeometry: LeftEyeGeometry.empty(),
+        rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 1,
       );
 
