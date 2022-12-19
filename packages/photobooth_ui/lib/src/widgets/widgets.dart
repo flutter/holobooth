@@ -12,6 +12,7 @@ export 'clickable.dart';
 export 'draggable_resizable.dart';
 export 'gradient_elevated_button.dart';
 export 'gradient_outlined_button.dart';
+export 'gradient_text.dart';
 export 'item_selector_bottom_sheet.dart';
 export 'item_selector_button.dart';
 export 'item_selector_drawer.dart';
