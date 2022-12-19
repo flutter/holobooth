@@ -39,7 +39,7 @@ class GradientOutlinedButton extends StatelessWidget {
               shaderCallback: (bounds) {
                 return const LinearGradient(
                   begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  end: Alignment.bottomCenter,
                   colors: [
                     HoloBoothColors.pink,
                     HoloBoothColors.purple,

@@ -11,9 +11,24 @@ class ShareDialogSubheading extends StatelessWidget {
     final theme = Theme.of(context);
     final small =
         MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
-    return SelectableText(
-      l10n.shareDialogSubheading,
-      style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
+    return SelectableText.rich(
+      TextSpan(
+        style:
+            theme.textTheme.bodyMedium?.copyWith(color: PhotoboothColors.white),
+        children: <TextSpan>[
+          TextSpan(
+            text: l10n.shareDialogSubheading1,
+          ),
+          TextSpan(
+            text: l10n.shareDialogSubheading2,
+            style: theme.textTheme.bodyMedium
+                ?.copyWith(color: HoloBoothColors.secondaryTwoStart),
+          ),
+          TextSpan(
+            text: l10n.shareDialogSubheading3,
+          ),
+        ],
+      ),
       textAlign: small ? TextAlign.center : TextAlign.start,
     );
   }
