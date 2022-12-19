@@ -11,11 +11,12 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-
+    final small =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         style: theme.textTheme.bodySmall?.copyWith(
-          color: const Color(0xffC8C8C8),
+          color: HoloBoothColors.lightGrey,
           fontWeight: PhotoboothFontWeight.regular,
         ),
         children: <TextSpan>[
@@ -31,6 +32,7 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
           ),
         ],
       ),
+      textAlign: small ? TextAlign.center : TextAlign.start,
     );
   }
 }

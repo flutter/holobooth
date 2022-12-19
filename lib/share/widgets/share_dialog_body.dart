@@ -25,16 +25,32 @@ class SmallShareDialogBody extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: EdgeInsets.only(top: 40, right: 48),
-              child: ShareDialogCloseButton(),
+              padding: EdgeInsets.only(top: 18, right: 18),
+              child: ShareDialogCloseButton(size: 40),
             ),
           ),
-          ShareDialogHeading(),
           SizedBox(height: 24),
-          ShareDialogSubheading(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            child: ShareDialogHeading(),
+          ),
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 48),
+            child: ShareDialogSubheading(),
+          ),
+          SizedBox(height: 24),
           SmallShareSocialButtons(),
-          ShareDialogAnimation(),
-          SocialMediaShareClarificationNote()
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: ShareDialogAnimation(),
+          ),
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.only(left: 12, right: 12, bottom: 24),
+            child: SocialMediaShareClarificationNote(),
+          )
         ],
       ),
     );
@@ -60,18 +76,21 @@ class LargeShareDialogBody extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(top: 40, right: 48),
-                        child: ShareDialogCloseButton(),
+                        child: ShareDialogCloseButton(
+                          size: 48,
+                        ),
                       ),
                     ),
                     ShareDialogHeading(),
                     SizedBox(height: 24),
                     ShareDialogSubheading(),
-                    SizedBox(height: 60),
+                    SizedBox(height: 48),
                     Align(child: LargeShareSocialButtons()),
                     SocialMediaShareClarificationNote(),
                   ],
