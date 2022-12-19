@@ -10,30 +10,22 @@ class EyeKeypoint extends Equatable {
   EyeKeypoint({
     required this.topEyeLid,
     required this.bottomEyeLid,
-    required List<tf.Keypoint> keypoints,
-    required tf.BoundingBox boundingBox,
   }) : distance = topEyeLid.distanceTo(bottomEyeLid);
 
   /// Creates an instance of [EyeKeypoint] from the left eye keypoints.
   EyeKeypoint.left(
     List<tf.Keypoint> keypoints,
-    tf.BoundingBox boundingBox,
   ) : this(
           topEyeLid: keypoints[159],
           bottomEyeLid: keypoints[145],
-          keypoints: keypoints,
-          boundingBox: boundingBox,
         );
 
   /// Creates an instance of [EyeKeypoint] from the right eye keypoints.
   EyeKeypoint.right(
     List<tf.Keypoint> keypoints,
-    tf.BoundingBox boundingBox,
   ) : this(
           topEyeLid: keypoints[386],
           bottomEyeLid: keypoints[374],
-          keypoints: keypoints,
-          boundingBox: boundingBox,
         );
 
   final tf.Keypoint topEyeLid;
@@ -226,10 +218,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   }) {
     if (keypoints.length > 160) {
       return LeftEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(
-          keypoints,
-          boundingBox,
-        ),
+        eyeKeypoint: EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
       );
     } else {
@@ -260,7 +249,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   ) {
     if (keypoints.length > 160) {
       return LeftEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints, boundingBox),
+        eyeKeypoint: EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
@@ -285,7 +274,7 @@ class RightEyeGeometry extends _EyeGeometry {
   }) {
     if (keypoints.length > 160) {
       return RightEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.left(keypoints, boundingBox),
+        eyeKeypoint: EyeKeypoint.left(keypoints),
         boundingBox: boundingBox,
       );
     } else {
@@ -316,7 +305,7 @@ class RightEyeGeometry extends _EyeGeometry {
   ) {
     if (keypoints.length > 160) {
       return RightEyeGeometry._compute(
-        eyeKeypoint: EyeKeypoint.right(keypoints, boundingBox),
+        eyeKeypoint: EyeKeypoint.right(keypoints),
         boundingBox: boundingBox,
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
