@@ -23,7 +23,7 @@ class ShareBody extends StatelessWidget {
               children: [
                 photo,
                 _ShareBodyContent(
-                  smallScreen: true,
+                  isSmallScreen: true,
                   image: image,
                 ),
               ],
@@ -37,7 +37,7 @@ class ShareBody extends StatelessWidget {
                     Expanded(child: photo),
                     Expanded(
                       child: _ShareBodyContent(
-                        smallScreen: false,
+                        isSmallScreen: false,
                         image: image,
                       ),
                     )
@@ -54,11 +54,11 @@ class ShareBody extends StatelessWidget {
 
 class _ShareBodyContent extends StatelessWidget {
   const _ShareBodyContent({
-    required this.smallScreen,
+    required this.isSmallScreen,
     required this.image,
   });
 
-  final bool smallScreen;
+  final bool isSmallScreen;
   final PhotoboothCameraImage image;
 
   @override
@@ -67,16 +67,16 @@ class _ShareBodyContent extends StatelessWidget {
 
     return Column(
       mainAxisAlignment:
-          smallScreen ? MainAxisAlignment.start : MainAxisAlignment.center,
+          isSmallScreen ? MainAxisAlignment.start : MainAxisAlignment.center,
       crossAxisAlignment:
-          smallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          isSmallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
-        ShareHeading(smallScreen: smallScreen),
+        const ShareHeading(),
         const SizedBox(height: 24),
-        ShareSubheading(smallScreen: smallScreen),
+        const ShareSubheading(),
         const SizedBox(height: 32),
         Wrap(
-          direction: smallScreen ? Axis.vertical : Axis.horizontal,
+          direction: isSmallScreen ? Axis.vertical : Axis.horizontal,
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 24,
           runSpacing: 24,

@@ -3,18 +3,14 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareHeading extends StatelessWidget {
-  const ShareHeading({
-    super.key,
-    required this.smallScreen,
-  });
-
-  final bool smallScreen;
+  const ShareHeading({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
-
+    final isSmallScreen =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return ShaderMask(
       shaderCallback: (bounds) {
         return const LinearGradient(
@@ -30,7 +26,7 @@ class ShareHeading extends StatelessWidget {
         style: textTheme.displayLarge?.copyWith(
           color: PhotoboothColors.white,
         ),
-        textAlign: smallScreen ? TextAlign.center : TextAlign.left,
+        textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
       ),
     );
   }

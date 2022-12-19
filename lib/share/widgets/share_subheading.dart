@@ -5,18 +5,14 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareSubheading extends StatelessWidget {
-  const ShareSubheading({
-    super.key,
-    required this.smallScreen,
-  });
-
-  final bool smallScreen;
+  const ShareSubheading({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-
+    final isSmall =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
@@ -51,7 +47,7 @@ class ShareSubheading extends StatelessWidget {
           ),
         ],
       ),
-      textAlign: smallScreen ? TextAlign.center : TextAlign.left,
+      textAlign: isSmall ? TextAlign.center : TextAlign.left,
     );
   }
 }
