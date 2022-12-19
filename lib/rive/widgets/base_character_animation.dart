@@ -1,4 +1,5 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
@@ -62,8 +63,8 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
     vsync: this,
     duration: const Duration(milliseconds: 50),
   );
-  final Tween<Offset> _rotationTween =
-      Tween(begin: Offset.zero, end: Offset.zero);
+  final Tween<Vector3> _rotationTween =
+      Tween(begin: Vector3.zero, end: Vector3.zero);
 
   late final AnimationController _leftEyeAnimationController =
       AnimationController(
@@ -90,9 +91,9 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   void _controlDashPosition() {
     final dashController = this.dashController;
     if (dashController != null) {
-      final offset = _rotationTween.evaluate(_rotationAnimationController);
-      dashController.x.change(offset.dx);
-      dashController.y.change(offset.dy);
+      final vector = _rotationTween.evaluate(_rotationAnimationController);
+      dashController.x.change(vector.x);
+      dashController.y.change(vector.y);
     }
   }
 
@@ -115,43 +116,48 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   @override
   void didUpdateWidget(covariant T oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final dashController = this.dashController;
-    if (dashController != null) {
-      final previousOffset =
-          Offset(dashController.x.value, dashController.y.value);
+    final characterController = this.dashController;
+    if (characterController != null) {
+      final previousRotationVector = Vector3(
+        characterController.x.value,
+        characterController.y.value,
+        0,
+      );
       // Direction has range of values [-1, 1], and the
       // animation controller [-100, 100] so we multiply
       // by 100 to correlate the values
-      final newOffset = Offset(
+      final newRotationVector = Vector3(
         widget.avatar.direction.x * 100,
         widget.avatar.direction.y * 100,
+        0,
       );
-      if ((newOffset - previousOffset).distance > _rotationToleration) {
+      if (newRotationVector.distance(previousRotationVector) >
+          _rotationToleration) {
         _rotationTween
-          ..begin = previousOffset
-          ..end = newOffset;
+          ..begin = previousRotationVector
+          ..end = newRotationVector;
         _rotationAnimationController.forward(from: 0);
       }
 
       if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
-        dashController.mouthDistance.change(
+        characterController.mouthDistance.change(
           widget.avatar.mouthDistance * 100,
         );
       }
 
-      final previousLeftEyeValue = dashController.leftEyeIsClosed.value;
+      final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
       late final double newLeftEyeValue;
       if (leftEyeGeometry.generation > _eyePopulationMin &&
           leftEyeGeometry.minRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
-          leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio!) {
+          leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
+          leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
         final accurateNewLeftEyeValue = 100 -
             leftEyeGeometry.distance!.normalize(
               fromMin: leftEyeGeometry.minRatio!,
               fromMax: leftEyeGeometry.meanRatio!,
-              toMin: 0,
               toMax: 100,
             );
 
@@ -171,19 +177,19 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
         _leftEyeAnimationController.forward(from: 0);
       }
 
-      final previousRightEyeValue = dashController.rightEyeIsClosed.value;
+      final previousRightEyeValue = characterController.rightEyeIsClosed.value;
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double newRightEyeValue;
       if (rightEyeGeometry.generation > _eyePopulationMin &&
           rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
-          leftEyeGeometry.distance != null &&
-          rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio!) {
+          rightEyeGeometry.distance != null &&
+          rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
+          rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
         final accurateNewLeftEyeValue = 100 -
             rightEyeGeometry.distance!.normalize(
               fromMin: rightEyeGeometry.minRatio!,
               fromMax: rightEyeGeometry.meanRatio!,
-              toMin: 0,
               toMax: 100,
             );
         if (accurateNewLeftEyeValue > _eyeClosureToleration) {
@@ -203,22 +209,22 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       }
 
       if (oldWidget.hat != widget.hat) {
-        dashController.hats.change(
+        characterController.hats.change(
           widget.hat.index.toDouble(),
         );
       }
       if (oldWidget.glasses != widget.glasses) {
-        dashController.glasses.change(
+        characterController.glasses.change(
           widget.glasses.riveIndex,
         );
       }
       if (oldWidget.clothes != widget.clothes) {
-        dashController.clothes.change(
+        characterController.clothes.change(
           widget.clothes.index.toDouble(),
         );
       }
       if (oldWidget.handheldlLeft != widget.handheldlLeft) {
-        dashController.handheldlLeft.change(
+        characterController.handheldlLeft.change(
           widget.handheldlLeft.index.toDouble(),
         );
       }
@@ -237,16 +243,5 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       onInit: onRiveInit,
       fit: BoxFit.cover,
     );
-  }
-}
-
-extension on num {
-  double normalize({
-    required num fromMin,
-    required num fromMax,
-    required num toMin,
-    required num toMax,
-  }) {
-    return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
   }
 }
