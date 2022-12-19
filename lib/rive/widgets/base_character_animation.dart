@@ -49,8 +49,10 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
   /// The amount of eye movement required to consider the eye as fully closed.
   ///
-  /// This applies to both the left and right eye.
-  static const _blinkToleration = 20;
+  /// The higher the value the more the eye will be allowed to be closed before
+  /// it is considered to be a full closure. This applies to both the left and
+  /// right eye.
+  static const _eyeClosureToleration = 50;
 
   @visibleForTesting
   CharacterStateMachineController? dashController;
@@ -153,7 +155,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
               toMax: 100,
             );
 
-        if (accurateNewLeftEyeValue > _blinkToleration) {
+        if (accurateNewLeftEyeValue > _eyeClosureToleration) {
           newLeftEyeValue = 100;
         } else {
           newLeftEyeValue = accurateNewLeftEyeValue;
@@ -184,7 +186,7 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
               toMin: 0,
               toMax: 100,
             );
-        if (accurateNewLeftEyeValue > _blinkToleration) {
+        if (accurateNewLeftEyeValue > _eyeClosureToleration) {
           newRightEyeValue = 100;
         } else {
           newRightEyeValue = accurateNewLeftEyeValue;
