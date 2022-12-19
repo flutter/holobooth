@@ -13,9 +13,9 @@ class Avatar extends Equatable {
     required this.hasMouthOpen,
     required this.mouthDistance,
     required this.direction,
-    required this.leftEyeIsClosed,
-    required this.rightEyeIsClosed,
     required this.distance,
+    required this.leftEyeGeometry,
+    required this.rightEyeGeometry,
   });
 
   /// {@macro avatar}
@@ -24,18 +24,18 @@ class Avatar extends Equatable {
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
         mouthDistance = faceGeometry.mouth.distance,
         direction = faceGeometry.direction.value,
-        leftEyeIsClosed = faceGeometry.leftEye.isClosed,
-        rightEyeIsClosed = faceGeometry.rightEye.isClosed,
-        distance = faceGeometry.distance.value;
+        distance = faceGeometry.distance.value,
+        leftEyeGeometry = faceGeometry.leftEye,
+        rightEyeGeometry = faceGeometry.rightEye;
 
   /// {@macro avatar}
   static const zero = Avatar(
     hasMouthOpen: false,
     mouthDistance: 0,
     direction: Vector3.zero,
-    leftEyeIsClosed: false,
-    rightEyeIsClosed: false,
-    distance: 1,
+    distance: 0,
+    leftEyeGeometry: LeftEyeGeometry.empty(),
+    rightEyeGeometry: RightEyeGeometry.empty(),
   );
 
   /// Indicates whether the [Avatar] has the mouth open.
@@ -47,12 +47,6 @@ class Avatar extends Equatable {
   /// Direction of the [Avatar] represented by x, y and z.
   final Vector3 direction;
 
-  /// Whether the [Avatar] has the left eye closed.
-  final bool leftEyeIsClosed;
-
-  /// Whether the [Avatar] has the right eye closed.
-  final bool rightEyeIsClosed;
-
   /// The value that correlates to the distance the [Avatar] is from the camera.
   ///
   /// The greater the value, the closer the user is to the camera.
@@ -60,13 +54,19 @@ class Avatar extends Equatable {
   /// The value is between 0 and 1.
   final double distance;
 
+  /// The [LeftEyeGeometry] of the [Avatar].
+  final LeftEyeGeometry leftEyeGeometry;
+
+  /// The [RightEyeGeometry] of the [Avatar].
+  final RightEyeGeometry rightEyeGeometry;
+
   @override
   List<Object?> get props => [
         hasMouthOpen,
         mouthDistance,
         direction,
-        leftEyeIsClosed,
-        rightEyeIsClosed,
         distance,
+        leftEyeGeometry,
+        rightEyeGeometry
       ];
 }
