@@ -9,8 +9,11 @@ class DownloadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return GradientOutlinedButton(
-      icon: const Icon(Icons.file_download_rounded),
-      label: Text(l10n.sharePageDownloadButtonText),
+      icon: const Icon(
+        Icons.file_download_rounded,
+        color: PhotoboothColors.white,
+      ),
+      label: l10n.sharePageDownloadButtonText,
     );
   }
 }

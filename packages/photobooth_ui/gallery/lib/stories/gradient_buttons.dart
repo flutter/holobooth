@@ -20,7 +20,7 @@ void addGradientButtonStories(Dashbook dashbook) {
               child: GradientOutlinedButton(
                 onPressed: () {},
                 icon: const Icon(Icons.touch_app_rounded),
-                label: const Text('Press me'),
+                label: 'Press me',
               ),
             )
           ],

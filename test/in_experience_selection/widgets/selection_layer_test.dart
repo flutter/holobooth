@@ -24,7 +24,7 @@ void main() {
     testWidgets(
       'renders MobileSelectionLayer on mobile breakpoint',
       (tester) async {
-        tester.setPortraitDisplaySize();
+        tester.setSmallDisplaySize();
         await tester.pumpSubject(SelectionLayer(), inExperienceSelectionBloc);
         expect(find.byType(MobileSelectionLayer), findsOneWidget);
       },
@@ -33,7 +33,7 @@ void main() {
     testWidgets(
       'renders DesktopSelectionLayer on breakpoint different than mobile',
       (tester) async {
-        tester.setLandscapeDisplaySize();
+        tester.setLargeDisplaySize();
         await tester.pumpSubject(SelectionLayer(), inExperienceSelectionBloc);
         expect(find.byType(DesktopSelectionLayer), findsOneWidget);
       },
@@ -42,7 +42,7 @@ void main() {
     testWidgets(
       'collapse layout clicking CollapseButton on mobile breakpoint',
       (tester) async {
-        tester.setPortraitDisplaySize();
+        tester.setSmallDisplaySize();
         await tester.pumpSubject(SelectionLayer(), inExperienceSelectionBloc);
         expect(
           find.byKey(PrimarySelectionView.primaryTabBarViewKey),
