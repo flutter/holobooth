@@ -7,15 +7,14 @@ class ShareHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final l10n = context.l10n;
-
-    return SelectableText(
-      l10n.sharePageHeading,
-      style: theme.textTheme.displayLarge?.copyWith(
-        color: PhotoboothColors.white,
-      ),
-      textAlign: TextAlign.center,
+    final textTheme = Theme.of(context).textTheme;
+    final isSmallScreen =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+    return GradientText(
+      text: l10n.sharePageHeading,
+      textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
+      style: textTheme.displayLarge,
     );
   }
 }
