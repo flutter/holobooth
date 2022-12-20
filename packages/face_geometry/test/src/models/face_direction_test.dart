@@ -70,7 +70,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face2 is looking straight', () {
@@ -79,7 +79,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face3 is looking straight', () {
@@ -88,7 +88,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face4 is looking straight', () {
@@ -97,7 +97,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face5 is looking straight', () {
@@ -106,7 +106,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face6 is looking up', () {
@@ -115,7 +115,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, greaterThan(0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face7 is looking left', () {
@@ -124,7 +124,7 @@ void main() {
 
         expect(faceDirection.value.x, greaterThan(0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face8 is looking right', () {
@@ -133,7 +133,7 @@ void main() {
 
         expect(faceDirection.value.x, lessThan(-0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
 
       test('face9 is looking right up', () {
@@ -142,7 +142,7 @@ void main() {
 
         expect(faceDirection.value.x, lessThan(-0.6));
         expect(faceDirection.value.y, greaterThan(0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, greaterThan(0.3));
       });
 
       test('face10 is looking straight', () {
@@ -151,7 +151,7 @@ void main() {
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
-        expect(faceDirection.value.z, equals(0));
+        expect(faceDirection.value.z, closeTo(0, 0.1));
       });
     });
   });
