@@ -46,7 +46,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.x.value, equals(initialDirection.x));
       expect(controller.y.value, equals(initialDirection.y));
 
@@ -101,7 +101,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(
         controller.mouthDistance.value,
         equals(initialMouthDistance * 100),
@@ -164,7 +164,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.leftEyeIsClosed.value, equals(0));
 
       final newLeftEyeGeometry = _MockLeftEyeGeometry();
@@ -234,7 +234,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.rightEyeIsClosed.value, equals(0));
 
       final newRightEyeGeometry = _MockRightEyeGeometry();
@@ -288,7 +288,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.hats.value, equals(hat.index));
 
       stateSetter(() {
@@ -324,7 +324,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.glasses.value, equals(glasses.riveIndex));
 
       stateSetter(() {
@@ -360,7 +360,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.clothes.value, equals(clothes.index));
 
       stateSetter(() {
@@ -396,7 +396,7 @@ void main() {
 
       final state = tester.state(find.byType(BaseCharacterAnimation))
           as BaseCharacterAnimationState;
-      final controller = state.dashController!;
+      final controller = state.characterController!;
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
       stateSetter(() {

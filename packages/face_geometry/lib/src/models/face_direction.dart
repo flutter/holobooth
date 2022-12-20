@@ -61,10 +61,20 @@ class FaceDirection extends Equatable {
         _hypotenuse(horizontalAdjacent, horizontalOpposite);
     final horizontalCos = horizontalAdjacent / horizontalHypotenuse;
 
+    final faceDiagonalCentralPoint = Vector3(
+      (foreheadTopCenter.x + chinBottomCenter.x) / 2,
+      (foreheadTopCenter.y + chinBottomCenter.y) / 2,
+      0,
+    );
+    final diagonalAdjacent = foreheadTopCenter.x - faceDiagonalCentralPoint.x;
+    final diagonalOpposite = foreheadTopCenter.y - faceDiagonalCentralPoint.y;
+    final diagonalHypotenuse = -_hypotenuse(diagonalAdjacent, diagonalOpposite);
+    final diagonalCos = diagonalAdjacent / diagonalHypotenuse;
+
     return Vector3(
       horizontalCos,
       verticalCos,
-      0,
+      diagonalCos,
     );
   }
 

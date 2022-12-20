@@ -10,7 +10,7 @@ void main() {
           home: GradientOutlinedButton(
             onPressed: () {},
             icon: const Icon(Icons.abc),
-            label: const Text('Button'),
+            label: 'Button',
           ),
         ),
       );
@@ -27,7 +27,7 @@ void main() {
           home: GradientOutlinedButton(
             onPressed: () => pressed = true,
             icon: const Icon(Icons.abc),
-            label: const Text('Button'),
+            label: 'Button',
           ),
         ),
       );

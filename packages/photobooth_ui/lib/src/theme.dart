@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-const _smallTextScaleFactor = 0.80;
+// TODO(oscar): to be deleted, and replaced by new mobile theme
+const _smallTextScaleFactor = 1;
 
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
