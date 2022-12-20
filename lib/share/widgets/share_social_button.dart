@@ -6,12 +6,15 @@ class SmallShareSocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        TwitterButton(),
-        SizedBox(height: 16),
-        FacebookButton(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 80),
+      child: Column(
+        children: const [
+          TwitterButton(),
+          SizedBox(height: 24),
+          FacebookButton(),
+        ],
+      ),
     );
   }
 }
