@@ -8,13 +8,6 @@ import 'package:test/test.dart';
 void main() {
   group('NormalizeNum', () {
     group('normalize', () {
-      test('throws assertion when fromMax is equals 0', () {
-        expect(
-          () => 0.normalize(fromMax: 0, toMax: 1),
-          throwsA(isA<AssertionError>()),
-        );
-      });
-
       test('to greater values', () {
         expect(0.5.normalize(fromMax: 1, toMax: 3), equals(1.5));
         expect(0.5.normalize(fromMax: 2, toMax: 3), equals(0.75));
