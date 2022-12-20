@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template gradient_outlined_button}
@@ -21,56 +22,44 @@ class GradientOutlinedButton extends StatelessWidget {
   final Widget icon;
 
   /// The label for the button.
-  final Widget label;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          child: OutlinedButton.icon(
-            onPressed: onPressed,
-            icon: ShaderMask(
-              shaderCallback: (bounds) {
-                return const LinearGradient(
-                  colors: [
-                    Color(0xFFEFBDCF),
-                    Color(0xFF9E81EF),
-                  ],
-                ).createShader(Offset.zero & bounds.size);
-              },
-              child: icon,
-            ),
-            label: label,
-            style: OutlinedButton.styleFrom(side: BorderSide.none),
+    return OutlineGradientButton(
+      radius: const Radius.circular(50),
+      strokeWidth: 2,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomCenter,
+        colors: [
+          HoloBoothColors.pink,
+          HoloBoothColors.purple,
+        ],
+      ),
+      onTap: onPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ShaderMask(
+            shaderCallback: (bounds) {
+              return const LinearGradient(
+                colors: [
+                  Color(0xFFEFBDCF),
+                  Color(0xFF9E81EF),
+                ],
+              ).createShader(Offset.zero & bounds.size);
+            },
+            child: icon,
           ),
-        ),
-        Positioned.fill(
-          child: IgnorePointer(
-            child: ShaderMask(
-              shaderCallback: (bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    HoloBoothColors.pink,
-                    HoloBoothColors.purple,
-                  ],
-                ).createShader(Offset.zero & bounds.size);
-              },
-              child: const Material(
-                color: Colors.transparent,
-                shape: StadiumBorder(
-                  side: BorderSide(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
+          const SizedBox(width: 19),
+          Text(
+            label,
+            style: const TextStyle(color: PhotoboothColors.white),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

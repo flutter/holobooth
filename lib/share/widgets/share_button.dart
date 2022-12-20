@@ -23,8 +23,11 @@ class ShareButton extends StatelessWidget {
           ),
         );
       },
-      icon: const Icon(Icons.share),
-      label: Text(l10n.sharePageShareButtonText),
+      icon: const Icon(
+        Icons.share,
+        color: PhotoboothColors.white,
+      ),
+      label: l10n.sharePageShareButtonText,
     );
   }
 }

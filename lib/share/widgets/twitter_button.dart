@@ -26,7 +26,7 @@ class TwitterButton extends StatelessWidget {
 
         Navigator.of(context).pop();
       },
-      label: Text(l10n.shareDialogTwitterButtonText),
+      label: l10n.shareDialogTwitterButtonText,
       icon: Assets.icons.twitterLogo.image(width: 24),
     );
   }

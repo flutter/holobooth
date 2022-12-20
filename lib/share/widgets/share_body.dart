@@ -144,7 +144,6 @@ class _LargeShareBodyButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const buttonHeight = 60.0;
     const buttonWidth = 200.0;
     const buttonSpacing = 24.0;
     return Wrap(
@@ -154,17 +153,14 @@ class _LargeShareBodyButtons extends StatelessWidget {
       children: const [
         SizedBox(
           width: buttonWidth,
-          height: buttonHeight,
           child: ShareButton(),
         ),
         SizedBox(
           width: buttonWidth,
-          height: buttonHeight,
           child: DownloadButton(),
         ),
         SizedBox(
           width: buttonWidth,
-          height: buttonHeight,
           child: RetakeButton(),
         ),
       ],
