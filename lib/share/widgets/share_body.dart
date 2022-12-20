@@ -32,13 +32,13 @@ class _SmallShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AnimatedPhotoboothPhoto(image: image),
-        _ShareBodyContent(
-          isSmallScreen: true,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AnimatedPhotoboothPhoto(image: image),
+          const _ShareBodyContent(isSmallScreen: true),
+        ],
+      ),
     );
   }
 }
@@ -128,7 +128,7 @@ class _SmallShareBodyButtons extends StatelessWidget {
           height: buttonHeight,
           child: DownloadButton(),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: buttonSpacing),
         SizedBox(
           width: buttonWidth,
           height: buttonHeight,
@@ -149,6 +149,7 @@ class _LargeShareBodyButtons extends StatelessWidget {
     const buttonSpacing = 24.0;
     return Wrap(
       runSpacing: 16,
+      spacing: buttonSpacing,
       alignment: WrapAlignment.center,
       children: const [
         SizedBox(
@@ -156,13 +157,11 @@ class _LargeShareBodyButtons extends StatelessWidget {
           height: buttonHeight,
           child: ShareButton(),
         ),
-        SizedBox(width: buttonSpacing),
         SizedBox(
           width: buttonWidth,
           height: buttonHeight,
           child: DownloadButton(),
         ),
-        SizedBox(width: buttonSpacing),
         SizedBox(
           width: buttonWidth,
           height: buttonHeight,
