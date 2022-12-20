@@ -23,10 +23,18 @@ class AnimojiIntroView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppPageView(
-      background: AnimojiIntroBackground(),
-      body: AnimojiIntroBody(),
-      footer: FullFooter(),
+    return Stack(
+      children: [
+        const Positioned.fill(child: AnimojiIntroBackground()),
+        Positioned.fill(
+          child: Column(
+            children: const [
+              Expanded(child: AnimojiIntroBody()),
+              FullFooter(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
