@@ -56,7 +56,7 @@ class _LargeShareBody extends StatelessWidget {
         Row(
           children: [
             Expanded(child: AnimatedPhotoboothPhoto(image: image)),
-            Expanded(
+            const Expanded(
               child: _ShareBodyContent(isSmallScreen: false),
             ),
           ],

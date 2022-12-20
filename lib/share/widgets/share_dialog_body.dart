@@ -111,15 +111,5 @@ class LargeShareDialogBody extends StatelessWidget {
         ),
       ),
     );
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [],
-          ),
-        ),
-      ],
-    );
   }
 }
