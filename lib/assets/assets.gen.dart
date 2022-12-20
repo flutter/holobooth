@@ -80,6 +80,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get underwater =>
       const AssetGenImage('assets/backgrounds/underwater.png');
 
+  /// File path: assets/backgrounds/video_frame.png
+  AssetGenImage get videoFrame =>
+      const AssetGenImage('assets/backgrounds/video_frame.png');
+
   /// File path: assets/backgrounds/yellow_plus.png
   AssetGenImage get yellowPlus =>
       const AssetGenImage('assets/backgrounds/yellow_plus.png');
@@ -96,6 +100,7 @@ class $AssetsBackgroundsGen {
         shareBackground,
         space,
         underwater,
+        videoFrame,
         yellowPlus
       ];
 }

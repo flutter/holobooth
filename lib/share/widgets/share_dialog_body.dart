@@ -44,7 +44,7 @@ class SmallShareDialogBody extends StatelessWidget {
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ShareDialogAnimation(),
+            child: SizedBox(),
           ),
           SizedBox(height: 24),
           Padding(
@@ -76,7 +76,7 @@ class LargeShareDialogBody extends StatelessWidget {
                   const Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(24),
-                      child: ShareDialogAnimation(),
+                      child: VideoFrame(),
                     ),
                   ),
                   Expanded(

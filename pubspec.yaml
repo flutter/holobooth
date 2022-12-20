@@ -48,6 +48,7 @@ dependencies:
   tensorflow_models:
     path: packages/tensorflow_models/tensorflow_models
   uuid: ^3.0.6
+  video_player: ^2.4.10
 
 dependency_overrides:
   camera:
