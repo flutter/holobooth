@@ -17,9 +17,12 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     _controller = VideoPlayerController.network(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
       ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        // Ensure the first frame is shown after the video is initialized,
+        // even before the play button has been pressed.
         setState(() {});
-      });
+      })
+      ..setLooping(true)
+      ..play();
   }
 
   @override
@@ -28,23 +31,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
       borderRadius: BorderRadius.circular(38),
       child: AspectRatio(
         aspectRatio: _controller.value.aspectRatio,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            VideoPlayer(_controller),
-            Center(
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _controller.value.isPlaying
-                          ? _controller.pause()
-                          : _controller.play();
-                    });
-                  },
-                  icon: Icon(Icons.play_arrow)),
-            ),
-          ],
-        ),
+        child: VideoPlayer(_controller),
       ),
     );
   }

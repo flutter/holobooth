@@ -8,33 +8,21 @@ class VideoFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[
-        SizedBox.expand(
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: VideoPlayerView(),
-          ),
-        ),
-        //FURTHER IMPLEMENTATION
-      ],
-    );
-    return Stack(
       fit: StackFit.expand,
       children: [
         Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
         Align(
           child: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return VideoDialog();
-                  },
-                );
-              },
-              color: Colors.white,
-              iconSize: 45,
-              icon: Icon(Icons.play_arrow)),
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (context) => const VideoDialog(),
+              );
+            },
+            color: Colors.white,
+            iconSize: 45,
+            icon: const Icon(Icons.play_arrow),
+          ),
         ),
       ],
     );

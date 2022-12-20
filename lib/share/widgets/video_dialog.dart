@@ -7,29 +7,6 @@ class VideoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return AlertDialog(
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: PhotoboothColors.transparent,
-      content: Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(38),
-          gradient: const LinearGradient(
-            colors: <Color>[
-              Color(0xFF9E81EF),
-              Color(0xFF4100E0),
-            ],
-          ),
-        ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: const Color(0xFF020320).withOpacity(0.95),
-            borderRadius: BorderRadius.circular(38),
-          ),
-          child: VideoPlayerView(),
-        ),
-      ),
-    );
+    return const HoloBoothAlertDialog(child: VideoPlayerView());
   }
 }
