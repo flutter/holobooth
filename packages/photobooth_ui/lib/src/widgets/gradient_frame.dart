@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 
 class GradientFrame extends StatelessWidget {
-  const GradientFrame({super.key, required this.child});
+  const GradientFrame({
+    super.key,
+    required this.child,
+    this.height,
+    this.width,
+  });
 
   final Widget child;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
+      width: width,
       padding: const EdgeInsets.all(1),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(38),
