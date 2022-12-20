@@ -80,7 +80,7 @@ void main() {
       test('returns normally', () {
         const vector1 = Vector3(1, 2, 3);
         const vector2 = Vector3(1, 1, 1);
-        expect(vector1.distance(vector2), isA<Vector3>());
+        expect(vector1.distance(vector2), isA<double>());
       });
 
       test('returns correct vector', () {
