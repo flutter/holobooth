@@ -11,15 +11,16 @@ class ShareBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final image = images.first;
-
     return Align(
-      child: ResponsiveLayoutBuilder(
-        small: (context, _) {
-          return _SmallShareBody(image: image);
-        },
-        large: (context, _) {
-          return _LargeShareBody(image: image);
-        },
+      child: SingleChildScrollView(
+        child: ResponsiveLayoutBuilder(
+          small: (context, _) {
+            return _SmallShareBody(image: image);
+          },
+          large: (context, _) {
+            return _LargeShareBody(image: image);
+          },
+        ),
       ),
     );
   }
@@ -50,15 +51,15 @@ class _LargeShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          child: Row(
-            children: [
-              Expanded(child: AnimatedPhotoboothPhoto(image: image)),
-              const Expanded(child: _ShareBodyContent(isSmallScreen: false))
-            ],
-          ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: AnimatedPhotoboothPhoto(image: image)),
+            Expanded(
+              child: _ShareBodyContent(isSmallScreen: false),
+            ),
+          ],
         ),
       ],
     );
@@ -82,13 +83,11 @@ class _ShareBodyContent extends StatelessWidget {
             : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!isSmallScreen) const Spacer(),
           const ShareHeading(),
           const SizedBox(height: 32),
           const ShareSubheading(),
           const SizedBox(height: 54),
           _ShareBodyButtons(isSmallScreen: isSmallScreen),
-          if (!isSmallScreen) const Spacer(),
         ],
       ),
     );
