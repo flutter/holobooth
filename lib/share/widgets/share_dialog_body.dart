@@ -62,44 +62,61 @@ class LargeShareDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: ShareDialog.largeShareDialogHeight,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(24),
+                      child: ShareDialogAnimation(),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 40, right: 48, bottom: 24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ShareDialogCloseButton(
+                              size: 48,
+                            ),
+                          ),
+                          ShareDialogHeading(),
+                          SizedBox(height: 24),
+                          ShareDialogSubheading(),
+                          SizedBox(height: 40),
+                          LargeShareSocialButtons(),
+                          Spacer(),
+                          SocialMediaShareClarificationNote(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return CustomScrollView(
       slivers: [
         SliverFillRemaining(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: ShareDialogAnimation(),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 40, right: 48, bottom: 24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: ShareDialogCloseButton(
-                          size: 48,
-                        ),
-                      ),
-                      ShareDialogHeading(),
-                      SizedBox(height: 24),
-                      ShareDialogSubheading(),
-                      SizedBox(height: 40),
-                      LargeShareSocialButtons(),
-                      Spacer(),
-                      SocialMediaShareClarificationNote(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            children: [],
           ),
         ),
       ],

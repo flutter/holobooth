@@ -5,6 +5,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class ShareDialog extends StatelessWidget {
   const ShareDialog({super.key});
 
+  static const largeShareDialogHeight = 600.0;
+
   @override
   Widget build(BuildContext context) {
     final isSmall =
@@ -14,7 +16,7 @@ class ShareDialog extends StatelessWidget {
       backgroundColor: PhotoboothColors.transparent,
       content: Container(
         padding: const EdgeInsets.all(1),
-        height: isSmall ? 900 : 600,
+        height: isSmall ? 900 : largeShareDialogHeight,
         width: isSmall ? 500 : 900,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(38),
