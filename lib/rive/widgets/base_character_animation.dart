@@ -89,29 +89,29 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   }
 
   void _controlDashPosition() {
-    final dashController = this.characterController;
-    if (dashController != null) {
+    final characterController = this.characterController;
+    if (characterController != null) {
       final vector = _rotationTween.evaluate(_rotationAnimationController);
-      dashController.x.change(vector.x);
-      dashController.y.change(vector.y);
-      dashController.z.change(vector.z);
+      characterController.x.change(vector.x);
+      characterController.y.change(vector.y);
+      characterController.z.change(vector.z);
     }
   }
 
   void _controlLeftEye() {
-    final dashController = this.characterController;
-    if (dashController == null) return;
+    final characterController = this.characterController;
+    if (characterController == null) return;
 
     final distance = _leftEyeTween.evaluate(_leftEyeAnimationController);
-    dashController.leftEyeIsClosed.change(distance);
+    characterController.leftEyeIsClosed.change(distance);
   }
 
   void _controlRightEye() {
-    final dashController = this.characterController;
-    if (dashController == null) return;
+    final characterController = this.characterController;
+    if (characterController == null) return;
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
-    dashController.rightEyeIsClosed.change(distance);
+    characterController.rightEyeIsClosed.change(distance);
   }
 
   @override
