@@ -19,7 +19,7 @@ void main() {
     });
 
     testWidgets('renders GridView in large layout', (tester) async {
-      tester.setLandscapeDisplaySize();
+      tester.setLargeDisplaySize();
       await tester.pumpApp(
         PropsScrollView(
           itemBuilder: (context, index) => SizedBox(),

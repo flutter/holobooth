@@ -599,6 +599,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  outline_gradient_button:
+    dependency: transitive
+    description:
+      name: outline_gradient_button
+      sha256: "89acc90fcf2e46db680193eb4b64a64e9d37cb2499c12074f02bc358f5074cac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+1"
   package_config:
     dependency: transitive
     description:

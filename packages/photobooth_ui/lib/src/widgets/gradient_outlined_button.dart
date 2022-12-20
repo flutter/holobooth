@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template gradient_outlined_button}
@@ -18,18 +19,30 @@ class GradientOutlinedButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   /// The icon for the button.
-  final Icon icon;
+  final Widget icon;
 
   /// The label for the button.
-  final Widget label;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        OutlinedButton.icon(
-          onPressed: onPressed,
-          icon: ShaderMask(
+    return OutlineGradientButton(
+      radius: const Radius.circular(50),
+      strokeWidth: 2,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomCenter,
+        colors: [
+          HoloBoothColors.pink,
+          HoloBoothColors.purple,
+        ],
+      ),
+      onTap: onPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ShaderMask(
             shaderCallback: (bounds) {
               return const LinearGradient(
                 colors: [
@@ -40,35 +53,13 @@ class GradientOutlinedButton extends StatelessWidget {
             },
             child: icon,
           ),
-          label: label,
-          style: OutlinedButton.styleFrom(side: BorderSide.none),
-        ),
-        Positioned.fill(
-          child: IgnorePointer(
-            child: ShaderMask(
-              shaderCallback: (bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    HoloBoothColors.pink,
-                    HoloBoothColors.purple,
-                  ],
-                ).createShader(Offset.zero & bounds.size);
-              },
-              child: const Material(
-                color: Colors.transparent,
-                shape: StadiumBorder(
-                  side: BorderSide(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
+          const SizedBox(width: 19),
+          Text(
+            label,
+            style: const TextStyle(color: PhotoboothColors.white),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

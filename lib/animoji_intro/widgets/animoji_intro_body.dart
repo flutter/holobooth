@@ -12,49 +12,51 @@ class AnimojiIntroBody extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final small = size.width <= PhotoboothBreakpoints.small;
 
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 32,
-        ),
-        constraints: const BoxConstraints(
-          maxHeight: 600,
-          minHeight: 515,
-          maxWidth: 900,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF9E81EF),
-                  Color(0xFF4100E0),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      flex: small ? 1 : 2,
-                      // TODO(willhlas): add animation.
-                      child: Container(
-                        color: const Color(0xFF020320).withOpacity(0.95),
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Expanded(
-                      child: _BottomContent(
-                        smallScreen: small,
-                      ),
-                    ),
+    return Align(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 32,
+          ),
+          constraints: const BoxConstraints(
+            maxHeight: 600,
+            minHeight: 515,
+            maxWidth: 900,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xFF9E81EF),
+                    Color(0xFF4100E0),
                   ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(1),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        flex: small ? 1 : 2,
+                        // TODO(willhlas): add animation.
+                        child: Container(
+                          color: const Color(0xFF020320).withOpacity(0.95),
+                        ),
+                      ),
+                      const SizedBox(height: 1),
+                      Expanded(
+                        child: _BottomContent(
+                          smallScreen: small,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

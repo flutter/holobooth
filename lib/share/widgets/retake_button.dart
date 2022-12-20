@@ -13,8 +13,11 @@ class RetakeButton extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).pushReplacement(PhotoBoothPage.route());
       },
-      icon: const Icon(Icons.videocam_rounded),
-      label: Text(l10n.sharePageRetakeButtonText),
+      icon: const Icon(
+        Icons.videocam_rounded,
+        color: PhotoboothColors.white,
+      ),
+      label: l10n.sharePageRetakeButtonText,
     );
   }
 }

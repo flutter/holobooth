@@ -125,6 +125,14 @@ class $AssetsIconsGen {
   AssetGenImage get classicPhotobooth =>
       const AssetGenImage('assets/icons/classic_photobooth.png');
 
+  /// File path: assets/icons/close_icon.png
+  AssetGenImage get closeIcon =>
+      const AssetGenImage('assets/icons/close_icon.png');
+
+  /// File path: assets/icons/facebook_logo.png
+  AssetGenImage get facebookLogo =>
+      const AssetGenImage('assets/icons/facebook_logo.png');
+
   /// File path: assets/icons/firebase_icon.png
   AssetGenImage get firebaseIcon =>
       const AssetGenImage('assets/icons/firebase_icon.png');
@@ -149,16 +157,23 @@ class $AssetsIconsGen {
   AssetGenImage get tensorflowIcon =>
       const AssetGenImage('assets/icons/tensorflow_icon.png');
 
+  /// File path: assets/icons/twitter_logo.png
+  AssetGenImage get twitterLogo =>
+      const AssetGenImage('assets/icons/twitter_logo.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         cameraButtonIcon,
         classicPhotobooth,
+        closeIcon,
+        facebookLogo,
         firebaseIcon,
         flutterIcon,
         goNextButtonIcon,
         recordingButtonIcon,
         retakeButtonIcon,
-        tensorflowIcon
+        tensorflowIcon,
+        twitterLogo
       ];
 }
 
