@@ -11,10 +11,7 @@ class RecordingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return GradientElevatedButton(
-      onPressed: () {
-        // TODO(erickzanardo): call onRecordingPressed when recording animation
-        // is implemented.
-      },
+      onPressed: onRecordingPressed,
       child: Text(l10n.recordButtonText),
     );
   }

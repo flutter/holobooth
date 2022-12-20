@@ -110,9 +110,10 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             padding: const EdgeInsets.all(15),
             child: RecordingButton(
               onRecordingPressed: () {
-                context
-                    .read<PhotoBoothBloc>()
-                    .add(const PhotoBoothRecordingStarted());
+                // TODO(erickzanardo): Re enable when the animation gets implemented
+                // context
+                //     .read<PhotoBoothBloc>()
+                //     .add(const PhotoBoothRecordingStarted());
               },
             ),
           ),
