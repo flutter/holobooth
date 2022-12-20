@@ -43,7 +43,7 @@ class Vector3 extends Equatable {
     final dx = x - other.x;
     final dy = y - other.y;
     final dz = z - other.z;
-    return math.sqrt(dx * dx + dy * dy + dz * dz);
+    return math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
   }
 
   @override
