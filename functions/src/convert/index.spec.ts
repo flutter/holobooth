@@ -65,8 +65,11 @@ function setUpFileMakePublicFunction(returnValue) {
 function setUpFfmpeg(currentEvent: string) {
   ffmpeg = mockDeep<ffmpeg>({
     addInput: jest.fn().mockReturnThis(),
+    addOutput: jest.fn().mockReturnThis(),
     addOptions: jest.fn().mockReturnThis(),
     inputFPS: jest.fn().mockReturnThis(),
+    videoFilters: jest.fn().mockReturnThis(),
+    loop: jest.fn().mockReturnThis(),
     mergeToFile: jest.fn().mockReturnThis(),
     on: jest.fn((event, handler) => {
       if (currentEvent == event && event === 'error') {
@@ -135,8 +138,11 @@ jest.mock('busboy', () => () => {
 jest.mock('fluent-ffmpeg', () => () => {
   return {
     addInput: jest.fn().mockReturnThis(),
+    addOutput: jest.fn().mockReturnThis(),
+    loop: jest.fn().mockReturnThis(),
     addOptions: jest.fn().mockReturnThis(),
     inputFPS: jest.fn().mockReturnThis(),
+    videoFilters: jest.fn().mockReturnThis(),
     mergeToFile: jest.fn().mockReturnThis(),
     on: jest.fn((event, handler) => {
       if (event === 'end') {
@@ -201,9 +207,10 @@ describe('convert', () => {
     await convert.convert(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(200);
-    expect(mockResponse.send).toHaveBeenCalledWith(
-      'https://storage.googleapis.com/test-bucket/test-file'
-    );
+    expect(mockResponse.send).toHaveBeenCalledWith({
+      video_url: 'https://storage.googleapis.com/test-bucket/test-file',
+      gif_url: 'https://storage.googleapis.com/test-bucket/test-file',
+    });
   });
 
   it('returns status 500 on error', async () => {
@@ -242,9 +249,9 @@ describe('convertImages', () => {
     setUpMockReadStream('finish');
     setUpFileMakePublicFunction(true);
 
-    const { status, url } = await convert.convertImages(mockRequest);
+    const { status, videoUrl } = await convert.convertImages(mockRequest);
     expect(status).toEqual(200);
-    expect(url).toEqual('https://storage.googleapis.com/test-bucket/test-file');
+    expect(videoUrl).toEqual('https://storage.googleapis.com/test-bucket/test-file');
   });
 });
 
@@ -338,6 +345,24 @@ describe('convertToVideo', () => {
 
     await expect(
       convert. convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
+    ).rejects.toThrow();
+  });
+});
+
+describe('convertVideoToGif', () => {
+  it('returns path for the file', async () => {
+    setUpFfmpeg('end');
+
+    await expect(
+      convert.convertVideoToGif(ffmpeg, `${tempDir}/video.mp4`, tempDir)
+    ).resolves.toBe(`${tempDir}/video.gif`);
+  });
+
+  it('throws error when unable to convert video.', async () => {
+    setUpFfmpeg('error');
+
+    await expect(
+      convert.convertVideoToGif(ffmpeg, `${tempDir}/video.mp4`, tempDir)
     ).rejects.toThrow();
   });
 });

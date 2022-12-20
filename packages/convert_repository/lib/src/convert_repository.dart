@@ -51,7 +51,9 @@ class ConvertRepository {
 
       final response = await multipartRequest.send();
       if (response.statusCode == 200) {
-        return response.stream.bytesToString();
+        final data = await response.stream.bytesToString();
+        print(data);
+        return data;
       } else {
         throw const ConvertException('Failed to convert frames');
       }

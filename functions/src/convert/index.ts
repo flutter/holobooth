@@ -17,10 +17,13 @@ export const errorMessage = 'Something went wrong';
  */
 export const convert = functions.https.onRequest(async (req, res) => {
   try {
-    const { status, url } = await convertImages(req);
+    const { status, videoUrl, gifUrl } = await convertImages(req);
 
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(status).send(url);
+    res.status(status).send({
+      video_url: videoUrl,
+      gif_url: gifUrl,
+    });
   } catch (error) {
     functions.logger.error(error);
     res.status(500).send(errorMessage);
@@ -29,7 +32,11 @@ export const convert = functions.https.onRequest(async (req, res) => {
 
 export async function convertImages(
   req: functions.https.Request,
-): Promise<{ status: number; url: string }> {
+): Promise<{
+  status: number;
+  videoUrl: string,
+  gifUrl: string,
+}> {
   let tempDir: string | null = null;
 
   try {
@@ -49,12 +56,12 @@ export async function convertImages(
     const busboy = _busboy({ headers: req.headers });
     const frames = await readFramesFromRequest(busboy, req, tempDir);
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
-    const url = await uploadFile(userId + '.mp4', videoPath);
+    const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
 
-    return {
-      status: 200,
-      url: url,
-    };
+    const videoUrl = await uploadFile(userId + '.mp4', videoPath);
+    const gifUrl = await uploadFile(userId + '.gif', gifPath);
+
+    return { status: 200, videoUrl, gifUrl };
   } catch (error) {
     functions.logger.error(error);
     throw error;
@@ -141,6 +148,31 @@ export async function convertToVideo(
           fs.unlinkSync(frame);
         });
         resolve(videoPath);
+      })
+      .on('error', function(error) {
+        functions.logger.error(error);
+        return reject( error);
+      });
+  });
+}
+
+export async function convertVideoToGif(
+  ffmpeg: ffmpeg,
+  videoPath: string,
+  folder: string
+): Promise<string> {
+  const gifPath = `${folder}/video.gif`;
+  return new Promise((resolve, reject) => {
+    ffmpeg
+      .addInput(videoPath)
+      .addOptions([ '-ss 30', '-t 3'])
+      .videoFilters('flags=lanczos')
+      .videoFilters('split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse')
+      .loop()
+      .inputFPS(15)
+      .addOutput(gifPath)
+      .on('end', () => {
+        resolve(gifPath);
       })
       .on('error', function(error) {
         functions.logger.error(error);
