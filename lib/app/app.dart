@@ -1,16 +1,12 @@
-import 'dart:typed_data';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/share/view/view.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
-import 'package:screen_recorder/screen_recorder.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -54,16 +50,17 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'I/O Photo Booth',
-      theme: theme,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: SharePage(
-        frames: [RawFrame(1, ByteData(1))],
-        images: [
-          PhotoboothCameraImage(constraint: PhotoConstraint(), data: 'data')
-        ],
-      ),
-    );
+        title: 'I/O Photo Booth',
+        theme: theme,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: Container(
+            height: 300,
+            width: 200,
+            color: Colors.red,
+            child: VideoFrame(),
+          ),
+        ));
   }
 }

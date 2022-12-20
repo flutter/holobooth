@@ -8,6 +8,17 @@ class VideoFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      children: <Widget>[
+        SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: VideoPlayerView(),
+          ),
+        ),
+        //FURTHER IMPLEMENTATION
+      ],
+    );
+    return Stack(
       fit: StackFit.expand,
       children: [
         Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
