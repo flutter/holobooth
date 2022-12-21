@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -32,7 +33,7 @@ void main() {
     });
 
     testWidgets(
-      'renders DashAnimation if dash selected',
+      'renders CharacterAnimation with Dash if dash selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
@@ -41,12 +42,18 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        expect(find.byType(DashAnimation), findsOneWidget);
+        final characterAnimationFinder = find.byType(CharacterAnimation);
+        final characterAnimationWidget =
+            tester.widget<CharacterAnimation>(characterAnimationFinder);
+        expect(
+          characterAnimationWidget.assetGenImage.path,
+          equals(Assets.animations.dash.path),
+        );
       },
     );
 
     testWidgets(
-      'renders SparkyAnimation if sparky selected',
+      'renders CharacterAnimation with Sparky if sparky selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
@@ -56,7 +63,13 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        expect(find.byType(SparkyAnimation), findsOneWidget);
+        final characterAnimationFinder = find.byType(CharacterAnimation);
+        final characterAnimationWidget =
+            tester.widget<CharacterAnimation>(characterAnimationFinder);
+        expect(
+          characterAnimationWidget.assetGenImage.path,
+          equals(Assets.animations.sparky.path),
+        );
       },
     );
   });

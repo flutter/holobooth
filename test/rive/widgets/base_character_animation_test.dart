@@ -12,7 +12,15 @@ class _MockLeftEyeGeometry extends Mock implements LeftEyeGeometry {}
 class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
 void main() {
-  group('BaseAnimation', () {
+  group('CharacterAnimation', () {
+    late RiveGenImage assetGenImage;
+    late Size riveImageSize;
+
+    setUp(() {
+      assetGenImage = Assets.animations.dash;
+      riveImageSize = Size(100, 100);
+    });
+
     testWidgets('updates direction', (tester) async {
       final initialDirection = Vector3(0, 0, 0);
       var avatar = Avatar(
@@ -36,7 +44,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -91,7 +100,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -154,7 +164,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -224,7 +235,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -278,7 +290,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -314,7 +327,8 @@ void main() {
                 glasses: glasses,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -350,7 +364,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: clothes,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -386,7 +401,8 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: handheldLeft,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),

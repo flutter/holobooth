@@ -24,7 +24,7 @@ class PhotoboothCharacter extends StatelessWidget {
 
     switch (characterSelected) {
       case Character.dash:
-        return DashAnimation(
+        return CharacterAnimation.dash(
           avatar: avatar,
           hat: hat,
           glasses: glasses,
@@ -32,7 +32,7 @@ class PhotoboothCharacter extends StatelessWidget {
           handheldlLeft: handheldlLeft,
         );
       case Character.sparky:
-        return SparkyAnimation(
+        return CharacterAnimation.sparky(
           avatar: avatar,
           hat: hat,
           glasses: glasses,

@@ -18,6 +18,44 @@ class CharacterAnimation extends StatefulWidget {
     required this.riveImageSize,
   });
 
+  /// Creates a [CharacterAnimation] for the Dash character.
+  CharacterAnimation.dash({
+    Key? key,
+    required Avatar avatar,
+    required Hats hat,
+    required Glasses glasses,
+    required Clothes clothes,
+    required HandheldlLeft handheldlLeft,
+  }) : this(
+          key: key,
+          avatar: avatar,
+          hat: hat,
+          glasses: glasses,
+          clothes: clothes,
+          handheldlLeft: handheldlLeft,
+          assetGenImage: Assets.animations.dash,
+          riveImageSize: const Size(2400, 2100),
+        );
+
+  /// Creates a [CharacterAnimation] for the Sparky character.
+  CharacterAnimation.sparky({
+    Key? key,
+    required Avatar avatar,
+    required Hats hat,
+    required Glasses glasses,
+    required Clothes clothes,
+    required HandheldlLeft handheldlLeft,
+  }) : this(
+          key: key,
+          avatar: avatar,
+          hat: hat,
+          glasses: glasses,
+          clothes: clothes,
+          handheldlLeft: handheldlLeft,
+          assetGenImage: Assets.animations.sparky,
+          riveImageSize: const Size(2500, 2100),
+        );
+
   final Avatar avatar;
   final Hats hat;
   final Glasses glasses;
