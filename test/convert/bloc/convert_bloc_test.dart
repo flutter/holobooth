@@ -14,6 +14,8 @@ void main() {
 
   group('ConvertBloc', () {
     group('ConvertFrames', () {
+      final frames = [RawFrame(0, ByteData(0))];
+
       blocTest<ConvertBloc, ConvertState>(
         'return video path for request',
         setUp: () {
@@ -27,15 +29,12 @@ void main() {
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(
-          ConvertFrames(
-            [
-              RawFrame(0, ByteData(0)),
-            ],
-          ),
+          ConvertFrames(frames),
         ),
         expect: () => [
           ConvertLoading(),
           ConvertSuccess(
+            frames: frames,
             videoPath: 'test-video-path',
             gifPath: 'test-gif-path',
           ),

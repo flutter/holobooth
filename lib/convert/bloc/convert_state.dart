@@ -15,13 +15,15 @@ class ConvertSuccess extends ConvertState {
   const ConvertSuccess({
     required this.videoPath,
     required this.gifPath,
+    required this.frames,
   });
 
+  final List<RawFrame> frames;
   final String videoPath;
   final String gifPath;
 
   @override
-  List<Object> get props => [videoPath, gifPath];
+  List<Object> get props => [frames, videoPath, gifPath];
 }
 
 class ConvertError extends ConvertState {}

@@ -23,11 +23,13 @@ void main() {
       test('support value equality', () {
         expect(
           ConvertSuccess(
+            frames: const [],
             videoPath: 'not-important',
             gifPath: 'not-important',
           ),
           equals(
             ConvertSuccess(
+              frames: const [],
               videoPath: 'not-important',
               gifPath: 'not-important',
             ),
@@ -35,12 +37,14 @@ void main() {
         );
         expect(
           ConvertSuccess(
+            frames: const [],
             videoPath: 'not-important',
             gifPath: 'not-important',
           ),
           isNot(
             equals(
               ConvertSuccess(
+                frames: const [],
                 videoPath: 'important',
                 gifPath: 'not-important',
               ),
@@ -49,12 +53,14 @@ void main() {
         );
         expect(
           ConvertSuccess(
+            frames: const [],
             videoPath: 'not-important',
             gifPath: 'not-important',
           ),
           isNot(
             equals(
               ConvertSuccess(
+                frames: const [],
                 videoPath: 'not-important',
                 gifPath: 'important',
               ),

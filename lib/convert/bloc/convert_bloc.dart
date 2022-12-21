@@ -34,6 +34,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
       emit(
         ConvertSuccess(
+          frames: event.frames,
           videoPath: result.videoUrl,
           gifPath: result.gifUrl,
         ),
