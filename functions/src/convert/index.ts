@@ -55,8 +55,11 @@ export async function convertImages(
     tempDir = await createTempDirectory(userId);
     const busboy = _busboy({ headers: req.headers });
     const frames = await readFramesFromRequest(busboy, req, tempDir);
+
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
+    console.log(videoPath);
     const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
+    console.log(gifPath);
 
     const videoUrl = await uploadFile(userId + '.mp4', videoPath);
     const gifUrl = await uploadFile(userId + '.gif', gifPath);
@@ -162,14 +165,11 @@ export async function convertVideoToGif(
   folder: string
 ): Promise<string> {
   const gifPath = `${folder}/video.gif`;
+  // ffmpeg -i video.mp4 -filter_complex 'fps=10,scale=320:-1:flags=lanczos,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse' out.gif
   return new Promise((resolve, reject) => {
     ffmpeg
       .addInput(videoPath)
-      .addOptions([ '-ss 30', '-t 3'])
-      .videoFilters('flags=lanczos')
-      .videoFilters('split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse')
-      .loop()
-      .inputFPS(15)
+      .videoFilters('fps=10,scale=320:-1:flags=lanczos,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse')
       .addOutput(gifPath)
       .on('end', () => {
         resolve(gifPath);
@@ -177,7 +177,8 @@ export async function convertVideoToGif(
       .on('error', function(error) {
         functions.logger.error(error);
         return reject( error);
-      });
+      })
+      .run();
   });
 }
 

@@ -69,7 +69,7 @@ function setUpFfmpeg(currentEvent: string) {
     addOptions: jest.fn().mockReturnThis(),
     inputFPS: jest.fn().mockReturnThis(),
     videoFilters: jest.fn().mockReturnThis(),
-    loop: jest.fn().mockReturnThis(),
+    run: jest.fn().mockReturnThis(),
     mergeToFile: jest.fn().mockReturnThis(),
     on: jest.fn((event, handler) => {
       if (currentEvent == event && event === 'error') {
@@ -139,7 +139,7 @@ jest.mock('fluent-ffmpeg', () => () => {
   return {
     addInput: jest.fn().mockReturnThis(),
     addOutput: jest.fn().mockReturnThis(),
-    loop: jest.fn().mockReturnThis(),
+    run: jest.fn().mockReturnThis(),
     addOptions: jest.fn().mockReturnThis(),
     inputFPS: jest.fn().mockReturnThis(),
     videoFilters: jest.fn().mockReturnThis(),
