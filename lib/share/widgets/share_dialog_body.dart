@@ -21,6 +21,7 @@ class SmallShareDialogBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: const [
           Align(
             alignment: Alignment.centerRight,
@@ -44,7 +45,10 @@ class SmallShareDialogBody extends StatelessWidget {
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ShareDialogAnimation(),
+            child: SizedBox(
+              height: 380,
+              child: VideoFrame(),
+            ),
           ),
           SizedBox(height: 24),
           Padding(
@@ -76,7 +80,7 @@ class LargeShareDialogBody extends StatelessWidget {
                   const Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(24),
-                      child: ShareDialogAnimation(),
+                      child: VideoFrame(),
                     ),
                   ),
                   Expanded(
