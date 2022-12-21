@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
+import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -134,7 +134,7 @@ void main() {
     });
 
     testWidgets(
-      'navigates to SharePage when isFinished',
+      'navigates to ConvertPage when isFinished',
       (WidgetTester tester) async {
         whenListen(
           photoBoothBloc,
@@ -146,8 +146,11 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        await tester.pumpAndSettle();
-        expect(find.byType(SharePage), findsOneWidget);
+
+        /// Wait for the player to complete
+        await tester.pump(Duration(seconds: 4));
+        await tester.pump(Duration(seconds: 2));
+        expect(find.byType(ConvertPage), findsOneWidget);
       },
     );
   });

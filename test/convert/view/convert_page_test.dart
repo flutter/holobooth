@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -100,6 +101,29 @@ void main() {
     /// Wait for the player to complete
     await tester.pump(Duration(seconds: 3));
     expect(find.byType(ConvertFinished), findsOneWidget);
+  });
+
+  testWidgets('navigates to SharePage on success', (tester) async {
+    final state = ConvertSuccess(
+      frames: [_MockRawFrame()],
+      gifPath: 'not-important',
+      videoPath: 'not-important',
+    );
+    whenListen(
+      convertBloc,
+      Stream.value(state),
+      initialState: ConvertInitial(),
+    );
+
+    await tester.pumpSubject(
+      ConvertView(),
+      convertBloc,
+    );
+
+    /// Wait for the player to complete
+    await tester.pump(Duration(seconds: 3));
+    await tester.pump();
+    expect(find.byType(SharePage), findsOneWidget);
   });
 }
 
