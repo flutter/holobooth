@@ -96,7 +96,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   ///
   /// The larger the value the less head movement is required to trigger a
   /// rotation animation. In other words, the larger the value the easier it is
-  /// to reach the limits of the mouth animation.
+  /// to reach the limits of the rotation animation.
   @visibleForTesting
   static const rotationScale = 2;
 
