@@ -5,6 +5,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PlayButton extends StatelessWidget {
   const PlayButton({super.key});
+  static const dimension = 65.0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,10 @@ class PlayButton extends StatelessWidget {
             builder: (_) => const VideoDialog(),
           );
         },
-        child: Assets.icons.playIcon.image(height: 65),
+        child: SizedBox.square(
+          dimension: dimension,
+          child: Assets.icons.playIcon.image(),
+        ),
       ),
     );
   }
