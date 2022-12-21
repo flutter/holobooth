@@ -57,9 +57,7 @@ export async function convertImages(
     const frames = await readFramesFromRequest(busboy, req, tempDir);
 
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
-    console.log(videoPath);
     const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
-    console.log(gifPath);
 
     const videoUrl = await uploadFile(userId + '.mp4', videoPath);
     const gifUrl = await uploadFile(userId + '.gif', gifPath);
@@ -168,7 +166,7 @@ export async function convertVideoToGif(
   return new Promise((resolve, reject) => {
     ffmpeg
       .addInput(videoPath)
-      .videoFilters('fps=10,scale=320:-1:flags=lanczos,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse')
+      .videoFilters('fps=10,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse')
       .addOutput(gifPath)
       .on('end', () => {
         resolve(gifPath);
