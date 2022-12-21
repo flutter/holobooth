@@ -35,7 +35,7 @@ class SparkyCharacterAnimation extends CharacterAnimation {
 }
 
 @visibleForTesting
-abstract class CharacterAnimation extends StatefulWidget {
+class CharacterAnimation extends StatefulWidget {
   const CharacterAnimation({
     super.key,
     required this.avatar,
