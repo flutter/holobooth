@@ -18,8 +18,12 @@ void main() {
         'return video path for request',
         setUp: () {
           convertRepository = _MockConvertRepository();
-          when(() => convertRepository.convertFrames(any()))
-              .thenAnswer((_) async => 'test-video-path');
+          when(() => convertRepository.convertFrames(any())).thenAnswer(
+            (_) async => ConvertResponse(
+              videoUrl: 'test-video-path',
+              gifUrl: 'test-gif-path',
+            ),
+          );
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(
@@ -31,7 +35,10 @@ void main() {
         ),
         expect: () => [
           ConvertLoading(),
-          ConvertSuccess('test-video-path'),
+          ConvertSuccess(
+            videoPath: 'test-video-path',
+            gifPath: 'test-gif-path',
+          ),
         ],
       );
 
