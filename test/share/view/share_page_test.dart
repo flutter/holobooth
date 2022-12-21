@@ -1,7 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -17,28 +18,18 @@ class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
-class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
-  @override
-  final String data = '';
-}
-
 void main() {
-  final images = [
-    FakePhotoboothCameraImage(),
-    FakePhotoboothCameraImage(),
-    FakePhotoboothCameraImage()
-  ];
   group('SharePage', () {
     test('is routable', () {
-      expect(SharePage.route(images, []), isA<AppPageRoute<void>>());
+      expect(SharePage.route([]), isA<AppPageRoute<void>>());
     });
   });
 
   group('ShareView', () {
     late ShareBloc shareBloc;
     late UrlLauncherPlatform mock;
+    final firstFrame =
+        ByteData.view(Uint8List.fromList(transparentImage).buffer);
 
     setUp(() {
       mock = _MockUrlLauncher();
@@ -57,21 +48,17 @@ void main() {
     });
 
     testWidgets('renders ShareBackground', (tester) async {
-      await tester.pumpApp(
-        SharePage(
-          images: images,
-          frames: const [],
-        ),
+      await tester.pumpSubject(
+        ShareView(firstFrame: firstFrame),
+        shareBloc,
       );
       expect(find.byType(ShareBackground), findsOneWidget);
     });
 
     testWidgets('contains a ShareBody', (tester) async {
       await tester.pumpSubject(
-        ShareView(
-          images: images,
-        ),
-        ShareBloc(),
+        ShareView(firstFrame: firstFrame),
+        shareBloc,
       );
       expect(find.byType(ShareBody), findsOneWidget);
     });
@@ -90,9 +77,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(
-          images: images,
-        ),
+        ShareView(firstFrame: firstFrame),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -115,9 +100,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(
-          images: images,
-        ),
+        ShareView(firstFrame: firstFrame),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -139,9 +122,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(
-          images: images,
-        ),
+        ShareView(firstFrame: firstFrame),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -167,9 +148,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(
-          images: images,
-        ),
+        ShareView(firstFrame: firstFrame),
         shareBloc,
       );
       await tester.pumpAndSettle();

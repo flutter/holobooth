@@ -39,24 +39,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     _screenRecorderController.stop();
 
     final photoBoothBloc = context.read<PhotoBoothBloc>();
-    final picture = await _cameraController!.takePicture();
-    final previewSize = _cameraController!.value.previewSize!;
     final frames = await _screenRecorderController.exporter.exportFrames();
-    photoBoothBloc
-      ..add(
-        PhotoBoothOnPhotoTaken(
-          image: PhotoboothCameraImage(
-            data: picture.path,
-            constraint: PhotoConstraint(
-              width: previewSize.width,
-              height: previewSize.height,
-            ),
-          ),
-        ),
-      )
-      ..add(
-        PhotoBoothRecordingFinished(frames ?? []),
-      );
+    photoBoothBloc.add(PhotoBoothRecordingFinished(frames ?? []));
   }
 
   @override

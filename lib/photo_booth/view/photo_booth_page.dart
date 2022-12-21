@@ -17,9 +17,7 @@ class PhotoBoothPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => PhotoBoothBloc(),
-        ),
+        BlocProvider(create: (_) => PhotoBoothBloc()),
         BlocProvider(create: (_) => InExperienceSelectionBloc()),
         BlocProvider(
           create: (_) => AvatarDetectorBloc(
@@ -41,10 +39,7 @@ class PhotoBoothView extends StatelessWidget {
       listener: (context, state) {
         if (state.isFinished) {
           Navigator.of(context).pushReplacement(
-            SharePage.route(
-              state.images,
-              state.frames,
-            ),
+            SharePage.route(state.frames),
           );
         }
       },

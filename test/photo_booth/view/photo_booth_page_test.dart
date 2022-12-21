@@ -1,6 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,15 +34,11 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
+class _MockRawFrame extends Mock implements RawFrame {
   @override
-  String get data => '';
-
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
+  ByteData get image =>
+      ByteData.view(Uint8List.fromList(transparentImage).buffer);
 }
-
-class _MockRawFrame extends Mock implements RawFrame {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -124,7 +121,7 @@ void main() {
       photoBoothBloc = _MockPhotoBoothBloc();
       when(
         () => photoBoothBloc.state,
-      ).thenReturn(PhotoBoothState.empty());
+      ).thenReturn(PhotoBoothState());
 
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
@@ -136,25 +133,12 @@ void main() {
       );
     });
 
-    setUpAll(() {
-      registerFallbackValue(_FakePhotoboothCameraImage());
-    });
-
     testWidgets(
       'navigates to SharePage when isFinished',
       (WidgetTester tester) async {
-        final images = UnmodifiableListView([
-          for (var i = 0; i < PhotoBoothState.totalNumberOfPhotos; i++)
-            _FakePhotoboothCameraImage(),
-        ]);
         whenListen(
           photoBoothBloc,
-          Stream.value(
-            PhotoBoothState(
-              images: images,
-              frames: [_MockRawFrame()],
-            ),
-          ),
+          Stream.value(PhotoBoothState(frames: [_MockRawFrame()])),
         );
         await tester.pumpSubject(
           PhotoBoothView(),
