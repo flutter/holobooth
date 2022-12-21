@@ -12,7 +12,15 @@ class _MockLeftEyeGeometry extends Mock implements LeftEyeGeometry {}
 class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
 void main() {
-  group('BaseAnimation', () {
+  group('CharacterAnimation', () {
+    late RiveGenImage assetGenImage;
+    late Size riveImageSize;
+
+    setUp(() {
+      assetGenImage = Assets.animations.dash;
+      riveImageSize = Size(100, 100);
+    });
+
     testWidgets('updates direction', (tester) async {
       final initialDirection = Vector3(0, 0, 0);
       var avatar = Avatar(
@@ -30,13 +38,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -44,8 +53,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.x.value, equals(initialDirection.x));
       expect(controller.y.value, equals(initialDirection.y));
@@ -68,21 +77,21 @@ void main() {
       expect(
         controller.x.value,
         equals(
-          (newDirection.x * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.x * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
       expect(
         controller.y.value,
         equals(
-          (newDirection.y * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.y * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
       expect(
         controller.z.value,
         equals(
-          (newDirection.z * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.z * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
@@ -105,13 +114,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -119,8 +129,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(
         controller.mouthDistance.value,
@@ -168,13 +178,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -182,8 +193,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.leftEyeIsClosed.value, equals(0));
 
@@ -238,13 +249,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -252,8 +264,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.rightEyeIsClosed.value, equals(0));
 
@@ -284,6 +296,63 @@ void main() {
       );
     });
 
+    testWidgets('updates scale', (tester) async {
+      const initialDistance = 0.0;
+      var avatar = Avatar(
+        hasMouthOpen: false,
+        mouthDistance: 0,
+        direction: Vector3.zero,
+        leftEyeGeometry: LeftEyeGeometry.empty(),
+        rightEyeGeometry: RightEyeGeometry.empty(),
+        distance: initialDistance,
+      );
+
+      late StateSetter stateSetter;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              stateSetter = setState;
+              return CharacterAnimation(
+                avatar: avatar,
+                hat: Hats.none,
+                glasses: Glasses.none,
+                clothes: Clothes.none,
+                handheldlLeft: HandheldlLeft.none,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final initialAnimatedScaleFinder = find.byType(AnimatedScale);
+      final initialAnimatedScale =
+          tester.widget<AnimatedScale>(initialAnimatedScaleFinder);
+      expect(initialAnimatedScale.scale, .8);
+
+      const newDistance = initialDistance + .2;
+      stateSetter(() {
+        avatar = Avatar(
+          hasMouthOpen: avatar.hasMouthOpen,
+          mouthDistance: avatar.mouthDistance,
+          direction: avatar.direction,
+          leftEyeGeometry: avatar.leftEyeGeometry,
+          rightEyeGeometry: avatar.rightEyeGeometry,
+          distance: newDistance,
+        );
+      });
+      await tester.pump(Duration(milliseconds: 150));
+      await tester.pump(Duration(milliseconds: 150));
+
+      final newAnimatedScaleFinder = find.byType(AnimatedScale);
+      final newAnimatedScale =
+          tester.widget<AnimatedScale>(newAnimatedScaleFinder);
+      expect(newAnimatedScale.scale, greaterThan(.8));
+    });
+
     testWidgets('updates hat', (tester) async {
       var hat = Hats.none;
       late StateSetter stateSetter;
@@ -292,13 +361,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: hat,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -306,8 +376,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.hats.value, equals(hat.index));
 
@@ -328,13 +398,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: glasses,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -342,8 +413,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.glasses.value, equals(glasses.riveIndex));
 
@@ -364,13 +435,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: clothes,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -378,8 +450,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.clothes.value, equals(clothes.index));
 
@@ -400,13 +472,14 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: handheldLeft,
-                assetGenImage: Assets.animations.dash,
+                assetGenImage: assetGenImage,
+                riveImageSize: riveImageSize,
               );
             },
           ),
@@ -414,8 +487,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
