@@ -13,7 +13,7 @@ class PhotoBoothState extends Equatable {
   bool get isFinished => !isRecording && frames.isNotEmpty;
 
   @override
-  List<Object?> get props => [frames];
+  List<Object?> get props => [frames, isRecording];
 
   PhotoBoothState copyWith({
     List<RawFrame>? frames,
@@ -24,15 +24,4 @@ class PhotoBoothState extends Equatable {
       isRecording: isRecording ?? this.isRecording,
     );
   }
-}
-
-// TODO(oscar): To be deleted after one single photobooth exists in the project
-class PhotoConstraint extends Equatable {
-  const PhotoConstraint({this.width = 1, this.height = 1});
-
-  final double width;
-  final double height;
-
-  @override
-  List<Object> get props => [width, height];
 }
