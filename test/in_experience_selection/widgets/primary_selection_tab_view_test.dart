@@ -72,8 +72,7 @@ void main() {
         );
         await tester.tap(find.byType(RecordingButton));
         await tester.pumpAndSettle();
-        verify(() => photoBoothBloc.add(PhotoBoothRecordingStarted()))
-            .called(1);
+        verifyNever(() => photoBoothBloc.add(PhotoBoothRecordingStarted()));
       },
     );
   });
