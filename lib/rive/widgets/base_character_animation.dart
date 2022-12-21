@@ -15,6 +15,7 @@ class BaseCharacterAnimation extends StatefulWidget {
     required this.clothes,
     required this.handheldlLeft,
     required this.assetGenImage,
+    required this.riveImageSize,
   });
 
   final Avatar avatar;
@@ -23,6 +24,7 @@ class BaseCharacterAnimation extends StatefulWidget {
   final Clothes clothes;
   final HandheldlLeft handheldlLeft;
   final RiveGenImage assetGenImage;
+  final Size riveImageSize;
 
   @override
   State<BaseCharacterAnimation> createState() => BaseCharacterAnimationState();
@@ -240,9 +242,12 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return widget.assetGenImage.rive(
-      onInit: onRiveInit,
-      fit: BoxFit.cover,
+    return AspectRatio(
+      aspectRatio: widget.riveImageSize.aspectRatio,
+      child: widget.assetGenImage.rive(
+        onInit: onRiveInit,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
