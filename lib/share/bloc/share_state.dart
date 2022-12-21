@@ -39,7 +39,6 @@ class ShareState extends Equatable {
     String? explicitShareUrl,
     ShareUrl? shareUrl,
     ShareStatus? shareStatus,
-    ByteData? firstFrame,
   }) {
     return ShareState(
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
