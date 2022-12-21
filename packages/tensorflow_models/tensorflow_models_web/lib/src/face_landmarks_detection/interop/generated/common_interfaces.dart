@@ -103,7 +103,8 @@ abstract class KeypointsFilter {
 @anonymous
 @JS()
 abstract class Mask {
-  external String /*'canvasimagesource'|'imagedata'|'tensor'*/ getUnderlyingType();
+  external String /*'canvasimagesource'|'imagedata'|'tensor'*/
+      getUnderlyingType();
 }
 
 @anonymous
