@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:photos_repository/photos_repository.dart';
@@ -6,7 +8,8 @@ part 'share_event.dart';
 part 'share_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
-  ShareBloc() : super(const ShareState()) {
+  ShareBloc({ByteData? firstFrame})
+      : super(ShareState(firstFrame: firstFrame)) {
     on<ShareTapped>(_onShareTapped);
   }
 
