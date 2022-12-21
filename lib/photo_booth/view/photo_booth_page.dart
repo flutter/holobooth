@@ -41,10 +41,7 @@ class PhotoBoothView extends StatelessWidget {
       listener: (context, state) {
         if (state.isFinished) {
           Navigator.of(context).pushReplacement(
-            SharePage.route(
-              state.images,
-              state.frames,
-            ),
+            SharePage.route(state.frames),
           );
         }
       },

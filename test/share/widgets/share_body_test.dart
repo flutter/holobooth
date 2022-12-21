@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
@@ -5,65 +7,43 @@ import 'package:io_photobooth/share/share.dart';
 
 import '../../helpers/helpers.dart';
 
-class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
-  @override
-  final String data = '';
-}
-
 void main() {
   group('ShareBody', () {
-    final images = [
-      _FakePhotoboothCameraImage(),
-      _FakePhotoboothCameraImage(),
-      _FakePhotoboothCameraImage()
-    ];
+    final firstFrame =
+        ByteData.view(Uint8List.fromList(transparentImage).buffer);
 
-    testWidgets('displays a AnimatedPhotoboothPhoto in small layout',
-        (tester) async {
-      tester.setSmallDisplaySize();
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
-      );
-      expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
-    });
+    testWidgets(
+      'renders SmallShareBody in small layout',
+      (WidgetTester tester) async {
+        tester.setSmallDisplaySize();
+        await tester.pumpApp(
+          SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
+        );
+        expect(find.byType(SmallShareBody), findsOneWidget);
+      },
+    );
 
-    testWidgets('displays a AnimatedPhotoboothPhoto in large layout',
-        (tester) async {
-      tester.setLargeDisplaySize();
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
-      );
-      expect(find.byType(AnimatedPhotoboothPhoto), findsOneWidget);
-    });
+    testWidgets(
+      'renders LargeShareBody in large layout',
+      (WidgetTester tester) async {
+        tester.setLargeDisplaySize();
+        await tester.pumpApp(
+          SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
+        );
+        expect(find.byType(LargeShareBody), findsOneWidget);
+      },
+    );
 
     testWidgets('displays a ShareButton', (tester) async {
       await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
+        SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
       );
       expect(find.byType(ShareButton), findsOneWidget);
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
       await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
+        SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
       );
       expect(
         find.byType(DownloadButton),
@@ -73,11 +53,7 @@ void main() {
 
     testWidgets('displays a RetakeButton', (tester) async {
       await tester.pumpApp(
-        SingleChildScrollView(
-          child: ShareBody(
-            images: images,
-          ),
-        ),
+        SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
       );
       expect(
         find.byType(RetakeButton),
@@ -89,13 +65,8 @@ void main() {
       'RetakeButton navigates to photobooth when pressed',
       (tester) async {
         await tester.pumpApp(
-          SingleChildScrollView(
-            child: ShareBody(
-              images: images,
-            ),
-          ),
+          SingleChildScrollView(child: ShareBody(firstFrame: firstFrame)),
         );
-
         final finder = find.byType(RetakeButton);
         await tester.ensureVisible(finder);
         await tester.tap(finder);
