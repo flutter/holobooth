@@ -26,6 +26,14 @@ class ConvertResponse {
     required this.gifUrl,
   });
 
+  /// {@macro convert_response}
+  factory ConvertResponse.fromJson(Map<String, dynamic> json) {
+    return ConvertResponse(
+      videoUrl: json['video_url'] as String,
+      gifUrl: json['gif_url'] as String,
+    );
+  }
+
   /// Url to download the video.
   final String videoUrl;
 
@@ -71,10 +79,7 @@ class ConvertRepository {
       if (response.statusCode == 200) {
         final rawData = await response.stream.bytesToString();
         final json = jsonDecode(rawData) as Map<String, dynamic>;
-        return ConvertResponse(
-          videoUrl: json['video_url'] as String,
-          gifUrl: json['gif_url'] as String,
-        );
+        return ConvertResponse.fromJson(json);
       } else {
         throw const ConvertException('Failed to convert frames');
       }
