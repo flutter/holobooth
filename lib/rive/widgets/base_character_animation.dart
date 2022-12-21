@@ -6,8 +6,8 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
-class BaseCharacterAnimation extends StatefulWidget {
-  const BaseCharacterAnimation({
+class CharacterAnimation extends StatefulWidget {
+  const CharacterAnimation({
     super.key,
     required this.avatar,
     required this.hat,
@@ -27,11 +27,11 @@ class BaseCharacterAnimation extends StatefulWidget {
   final Size riveImageSize;
 
   @override
-  State<BaseCharacterAnimation> createState() => BaseCharacterAnimationState();
+  State<CharacterAnimation> createState() => CharacterAnimationState();
 }
 
-class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
-    extends State<T> with TickerProviderStateMixin {
+class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
+    with TickerProviderStateMixin {
   /// The amount of head movement required to trigger a rotation animation.
   ///
   /// The smaller the value the more sensitive the animation will be.

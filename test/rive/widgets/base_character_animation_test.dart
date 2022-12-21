@@ -30,7 +30,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -44,8 +44,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.x.value, equals(initialDirection.x));
       expect(controller.y.value, equals(initialDirection.y));
@@ -85,7 +85,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -99,8 +99,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(
         controller.mouthDistance.value,
@@ -148,7 +148,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -162,8 +162,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.leftEyeIsClosed.value, equals(0));
 
@@ -218,7 +218,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: avatar,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -232,8 +232,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.rightEyeIsClosed.value, equals(0));
 
@@ -272,7 +272,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: hat,
                 glasses: Glasses.none,
@@ -286,8 +286,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.hats.value, equals(hat.index));
 
@@ -308,7 +308,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: glasses,
@@ -322,8 +322,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.glasses.value, equals(glasses.riveIndex));
 
@@ -344,7 +344,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -358,8 +358,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.clothes.value, equals(clothes.index));
 
@@ -380,7 +380,7 @@ void main() {
           home: StatefulBuilder(
             builder: (context, setState) {
               stateSetter = setState;
-              return BaseCharacterAnimation(
+              return CharacterAnimation(
                 avatar: Avatar.zero,
                 hat: Hats.none,
                 glasses: Glasses.none,
@@ -394,8 +394,8 @@ void main() {
       );
       await tester.pump();
 
-      final state = tester.state(find.byType(BaseCharacterAnimation))
-          as BaseCharacterAnimationState;
+      final state = tester.state(find.byType(CharacterAnimation))
+          as CharacterAnimationState;
       final controller = state.characterController!;
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 

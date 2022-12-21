@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/rive/widgets/base_character_animation.dart';
 
-class DashAnimation extends BaseCharacterAnimation {
+class DashAnimation extends CharacterAnimation {
   DashAnimation({
     super.key,
     required super.avatar,
@@ -17,5 +17,5 @@ class DashAnimation extends BaseCharacterAnimation {
 
   @override
   State<DashAnimation> createState() =>
-      BaseCharacterAnimationState<DashAnimation>();
+      CharacterAnimationState<DashAnimation>();
 }

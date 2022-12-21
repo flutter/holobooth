@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/rive/widgets/base_character_animation.dart';
 
-class SparkyAnimation extends BaseCharacterAnimation {
+class SparkyAnimation extends CharacterAnimation {
   SparkyAnimation({
     super.key,
     required super.avatar,
@@ -17,5 +17,5 @@ class SparkyAnimation extends BaseCharacterAnimation {
 
   @override
   State<SparkyAnimation> createState() =>
-      BaseCharacterAnimationState<SparkyAnimation>();
+      CharacterAnimationState<SparkyAnimation>();
 }
