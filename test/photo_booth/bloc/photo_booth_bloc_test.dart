@@ -24,8 +24,9 @@ void main() {
       final frames = UnmodifiableListView([_MockRawFrame()]);
 
       blocTest<PhotoBoothBloc, PhotoBoothState>(
-        'emits nothing.',
+        'emits state with frames recorded.',
         build: PhotoBoothBloc.new,
+        seed: () => PhotoBoothState(isRecording: true),
         act: (bloc) => bloc.add(PhotoBoothRecordingFinished(frames)),
         expect: () => <PhotoBoothState>[
           PhotoBoothState(frames: frames),

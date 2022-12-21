@@ -17,9 +17,7 @@ class PhotoBoothPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => PhotoBoothBloc(),
-        ),
+        BlocProvider(create: (_) => PhotoBoothBloc()),
         BlocProvider(create: (_) => InExperienceSelectionBloc()),
         BlocProvider(
           create: (_) => AvatarDetectorBloc(
