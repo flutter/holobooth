@@ -73,6 +73,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 ),
               ),
               const Align(
+                alignment: Alignment.bottomCenter,
                 child: PhotoboothCharacter(),
               ),
               if (_isCameraAvailable) ...[

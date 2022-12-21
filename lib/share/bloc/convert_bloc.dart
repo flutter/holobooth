@@ -30,9 +30,14 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       for (final frame in event.frames) {
         frames.add(frame.image.buffer.asUint8List());
       }
-      final videoPath = await _convertRepository.convertFrames(frames);
+      final result = await _convertRepository.convertFrames(frames);
 
-      emit(ConvertSuccess(videoPath));
+      emit(
+        ConvertSuccess(
+          videoPath: result.videoUrl,
+          gifPath: result.gifUrl,
+        ),
+      );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
       emit(ConvertError());
