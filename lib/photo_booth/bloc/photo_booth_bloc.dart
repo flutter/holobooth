@@ -29,6 +29,7 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
     emit(
       state.copyWith(
         frames: UnmodifiableListView(event.frames),
+        isRecording: false,
       ),
     );
   }
