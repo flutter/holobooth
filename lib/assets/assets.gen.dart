@@ -194,25 +194,8 @@ class $AssetsImagesGen {
   AssetGenImage get flutterForwardLogo =>
       const AssetGenImage('assets/images/flutter_forward_logo.png');
 
-  /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
-  AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
-      'assets/images/photo_frame_spritesheet_landscape.jpg');
-
-  /// File path: assets/images/photo_frame_spritesheet_portrait.png
-  AssetGenImage get photoFrameSpritesheetPortrait =>
-      const AssetGenImage('assets/images/photo_frame_spritesheet_portrait.png');
-
-  /// File path: assets/images/photo_indicator_spritesheet.png
-  AssetGenImage get photoIndicatorSpritesheet =>
-      const AssetGenImage('assets/images/photo_indicator_spritesheet.png');
-
   /// List of all assets
-  List<AssetGenImage> get values => [
-        flutterForwardLogo,
-        photoFrameSpritesheetLandscape,
-        photoFrameSpritesheetPortrait,
-        photoIndicatorSpritesheet
-      ];
+  List<AssetGenImage> get values => [flutterForwardLogo];
 }
 
 class $AssetsPropsGen {
