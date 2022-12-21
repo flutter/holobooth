@@ -49,8 +49,9 @@ void main() {
       final controller = state.characterController!;
       expect(controller.x.value, equals(initialDirection.x));
       expect(controller.y.value, equals(initialDirection.y));
+      expect(controller.z.value, equals(initialDirection.z));
 
-      final newDirection = Vector3(10, 10, 10);
+      final newDirection = Vector3(0.7, 0.7, 0.7);
       stateSetter(() {
         avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
@@ -64,8 +65,27 @@ void main() {
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller.x.value, equals(newDirection.x * 100));
-      expect(controller.y.value, equals(newDirection.y * 100));
+      expect(
+        controller.x.value,
+        equals(
+          (newDirection.x * 100 * BaseCharacterAnimationState.rotationScale)
+              .clamp(-100, 100),
+        ),
+      );
+      expect(
+        controller.y.value,
+        equals(
+          (newDirection.y * 100 * BaseCharacterAnimationState.rotationScale)
+              .clamp(-100, 100),
+        ),
+      );
+      expect(
+        controller.z.value,
+        equals(
+          (newDirection.z * 100 * BaseCharacterAnimationState.rotationScale)
+              .clamp(-100, 100),
+        ),
+      );
     });
 
     testWidgets('updates mouth', (tester) async {
