@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 
@@ -13,6 +14,31 @@ class ConvertException implements Exception {
 
   @override
   String toString() => message;
+}
+
+/// {@template convert_response}
+/// Response data for the convert operation.
+/// {@endtemplate}
+class ConvertResponse {
+  /// {@macro convert_response}
+  const ConvertResponse({
+    required this.videoUrl,
+    required this.gifUrl,
+  });
+
+  /// {@macro convert_response}
+  factory ConvertResponse.fromJson(Map<String, dynamic> json) {
+    return ConvertResponse(
+      videoUrl: json['video_url'] as String,
+      gifUrl: json['gif_url'] as String,
+    );
+  }
+
+  /// Url to download the video.
+  final String videoUrl;
+
+  /// Url to download the gif.
+  final String gifUrl;
 }
 
 /// {@template convert_repository}
@@ -33,7 +59,7 @@ class ConvertRepository {
   /// Converts a list of images to video using firebase functions.
   /// On success, returns the video path from the cloud storage.
   /// On error it throws a [ConvertException].
-  Future<String> convertFrames(List<Uint8List> frames) async {
+  Future<ConvertResponse> convertFrames(List<Uint8List> frames) async {
     if (frames.isEmpty) {
       throw const ConvertException('No frames to convert');
     }
@@ -51,7 +77,9 @@ class ConvertRepository {
 
       final response = await multipartRequest.send();
       if (response.statusCode == 200) {
-        return response.stream.bytesToString();
+        final rawData = await response.stream.bytesToString();
+        final json = jsonDecode(rawData) as Map<String, dynamic>;
+        return ConvertResponse.fromJson(json);
       } else {
         throw const ConvertException('Failed to convert frames');
       }
