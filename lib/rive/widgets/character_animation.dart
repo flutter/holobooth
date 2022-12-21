@@ -95,6 +95,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// right eye.
   static const _eyeClosureToleration = 50;
 
+  /// The amount of movement towards or from the camera required to trigger a
+  /// scale animation.
+  ///
+  /// The smaller the value the more sensitive the animation will be.
   static const _scaleToleration = .1;
 
   @visibleForTesting
