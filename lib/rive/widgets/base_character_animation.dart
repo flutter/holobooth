@@ -59,7 +59,8 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   ///
   /// The larger the value the less head movement is required to trigger a
   /// rotation animation.
-  static const _rotationScale = 2;
+  @visibleForTesting
+  static const rotationScale = 2;
 
   @visibleForTesting
   CharacterStateMachineController? characterController;
@@ -134,9 +135,9 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
       // animation controller [-100, 100] so we multiply
       // by 100 to correlate the values
       final newRotationVector = Vector3(
-        (widget.avatar.direction.x * 100 * _rotationScale).clamp(-100, 100),
-        (widget.avatar.direction.y * 100 * _rotationScale).clamp(-100, 100),
-        (widget.avatar.direction.z * 100 * _rotationScale).clamp(-100, 100),
+        (widget.avatar.direction.x * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.direction.y * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.direction.z * 100 * rotationScale).clamp(-100, 100),
       );
       if (newRotationVector.distance(previousRotationVector) >
           _rotationToleration) {
