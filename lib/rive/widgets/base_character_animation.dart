@@ -235,6 +235,9 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   @override
   void dispose() {
     characterController?.dispose();
+    _rotationAnimationController.dispose();
+    _leftEyeAnimationController.dispose();
+    _rightEyeAnimationController.dispose();
     super.dispose();
   }
 
