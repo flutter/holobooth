@@ -43,6 +43,12 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
   }
 
   @override
+  void dispose() {
+    backgroundController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Assets.animations.background.rive(
       onInit: _onRiveInit,
