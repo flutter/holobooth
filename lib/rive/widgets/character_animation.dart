@@ -104,7 +104,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   ///
   /// The smaller the value the more sensitive the animation will be.
   @visibleForTesting
-  static const mouthToleration = .1;
+  static const mouthToleration = 3;
 
   /// The amount we scale the mouth movement by.
   ///
@@ -112,7 +112,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// mouth animation. In other words, the larger the value the easier it is to
   /// reach the limits of the mouth animation.
   @visibleForTesting
-  static const mouthScale = 3.5;
+  static const mouthScale = 5.0;
 
   @visibleForTesting
   CharacterStateMachineController? characterController;
@@ -139,6 +139,13 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   );
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
 
+  late final AnimationController _mouthAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 50),
+  );
+  final Tween<double> _mouthTween = Tween(begin: 0, end: 0);
+
   late double _scale;
 
   void onRiveInit(Artboard artboard) {
@@ -147,6 +154,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     _rotationAnimationController.addListener(_controlDashPosition);
     _leftEyeAnimationController.addListener(_controlLeftEye);
     _rightEyeAnimationController.addListener(_controlRightEye);
+    _mouthAnimationController.addListener(_controlMouth);
   }
 
   void _controlDashPosition() {
@@ -173,6 +181,14 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
     characterController.rightEyeIsClosed.change(distance);
+  }
+
+  void _controlMouth() {
+    final characterController = this.characterController;
+    if (characterController == null) return;
+
+    final distance = _mouthTween.evaluate(_mouthAnimationController);
+    characterController.mouthDistance.change(distance.clamp(0, 100));
   }
 
   @override
@@ -211,10 +227,14 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         _rotationAnimationController.forward(from: 0);
       }
 
-      if (oldWidget.avatar.mouthDistance != widget.avatar.mouthDistance) {
-        characterController.mouthDistance.change(
-          widget.avatar.mouthDistance * 100,
-        );
+      final previousMouthValue = characterController.mouthDistance.value;
+      final newMouthValue =
+          (widget.avatar.mouthDistance * 100 * mouthScale).clamp(.0, 100.0);
+      if ((previousMouthValue - newMouthValue).abs() > mouthToleration) {
+        _mouthTween
+          ..begin = previousMouthValue
+          ..end = newMouthValue;
+        _mouthAnimationController.forward(from: 0);
       }
 
       final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
