@@ -8,8 +8,7 @@ part 'share_event.dart';
 part 'share_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
-  ShareBloc({ByteData? firstFrame})
-      : super(ShareState(firstFrame: firstFrame)) {
+  ShareBloc() : super(const ShareState()) {
     on<ShareTapped>(_onShareTapped);
   }
 

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,11 +19,7 @@ class SharePage extends StatelessWidget {
   static Route<void> route(
     List<RawFrame> frames,
   ) {
-    return AppPageRoute(
-      builder: (_) => SharePage(
-        frames: frames,
-      ),
-    );
+    return AppPageRoute(builder: (_) => SharePage(frames: frames));
   }
 
   @override
@@ -29,7 +27,7 @@ class SharePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ShareBloc(firstFrame: frames.first.image),
+          create: (context) => ShareBloc(),
         ),
         BlocProvider(
           create: (context) => ConvertBloc(
@@ -38,13 +36,15 @@ class SharePage extends StatelessWidget {
           lazy: false,
         ),
       ],
-      child: const ShareView(),
+      child: ShareView(firstFrame: frames.first.image),
     );
   }
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({super.key});
+  const ShareView({super.key, required this.firstFrame});
+
+  final ByteData firstFrame;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +76,9 @@ class ShareView extends StatelessWidget {
             const Positioned.fill(child: ShareBackground()),
             Positioned.fill(
               child: Column(
-                children: const [
-                  Expanded(child: ShareBody()),
-                  FullFooter(),
+                children: [
+                  Expanded(child: ShareBody(firstFrame: firstFrame)),
+                  const FullFooter(),
                 ],
               ),
             ),
