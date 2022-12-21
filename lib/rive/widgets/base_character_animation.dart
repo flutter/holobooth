@@ -57,6 +57,8 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   /// right eye.
   static const _eyeClosureToleration = 50;
 
+  static const _scaleToleration = .1;
+
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -81,6 +83,8 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
     duration: const Duration(milliseconds: 60),
   );
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
+
+  late double _scale;
 
   void onRiveInit(Artboard artboard) {
     characterController = CharacterStateMachineController(artboard);
@@ -114,6 +118,16 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
     characterController.rightEyeIsClosed.change(distance);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scale = widget.avatar.distance.normalize(
+      fromMax: 1,
+      toMin: 0.8,
+      toMax: 5,
+    );
   }
 
   @override
@@ -231,12 +245,26 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
           widget.handheldlLeft.index.toDouble(),
         );
       }
+
+      final newScale = widget.avatar.distance.normalize(
+        fromMax: 1,
+        toMin: 0.6,
+        toMax: 5,
+      );
+      if ((newScale - _scale).abs() > _scaleToleration) {
+        setState(() {
+          _scale = newScale;
+        });
+      }
     }
   }
 
   @override
   void dispose() {
     characterController?.dispose();
+    _rotationAnimationController.dispose();
+    _leftEyeAnimationController.dispose();
+    _rightEyeAnimationController.dispose();
     super.dispose();
   }
 
@@ -244,9 +272,13 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: widget.riveImageSize.aspectRatio,
-      child: widget.assetGenImage.rive(
-        onInit: onRiveInit,
-        fit: BoxFit.cover,
+      child: AnimatedScale(
+        scale: _scale,
+        duration: const Duration(milliseconds: 400),
+        child: widget.assetGenImage.rive(
+          onInit: onRiveInit,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

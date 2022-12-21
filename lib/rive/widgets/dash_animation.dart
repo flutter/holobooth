@@ -12,7 +12,7 @@ class DashAnimation extends BaseCharacterAnimation {
     required super.handheldlLeft,
   }) : super(
           assetGenImage: Assets.animations.dash,
-          riveImageSize: const Size(2100, 2100),
+          riveImageSize: const Size(2400, 2100),
         );
 
   @override
