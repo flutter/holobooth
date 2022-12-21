@@ -26,7 +26,7 @@ void main() {
           .thenReturn(InExperienceSelectionState());
 
       photoBoothBloc = _MockPhotoBoothBloc();
-      when(() => photoBoothBloc.state).thenReturn(PhotoBoothState.empty());
+      when(() => photoBoothBloc.state).thenReturn(PhotoBoothState());
     });
 
     testWidgets(

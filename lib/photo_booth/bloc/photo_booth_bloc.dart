@@ -10,21 +10,9 @@ part 'photo_booth_event.dart';
 part 'photo_booth_state.dart';
 
 class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
-  PhotoBoothBloc() : super(PhotoBoothState.empty()) {
-    on<PhotoBoothOnPhotoTaken>(_onPhotoTaken);
+  PhotoBoothBloc() : super(const PhotoBoothState()) {
     on<PhotoBoothRecordingStarted>(_countdownStarted);
     on<PhotoBoothRecordingFinished>(_countdownFinished);
-  }
-
-  FutureOr<void> _onPhotoTaken(
-    PhotoBoothOnPhotoTaken event,
-    Emitter<PhotoBoothState> emit,
-  ) {
-    emit(
-      state.copyWith(
-        images: UnmodifiableListView([...state.images, event.image]),
-      ),
-    );
   }
 
   FutureOr<void> _countdownStarted(
