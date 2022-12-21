@@ -6,8 +6,37 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
-class BaseCharacterAnimation extends StatefulWidget {
-  const BaseCharacterAnimation({
+class DashCharacterAnimation extends CharacterAnimation {
+  DashCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          assetGenImage: Assets.animations.dash,
+          riveImageSize: const Size(2400, 2100),
+        );
+}
+
+class SparkyCharacterAnimation extends CharacterAnimation {
+  SparkyCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          assetGenImage: Assets.animations.sparky,
+          riveImageSize: const Size(2500, 2100),
+        );
+}
+
+@visibleForTesting
+class CharacterAnimation extends StatefulWidget {
+  const CharacterAnimation({
     super.key,
     required this.avatar,
     required this.hat,
@@ -15,6 +44,7 @@ class BaseCharacterAnimation extends StatefulWidget {
     required this.clothes,
     required this.handheldlLeft,
     required this.assetGenImage,
+    required this.riveImageSize,
   });
 
   final Avatar avatar;
@@ -23,13 +53,14 @@ class BaseCharacterAnimation extends StatefulWidget {
   final Clothes clothes;
   final HandheldlLeft handheldlLeft;
   final RiveGenImage assetGenImage;
+  final Size riveImageSize;
 
   @override
-  State<BaseCharacterAnimation> createState() => BaseCharacterAnimationState();
+  State<CharacterAnimation> createState() => CharacterAnimationState();
 }
 
-class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
-    extends State<T> with TickerProviderStateMixin {
+class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
+    with TickerProviderStateMixin {
   /// The amount of head movement required to trigger a rotation animation.
   ///
   /// The smaller the value the more sensitive the animation will be.
@@ -54,6 +85,12 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   /// it is considered to be a full closure. This applies to both the left and
   /// right eye.
   static const _eyeClosureToleration = 50;
+
+  /// The amount of movement towards or from the camera required to trigger a
+  /// scale animation.
+  ///
+  /// The smaller the value the more sensitive the animation will be.
+  static const _scaleToleration = .1;
 
   /// The amount we scale the rotation movement by.
   ///
@@ -87,6 +124,8 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
   );
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
 
+  late double _scale;
+
   void onRiveInit(Artboard artboard) {
     characterController = CharacterStateMachineController(artboard);
     artboard.addController(characterController!);
@@ -119,6 +158,16 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
     characterController.rightEyeIsClosed.change(distance);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scale = widget.avatar.distance.normalize(
+      fromMax: 1,
+      toMin: 0.8,
+      toMax: 5,
+    );
   }
 
   @override
@@ -236,6 +285,17 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
           widget.handheldlLeft.index.toDouble(),
         );
       }
+
+      final newScale = widget.avatar.distance.normalize(
+        fromMax: 1,
+        toMin: 0.8,
+        toMax: 5,
+      );
+      if ((newScale - _scale).abs() > _scaleToleration) {
+        setState(() {
+          _scale = newScale;
+        });
+      }
     }
   }
 
@@ -250,9 +310,16 @@ class BaseCharacterAnimationState<T extends BaseCharacterAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return widget.assetGenImage.rive(
-      onInit: onRiveInit,
-      fit: BoxFit.cover,
+    return AspectRatio(
+      aspectRatio: widget.riveImageSize.aspectRatio,
+      child: AnimatedScale(
+        scale: _scale,
+        duration: const Duration(milliseconds: 400),
+        child: widget.assetGenImage.rive(
+          onInit: onRiveInit,
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

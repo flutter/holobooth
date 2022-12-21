@@ -32,7 +32,7 @@ void main() {
     });
 
     testWidgets(
-      'renders DashAnimation if dash selected',
+      'renders DashCharacterAnimation if dash selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
@@ -41,12 +41,16 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        expect(find.byType(DashAnimation), findsOneWidget);
+
+        expect(
+          find.byType(DashCharacterAnimation),
+          findsOneWidget,
+        );
       },
     );
 
     testWidgets(
-      'renders SparkyAnimation if sparky selected',
+      'renders SparkyCharacterAnimation if sparky selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
@@ -56,7 +60,11 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        expect(find.byType(SparkyAnimation), findsOneWidget);
+
+        expect(
+          find.byType(SparkyCharacterAnimation),
+          findsOneWidget,
+        );
       },
     );
   });
