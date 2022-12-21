@@ -150,6 +150,10 @@ class $AssetsIconsGen {
   AssetGenImage get goNextButtonIcon =>
       const AssetGenImage('assets/icons/go_next_button_icon.png');
 
+  /// File path: assets/icons/play_icon.png
+  AssetGenImage get playIcon =>
+      const AssetGenImage('assets/icons/play_icon.png');
+
   /// File path: assets/icons/recording_button_icon.png
   AssetGenImage get recordingButtonIcon =>
       const AssetGenImage('assets/icons/recording_button_icon.png');
@@ -175,6 +179,7 @@ class $AssetsIconsGen {
         firebaseIcon,
         flutterIcon,
         goNextButtonIcon,
+        playIcon,
         recordingButtonIcon,
         retakeButtonIcon,
         tensorflowIcon,

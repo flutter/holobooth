@@ -1,12 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/landing/landing.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:photos_repository/photos_repository.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -54,7 +58,15 @@ class _App extends StatelessWidget {
       theme: theme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const LandingPage(),
+      home: SharePage(
+        frames: [RawFrame(1, ByteData(1))],
+        images: const [
+          PhotoboothCameraImage(
+            constraint: PhotoConstraint(),
+            data: 'data',
+          )
+        ],
+      ),
     );
   }
 }
