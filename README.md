@@ -262,11 +262,11 @@ Assets.nameOfTheFolder.nameOfTheAsset
 
 ### Test Assets LICENSE
 
-In other to proper test the face recognition feature, we use free photos downloaded from Unsplash
+In order to properly test the face recognition feature, this project uses free photos downloaded from Unsplash
 released under their [Unsplash Licence](https://unsplash.com/license).
 
 Those assets can be found at `packages/tensorflow_models/tensorflow_models_web/test/test_assets/`,
-and the links from eash individual image on the LICENSE file under that same folder.
+and the links from each individual image on the LICENSE file under that same folder.
 
 ---
 
