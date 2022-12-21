@@ -192,10 +192,6 @@ void main() {
         );
         await tester.pump();
 
-        final state = tester.state(find.byType(CharacterAnimation))
-            as CharacterAnimationState;
-        final controller = state.characterController!;
-
         mouthDistance = 0.1;
         stateSetter(() {
           avatar = Avatar(
@@ -210,6 +206,9 @@ void main() {
         await tester.pump(Duration(milliseconds: 150));
         await tester.pump(Duration(milliseconds: 150));
 
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
         final newMouthDistance = controller.mouthDistance.value;
         mouthDistance = 0.1 -
             (CharacterAnimationState.mouthToleration /
