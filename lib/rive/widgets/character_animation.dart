@@ -92,6 +92,13 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The smaller the value the more sensitive the animation will be.
   static const _scaleToleration = .1;
 
+  /// The amount we scale the rotation movement by.
+  ///
+  /// The larger the value the less head movement is required to trigger a
+  /// rotation animation.
+  @visibleForTesting
+  static const rotationScale = 2;
+
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -131,9 +138,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     final characterController = this.characterController;
     if (characterController != null) {
       final vector = _rotationTween.evaluate(_rotationAnimationController);
-      characterController.x.change(vector.x);
-      characterController.y.change(vector.y);
-      characterController.z.change(vector.z);
+      characterController.x.change(vector.x.clamp(-100, 100));
+      characterController.y.change(vector.y.clamp(-100, 100));
+      characterController.z.change(vector.z.clamp(-100, 100));
     }
   }
 
@@ -177,9 +184,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       // animation controller [-100, 100] so we multiply
       // by 100 to correlate the values
       final newRotationVector = Vector3(
-        widget.avatar.direction.x * 100,
-        widget.avatar.direction.y * 100,
-        widget.avatar.direction.z * 100,
+        (widget.avatar.direction.x * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.direction.y * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.direction.z * 100 * rotationScale).clamp(-100, 100),
       );
       if (newRotationVector.distance(previousRotationVector) >
           _rotationToleration) {
