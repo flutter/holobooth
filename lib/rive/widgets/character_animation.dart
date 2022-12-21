@@ -281,7 +281,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
 
       final newScale = widget.avatar.distance.normalize(
         fromMax: 1,
-        toMin: 0.6,
+        toMin: 0.8,
         toMax: 5,
       );
       if ((newScale - _scale).abs() > _scaleToleration) {
