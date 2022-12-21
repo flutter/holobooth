@@ -340,6 +340,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     _rotationAnimationController.dispose();
     _leftEyeAnimationController.dispose();
     _rightEyeAnimationController.dispose();
+    _mouthAnimationController.dispose();
     super.dispose();
   }
 
