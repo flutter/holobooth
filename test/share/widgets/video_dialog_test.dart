@@ -14,7 +14,7 @@ class _MockVideoPlayerPlatform extends Mock
 class _FakeDataSource extends Fake implements DataSource {}
 
 void main() {
-  group('ShareDialogBody', () {
+  group('VideoDialog', () {
     setUpAll(() {
       registerFallbackValue(_FakeDataSource());
     });
@@ -28,45 +28,31 @@ void main() {
       when(() => videoPlayerPlatform.buildView(any())).thenReturn(SizedBox());
       when(() => videoPlayerPlatform.dispose(any()))
           .thenAnswer((_) async => <void>{});
-      when(() => videoPlayerPlatform.videoEventsFor(any()))
-          .thenAnswer((_) => Stream.empty());
+      when(() => videoPlayerPlatform.videoEventsFor(any())).thenAnswer(
+        (_) => Stream.value(VideoEvent(eventType: VideoEventType.initialized)),
+      );
     });
 
     testWidgets(
-      'renders SmallShareDialogBody on small screen',
+      'renders VideoPlayerView',
       (WidgetTester tester) async {
-        tester.setSmallDisplaySize();
-        await tester.pumpApp(Material(child: ShareDialogBody()));
-        expect(find.byType(SmallShareDialogBody), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'renders LargeShareDialogBody on large screen',
-      (WidgetTester tester) async {
-        tester.setLargeDisplaySize();
-        await tester.pumpApp(Material(child: ShareDialogBody()));
-        expect(find.byType(LargeShareDialogBody), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'can be closed clicking in ShareDialogCloseButton',
-      (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: ShareDialogBody()));
-        await tester.tap(find.byType(ShareDialogCloseButton));
+        await tester.pumpApp(Material(child: VideoDialog()));
         await tester.pumpAndSettle();
-        expect(find.byType(ShareDialogBody), findsNothing);
+        expect(find.byType(VideoPlayerView), findsOneWidget);
       },
     );
 
     testWidgets(
-      'opens VideoDialog clicking on PlayButton',
+      'updates scale when initialized',
       (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: ShareDialogBody()));
-        await tester.tap(find.byType(PlayButton));
+        await tester.pumpApp(Material(child: VideoDialog()));
+        final animatedScaleFinder = find.byType(AnimatedScale);
+        final animatedScale = tester.widget<AnimatedScale>(animatedScaleFinder);
+        expect(animatedScale.scale, 0);
         await tester.pumpAndSettle();
-        expect(find.byType(VideoDialog), findsOneWidget);
+        final animatedScaleUpdated =
+            tester.widget<AnimatedScale>(animatedScaleFinder);
+        expect(animatedScaleUpdated.scale, 1);
       },
     );
   });
