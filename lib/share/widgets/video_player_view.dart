@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerView extends StatefulWidget {
-  const VideoPlayerView({super.key, required this.url, this.onInitialized});
+  const VideoPlayerView({
+    super.key,
+    required this.url,
+    this.onInitialized,
+  });
 
   final String url;
   final VoidCallback? onInitialized;
