@@ -6,15 +6,6 @@ abstract class PhotoBoothEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PhotoBoothOnPhotoTaken extends PhotoBoothEvent {
-  const PhotoBoothOnPhotoTaken({required this.image});
-
-  final PhotoboothCameraImage image;
-
-  @override
-  List<Object> get props => [image];
-}
-
 class PhotoBoothRecordingStarted extends PhotoBoothEvent {
   const PhotoBoothRecordingStarted();
 }
