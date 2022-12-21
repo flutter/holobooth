@@ -95,9 +95,24 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The amount we scale the rotation movement by.
   ///
   /// The larger the value the less head movement is required to trigger a
-  /// rotation animation.
+  /// rotation animation. In other words, the larger the value the easier it is
+  /// to reach the limits of the mouth animation.
   @visibleForTesting
   static const rotationScale = 2;
+
+  /// The amount of mouth movement required to trigger a mouth animation.
+  ///
+  /// The smaller the value the more sensitive the animation will be.
+  @visibleForTesting
+  static const mouthToleration = .1;
+
+  /// The amount we scale the mouth movement by.
+  ///
+  /// The larger the value the less mouth movement is required to trigger a
+  /// mouth animation. In other words, the larger the value the easier it is to
+  /// reach the limits of the mouth animation.
+  @visibleForTesting
+  static const mouthScale = 3.5;
 
   @visibleForTesting
   CharacterStateMachineController? characterController;
