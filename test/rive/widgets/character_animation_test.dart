@@ -77,21 +77,21 @@ void main() {
       expect(
         controller.x.value,
         equals(
-          (newDirection.x * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.x * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
       expect(
         controller.y.value,
         equals(
-          (newDirection.y * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.y * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
       expect(
         controller.z.value,
         equals(
-          (newDirection.z * 100 * BaseCharacterAnimationState.rotationScale)
+          (newDirection.z * 100 * CharacterAnimationState.rotationScale)
               .clamp(-100, 100),
         ),
       );
