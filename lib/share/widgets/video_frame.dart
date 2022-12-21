@@ -11,19 +11,7 @@ class VideoFrame extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
-        Align(
-          child: IconButton(
-            onPressed: () {
-              showDialog<void>(
-                context: context,
-                builder: (context) => const VideoDialog(),
-              );
-            },
-            color: Colors.white,
-            iconSize: 45,
-            icon: const Icon(Icons.play_arrow),
-          ),
-        ),
+        const Align(child: PlayButton()),
       ],
     );
   }
