@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -18,13 +17,6 @@ class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
-
-class FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
-  @override
-  final String data = '';
-}
 
 void main() {
   group('SharePage', () {

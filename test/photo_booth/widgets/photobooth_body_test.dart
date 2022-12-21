@@ -32,14 +32,6 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
-  @override
-  String get data => '';
-
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
-}
-
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -118,10 +110,6 @@ void main() {
 
     tearDown(() {
       CameraPlatform.instance = _MockCameraPlatform();
-    });
-
-    setUpAll(() {
-      registerFallbackValue(_FakePhotoboothCameraImage());
     });
 
     group('renders', () {
