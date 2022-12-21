@@ -1,42 +1,39 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({required this.images, super.key});
+  const ShareBody({super.key, required this.firstFrame});
 
-  final List<PhotoboothCameraImage> images;
+  final ByteData firstFrame;
 
   @override
   Widget build(BuildContext context) {
-    final image = images.first;
     return Align(
       child: SingleChildScrollView(
         child: ResponsiveLayoutBuilder(
-          small: (context, _) {
-            return _SmallShareBody(image: image);
-          },
-          large: (context, _) {
-            return _LargeShareBody(image: image);
-          },
+          small: (context, _) => SmallShareBody(firstFrame),
+          large: (context, _) => LargeShareBody(firstFrame),
         ),
       ),
     );
   }
 }
 
-class _SmallShareBody extends StatelessWidget {
-  const _SmallShareBody({required this.image});
+@visibleForTesting
+class SmallShareBody extends StatelessWidget {
+  const SmallShareBody(this.firstFrame, {super.key});
 
-  final PhotoboothCameraImage image;
+  final ByteData firstFrame;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          AnimatedPhotoboothPhoto(image: image),
+          Image.memory(firstFrame.buffer.asUint8List()),
           const _ShareBodyContent(isSmallScreen: true),
         ],
       ),
@@ -44,10 +41,11 @@ class _SmallShareBody extends StatelessWidget {
   }
 }
 
-class _LargeShareBody extends StatelessWidget {
-  const _LargeShareBody({required this.image});
+@visibleForTesting
+class LargeShareBody extends StatelessWidget {
+  const LargeShareBody(this.firstFrame, {super.key});
 
-  final PhotoboothCameraImage image;
+  final ByteData firstFrame;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,9 @@ class _LargeShareBody extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: AnimatedPhotoboothPhoto(image: image)),
+            Expanded(
+              child: Image.memory(firstFrame.buffer.asUint8List()),
+            ),
             const Expanded(
               child: _ShareBodyContent(isSmallScreen: false),
             ),

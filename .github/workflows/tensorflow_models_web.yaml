@@ -5,27 +5,42 @@ on:
     paths:
       - "packages/tensorflow_models/tensorflow_models_web/**"
       - ".github/workflows/tensorflow_models_web.yaml"
+    branches:
+      - main
 
 jobs:
   build:
     defaults:
       run:
         working-directory: packages/tensorflow_models/tensorflow_models_web
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.6.0-0.1.pre
+          channel: beta
+          cache: true
+          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
-      - name: Install Dependencies
-        run: flutter packages get
-
-      - name: Format
+      - name: ✨ Check Formatting
         run: flutter format --set-exit-if-changed lib test
 
-      - name: Analyze
+      - name: 🕵️ Analyze
         run: flutter analyze lib test
 
-      - name: Run tests
-        run: flutter test --platform chrome --no-pub --test-randomize-ordering-seed random
+      - name: Run Chromedriver
+        run: |
+          git clone https://github.com/felangel/web_installers
+          cd web_installers/packages/web_drivers
+          dart pub get
+          dart lib/web_driver_installer.dart chromedriver --install-only
+          ./chromedriver/chromedriver --port=4444 &
+
+      - name: Integration Tests
+        run: flutter drive --driver=test_driver/integration_test.dart --target=test/src/tensorflow_models_plugin_test.dart -d web-server --browser-name=chrome

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:collection/collection.dart';
@@ -41,7 +43,11 @@ class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
   PhotoConstraint get constraint => PhotoConstraint();
 }
 
-class _MockRawFrame extends Mock implements RawFrame {}
+class _MockRawFrame extends Mock implements RawFrame {
+  @override
+  ByteData get image =>
+      ByteData.view(Uint8List.fromList(transparentImage).buffer);
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

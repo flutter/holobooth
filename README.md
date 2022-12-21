@@ -239,8 +239,6 @@ Open Settings > Safari > Advanced > enable "Web Inspector"
 Safari > Develop > Find "YourPhoneName" > select the Safari session entered earlier, for example 192.168.1.1
 ```
 
----
-
 ## Assets generation
 
 We rely on fluttergen to generate the assets. Everytime a new asset folder is needed we should
@@ -261,6 +259,16 @@ flutter:
 ```dart
 Assets.nameOfTheFolder.nameOfTheAsset
 ```
+
+### Test Assets LICENSE
+
+In order to properly test the face recognition feature, this project uses free photos downloaded from Unsplash
+released under their [Unsplash Licence](https://unsplash.com/license).
+
+Those assets can be found at `packages/tensorflow_models/tensorflow_models_web/test/test_assets/`,
+and the links from each individual image on the LICENSE file under that same folder.
+
+---
 
 
 [build_status_badge]: https://github.com/flutter/photobooth/actions/workflows/main.yaml/badge.svg

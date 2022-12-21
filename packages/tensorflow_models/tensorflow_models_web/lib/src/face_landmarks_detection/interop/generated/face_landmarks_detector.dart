@@ -47,7 +47,9 @@ class FaceLandmarksDetector {
   external void reset();
 
   external Promise<List<Face>> estimateFaces(
-    dynamic /*Tensor3D|ImageData|HTMLVideoElement|HTMLImageElement|HTMLCanvasElement|ImageBitmap*/ input, [
-    dynamic /*MediaPipeFaceMeshMediaPipeEstimationConfig|MediaPipeFaceMeshTfjsEstimationConfig*/ estimationConfig,
+    dynamic /*Tensor3D|ImageData|HTMLVideoElement|HTMLImageElement|HTMLCanvasElement|ImageBitmap*/
+        input, [
+    dynamic /*MediaPipeFaceMeshMediaPipeEstimationConfig|MediaPipeFaceMeshTfjsEstimationConfig*/
+        estimationConfig,
   ]);
 }

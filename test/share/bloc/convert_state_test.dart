@@ -21,9 +21,46 @@ void main() {
 
     group('ConvertSuccess', () {
       test('support value equality', () {
-        final instanceA = ConvertSuccess('not-important');
-        final instanceB = ConvertSuccess('not-important');
-        expect(instanceA, equals(instanceB));
+        expect(
+          ConvertSuccess(
+            videoPath: 'not-important',
+            gifPath: 'not-important',
+          ),
+          equals(
+            ConvertSuccess(
+              videoPath: 'not-important',
+              gifPath: 'not-important',
+            ),
+          ),
+        );
+        expect(
+          ConvertSuccess(
+            videoPath: 'not-important',
+            gifPath: 'not-important',
+          ),
+          isNot(
+            equals(
+              ConvertSuccess(
+                videoPath: 'important',
+                gifPath: 'not-important',
+              ),
+            ),
+          ),
+        );
+        expect(
+          ConvertSuccess(
+            videoPath: 'not-important',
+            gifPath: 'not-important',
+          ),
+          isNot(
+            equals(
+              ConvertSuccess(
+                videoPath: 'not-important',
+                gifPath: 'important',
+              ),
+            ),
+          ),
+        );
       });
     });
 
