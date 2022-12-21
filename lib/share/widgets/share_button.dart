@@ -5,9 +5,7 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareButton extends StatelessWidget {
-  const ShareButton({
-    super.key,
-  });
+  const ShareButton({super.key});
 
   @override
   Widget build(BuildContext context) {
