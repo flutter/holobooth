@@ -22,16 +22,5 @@ class PlayButton extends StatelessWidget {
         child: Assets.icons.playIcon.image(height: 65),
       ),
     );
-    return IconButton(
-      onPressed: () {
-        showDialog<void>(
-          context: context,
-          builder: (context) => const VideoDialog(),
-        );
-      },
-      color: Colors.white,
-      iconSize: 65,
-      icon: Assets.icons.playIcon.image(),
-    );
   }
 }
