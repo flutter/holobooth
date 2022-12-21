@@ -7,6 +7,11 @@ class VideoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HoloBoothAlertDialog(child: VideoPlayerView());
+    return const HoloBoothAlertDialog(
+      child: VideoPlayerView(
+        url:
+            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      ),
+    );
   }
 }
