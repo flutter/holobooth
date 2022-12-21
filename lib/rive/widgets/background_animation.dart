@@ -58,9 +58,11 @@ class BackgroundAnimationState extends State<BackgroundAnimation>
   void _controlBackground() {
     final backgroundController = this.backgroundController;
     if (backgroundController != null) {
-      final offset = _tween.evaluate(_animationController);
-      backgroundController.x.change(offset.dx);
-      backgroundController.y.change(offset.dy);
+      // TODO(alestiago): uncomment when a decision is made about the parallax for item:
+      // https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3685421925
+      // final offset = _tween.evaluate(_animationController);
+      // backgroundController.x.change(offset.dx);
+      // backgroundController.y.change(offset.dy);
     }
   }
 
