@@ -54,12 +54,15 @@ void main() {
       test('return value on success', () async {
         when(() => streamedResponse.statusCode).thenReturn(200);
         when(() => streamedResponse.stream).thenAnswer(
-          (_) => ByteStream.fromBytes([112, 97, 116, 104]),
+          (_) => ByteStream.fromBytes(
+            '{"video_url": "video", "gif_url": "gif"}'.codeUnits,
+          ),
         );
 
-        final path = await convertRepository.convertFrames([Uint8List(0)]);
+        final response = await convertRepository.convertFrames([Uint8List(0)]);
 
-        expect(path, equals('path'));
+        expect(response.videoUrl, equals('video'));
+        expect(response.gifUrl, equals('gif'));
       });
 
       test('throws on status code different than 200', () async {
