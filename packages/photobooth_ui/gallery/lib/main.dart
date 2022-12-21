@@ -8,6 +8,7 @@ void main() {
 
   addGradientButtonStories(dashbook);
   addGradientTextStory(dashbook);
+  addHoloBoothAlertDialogStories(dashbook);
 
   runApp(dashbook);
 }

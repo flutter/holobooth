@@ -16,7 +16,7 @@ class PlayButton extends StatelessWidget {
         onTap: () {
           showDialog<void>(
             context: context,
-            builder: (context) => const VideoDialog(),
+            builder: (_) => const VideoDialog(),
           );
         },
         child: Assets.icons.playIcon.image(height: 65),
