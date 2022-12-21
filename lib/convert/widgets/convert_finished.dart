@@ -55,16 +55,9 @@ class _ConvertFinishedState extends State<ConvertFinished>
       child: Center(
         child: SizedBox.square(
           dimension: widget.dimension,
-          child: Stack(
-            children: [
-              SizedBox.square(
-                dimension: widget.dimension,
-                child: Assets.icons.loadingFinish.image(
-                  key: const Key('LoadingOverlay_LoadingIndicator'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
+          child: Assets.icons.loadingFinish.image(
+            key: const Key('LoadingOverlay_LoadingIndicator'),
+            fit: BoxFit.cover,
           ),
         ),
       ),

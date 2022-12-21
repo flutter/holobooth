@@ -14,6 +14,7 @@ class ConvertMessage extends StatelessWidget {
         GradientText(
           text: l10n.convertMessage,
           style: PhotoboothTextStyle.displayMedium,
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
         Text(
@@ -21,6 +22,7 @@ class ConvertMessage extends StatelessWidget {
           style: PhotoboothTextStyle.bodyMedium.copyWith(
             color: PhotoboothColors.white,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );
