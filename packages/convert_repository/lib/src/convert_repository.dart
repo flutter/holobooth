@@ -20,7 +20,6 @@ class ConvertException implements Exception {
 /// Response data for the convert operation.
 /// {@endtemplate}
 class ConvertResponse {
-
   /// {@macro convert_response}
   const ConvertResponse({
     required this.videoUrl,
@@ -29,6 +28,7 @@ class ConvertResponse {
 
   /// Url to download the video.
   final String videoUrl;
+
   /// Url to download the gif.
   final String gifUrl;
 }

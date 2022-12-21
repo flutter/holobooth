@@ -165,7 +165,6 @@ export async function convertVideoToGif(
   folder: string
 ): Promise<string> {
   const gifPath = `${folder}/video.gif`;
-  // ffmpeg -i video.mp4 -filter_complex 'fps=10,scale=320:-1:flags=lanczos,split [o1] [o2];[o1] palettegen [p]; [o2] fifo [o3];[o3] [p] paletteuse' out.gif
   return new Promise((resolve, reject) => {
     ffmpeg
       .addInput(videoPath)
