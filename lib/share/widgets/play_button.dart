@@ -5,7 +5,6 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PlayButton extends StatelessWidget {
   const PlayButton({super.key});
-  static const dimension = 65.0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class PlayButton extends StatelessWidget {
           );
         },
         child: SizedBox.square(
-          dimension: dimension,
+          dimension: 65,
           child: Assets.icons.playIcon.image(),
         ),
       ),
