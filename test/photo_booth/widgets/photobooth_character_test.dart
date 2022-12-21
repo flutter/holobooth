@@ -33,7 +33,7 @@ void main() {
     });
 
     testWidgets(
-      'renders CharacterAnimation with Dash if dash selected',
+      'renders DashCharacterAnimation if dash selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
@@ -42,18 +42,16 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        final characterAnimationFinder = find.byType(CharacterAnimation);
-        final characterAnimationWidget =
-            tester.widget<CharacterAnimation>(characterAnimationFinder);
+
         expect(
-          characterAnimationWidget.assetGenImage.path,
-          equals(Assets.animations.dash.path),
+          find.byType(DashCharacterAnimation),
+          findsOneWidget,
         );
       },
     );
 
     testWidgets(
-      'renders CharacterAnimation with Sparky if sparky selected',
+      'renders SparkyCharacterAnimation if sparky selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
@@ -63,12 +61,10 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        final characterAnimationFinder = find.byType(CharacterAnimation);
-        final characterAnimationWidget =
-            tester.widget<CharacterAnimation>(characterAnimationFinder);
+
         expect(
-          characterAnimationWidget.assetGenImage.path,
-          equals(Assets.animations.sparky.path),
+          find.byType(SparkyCharacterAnimation),
+          findsOneWidget,
         );
       },
     );

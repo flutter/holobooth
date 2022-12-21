@@ -6,7 +6,36 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
-class CharacterAnimation extends StatefulWidget {
+class DashCharacterAnimation extends CharacterAnimation {
+  DashCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          assetGenImage: Assets.animations.dash,
+          riveImageSize: const Size(2400, 2100),
+        );
+}
+
+class SparkyCharacterAnimation extends CharacterAnimation {
+  SparkyCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          assetGenImage: Assets.animations.sparky,
+          riveImageSize: const Size(2500, 2100),
+        );
+}
+
+@visibleForTesting
+abstract class CharacterAnimation extends StatefulWidget {
   const CharacterAnimation({
     super.key,
     required this.avatar,
@@ -17,44 +46,6 @@ class CharacterAnimation extends StatefulWidget {
     required this.assetGenImage,
     required this.riveImageSize,
   });
-
-  /// Creates a [CharacterAnimation] for the Dash character.
-  CharacterAnimation.dash({
-    Key? key,
-    required Avatar avatar,
-    required Hats hat,
-    required Glasses glasses,
-    required Clothes clothes,
-    required HandheldlLeft handheldlLeft,
-  }) : this(
-          key: key,
-          avatar: avatar,
-          hat: hat,
-          glasses: glasses,
-          clothes: clothes,
-          handheldlLeft: handheldlLeft,
-          assetGenImage: Assets.animations.dash,
-          riveImageSize: const Size(2400, 2100),
-        );
-
-  /// Creates a [CharacterAnimation] for the Sparky character.
-  CharacterAnimation.sparky({
-    Key? key,
-    required Avatar avatar,
-    required Hats hat,
-    required Glasses glasses,
-    required Clothes clothes,
-    required HandheldlLeft handheldlLeft,
-  }) : this(
-          key: key,
-          avatar: avatar,
-          hat: hat,
-          glasses: glasses,
-          clothes: clothes,
-          handheldlLeft: handheldlLeft,
-          assetGenImage: Assets.animations.sparky,
-          riveImageSize: const Size(2500, 2100),
-        );
 
   final Avatar avatar;
   final Hats hat;
