@@ -19,7 +19,10 @@ class _MockUrlLauncher extends Mock
 void main() {
   group('SharePage', () {
     test('is routable', () {
-      expect(SharePage.route([]), isA<AppPageRoute<void>>());
+      expect(
+        SharePage.route(frames: [], videoPath: ''),
+        isA<AppPageRoute<void>>(),
+      );
     });
   });
 

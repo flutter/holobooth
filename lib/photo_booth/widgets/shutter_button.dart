@@ -22,7 +22,7 @@ class ShutterButton extends StatefulWidget {
   final VoidCallback onCountdownStarted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
-  static const shutterCountdownDuration = Duration(seconds: 5);
+  static const shutterCountdownDuration = Duration(seconds: 1);
   @override
   State<ShutterButton> createState() => ShutterButtonState();
 }

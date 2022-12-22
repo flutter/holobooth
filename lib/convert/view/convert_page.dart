@@ -53,11 +53,11 @@ class ConvertBody extends StatelessWidget {
       listener: (context, state) {
         if (state.isFinished) {
           Navigator.of(context).push(
-            SharePage.route(state.frames),
+            SharePage.route(videoPath: state.videoPath, frames: state.frames),
           );
         } else if (state.status == ConvertStatus.error) {
           Navigator.of(context).push(
-            SharePage.route(state.frames),
+            SharePage.route(videoPath: state.videoPath, frames: state.frames),
           );
         }
       },
