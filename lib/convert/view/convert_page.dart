@@ -7,9 +7,6 @@ import 'package:io_photobooth/share/view/view.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
-// TODO(arturplaczek): Remove it when the functions problem is fixed
-List<RawFrame> _frames = [];
-
 class ConvertPage extends StatelessWidget {
   const ConvertPage({
     required this.frames,
@@ -26,7 +23,6 @@ class ConvertPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _frames = frames;
     return BlocProvider(
       create: (context) => ConvertBloc(
         convertRepository: context.read<ConvertRepository>(),
@@ -55,25 +51,13 @@ class ConvertBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ConvertBloc, ConvertState>(
       listener: (context, state) {
-        if (state is ConvertSuccess) {
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.of(context).push(
-                SharePage.route(state.frames),
-              );
-            },
+        if (state.isFinished) {
+          Navigator.of(context).push(
+            SharePage.route(state.frames),
           );
-        } else
-        // TODO(arturplaczek): Remove it when the functions problem is fixed
-        if (state is ConvertError) {
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.of(context).push(
-                SharePage.route(_frames),
-              );
-            },
+        } else if (state.status == ConvertStatus.error) {
+          Navigator.of(context).push(
+            SharePage.route(state.frames),
           );
         }
       },
@@ -89,7 +73,7 @@ class ConvertBody extends StatelessWidget {
               children: [
                 AnimatedSwitcher(
                   duration: const Duration(seconds: 1),
-                  child: state is ConvertLoading
+                  child: state.status == ConvertStatus.loading
                       ? const ConvertLoadingBody(dimension: 200)
                       : const ConvertFinished(dimension: 200),
                 ),

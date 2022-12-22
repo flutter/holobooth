@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
@@ -33,8 +32,6 @@ void main() {
     });
 
     testWidgets('renders ConvertView', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
-
       await tester.pumpApp(
         ConvertPage(
           frames: [_MockRawFrame()],
@@ -66,10 +63,11 @@ void main() {
     );
 
     testWidgets('renders ConvertLoadingBody on loading state', (tester) async {
-      whenListen(
-        convertBloc,
-        Stream.value(ConvertLoading()),
-        initialState: ConvertLoading(),
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(
+          frames: [_MockRawFrame()],
+          status: ConvertStatus.loading,
+        ),
       );
 
       await tester.pumpSubject(
@@ -81,15 +79,13 @@ void main() {
     });
 
     testWidgets('renders ConvertFinished on other state', (tester) async {
-      final state = ConvertSuccess(
-        frames: [_MockRawFrame()],
-        gifPath: 'not-important',
-        videoPath: 'not-important',
-      );
-      whenListen(
-        convertBloc,
-        Stream.value(state),
-        initialState: state,
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(
+          frames: [_MockRawFrame()],
+          gifPath: 'not-important',
+          videoPath: 'not-important',
+          status: ConvertStatus.success,
+        ),
       );
 
       await tester.pumpSubject(
@@ -103,15 +99,15 @@ void main() {
     });
 
     testWidgets('navigates to SharePage on success', (tester) async {
-      final state = ConvertSuccess(
+      final state = ConvertState(
         frames: [_MockRawFrame()],
-        gifPath: 'not-important',
-        videoPath: 'not-important',
+        isFinished: true,
       );
+
       whenListen(
         convertBloc,
         Stream.value(state),
-        initialState: ConvertInitial(),
+        initialState: ConvertState.initial(),
       );
 
       await tester.pumpSubject(

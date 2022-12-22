@@ -1,6 +1,8 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/convert/convert.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -45,7 +47,12 @@ class _ConvertFinishedState extends State<ConvertFinished>
     try {
       await audioPlayer.setAsset(Assets.audio.loadingFinished);
       await audioPlayer.play();
+      _finishConvert();
     } catch (_) {}
+  }
+
+  void _finishConvert() {
+    context.read<ConvertBloc>().add(const FinishConvert());
   }
 
   @override

@@ -1,5 +1,7 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:just_audio/just_audio.dart';
@@ -8,6 +10,9 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -87,6 +92,25 @@ void main() {
           AppLifecycleState.resumed,
         );
         await tester.pumpAndSettle();
+      },
+    );
+
+    testWidgets(
+      'after the play sound, send the event to the bloc',
+      (WidgetTester tester) async {
+        final bloc = _MockConvertBloc();
+
+        await tester.pumpApp(
+          BlocProvider<ConvertBloc>(
+            create: (_) => bloc,
+            child: ConvertFinished(
+              dimension: 300,
+              audioPlayer: () => audioPlayer,
+            ),
+          ),
+        );
+
+        verify(() => bloc.add(const FinishConvert())).called(1);
       },
     );
   });
