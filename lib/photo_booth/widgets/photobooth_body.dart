@@ -42,55 +42,59 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, contrains) {
-        return ScreenRecorder(
-          width: contrains.maxWidth,
-          height: contrains.maxHeight,
-          controller: _screenRecorderController,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              const PhotoboothBackground(),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: PhotoboothCharacter(),
-              ),
-              Align(child: CameraView(onCameraReady: _onCameraReady)),
-              if (_isCameraAvailable) ...[
-                CameraStreamListener(cameraController: _cameraController!),
-                Align(
+    return SizedBox(
+      height: 1920,
+      width: 1080,
+      child: LayoutBuilder(
+        builder: (context, contrains) {
+          return ScreenRecorder(
+            width: contrains.maxWidth,
+            height: contrains.maxHeight,
+            controller: _screenRecorderController,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                const PhotoboothBackground(),
+                const Align(
                   alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ShutterButton(
-                        onCountdownStarted: () {
-                          _screenRecorderController.start();
-                          context
-                              .read<PhotoBoothBloc>()
-                              .add(const PhotoBoothRecordingStarted());
-                        },
-                        onCountdownCompleted: _takeFrames,
-                      ),
-                      const SimplifiedFooter()
-                    ],
+                  child: PhotoboothCharacter(),
+                ),
+                Align(child: CameraView(onCameraReady: _onCameraReady)),
+                if (_isCameraAvailable) ...[
+                  CameraStreamListener(cameraController: _cameraController!),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ShutterButton(
+                          onCountdownStarted: () {
+                            _screenRecorderController.start();
+                            context
+                                .read<PhotoBoothBloc>()
+                                .add(const PhotoBoothRecordingStarted());
+                          },
+                          onCountdownCompleted: _takeFrames,
+                        ),
+                        const SimplifiedFooter()
+                      ],
+                    ),
                   ),
+                ],
+                BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
+                  selector: (state) => state.isRecording,
+                  builder: (context, isRecording) {
+                    if (isRecording) {
+                      return const RecordingLayer();
+                    }
+                    return const SelectionLayer();
+                  },
                 ),
               ],
-              BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
-                selector: (state) => state.isRecording,
-                builder: (context, isRecording) {
-                  if (isRecording) {
-                    return const RecordingLayer();
-                  }
-                  return const SelectionLayer();
-                },
-              ),
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 }
