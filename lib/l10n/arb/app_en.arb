@@ -433,5 +433,13 @@
   "recordButtonText": "Record",
   "@recordButtonText": {
     "description": "Text displayed on a record button."
+  },
+  "convertMessage": "We're making your video pixel perfect with Flutter!",
+  "@convertMessage": {
+    "description": "Message displayed on a convert screen."
+  },
+  "convertInfo": "Please do not close this tab.",
+  "@convertInfo": {
+    "description": "Information displayed on a convert screen"
   }
 }

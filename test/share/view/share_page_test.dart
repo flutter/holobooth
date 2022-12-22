@@ -157,8 +157,8 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(ShareView subject, ShareBloc bloc) => pumpApp(
-        MultiBlocProvider(
-          providers: [BlocProvider.value(value: bloc)],
+        BlocProvider.value(
+          value: bloc,
           child: subject,
         ),
       );

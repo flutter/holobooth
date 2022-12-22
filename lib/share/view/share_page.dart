@@ -1,4 +1,3 @@
-import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -19,18 +18,8 @@ class SharePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ShareBloc(thumbnail: frames.first.image),
-        ),
-        BlocProvider(
-          create: (context) => ConvertBloc(
-            convertRepository: context.read<ConvertRepository>(),
-          )..add(ConvertFrames(frames)),
-          lazy: false,
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => ShareBloc(thumbnail: frames.first.image),
       child: const ShareView(),
     );
   }
