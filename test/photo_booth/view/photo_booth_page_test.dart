@@ -148,7 +148,7 @@ void main() {
         );
 
         /// Wait for the player to complete
-        await tester.pump(Duration(seconds: 4));
+        await tester.pump(Duration(seconds: 3));
         await tester.pump(Duration(seconds: 2));
         expect(find.byType(ConvertPage), findsOneWidget);
       },
