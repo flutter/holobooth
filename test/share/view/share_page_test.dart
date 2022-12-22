@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,8 +26,6 @@ void main() {
   group('ShareView', () {
     late ShareBloc shareBloc;
     late UrlLauncherPlatform mock;
-    final firstFrame =
-        ByteData.view(Uint8List.fromList(transparentImage).buffer);
 
     setUp(() {
       mock = _MockUrlLauncher();
@@ -49,7 +45,7 @@ void main() {
 
     testWidgets('renders ShareBackground', (tester) async {
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       expect(find.byType(ShareBackground), findsOneWidget);
@@ -57,7 +53,7 @@ void main() {
 
     testWidgets('contains a ShareBody', (tester) async {
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       expect(find.byType(ShareBody), findsOneWidget);
@@ -77,7 +73,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -100,7 +96,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -122,7 +118,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -148,7 +144,7 @@ void main() {
         ]),
       );
       await tester.pumpSubject(
-        ShareView(firstFrame: firstFrame),
+        ShareView(),
         shareBloc,
       );
       await tester.pumpAndSettle();
@@ -161,8 +157,8 @@ void main() {
 
 extension on WidgetTester {
   Future<void> pumpSubject(ShareView subject, ShareBloc bloc) => pumpApp(
-        MultiBlocProvider(
-          providers: [BlocProvider.value(value: bloc)],
+        BlocProvider.value(
+          value: bloc,
           child: subject,
         ),
       );

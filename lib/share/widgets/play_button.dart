@@ -20,7 +20,7 @@ class PlayButton extends StatelessWidget {
           );
         },
         child: SizedBox.square(
-          dimension: 65,
+          dimension: 100,
           child: Assets.icons.playIcon.image(),
         ),
       ),

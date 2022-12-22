@@ -2,6 +2,9 @@ part of 'convert_bloc.dart';
 
 abstract class ConvertEvent extends Equatable {
   const ConvertEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ConvertFrames extends ConvertEvent {
@@ -11,4 +14,8 @@ class ConvertFrames extends ConvertEvent {
 
   @override
   List<Object> get props => [frames];
+}
+
+class FinishConvert extends ConvertEvent {
+  const FinishConvert();
 }

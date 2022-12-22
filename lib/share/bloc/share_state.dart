@@ -16,6 +16,7 @@ class ShareState extends Equatable {
     this.explicitShareUrl = '',
     this.shareUrl = ShareUrl.none,
     this.shareStatus = ShareStatus.initial,
+    this.thumbnail,
   });
 
   final String facebookShareUrl;
@@ -23,6 +24,7 @@ class ShareState extends Equatable {
   final String explicitShareUrl;
   final ShareUrl shareUrl;
   final ShareStatus shareStatus;
+  final ByteData? thumbnail;
 
   @override
   List<Object?> get props => [
@@ -31,6 +33,7 @@ class ShareState extends Equatable {
         explicitShareUrl,
         shareUrl,
         shareStatus,
+        thumbnail,
       ];
 
   ShareState copyWith({
@@ -39,6 +42,7 @@ class ShareState extends Equatable {
     String? explicitShareUrl,
     ShareUrl? shareUrl,
     ShareStatus? shareStatus,
+    ByteData? thumbnail,
   }) {
     return ShareState(
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
@@ -46,6 +50,7 @@ class ShareState extends Equatable {
       explicitShareUrl: explicitShareUrl ?? this.explicitShareUrl,
       shareUrl: shareUrl ?? this.shareUrl,
       shareStatus: shareStatus ?? this.shareStatus,
+      thumbnail: thumbnail ?? this.thumbnail,
     );
   }
 }
