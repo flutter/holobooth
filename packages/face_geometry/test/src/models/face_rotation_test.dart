@@ -21,11 +21,11 @@ class _FakeKeypoint extends Fake implements tf.Keypoint {
 }
 
 void main() {
-  group('FaceDirection', () {
+  group('FaceRotation', () {
     group('factory constructor', () {
       test('returns normally when no keypoints are given', () {
         expect(
-          () => FaceDirection(
+          () => FaceRotation(
             keypoints: const [],
           ),
           returnsNormally,
@@ -35,7 +35,7 @@ void main() {
       test('returns normally when keypoints are given', () {
         final keypoints = List.generate(468, (_) => _FakeKeypoint(0, 0, 0));
         expect(
-          () => FaceDirection(
+          () => FaceRotation(
             keypoints: keypoints,
           ),
           returnsNormally,
@@ -45,8 +45,16 @@ void main() {
 
     group('value', () {
       test('is zero when no keypoints are given', () {
-        final faceDirection = FaceDirection(
+        final faceDirection = FaceRotation(
           keypoints: const [],
+        );
+
+        expect(faceDirection.value, equals(Vector3.zero));
+      });
+
+      test('is zero when all keypoints are the same', () {
+        final faceDirection = FaceRotation(
+          keypoints: List.generate(468, (_) => _FakeKeypoint(0, 0, 0)),
         );
 
         expect(faceDirection.value, equals(Vector3.zero));
@@ -54,9 +62,9 @@ void main() {
     });
 
     test('supports value equality', () {
-      final faceDirection1 = FaceDirection(keypoints: const []);
-      final faceDirection2 = FaceDirection(keypoints: const []);
-      final faceDirection3 = FaceDirection(keypoints: fixtures.face1.keypoints);
+      final faceDirection1 = FaceRotation(keypoints: const []);
+      final faceDirection2 = FaceRotation(keypoints: const []);
+      final faceDirection3 = FaceRotation(keypoints: fixtures.face1.keypoints);
 
       expect(faceDirection1, equals(faceDirection2));
       expect(faceDirection1, isNot(equals(faceDirection3)));
@@ -66,7 +74,7 @@ void main() {
     group('detects that', () {
       test('face1 is looking straight', () {
         final face = fixtures.face1;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -75,7 +83,7 @@ void main() {
 
       test('face2 is looking straight', () {
         final face = fixtures.face2;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -84,7 +92,7 @@ void main() {
 
       test('face3 is looking straight', () {
         final face = fixtures.face3;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -93,7 +101,7 @@ void main() {
 
       test('face4 is looking straight', () {
         final face = fixtures.face4;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -102,7 +110,7 @@ void main() {
 
       test('face5 is looking straight', () {
         final face = fixtures.face5;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -111,7 +119,7 @@ void main() {
 
       test('face6 is looking up', () {
         final face = fixtures.face6;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, greaterThan(0.6));
@@ -120,7 +128,7 @@ void main() {
 
       test('face7 is looking left', () {
         final face = fixtures.face7;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, greaterThan(0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -129,7 +137,7 @@ void main() {
 
       test('face8 is looking right', () {
         final face = fixtures.face8;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, lessThan(-0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));
@@ -138,7 +146,7 @@ void main() {
 
       test('face9 is looking right up', () {
         final face = fixtures.face9;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, lessThan(-0.6));
         expect(faceDirection.value.y, greaterThan(0.6));
@@ -147,7 +155,7 @@ void main() {
 
       test('face10 is looking straight', () {
         final face = fixtures.face10;
-        final faceDirection = FaceDirection(keypoints: face.keypoints);
+        final faceDirection = FaceRotation(keypoints: face.keypoints);
 
         expect(faceDirection.value.x, closeTo(0, 0.6));
         expect(faceDirection.value.y, closeTo(0, 0.6));

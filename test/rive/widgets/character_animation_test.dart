@@ -21,12 +21,12 @@ void main() {
       riveImageSize = Size(100, 100);
     });
 
-    testWidgets('updates direction', (tester) async {
+    testWidgets('updates rotation', (tester) async {
       final initialDirection = Vector3(0, 0, 0);
       var avatar = Avatar(
         hasMouthOpen: false,
         mouthDistance: 0,
-        direction: initialDirection,
+        rotation: initialDirection,
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0.5,
@@ -65,7 +65,7 @@ void main() {
         avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
           mouthDistance: avatar.mouthDistance + 1,
-          direction: newDirection,
+          rotation: newDirection,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: avatar.distance,
@@ -103,7 +103,7 @@ void main() {
         var avatar = Avatar(
           hasMouthOpen: false,
           mouthDistance: initialMouthDistance,
-          direction: Vector3.zero,
+          rotation: Vector3.zero,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: 0.5,
@@ -145,7 +145,7 @@ void main() {
           avatar = Avatar(
             hasMouthOpen: !avatar.hasMouthOpen,
             mouthDistance: newMouthDistance,
-            direction: Vector3.zero,
+            rotation: Vector3.zero,
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
@@ -165,7 +165,7 @@ void main() {
         var avatar = Avatar(
           hasMouthOpen: false,
           mouthDistance: mouthDistance,
-          direction: Vector3.zero,
+          rotation: Vector3.zero,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: 0.5,
@@ -197,7 +197,7 @@ void main() {
           avatar = Avatar(
             hasMouthOpen: !avatar.hasMouthOpen,
             mouthDistance: mouthDistance,
-            direction: Vector3.zero,
+            rotation: Vector3.zero,
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
@@ -217,7 +217,7 @@ void main() {
           avatar = Avatar(
             hasMouthOpen: !avatar.hasMouthOpen,
             mouthDistance: mouthDistance,
-            direction: Vector3.zero,
+            rotation: Vector3.zero,
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
@@ -244,7 +244,7 @@ void main() {
       var avatar = Avatar(
         hasMouthOpen: false,
         mouthDistance: 0,
-        direction: Vector3.zero,
+        rotation: Vector3.zero,
         leftEyeGeometry: initialLeftEyeGeometry,
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0.5,
@@ -288,7 +288,7 @@ void main() {
         avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
           mouthDistance: 0,
-          direction: Vector3.zero,
+          rotation: Vector3.zero,
           leftEyeGeometry: newLeftEyeGeometry,
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: avatar.distance,
@@ -315,7 +315,7 @@ void main() {
       var avatar = Avatar(
         hasMouthOpen: false,
         mouthDistance: 0,
-        direction: Vector3.zero,
+        rotation: Vector3.zero,
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: initialRightEyeGeometry,
         distance: 0.5,
@@ -359,7 +359,7 @@ void main() {
         avatar = Avatar(
           hasMouthOpen: !avatar.hasMouthOpen,
           mouthDistance: 0,
-          direction: Vector3.zero,
+          rotation: Vector3.zero,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: newRightEyeGeometry,
           distance: avatar.distance,
@@ -379,7 +379,7 @@ void main() {
       var avatar = Avatar(
         hasMouthOpen: false,
         mouthDistance: 0,
-        direction: Vector3.zero,
+        rotation: Vector3.zero,
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: initialDistance,
@@ -416,7 +416,7 @@ void main() {
         avatar = Avatar(
           hasMouthOpen: avatar.hasMouthOpen,
           mouthDistance: avatar.mouthDistance,
-          direction: avatar.direction,
+          rotation: avatar.rotation,
           leftEyeGeometry: avatar.leftEyeGeometry,
           rightEyeGeometry: avatar.rightEyeGeometry,
           distance: newDistance,

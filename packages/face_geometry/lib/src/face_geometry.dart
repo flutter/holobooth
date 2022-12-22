@@ -22,7 +22,7 @@ class FaceGeometry extends Equatable {
     required tf.Face face,
     required tf.Size size,
   }) : this._(
-          direction: FaceDirection(keypoints: face.keypoints),
+          rotation: FaceRotation(keypoints: face.keypoints),
           leftEye: LeftEyeGeometry(
             keypoints: face.keypoints,
             boundingBox: face.boundingBox,
@@ -42,15 +42,15 @@ class FaceGeometry extends Equatable {
         );
 
   const FaceGeometry._({
-    required this.direction,
+    required this.rotation,
     required this.mouth,
     required this.leftEye,
     required this.rightEye,
     required this.distance,
   });
 
-  /// {@macro face_direction}
-  final FaceDirection direction;
+  /// {@macro face_rotation}
+  final FaceRotation rotation;
 
   /// {@macro eye_geometry}
   final LeftEyeGeometry leftEye;
@@ -72,7 +72,7 @@ class FaceGeometry extends Equatable {
     required tf.Size size,
   }) {
     return FaceGeometry._(
-      direction: FaceDirection(keypoints: face.keypoints),
+      rotation: FaceRotation(keypoints: face.keypoints),
       mouth: MouthGeometry(
         keypoints: face.keypoints,
         boundingBox: face.boundingBox,
@@ -87,5 +87,5 @@ class FaceGeometry extends Equatable {
   }
 
   @override
-  List<Object?> get props => [direction, leftEye, rightEye, mouth];
+  List<Object?> get props => [rotation, leftEye, rightEye, mouth];
 }
