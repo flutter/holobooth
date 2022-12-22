@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -15,25 +13,20 @@ class SharePage extends StatelessWidget {
 
   final List<RawFrame> frames;
 
-  static Route<void> route(
-    List<RawFrame> frames,
-  ) {
-    return AppPageRoute(builder: (_) => SharePage(frames: frames));
-  }
+  static Route<void> route(List<RawFrame> frames) =>
+      AppPageRoute(builder: (_) => SharePage(frames: frames));
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShareBloc(),
-      child: ShareView(firstFrame: frames.first.image),
+      create: (context) => ShareBloc(thumbnail: frames.first.image),
+      child: const ShareView(),
     );
   }
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({super.key, required this.firstFrame});
-
-  final ByteData firstFrame;
+  const ShareView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +58,9 @@ class ShareView extends StatelessWidget {
             const Positioned.fill(child: ShareBackground()),
             Positioned.fill(
               child: Column(
-                children: [
-                  Expanded(child: ShareBody(firstFrame: firstFrame)),
-                  const FullFooter(),
+                children: const [
+                  Expanded(child: ShareBody()),
+                  FullFooter(),
                 ],
               ),
             ),
