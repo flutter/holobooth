@@ -10,5 +10,13 @@ void main() {
         expect(instanceA, equals(instanceB));
       });
     });
+
+    group('FinishConvert', () {
+      test('support value equality', () {
+        final instanceA = FinishConvert();
+        final instanceB = FinishConvert();
+        expect(instanceA, equals(instanceB));
+      });
+    });
   });
 }

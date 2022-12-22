@@ -13,8 +13,9 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ConvertBloc({
     required ConvertRepository convertRepository,
   })  : _convertRepository = convertRepository,
-        super(ConvertInitial()) {
+        super(const ConvertState.initial()) {
     on<ConvertFrames>(_convertFrames);
+    on<FinishConvert>(_finishConvert);
   }
 
   final ConvertRepository _convertRepository;
@@ -24,7 +25,12 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     Emitter<ConvertState> emit,
   ) async {
     try {
-      emit(ConvertLoading());
+      emit(
+        state.copyWith(
+          frames: event.frames,
+          status: ConvertStatus.loading,
+        ),
+      );
 
       final frames = <Uint8List>[];
       for (final frame in event.frames) {
@@ -33,15 +39,30 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       final result = await _convertRepository.convertFrames(frames);
 
       emit(
-        ConvertSuccess(
-          frames: event.frames,
+        state.copyWith(
           videoPath: result.videoUrl,
           gifPath: result.gifUrl,
+          status: ConvertStatus.success,
         ),
       );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(ConvertError());
+      emit(
+        state.copyWith(
+          status: ConvertStatus.error,
+        ),
+      );
     }
+  }
+
+  FutureOr<void> _finishConvert(
+    FinishConvert event,
+    Emitter<ConvertState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isFinished: true,
+      ),
+    );
   }
 }

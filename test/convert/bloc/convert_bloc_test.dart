@@ -32,27 +32,55 @@ void main() {
           ConvertFrames(frames),
         ),
         expect: () => [
-          ConvertLoading(),
-          ConvertSuccess(
+          ConvertState(
+            frames: frames,
+            status: ConvertStatus.loading,
+          ),
+          ConvertState(
             frames: frames,
             videoPath: 'test-video-path',
             gifPath: 'test-gif-path',
+            status: ConvertStatus.success,
           ),
         ],
       );
 
       blocTest<ConvertBloc, ConvertState>(
-        'return ConvertError state on error',
+        'return error status on error',
         setUp: () {
           convertRepository = _MockConvertRepository();
           when(() => convertRepository.convertFrames(any()))
               .thenThrow(Exception());
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(ConvertFrames(const [])),
+        act: (bloc) => bloc.add(
+          ConvertFrames(frames),
+        ),
         expect: () => [
-          ConvertLoading(),
-          ConvertError(),
+          ConvertState(
+            frames: frames,
+            status: ConvertStatus.loading,
+          ),
+          ConvertState(
+            frames: frames,
+            status: ConvertStatus.error,
+          ),
+        ],
+      );
+
+      blocTest<ConvertBloc, ConvertState>(
+        'return finished state on FinishConvert event',
+        setUp: () {
+          convertRepository = _MockConvertRepository();
+        },
+        build: () => ConvertBloc(convertRepository: convertRepository),
+        act: (bloc) => bloc.add(FinishConvert()),
+        expect: () => [
+          isA<ConvertState>().having(
+            (state) => state.isFinished,
+            'isFinished',
+            true,
+          ),
         ],
       );
     });
