@@ -151,13 +151,13 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   void onRiveInit(Artboard artboard) {
     characterController = CharacterStateMachineController(artboard);
     artboard.addController(characterController!);
-    _rotationAnimationController.addListener(_controlDashPosition);
+    _rotationAnimationController.addListener(_controlDashRotation);
     _leftEyeAnimationController.addListener(_controlLeftEye);
     _rightEyeAnimationController.addListener(_controlRightEye);
     _mouthAnimationController.addListener(_controlMouth);
   }
 
-  void _controlDashPosition() {
+  void _controlDashRotation() {
     final characterController = this.characterController;
     if (characterController != null) {
       final vector = _rotationTween.evaluate(_rotationAnimationController);
@@ -215,9 +215,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       // animation controller [-100, 100] so we multiply
       // by 100 to correlate the values
       final newRotationVector = Vector3(
-        (widget.avatar.direction.x * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.direction.y * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.direction.z * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
+        (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
       );
       if (newRotationVector.distance(previousRotationVector) >
           _rotationToleration) {
