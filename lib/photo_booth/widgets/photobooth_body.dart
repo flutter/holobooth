@@ -10,9 +10,6 @@ import 'package:screen_recorder/screen_recorder.dart';
 class PhotoboothBody extends StatefulWidget {
   const PhotoboothBody({super.key});
 
-  @visibleForTesting
-  static const cameraErrorViewKey = Key('camera_error_view');
-
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
 }
@@ -55,27 +52,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
             fit: StackFit.expand,
             children: [
               const PhotoboothBackground(),
-              Align(
-                child: SizedBox.fromSize(
-                  size: Size.zero,
-                  child: CameraView(
-                    onCameraReady: _onCameraReady,
-                    errorBuilder: (context, error) {
-                      if (error is CameraException) {
-                        return PhotoboothError(error: error);
-                      } else {
-                        return const SizedBox.shrink(
-                          key: PhotoboothBody.cameraErrorViewKey,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
               const Align(
                 alignment: Alignment.bottomCenter,
                 child: PhotoboothCharacter(),
               ),
+              Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable) ...[
                 CameraStreamListener(cameraController: _cameraController!),
                 Align(
