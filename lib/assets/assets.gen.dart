@@ -33,6 +33,9 @@ class $AssetsAudioGen {
   /// File path: assets/audio/camera.mp3
   String get camera => 'assets/audio/camera.mp3';
 
+  /// File path: assets/audio/counting.mp3
+  String get counting => 'assets/audio/counting.mp3';
+
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
 
@@ -40,7 +43,7 @@ class $AssetsAudioGen {
   String get loadingFinished => 'assets/audio/loading_finished.mp3';
 
   /// List of all assets
-  List<String> get values => [camera, loading, loadingFinished];
+  List<String> get values => [camera, counting, loading, loadingFinished];
 }
 
 class $AssetsBackgroundsGen {

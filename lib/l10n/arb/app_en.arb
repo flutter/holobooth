@@ -413,5 +413,9 @@
   "convertErrorMessage": "Something went wrong converting the video.",
   "@convertErrorMessage": {
     "description": "Information displayed when there is an error converting the video."
+  },
+  "getReady": "Get ready",
+  "@getReady": {
+    "description": "Text displayed on a recording layer."
   }
 }
