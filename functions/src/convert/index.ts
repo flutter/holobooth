@@ -141,7 +141,7 @@ export async function convertToVideo(
   return new Promise((resolve, reject) => {
     ffmpeg
       .addInput(folder + '/frame_%d.png')
-      .addOptions([ '-codec:v libx264', '-s 980x620' ,'-pix_fmt yuv420p'])
+      .addOptions([ '-codec:v libx264', '-s 980x620', '-pix_fmt yuv420p' ])
       .inputFPS(frames.length / 5)
       .mergeToFile(videoPath)
       .on('end', () => {
