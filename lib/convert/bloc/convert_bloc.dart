@@ -13,7 +13,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ConvertBloc({
     required ConvertRepository convertRepository,
   })  : _convertRepository = convertRepository,
-        super(const ConvertState.initial()) {
+        super(const ConvertState()) {
     on<ConvertFrames>(_convertFrames);
     on<FinishConvert>(_finishConvert);
   }

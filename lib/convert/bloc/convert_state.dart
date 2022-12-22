@@ -2,19 +2,12 @@ part of 'convert_bloc.dart';
 
 class ConvertState extends Equatable {
   const ConvertState({
-    required this.frames,
+    this.frames = const [],
     this.videoPath = '',
     this.gifPath = '',
     this.isFinished = false,
     this.status = ConvertStatus.initial,
   });
-
-  const ConvertState.initial()
-      : frames = const [],
-        videoPath = '',
-        gifPath = '',
-        isFinished = false,
-        status = ConvertStatus.initial;
 
   final List<RawFrame> frames;
   final String videoPath;

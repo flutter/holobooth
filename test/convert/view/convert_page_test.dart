@@ -107,7 +107,7 @@ void main() {
       whenListen(
         convertBloc,
         Stream.value(state),
-        initialState: ConvertState.initial(),
+        initialState: ConvertState(),
       );
 
       await tester.pumpSubject(

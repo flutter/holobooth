@@ -74,7 +74,7 @@ class ConvertBody extends StatelessWidget {
                 AnimatedSwitcher(
                   duration: const Duration(seconds: 1),
                   child: state.status == ConvertStatus.loading
-                      ? const ConvertLoadingBody(dimension: 200)
+                      ? const ConvertLoadingBody()
                       : const ConvertFinished(dimension: 200),
                 ),
               ],
@@ -88,17 +88,15 @@ class ConvertBody extends StatelessWidget {
 
 @visibleForTesting
 class ConvertLoadingBody extends StatelessWidget {
-  const ConvertLoadingBody({super.key, required this.dimension});
-
-  final double dimension;
+  const ConvertLoadingBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        ConvertLoadingView(dimension: dimension),
-        const SizedBox(height: 50),
-        const ConvertMessage(),
+      children: const [
+        ConvertLoadingView(dimension: 200),
+        SizedBox(height: 50),
+        ConvertMessage(),
       ],
     );
   }
