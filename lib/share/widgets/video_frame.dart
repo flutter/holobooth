@@ -4,15 +4,16 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/share/share.dart';
 
 class VideoFrame extends StatelessWidget {
-  const VideoFrame({super.key, required this.isSmallScreen});
-
-  final bool isSmallScreen;
+  const VideoFrame({super.key});
 
   @override
   Widget build(BuildContext context) {
     final thumbnail = context.read<ShareBloc>().state.thumbnail;
 
     return AspectRatio(
+      // There is no better way to determine the size of an image without
+      // decoding the image, so if image ratio change this value
+      // should be uodated.
       aspectRatio: 404 / 515,
       child: Stack(
         fit: StackFit.expand,
