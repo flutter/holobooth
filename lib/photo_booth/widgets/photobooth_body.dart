@@ -66,10 +66,9 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                     children: [
                       ShutterButton(
                         onCountdownStarted: () {
-                          _screenRecorderController.start();
                           context
                               .read<PhotoBoothBloc>()
-                              .add(const PhotoBoothRecordingStarted());
+                              .add(const PhotoBoothPreparingStarted());
                         },
                         onCountdownCompleted: _takeFrames,
                       ),
@@ -78,11 +77,19 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   ),
                 ),
               ],
-              BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
-                selector: (state) => state.isRecording,
-                builder: (context, isRecording) {
-                  if (isRecording) {
+              BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
+                builder: (_, state) {
+                  if (state.isRecording) {
                     return const RecordingLayer();
+                  } else if (state.isPreparing) {
+                    return PreparingLayer(
+                      onCountdownCompleted: () {
+                        _screenRecorderController.start();
+                        context
+                            .read<PhotoBoothBloc>()
+                            .add(const PhotoBoothRecordingStarted());
+                      },
+                    );
                   }
                   return const SelectionLayer();
                 },
