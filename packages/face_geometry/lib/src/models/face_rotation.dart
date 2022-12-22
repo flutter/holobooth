@@ -81,9 +81,12 @@ class FaceRotation extends Equatable {
 
   /// The value of the rotation of the face.
   ///
-  /// The value is a [Vector3] with values ranging from -1 to 1. The x value
-  /// represents the horizontal rotation, the y value represents the vertical
-  /// rotation, and the z value represents the diagonal rotation.
+  /// A [Vector3] with values ranging from -1 to 1. The x value represents the
+  /// horizontal rotation, the y value represents the vertical rotation, and
+  /// the z value represents the diagonal rotation.
+  ///
+  /// For example, a value of [Vector3(0, 0, 0)] means that the face is not
+  /// rotated at all. In other words, looking straight ahead.
   final Vector3 value;
 
   @override
