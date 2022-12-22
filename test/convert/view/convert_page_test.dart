@@ -27,22 +27,6 @@ class _MockRawFrame extends Mock implements RawFrame {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late ConvertBloc convertBloc;
-  late ConvertRepository convertRepository;
-
-  setUp(
-    () => {
-      convertBloc = _MockConvertBloc(),
-      convertRepository = _MockConvertRepository(),
-      when(() => convertRepository.convertFrames(any())).thenAnswer(
-        (_) async => ConvertResponse(
-          videoUrl: 'videoUrl',
-          gifUrl: 'gifUrl',
-        ),
-      ),
-    },
-  );
-
   group('ConvertPage', () {
     test('is routable', () {
       expect(ConvertPage.route([]), isA<AppPageRoute<void>>());
@@ -55,7 +39,7 @@ void main() {
         ConvertPage(
           frames: [_MockRawFrame()],
         ),
-        convertRepository: convertRepository,
+        convertRepository: _MockConvertRepository(),
       );
 
       /// Wait for the player to complete
@@ -65,7 +49,23 @@ void main() {
   });
 
   group('ConvertView', () {
-    testWidgets('renders ConvertLoading on loading state', (tester) async {
+    late ConvertBloc convertBloc;
+    late ConvertRepository convertRepository;
+
+    setUp(
+      () => {
+        convertBloc = _MockConvertBloc(),
+        convertRepository = _MockConvertRepository(),
+        when(() => convertRepository.convertFrames(any())).thenAnswer(
+          (_) async => ConvertResponse(
+            videoUrl: 'videoUrl',
+            gifUrl: 'gifUrl',
+          ),
+        ),
+      },
+    );
+
+    testWidgets('renders ConvertLoadingBody on loading state', (tester) async {
       whenListen(
         convertBloc,
         Stream.value(ConvertLoading()),
@@ -77,53 +77,53 @@ void main() {
         convertBloc,
       );
 
-      expect(find.byKey(Key('ConvertPage_ConvertLoading')), findsOneWidget);
+      expect(find.byType(ConvertLoadingBody), findsOneWidget);
     });
-  });
 
-  testWidgets('renders ConvertFinished on other state', (tester) async {
-    final state = ConvertSuccess(
-      frames: [_MockRawFrame()],
-      gifPath: 'not-important',
-      videoPath: 'not-important',
-    );
-    whenListen(
-      convertBloc,
-      Stream.value(state),
-      initialState: state,
-    );
+    testWidgets('renders ConvertFinished on other state', (tester) async {
+      final state = ConvertSuccess(
+        frames: [_MockRawFrame()],
+        gifPath: 'not-important',
+        videoPath: 'not-important',
+      );
+      whenListen(
+        convertBloc,
+        Stream.value(state),
+        initialState: state,
+      );
 
-    await tester.pumpSubject(
-      ConvertView(),
-      convertBloc,
-    );
+      await tester.pumpSubject(
+        ConvertView(),
+        convertBloc,
+      );
 
-    /// Wait for the player to complete
-    await tester.pump(Duration(seconds: 3));
-    expect(find.byType(ConvertFinished), findsOneWidget);
-  });
+      /// Wait for the player to complete
+      await tester.pump(Duration(seconds: 3));
+      expect(find.byType(ConvertFinished), findsOneWidget);
+    });
 
-  testWidgets('navigates to SharePage on success', (tester) async {
-    final state = ConvertSuccess(
-      frames: [_MockRawFrame()],
-      gifPath: 'not-important',
-      videoPath: 'not-important',
-    );
-    whenListen(
-      convertBloc,
-      Stream.value(state),
-      initialState: ConvertInitial(),
-    );
+    testWidgets('navigates to SharePage on success', (tester) async {
+      final state = ConvertSuccess(
+        frames: [_MockRawFrame()],
+        gifPath: 'not-important',
+        videoPath: 'not-important',
+      );
+      whenListen(
+        convertBloc,
+        Stream.value(state),
+        initialState: ConvertInitial(),
+      );
 
-    await tester.pumpSubject(
-      ConvertView(),
-      convertBloc,
-    );
+      await tester.pumpSubject(
+        ConvertView(),
+        convertBloc,
+      );
 
-    /// Wait for the player to complete
-    await tester.pump(Duration(seconds: 3));
-    await tester.pump();
-    expect(find.byType(SharePage), findsOneWidget);
+      /// Wait for the player to complete
+      await tester.pump(Duration(seconds: 3));
+      await tester.pump();
+      expect(find.byType(SharePage), findsOneWidget);
+    });
   });
 }
 

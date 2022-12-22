@@ -1,6 +1,7 @@
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/share/view/view.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -41,22 +42,14 @@ class ConvertView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ResponsiveLayoutBuilder(
-        small: (_, __) => const ConvertBody(dimension: 200),
-        large: (_, __) => const ConvertBody(dimension: 200),
-      ),
+    return const Scaffold(
+      body: ConvertBody(),
     );
   }
 }
 
 class ConvertBody extends StatelessWidget {
-  const ConvertBody({
-    super.key,
-    required this.dimension,
-  });
-
-  final double dimension;
+  const ConvertBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +81,17 @@ class ConvertBody extends StatelessWidget {
         return Stack(
           fit: StackFit.expand,
           children: [
-            const ConvertBackground(),
+            Assets.backgrounds.loadingBackground.image(
+              fit: BoxFit.cover,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AnimatedSwitcher(
                   duration: const Duration(seconds: 1),
                   child: state is ConvertLoading
-                      ? _ConvertLoading(dimension: dimension)
-                      : ConvertFinished(dimension: dimension),
+                      ? const ConvertLoadingBody(dimension: 200)
+                      : const ConvertFinished(dimension: 200),
                 ),
               ],
             ),
@@ -107,15 +102,15 @@ class ConvertBody extends StatelessWidget {
   }
 }
 
-class _ConvertLoading extends StatelessWidget {
-  const _ConvertLoading({required this.dimension});
+@visibleForTesting
+class ConvertLoadingBody extends StatelessWidget {
+  const ConvertLoadingBody({super.key, required this.dimension});
 
   final double dimension;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      key: const Key('ConvertPage_ConvertLoading'),
       children: [
         ConvertLoadingView(dimension: dimension),
         const SizedBox(height: 50),

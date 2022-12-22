@@ -2,7 +2,7 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/convert/view/convert_page.dart';
+import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';

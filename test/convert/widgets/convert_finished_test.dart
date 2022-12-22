@@ -50,7 +50,7 @@ void main() {
       },
     );
 
-    testWidgets('renders correctly', (tester) async {
+    testWidgets('renders correctly with loading finish image', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: ConvertFinished(
@@ -59,7 +59,16 @@ void main() {
         ),
       );
 
-      expect(find.byType(ConvertFinished), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Image &&
+              widget.image is AssetImage &&
+              (widget.image as AssetImage).assetName ==
+                  'assets/icons/loading_finish.png',
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets(
