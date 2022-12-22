@@ -1,21 +1,18 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({super.key, required this.firstFrame});
-
-  final ByteData firstFrame;
+  const ShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Align(
       child: SingleChildScrollView(
         child: ResponsiveLayoutBuilder(
-          small: (context, _) => SmallShareBody(firstFrame),
-          large: (context, _) => LargeShareBody(firstFrame),
+          small: (context, _) => const SmallShareBody(),
+          large: (context, _) => const LargeShareBody(),
         ),
       ),
     );
@@ -24,16 +21,15 @@ class ShareBody extends StatelessWidget {
 
 @visibleForTesting
 class SmallShareBody extends StatelessWidget {
-  const SmallShareBody(this.firstFrame, {super.key});
-
-  final ByteData firstFrame;
+  const SmallShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final thumbnail = context.read<ShareBloc>().state.thumbnail;
     return SingleChildScrollView(
       child: Column(
         children: [
-          Image.memory(firstFrame.buffer.asUint8List()),
+          if (thumbnail != null) Image.memory(thumbnail.buffer.asUint8List()),
           const _ShareBodyContent(isSmallScreen: true),
         ],
       ),
@@ -43,18 +39,20 @@ class SmallShareBody extends StatelessWidget {
 
 @visibleForTesting
 class LargeShareBody extends StatelessWidget {
-  const LargeShareBody(this.firstFrame, {super.key});
-
-  final ByteData firstFrame;
+  const LargeShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final thumbnail = context.read<ShareBloc>().state.thumbnail;
+
     return Column(
       children: [
         Row(
           children: [
             Expanded(
-              child: Image.memory(firstFrame.buffer.asUint8List()),
+              child: thumbnail != null
+                  ? Image.memory(thumbnail.buffer.asUint8List())
+                  : const SizedBox(),
             ),
             const Expanded(
               child: _ShareBodyContent(isSmallScreen: false),

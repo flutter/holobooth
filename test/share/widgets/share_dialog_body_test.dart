@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
@@ -13,8 +17,20 @@ class _MockVideoPlayerPlatform extends Mock
 
 class _FakeDataSource extends Fake implements DataSource {}
 
+class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
+    implements ShareBloc {}
+
 void main() {
   group('ShareDialogBody', () {
+    late ShareBloc shareBloc;
+    final thumbnail =
+        ByteData.view(Uint8List.fromList(transparentImage).buffer);
+
+    setUp(() {
+      shareBloc = _MockShareBloc();
+      when(() => shareBloc.state).thenReturn(ShareState(thumbnail: thumbnail));
+    });
+
     setUpAll(() {
       registerFallbackValue(_FakeDataSource());
     });
@@ -36,7 +52,7 @@ void main() {
       'renders SmallShareDialogBody on small screen',
       (WidgetTester tester) async {
         tester.setSmallDisplaySize();
-        await tester.pumpApp(Material(child: ShareDialogBody()));
+        await tester.pumpSubject(ShareDialogBody(), shareBloc);
         expect(find.byType(SmallShareDialogBody), findsOneWidget);
       },
     );
@@ -45,7 +61,7 @@ void main() {
       'renders LargeShareDialogBody on large screen',
       (WidgetTester tester) async {
         tester.setLargeDisplaySize();
-        await tester.pumpApp(Material(child: ShareDialogBody()));
+        await tester.pumpSubject(ShareDialogBody(), shareBloc);
         expect(find.byType(LargeShareDialogBody), findsOneWidget);
       },
     );
@@ -53,7 +69,7 @@ void main() {
     testWidgets(
       'can be closed clicking in ShareDialogCloseButton',
       (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: ShareDialogBody()));
+        await tester.pumpSubject(ShareDialogBody(), shareBloc);
         await tester.tap(find.byType(ShareDialogCloseButton));
         await tester.pumpAndSettle();
         expect(find.byType(ShareDialogBody), findsNothing);
@@ -63,11 +79,20 @@ void main() {
     testWidgets(
       'opens VideoDialog clicking on PlayButton',
       (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: ShareDialogBody()));
+        await tester.pumpSubject(ShareDialogBody(), shareBloc);
         await tester.tap(find.byType(PlayButton));
         await tester.pumpAndSettle();
         expect(find.byType(VideoDialog), findsOneWidget);
       },
     );
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(ShareDialogBody subject, ShareBloc bloc) => pumpApp(
+        MultiBlocProvider(
+          providers: [BlocProvider.value(value: bloc)],
+          child: Material(child: subject),
+        ),
+      );
 }

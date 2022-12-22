@@ -45,10 +45,7 @@ class SmallShareDialogBody extends StatelessWidget {
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              height: 380,
-              child: VideoFrame(),
-            ),
+            child: SizedBox(height: 380, child: VideoFrame()),
           ),
           SizedBox(height: 24),
           Padding(
