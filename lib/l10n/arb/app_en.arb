@@ -409,5 +409,9 @@
   "convertInfo": "Please do not close this tab.",
   "@convertInfo": {
     "description": "Information displayed on a convert screen"
+  },
+  "convertErrorMessage": "Something went wrong converting the video.",
+  "@convertErrorMessage": {
+    "description": "Information displayed when there is an error converting the video."
   }
 }

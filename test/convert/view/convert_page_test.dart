@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
@@ -47,20 +48,10 @@ void main() {
 
   group('ConvertView', () {
     late ConvertBloc convertBloc;
-    late ConvertRepository convertRepository;
 
-    setUp(
-      () => {
-        convertBloc = _MockConvertBloc(),
-        convertRepository = _MockConvertRepository(),
-        when(() => convertRepository.convertFrames(any())).thenAnswer(
-          (_) async => ConvertResponse(
-            videoUrl: 'videoUrl',
-            gifUrl: 'gifUrl',
-          ),
-        ),
-      },
-    );
+    setUp(() {
+      convertBloc = _MockConvertBloc();
+    });
 
     testWidgets('renders ConvertLoadingBody on loading state', (tester) async {
       when(() => convertBloc.state).thenReturn(
@@ -119,6 +110,23 @@ void main() {
       await tester.pump(Duration(seconds: 3));
       await tester.pump();
       expect(find.byType(SharePage), findsOneWidget);
+    });
+
+    testWidgets('shows snackbar with error if ', (tester) async {
+      whenListen(
+        convertBloc,
+        Stream.value(ConvertState(status: ConvertStatus.error)),
+        initialState: ConvertState(),
+      );
+
+      await tester.pumpSubject(
+        ConvertView(),
+        convertBloc,
+      );
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }

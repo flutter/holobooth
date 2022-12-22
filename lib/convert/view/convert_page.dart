@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/view/view.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -38,9 +39,7 @@ class ConvertView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ConvertBody(),
-    );
+    return const Scaffold(body: ConvertBody());
   }
 }
 
@@ -56,8 +55,8 @@ class ConvertBody extends StatelessWidget {
             SharePage.route(videoPath: state.videoPath, frames: state.frames),
           );
         } else if (state.status == ConvertStatus.error) {
-          Navigator.of(context).push(
-            SharePage.route(videoPath: state.videoPath, frames: state.frames),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
         }
       },
@@ -65,9 +64,7 @@ class ConvertBody extends StatelessWidget {
         return Stack(
           fit: StackFit.expand,
           children: [
-            Assets.backgrounds.loadingBackground.image(
-              fit: BoxFit.cover,
-            ),
+            Assets.backgrounds.loadingBackground.image(fit: BoxFit.cover),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
