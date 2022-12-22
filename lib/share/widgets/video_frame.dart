@@ -12,7 +12,7 @@ class VideoFrame extends StatelessWidget {
 
     return AspectRatio(
       // There is no better way to determine the size of an image without
-      // decoding the image, so if image ratio change this value
+      // decoding the image, so if image ratio changes this value
       // should be uodated.
       aspectRatio: 404 / 515,
       child: Stack(
