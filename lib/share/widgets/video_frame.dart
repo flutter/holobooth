@@ -4,20 +4,30 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/share/share.dart';
 
 class VideoFrame extends StatelessWidget {
-  const VideoFrame({super.key});
+  const VideoFrame({super.key, required this.isSmallScreen});
+
+  final bool isSmallScreen;
 
   @override
   Widget build(BuildContext context) {
     final thumbnail = context.read<ShareBloc>().state.thumbnail;
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
-        if (thumbnail != null)
-          Positioned(child: Image.memory(thumbnail.buffer.asUint8List())),
-        const Align(child: PlayButton()),
-      ],
+    return AspectRatio(
+      aspectRatio: 404 / 515,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (thumbnail != null)
+            Positioned.fill(
+              child: Image.memory(
+                thumbnail.buffer.asUint8List(),
+                fit: BoxFit.cover,
+              ),
+            ),
+          Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
+          const Align(child: PlayButton()),
+        ],
+      ),
     );
   }
 }
