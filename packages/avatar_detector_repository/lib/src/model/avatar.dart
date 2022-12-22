@@ -12,7 +12,7 @@ class Avatar extends Equatable {
   const Avatar({
     required this.hasMouthOpen,
     required this.mouthDistance,
-    required this.direction,
+    required this.rotation,
     required this.distance,
     required this.leftEyeGeometry,
     required this.rightEyeGeometry,
@@ -23,7 +23,7 @@ class Avatar extends Equatable {
     FaceGeometry faceGeometry,
   )   : hasMouthOpen = faceGeometry.mouth.isOpen,
         mouthDistance = faceGeometry.mouth.distance,
-        direction = faceGeometry.direction.value,
+        rotation = faceGeometry.rotation.value,
         distance = faceGeometry.distance.value,
         leftEyeGeometry = faceGeometry.leftEye,
         rightEyeGeometry = faceGeometry.rightEye;
@@ -32,7 +32,7 @@ class Avatar extends Equatable {
   static const zero = Avatar(
     hasMouthOpen: false,
     mouthDistance: 0,
-    direction: Vector3.zero,
+    rotation: Vector3.zero,
     distance: 0,
     leftEyeGeometry: LeftEyeGeometry.empty(),
     rightEyeGeometry: RightEyeGeometry.empty(),
@@ -45,7 +45,7 @@ class Avatar extends Equatable {
   final double mouthDistance;
 
   /// Direction of the [Avatar] represented by x, y and z.
-  final Vector3 direction;
+  final Vector3 rotation;
 
   /// The value that correlates to the distance the [Avatar] is from the camera.
   ///
@@ -64,7 +64,7 @@ class Avatar extends Equatable {
   List<Object?> get props => [
         hasMouthOpen,
         mouthDistance,
-        direction,
+        rotation,
         distance,
         leftEyeGeometry,
         rightEyeGeometry

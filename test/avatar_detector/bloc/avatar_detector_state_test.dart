@@ -25,7 +25,7 @@ void main() {
 
       test('by avatar', () {
         const avatar1 = Avatar(
-          direction: Vector3(1, 1, 1),
+          rotation: Vector3(1, 1, 1),
           hasMouthOpen: false,
           mouthDistance: 0,
           leftEyeGeometry: LeftEyeGeometry.empty(),
@@ -33,7 +33,7 @@ void main() {
           distance: 0.5,
         );
         final avatar2 = Avatar(
-          direction: Vector3(1, 2, 3),
+          rotation: Vector3(1, 2, 3),
           mouthDistance: avatar1.mouthDistance + 1,
           hasMouthOpen: !avatar1.hasMouthOpen,
           leftEyeGeometry: LeftEyeGeometry.empty(),

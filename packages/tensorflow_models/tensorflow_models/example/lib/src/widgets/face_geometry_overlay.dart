@@ -15,9 +15,9 @@ class FaceGeometryOverlay extends StatelessWidget {
       'Right Eye: ${faceGeometry.rightEye.isClosed ? 'Closed' : 'Open'}\n'
       'Left Eye: ${faceGeometry.leftEye.isClosed ? 'Closed' : 'Open'}\n'
       'Mouth: ${faceGeometry.mouth.isOpen ? 'Open' : 'Closed'}\n'
-      'Direction X: ${faceGeometry.direction.value.x}\n'
-      'Direction Y: ${faceGeometry.direction.value.y}\n'
-      'Direction Z: ${faceGeometry.direction.value.z}\n',
+      'Direction X: ${faceGeometry.rotation.value.x}\n'
+      'Direction Y: ${faceGeometry.rotation.value.y}\n'
+      'Direction Z: ${faceGeometry.rotation.value.z}\n',
     );
   }
 }
