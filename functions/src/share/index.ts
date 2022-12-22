@@ -12,19 +12,21 @@ import stylesTmpl from './templates/styles';
 import gaTmpl from './templates/ga';
 
 
-const VALID_IMAGE_EXT = [ '.png', '.jpeg', '.jpg' ];
+const VALID_VIDEO_EXT = [ '.mp4' ];
 
 const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   appUrl: '',
   shareUrl: '',
-  shareImageUrl: '',
+  shareVideoUrl: '',
   assetUrls: {
     favicon: bucketPathForFile('public/favicon.png'),
-    bg: bucketPathForFile('public/background.jpg'),
-    bgMobile: bucketPathForFile('public/background-mobile.jpg'),
+    bg: bucketPathForFile('public/background.png'),
+    bgMobile: bucketPathForFile('public/background.png'),
     notFoundPhoto: bucketPathForFile('public/404-photo.png'),
-    fixedPhotosLeft: bucketPathForFile('public/table-photos-left.png'),
-    fixedPhotosRight: bucketPathForFile('public/table-photos-right.png'),
+    playArrowIcon: bucketPathForFile('public/play-arrow.png'),
+    shareIcon: bucketPathForFile('public/share.png'),
+    flutterForwardLogo: bucketPathForFile('public/flutter-forward-logo.png'),
+    videoFrame: bucketPathForFile('public/video-frame.png'),
   },
   meta: {
     title: 'Google I/O Photo Booth',
@@ -67,30 +69,30 @@ function renderTemplate(
 
 /**
  * Render the 404 html page
- * @param {string} imageFileName - filename of storage image
+ * @param {string} videoFileName - filename of storage video
  * @param {string} baseUrl - http base fully qualified URL
  * @return {string} HTML string
  */
-function renderNotFoundPage(imageFileName: string, baseUrl: string): string {
+function renderNotFoundPage(videoFileName: string, baseUrl: string): string {
   const context = Object.assign({}, BaseHTMLContext, {
     appUrl: baseUrl,
-    shareUrl: `${baseUrl}/share/${imageFileName}`,
-    shareImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${imageFileName}`),
+    shareUrl: `${baseUrl}/share/${videoFileName}`,
+    shareVideoUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName}`),
   });
   return renderTemplate(notFoundTmpl, context);
 }
 
 /**
  * Populate and return the share page HTML for given path
- * @param {string} imageFileName - filename of storage image
+ * @param {string} videoFileName - filename of storage video
  * @param {string} baseUrl - http base fully qualified URL
  * @return {string} HTML string
  */
-function renderSharePage(imageFileName: string, baseUrl: string): string {
+function renderSharePage(videoFileName: string, baseUrl: string): string {
   const context = Object.assign({}, BaseHTMLContext, {
     appUrl: baseUrl,
-    shareUrl: `${baseUrl}/share/${imageFileName}`,
-    shareImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${imageFileName}`),
+    shareUrl: `${baseUrl}/share/${videoFileName}`,
+    shareVideoUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName}`),
   });
   return renderTemplate(shareTmpl, context);
 }
@@ -106,33 +108,33 @@ export async function getShareResponse(
   try {
     const host = req.get('host') ?? '';
     const baseUrl = `${req.protocol}://${host}`;
-    const { ext, base: imageFileName } = path.parse(req.path);
+    const { ext, base: videoFileName } = path.parse(req.path);
 
-    if (!ALLOWED_HOSTS.includes(host) || !VALID_IMAGE_EXT.includes(ext)) {
-      functions.logger.log('Bad host or image ext', { host, baseUrl, ext, imageFileName });
+    if (!ALLOWED_HOSTS.includes(host) || !VALID_VIDEO_EXT.includes(ext)) {
+      functions.logger.log('Bad host or video ext', { host, baseUrl, ext, videoFileName });
       return {
         status: 404,
-        send: renderNotFoundPage(imageFileName, baseUrl),
+        send: renderNotFoundPage(videoFileName, baseUrl),
       };
     }
 
-    const imageBlobPath = `${UPLOAD_PATH}/${imageFileName}`;
-    const imageExists = await admin.storage().bucket().file(imageBlobPath).exists();
+    const videoBlobPath = `${UPLOAD_PATH}/${videoFileName}`;
+    const videoExists = await admin.storage().bucket().file(videoBlobPath).exists();
 
-    if (Array.isArray(imageExists) && imageExists[0]) {
+    if (Array.isArray(videoExists) && videoExists[0]) {
       return {
         status: 200,
-        send: renderSharePage(imageFileName, baseUrl),
+        send: renderSharePage(videoFileName, baseUrl),
       };
     }
 
-    functions.logger.log('Image does not exist', { imageBlobPath });
+    functions.logger.log('Video does not exist', { videoBlobPath });
 
     // NOTE 200 status so that default share meta tags work,
     // where twitter does not show meta tags on a 404 status
     return {
       status: 200,
-      send: renderNotFoundPage(imageFileName, baseUrl),
+      send: renderNotFoundPage(videoFileName, baseUrl),
     };
   } catch (error) {
     functions.logger.error(error);
@@ -147,7 +149,7 @@ export async function getShareResponse(
 /**
  * Public sharing function
  */
-export const shareImage = functions.https.onRequest(async (req, res) => {
+export const shareVideo = functions.https.onRequest(async (req, res) => {
   const { status, send } = await getShareResponse(req);
   res.set('Access-Control-Allow-Origin', '*');
   res.status(status).send(send);
