@@ -2,22 +2,24 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({
     super.key,
     required this.onCameraReady,
-    required this.errorBuilder,
   });
 
   @visibleForTesting
-  static const loadingKey = Key('cameraView_loading');
+  static const cameraErrorViewKey = Key('camera_error_view');
+
+  @visibleForTesting
+  static const cameraLoadingKey = Key('cameraView_loading');
 
   @visibleForTesting
   static const cameraPreviewKey = Key('cameraView_cameraPreview');
 
   final void Function(CameraController controller)? onCameraReady;
-  final Widget Function(BuildContext context, Object? error) errorBuilder;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -62,19 +64,26 @@ class _CameraViewState extends State<CameraView> {
     return FutureBuilder<void>(
       future: _cameraControllerCompleter?.future,
       builder: (context, snapshot) {
-        late final Widget camera;
         if (snapshot.hasError) {
           final error = snapshot.error;
-          camera = widget.errorBuilder.call(context, error);
+          if (error is CameraException) {
+            return CameraErrorView(error: error);
+          } else {
+            return const SizedBox.shrink(
+              key: CameraView.cameraErrorViewKey,
+            );
+          }
         } else if (snapshot.connectionState == ConnectionState.done) {
-          camera = Builder(
+          return Builder(
             key: CameraView.cameraPreviewKey,
-            builder: (_) => _cameraController!.buildPreview(),
+            builder: (_) => SizedBox.fromSize(
+              size: Size.zero,
+              child: _cameraController!.buildPreview(),
+            ),
           );
         } else {
-          camera = const SizedBox.shrink(key: CameraView.loadingKey);
+          return const SizedBox.shrink(key: CameraView.cameraLoadingKey);
         }
-        return camera;
       },
     );
   }
