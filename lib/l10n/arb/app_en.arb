@@ -168,45 +168,13 @@
   "@shareDialogFacebookButtonText": {
     "description": "Button text shown on the share dialog which shares on Facebook the photo."
   },
-  "photoBoothCameraAccessDeniedHeadline": "Camera access denied",
-  "@photoBoothCameraAccessDeniedHeadline": {
-    "description": "Text displayed on headline on the photobooth page when camera permissions is not granted"
+  "cameraAccessDeniedMessage": "Camera permission denied",
+  "@cameraAccessDeniedMessage": {
+    "description": "Text displayed when camera permissions is not granted"
   },
-  "photoBoothCameraAccessDeniedSubheadline": "To take a photo, you must allow browser access to your camera.",
-  "@photoBoothCameraAccessDeniedSubheadline": {
-    "description": "Text displayed on subheadline on the photobooth page when camera permissions is not granted"
-  },
-  "photoBoothCameraNotFoundHeadline": "We can’t find your camera",
-  "@photoBoothCameraNotFoundHeadline": {
-    "description": "Text displayed on headline on the photobooth page when camera is not found"
-  },
-  "photoBoothCameraNotFoundSubheadline1": "Looks like your device does not have a camera or it is not working.",
-  "@photoBoothCameraNotFoundSubheadline1": {
-    "description": "Text displayed on the first subheadline on the photobooth page when camera is not found"
-  },
-  "photoBoothCameraNotFoundSubheadline2": "To take a photo, please revisit I∕O Photo Booth from a device with a camera.",
-  "@photoBoothCameraNotFoundSubheadline2": {
-    "description": "Text displayed on the second subheadline on the photobooth page when camera is not found"
-  },
-  "photoBoothCameraErrorHeadline": "Oops! Something went wrong",
-  "@photoBoothCameraErrorHeadline": {
-    "description": "Text displayed on headline on the photobooth page when unknown error occurs"
-  },
-  "photoBoothCameraErrorSubheadline1": "Please refresh your browser and try again.",
-  "@photoBoothCameraErrorSubheadline1": {
-    "description": "Text displayed on the first subheadline on the photobooth page when unknown error occurs"
-  },
-  "photoBoothCameraErrorSubheadline2": "If this issue persists, please contact flutter-photo-booth@google.com",
-  "@photoBoothCameraErrorSubheadline2": {
-    "description": "Text displayed on the second subheadline on the photobooth page when unknown error occurs"
-  },
-  "photoBoothCameraNotSupportedHeadline": "Oops! Something went wrong",
-  "@photoBoothCameraNotSupportedHeadline": {
-    "description": "Text displayed on headline on the photobooth page when camera is not supported"
-  },
-  "photoBoothCameraNotSupportedSubheadline": "Please make sure your device and browser are up to date.",
-  "@photoBoothCameraNotSupportedSubheadline": {
-    "description": "Text displayed on subheadline on the photobooth page when camera is not supported"
+  "cameraNotFoundMessage": "Camera was not found",
+  "@cameraNotFoundMessage": {
+    "description": "Text displayed when camera is not found."
   },
   "stickersDrawerTitle": "Add Props",
   "@stickersDrawerTitle": {

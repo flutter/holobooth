@@ -105,25 +105,6 @@ void main() {
 
     group('renders', () {
       testWidgets(
-        'empty SizedBox if any unexpected error finding camera',
-        (WidgetTester tester) async {
-          when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
-          await tester.pumpSubject(
-            PhotoboothBody(),
-            inExperienceSelectionBloc: inExperienceSelectionBloc,
-            photoBoothBloc: photoBoothBloc,
-            avatarDetectorBloc: avatarDetectorBloc,
-          );
-          await tester.pump();
-
-          expect(
-            find.byKey(PhotoboothBody.cameraErrorViewKey),
-            findsOneWidget,
-          );
-        },
-      );
-
-      testWidgets(
         'PhotoboothError if any CameraException finding camera',
         (WidgetTester tester) async {
           when(() => cameraPlatform.availableCameras())
@@ -136,7 +117,7 @@ void main() {
           );
           await tester.pump();
 
-          expect(find.byType(PhotoboothError), findsOneWidget);
+          expect(find.byType(CameraErrorView), findsOneWidget);
         },
       );
     });
