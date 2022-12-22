@@ -1,59 +1,32 @@
-import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class SharePage extends StatelessWidget {
   const SharePage({
-    required this.images,
     required this.frames,
     super.key,
   });
 
-  final List<PhotoboothCameraImage> images;
   final List<RawFrame> frames;
 
-  static Route<void> route(
-    List<PhotoboothCameraImage> images,
-    List<RawFrame> frames,
-  ) {
-    return AppPageRoute(
-      builder: (_) => SharePage(
-        images: images,
-        frames: frames,
-      ),
-    );
-  }
+  static Route<void> route(List<RawFrame> frames) =>
+      AppPageRoute(builder: (_) => SharePage(frames: frames));
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ShareBloc(),
-        ),
-        BlocProvider(
-          create: (context) => ConvertBloc(
-            convertRepository: context.read<ConvertRepository>(),
-          )..add(ConvertFrames(frames)),
-          lazy: false,
-        ),
-      ],
-      child: ShareView(
-        images: images,
-      ),
+    return BlocProvider(
+      create: (context) => ShareBloc(thumbnail: frames.first.image),
+      child: const ShareView(),
     );
   }
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({super.key, required this.images});
-
-  final List<PhotoboothCameraImage> images;
+  const ShareView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +58,9 @@ class ShareView extends StatelessWidget {
             const Positioned.fill(child: ShareBackground()),
             Positioned.fill(
               child: Column(
-                children: [
-                  Expanded(child: ShareBody(images: images)),
-                  const FullFooter(),
+                children: const [
+                  Expanded(child: ShareBody()),
+                  FullFooter(),
                 ],
               ),
             ),

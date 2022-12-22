@@ -19,7 +19,10 @@ class PlayButton extends StatelessWidget {
             builder: (_) => const VideoDialog(),
           );
         },
-        child: Assets.icons.playIcon.image(height: 65),
+        child: SizedBox.square(
+          dimension: 100,
+          child: Assets.icons.playIcon.image(),
+        ),
       ),
     );
   }

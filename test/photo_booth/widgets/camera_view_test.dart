@@ -7,6 +7,8 @@ import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import '../../helpers/helpers.dart';
+
 class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
@@ -56,63 +58,37 @@ void main() {
       CameraPlatform.instance = _MockCameraPlatform();
     });
 
-    test('can be instantiated', () {
-      expect(
-        CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(),
-        ),
-        isA<CameraView>(),
-      );
-    });
-
-    testWidgets('called when ready', (tester) async {
+    testWidgets('calls onCameraReady when ready', (tester) async {
       var calls = 0;
-      final subject = CameraView(
-        onCameraReady: (_) => calls++,
-        errorBuilder: (_, __) => const SizedBox(),
-      );
-      await tester.pumpWidget(subject);
+      await tester.pumpSubject(CameraView(onCameraReady: (_) => calls++));
       await tester.pumpAndSettle();
       expect(calls, equals(1));
     });
 
-    group('renders', () {
-      testWidgets('loadingKey when loading', (tester) async {
-        final subject = CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
+    testWidgets('renders loadingKey when loading', (tester) async {
+      await tester.pumpSubject(CameraView(onCameraReady: (_) {}));
+      expect(find.byKey(CameraView.cameraLoadingKey), findsOneWidget);
+    });
 
-        expect(find.byKey(CameraView.loadingKey), findsOneWidget);
-      });
+    testWidgets('cameraPreviewKey when loaded', (tester) async {
+      await tester.pumpSubject(CameraView(onCameraReady: (_) {}));
+      await tester.pumpAndSettle();
+      expect(find.byKey(CameraView.cameraPreviewKey), findsOneWidget);
+    });
 
-      testWidgets('cameraPreviewKey when loaded', (tester) async {
-        final subject = CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
+    testWidgets('renders CameraErrorView when has a CameraExceptionerror',
+        (tester) async {
+      when(() => cameraPlatform.availableCameras()).thenThrow(
+        CameraException('', ''),
+      );
+      await tester.pumpSubject(CameraView(onCameraReady: (_) {}));
+      await tester.pumpAndSettle();
 
-        expect(find.byKey(CameraView.cameraPreviewKey), findsOneWidget);
-      });
-
-      testWidgets('errorBuilder when has an error', (tester) async {
-        when(() => cameraPlatform.availableCameras()).thenThrow(
-          CameraException('', ''),
-        );
-        const errorKey = Key('error');
-        final subject = CameraView(
-          onCameraReady: (_) {},
-          errorBuilder: (_, __) => const SizedBox(key: errorKey),
-        );
-        await tester.pumpWidget(subject);
-        await tester.pumpAndSettle();
-
-        expect(find.byKey(errorKey), findsOneWidget);
-      });
+      expect(find.byType(CameraErrorView), findsOneWidget);
     });
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(CameraView subject) => pumpApp(subject);
 }

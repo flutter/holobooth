@@ -1,4 +1,3 @@
-export 'animated_photobooth_photo.dart';
 export 'download_button.dart';
 export 'facebook_button.dart';
 export 'play_button.dart';

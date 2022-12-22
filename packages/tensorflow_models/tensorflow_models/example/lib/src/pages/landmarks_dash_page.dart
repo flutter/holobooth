@@ -118,12 +118,12 @@ class _DashState extends State<_Dash> {
       dashController.leftEyeClosed.change(widget.faceGeometry.leftEye.isClosed);
       dashController.rightEyeClosed
           .change(widget.faceGeometry.rightEye.isClosed);
-      final direction = widget.faceGeometry.direction.value;
+      final rotation = widget.faceGeometry.rotation.value;
       _dashController?.x.change(
-        -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
+        -rotation.x * ((_DashStateMachineController._xRange / 2) + 50),
       );
       _dashController?.y.change(
-        direction.y * ((_DashStateMachineController._yRange / 2) + 50),
+        rotation.y * ((_DashStateMachineController._yRange / 2) + 50),
       );
     }
   }

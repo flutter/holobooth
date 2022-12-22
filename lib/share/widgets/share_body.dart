@@ -1,42 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({required this.images, super.key});
-
-  final List<PhotoboothCameraImage> images;
+  const ShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final image = images.first;
     return Align(
       child: SingleChildScrollView(
         child: ResponsiveLayoutBuilder(
-          small: (context, _) {
-            return _SmallShareBody(image: image);
-          },
-          large: (context, _) {
-            return _LargeShareBody(image: image);
-          },
+          small: (context, _) => const SmallShareBody(),
+          large: (context, _) => const LargeShareBody(),
         ),
       ),
     );
   }
 }
 
-class _SmallShareBody extends StatelessWidget {
-  const _SmallShareBody({required this.image});
-
-  final PhotoboothCameraImage image;
+@visibleForTesting
+class SmallShareBody extends StatelessWidget {
+  const SmallShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final thumbnail = context.read<ShareBloc>().state.thumbnail;
     return SingleChildScrollView(
       child: Column(
         children: [
-          AnimatedPhotoboothPhoto(image: image),
+          if (thumbnail != null) Image.memory(thumbnail.buffer.asUint8List()),
           const _ShareBodyContent(isSmallScreen: true),
         ],
       ),
@@ -44,18 +37,23 @@ class _SmallShareBody extends StatelessWidget {
   }
 }
 
-class _LargeShareBody extends StatelessWidget {
-  const _LargeShareBody({required this.image});
-
-  final PhotoboothCameraImage image;
+@visibleForTesting
+class LargeShareBody extends StatelessWidget {
+  const LargeShareBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final thumbnail = context.read<ShareBloc>().state.thumbnail;
+
     return Column(
       children: [
         Row(
           children: [
-            Expanded(child: AnimatedPhotoboothPhoto(image: image)),
+            Expanded(
+              child: thumbnail != null
+                  ? Image.memory(thumbnail.buffer.asUint8List())
+                  : const SizedBox(),
+            ),
             const Expanded(
               child: _ShareBodyContent(isSmallScreen: false),
             ),

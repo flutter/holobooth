@@ -28,9 +28,9 @@ class _DashWithBackgroundState extends State<DashWithBackground> {
     super.didUpdateWidget(oldWidget);
     final dashController = _dashController;
     if (dashController != null && widget.faceGeometry != null) {
-      final direction = widget.faceGeometry!.direction.value;
+      final rotation = widget.faceGeometry!.rotation.value;
       _dashController?.x.change(
-        -direction.x * ((_DashStateMachineController._xRange / 2) + 50),
+        -rotation.x * ((_DashStateMachineController._xRange / 2) + 50),
       );
     }
   }

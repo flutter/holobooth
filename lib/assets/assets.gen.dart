@@ -33,8 +33,14 @@ class $AssetsAudioGen {
   /// File path: assets/audio/camera.mp3
   String get camera => 'assets/audio/camera.mp3';
 
+  /// File path: assets/audio/loading.mp3
+  String get loading => 'assets/audio/loading.mp3';
+
+  /// File path: assets/audio/loading_finished.mp3
+  String get loadingFinished => 'assets/audio/loading_finished.mp3';
+
   /// List of all assets
-  List<String> get values => [camera];
+  List<String> get values => [camera, loading, loadingFinished];
 }
 
 class $AssetsBackgroundsGen {
@@ -59,6 +65,10 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/landing_background.png
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
+
+  /// File path: assets/backgrounds/loading_background.png
+  AssetGenImage get loadingBackground =>
+      const AssetGenImage('assets/backgrounds/loading_background.png');
 
   /// File path: assets/backgrounds/photobooth_background.jpg
   AssetGenImage get photoboothBackground =>
@@ -95,6 +105,7 @@ class $AssetsBackgroundsGen {
         blueCircle,
         holobooth,
         landingBackground,
+        loadingBackground,
         photoboothBackground,
         redBox,
         shareBackground,
@@ -150,6 +161,14 @@ class $AssetsIconsGen {
   AssetGenImage get goNextButtonIcon =>
       const AssetGenImage('assets/icons/go_next_button_icon.png');
 
+  /// File path: assets/icons/loading circle.png
+  AssetGenImage get loadingCircle =>
+      const AssetGenImage('assets/icons/loading circle.png');
+
+  /// File path: assets/icons/loading_finish.png
+  AssetGenImage get loadingFinish =>
+      const AssetGenImage('assets/icons/loading_finish.png');
+
   /// File path: assets/icons/play_icon.png
   AssetGenImage get playIcon =>
       const AssetGenImage('assets/icons/play_icon.png');
@@ -179,6 +198,8 @@ class $AssetsIconsGen {
         firebaseIcon,
         flutterIcon,
         goNextButtonIcon,
+        loadingCircle,
+        loadingFinish,
         playIcon,
         recordingButtonIcon,
         retakeButtonIcon,
@@ -194,25 +215,8 @@ class $AssetsImagesGen {
   AssetGenImage get flutterForwardLogo =>
       const AssetGenImage('assets/images/flutter_forward_logo.png');
 
-  /// File path: assets/images/photo_frame_spritesheet_landscape.jpg
-  AssetGenImage get photoFrameSpritesheetLandscape => const AssetGenImage(
-      'assets/images/photo_frame_spritesheet_landscape.jpg');
-
-  /// File path: assets/images/photo_frame_spritesheet_portrait.png
-  AssetGenImage get photoFrameSpritesheetPortrait =>
-      const AssetGenImage('assets/images/photo_frame_spritesheet_portrait.png');
-
-  /// File path: assets/images/photo_indicator_spritesheet.png
-  AssetGenImage get photoIndicatorSpritesheet =>
-      const AssetGenImage('assets/images/photo_indicator_spritesheet.png');
-
   /// List of all assets
-  List<AssetGenImage> get values => [
-        flutterForwardLogo,
-        photoFrameSpritesheetLandscape,
-        photoFrameSpritesheetPortrait,
-        photoIndicatorSpritesheet
-      ];
+  List<AssetGenImage> get values => [flutterForwardLogo];
 }
 
 class $AssetsPropsGen {

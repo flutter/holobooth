@@ -8,7 +8,7 @@ void main() {
       const avatar1 = Avatar(
         hasMouthOpen: true,
         mouthDistance: 0,
-        direction: Vector3.zero,
+        rotation: Vector3.zero,
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
@@ -16,7 +16,7 @@ void main() {
       const avatar2 = Avatar(
         hasMouthOpen: true,
         mouthDistance: 0,
-        direction: Vector3.zero,
+        rotation: Vector3.zero,
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
@@ -24,7 +24,7 @@ void main() {
       const avatar3 = Avatar(
         hasMouthOpen: false,
         mouthDistance: 1,
-        direction: Vector3(1, 0, 0),
+        rotation: Vector3(1, 0, 0),
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 1,

@@ -32,14 +32,6 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _FakePhotoboothCameraImage extends Fake implements PhotoboothCameraImage {
-  @override
-  String get data => '';
-
-  @override
-  PhotoConstraint get constraint => PhotoConstraint();
-}
-
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -48,7 +40,6 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
-    late PhotoboothCameraImage image;
 
     setUp(() {
       xfile = _MockXFile();
@@ -65,14 +56,6 @@ void main() {
         true,
         FocusMode.auto,
         true,
-      );
-
-      image = PhotoboothCameraImage(
-        data: xfile.path,
-        constraint: PhotoConstraint(
-          width: event.previewWidth,
-          height: event.previewHeight,
-        ),
       );
 
       final cameraDescription = _MockCameraDescription();
@@ -104,7 +87,7 @@ void main() {
       photoBoothBloc = _MockPhotoBoothBloc();
       when(
         () => photoBoothBloc.state,
-      ).thenReturn(PhotoBoothState.empty());
+      ).thenReturn(PhotoBoothState());
 
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
@@ -120,30 +103,7 @@ void main() {
       CameraPlatform.instance = _MockCameraPlatform();
     });
 
-    setUpAll(() {
-      registerFallbackValue(_FakePhotoboothCameraImage());
-    });
-
     group('renders', () {
-      testWidgets(
-        'empty SizedBox if any unexpected error finding camera',
-        (WidgetTester tester) async {
-          when(() => cameraPlatform.availableCameras()).thenThrow(Exception());
-          await tester.pumpSubject(
-            PhotoboothBody(),
-            inExperienceSelectionBloc: inExperienceSelectionBloc,
-            photoBoothBloc: photoBoothBloc,
-            avatarDetectorBloc: avatarDetectorBloc,
-          );
-          await tester.pump();
-
-          expect(
-            find.byKey(PhotoboothBody.cameraErrorViewKey),
-            findsOneWidget,
-          );
-        },
-      );
-
       testWidgets(
         'PhotoboothError if any CameraException finding camera',
         (WidgetTester tester) async {
@@ -157,36 +117,10 @@ void main() {
           );
           await tester.pump();
 
-          expect(find.byType(PhotoboothError), findsOneWidget);
+          expect(find.byType(CameraErrorView), findsOneWidget);
         },
       );
     });
-
-    testWidgets(
-      'adds PhotoBoothOnPhotoTaken when onCountdownCompleted is called',
-      (WidgetTester tester) async {
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          photoBoothBloc: photoBoothBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-        final shutterButton = tester.widget<ShutterButton>(
-          find.byType(ShutterButton),
-        );
-
-        shutterButton.onCountdownCompleted();
-        await tester.pump();
-        verify(
-          () => photoBoothBloc.add(
-            PhotoBoothOnPhotoTaken(
-              image: image,
-            ),
-          ),
-        ).called(1);
-      },
-    );
 
     testWidgets(
       'adds PhotoBoothRecordingFinished when onCountdownCompleted is called',
@@ -234,7 +168,7 @@ void main() {
       'renders RecordingLayer if PhotoBoothState.isRecording',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state)
-            .thenReturn(PhotoBoothState.empty().copyWith(isRecording: true));
+            .thenReturn(PhotoBoothState().copyWith(isRecording: true));
         await tester.pumpSubject(
           PhotoboothBody(),
           photoBoothBloc: photoBoothBloc,
@@ -248,7 +182,7 @@ void main() {
     testWidgets(
       'renders SelectionLayer if not PhotoBoothState.isRecording',
       (WidgetTester tester) async {
-        when(() => photoBoothBloc.state).thenReturn(PhotoBoothState.empty());
+        when(() => photoBoothBloc.state).thenReturn(PhotoBoothState());
         await tester.pumpSubject(
           PhotoboothBody(),
           photoBoothBloc: photoBoothBloc,
