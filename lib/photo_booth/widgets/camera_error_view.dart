@@ -26,7 +26,7 @@ class CameraNotFoundErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return _PhotoboothErrorContent(errorMessage: l10n.cameraNotFoundMessage);
+    return _CameraErrorViewContent(errorMessage: l10n.cameraNotFoundMessage);
   }
 }
 
@@ -37,20 +37,21 @@ class CameraAccessDeniedErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return _PhotoboothErrorContent(
+    return _CameraErrorViewContent(
       errorMessage: l10n.cameraAccessDeniedMessage,
     );
   }
 }
 
-class _PhotoboothErrorContent extends StatelessWidget {
-  const _PhotoboothErrorContent({required this.errorMessage});
+class _CameraErrorViewContent extends StatelessWidget {
+  const _CameraErrorViewContent({required this.errorMessage});
 
   final String errorMessage;
 
   @override
   Widget build(BuildContext context) {
     return BlurryContainer(
+      // TODO(OSCAR): This color is not in the palette.
       color: const Color.fromRGBO(19, 22, 44, 0.75),
       blur: 7.5,
       borderRadius: BorderRadius.circular(38),
