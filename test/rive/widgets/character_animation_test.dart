@@ -97,61 +97,139 @@ void main() {
       );
     });
 
-    testWidgets('updates mouth', (tester) async {
-      const initialMouthDistance = 0.0;
-      var avatar = Avatar(
-        hasMouthOpen: false,
-        mouthDistance: initialMouthDistance,
-        direction: Vector3.zero,
-        leftEyeGeometry: LeftEyeGeometry.empty(),
-        rightEyeGeometry: RightEyeGeometry.empty(),
-        distance: 0.5,
-      );
-
-      late StateSetter stateSetter;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              stateSetter = setState;
-              return CharacterAnimation(
-                avatar: avatar,
-                hat: Hats.none,
-                glasses: Glasses.none,
-                clothes: Clothes.none,
-                handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
-                riveImageSize: riveImageSize,
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-
-      final state = tester.state(find.byType(CharacterAnimation))
-          as CharacterAnimationState;
-      final controller = state.characterController!;
-      expect(
-        controller.mouthDistance.value,
-        equals(initialMouthDistance * 100),
-      );
-
-      const newMouthDistance = initialMouthDistance + 1;
-      stateSetter(() {
-        avatar = Avatar(
-          hasMouthOpen: !avatar.hasMouthOpen,
-          mouthDistance: newMouthDistance,
+    group('mouth', () {
+      testWidgets('updates', (tester) async {
+        const initialMouthDistance = 0.0;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: initialMouthDistance,
           direction: Vector3.zero,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
-          distance: avatar.distance,
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  assetGenImage: assetGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        expect(
+          controller.mouthDistance.value,
+          equals(
+            initialMouthDistance * 100 * CharacterAnimationState.mouthScale,
+          ),
+        );
+
+        const newMouthDistance = initialMouthDistance + .1;
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: newMouthDistance,
+            direction: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        expect(
+          controller.mouthDistance.value,
+          equals(newMouthDistance * 100 * CharacterAnimationState.mouthScale),
         );
       });
-      await tester.pump(Duration(milliseconds: 150));
-      await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller.mouthDistance.value, equals(newMouthDistance * 100));
+      testWidgets('tolerates values', (tester) async {
+        var mouthDistance = .0;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: mouthDistance,
+          direction: Vector3.zero,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  assetGenImage: assetGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        mouthDistance = 0.1;
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: mouthDistance,
+            direction: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        final newMouthDistance = controller.mouthDistance.value;
+        mouthDistance = 0.1 -
+            (CharacterAnimationState.mouthToleration /
+                (CharacterAnimationState.mouthScale * 100));
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: mouthDistance,
+            direction: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump();
+
+        expect(
+          controller.mouthDistance.value,
+          equals(newMouthDistance),
+        );
+      });
     });
 
     testWidgets('updates left eye', (tester) async {
