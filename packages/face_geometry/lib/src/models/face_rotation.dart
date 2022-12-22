@@ -86,7 +86,7 @@ class FaceRotation extends Equatable {
   /// the z value represents the diagonal rotation.
   ///
   /// For example, a value of `Vector3(0, 0, 0)` means that the face is not
-  /// rotated at all. In other words, looking straight ahead.
+  /// rotated at all. In other words, the face is looking straight ahead.
   final Vector3 value;
 
   @override
