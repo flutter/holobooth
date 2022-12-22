@@ -20,6 +20,18 @@ void main() {
       );
     });
 
+    group('PhotoBoothPreparingStarted', () {
+      blocTest<PhotoBoothBloc, PhotoBoothState>(
+        'emits state with preparing == true.',
+        build: PhotoBoothBloc.new,
+        seed: () => PhotoBoothState(isRecording: true),
+        act: (bloc) => bloc.add(PhotoBoothPreparingStarted()),
+        expect: () => <PhotoBoothState>[
+          PhotoBoothState(isPreparing: true),
+        ],
+      );
+    });
+
     group('PhotoBoothRecordingFinished', () {
       final frames = UnmodifiableListView([_MockRawFrame()]);
 
