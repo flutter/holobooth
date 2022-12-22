@@ -6,20 +6,29 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage({
-    required this.frames,
-    super.key,
-  });
+  const SharePage({super.key, required this.frames, required this.videoPath});
 
   final List<RawFrame> frames;
+  final String videoPath;
 
-  static Route<void> route(List<RawFrame> frames) =>
-      AppPageRoute(builder: (_) => SharePage(frames: frames));
+  static Route<void> route({
+    required List<RawFrame> frames,
+    required String videoPath,
+  }) =>
+      AppPageRoute(
+        builder: (_) => SharePage(
+          frames: frames,
+          videoPath: videoPath,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShareBloc(thumbnail: frames.first.image),
+      create: (context) => ShareBloc(
+        thumbnail: frames.first.image,
+        videoPath: videoPath,
+      ),
       child: const ShareView(),
     );
   }

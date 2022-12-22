@@ -36,7 +36,13 @@ void main() {
     testWidgets(
       'renders VideoPlayerView',
       (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: VideoDialog()));
+        await tester.pumpApp(
+          Material(
+            child: VideoDialog(
+              videoPath: '',
+            ),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(find.byType(VideoPlayerView), findsOneWidget);
       },
@@ -45,7 +51,13 @@ void main() {
     testWidgets(
       'updates scale when initialized',
       (WidgetTester tester) async {
-        await tester.pumpApp(Material(child: VideoDialog()));
+        await tester.pumpApp(
+          Material(
+            child: VideoDialog(
+              videoPath: '',
+            ),
+          ),
+        );
         final animatedScaleFinder = find.byType(AnimatedScale);
         final animatedScale = tester.widget<AnimatedScale>(animatedScaleFinder);
         expect(animatedScale.scale, 0);

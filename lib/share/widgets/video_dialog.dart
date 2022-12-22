@@ -3,7 +3,9 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class VideoDialog extends StatefulWidget {
-  const VideoDialog({super.key});
+  const VideoDialog({super.key, required this.videoPath});
+
+  final String videoPath;
 
   @override
   State<VideoDialog> createState() => _VideoDialogState();
@@ -18,8 +20,7 @@ class _VideoDialogState extends State<VideoDialog> {
       duration: const Duration(milliseconds: 400),
       child: HoloBoothAlertDialog(
         child: VideoPlayerView(
-          url:
-              'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+          url: widget.videoPath,
           onInitialized: () {
             setState(() {
               videoInitialized = true;
