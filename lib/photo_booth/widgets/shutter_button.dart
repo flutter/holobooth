@@ -102,23 +102,23 @@ class CountdownTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seconds =
-        (ShutterButton.shutterCountdownDuration.inSeconds * controller.value)
-            .ceil();
-    final theme = Theme.of(context);
     return Container(
-      height: 70,
-      width: 70,
+      height: 100,
+      width: 100,
       margin: const EdgeInsets.only(bottom: 15),
       child: Stack(
         children: [
           Align(
-            child: Text(
-              '$seconds',
-              style: theme.textTheme.displayLarge?.copyWith(
-                color: PhotoboothColors.white,
-                fontWeight: FontWeight.w500,
-              ),
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return const LinearGradient(
+                  colors: <Color>[
+                    HoloBoothColors.gradientSecondaryThreeStart,
+                    HoloBoothColors.gradientSecondaryThreeStop,
+                  ],
+                ).createShader(Offset.zero & bounds.size);
+              },
+              child: const Icon(Icons.videocam, color: Colors.white, size: 40),
             ),
           ),
           Positioned.fill(
@@ -149,14 +149,17 @@ class TimerPainter extends CustomPainter {
     final progress = (controllerValue / 360) *
         (2 * math.pi * size.width) *
         ShutterButton.shutterCountdownDuration.inSeconds;
-
+    final rect = Rect.fromCircle(center: Offset.zero, radius: size.width);
     final paint = Paint()
-      ..color = PhotoboothColors.white
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-    canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-    paint.color = PhotoboothColors.red;
+    paint.shader = const LinearGradient(
+      colors: [
+        HoloBoothColors.gradientSecondaryFourStart,
+        HoloBoothColors.gradientSecondaryFourStop,
+      ],
+    ).createShader(rect);
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 

@@ -34,7 +34,7 @@ class GradientOutlinedButton extends StatelessWidget {
         begin: Alignment.topLeft,
         end: Alignment.bottomCenter,
         colors: [
-          HoloBoothColors.pink,
+          HoloBoothColors.gradientSecondaryFourStart,
           HoloBoothColors.purple,
         ],
       ),
