@@ -10,8 +10,8 @@ class PhotoBoothRecordingStarted extends PhotoBoothEvent {
   const PhotoBoothRecordingStarted();
 }
 
-class PhotoBoothPreparingStarted extends PhotoBoothEvent {
-  const PhotoBoothPreparingStarted();
+class PhotoBoothGetReadyStarted extends PhotoBoothEvent {
+  const PhotoBoothGetReadyStarted();
 }
 
 class PhotoBoothRecordingFinished extends PhotoBoothEvent {

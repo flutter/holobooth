@@ -20,14 +20,14 @@ void main() {
       );
     });
 
-    group('PhotoBoothPreparingStarted', () {
+    group('PhotoBoothGetReadyStarted', () {
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits state with preparing == true.',
         build: PhotoBoothBloc.new,
         seed: () => PhotoBoothState(isRecording: true),
-        act: (bloc) => bloc.add(PhotoBoothPreparingStarted()),
+        act: (bloc) => bloc.add(PhotoBoothGetReadyStarted()),
         expect: () => <PhotoBoothState>[
-          PhotoBoothState(isPreparing: true),
+          PhotoBoothState(gettingReady: true),
         ],
       );
     });

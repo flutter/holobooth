@@ -12,7 +12,7 @@ part 'photo_booth_state.dart';
 class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
   PhotoBoothBloc() : super(const PhotoBoothState()) {
     on<PhotoBoothRecordingStarted>(_countdownStarted);
-    on<PhotoBoothPreparingStarted>(_preparingStarted);
+    on<PhotoBoothGetReadyStarted>(_getReadyStarted);
     on<PhotoBoothRecordingFinished>(_countdownFinished);
   }
 
@@ -23,18 +23,18 @@ class PhotoBoothBloc extends Bloc<PhotoBoothEvent, PhotoBoothState> {
     emit(
       state.copyWith(
         isRecording: true,
-        isPreparing: false,
+        gettingReady: false,
       ),
     );
   }
 
-  FutureOr<void> _preparingStarted(
-    PhotoBoothPreparingStarted event,
+  FutureOr<void> _getReadyStarted(
+    PhotoBoothGetReadyStarted event,
     Emitter<PhotoBoothState> emit,
   ) {
     emit(
       state.copyWith(
-        isPreparing: true,
+        gettingReady: true,
         isRecording: false,
       ),
     );

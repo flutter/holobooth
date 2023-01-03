@@ -68,7 +68,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                         onCountdownStarted: () {
                           context
                               .read<PhotoBoothBloc>()
-                              .add(const PhotoBoothPreparingStarted());
+                              .add(const PhotoBoothGetReadyStarted());
                         },
                         onCountdownCompleted: _takeFrames,
                       ),
@@ -81,7 +81,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 builder: (_, state) {
                   if (state.isRecording) {
                     return const RecordingLayer();
-                  } else if (state.isPreparing) {
+                  } else if (state.gettingReady) {
                     return GetReadyLayer(
                       onCountdownCompleted: () {
                         _screenRecorderController.start();
