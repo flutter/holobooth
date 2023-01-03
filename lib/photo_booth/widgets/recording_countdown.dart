@@ -145,9 +145,8 @@ class TimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final progress = (controllerValue / 360) *
-        (2 * math.pi * size.width) *
-        RecordingCountdown.shutterCountdownDuration.inSeconds;
+    final progress =
+        Tween<double>(begin: 0, end: math.pi * 2).evaluate(animation);
     final rect = Rect.fromCircle(center: Offset.zero, radius: size.width);
     final paint = Paint()
       ..strokeWidth = 5.0
