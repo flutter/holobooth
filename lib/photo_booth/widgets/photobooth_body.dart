@@ -54,28 +54,15 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               const PhotoboothBackground(),
               const Align(
                 alignment: Alignment.bottomCenter,
+                child: SimplifiedFooter(),
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
                 child: PhotoboothCharacter(),
               ),
               Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable) ...[
                 CameraStreamListener(cameraController: _cameraController!),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ShutterButton(
-                        onCountdownStarted: () {
-                          context
-                              .read<PhotoBoothBloc>()
-                              .add(const PhotoBoothGetReadyStarted());
-                        },
-                        onCountdownCompleted: _takeFrames,
-                      ),
-                      const SimplifiedFooter()
-                    ],
-                  ),
-                ),
               ],
               BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
                 builder: (_, state) {

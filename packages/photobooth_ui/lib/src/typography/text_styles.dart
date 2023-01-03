@@ -37,8 +37,8 @@ class PhotoboothTextStyle {
   /// Headline medium text style
   static TextStyle get headlineMedium {
     return _baseTextStyle.copyWith(
-      fontSize: 22,
-      fontWeight: PhotoboothFontWeight.bold,
+      fontSize: 54,
+      fontWeight: PhotoboothFontWeight.medium,
     );
   }
 

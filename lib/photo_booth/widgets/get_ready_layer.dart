@@ -61,7 +61,7 @@ class GetReadyLayerState extends State<GetReadyLayer>
       unawaited(audioPlayer.play());
     } catch (_) {}
 
-    await controller.forward();
+    await controller.reverse(from: 1);
   }
 
   @override
@@ -72,9 +72,7 @@ class GetReadyLayerState extends State<GetReadyLayer>
         if (controller.isAnimating) {
           return GetReadyCountdown(controller: controller);
         }
-        return const SizedBox(
-          key: emptySizedBox,
-        );
+        return const SizedBox(key: emptySizedBox);
       },
     );
   }
@@ -88,13 +86,6 @@ class GetReadyLayerState extends State<GetReadyLayer>
       ..dispose();
     audioPlayer.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      audioPlayer.stop();
-    }
   }
 }
 
@@ -116,7 +107,7 @@ class GetReadyCountdown extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Container(
-            color: const Color(0xFF0D162C).withAlpha(75),
+            color: const Color.fromRGBO(19, 22, 44, 0.75),
           ),
         ),
         Column(
@@ -130,7 +121,7 @@ class GetReadyCountdown extends StatelessWidget {
             ),
             GradientText(
               text: l10n.getReady,
-              style: PhotoboothTextStyle.displayLarge,
+              style: PhotoboothTextStyle.headlineMedium,
               textAlign: TextAlign.center,
             ),
           ],
