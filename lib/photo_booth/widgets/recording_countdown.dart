@@ -20,18 +20,18 @@ class RecordingCountdown extends StatefulWidget {
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   static const shutterCountdownDuration = Duration(seconds: 5);
-  @override
-  State<RecordingCountdown> createState() => RecordingCountdownState();
-}
-
-@visibleForTesting
-class RecordingCountdownState extends State<RecordingCountdown>
-    with TickerProviderStateMixin {
-  late final AnimationController controller;
-  late final AudioPlayer audioPlayer;
 
   @visibleForTesting
   static const emptySizedBox = Key('empty_sizedBox');
+
+  @override
+  State<RecordingCountdown> createState() => _RecordingCountdownState();
+}
+
+class _RecordingCountdownState extends State<RecordingCountdown>
+    with TickerProviderStateMixin {
+  late final AnimationController controller;
+  late final AudioPlayer audioPlayer;
 
   @override
   void initState() {
@@ -85,13 +85,14 @@ class RecordingCountdownState extends State<RecordingCountdown>
           return CountdownTimer(controller: controller);
         }
         return const SizedBox(
-          key: emptySizedBox,
+          key: RecordingCountdown.emptySizedBox,
         );
       },
     );
   }
 }
 
+@visibleForTesting
 class CountdownTimer extends StatelessWidget {
   const CountdownTimer({super.key, required this.controller});
 
@@ -132,6 +133,7 @@ class CountdownTimer extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class TimerPainter extends CustomPainter {
   const TimerPainter({
     required this.animation,

@@ -416,6 +416,6 @@
   },
   "getReady": "Get ready",
   "@getReady": {
-    "description": "Text displayed on a recording layer."
+    "description": "Text displayed before recording."
   }
 }

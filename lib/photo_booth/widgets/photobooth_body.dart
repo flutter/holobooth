@@ -54,6 +54,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
     final frames = await _screenRecorderController.exporter.exportFrames();
+    // TODO(oscar): handle error or assume this will never fail
     if (frames != null) {
       photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
     }

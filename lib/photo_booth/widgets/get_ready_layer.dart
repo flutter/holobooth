@@ -25,11 +25,10 @@ class GetReadyLayer extends StatefulWidget {
   static const emptySizedBox = Key('empty_sizedBox');
 
   @override
-  State<GetReadyLayer> createState() => GetReadyLayerState();
+  State<GetReadyLayer> createState() => _GetReadyLayerState();
 }
 
-@visibleForTesting
-class GetReadyLayerState extends State<GetReadyLayer>
+class _GetReadyLayerState extends State<GetReadyLayer>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
