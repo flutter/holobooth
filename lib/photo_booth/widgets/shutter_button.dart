@@ -26,7 +26,7 @@ class ShutterButton extends StatefulWidget {
 
 @visibleForTesting
 class ShutterButtonState extends State<ShutterButton>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+    with TickerProviderStateMixin {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
 
@@ -36,7 +36,6 @@ class ShutterButtonState extends State<ShutterButton>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _init();
   }
 
@@ -70,8 +69,6 @@ class ShutterButtonState extends State<ShutterButton>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
@@ -153,13 +150,13 @@ class TimerPainter extends CustomPainter {
     final paint = Paint()
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-    paint.shader = const LinearGradient(
-      colors: [
-        HoloBoothColors.gradientSecondaryFourStart,
-        HoloBoothColors.gradientSecondaryFourStop,
-      ],
-    ).createShader(rect);
+      ..style = PaintingStyle.stroke
+      ..shader = const LinearGradient(
+        colors: [
+          HoloBoothColors.gradientSecondaryFourStart,
+          HoloBoothColors.gradientSecondaryFourStop,
+        ],
+      ).createShader(rect);
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 
