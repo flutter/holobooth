@@ -82,7 +82,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   if (state.isRecording) {
                     return const RecordingLayer();
                   } else if (state.isPreparing) {
-                    return PreparingLayer(
+                    return GetReadyLayer(
                       onCountdownCompleted: () {
                         _screenRecorderController.start();
                         context

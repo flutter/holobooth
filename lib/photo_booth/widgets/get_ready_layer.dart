@@ -9,8 +9,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
-class PreparingLayer extends StatefulWidget {
-  const PreparingLayer({
+class GetReadyLayer extends StatefulWidget {
+  const GetReadyLayer({
     super.key,
     required this.onCountdownCompleted,
     ValueGetter<AudioPlayer>? audioPlayer,
@@ -19,14 +19,14 @@ class PreparingLayer extends StatefulWidget {
   final VoidCallback onCountdownCompleted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
-  static const countdownDuration = Duration(seconds: 4);
+  static const countdownDuration = Duration(seconds: 3);
 
   @override
-  State<PreparingLayer> createState() => PreparingLayerState();
+  State<GetReadyLayer> createState() => GetReadyLayerState();
 }
 
 @visibleForTesting
-class PreparingLayerState extends State<PreparingLayer>
+class GetReadyLayerState extends State<GetReadyLayer>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
@@ -51,37 +51,29 @@ class PreparingLayerState extends State<PreparingLayer>
     audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
-      duration: PreparingLayer.countdownDuration,
+      duration: GetReadyLayer.countdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
     try {
       final audioSession = await AudioSession.instance;
       await audioSession.configure(const AudioSessionConfiguration.speech());
       await audioPlayer.setAsset(Assets.audio.counting);
+      unawaited(audioPlayer.play());
     } catch (_) {}
 
     await controller.forward();
   }
 
-  Future<void> _onShutterPressed() async {
-    unawaited(audioPlayer.play());
-    // widget.onCountdownStarted();
-    unawaited(controller.reverse(from: 1));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-      tween: IntTween(begin: 3, end: 0),
-      duration: const Duration(seconds: 3),
-      onEnd: () {
-        widget.onCountdownCompleted();
-      },
-      builder: (context, value, child) {
-        audioPlayer.play();
-        return PreparingCountdownTimer2(
-          seconds: value,
-          audioPlayer: audioPlayer,
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        if (controller.isAnimating) {
+          return GetReadyCountdown(controller: controller);
+        }
+        return const SizedBox(
+          key: emptySizedBox,
         );
       },
     );
@@ -106,20 +98,19 @@ class PreparingLayerState extends State<PreparingLayer>
   }
 }
 
-class PreparingCountdownTimer2 extends StatelessWidget {
-  const PreparingCountdownTimer2({
+class GetReadyCountdown extends StatelessWidget {
+  const GetReadyCountdown({
     super.key,
-    required this.seconds,
-    required this.audioPlayer,
+    required this.controller,
   });
 
-  final int seconds;
-  final AudioPlayer audioPlayer;
+  final AnimationController controller;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
+    final seconds =
+        (GetReadyLayer.countdownDuration.inSeconds * controller.value).ceil();
     return Stack(
       fit: StackFit.expand,
       children: [
