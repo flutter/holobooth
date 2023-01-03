@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -10,6 +11,7 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:screen_recorder/screen_recorder.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -32,6 +34,8 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
+class _MockExporter extends Mock implements Exporter {}
+
 void main() {
   group('PhotoboothBody', () {
     late AvatarDetectorBloc avatarDetectorBloc;
@@ -40,6 +44,7 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
+    late Exporter exporter;
 
     setUp(() {
       xfile = _MockXFile();
@@ -97,6 +102,8 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
+
+      exporter = _MockExporter();
     });
 
     tearDown(() {
@@ -123,8 +130,12 @@ void main() {
     });
 
     testWidgets(
-      'adds PhotoBoothRecordingFinished when onCountdownCompleted is called',
+      'adds PhotoBoothRecordingStarted when GetReadyLayer.onCountdownCompleted '
+      'is called',
       (WidgetTester tester) async {
+        when(
+          () => photoBoothBloc.state,
+        ).thenReturn(PhotoBoothState(gettingReady: true));
         await tester.pumpSubject(
           PhotoboothBody(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
@@ -132,19 +143,48 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pump();
-        final shutterButton = tester.widget<RecordingCountdown>(
-          find.byType(RecordingCountdown),
+        final getReadyLayer = tester.widget<GetReadyLayer>(
+          find.byType(GetReadyLayer),
         );
 
-        shutterButton.onCountdownCompleted();
+        getReadyLayer.onCountdownCompleted();
         await tester.pump();
-        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished(const [])))
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingStarted()))
             .called(1);
       },
     );
 
     testWidgets(
-      'renders RecordingLayer if PhotoBoothState.isRecording',
+      'adds PhotoBoothRecordingFinished when '
+      'RecordingCountdown.onCountdownCompleted '
+      'is called',
+      (WidgetTester tester) async {
+        final frame = RawFrame(1, ByteData(1));
+        when(
+          () => photoBoothBloc.state,
+        ).thenReturn(PhotoBoothState(isRecording: true));
+        when(() => exporter.exportFrames()).thenAnswer((_) async => [frame]);
+        await tester.pumpSubject(
+          PhotoboothBody(
+            exporter: () => exporter,
+          ),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
+        final recordingCountdown = tester.widget<RecordingCountdown>(
+          find.byType(RecordingCountdown),
+        );
+        recordingCountdown.onCountdownCompleted();
+        await tester.pump();
+        verify(() => photoBoothBloc.add(PhotoBoothRecordingFinished([frame])))
+            .called(1);
+      },
+    );
+
+    testWidgets(
+      'renders RecordingCountdown if PhotoBoothState.isRecording',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state)
             .thenReturn(PhotoBoothState().copyWith(isRecording: true));
@@ -154,7 +194,7 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        expect(find.byType(RecordingLayer), findsOneWidget);
+        expect(find.byType(RecordingCountdown), findsOneWidget);
       },
     );
 

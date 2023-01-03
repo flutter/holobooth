@@ -7,8 +7,15 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
+Exporter _getExporter() => Exporter();
+
 class PhotoboothBody extends StatefulWidget {
-  const PhotoboothBody({super.key});
+  const PhotoboothBody({
+    super.key,
+    ValueGetter<Exporter>? exporter,
+  }) : _exporter = exporter ?? _getExporter;
+
+  final ValueGetter<Exporter> _exporter;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
@@ -16,8 +23,14 @@ class PhotoboothBody extends StatefulWidget {
 
 class _PhotoboothBodyState extends State<PhotoboothBody> {
   CameraController? _cameraController;
-  final ScreenRecorderController _screenRecorderController =
-      ScreenRecorderController();
+  late final ScreenRecorderController _screenRecorderController;
+
+  @override
+  void initState() {
+    super.initState();
+    _screenRecorderController =
+        ScreenRecorderController(exporter: widget._exporter());
+  }
 
   @override
   void dispose() {

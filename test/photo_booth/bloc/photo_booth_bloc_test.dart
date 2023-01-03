@@ -9,25 +9,25 @@ class _MockRawFrame extends Mock implements RawFrame {}
 
 void main() {
   group('PhotoBoothBloc', () {
-    group('PhotoBoothRecordingStarted', () {
-      blocTest<PhotoBoothBloc, PhotoBoothState>(
-        'emits recording.',
-        build: PhotoBoothBloc.new,
-        act: (bloc) => bloc.add(PhotoBoothRecordingStarted()),
-        expect: () => <PhotoBoothState>[
-          PhotoBoothState(isRecording: true),
-        ],
-      );
-    });
-
     group('PhotoBoothGetReadyStarted', () {
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits state with preparing == true.',
         build: PhotoBoothBloc.new,
-        seed: () => PhotoBoothState(isRecording: true),
         act: (bloc) => bloc.add(PhotoBoothGetReadyStarted()),
         expect: () => <PhotoBoothState>[
           PhotoBoothState(gettingReady: true),
+        ],
+      );
+    });
+
+    group('PhotoBoothRecordingStarted', () {
+      blocTest<PhotoBoothBloc, PhotoBoothState>(
+        'emits recording.',
+        build: PhotoBoothBloc.new,
+        seed: () => PhotoBoothState(gettingReady: true),
+        act: (bloc) => bloc.add(PhotoBoothRecordingStarted()),
+        expect: () => <PhotoBoothState>[
+          PhotoBoothState(isRecording: true),
         ],
       );
     });

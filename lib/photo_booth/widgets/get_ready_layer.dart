@@ -21,6 +21,9 @@ class GetReadyLayer extends StatefulWidget {
 
   static const countdownDuration = Duration(seconds: 3);
 
+  @visibleForTesting
+  static const emptySizedBox = Key('empty_sizedBox');
+
   @override
   State<GetReadyLayer> createState() => GetReadyLayerState();
 }
@@ -30,9 +33,6 @@ class GetReadyLayerState extends State<GetReadyLayer>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
-
-  @visibleForTesting
-  static const emptySizedBox = Key('empty_sizedBox');
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class GetReadyLayerState extends State<GetReadyLayer>
         if (controller.isAnimating) {
           return GetReadyCountdown(controller: controller);
         }
-        return const SizedBox(key: emptySizedBox);
+        return const SizedBox(key: GetReadyLayer.emptySizedBox);
       },
     );
   }
@@ -89,6 +89,7 @@ class GetReadyLayerState extends State<GetReadyLayer>
   }
 }
 
+@visibleForTesting
 class GetReadyCountdown extends StatelessWidget {
   const GetReadyCountdown({
     super.key,
