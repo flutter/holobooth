@@ -29,14 +29,13 @@ class GetReadyLayer extends StatefulWidget {
 }
 
 class _GetReadyLayerState extends State<GetReadyLayer>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+    with TickerProviderStateMixin {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _init();
   }
 
@@ -78,8 +77,6 @@ class _GetReadyLayerState extends State<GetReadyLayer>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
