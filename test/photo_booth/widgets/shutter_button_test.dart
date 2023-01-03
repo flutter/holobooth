@@ -53,7 +53,6 @@ void main() {
         await tester.pumpApp(
           ShutterButton(
             onCountdownCompleted: () {},
-            onCountdownStarted: () {},
             audioPlayer: () => audioPlayer,
           ),
         );
@@ -65,7 +64,6 @@ void main() {
       await tester.pumpApp(
         ShutterButton(
           onCountdownCompleted: () {},
-          onCountdownStarted: () {},
         ),
       );
       await tester.pumpAndSettle();
@@ -77,62 +75,10 @@ void main() {
       await tester.pumpApp(
         ShutterButton(
           onCountdownCompleted: () {},
-          onCountdownStarted: () {},
         ),
       );
-      expect(find.byType(CameraButton), findsOneWidget);
       expect(find.byType(CountdownTimer), findsNothing);
     });
-
-    testWidgets('renders CountdownTimer when clicks on CameraButton with audio',
-        (tester) async {
-      await tester.pumpApp(
-        ShutterButton(
-          onCountdownCompleted: () {},
-          onCountdownStarted: () {},
-          audioPlayer: () => audioPlayer,
-        ),
-      );
-      await tester.tap(find.byType(CameraButton));
-      await tester.pump();
-      expect(find.byType(CountdownTimer), findsOneWidget);
-      verify(() => audioPlayer.play()).called(1);
-      await tester.pumpAndSettle();
-    });
-
-    testWidgets('renders emptySizedBox when animation finished',
-        (tester) async {
-      await tester.pumpApp(
-        ShutterButton(
-          onCountdownCompleted: () {},
-          onCountdownStarted: () {},
-          audioPlayer: () => audioPlayer,
-        ),
-      );
-      await tester.tap(find.byType(CameraButton));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      expect(find.byKey(ShutterButtonState.emptySizedBox), findsOneWidget);
-    });
-
-    testWidgets(
-      'calls stop on AppLifecycleState.paused',
-      (WidgetTester tester) async {
-        await tester.pumpApp(
-          ShutterButton(
-            onCountdownCompleted: () {},
-            onCountdownStarted: () {},
-            audioPlayer: () => audioPlayer,
-          ),
-        );
-        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-        await tester.pumpAndSettle();
-        verify(() => audioPlayer.stop()).called(1);
-        tester.binding
-            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
-        await tester.pumpAndSettle();
-      },
-    );
   });
 
   group('TimerPainter', () {

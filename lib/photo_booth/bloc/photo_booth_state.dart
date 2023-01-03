@@ -6,11 +6,13 @@ class PhotoBoothState extends Equatable {
     this.frames = const [],
     this.isRecording = false,
     this.gettingReady = false,
+    this.willExportVideo = false,
   });
 
   final List<RawFrame> frames;
   final bool isRecording;
   final bool gettingReady;
+  final bool willExportVideo;
 
   bool get isFinished => !isRecording && frames.isNotEmpty;
 
@@ -19,17 +21,20 @@ class PhotoBoothState extends Equatable {
         frames,
         isRecording,
         gettingReady,
+        willExportVideo,
       ];
 
   PhotoBoothState copyWith({
     List<RawFrame>? frames,
     bool? isRecording,
     bool? gettingReady,
+    bool? willExportVideo,
   }) {
     return PhotoBoothState(
       frames: frames ?? this.frames,
       isRecording: isRecording ?? this.isRecording,
       gettingReady: gettingReady ?? this.gettingReady,
+      willExportVideo: willExportVideo ?? this.willExportVideo,
     );
   }
 }

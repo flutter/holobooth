@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -14,12 +13,10 @@ class ShutterButton extends StatefulWidget {
   const ShutterButton({
     super.key,
     required this.onCountdownCompleted,
-    required this.onCountdownStarted,
     ValueGetter<AudioPlayer>? audioPlayer,
   }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
 
   final VoidCallback onCountdownCompleted;
-  final VoidCallback onCountdownStarted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   static const shutterCountdownDuration = Duration(seconds: 5);
@@ -32,7 +29,6 @@ class ShutterButtonState extends State<ShutterButton>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
-  var _animationFinished = false;
 
   @visibleForTesting
   static const emptySizedBox = Key('empty_sizedBox');
@@ -47,9 +43,6 @@ class ShutterButtonState extends State<ShutterButton>
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
     if (status == AnimationStatus.dismissed) {
       widget.onCountdownCompleted();
-      setState(() {
-        _animationFinished = true;
-      });
     }
   }
 
@@ -71,6 +64,8 @@ class ShutterButtonState extends State<ShutterButton>
     try {
       await audioPlayer.setAsset(Assets.audio.camera);
     } catch (_) {}
+
+    unawaited(controller.reverse(from: 1));
   }
 
   @override
@@ -85,30 +80,12 @@ class ShutterButtonState extends State<ShutterButton>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      audioPlayer.stop();
-    }
-  }
-
-  Future<void> _onShutterPressed() async {
-    unawaited(audioPlayer.play());
-    widget.onCountdownStarted();
-    unawaited(controller.reverse(from: 1));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
         if (controller.isAnimating) {
           return CountdownTimer(controller: controller);
-        } else if (!_animationFinished) {
-          return CameraButton(onPressed: _onShutterPressed);
         }
         return const SizedBox(
           key: emptySizedBox,
@@ -153,35 +130,6 @@ class CountdownTimer extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class CameraButton extends StatelessWidget {
-  const CameraButton({super.key, required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return Semantics(
-      focusable: true,
-      button: true,
-      label: l10n.shutterButtonLabelText,
-      child: Material(
-        clipBehavior: Clip.hardEdge,
-        shape: const CircleBorder(),
-        color: PhotoboothColors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          child: Assets.icons.recordingButtonIcon.image(
-            height: 100,
-            width: 100,
-          ),
-        ),
       ),
     );
   }

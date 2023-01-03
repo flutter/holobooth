@@ -26,9 +26,10 @@ class GradientText extends StatelessWidget {
   /// Optional text alignment.
   final TextAlign? textAlign;
 
-  static const _defaultTextStyle = TextStyle(color: Colors.white);
-
+  /// Color for the gradient text.
   final List<Color> gradientColors;
+
+  static const _defaultTextStyle = TextStyle(color: Colors.white);
 
   @override
   Widget build(BuildContext context) {

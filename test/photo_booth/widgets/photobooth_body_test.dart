@@ -144,27 +144,6 @@ void main() {
     );
 
     testWidgets(
-      'adds PhotoBoothRecordingStarted when onCountdownStarted is called',
-      (WidgetTester tester) async {
-        await tester.pumpSubject(
-          PhotoboothBody(),
-          inExperienceSelectionBloc: inExperienceSelectionBloc,
-          photoBoothBloc: photoBoothBloc,
-          avatarDetectorBloc: avatarDetectorBloc,
-        );
-        await tester.pump();
-        final shutterButton = tester.widget<ShutterButton>(
-          find.byType(ShutterButton),
-        );
-
-        shutterButton.onCountdownStarted();
-        await tester.pump();
-        verify(() => photoBoothBloc.add(PhotoBoothRecordingStarted()))
-            .called(1);
-      },
-    );
-
-    testWidgets(
       'renders RecordingLayer if PhotoBoothState.isRecording',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state)

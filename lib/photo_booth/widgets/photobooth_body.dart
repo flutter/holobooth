@@ -32,12 +32,18 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     setState(() => _cameraController = cameraController);
   }
 
-  Future<void> _takeFrames() async {
-    _screenRecorderController.stop();
+  void _startRecording() {
+    _screenRecorderController.start();
+    context.read<PhotoBoothBloc>().add(const PhotoBoothRecordingStarted());
+  }
 
+  Future<void> _stopRecording() async {
+    _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
     final frames = await _screenRecorderController.exporter.exportFrames();
-    photoBoothBloc.add(PhotoBoothRecordingFinished(frames ?? []));
+    if (frames != null) {
+      photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
+    }
   }
 
   @override
@@ -67,15 +73,15 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
                 builder: (_, state) {
                   if (state.isRecording) {
-                    return const RecordingLayer();
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ShutterButton(
+                        onCountdownCompleted: _stopRecording,
+                      ),
+                    );
                   } else if (state.gettingReady) {
                     return GetReadyLayer(
-                      onCountdownCompleted: () {
-                        _screenRecorderController.start();
-                        context
-                            .read<PhotoBoothBloc>()
-                            .add(const PhotoBoothRecordingStarted());
-                      },
+                      onCountdownCompleted: _startRecording,
                     );
                   }
                   return const SelectionLayer();
