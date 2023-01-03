@@ -11,6 +11,10 @@ class GradientText extends StatelessWidget {
     required this.text,
     this.style,
     this.textAlign,
+    this.gradientColors = const [
+      Color(0xFFEFBDCF),
+      Color(0xFF9E81EF),
+    ],
   });
 
   /// The text.
@@ -24,16 +28,14 @@ class GradientText extends StatelessWidget {
 
   static const _defaultTextStyle = TextStyle(color: Colors.white);
 
+  final List<Color> gradientColors;
+
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
       shaderCallback: (bounds) {
-        return const LinearGradient(
-          colors: [
-            // TODO(willhlas): use theme colors once it's ready.
-            Color(0xFFEFBDCF),
-            Color(0xFF9E81EF),
-          ],
+        return LinearGradient(
+          colors: gradientColors,
         ).createShader(Offset.zero & bounds.size);
       },
       child: SelectableText(

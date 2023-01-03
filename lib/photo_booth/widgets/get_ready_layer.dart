@@ -106,18 +106,19 @@ class GetReadyCountdown extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Positioned.fill(
-          child: Container(
-            color: const Color.fromRGBO(19, 22, 44, 0.75),
-          ),
+          child: Container(color: const Color.fromRGBO(19, 22, 44, 0.75)),
         ),
         Column(
           children: [
-            GradientText(
-              text: '$seconds',
-              style: PhotoboothTextStyle.displayMedium.copyWith(
-                fontSize: 400,
+            // TODO(oscar): add border or images to text
+            Align(
+              child: GradientText(
+                text: '$seconds',
+                style: PhotoboothTextStyle.displayMedium.copyWith(
+                  fontSize: 400,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             GradientText(
               text: l10n.getReady,
