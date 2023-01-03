@@ -7,8 +7,15 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
+Exporter _getExporter() => Exporter();
+
 class PhotoboothBody extends StatefulWidget {
-  const PhotoboothBody({super.key});
+  const PhotoboothBody({
+    super.key,
+    ValueGetter<Exporter>? exporter,
+  }) : _exporter = exporter ?? _getExporter;
+
+  final ValueGetter<Exporter> _exporter;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
@@ -16,8 +23,14 @@ class PhotoboothBody extends StatefulWidget {
 
 class _PhotoboothBodyState extends State<PhotoboothBody> {
   CameraController? _cameraController;
-  final ScreenRecorderController _screenRecorderController =
-      ScreenRecorderController();
+  late final ScreenRecorderController _screenRecorderController;
+
+  @override
+  void initState() {
+    super.initState();
+    _screenRecorderController =
+        ScreenRecorderController(exporter: widget._exporter());
+  }
 
   @override
   void dispose() {
@@ -32,12 +45,19 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     setState(() => _cameraController = cameraController);
   }
 
-  Future<void> _takeFrames() async {
-    _screenRecorderController.stop();
+  void _startRecording() {
+    _screenRecorderController.start();
+    context.read<PhotoBoothBloc>().add(const PhotoBoothRecordingStarted());
+  }
 
+  Future<void> _stopRecording() async {
+    _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
     final frames = await _screenRecorderController.exporter.exportFrames();
-    photoBoothBloc.add(PhotoBoothRecordingFinished(frames ?? []));
+    // TODO(oscar): handle error or assume this will never fail
+    if (frames != null) {
+      photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
+    }
   }
 
   @override
@@ -54,35 +74,29 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               const PhotoboothBackground(),
               const Align(
                 alignment: Alignment.bottomCenter,
+                child: SimplifiedFooter(),
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
                 child: PhotoboothCharacter(),
               ),
               Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable) ...[
                 CameraStreamListener(cameraController: _cameraController!),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ShutterButton(
-                        onCountdownStarted: () {
-                          _screenRecorderController.start();
-                          context
-                              .read<PhotoBoothBloc>()
-                              .add(const PhotoBoothRecordingStarted());
-                        },
-                        onCountdownCompleted: _takeFrames,
-                      ),
-                      const SimplifiedFooter()
-                    ],
-                  ),
-                ),
               ],
-              BlocSelector<PhotoBoothBloc, PhotoBoothState, bool>(
-                selector: (state) => state.isRecording,
-                builder: (context, isRecording) {
-                  if (isRecording) {
-                    return const RecordingLayer();
+              BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
+                builder: (_, state) {
+                  if (state.isRecording) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RecordingCountdown(
+                        onCountdownCompleted: _stopRecording,
+                      ),
+                    );
+                  } else if (state.gettingReady) {
+                    return GetReadyLayer(
+                      onCountdownCompleted: _startRecording,
+                    );
                   }
                   return const SelectionLayer();
                 },

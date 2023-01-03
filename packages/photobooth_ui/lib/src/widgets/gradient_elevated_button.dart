@@ -29,7 +29,7 @@ class GradientElevatedButton extends StatelessWidget {
         gradient: const LinearGradient(
           colors: [
             HoloBoothColors.purple,
-            HoloBoothColors.pink,
+            HoloBoothColors.gradientSecondaryFourStart,
           ],
         ),
         boxShadow: [

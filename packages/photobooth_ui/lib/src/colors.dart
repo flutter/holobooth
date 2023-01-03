@@ -56,9 +56,6 @@ abstract class HoloBoothColors {
   /// Dark purple
   static const Color darkPurple = Color(0xFF20225A);
 
-  /// Light pink
-  static const Color pink = Color(0xFFF8BBD0);
-
   /// Dark blue
   static const Color darkBlue = Color(0xFF061A4A);
 
@@ -82,4 +79,16 @@ abstract class HoloBoothColors {
 
   /// Color for secondary two start
   static const Color secondaryTwoStart = Color(0xff9E81EF);
+
+  /// Color for gradient secondary four start.
+  static const Color gradientSecondaryFourStart = Color(0xffF8BBD0);
+
+  /// Color for gradient secondary four stop.
+  static const Color gradientSecondaryFourStop = Color(0xff9E81EF);
+
+  /// Color for gradient secondary three start.
+  static const Color gradientSecondaryThreeStart = Color(0xffF9F7C9);
+
+  /// Color for gradient secondary three stop.
+  static const Color gradientSecondaryThreeStop = Color(0xff9E81EF);
 }

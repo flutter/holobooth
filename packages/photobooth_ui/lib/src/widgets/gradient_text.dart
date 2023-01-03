@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template gradient_text}
 /// A widget that wraps [ShaderMask] around [SelectableText] to
@@ -11,6 +12,10 @@ class GradientText extends StatelessWidget {
     required this.text,
     this.style,
     this.textAlign,
+    this.gradientColors = const [
+      HoloBoothColors.gradientSecondaryFourStart,
+      HoloBoothColors.gradientSecondaryFourStop,
+    ],
   });
 
   /// The text.
@@ -22,18 +27,17 @@ class GradientText extends StatelessWidget {
   /// Optional text alignment.
   final TextAlign? textAlign;
 
+  /// Color for the gradient text.
+  final List<Color> gradientColors;
+
   static const _defaultTextStyle = TextStyle(color: Colors.white);
 
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
       shaderCallback: (bounds) {
-        return const LinearGradient(
-          colors: [
-            // TODO(willhlas): use theme colors once it's ready.
-            Color(0xFFEFBDCF),
-            Color(0xFF9E81EF),
-          ],
+        return LinearGradient(
+          colors: gradientColors,
         ).createShader(Offset.zero & bounds.size);
       },
       child: SelectableText(
