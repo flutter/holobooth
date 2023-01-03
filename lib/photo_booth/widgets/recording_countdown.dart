@@ -9,8 +9,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
-class ShutterButton extends StatefulWidget {
-  const ShutterButton({
+class RecordingCountdown extends StatefulWidget {
+  const RecordingCountdown({
     super.key,
     required this.onCountdownCompleted,
     ValueGetter<AudioPlayer>? audioPlayer,
@@ -21,11 +21,11 @@ class ShutterButton extends StatefulWidget {
 
   static const shutterCountdownDuration = Duration(seconds: 5);
   @override
-  State<ShutterButton> createState() => ShutterButtonState();
+  State<RecordingCountdown> createState() => RecordingCountdownState();
 }
 
 @visibleForTesting
-class ShutterButtonState extends State<ShutterButton>
+class RecordingCountdownState extends State<RecordingCountdown>
     with TickerProviderStateMixin {
   late final AnimationController controller;
   late final AudioPlayer audioPlayer;
@@ -49,7 +49,7 @@ class ShutterButtonState extends State<ShutterButton>
     audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
-      duration: ShutterButton.shutterCountdownDuration,
+      duration: RecordingCountdown.shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
     final audioSession = await AudioSession.instance;
@@ -145,7 +145,7 @@ class TimerPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final progress = (controllerValue / 360) *
         (2 * math.pi * size.width) *
-        ShutterButton.shutterCountdownDuration.inSeconds;
+        RecordingCountdown.shutterCountdownDuration.inSeconds;
     final rect = Rect.fromCircle(center: Offset.zero, radius: size.width);
     final paint = Paint()
       ..strokeWidth = 5.0

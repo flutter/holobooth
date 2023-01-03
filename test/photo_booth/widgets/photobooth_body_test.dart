@@ -132,8 +132,8 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         await tester.pump();
-        final shutterButton = tester.widget<ShutterButton>(
-          find.byType(ShutterButton),
+        final shutterButton = tester.widget<RecordingCountdown>(
+          find.byType(RecordingCountdown),
         );
 
         shutterButton.onCountdownCompleted();

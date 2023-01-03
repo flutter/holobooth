@@ -75,7 +75,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   if (state.isRecording) {
                     return Align(
                       alignment: Alignment.bottomCenter,
-                      child: ShutterButton(
+                      child: RecordingCountdown(
                         onCountdownCompleted: _stopRecording,
                       ),
                     );

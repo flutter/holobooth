@@ -51,7 +51,7 @@ void main() {
       'set asset correctly',
       (WidgetTester tester) async {
         await tester.pumpApp(
-          ShutterButton(
+          RecordingCountdown(
             onCountdownCompleted: () {},
             audioPlayer: () => audioPlayer,
           ),
@@ -62,18 +62,18 @@ void main() {
     );
     testWidgets('renders', (tester) async {
       await tester.pumpApp(
-        ShutterButton(
+        RecordingCountdown(
           onCountdownCompleted: () {},
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.byType(ShutterButton), findsOneWidget);
+      expect(find.byType(RecordingCountdown), findsOneWidget);
     });
 
     testWidgets('renders CameraButton when animation has not started',
         (tester) async {
       await tester.pumpApp(
-        ShutterButton(
+        RecordingCountdown(
           onCountdownCompleted: () {},
         ),
       );
