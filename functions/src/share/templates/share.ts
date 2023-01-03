@@ -31,33 +31,67 @@ export default `
     <div class="backdrop"></div>
     <main>
       <div class="share-video">
-        <div class="video-frame">
-          <video src="{{{shareVideoUrl}}}">
+        <img class="holocard" src={{assetUrls.holocard}} />
+        <div class="card-frame">
+          <div class="video-clip">
+            <video src="{{{shareVideoUrl}}}"></video>
+          </div>
+          <img src={{assetUrls.videoFrame}} />
         </div>
       </div>
       <div class="info">
-      <div class="info-content">
-        <img class="flutter-forward-logo" src={{assetUrls.flutterForwardLogo}} />
-        <h1>Check it out my Flutter holocard!</h1>
-        <h2>
-        This video has been created with Flutter web app. 
-        Create your unique video in a few steps:
-        </h2>
-        <a class="btn elevated-btn try-now-btn" href="/">
-          <img src={{assetUrls.playArrowIcon}} />
-          Try now
-        </a>
-        <a class="btn outline-btn" href="/">
-          <img src={{assetUrls.shareIcon}} />
-          Share
-        </a>
-        <p class="disclaimer">
-        Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact flutter-photo-booth@google.com and be sure to include your unique URL in your request.
-        </p>
-      </div>
+        <div class="info-content">
+          <img class="flutter-forward-logo" src={{assetUrls.flutterForwardLogo}} />
+          <h1>Check it out my Flutter holocard!</h1>
+          <h2>
+            This video has been created with Flutter web app. 
+            Create your unique video in a few steps:
+          </h2>
+          <a class="btn elevated-btn try-now-btn" href="/">
+            <img src={{assetUrls.playArrowIcon}} />
+            Try now
+          </a>
+          <a class="btn outline-btn" href="/">
+            <img src={{assetUrls.shareIcon}} />
+            Share
+          </a>
+          <p class="disclaimer">
+          Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact flutter-photo-booth@google.com and be sure to include your unique URL in your request.
+          </p>
+        </div>
       </div>
     </main>
-    {{{footer}}}
+    <footer>
+      <div class="left">
+        <ul>
+          <li>
+            <a href="https://flutter.dev/">
+              <img class="flutter-icon" src={{assetUrls.flutterIcon}} />
+            </a>
+          </li>
+          <li>
+            <a href="https://firebase.google.com/">
+              <img class="firebase-icon" src={{assetUrls.firebaseIcon}} />
+            </a>
+          </li>
+          <li>
+            <a href="https://www.tensorflow.org/">
+              <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="right">
+        <ul>
+          <li><a href="https://flutter.dev/">Flutter</a></li>
+          <li><a href="https://firebase.google.com/">Firebase</a></li>
+          <li><a href="https://www.tensorflow.org/">TensorFlow</a></li>
+          <li><a href="/">MediaPipe</a></li>
+          <li><a href="https://policies.google.com/terms">Terms of Service</a></li>
+          <li><a href="https://policies.google.com/privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </footer>
   </body>
 </html>
 `;

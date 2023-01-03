@@ -33,15 +33,19 @@ body {
 
 main {
   display: flex;
+  flex: 1;
   flex-direction: row;
 }
 
 .share-video {
   flex: 1;
+  position: relative;
 }
 
 .info {
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 .info-content {
@@ -123,18 +127,90 @@ h2 {
   color: #C0C0C0;
 }
 
-.video-frame {
-  display: inline-block;
+.card-frame {
   width: 368px;
   height: 467px;
-  background-image: url("{{{assetUrls.videoFrame}}}");
-  background-size: cover;
+  position: absolute;
+  bottom: 206px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
-.video-frame video {
-  width: 310px;
-  height: 345px;
-  padding-top: 23px;
-  padding-left: 32px;
+.card-frame img {
+  width: 100%;
+  position: absolute;
+}
+
+.card-frame .video-clip {
+  height: 318px;
+  width: 286px;
+  top: 48px;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+  clip-path: inset(0);
+}
+
+.card-frame .video-clip video {
+  height: 318px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.holocard {
+  width: 708px;
+  height: 716px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+
+footer ul {
+  display: inline;
+}
+
+footer ul li {
+  list-style: none;
+  display: inline;
+}
+
+footer ul li img.flutter-icon {
+  width: 19px;
+  height: 22px;
+}
+
+footer ul li img.firebase-icon {
+  width: 24px;
+  height: 24px;
+}
+
+footer ul li img.tensorflow-icon {
+  width: 22px;
+  height: 24px;
+}
+
+footer .left a {
+  margin-right: 16px;
+}
+
+footer .right a {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #FFFFFF;
+  line-height: 20px;
+  text-align: center;
+  margin-right: 24px;
+  text-decoration: none;
 }
 `;

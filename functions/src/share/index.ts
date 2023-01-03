@@ -5,7 +5,6 @@ import * as querystring from 'querystring';
 import mustache from 'mustache';
 
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
-import footerTmpl from './templates/footer';
 import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
 import stylesTmpl from './templates/styles';
@@ -27,6 +26,10 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     shareIcon: bucketPathForFile('public/share.png'),
     flutterForwardLogo: bucketPathForFile('public/flutter-forward-logo.png'),
     videoFrame: bucketPathForFile('public/video-frame.png'),
+    flutterIcon: bucketPathForFile('public/flutter-icon.png'),
+    firebaseIcon: bucketPathForFile('public/firebase-icon.png'),
+    tensorflowIcon: bucketPathForFile('public/tensorflow-icon.png'),
+    holocard: bucketPathForFile('public/holocard.png'),
   },
   meta: {
     title: 'Google I/O Photo Booth',
@@ -35,7 +38,6 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
       'Built with Flutter & Firebase for Google I/O 2021.'
     ),
   },
-  footer: footerTmpl,
   ga: gaTmpl,
   styles: '',
 };
