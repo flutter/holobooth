@@ -8,7 +8,7 @@ class PhotoBoothState extends Equatable {
     this.gettingReady = false,
   });
 
-  final List<RawFrame> frames;
+  final List<Frame> frames;
   final bool isRecording;
   final bool gettingReady;
 
@@ -22,7 +22,7 @@ class PhotoBoothState extends Equatable {
       ];
 
   PhotoBoothState copyWith({
-    List<RawFrame>? frames,
+    List<Frame>? frames,
     bool? isRecording,
     bool? gettingReady,
   }) {

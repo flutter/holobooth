@@ -10,7 +10,7 @@ abstract class ConvertEvent extends Equatable {
 class ConvertFrames extends ConvertEvent {
   const ConvertFrames(this.frames);
 
-  final List<RawFrame> frames;
+  final List<Frame> frames;
 
   @override
   List<Object> get props => [frames];

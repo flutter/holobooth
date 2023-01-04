@@ -9,14 +9,14 @@ class ConvertState extends Equatable {
     this.status = ConvertStatus.initial,
   });
 
-  final List<RawFrame> frames;
+  final List<Frame> frames;
   final String videoPath;
   final String gifPath;
   final bool isFinished;
   final ConvertStatus status;
 
   ConvertState copyWith({
-    List<RawFrame>? frames,
+    List<Frame>? frames,
     String? videoPath,
     String? gifPath,
     bool? isFinished,

@@ -19,7 +19,7 @@ class RecordingCountdown extends StatefulWidget {
   final VoidCallback onCountdownCompleted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
-  static const shutterCountdownDuration = Duration(seconds: 5);
+  static const shutterCountdownDuration = Duration(seconds: 2);
 
   @visibleForTesting
   static const emptySizedBox = Key('empty_sizedBox');

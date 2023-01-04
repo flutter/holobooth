@@ -14,10 +14,10 @@ class ConvertPage extends StatelessWidget {
     super.key,
   });
 
-  final List<RawFrame> frames;
+  final List<Frame> frames;
 
   static Route<void> route(
-    List<RawFrame> frames,
+    List<Frame> frames,
   ) {
     return AppPageRoute(builder: (_) => ConvertPage(frames: frames));
   }
@@ -27,18 +27,23 @@ class ConvertPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ConvertBloc(
         convertRepository: context.read<ConvertRepository>(),
-      )..add(ConvertFrames(frames)),
-      lazy: false,
-      child: const ConvertView(),
+      ),
+      child: ConvertView(frames: frames),
     );
   }
 }
 
 class ConvertView extends StatelessWidget {
-  const ConvertView({super.key});
+  const ConvertView({super.key, required this.frames});
+
+  final List<Frame> frames;
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Future.delayed(const Duration(seconds: 1));
+      context.read<ConvertBloc>().add(ConvertFrames(frames));
+    });
     return const Scaffold(body: ConvertBody());
   }
 }
@@ -52,7 +57,7 @@ class ConvertBody extends StatelessWidget {
       listener: (context, state) {
         if (state.isFinished) {
           Navigator.of(context).push(
-            SharePage.route(videoPath: state.videoPath, frames: state.frames),
+            SharePage.route(videoPath: state.videoPath, frames: []),
           );
         } else if (state.status == ConvertStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -65,7 +70,8 @@ class ConvertBody extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Assets.backgrounds.loadingBackground.image(fit: BoxFit.cover),
-            Column(
+            const ConvertLoadingBody(),
+            /*Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AnimatedSwitcher(
@@ -75,7 +81,7 @@ class ConvertBody extends StatelessWidget {
                       : const ConvertFinished(dimension: 200),
                 ),
               ],
-            ),
+            ),*/
           ],
         );
       },

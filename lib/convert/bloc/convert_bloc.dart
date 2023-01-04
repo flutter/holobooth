@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -34,7 +35,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
       final frames = <Uint8List>[];
       for (final frame in event.frames) {
-        frames.add(frame.image.buffer.asUint8List());
+        final bytesImage =
+            await frame.image.toByteData(format: ImageByteFormat.png);
+        if (bytesImage != null) {
+          frames.add(bytesImage.buffer.asUint8List());
+        }
       }
       final result = await _convertRepository.convertFrames(frames);
 
