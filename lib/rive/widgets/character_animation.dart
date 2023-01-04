@@ -77,7 +77,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   ///
   /// This is due to the fact that the eye geometry requires some calibration
   /// before it can be used. This applies to both the left and right eye.
-  static const _eyePopulationMin = 100;
+  static const _eyePopulationMin = 10;
 
   /// The amount of eye movement required to consider the eye as fully closed.
   ///
