@@ -8,8 +8,8 @@ import 'package:meta/meta.dart';
 @immutable
 class Avatar extends Equatable {
   /// {@macro avatar}
-  @visibleForTesting
   const Avatar({
+    required this.isValid,
     required this.hasMouthOpen,
     required this.mouthDistance,
     required this.rotation,
@@ -19,16 +19,6 @@ class Avatar extends Equatable {
   });
 
   /// {@macro avatar}
-  Avatar.fromFaceGeometry(
-    FaceGeometry faceGeometry,
-  )   : hasMouthOpen = faceGeometry.mouth.isOpen,
-        mouthDistance = faceGeometry.mouth.distance,
-        rotation = faceGeometry.rotation.value,
-        distance = faceGeometry.distance.value,
-        leftEyeGeometry = faceGeometry.leftEye,
-        rightEyeGeometry = faceGeometry.rightEye;
-
-  /// {@macro avatar}
   static const zero = Avatar(
     hasMouthOpen: false,
     mouthDistance: 0,
@@ -36,6 +26,7 @@ class Avatar extends Equatable {
     distance: 0,
     leftEyeGeometry: LeftEyeGeometry.empty(),
     rightEyeGeometry: RightEyeGeometry.empty(),
+    isValid: true,
   );
 
   /// Indicates whether the [Avatar] has the mouth open.
@@ -59,6 +50,9 @@ class Avatar extends Equatable {
 
   /// The [RightEyeGeometry] of the [Avatar].
   final RightEyeGeometry rightEyeGeometry;
+
+  /// Whether or not the [Avatar] is fully within bounds.
+  final bool isValid;
 
   @override
   List<Object?> get props => [

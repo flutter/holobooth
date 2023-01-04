@@ -51,11 +51,29 @@ class AvatarDetectorRepository {
     if (faces.isEmpty) return null;
 
     final face = faces.first;
-    _faceGeometry = _faceGeometry == null
+    final faceGeometry = _faceGeometry = _faceGeometry == null
         ? FaceGeometry(face: face, size: input.size)
         : _faceGeometry!.update(face: face, size: input.size);
 
-    return Avatar.fromFaceGeometry(_faceGeometry!);
+    final hasAllFaceKeypoints = face.keypoints.length == 478;
+    final hasFaceOvalWithinBounds =
+        face.keypoints.where((keypoint) => keypoint.name == 'faceOval').every(
+              (keypoint) =>
+                  0 <= keypoint.x &&
+                  keypoint.x <= input.size.width &&
+                  0 <= keypoint.y &&
+                  keypoint.y <= input.size.height,
+            );
+
+    return Avatar(
+      hasMouthOpen: faceGeometry.mouth.isOpen,
+      mouthDistance: faceGeometry.mouth.distance,
+      rotation: faceGeometry.rotation.value,
+      distance: faceGeometry.distance.value,
+      leftEyeGeometry: faceGeometry.leftEye,
+      rightEyeGeometry: faceGeometry.rightEye,
+      isValid: hasAllFaceKeypoints && hasFaceOvalWithinBounds,
+    );
   }
 
   /// Disposes the instance of [FaceLandmarksDetector]
