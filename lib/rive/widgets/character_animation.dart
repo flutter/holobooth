@@ -263,21 +263,21 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         newLeftEyeValue = 0;
       }
 
-      final openedEyes =
+      final hasOpenedLeftEye =
           !leftEyeGeometry.isClosed && _leftEyeClosureTimestamp != null;
-      if (openedEyes) {
+      if (hasOpenedLeftEye) {
         _leftEyeClosureTimestamp = null;
         _leftEyeTween
           ..begin = previousLeftEyeValue
           ..end = newLeftEyeValue;
         _leftEyeAnimationController.forward(from: 0);
       } else {
-        final startedWinking = leftEyeGeometry.isClosed &&
+        final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
             previousLeftEyeValue == 0 &&
             _leftEyeClosureTimestamp != null &&
             DateTime.now().difference(_leftEyeClosureTimestamp!) >
                 eyeWinkDuration;
-        if (startedWinking) {
+        if (startedWinkingLeftEye) {
           _leftEyeTween
             ..begin = previousLeftEyeValue
             ..end = newLeftEyeValue;
