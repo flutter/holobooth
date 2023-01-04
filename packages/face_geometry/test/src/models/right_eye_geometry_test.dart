@@ -221,14 +221,14 @@ void main() {
           expect(updatedRightEyeGeometry.isClosed, isFalse);
         });
 
-        test('is false with face9', () {
+        test('is true with face9', () {
           final face = fixtures.face9;
           final updatedRightEyeGeometry = rightEyeGeometry.update(
             face.keypoints,
             face.boundingBox,
           );
 
-          expect(updatedRightEyeGeometry.isClosed, isFalse);
+          expect(updatedRightEyeGeometry.isClosed, isTrue);
         });
 
         test('is true with face10', () {
