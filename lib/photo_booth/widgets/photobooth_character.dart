@@ -19,7 +19,11 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
   Widget build(BuildContext context) {
     final avatar =
         context.select((AvatarDetectorBloc bloc) => bloc.state.avatar);
-    if (avatar.isValid) _latestValidAvatar = avatar;
+    final avatarStatus =
+        context.select((AvatarDetectorBloc bloc) => bloc.state.status);
+    final avatarRecognized =
+        avatar.isValid && avatarStatus == AvatarDetectorStatus.detected;
+    if (avatarRecognized) _latestValidAvatar = avatar;
 
     final hat =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
@@ -55,7 +59,7 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
     }
 
     return AnimatedOpacity(
-      opacity: avatar.isValid ? 1 : 0.8,
+      opacity: avatarRecognized ? 1 : 0.8,
       duration: const Duration(seconds: 1),
       curve: Curves.easeOutBack,
       child: character,
