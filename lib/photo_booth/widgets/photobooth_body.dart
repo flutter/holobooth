@@ -65,19 +65,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final EdgeInsets characterPadding;
-        if (constraints.maxWidth > constraints.maxHeight) {
-          if (constraints.maxWidth > PhotoboothBreakpoints.medium) {
-            characterPadding = const EdgeInsets.symmetric(
-              vertical: 150,
-            );
-          } else {
-            characterPadding = const EdgeInsets.symmetric(
-              vertical: 50,
-            );
-          }
+        final double characterOffestY;
+        if (constraints.maxWidth > PhotoboothBreakpoints.small) {
+          characterOffestY = constraints.maxHeight / 6;
         } else {
-          characterPadding = EdgeInsets.zero;
+          characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
         }
 
         return ScreenRecorder(
@@ -92,9 +84,10 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 alignment: Alignment.bottomCenter,
                 child: SimplifiedFooter(),
               ),
-              Center(
-                child: Padding(
-                  padding: characterPadding,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Transform.translate(
+                  offset: Offset(0, characterOffestY),
                   child: const PhotoboothCharacter(),
                 ),
               ),
