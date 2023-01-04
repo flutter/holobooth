@@ -5,6 +5,7 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 Exporter _getExporter() => Exporter();
@@ -63,10 +64,25 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, contrains) {
+      builder: (context, constraints) {
+        final EdgeInsets characterPadding;
+        if (constraints.maxWidth > constraints.maxHeight) {
+          if (constraints.maxWidth > PhotoboothBreakpoints.medium) {
+            characterPadding = const EdgeInsets.symmetric(
+              vertical: 150,
+            );
+          } else {
+            characterPadding = const EdgeInsets.symmetric(
+              vertical: 50,
+            );
+          }
+        } else {
+          characterPadding = EdgeInsets.zero;
+        }
+
         return ScreenRecorder(
-          width: contrains.maxWidth,
-          height: contrains.maxHeight,
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
           controller: _screenRecorderController,
           child: Stack(
             fit: StackFit.expand,
@@ -76,9 +92,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 alignment: Alignment.bottomCenter,
                 child: SimplifiedFooter(),
               ),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: PhotoboothCharacter(),
+              Center(
+                child: Padding(
+                  padding: characterPadding,
+                  child: const PhotoboothCharacter(),
+                ),
               ),
               Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable) ...[
