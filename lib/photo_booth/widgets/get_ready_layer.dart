@@ -19,7 +19,7 @@ class GetReadyLayer extends StatefulWidget {
   final VoidCallback onCountdownCompleted;
   final ValueGetter<AudioPlayer> _audioPlayer;
 
-  static const countdownDuration = Duration(seconds: 1);
+  static const countdownDuration = Duration(seconds: 3);
 
   @visibleForTesting
   static const emptySizedBox = Key('empty_sizedBox');
@@ -106,6 +106,7 @@ class GetReadyCountdown extends StatelessWidget {
           child: Container(color: const Color.fromRGBO(19, 22, 44, 0.75)),
         ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // TODO(oscar): add border or images to text
             Align(

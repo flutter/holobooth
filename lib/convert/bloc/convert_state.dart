@@ -2,43 +2,48 @@ part of 'convert_bloc.dart';
 
 class ConvertState extends Equatable {
   const ConvertState({
-    this.frames = const [],
     this.videoPath = '',
     this.gifPath = '',
     this.isFinished = false,
-    this.status = ConvertStatus.initial,
+    this.status = ConvertStatus.loadingFrames,
+    this.framesProcessed = 0,
+    this.firstFrame,
   });
 
-  final List<Frame> frames;
   final String videoPath;
   final String gifPath;
   final bool isFinished;
   final ConvertStatus status;
+  final int framesProcessed;
+  final ByteData? firstFrame;
 
   ConvertState copyWith({
-    List<Frame>? frames,
     String? videoPath,
     String? gifPath,
     bool? isFinished,
     ConvertStatus? status,
+    int? framesProcessed,
+    ByteData? firstFrame,
   }) {
     return ConvertState(
-      frames: frames ?? this.frames,
       videoPath: videoPath ?? this.videoPath,
       gifPath: gifPath ?? this.gifPath,
       isFinished: isFinished ?? this.isFinished,
       status: status ?? this.status,
+      framesProcessed: framesProcessed ?? this.framesProcessed,
+      firstFrame: firstFrame ?? this.firstFrame,
     );
   }
 
   @override
-  List<Object> get props => [
-        frames,
+  List<Object?> get props => [
         videoPath,
         gifPath,
         isFinished,
         status,
+        framesProcessed,
+        firstFrame,
       ];
 }
 
-enum ConvertStatus { initial, loading, success, error }
+enum ConvertStatus { loadingFrames, loadingVideo, success, error }

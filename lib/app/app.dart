@@ -54,7 +54,7 @@ class _App extends StatelessWidget {
       theme: theme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: PhotoBoothPage(),
+      home: const PhotoBoothPage(),
     );
   }
 }

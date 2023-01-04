@@ -28,19 +28,36 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     try {
       emit(
         state.copyWith(
-          frames: event.frames,
-          status: ConvertStatus.loading,
+          status: ConvertStatus.loadingFrames,
         ),
       );
 
       final frames = <Uint8List>[];
-      for (final frame in event.frames) {
+      final totalFrames = event.frames.length;
+      const maxBatchSize = 5;
+      var currentBatch = 0;
+
+      /// We wait to let the screen
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+      for (var i = 0; i < totalFrames; i++) {
         final bytesImage =
-            await frame.image.toByteData(format: ImageByteFormat.png);
+            await event.frames[i].image.toByteData(format: ImageByteFormat.png);
         if (bytesImage != null) {
           frames.add(bytesImage.buffer.asUint8List());
+          if (i == 0) {
+            emit(state.copyWith(firstFrame: bytesImage));
+          }
+        }
+        currentBatch++;
+        if (currentBatch == maxBatchSize) {
+          emit(state.copyWith(
+              framesProcessed: state.framesProcessed + maxBatchSize));
+          await Future<void>.delayed(const Duration(milliseconds: 300));
+          currentBatch = 0;
         }
       }
+
+      emit(state.copyWith(status: ConvertStatus.loadingVideo));
       final result = await _convertRepository.convertFrames(frames);
 
       emit(

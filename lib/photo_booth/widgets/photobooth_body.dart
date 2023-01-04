@@ -7,17 +7,15 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
-import 'custom_exporter.dart';
-
-CustomExporter _getExporter() => CustomExporter();
+Exporter _getExporter() => Exporter();
 
 class PhotoboothBody extends StatefulWidget {
   const PhotoboothBody({
     super.key,
-    ValueGetter<CustomExporter>? exporter,
+    ValueGetter<Exporter>? exporter,
   }) : _exporter = exporter ?? _getExporter;
 
-  final ValueGetter<CustomExporter> _exporter;
+  final ValueGetter<Exporter> _exporter;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
