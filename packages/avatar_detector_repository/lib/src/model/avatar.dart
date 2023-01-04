@@ -61,6 +61,7 @@ class Avatar extends Equatable {
         rotation,
         distance,
         leftEyeGeometry,
-        rightEyeGeometry
+        rightEyeGeometry,
+        isValid,
       ];
 }

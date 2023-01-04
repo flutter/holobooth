@@ -12,6 +12,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
+        isValid: true,
       );
       const avatar2 = Avatar(
         hasMouthOpen: true,
@@ -20,6 +21,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0,
+        isValid: true,
       );
       const avatar3 = Avatar(
         hasMouthOpen: false,
@@ -28,6 +30,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 1,
+        isValid: !false,
       );
 
       expect(avatar1, equals(avatar2));

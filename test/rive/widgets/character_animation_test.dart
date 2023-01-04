@@ -30,6 +30,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0.5,
+        isValid: true,
       );
 
       late StateSetter stateSetter;
@@ -69,6 +70,7 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: avatar.distance,
+          isValid: avatar.isValid,
         );
       });
       await tester.pump(Duration(milliseconds: 150));
@@ -107,6 +109,7 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: 0.5,
+          isValid: true,
         );
 
         late StateSetter stateSetter;
@@ -149,6 +152,7 @@ void main() {
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
+            isValid: avatar.isValid,
           );
         });
         await tester.pump(Duration(milliseconds: 150));
@@ -169,6 +173,7 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: 0.5,
+          isValid: true,
         );
 
         late StateSetter stateSetter;
@@ -201,6 +206,7 @@ void main() {
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
+            isValid: avatar.isValid,
           );
         });
         await tester.pump(Duration(milliseconds: 150));
@@ -221,6 +227,7 @@ void main() {
             leftEyeGeometry: LeftEyeGeometry.empty(),
             rightEyeGeometry: RightEyeGeometry.empty(),
             distance: avatar.distance,
+            isValid: avatar.isValid,
           );
         });
         await tester.pump();
@@ -248,6 +255,7 @@ void main() {
         leftEyeGeometry: initialLeftEyeGeometry,
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: 0.5,
+        isValid: true,
       );
 
       late StateSetter stateSetter;
@@ -292,6 +300,7 @@ void main() {
           leftEyeGeometry: newLeftEyeGeometry,
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: avatar.distance,
+          isValid: avatar.isValid,
         );
       });
       await tester.pump(Duration(milliseconds: 150));
@@ -319,6 +328,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: initialRightEyeGeometry,
         distance: 0.5,
+        isValid: true,
       );
 
       late StateSetter stateSetter;
@@ -363,6 +373,7 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: newRightEyeGeometry,
           distance: avatar.distance,
+          isValid: avatar.isValid,
         );
       });
       await tester.pump(Duration(milliseconds: 150));
@@ -383,6 +394,7 @@ void main() {
         leftEyeGeometry: LeftEyeGeometry.empty(),
         rightEyeGeometry: RightEyeGeometry.empty(),
         distance: initialDistance,
+        isValid: true,
       );
 
       late StateSetter stateSetter;
@@ -420,6 +432,7 @@ void main() {
           leftEyeGeometry: avatar.leftEyeGeometry,
           rightEyeGeometry: avatar.rightEyeGeometry,
           distance: newDistance,
+          isValid: avatar.isValid,
         );
       });
       await tester.pump(Duration(milliseconds: 150));
