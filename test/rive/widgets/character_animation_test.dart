@@ -232,75 +232,87 @@ void main() {
       });
     });
 
-    testWidgets('updates left eye', (tester) async {
-      final initialLeftEyeGeometry = _MockLeftEyeGeometry();
-      when(() => initialLeftEyeGeometry.population).thenReturn(0);
-      when(() => initialLeftEyeGeometry.isClosed).thenReturn(false);
-      when(() => initialLeftEyeGeometry.minRatio).thenReturn(0);
-      when(() => initialLeftEyeGeometry.maxRatio).thenReturn(0);
-      when(() => initialLeftEyeGeometry.meanRatio).thenReturn(0);
-      when(() => initialLeftEyeGeometry.distance).thenReturn(0);
+    testWidgets('updates left eye when winking', (tester) async {
+      await tester.runAsync(() async {
+        final initialLeftEyeGeometry = _MockLeftEyeGeometry();
+        when(() => initialLeftEyeGeometry.population).thenReturn(0);
+        when(() => initialLeftEyeGeometry.isClosed).thenReturn(false);
+        when(() => initialLeftEyeGeometry.minRatio).thenReturn(0);
+        when(() => initialLeftEyeGeometry.maxRatio).thenReturn(0);
+        when(() => initialLeftEyeGeometry.meanRatio).thenReturn(0);
+        when(() => initialLeftEyeGeometry.distance).thenReturn(0);
 
-      var avatar = Avatar(
-        hasMouthOpen: false,
-        mouthDistance: 0,
-        rotation: Vector3.zero,
-        leftEyeGeometry: initialLeftEyeGeometry,
-        rightEyeGeometry: RightEyeGeometry.empty(),
-        distance: 0.5,
-      );
-
-      late StateSetter stateSetter;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              stateSetter = setState;
-              return CharacterAnimation(
-                avatar: avatar,
-                hat: Hats.none,
-                glasses: Glasses.none,
-                clothes: Clothes.none,
-                handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
-                riveImageSize: riveImageSize,
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-
-      final state = tester.state(find.byType(CharacterAnimation))
-          as CharacterAnimationState;
-      final controller = state.characterController!;
-      expect(controller.leftEyeIsClosed.value, equals(0));
-
-      final newLeftEyeGeometry = _MockLeftEyeGeometry();
-      when(() => newLeftEyeGeometry.population).thenReturn(200);
-      when(() => newLeftEyeGeometry.isClosed).thenReturn(true);
-      when(() => newLeftEyeGeometry.minRatio).thenReturn(0);
-      when(() => newLeftEyeGeometry.maxRatio).thenReturn(1);
-      when(() => newLeftEyeGeometry.meanRatio).thenReturn(0.5);
-      when(() => newLeftEyeGeometry.distance).thenReturn(0.6);
-
-      stateSetter(() {
-        avatar = Avatar(
-          hasMouthOpen: !avatar.hasMouthOpen,
+        var avatar = Avatar(
+          hasMouthOpen: false,
           mouthDistance: 0,
           rotation: Vector3.zero,
-          leftEyeGeometry: newLeftEyeGeometry,
+          leftEyeGeometry: initialLeftEyeGeometry,
           rightEyeGeometry: RightEyeGeometry.empty(),
-          distance: avatar.distance,
+          distance: 0.5,
         );
-      });
-      await tester.pump(Duration(milliseconds: 150));
-      await tester.pump(Duration(milliseconds: 150));
 
-      expect(
-        controller.leftEyeIsClosed.value,
-        equals(-20),
-      );
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  assetGenImage: assetGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        expect(controller.leftEyeIsClosed.value, equals(0));
+
+        final newLeftEyeGeometry = _MockLeftEyeGeometry();
+        when(() => newLeftEyeGeometry.population).thenReturn(200);
+        when(() => newLeftEyeGeometry.isClosed).thenReturn(true);
+        when(() => newLeftEyeGeometry.minRatio).thenReturn(0);
+        when(() => newLeftEyeGeometry.maxRatio).thenReturn(1);
+        when(() => newLeftEyeGeometry.meanRatio).thenReturn(0.5);
+        when(() => newLeftEyeGeometry.distance).thenReturn(0.6);
+
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: 0,
+            rotation: Vector3.zero,
+            leftEyeGeometry: newLeftEyeGeometry,
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await Future<void>.delayed(CharacterAnimationState.eyeWinkDuration);
+
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: 0,
+            rotation: Vector3.zero,
+            leftEyeGeometry: newLeftEyeGeometry,
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        expect(controller.leftEyeIsClosed.value, equals(100));
+      });
     });
 
     testWidgets('updates right eye', (tester) async {
