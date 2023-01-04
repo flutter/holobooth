@@ -77,7 +77,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   ///
   /// This is due to the fact that the eye geometry requires some calibration
   /// before it can be used. This applies to both the left and right eye.
-  static const _eyePopulationMin = 100;
+  static const _eyePopulationMin = 10;
 
   /// The amount of eye movement required to consider the eye as fully closed.
   ///
@@ -114,6 +114,11 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @visibleForTesting
   static const mouthScale = 5.0;
 
+  /// The amount of time the eye will be closed for before it is considered to
+  /// be a wink.
+  @visibleForTesting
+  static const eyeWinkDuration = Duration(milliseconds: 150);
+
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -128,9 +133,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   late final AnimationController _leftEyeAnimationController =
       AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 60),
+    duration: const Duration(milliseconds: 150),
   );
   final Tween<double> _leftEyeTween = Tween(begin: 0, end: 0);
+  DateTime? _leftEyeClosureTimestamp;
 
   late final AnimationController _rightEyeAnimationController =
       AnimationController(
@@ -240,39 +246,49 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
       late final double newLeftEyeValue;
-      if (leftEyeGeometry.generation > _eyePopulationMin &&
+      if (leftEyeGeometry.population > _eyePopulationMin &&
           leftEyeGeometry.minRatio != null &&
+          leftEyeGeometry.maxRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
           leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
-        final accurateNewLeftEyeValue = 100 -
-            leftEyeGeometry.distance!.normalize(
-              fromMin: leftEyeGeometry.minRatio!,
-              fromMax: leftEyeGeometry.meanRatio!,
-              toMax: 100,
-            );
-
-        if (accurateNewLeftEyeValue > _eyeClosureToleration) {
+        if (leftEyeGeometry.isClosed) {
+          _leftEyeClosureTimestamp ??= DateTime.now();
           newLeftEyeValue = 100;
         } else {
-          newLeftEyeValue = accurateNewLeftEyeValue;
+          newLeftEyeValue = 0;
         }
       } else {
         newLeftEyeValue = 0;
       }
-      if ((newLeftEyeValue - previousLeftEyeValue).abs() >
-          _eyeDistanceToleration) {
+
+      final hasOpenedLeftEye =
+          !leftEyeGeometry.isClosed && _leftEyeClosureTimestamp != null;
+      if (hasOpenedLeftEye) {
+        _leftEyeClosureTimestamp = null;
         _leftEyeTween
           ..begin = previousLeftEyeValue
           ..end = newLeftEyeValue;
         _leftEyeAnimationController.forward(from: 0);
+      } else {
+        final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
+            previousLeftEyeValue == 0 &&
+            _leftEyeClosureTimestamp != null &&
+            DateTime.now().difference(_leftEyeClosureTimestamp!) >
+                eyeWinkDuration;
+        if (startedWinkingLeftEye) {
+          _leftEyeTween
+            ..begin = previousLeftEyeValue
+            ..end = newLeftEyeValue;
+          _leftEyeAnimationController.forward(from: 0);
+        }
       }
 
       final previousRightEyeValue = characterController.rightEyeIsClosed.value;
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double newRightEyeValue;
-      if (rightEyeGeometry.generation > _eyePopulationMin &&
+      if (rightEyeGeometry.population > _eyePopulationMin &&
           rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           rightEyeGeometry.distance != null &&
