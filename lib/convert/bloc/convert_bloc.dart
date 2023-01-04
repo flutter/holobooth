@@ -50,8 +50,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         }
         currentBatch++;
         if (currentBatch == maxBatchSize) {
-          emit(state.copyWith(
-              framesProcessed: state.framesProcessed + maxBatchSize));
+          emit(
+            state.copyWith(
+              framesProcessed: state.framesProcessed + maxBatchSize,
+            ),
+          );
           await Future<void>.delayed(const Duration(milliseconds: 300));
           currentBatch = 0;
         }
