@@ -64,6 +64,8 @@ class AvatarDetectorRepository {
                   0 <= keypoint.y &&
                   keypoint.y <= input.size.height,
             );
+    final avatarRecognized = hasAllFaceKeypoints && hasFaceOvalWithinBounds;
+    if (!avatarRecognized) return null;
 
     return Avatar(
       hasMouthOpen: faceGeometry.mouth.isOpen,
@@ -72,7 +74,6 @@ class AvatarDetectorRepository {
       distance: faceGeometry.distance.value,
       leftEyeGeometry: faceGeometry.leftEye,
       rightEyeGeometry: faceGeometry.rightEye,
-      isValid: hasAllFaceKeypoints && hasFaceOvalWithinBounds,
     );
   }
 

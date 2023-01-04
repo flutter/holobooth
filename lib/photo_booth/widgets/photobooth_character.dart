@@ -13,18 +13,17 @@ class PhotoboothCharacter extends StatefulWidget {
 }
 
 class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
-  Avatar? _latestValidAvatar;
+  Avatar _latestValidAvatar = Avatar.zero;
 
   @override
   Widget build(BuildContext context) {
-    final avatar =
-        context.select((AvatarDetectorBloc bloc) => bloc.state.avatar);
     final avatarStatus =
         context.select((AvatarDetectorBloc bloc) => bloc.state.status);
-    final avatarRecognized =
-        avatar.isValid && avatarStatus == AvatarDetectorStatus.detected;
-    if (avatarRecognized) _latestValidAvatar = avatar;
-
+    final avatar =
+        context.select((AvatarDetectorBloc bloc) => bloc.state.avatar);
+    if (avatarStatus == AvatarDetectorStatus.detected) {
+      _latestValidAvatar = avatar;
+    }
     final hat =
         context.select((InExperienceSelectionBloc bloc) => bloc.state.hat);
     final glasses =
@@ -36,11 +35,11 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
     final characterSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.character);
 
-    late final CharacterAnimation character;
+    late final Widget character;
     switch (characterSelected) {
       case Character.dash:
         character = DashCharacterAnimation(
-          avatar: _latestValidAvatar ?? Avatar.zero,
+          avatar: _latestValidAvatar,
           hat: hat,
           glasses: glasses,
           clothes: clothes,
@@ -49,7 +48,7 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
         break;
       case Character.sparky:
         character = SparkyCharacterAnimation(
-          avatar: _latestValidAvatar ?? Avatar.zero,
+          avatar: _latestValidAvatar,
           hat: hat,
           glasses: glasses,
           clothes: clothes,
@@ -59,7 +58,7 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
     }
 
     return AnimatedOpacity(
-      opacity: avatarRecognized ? 1 : 0.8,
+      opacity: avatarStatus == AvatarDetectorStatus.notDetected ? 0.8 : 1,
       duration: const Duration(seconds: 1),
       curve: Curves.easeOutBack,
       child: character,

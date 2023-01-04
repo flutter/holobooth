@@ -31,7 +31,6 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: 0.5,
-          isValid: true,
         );
         final avatar2 = Avatar(
           rotation: Vector3(1, 2, 3),
@@ -40,7 +39,6 @@ void main() {
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
           distance: avatar1.distance + 0.1,
-          isValid: !avatar1.isValid,
         );
 
         final state1 = AvatarDetectorState(

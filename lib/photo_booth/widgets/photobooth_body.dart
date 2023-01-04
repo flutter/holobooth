@@ -64,10 +64,6 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   Widget build(BuildContext context) {
     final avatarStatus =
         context.select((AvatarDetectorBloc bloc) => bloc.state.status);
-    final avatarValid =
-        context.select((AvatarDetectorBloc bloc) => bloc.state.avatar.isValid);
-    final faceNotRecognized =
-        avatarStatus == AvatarDetectorStatus.notDetected || !avatarValid;
 
     return LayoutBuilder(
       builder: (context, contrains) {
@@ -90,7 +86,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable)
                 CameraStreamListener(cameraController: _cameraController!),
-              if (_isCameraAvailable && faceNotRecognized)
+              if (_isCameraAvailable &&
+                  avatarStatus == AvatarDetectorStatus.notDetected)
                 const Align(child: HoloBoothCharacterError()),
               BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
                 builder: (_, state) {
