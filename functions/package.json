@@ -27,6 +27,7 @@
     "firebase-functions": "^4.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
+    "jimp": "^0.16.2",
     "mustache": "^4.2.0",
     "uuid": "^9.0.0"
   },

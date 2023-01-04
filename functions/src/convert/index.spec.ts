@@ -120,7 +120,6 @@ function setUpReadable(currentEvent: string) {
   return readable;
 }
 
-
 jest.mock('busboy', () => () => {
   return {
     end: jest.fn(),
@@ -131,6 +130,20 @@ jest.mock('busboy', () => () => {
         handler('done');
       }
       return busboy;
+    }),
+  };
+});
+
+jest.mock('jimp', () => {
+  return {
+    read: jest.fn().mockImplementation((name) => {
+      const _name = name || '';
+      return {
+        bitmap: {
+          width: _name.indexOf('odd') != -1 ? 501 : 600,
+          height: _name.indexOf('odd') != -1 ? 301 : 400,
+        },
+      };
     }),
   };
 });
@@ -338,6 +351,33 @@ describe('convertToVideo', () => {
     await expect(
       convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
     ).resolves.toBe(`${tempDir}/video.mp4`);
+  });
+
+  describe('when the dimensions of the image are even', () => {
+    it('keeps the dimension on the scale flag', async () => {
+      setUpFfmpeg('end');
+      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
+
+      expect(ffmpeg.addOptions).toHaveBeenCalledWith([
+        '-codec:v libx264',
+        '-s 600x400',
+        '-pix_fmt yuv420p',
+      ]);
+    });
+  });
+
+  describe('when the dimensions of the image are odd', () => {
+    it('uses the nearest (down) even number', async () => {
+      setUpFfmpeg('end');
+
+      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_odd.png` ], tempDir)
+
+      expect(ffmpeg.addOptions).toHaveBeenCalledWith([
+        '-codec:v libx264',
+        '-s 500x300',
+        '-pix_fmt yuv420p',
+      ]);
+    });
   });
 
   it('throws error when unable to convert frames.', async () => {
