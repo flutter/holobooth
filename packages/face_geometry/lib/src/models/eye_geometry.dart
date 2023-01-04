@@ -68,16 +68,14 @@ abstract class _EyeGeometry extends Equatable {
         isClosed = _computeIsClosed(
           distance: eyeKeypoint.distance,
           faceHeight: boundingBox.height,
-          minRatio: _computeMinRatio(
-            distance: eyeKeypoint.distance,
-            faceHeight: boundingBox.height,
-            previousMinRatio: previousMinRatio,
-          ),
-          maxRatio: _computeMaxRatio(
-            distance: eyeKeypoint.distance,
-            faceHeight: boundingBox.height,
-            previousMaxRatio: previousMaxRatio,
-          ),
+          meanRatio: generation < maxPopulation
+              ? _computeMeanRatio(
+                  distance: eyeKeypoint.distance,
+                  faceHeight: boundingBox.height,
+                  previousMeanRatio: previousMeanRatio,
+                  population: generation,
+                )
+              : previousMeanRatio ?? 0.0,
         ),
         population = generation + 1;
 
@@ -93,9 +91,6 @@ abstract class _EyeGeometry extends Equatable {
         isClosed = false,
         maxRatio = minRatio,
         minRatio = maxRatio;
-
-  /// The minimum value at which [_EyeGeometry] recognizes an eye closure.
-  static const _minEyeRatio = 0.3;
 
   static double? _computeDistanceRatio({
     required double distance,
@@ -150,21 +145,14 @@ abstract class _EyeGeometry extends Equatable {
   static bool _computeIsClosed({
     required double distance,
     required num faceHeight,
-    required double? minRatio,
-    required double? maxRatio,
+    required double? meanRatio,
   }) {
-    if (faceHeight == 0 || faceHeight < distance) return false;
-
-    final heightRatio = distance / faceHeight;
-    final enoughData = (minRatio != null && maxRatio != null) &&
-        !((minRatio / maxRatio) > 0.5);
-
-    if (enoughData) {
-      final percent = (heightRatio - minRatio) / (maxRatio - minRatio);
-      return percent < _minEyeRatio;
-    } else {
-      return distance < 1;
+    if (faceHeight == 0 || faceHeight < distance || meanRatio == null) {
+      return false;
     }
+
+    final eyeHeightRatio = distance / faceHeight;
+    return eyeHeightRatio < meanRatio * 0.8;
   }
 
   /// The maximum number of keypoints that can be used to compute [meanRatio].
