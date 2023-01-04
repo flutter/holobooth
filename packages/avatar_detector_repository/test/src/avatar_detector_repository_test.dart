@@ -33,12 +33,15 @@ class _FakeKeypoint extends Fake implements Keypoint {
 
   @override
   final double? z;
+
+  @override
+  final String name = '';
 }
 
 class _FakeFace extends Fake implements Face {
   @override
   UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
-        List.generate(468, (_) => _FakeKeypoint(0, 0, 0)),
+        List.generate(478, (_) => _FakeKeypoint(0, 0, 0)),
       );
 
   @override
