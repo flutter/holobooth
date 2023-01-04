@@ -114,6 +114,11 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @visibleForTesting
   static const mouthScale = 5.0;
 
+  /// The amount of time the eye will be closed for before it is considered to
+  /// be a wink.
+  @visibleForTesting
+  static const eyeWinkDuration = Duration(milliseconds: 150);
+
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -128,9 +133,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   late final AnimationController _leftEyeAnimationController =
       AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 60),
+    duration: const Duration(milliseconds: 150),
   );
   final Tween<double> _leftEyeTween = Tween(begin: 0, end: 0);
+  DateTime? _leftEyeClosureTimestamp;
 
   late final AnimationController _rightEyeAnimationController =
       AnimationController(
@@ -242,31 +248,41 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       late final double newLeftEyeValue;
       if (leftEyeGeometry.population > _eyePopulationMin &&
           leftEyeGeometry.minRatio != null &&
+          leftEyeGeometry.maxRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
           leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
           leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
-        final accurateNewLeftEyeValue = 100 -
-            leftEyeGeometry.distance!.normalize(
-              fromMin: leftEyeGeometry.minRatio!,
-              fromMax: leftEyeGeometry.meanRatio!,
-              toMax: 100,
-            );
-
-        if (accurateNewLeftEyeValue > _eyeClosureToleration) {
+        if (leftEyeGeometry.isClosed) {
+          _leftEyeClosureTimestamp ??= DateTime.now();
           newLeftEyeValue = 100;
         } else {
-          newLeftEyeValue = accurateNewLeftEyeValue;
+          newLeftEyeValue = 0;
         }
       } else {
         newLeftEyeValue = 0;
       }
-      if ((newLeftEyeValue - previousLeftEyeValue).abs() >
-          _eyeDistanceToleration) {
+
+      final openedEyes =
+          !leftEyeGeometry.isClosed && _leftEyeClosureTimestamp != null;
+      if (openedEyes) {
+        _leftEyeClosureTimestamp = null;
         _leftEyeTween
           ..begin = previousLeftEyeValue
           ..end = newLeftEyeValue;
         _leftEyeAnimationController.forward(from: 0);
+      } else {
+        final startedWinking = leftEyeGeometry.isClosed &&
+            previousLeftEyeValue == 0 &&
+            _leftEyeClosureTimestamp != null &&
+            DateTime.now().difference(_leftEyeClosureTimestamp!) >
+                eyeWinkDuration;
+        if (startedWinking) {
+          _leftEyeTween
+            ..begin = previousLeftEyeValue
+            ..end = newLeftEyeValue;
+          _leftEyeAnimationController.forward(from: 0);
+        }
       }
 
       final previousRightEyeValue = characterController.rightEyeIsClosed.value;
