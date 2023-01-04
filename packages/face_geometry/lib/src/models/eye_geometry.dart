@@ -42,17 +42,17 @@ abstract class _EyeGeometry extends Equatable {
     double? previousMinRatio,
     double? previousMaxRatio,
     double? previousMeanRatio,
-    int generation = 0,
+    int population = 0,
   })  : distance = _computeDistanceRatio(
           distance: eyeKeypoint.distance,
           faceHeight: boundingBox.height,
         ),
-        meanRatio = generation < maxPopulation
+        meanRatio = population < maxPopulation
             ? _computeMeanRatio(
                 distance: eyeKeypoint.distance,
                 faceHeight: boundingBox.height,
                 previousMeanRatio: previousMeanRatio,
-                population: generation,
+                population: population,
               )
             : previousMeanRatio ?? 0.0,
         minRatio = _computeMinRatio(
@@ -68,16 +68,16 @@ abstract class _EyeGeometry extends Equatable {
         isClosed = _computeIsClosed(
           distance: eyeKeypoint.distance,
           faceHeight: boundingBox.height,
-          meanRatio: generation < maxPopulation
+          meanRatio: population < maxPopulation
               ? _computeMeanRatio(
                   distance: eyeKeypoint.distance,
                   faceHeight: boundingBox.height,
                   previousMeanRatio: previousMeanRatio,
-                  population: generation,
+                  population: population,
                 )
               : previousMeanRatio ?? 0.0,
         ),
-        population = generation + 1;
+        population = population + 1;
 
   /// An empty instance of [_EyeGeometry].
   ///
@@ -215,7 +215,7 @@ class LeftEyeGeometry extends _EyeGeometry {
   LeftEyeGeometry._compute({
     required super.eyeKeypoint,
     required super.boundingBox,
-    super.generation,
+    super.population,
     super.previousMinRatio,
     super.previousMaxRatio,
     super.previousMeanRatio,
@@ -240,7 +240,7 @@ class LeftEyeGeometry extends _EyeGeometry {
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
         previousMeanRatio: meanRatio,
-        generation: population,
+        population: population,
       );
     } else {
       return LeftEyeGeometry.empty(
@@ -274,7 +274,7 @@ class RightEyeGeometry extends _EyeGeometry {
     super.previousMinRatio,
     super.previousMaxRatio,
     super.previousMeanRatio,
-    super.generation,
+    super.population,
   }) : super._compute();
 
   const RightEyeGeometry.empty({
@@ -296,7 +296,7 @@ class RightEyeGeometry extends _EyeGeometry {
         previousMinRatio: minRatio,
         previousMaxRatio: maxRatio,
         previousMeanRatio: meanRatio,
-        generation: population,
+        population: population,
       );
     } else {
       return RightEyeGeometry.empty(
