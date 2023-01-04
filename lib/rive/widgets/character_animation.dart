@@ -240,7 +240,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
       final leftEyeGeometry = widget.avatar.leftEyeGeometry;
       late final double newLeftEyeValue;
-      if (leftEyeGeometry.generation > _eyePopulationMin &&
+      if (leftEyeGeometry.population > _eyePopulationMin &&
           leftEyeGeometry.minRatio != null &&
           leftEyeGeometry.meanRatio != null &&
           leftEyeGeometry.distance != null &&
@@ -272,7 +272,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       final previousRightEyeValue = characterController.rightEyeIsClosed.value;
       final rightEyeGeometry = widget.avatar.rightEyeGeometry;
       late final double newRightEyeValue;
-      if (rightEyeGeometry.generation > _eyePopulationMin &&
+      if (rightEyeGeometry.population > _eyePopulationMin &&
           rightEyeGeometry.minRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           rightEyeGeometry.distance != null &&

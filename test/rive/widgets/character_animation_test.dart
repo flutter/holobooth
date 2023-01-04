@@ -234,7 +234,7 @@ void main() {
 
     testWidgets('updates left eye', (tester) async {
       final initialLeftEyeGeometry = _MockLeftEyeGeometry();
-      when(() => initialLeftEyeGeometry.generation).thenReturn(0);
+      when(() => initialLeftEyeGeometry.population).thenReturn(0);
       when(() => initialLeftEyeGeometry.isClosed).thenReturn(false);
       when(() => initialLeftEyeGeometry.minRatio).thenReturn(0);
       when(() => initialLeftEyeGeometry.maxRatio).thenReturn(0);
@@ -277,7 +277,7 @@ void main() {
       expect(controller.leftEyeIsClosed.value, equals(0));
 
       final newLeftEyeGeometry = _MockLeftEyeGeometry();
-      when(() => newLeftEyeGeometry.generation).thenReturn(200);
+      when(() => newLeftEyeGeometry.population).thenReturn(200);
       when(() => newLeftEyeGeometry.isClosed).thenReturn(true);
       when(() => newLeftEyeGeometry.minRatio).thenReturn(0);
       when(() => newLeftEyeGeometry.maxRatio).thenReturn(1);
@@ -305,7 +305,7 @@ void main() {
 
     testWidgets('updates right eye', (tester) async {
       final initialRightEyeGeometry = _MockRightEyeGeometry();
-      when(() => initialRightEyeGeometry.generation).thenReturn(0);
+      when(() => initialRightEyeGeometry.population).thenReturn(0);
       when(() => initialRightEyeGeometry.isClosed).thenReturn(false);
       when(() => initialRightEyeGeometry.minRatio).thenReturn(0);
       when(() => initialRightEyeGeometry.maxRatio).thenReturn(0);
@@ -348,7 +348,7 @@ void main() {
       expect(controller.rightEyeIsClosed.value, equals(0));
 
       final newRightEyeGeometry = _MockRightEyeGeometry();
-      when(() => newRightEyeGeometry.generation).thenReturn(200);
+      when(() => newRightEyeGeometry.population).thenReturn(200);
       when(() => newRightEyeGeometry.isClosed).thenReturn(true);
       when(() => newRightEyeGeometry.minRatio).thenReturn(0);
       when(() => newRightEyeGeometry.maxRatio).thenReturn(1);
