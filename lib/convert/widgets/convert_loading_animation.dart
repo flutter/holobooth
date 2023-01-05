@@ -22,14 +22,12 @@ class ConvertLoadingAnimation extends StatefulWidget {
       _ConvertLoadingAnimationState();
 }
 
-class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation>
-    with WidgetsBindingObserver {
+class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation> {
   late final AudioPlayer audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _init();
   }
 
@@ -81,16 +79,6 @@ class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation>
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      audioPlayer.stop();
-    }
   }
 
   @override
