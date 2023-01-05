@@ -83,50 +83,55 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
         }
 
-        return ScreenRecorder(
-          width: constraints.maxWidth,
-          height: constraints.maxHeight,
-          controller: _screenRecorderController,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              const PhotoboothBackground(),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: SimplifiedFooter(),
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            ScreenRecorder(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              controller: _screenRecorderController,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  const PhotoboothBackground(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Transform.translate(
+                      offset: Offset(0, characterOffestY),
+                      child: const PhotoboothCharacter(),
+                    ),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Transform.translate(
-                  offset: Offset(0, characterOffestY),
-                  child: const PhotoboothCharacter(),
-                ),
-              ),
-              Align(child: CameraView(onCameraReady: _onCameraReady)),
-              if (_isCameraAvailable)
-                CameraStreamListener(cameraController: _cameraController!),
-              if (_isCameraAvailable &&
-                  avatarStatus == AvatarDetectorStatus.notDetected)
-                const Align(child: HoloBoothCharacterError()),
-              BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
-                builder: (_, state) {
-                  if (state.isRecording) {
-                    return Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RecordingCountdown(
-                        onCountdownCompleted: _stopRecording,
-                      ),
-                    );
-                  } else if (state.gettingReady) {
-                    return GetReadyLayer(
-                      onCountdownCompleted: _startRecording,
-                    );
-                  }
-                  return const SelectionLayer();
-                },
-              ),
-            ],
-          ),
+            ),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: SimplifiedFooter(),
+            ),
+            Align(child: CameraView(onCameraReady: _onCameraReady)),
+            if (_isCameraAvailable)
+              CameraStreamListener(cameraController: _cameraController!),
+            if (_isCameraAvailable &&
+                avatarStatus == AvatarDetectorStatus.notDetected)
+              const Align(child: HoloBoothCharacterError()),
+            BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
+              builder: (_, state) {
+                if (state.isRecording) {
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RecordingCountdown(
+                      onCountdownCompleted: _stopRecording,
+                    ),
+                  );
+                } else if (state.gettingReady) {
+                  return GetReadyLayer(
+                    onCountdownCompleted: _startRecording,
+                  );
+                }
+                return const SelectionLayer();
+              },
+            ),
+          ],
         );
       },
     );
