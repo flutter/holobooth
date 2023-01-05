@@ -7,15 +7,25 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
-Exporter _getExporter() => Exporter();
+CustomExporter _getExporter() => CustomExporter();
+
+// TODO(Oscar): to be deleted after this PR gets merged
+// https://github.com/ueman/screenrecorder/pull/28
+class CustomExporter extends Exporter {
+  final List<Frame> frames = [];
+  @override
+  void onNewFrame(Frame frame) {
+    frames.add(frame);
+  }
+}
 
 class PhotoboothBody extends StatefulWidget {
   const PhotoboothBody({
     super.key,
-    ValueGetter<Exporter>? exporter,
+    ValueGetter<CustomExporter>? exporter,
   }) : _exporter = exporter ?? _getExporter;
 
-  final ValueGetter<Exporter> _exporter;
+  final ValueGetter<CustomExporter> _exporter;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
@@ -53,7 +63,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   Future<void> _stopRecording() async {
     _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
-    final frames = _screenRecorderController.exporter.getFrames();
+    final frames =
+        (_screenRecorderController.exporter as CustomExporter).frames;
     // TODO(oscar): handle error or assume this will never fail
     photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
   }

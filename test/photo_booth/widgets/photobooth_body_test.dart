@@ -34,7 +34,7 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _MockExporter extends Mock implements Exporter {}
+class _MockExporter extends Mock implements CustomExporter {}
 
 class _MockImage extends Mock implements ui.Image {}
 
@@ -46,7 +46,7 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
-    late Exporter exporter;
+    late CustomExporter exporter;
 
     setUp(() {
       xfile = _MockXFile();
@@ -165,7 +165,7 @@ void main() {
         when(
           () => photoBoothBloc.state,
         ).thenReturn(PhotoBoothState(isRecording: true));
-        when(() => exporter.getFrames()).thenReturn([frame]);
+        when(() => exporter.frames).thenReturn([frame]);
         await tester.pumpSubject(
           PhotoboothBody(
             exporter: () => exporter,
