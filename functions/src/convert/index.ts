@@ -61,8 +61,10 @@ export async function convertImages(
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
     const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
 
-    const videoUrl = await uploadFile(userId + '.mp4', videoPath);
-    const gifUrl = await uploadFile(userId + '.gif', gifPath);
+    const [ videoUrl, gifUrl ] = await Promise.all([
+      uploadFile(userId + '.mp4', videoPath),
+      uploadFile(userId + '.gif', gifPath),
+    ]);
 
     return { status: 200, videoUrl, gifUrl };
   } catch (error) {
@@ -157,7 +159,7 @@ export async function convertToVideo(
     image.bitmap.height,
   );
 
-  const scaleArg = `${adjustedDimensions.width}x${adjustedDimensions.height}`
+  const scaleArg = `${adjustedDimensions.width}x${adjustedDimensions.height}`;
 
   return new Promise((resolve, reject) => {
     ffmpeg

@@ -356,7 +356,7 @@ describe('convertToVideo', () => {
   describe('when the dimensions of the image are even', () => {
     it('keeps the dimension on the scale flag', async () => {
       setUpFfmpeg('end');
-      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir)
+      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_1.png` ], tempDir);
 
       expect(ffmpeg.addOptions).toHaveBeenCalledWith([
         '-codec:v libx264',
@@ -370,7 +370,7 @@ describe('convertToVideo', () => {
     it('uses the nearest (down) even number', async () => {
       setUpFfmpeg('end');
 
-      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_odd.png` ], tempDir)
+      await convert.convertToVideo(ffmpeg, [ `${tempDir}/frame_odd.png` ], tempDir);
 
       expect(ffmpeg.addOptions).toHaveBeenCalledWith([
         '-codec:v libx264',
