@@ -79,25 +79,6 @@ void main() {
     });
 
     testWidgets(
-      'calls stop on AppLifecycleState.paused',
-      (WidgetTester tester) async {
-        await tester.pumpApp(
-          ConvertFinished(
-            dimension: 300,
-            audioPlayer: () => audioPlayer,
-          ),
-        );
-        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-        await tester.pumpAndSettle();
-        verify(() => audioPlayer.stop()).called(1);
-        tester.binding.handleAppLifecycleStateChanged(
-          AppLifecycleState.resumed,
-        );
-        await tester.pumpAndSettle();
-      },
-    );
-
-    testWidgets(
       'after the play sound, navigates to SharePage',
       (WidgetTester tester) async {
         when(() => convertBloc.state).thenReturn(

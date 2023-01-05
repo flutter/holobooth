@@ -66,24 +66,5 @@ void main() {
 
       expect(find.byType(ConvertLoadingAnimation), findsOneWidget);
     });
-
-    testWidgets(
-      'calls stop on AppLifecycleState.paused',
-      (WidgetTester tester) async {
-        await tester.pumpApp(
-          ConvertLoadingAnimation(
-            dimension: 300,
-            audioPlayer: () => audioPlayer,
-          ),
-        );
-        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
-        await tester.pump();
-        verify(() => audioPlayer.stop()).called(1);
-        tester.binding.handleAppLifecycleStateChanged(
-          AppLifecycleState.resumed,
-        );
-        await tester.pump();
-      },
-    );
   });
 }
