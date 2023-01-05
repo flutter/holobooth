@@ -23,7 +23,7 @@ class _MockFaceLandmarksDetector extends Mock
 class _FakeEstimationConfig extends Fake implements EstimationConfig {}
 
 class _FakeKeypoint extends Fake implements Keypoint {
-  _FakeKeypoint(this.x, this.y, this.z);
+  _FakeKeypoint(this.x, this.y, this.z, {this.name = ''});
 
   @override
   final double x;
@@ -35,14 +35,20 @@ class _FakeKeypoint extends Fake implements Keypoint {
   final double? z;
 
   @override
-  final String name = '';
+  final String name;
 }
 
 class _FakeFace extends Fake implements Face {
+  _FakeFace({
+    List<Keypoint>? keypoints,
+  }) : _keypoints =
+            keypoints ?? List.generate(478, (_) => _FakeKeypoint(0, 0, 0));
+
+  final List<Keypoint> _keypoints;
+
   @override
-  UnmodifiableListView<Keypoint> get keypoints => UnmodifiableListView(
-        List.generate(478, (_) => _FakeKeypoint(0, 0, 0)),
-      );
+  UnmodifiableListView<Keypoint> get keypoints =>
+      UnmodifiableListView(_keypoints);
 
   @override
   BoundingBox get boundingBox => const BoundingBox(10, 10, 110, 110, 100, 100);
@@ -132,6 +138,52 @@ void main() {
           ),
         ).thenAnswer((_) async => List<Face>.empty());
 
+        await expectLater(
+          avatarDetectorRepository.detectAvatar(imageData),
+          completion(isNull),
+        );
+      });
+
+      test("returns null if the face doesn't have enough keypoints", () async {
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            imageData,
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace(keypoints: [])]);
+        await expectLater(
+          avatarDetectorRepository.detectAvatar(imageData),
+          completion(isNull),
+        );
+      });
+
+      test('returns null if the face is out of the horizontal bounds',
+          () async {
+        final keypoints = List.generate(478, (_) => _FakeKeypoint(0, 0, 0));
+        keypoints[0] =
+            _FakeKeypoint(imageData.size.width + 1, 0, 0, name: 'faceOval');
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            imageData,
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace(keypoints: keypoints)]);
+        await expectLater(
+          avatarDetectorRepository.detectAvatar(imageData),
+          completion(isNull),
+        );
+      });
+
+      test('returns null if the face is out of the vertical bounds', () async {
+        final keypoints = List.generate(478, (_) => _FakeKeypoint(0, 0, 0));
+        keypoints[0] =
+            _FakeKeypoint(0, imageData.size.height + 1, 0, name: 'faceOval');
+        when(
+          () => faceLandmarksDetector.estimateFaces(
+            imageData,
+            estimationConfig: any(named: 'estimationConfig'),
+          ),
+        ).thenAnswer((_) async => <Face>[_FakeFace(keypoints: keypoints)]);
         await expectLater(
           avatarDetectorRepository.detectAvatar(imageData),
           completion(isNull),
