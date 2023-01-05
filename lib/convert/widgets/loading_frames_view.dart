@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class LoadingFramesView extends StatelessWidget {
@@ -8,11 +9,12 @@ class LoadingFramesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Loading...',
+          l10n.loadingFramesMessage,
           style: Theme.of(context)
               .textTheme
               .headlineSmall

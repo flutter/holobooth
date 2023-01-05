@@ -417,5 +417,9 @@
   "getReady": "Get ready",
   "@getReady": {
     "description": "Text displayed before recording."
+  },
+  "loadingFramesMessage": "Loading...",
+  "@loadingFramesMessage": {
+    "description": "Text displayed while loading frames."
   }
 }
