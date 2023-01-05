@@ -157,8 +157,7 @@ void main() {
         );
       });
 
-      test('returns null if the face is out of the horizontal bounds',
-          () async {
+      test('returns null if the face is outside horizontal bounds', () async {
         final keypoints = List.generate(478, (_) => _FakeKeypoint(0, 0, 0));
         keypoints[0] =
             _FakeKeypoint(imageData.size.width + 1, 0, 0, name: 'faceOval');
@@ -174,7 +173,7 @@ void main() {
         );
       });
 
-      test('returns null if the face is out of the vertical bounds', () async {
+      test('returns null if the face is outside vertical bounds', () async {
         final keypoints = List.generate(478, (_) => _FakeKeypoint(0, 0, 0));
         keypoints[0] =
             _FakeKeypoint(0, imageData.size.height + 1, 0, name: 'faceOval');
