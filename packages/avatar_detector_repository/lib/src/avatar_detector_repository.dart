@@ -48,7 +48,9 @@ class AvatarDetectorRepository {
     } catch (error) {
       throw DetectAvatarException(error.toString());
     }
-    if (faces.isEmpty) return null;
+    if (faces.isEmpty) {
+      return null;
+    }
 
     final face = faces.first;
     final faceGeometry = _faceGeometry = _faceGeometry == null
@@ -56,16 +58,13 @@ class AvatarDetectorRepository {
         : _faceGeometry!.update(face: face, size: input.size);
 
     final hasAllFaceKeypoints = face.keypoints.length == 478;
-    final hasFaceOvalWithinBounds =
-        face.keypoints.where((keypoint) => keypoint.name == 'faceOval').every(
-              (keypoint) =>
-                  0 <= keypoint.x &&
-                  keypoint.x <= input.size.width &&
-                  0 <= keypoint.y &&
-                  keypoint.y <= input.size.height,
-            );
+    final hasFaceOvalWithinBounds = face.keypoints
+        .where((keypoint) => keypoint.name == 'faceOval')
+        .every((keypoint) => keypoint.withinBounds(input.size));
     final avatarRecognized = hasAllFaceKeypoints && hasFaceOvalWithinBounds;
-    if (!avatarRecognized) return null;
+    if (!avatarRecognized) {
+      return null;
+    }
 
     return Avatar(
       hasMouthOpen: faceGeometry.mouth.isOpen,
@@ -80,5 +79,12 @@ class AvatarDetectorRepository {
   /// Disposes the instance of [FaceLandmarksDetector]
   void dispose() {
     _faceLandmarksDetector?.dispose();
+  }
+}
+
+extension on Keypoint {
+  /// Whether the [Keypoint] is within the bounds of the [Size].
+  bool withinBounds(Size size) {
+    return 0 <= x && x <= size.width && 0 <= y && y <= size.height;
   }
 }
