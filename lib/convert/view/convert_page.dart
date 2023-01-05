@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/view/view.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -47,13 +48,32 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Future<void>.delayed(const Duration(milliseconds: 300));
       context.read<ConvertBloc>().add(ConvertFrames(widget.frames));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: ConvertBody());
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned.fill(
+            child:
+                Assets.backgrounds.loadingBackground.image(fit: BoxFit.cover),
+          ),
+          Positioned.fill(
+            child: Column(
+              children: const [
+                Expanded(child: ConvertBody()),
+                FullFooter(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -80,44 +100,55 @@ class ConvertBody extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Assets.backgrounds.loadingBackground.image(fit: BoxFit.cover),
           Align(
             child: BlocBuilder<ConvertBloc, ConvertState>(
               builder: (context, state) {
                 switch (state.status) {
                   case ConvertStatus.loadingFrames:
-                    return ShaderMask(
-                      shaderCallback: (bounds) {
-                        return LinearGradient(
-                          colors: [
-                            Color(0xffF9F8C4),
-                            Color(0xff27F5DD),
-                          ],
-                        ).createShader(Offset.zero & bounds.size);
-                      },
-                      child: Container(
-                        height: 35,
-                        width: 400,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(200)),
-                            border: Border.all(color: Colors.white)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(200)),
-                          child: LinearProgressIndicator(
-                            value: state.progress,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                            backgroundColor: PhotoboothColors.transparent,
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Loading...',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(color: PhotoboothColors.white),
+                        ),
+                        const SizedBox(height: 24),
+                        ShaderMask(
+                          shaderCallback: (bounds) {
+                            return const LinearGradient(
+                              colors: [
+                                Color(0xffF9F8C4),
+                                Color(0xff27F5DD),
+                              ],
+                            ).createShader(Offset.zero & bounds.size);
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 400,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(200)),
+                              border: Border.all(color: Colors.white),
+                            ),
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(200)),
+                              child: LinearProgressIndicator(
+                                value: state.progress,
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                                backgroundColor: PhotoboothColors.transparent,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     );
-                    return GradientText(
-                      text: 'Frames processed ${state.framesProcessed}...',
-                      style: PhotoboothTextStyle.displayMedium,
-                      textAlign: TextAlign.center,
-                    );
+
                   case ConvertStatus.loadingVideo:
                     return const ConvertLoadingBody();
                   case ConvertStatus.success:

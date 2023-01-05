@@ -20,10 +20,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   }
 
   final ConvertRepository _convertRepository;
-
-  double normalizeProgress(int value, int min, int max) {
+  double _normalizeProgress(int value, int min, int max) {
     return (value - min) / (max - min);
   }
+
+  static const _maxBatchSize = 5;
 
   FutureOr<void> _convertFrames(
     ConvertFrames event,
@@ -31,45 +32,37 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ) async {
     try {
       final totalFrames = event.frames.length;
-      emit(
-        state.copyWith(
-          status: ConvertStatus.loadingFrames,
-        ),
-      );
+      emit(state.copyWith(status: ConvertStatus.loadingFrames));
 
-      final frames = <Uint8List>[];
+      final processedFrames = <Uint8List>[];
+      var batchIndex = 0;
 
-      const maxBatchSize = 5;
-      var currentBatch = 0;
-
-      /// We wait to let the screen
-      await Future<void>.delayed(const Duration(milliseconds: 300));
       for (var i = 0; i < totalFrames; i++) {
         final bytesImage =
             await event.frames[i].image.toByteData(format: ImageByteFormat.png);
         if (bytesImage != null) {
-          frames.add(bytesImage.buffer.asUint8List());
+          processedFrames.add(bytesImage.buffer.asUint8List());
           if (i == 0) {
             emit(state.copyWith(firstFrame: bytesImage));
           }
         }
-        currentBatch++;
-        if (currentBatch == maxBatchSize) {
-          final framesProcessed = state.framesProcessed + maxBatchSize;
+        batchIndex++;
+        if (batchIndex == _maxBatchSize) {
+          final framesProcessed = state.framesProcessed + _maxBatchSize;
+          final progress = _normalizeProgress(framesProcessed, 0, totalFrames);
           emit(
             state.copyWith(
               framesProcessed: framesProcessed,
-              progress: normalizeProgress(framesProcessed, 0, totalFrames),
+              progress: progress,
             ),
           );
-          await Future<void>.delayed(const Duration(milliseconds: 300));
-          currentBatch = 0;
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          batchIndex = 0;
         }
       }
 
       emit(state.copyWith(status: ConvertStatus.loadingVideo));
-      final result = await _convertRepository.convertFrames(frames);
-
+      final result = await _convertRepository.convertFrames(processedFrames);
       emit(
         state.copyWith(
           videoPath: result.videoUrl,

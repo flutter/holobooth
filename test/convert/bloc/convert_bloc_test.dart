@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -9,12 +9,14 @@ import 'package:screen_recorder/screen_recorder.dart';
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
 
+class _FakeImage extends Fake implements Image {}
+
 void main() {
   late ConvertRepository convertRepository;
 
   group('ConvertBloc', () {
     group('ConvertFrames', () {
-      final frames = [RawFrame(0, ByteData(0))];
+      final frames = [Frame(Duration.zero, _FakeImage())];
 
       blocTest<ConvertBloc, ConvertState>(
         'return video path for request',
@@ -33,11 +35,9 @@ void main() {
         ),
         expect: () => [
           ConvertState(
-            frames: frames,
-            status: ConvertStatus.loading,
+            status: ConvertStatus.loadingFrames,
           ),
           ConvertState(
-            frames: frames,
             videoPath: 'test-video-path',
             gifPath: 'test-gif-path',
             status: ConvertStatus.success,
@@ -58,11 +58,9 @@ void main() {
         ),
         expect: () => [
           ConvertState(
-            frames: frames,
-            status: ConvertStatus.loading,
+            status: ConvertStatus.loadingFrames,
           ),
           ConvertState(
-            frames: frames,
             status: ConvertStatus.error,
           ),
         ],
