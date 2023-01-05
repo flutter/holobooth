@@ -79,7 +79,6 @@ void main() {
       );
 
       expect(find.byType(LoadingFramesView), findsOneWidget);
-      await tester.pump(Duration(milliseconds: 300));
     });
 
     testWidgets('renders CreatingVideoView on ConvertStatus.creatingVideo',
@@ -93,7 +92,6 @@ void main() {
       );
 
       expect(find.byType(CreatingVideoView), findsOneWidget);
-      await tester.pump(Duration(milliseconds: 300));
     });
 
     testWidgets('renders CreatingVideoView on ConvertStatus.framesProcessed',
@@ -107,7 +105,6 @@ void main() {
       );
 
       expect(find.byType(CreatingVideoView), findsOneWidget);
-      await tester.pump(Duration(milliseconds: 300));
     });
 
     testWidgets('renders ConvertFinished ConvertStatus.videoCreated',
@@ -126,7 +123,6 @@ void main() {
       );
 
       expect(find.byType(ConvertFinished), findsOneWidget);
-      await tester.pump(Duration(milliseconds: 300));
     });
 
     testWidgets('renders error view on ConvertStatus.error', (tester) async {
@@ -140,7 +136,6 @@ void main() {
       );
 
       expect(find.byKey(ConvertBody.errorViewKey), findsOneWidget);
-      await tester.pump(Duration(milliseconds: 300));
     });
 
     testWidgets('shows snackbar with error if ConvertStatus.error',
@@ -174,7 +169,6 @@ void main() {
         convertBloc,
       );
       verify(() => convertBloc.add(GenerateVideo())).called(1);
-      await tester.pump(Duration(milliseconds: 300));
     });
   });
 }

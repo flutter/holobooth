@@ -33,6 +33,7 @@ class ConvertPage extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class ConvertView extends StatefulWidget {
   const ConvertView({super.key, required this.frames});
 
@@ -47,9 +48,7 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final convertBloc = context.read<ConvertBloc>();
-      await Future<void>.delayed(const Duration(milliseconds: 300));
-      convertBloc.add(ConvertFrames(widget.frames));
+      context.read<ConvertBloc>().add(ConvertFrames(widget.frames));
     });
   }
 
