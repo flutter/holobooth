@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -18,101 +18,128 @@ class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
 
-class _MockRawFrame extends Mock implements RawFrame {
-  @override
-  ByteData get image =>
-      ByteData.view(Uint8List.fromList(transparentImage).buffer);
-}
+class _MockImage extends Mock implements ui.Image {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('ConvertPage', () {
+    late ui.Image image;
+    late List<Frame> frames;
+    const totalFrames = 10;
+    late ConvertRepository convertRepository;
+
+    setUp(() {
+      convertRepository = _MockConvertRepository();
+      when(() => convertRepository.convertFrames(any())).thenAnswer(
+        (_) async => ConvertResponse(videoUrl: 'videoUrl', gifUrl: 'gifUrl'),
+      );
+      image = _MockImage();
+      when(() => image.toByteData(format: ui.ImageByteFormat.png))
+          .thenAnswer((_) async => ByteData(1));
+      frames = List.filled(totalFrames, Frame(Duration.zero, image));
+    });
+
     test('is routable', () {
       expect(ConvertPage.route([]), isA<AppPageRoute<void>>());
     });
 
     testWidgets('renders ConvertView', (tester) async {
       await tester.pumpApp(
-        ConvertPage(
-          frames: [_MockRawFrame()],
-        ),
-        convertRepository: _MockConvertRepository(),
+        ConvertPage(frames: frames),
+        convertRepository: convertRepository,
       );
 
-      /// Wait for the player to complete
-      await tester.pump(Duration(seconds: 3));
       expect(find.byType(ConvertView), findsOneWidget);
+      await tester.pump(Duration(seconds: 3));
     });
   });
 
   group('ConvertView', () {
     late ConvertBloc convertBloc;
+    late ui.Image image;
+    late List<Frame> frames;
+    const totalFrames = 10;
 
     setUp(() {
       convertBloc = _MockConvertBloc();
+      image = _MockImage();
+      when(() => image.toByteData(format: ui.ImageByteFormat.png))
+          .thenAnswer((_) async => ByteData(1));
+      frames = List.filled(totalFrames, Frame(Duration.zero, image));
     });
 
-    testWidgets('renders ConvertLoadingBody on loading state', (tester) async {
-      when(() => convertBloc.state).thenReturn(
-        ConvertState(
-          frames: [_MockRawFrame()],
-          status: ConvertStatus.loading,
-        ),
-      );
+    testWidgets('renders LoadingFramesView on ConvertStatus.loadingFrames',
+        (tester) async {
+      when(() => convertBloc.state).thenReturn(ConvertState());
 
       await tester.pumpSubject(
-        ConvertView(),
+        ConvertView(frames: frames),
         convertBloc,
       );
 
-      expect(find.byType(ConvertLoadingBody), findsOneWidget);
+      expect(find.byType(LoadingFramesView), findsOneWidget);
     });
 
-    testWidgets('renders ConvertFinished on other state', (tester) async {
+    testWidgets('renders CreatingVideoView on ConvertStatus.creatingVideo',
+        (tester) async {
+      when(() => convertBloc.state)
+          .thenReturn(ConvertState(status: ConvertStatus.creatingVideo));
+
+      await tester.pumpSubject(
+        ConvertView(frames: frames),
+        convertBloc,
+      );
+
+      expect(find.byType(CreatingVideoView), findsOneWidget);
+    });
+
+    testWidgets('renders CreatingVideoView on ConvertStatus.framesProcessed',
+        (tester) async {
+      when(() => convertBloc.state)
+          .thenReturn(ConvertState(status: ConvertStatus.framesProcessed));
+
+      await tester.pumpSubject(
+        ConvertView(frames: frames),
+        convertBloc,
+      );
+
+      expect(find.byType(CreatingVideoView), findsOneWidget);
+    });
+
+    testWidgets('renders ConvertFinished ConvertStatus.videoCreated',
+        (tester) async {
       when(() => convertBloc.state).thenReturn(
         ConvertState(
-          frames: [_MockRawFrame()],
           gifPath: 'not-important',
           videoPath: 'not-important',
-          status: ConvertStatus.success,
+          status: ConvertStatus.videoCreated,
         ),
       );
 
       await tester.pumpSubject(
-        ConvertView(),
+        ConvertView(frames: frames),
         convertBloc,
       );
 
-      /// Wait for the player to complete
-      await tester.pump(Duration(seconds: 3));
       expect(find.byType(ConvertFinished), findsOneWidget);
     });
 
-    testWidgets('navigates to SharePage on success', (tester) async {
-      final state = ConvertState(
-        frames: [_MockRawFrame()],
-        isFinished: true,
-      );
-
-      whenListen(
-        convertBloc,
-        Stream.value(state),
-        initialState: ConvertState(),
+    testWidgets('renders error view on ConvertStatus.error', (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.error),
       );
 
       await tester.pumpSubject(
-        ConvertView(),
+        ConvertView(frames: frames),
         convertBloc,
       );
 
-      /// Wait for the player to complete
-      await tester.pump(Duration(seconds: 3));
-      await tester.pump();
-      expect(find.byType(SharePage), findsOneWidget);
+      expect(find.byKey(ConvertBody.errorViewKey), findsOneWidget);
     });
 
-    testWidgets('shows snackbar with error if ', (tester) async {
+    testWidgets('shows snackbar with error if ConvertStatus.error',
+        (tester) async {
       whenListen(
         convertBloc,
         Stream.value(ConvertState(status: ConvertStatus.error)),
@@ -120,7 +147,7 @@ void main() {
       );
 
       await tester.pumpSubject(
-        ConvertView(),
+        ConvertView(frames: frames),
         convertBloc,
       );
       await tester.pump(kThemeAnimationDuration);
@@ -128,13 +155,29 @@ void main() {
 
       expect(find.byType(SnackBar), findsOneWidget);
     });
+
+    testWidgets('adds GenerateVideo if ConvertStatus.framesProcessed',
+        (tester) async {
+      whenListen(
+        convertBloc,
+        Stream.value(ConvertState(status: ConvertStatus.framesProcessed)),
+        initialState: ConvertState(),
+      );
+
+      await tester.pumpSubject(
+        ConvertView(frames: frames),
+        convertBloc,
+      );
+      verify(() => convertBloc.add(GenerateVideo())).called(1);
+    });
   });
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(ConvertView subject, ConvertBloc bloc) => pumpApp(
-        BlocProvider<ConvertBloc>(
-          create: (_) => bloc,
+  Future<void> pumpSubject(ConvertView subject, ConvertBloc convertBloc) =>
+      pumpApp(
+        BlocProvider<ConvertBloc>.value(
+          value: convertBloc,
           child: subject,
         ),
       );

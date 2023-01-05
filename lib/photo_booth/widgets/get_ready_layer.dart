@@ -106,6 +106,7 @@ class GetReadyCountdown extends StatelessWidget {
           child: Container(color: const Color.fromRGBO(19, 22, 44, 0.75)),
         ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // TODO(oscar): add border or images to text
             Align(

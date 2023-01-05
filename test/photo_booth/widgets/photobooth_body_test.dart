@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -35,7 +35,9 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _MockExporter extends Mock implements Exporter {}
+class _MockExporter extends Mock implements CustomExporter {}
+
+class _MockImage extends Mock implements ui.Image {}
 
 void main() {
   group('PhotoboothBody', () {
@@ -45,7 +47,7 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
-    late Exporter exporter;
+    late CustomExporter exporter;
 
     setUp(() {
       xfile = _MockXFile();
@@ -160,11 +162,11 @@ void main() {
       'RecordingCountdown.onCountdownCompleted '
       'is called',
       (WidgetTester tester) async {
-        final frame = RawFrame(1, ByteData(1));
+        final frame = Frame(Duration.zero, _MockImage());
         when(
           () => photoBoothBloc.state,
         ).thenReturn(PhotoBoothState(isRecording: true));
-        when(() => exporter.exportFrames()).thenAnswer((_) async => [frame]);
+        when(() => exporter.frames).thenReturn([frame]);
         await tester.pumpSubject(
           PhotoboothBody(
             exporter: () => exporter,

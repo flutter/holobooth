@@ -1,14 +1,20 @@
+import 'dart:ui' as ui;
+
 import 'package:bloc_test/bloc_test.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
-class _MockRawFrame extends Mock implements RawFrame {}
+class _MockImage extends Mock implements ui.Image {}
 
 void main() {
   group('PhotoBoothBloc', () {
+    late List<Frame> frames;
+    setUp(() {
+      frames = List.filled(10, Frame(Duration.zero, _MockImage()));
+    });
+
     group('PhotoBoothGetReadyStarted', () {
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits state with preparing == true.',
@@ -33,8 +39,6 @@ void main() {
     });
 
     group('PhotoBoothRecordingFinished', () {
-      final frames = UnmodifiableListView([_MockRawFrame()]);
-
       blocTest<PhotoBoothBloc, PhotoBoothState>(
         'emits state with frames recorded.',
         build: PhotoBoothBloc.new,

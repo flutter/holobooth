@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -34,11 +34,7 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _MockRawFrame extends Mock implements RawFrame {
-  @override
-  ByteData get image =>
-      ByteData.view(Uint8List.fromList(transparentImage).buffer);
-}
+class _MockImage extends Mock implements ui.Image {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -138,7 +134,9 @@ void main() {
       (WidgetTester tester) async {
         whenListen(
           photoBoothBloc,
-          Stream.value(PhotoBoothState(frames: [_MockRawFrame()])),
+          Stream.value(
+            PhotoBoothState(frames: [Frame(Duration.zero, _MockImage())]),
+          ),
         );
         await tester.pumpSubject(
           PhotoBoothView(),

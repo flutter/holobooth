@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -22,14 +23,12 @@ class ConvertFinished extends StatefulWidget {
   State<ConvertFinished> createState() => _ConvertFinishedState();
 }
 
-class _ConvertFinishedState extends State<ConvertFinished>
-    with WidgetsBindingObserver {
+class _ConvertFinishedState extends State<ConvertFinished> {
   late final AudioPlayer audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _init();
   }
 
@@ -52,7 +51,13 @@ class _ConvertFinishedState extends State<ConvertFinished>
   }
 
   void _finishConvert() {
-    context.read<ConvertBloc>().add(const FinishConvert());
+    final state = context.read<ConvertBloc>().state;
+    Navigator.of(context).push(
+      SharePage.route(
+        videoPath: state.videoPath,
+        firstFrame: state.processedFrames.first,
+      ),
+    );
   }
 
   @override
@@ -69,16 +74,6 @@ class _ConvertFinishedState extends State<ConvertFinished>
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      audioPlayer.stop();
-    }
   }
 
   @override

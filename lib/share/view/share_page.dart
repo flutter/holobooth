@@ -1,23 +1,28 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:screen_recorder/screen_recorder.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage({super.key, required this.frames, required this.videoPath});
+  const SharePage({
+    super.key,
+    required this.firstFrame,
+    required this.videoPath,
+  });
 
-  final List<RawFrame> frames;
+  final Uint8List firstFrame;
   final String videoPath;
 
   static Route<void> route({
-    required List<RawFrame> frames,
+    required Uint8List firstFrame,
     required String videoPath,
   }) =>
       AppPageRoute(
         builder: (_) => SharePage(
-          frames: frames,
+          firstFrame: firstFrame,
           videoPath: videoPath,
         ),
       );
@@ -26,7 +31,7 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ShareBloc(
-        thumbnail: frames.first.image,
+        thumbnail: firstFrame,
         videoPath: videoPath,
       ),
       child: const ShareView(),
