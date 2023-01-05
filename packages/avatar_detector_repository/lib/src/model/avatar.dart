@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 @immutable
 class Avatar extends Equatable {
   /// {@macro avatar}
-  @visibleForTesting
   const Avatar({
     required this.hasMouthOpen,
     required this.mouthDistance,
@@ -17,16 +16,6 @@ class Avatar extends Equatable {
     required this.leftEyeGeometry,
     required this.rightEyeGeometry,
   });
-
-  /// {@macro avatar}
-  Avatar.fromFaceGeometry(
-    FaceGeometry faceGeometry,
-  )   : hasMouthOpen = faceGeometry.mouth.isOpen,
-        mouthDistance = faceGeometry.mouth.distance,
-        rotation = faceGeometry.rotation.value,
-        distance = faceGeometry.distance.value,
-        leftEyeGeometry = faceGeometry.leftEye,
-        rightEyeGeometry = faceGeometry.rightEye;
 
   /// {@macro avatar}
   static const zero = Avatar(
@@ -67,6 +56,6 @@ class Avatar extends Equatable {
         rotation,
         distance,
         leftEyeGeometry,
-        rightEyeGeometry
+        rightEyeGeometry,
       ];
 }
