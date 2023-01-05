@@ -71,6 +71,9 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
 
   @override
   Widget build(BuildContext context) {
+    final avatarStatus =
+        context.select((AvatarDetectorBloc bloc) => bloc.state.status);
+
     return LayoutBuilder(
       builder: (context, contrains) {
         return ScreenRecorder(
@@ -90,9 +93,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 child: PhotoboothCharacter(),
               ),
               Align(child: CameraView(onCameraReady: _onCameraReady)),
-              if (_isCameraAvailable) ...[
+              if (_isCameraAvailable)
                 CameraStreamListener(cameraController: _cameraController!),
-              ],
+              if (_isCameraAvailable &&
+                  avatarStatus == AvatarDetectorStatus.notDetected)
+                const Align(child: HoloBoothCharacterError()),
               BlocBuilder<PhotoBoothBloc, PhotoBoothState>(
                 builder: (_, state) {
                   if (state.isRecording) {

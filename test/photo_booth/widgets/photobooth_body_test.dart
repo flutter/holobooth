@@ -213,6 +213,26 @@ void main() {
         expect(find.byType(SelectionLayer), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'renders HoloBoothCharacterError if recording and avatar not detected',
+      (WidgetTester tester) async {
+        when(() => photoBoothBloc.state)
+            .thenReturn(PhotoBoothState().copyWith(isRecording: true));
+        when(() => avatarDetectorBloc.state).thenReturn(
+          AvatarDetectorState(status: AvatarDetectorStatus.notDetected),
+        );
+
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
+        expect(find.byType(HoloBoothCharacterError), findsOneWidget);
+      },
+    );
   });
 }
 

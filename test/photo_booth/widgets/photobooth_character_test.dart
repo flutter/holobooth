@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -64,6 +68,71 @@ void main() {
         expect(
           find.byType(SparkyCharacterAnimation),
           findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'uses latest detected Avatar when not available',
+      (WidgetTester tester) async {
+        when(() => inExperienceSelectionBloc.state)
+            .thenReturn(InExperienceSelectionState());
+        final avatar1 = Avatar(
+          hasMouthOpen: true,
+          mouthDistance: 0.5,
+          rotation: Vector3(0.5, 0.5, 0),
+          distance: 0.8,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+        );
+        final avatarStreamController = StreamController<AvatarDetectorState>();
+        whenListen(
+          avatarDetectorBloc,
+          avatarStreamController.stream,
+          initialState: AvatarDetectorState(
+            status: AvatarDetectorStatus.detected,
+            avatar: avatar1,
+          ),
+        );
+
+        await tester.pumpSubject(
+          PhotoboothCharacter(),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pumpAndSettle();
+        expect(
+          tester
+              .widget<DashCharacterAnimation>(
+                find.byType(DashCharacterAnimation),
+              )
+              .avatar,
+          equals(avatar1),
+        );
+
+        final avatar2 = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: 0,
+          rotation: Vector3(0.2, 0.8, 0),
+          distance: 0.4,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+        );
+        expect(avatar1, isNot(equals(avatar2)));
+        avatarStreamController.sink.add(
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.notDetected,
+            avatar: avatar2,
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          tester
+              .widget<DashCharacterAnimation>(
+                find.byType(DashCharacterAnimation),
+              )
+              .avatar,
+          equals(avatar1),
         );
       },
     );

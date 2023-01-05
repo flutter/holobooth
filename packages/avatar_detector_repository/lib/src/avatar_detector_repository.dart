@@ -48,18 +48,43 @@ class AvatarDetectorRepository {
     } catch (error) {
       throw DetectAvatarException(error.toString());
     }
-    if (faces.isEmpty) return null;
+    if (faces.isEmpty) {
+      return null;
+    }
 
     final face = faces.first;
-    _faceGeometry = _faceGeometry == null
+    final faceGeometry = _faceGeometry = _faceGeometry == null
         ? FaceGeometry(face: face, size: input.size)
         : _faceGeometry!.update(face: face, size: input.size);
 
-    return Avatar.fromFaceGeometry(_faceGeometry!);
+    final hasAllFaceKeypoints = face.keypoints.length == 478;
+    final hasFaceOvalWithinBounds = face.keypoints
+        .where((keypoint) => keypoint.name == 'faceOval')
+        .every((keypoint) => keypoint.withinBounds(input.size));
+    final avatarRecognized = hasAllFaceKeypoints && hasFaceOvalWithinBounds;
+    if (!avatarRecognized) {
+      return null;
+    }
+
+    return Avatar(
+      hasMouthOpen: faceGeometry.mouth.isOpen,
+      mouthDistance: faceGeometry.mouth.distance,
+      rotation: faceGeometry.rotation.value,
+      distance: faceGeometry.distance.value,
+      leftEyeGeometry: faceGeometry.leftEye,
+      rightEyeGeometry: faceGeometry.rightEye,
+    );
   }
 
   /// Disposes the instance of [FaceLandmarksDetector]
   void dispose() {
     _faceLandmarksDetector?.dispose();
+  }
+}
+
+extension on Keypoint {
+  /// Whether the [Keypoint] is within the bounds of the [Size].
+  bool withinBounds(Size size) {
+    return 0 <= x && x <= size.width && 0 <= y && y <= size.height;
   }
 }

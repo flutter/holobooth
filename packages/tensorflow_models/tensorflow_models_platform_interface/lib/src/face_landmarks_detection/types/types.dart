@@ -47,7 +47,7 @@ class Face {
   /// The order of the [keypoints] is significant, the mappings of these indexes
   /// to face locations can be found [here](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/mesh_map.jpg).
   ///
-  /// MediaPipeFaceMesh has 468 keypoints.
+  /// MediaPipeFaceMesh has 478 keypoints.
   final UnmodifiableListView<Keypoint> keypoints;
 
   // A bounding box around the detected face.
