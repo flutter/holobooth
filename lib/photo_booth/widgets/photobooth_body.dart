@@ -5,6 +5,7 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 CustomExporter _getExporter() => CustomExporter();
@@ -74,10 +75,17 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
         context.select((AvatarDetectorBloc bloc) => bloc.state.status);
 
     return LayoutBuilder(
-      builder: (context, contrains) {
+      builder: (context, constraints) {
+        final double characterOffestY;
+        if (constraints.maxWidth > PhotoboothBreakpoints.small) {
+          characterOffestY = constraints.maxHeight / 6;
+        } else {
+          characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
+        }
+
         return ScreenRecorder(
-          width: contrains.maxWidth,
-          height: contrains.maxHeight,
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
           controller: _screenRecorderController,
           child: Stack(
             fit: StackFit.expand,
@@ -87,9 +95,12 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 alignment: Alignment.bottomCenter,
                 child: SimplifiedFooter(),
               ),
-              const Align(
+              Align(
                 alignment: Alignment.bottomCenter,
-                child: PhotoboothCharacter(),
+                child: Transform.translate(
+                  offset: Offset(0, characterOffestY),
+                  child: const PhotoboothCharacter(),
+                ),
               ),
               Align(child: CameraView(onCameraReady: _onCameraReady)),
               if (_isCameraAvailable)
