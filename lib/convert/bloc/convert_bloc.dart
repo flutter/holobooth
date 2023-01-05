@@ -21,11 +21,16 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
   final ConvertRepository _convertRepository;
 
+  double normalizeProgress(int value, int min, int max) {
+    return (value - min) / (max - min);
+  }
+
   FutureOr<void> _convertFrames(
     ConvertFrames event,
     Emitter<ConvertState> emit,
   ) async {
     try {
+      final totalFrames = event.frames.length;
       emit(
         state.copyWith(
           status: ConvertStatus.loadingFrames,
@@ -33,7 +38,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       );
 
       final frames = <Uint8List>[];
-      final totalFrames = event.frames.length;
+
       const maxBatchSize = 5;
       var currentBatch = 0;
 
@@ -50,9 +55,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         }
         currentBatch++;
         if (currentBatch == maxBatchSize) {
+          final framesProcessed = state.framesProcessed + maxBatchSize;
           emit(
             state.copyWith(
-              framesProcessed: state.framesProcessed + maxBatchSize,
+              framesProcessed: framesProcessed,
+              progress: normalizeProgress(framesProcessed, 0, totalFrames),
             ),
           );
           await Future<void>.delayed(const Duration(milliseconds: 300));

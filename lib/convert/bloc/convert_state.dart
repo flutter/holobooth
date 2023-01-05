@@ -7,6 +7,7 @@ class ConvertState extends Equatable {
     this.isFinished = false,
     this.status = ConvertStatus.loadingFrames,
     this.framesProcessed = 0,
+    this.progress = 0,
     this.firstFrame,
   });
 
@@ -15,6 +16,7 @@ class ConvertState extends Equatable {
   final bool isFinished;
   final ConvertStatus status;
   final int framesProcessed;
+  final double progress;
   final ByteData? firstFrame;
 
   ConvertState copyWith({
@@ -23,6 +25,7 @@ class ConvertState extends Equatable {
     bool? isFinished,
     ConvertStatus? status,
     int? framesProcessed,
+    double? progress,
     ByteData? firstFrame,
   }) {
     return ConvertState(
@@ -31,6 +34,7 @@ class ConvertState extends Equatable {
       isFinished: isFinished ?? this.isFinished,
       status: status ?? this.status,
       framesProcessed: framesProcessed ?? this.framesProcessed,
+      progress: progress ?? this.progress,
       firstFrame: firstFrame ?? this.firstFrame,
     );
   }
@@ -42,6 +46,7 @@ class ConvertState extends Equatable {
         isFinished,
         status,
         framesProcessed,
+        progress,
         firstFrame,
       ];
 }

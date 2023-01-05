@@ -86,6 +86,33 @@ class ConvertBody extends StatelessWidget {
               builder: (context, state) {
                 switch (state.status) {
                   case ConvertStatus.loadingFrames:
+                    return ShaderMask(
+                      shaderCallback: (bounds) {
+                        return LinearGradient(
+                          colors: [
+                            Color(0xffF9F8C4),
+                            Color(0xff27F5DD),
+                          ],
+                        ).createShader(Offset.zero & bounds.size);
+                      },
+                      child: Container(
+                        height: 35,
+                        width: 400,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(200)),
+                            border: Border.all(color: Colors.white)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(200)),
+                          child: LinearProgressIndicator(
+                            value: state.progress,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            backgroundColor: PhotoboothColors.transparent,
+                          ),
+                        ),
+                      ),
+                    );
                     return GradientText(
                       text: 'Frames processed ${state.framesProcessed}...',
                       style: PhotoboothTextStyle.displayMedium,
