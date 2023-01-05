@@ -6,8 +6,8 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 
 AudioPlayer _getAudioPlayer() => AudioPlayer();
 
-class ConvertLoadingView extends StatefulWidget {
-  const ConvertLoadingView({
+class ConvertLoadingAnimation extends StatefulWidget {
+  const ConvertLoadingAnimation({
     super.key,
     required this.dimension,
     ValueGetter<AudioPlayer>? audioPlayer,
@@ -18,10 +18,11 @@ class ConvertLoadingView extends StatefulWidget {
   final ValueGetter<AudioPlayer> _audioPlayer;
 
   @override
-  State<ConvertLoadingView> createState() => _ConvertLoadingViewState();
+  State<ConvertLoadingAnimation> createState() =>
+      _ConvertLoadingAnimationState();
 }
 
-class _ConvertLoadingViewState extends State<ConvertLoadingView>
+class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation>
     with WidgetsBindingObserver {
   late final AudioPlayer audioPlayer;
 

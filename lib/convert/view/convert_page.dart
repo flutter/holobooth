@@ -47,9 +47,10 @@ class _ConvertViewState extends State<ConvertView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final convertBloc = context.read<ConvertBloc>();
       await Future<void>.delayed(const Duration(milliseconds: 300));
-      context.read<ConvertBloc>().add(ConvertFrames(widget.frames));
+      convertBloc.add(ConvertFrames(widget.frames));
     });
   }
 
@@ -77,8 +78,11 @@ class _ConvertViewState extends State<ConvertView> {
   }
 }
 
+@visibleForTesting
 class ConvertBody extends StatelessWidget {
   const ConvertBody({super.key});
+
+  static const errorViewKey = Key('errorView');
 
   @override
   Widget build(BuildContext context) {
@@ -107,80 +111,20 @@ class ConvertBody extends StatelessWidget {
               builder: (context, state) {
                 switch (state.status) {
                   case ConvertStatus.loadingFrames:
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Loading...',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: PhotoboothColors.white),
-                        ),
-                        const SizedBox(height: 24),
-                        ShaderMask(
-                          shaderCallback: (bounds) {
-                            return const LinearGradient(
-                              colors: [
-                                Color(0xffF9F8C4),
-                                Color(0xff27F5DD),
-                              ],
-                            ).createShader(Offset.zero & bounds.size);
-                          },
-                          child: Container(
-                            height: 35,
-                            width: 400,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(200)),
-                              border: Border.all(color: Colors.white),
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(200)),
-                              child: LinearProgressIndicator(
-                                value: state.progress,
-                                valueColor: const AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                                backgroundColor: PhotoboothColors.transparent,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-
-                  case ConvertStatus.loadingVideo:
+                    return LoadingFramesView(progress: state.progress);
+                  case ConvertStatus.creatingVideo:
                   case ConvertStatus.framesProcessed:
-                    return const ConvertLoadingBody();
-                  case ConvertStatus.videoProcessed:
+                    return const CreatingVideoView();
+                  case ConvertStatus.videoCreated:
                     return const ConvertFinished(dimension: 200);
                   case ConvertStatus.error:
-                    return const SizedBox();
+                    return const SizedBox(key: errorViewKey);
                 }
               },
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-@visibleForTesting
-class ConvertLoadingBody extends StatelessWidget {
-  const ConvertLoadingBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        ConvertLoadingView(dimension: 200),
-        SizedBox(height: 50),
-        ConvertMessage(),
-      ],
     );
   }
 }

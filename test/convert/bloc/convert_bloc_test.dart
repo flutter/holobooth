@@ -28,6 +28,7 @@ void main() {
 
       frames = List.filled(totalFrames, Frame(Duration.zero, image));
     });
+
     group('ConvertFrames', () {
       blocTest<ConvertBloc, ConvertState>(
         'emits [loadingFrames, progress, framesProcessed] with processedFrames',
@@ -97,11 +98,11 @@ void main() {
         act: (bloc) => bloc.add(GenerateVideo()),
         expect: () => [
           ConvertState(
-            status: ConvertStatus.loadingVideo,
+            status: ConvertStatus.creatingVideo,
             processedFrames: processedFrames,
           ),
           ConvertState(
-            status: ConvertStatus.videoProcessed,
+            status: ConvertStatus.videoCreated,
             processedFrames: processedFrames,
             gifPath: gifUrl,
             videoPath: videoUrl,
@@ -120,7 +121,7 @@ void main() {
         act: (bloc) => bloc.add(GenerateVideo()),
         expect: () => [
           ConvertState(
-            status: ConvertStatus.loadingVideo,
+            status: ConvertStatus.creatingVideo,
             processedFrames: processedFrames,
           ),
           ConvertState(

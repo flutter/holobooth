@@ -50,9 +50,10 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
             0,
             totalFramesToProcess,
           );
+
+          await Future<void>.delayed(const Duration(milliseconds: 100));
           emit(state.copyWith(progress: progress));
           batchIndex = 0;
-          await Future<void>.delayed(const Duration(milliseconds: 100));
         }
       }
       emit(
@@ -78,7 +79,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     GenerateVideo event,
     Emitter<ConvertState> emit,
   ) async {
-    emit(state.copyWith(status: ConvertStatus.loadingVideo));
+    emit(state.copyWith(status: ConvertStatus.creatingVideo));
     try {
       final result = await _convertRepository.convertFrames(
         state.processedFrames,
@@ -87,7 +88,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         state.copyWith(
           videoPath: result.videoUrl,
           gifPath: result.gifUrl,
-          status: ConvertStatus.videoProcessed,
+          status: ConvertStatus.videoCreated,
         ),
       );
     } on Exception catch (error, stackTrace) {

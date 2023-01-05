@@ -7,8 +7,11 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class SharePage extends StatelessWidget {
-  const SharePage(
-      {super.key, required this.firstFrame, required this.videoPath});
+  const SharePage({
+    super.key,
+    required this.firstFrame,
+    required this.videoPath,
+  });
 
   final Uint8List firstFrame;
   final String videoPath;

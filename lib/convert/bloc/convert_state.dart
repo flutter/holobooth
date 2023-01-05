@@ -49,7 +49,7 @@ class ConvertState extends Equatable {
 enum ConvertStatus {
   loadingFrames,
   framesProcessed,
-  loadingVideo,
-  videoProcessed,
+  creatingVideo,
+  videoCreated,
   error,
 }

@@ -45,7 +45,7 @@ void main() {
       'set asset correctly',
       (WidgetTester tester) async {
         await tester.pumpApp(
-          ConvertLoadingView(
+          ConvertLoadingAnimation(
             dimension: 300,
             audioPlayer: () => audioPlayer,
           ),
@@ -58,20 +58,20 @@ void main() {
     testWidgets('renders correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: ConvertLoadingView(
+          home: ConvertLoadingAnimation(
             dimension: 300,
           ),
         ),
       );
 
-      expect(find.byType(ConvertLoadingView), findsOneWidget);
+      expect(find.byType(ConvertLoadingAnimation), findsOneWidget);
     });
 
     testWidgets(
       'calls stop on AppLifecycleState.paused',
       (WidgetTester tester) async {
         await tester.pumpApp(
-          ConvertLoadingView(
+          ConvertLoadingAnimation(
             dimension: 300,
             audioPlayer: () => audioPlayer,
           ),

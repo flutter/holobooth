@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,9 +20,10 @@ class _MockUrlLauncher extends Mock
 
 void main() {
   group('SharePage', () {
+    final firstFrame = Uint8List.fromList(transparentImage);
     test('is routable', () {
       expect(
-        SharePage.route(frames: [], videoPath: ''),
+        SharePage.route(firstFrame: firstFrame, videoPath: ''),
         isA<AppPageRoute<void>>(),
       );
     });
