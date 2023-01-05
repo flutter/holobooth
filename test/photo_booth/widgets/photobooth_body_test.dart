@@ -10,6 +10,7 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -195,6 +196,36 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         expect(find.byType(RecordingCountdown), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders PhotoboothCharacter on a large display size',
+      (WidgetTester tester) async {
+        tester.setDisplaySize(Size(PhotoboothBreakpoints.large, 800));
+
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(PhotoboothCharacter), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders PhotoboothCharacter on a small display size',
+      (WidgetTester tester) async {
+        tester.setDisplaySize(Size(PhotoboothBreakpoints.small, 800));
+
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(PhotoboothCharacter), findsOneWidget);
       },
     );
 
