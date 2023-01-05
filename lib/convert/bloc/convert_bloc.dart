@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -15,34 +16,71 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   })  : _convertRepository = convertRepository,
         super(const ConvertState()) {
     on<ConvertFrames>(_convertFrames);
-    on<FinishConvert>(_finishConvert);
+    on<GenerateVideo>(_generateVideo);
   }
 
   final ConvertRepository _convertRepository;
+  double _normalizeProgress(int value, int min, int max) {
+    return (value - min) / (max - min);
+  }
+
+  static const _maxBatchSize = 5;
 
   FutureOr<void> _convertFrames(
     ConvertFrames event,
     Emitter<ConvertState> emit,
   ) async {
     try {
+      emit(state.copyWith(status: ConvertStatus.loadingFrames));
+      final totalFramesToProcess = event.frames.length;
+      final processedFrames = <Uint8List>[];
+      var batchIndex = 0;
+
+      for (var i = 0; i < totalFramesToProcess; i++) {
+        final bytesImage =
+            await event.frames[i].image.toByteData(format: ImageByteFormat.png);
+        if (bytesImage != null) {
+          processedFrames.add(bytesImage.buffer.asUint8List());
+        }
+        batchIndex++;
+        if (batchIndex == _maxBatchSize) {
+          final progress = _normalizeProgress(
+            processedFrames.length,
+            0,
+            totalFramesToProcess,
+          );
+
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          emit(state.copyWith(progress: progress));
+          batchIndex = 0;
+        }
+      }
       emit(
         state.copyWith(
-          frames: event.frames,
-          status: ConvertStatus.loading,
+          status: ConvertStatus.framesProcessed,
+          processedFrames: processedFrames,
         ),
       );
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
+      emit(state.copyWith(status: ConvertStatus.error));
+    }
+  }
 
-      final frames = <Uint8List>[];
-      for (final frame in event.frames) {
-        frames.add(frame.image.buffer.asUint8List());
-      }
-      final result = await _convertRepository.convertFrames(frames);
-
+  Future<void> _generateVideo(
+    GenerateVideo event,
+    Emitter<ConvertState> emit,
+  ) async {
+    emit(state.copyWith(status: ConvertStatus.creatingVideo));
+    try {
+      final result = await _convertRepository.convertFrames(
+        state.processedFrames,
+      );
       emit(
         state.copyWith(
           videoPath: result.videoUrl,
           gifPath: result.gifUrl,
-          status: ConvertStatus.success,
+          status: ConvertStatus.videoCreated,
         ),
       );
     } catch (error, stackTrace) {
@@ -53,16 +91,5 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         ),
       );
     }
-  }
-
-  FutureOr<void> _finishConvert(
-    FinishConvert event,
-    Emitter<ConvertState> emit,
-  ) async {
-    emit(
-      state.copyWith(
-        isFinished: true,
-      ),
-    );
   }
 }

@@ -15,8 +15,7 @@ class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
 void main() {
   group('ShareDialog', () {
     late ShareBloc shareBloc;
-    final thumbnail =
-        ByteData.view(Uint8List.fromList(transparentImage).buffer);
+    final thumbnail = Uint8List.fromList(transparentImage);
 
     setUp(() {
       shareBloc = _MockShareBloc();

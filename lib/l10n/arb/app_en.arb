@@ -418,6 +418,10 @@
   "@getReady": {
     "description": "Text displayed before recording."
   },
+  "loadingFramesMessage": "Loading...",
+  "@loadingFramesMessage": {
+    "description": "Text displayed while loading frames."
+  },
   "faceNotDetected": "Face not detected",
   "@faceNotDetected": {
     "description": "Text displayed when there is no face detected."
