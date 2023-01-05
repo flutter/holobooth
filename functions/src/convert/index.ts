@@ -1,4 +1,10 @@
 import * as admin from 'firebase-admin';
+
+// Apparently eslint doesn't "understand" how the v2 is exported by
+// the firebase-functions package, so we are ignoring this lint.
+// More on: https://stackoverflow.com/a/69959606
+//
+// eslint-disable-next-line import/no-unresolved
 import * as functions from 'firebase-functions/v2';
 import * as path from 'path';
 
