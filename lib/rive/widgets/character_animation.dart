@@ -366,6 +366,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       aspectRatio: widget.riveImageSize.aspectRatio,
       child: AnimatedScale(
         scale: _scale,
+        alignment: const Alignment(0, 5 / 6),
         duration: const Duration(milliseconds: 400),
         child: widget.assetGenImage.rive(
           onInit: onRiveInit,
