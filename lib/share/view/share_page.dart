@@ -10,11 +10,11 @@ class SharePage extends StatelessWidget {
   const SharePage(
       {super.key, required this.firstFrame, required this.videoPath});
 
-  final ByteData firstFrame;
+  final Uint8List firstFrame;
   final String videoPath;
 
   static Route<void> route({
-    required ByteData firstFrame,
+    required Uint8List firstFrame,
     required String videoPath,
   }) =>
       AppPageRoute(

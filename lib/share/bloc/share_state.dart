@@ -25,7 +25,7 @@ class ShareState extends Equatable {
   final String explicitShareUrl;
   final ShareUrl shareUrl;
   final ShareStatus shareStatus;
-  final ByteData? thumbnail;
+  final Uint8List? thumbnail;
   final String videoPath;
 
   @override
@@ -45,7 +45,7 @@ class ShareState extends Equatable {
     String? explicitShareUrl,
     ShareUrl? shareUrl,
     ShareStatus? shareStatus,
-    ByteData? thumbnail,
+    Uint8List? thumbnail,
     String? videoPath,
   }) {
     return ShareState(

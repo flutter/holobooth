@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -9,60 +10,53 @@ import 'package:screen_recorder/screen_recorder.dart';
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
 
-class _FakeImage extends Fake implements Image {}
+class _MockImage extends Mock implements Image {}
 
 void main() {
   late ConvertRepository convertRepository;
 
   group('ConvertBloc', () {
-    group('ConvertFrames', () {
-      final frames = [Frame(Duration.zero, _FakeImage())];
+    late Image image;
+    late List<Frame> frames;
+    const totalFrames = 10;
 
+    setUp(() {
+      convertRepository = _MockConvertRepository();
+      image = _MockImage();
+      when(() => image.toByteData(format: ImageByteFormat.png))
+          .thenAnswer((_) async => ByteData(1));
+
+      frames = List.filled(totalFrames, Frame(Duration.zero, image));
+    });
+    group('ConvertFrames', () {
       blocTest<ConvertBloc, ConvertState>(
-        'return video path for request',
-        setUp: () {
-          convertRepository = _MockConvertRepository();
-          when(() => convertRepository.convertFrames(any())).thenAnswer(
-            (_) async => ConvertResponse(
-              videoUrl: 'test-video-path',
-              gifUrl: 'test-gif-path',
-            ),
-          );
-        },
+        'emits [loadingFrames, progress, framesProcessed] with processedFrames',
         build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(
-          ConvertFrames(frames),
-        ),
+        act: (bloc) => bloc.add(ConvertFrames(frames)),
+        wait: Duration(milliseconds: 300),
         expect: () => [
+          ConvertState(),
+          ConvertState(progress: 0.5),
+          ConvertState(progress: 1),
           ConvertState(
-            status: ConvertStatus.loadingFrames,
-          ),
-          ConvertState(
-            videoPath: 'test-video-path',
-            gifPath: 'test-gif-path',
-            status: ConvertStatus.success,
+            progress: 1,
+            status: ConvertStatus.framesProcessed,
+            processedFrames: List.filled(totalFrames, Uint8List(1)),
           ),
         ],
       );
 
       blocTest<ConvertBloc, ConvertState>(
-        'return error status on error',
+        'emits [loadingFrames, error] if toByteData fails',
         setUp: () {
-          convertRepository = _MockConvertRepository();
-          when(() => convertRepository.convertFrames(any()))
+          when(() => image.toByteData(format: ImageByteFormat.png))
               .thenThrow(Exception());
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(
-          ConvertFrames(frames),
-        ),
+        act: (bloc) => bloc.add(ConvertFrames(frames)),
         expect: () => [
-          ConvertState(
-            status: ConvertStatus.loadingFrames,
-          ),
-          ConvertState(
-            status: ConvertStatus.error,
-          ),
+          ConvertState(),
+          ConvertState(status: ConvertStatus.error),
         ],
       );
 
@@ -78,6 +72,60 @@ void main() {
             (state) => state.isFinished,
             'isFinished',
             true,
+          ),
+        ],
+      );
+    });
+
+    group('GenerateVideo', () {
+      const videoUrl = 'test-video-path';
+      const gifUrl = 'test-gif-path';
+      final processedFrames = List.filled(10, Uint8List(1));
+
+      blocTest<ConvertBloc, ConvertState>(
+        'emits [loadingVideo, videoProcessed] with videoPath and gifPath',
+        setUp: () {
+          when(() => convertRepository.convertFrames(any())).thenAnswer(
+            (_) async => ConvertResponse(
+              videoUrl: videoUrl,
+              gifUrl: gifUrl,
+            ),
+          );
+        },
+        seed: () => ConvertState(processedFrames: processedFrames),
+        build: () => ConvertBloc(convertRepository: convertRepository),
+        act: (bloc) => bloc.add(GenerateVideo()),
+        expect: () => [
+          ConvertState(
+            status: ConvertStatus.loadingVideo,
+            processedFrames: processedFrames,
+          ),
+          ConvertState(
+            status: ConvertStatus.videoProcessed,
+            processedFrames: processedFrames,
+            gifPath: gifUrl,
+            videoPath: videoUrl,
+          ),
+        ],
+      );
+
+      blocTest<ConvertBloc, ConvertState>(
+        'emits [loadingVideo, error] if convertFrames fails.',
+        setUp: () {
+          when(() => convertRepository.convertFrames(any()))
+              .thenThrow(Exception());
+        },
+        seed: () => ConvertState(processedFrames: processedFrames),
+        build: () => ConvertBloc(convertRepository: convertRepository),
+        act: (bloc) => bloc.add(GenerateVideo()),
+        expect: () => [
+          ConvertState(
+            status: ConvertStatus.loadingVideo,
+            processedFrames: processedFrames,
+          ),
+          ConvertState(
+            status: ConvertStatus.error,
+            processedFrames: processedFrames,
           ),
         ],
       );

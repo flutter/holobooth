@@ -88,13 +88,15 @@ class ConvertBody extends StatelessWidget {
           Navigator.of(context).push(
             SharePage.route(
               videoPath: state.videoPath,
-              firstFrame: state.firstFrame!,
+              firstFrame: state.processedFrames.first,
             ),
           );
         } else if (state.status == ConvertStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
+        } else if (state.status == ConvertStatus.framesProcessed) {
+          context.read<ConvertBloc>().add(const GenerateVideo());
         }
       },
       child: Stack(
@@ -150,8 +152,9 @@ class ConvertBody extends StatelessWidget {
                     );
 
                   case ConvertStatus.loadingVideo:
+                  case ConvertStatus.framesProcessed:
                     return const ConvertLoadingBody();
-                  case ConvertStatus.success:
+                  case ConvertStatus.videoProcessed:
                     return const ConvertFinished(dimension: 200);
                   case ConvertStatus.error:
                     return const SizedBox();

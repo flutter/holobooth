@@ -16,6 +16,10 @@ class ConvertFrames extends ConvertEvent {
   List<Object> get props => [frames];
 }
 
+class GenerateVideo extends ConvertEvent {
+  const GenerateVideo();
+}
+
 class FinishConvert extends ConvertEvent {
   const FinishConvert();
 }

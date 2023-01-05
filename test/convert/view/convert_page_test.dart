@@ -75,7 +75,7 @@ void main() {
           frames: [_MockRawFrame()],
           gifPath: 'not-important',
           videoPath: 'not-important',
-          status: ConvertStatus.success,
+          status: ConvertStatus.videoProcessed,
         ),
       );
 

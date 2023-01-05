@@ -8,7 +8,7 @@ part 'share_event.dart';
 part 'share_state.dart';
 
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
-  ShareBloc({ByteData? thumbnail, required String videoPath})
+  ShareBloc({Uint8List? thumbnail, required String videoPath})
       : super(
           ShareState(
             thumbnail: thumbnail,
