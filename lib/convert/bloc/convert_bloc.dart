@@ -16,7 +16,6 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   })  : _convertRepository = convertRepository,
         super(const ConvertState()) {
     on<ConvertFrames>(_convertFrames);
-    on<FinishConvert>(_finishConvert);
     on<GenerateVideo>(_generateVideo);
   }
 
@@ -68,13 +67,6 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     }
   }
 
-  FutureOr<void> _finishConvert(
-    FinishConvert event,
-    Emitter<ConvertState> emit,
-  ) async {
-    emit(state.copyWith(isFinished: true));
-  }
-
   Future<void> _generateVideo(
     GenerateVideo event,
     Emitter<ConvertState> emit,
@@ -91,7 +83,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           status: ConvertStatus.videoCreated,
         ),
       );
-    } on Exception catch (error, stackTrace) {
+    } catch (error, stackTrace) {
       addError(error, stackTrace);
       emit(
         state.copyWith(

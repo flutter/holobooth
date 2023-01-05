@@ -5,7 +5,6 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/share/view/view.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -88,14 +87,7 @@ class ConvertBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ConvertBloc, ConvertState>(
       listener: (context, state) {
-        if (state.isFinished) {
-          Navigator.of(context).push(
-            SharePage.route(
-              videoPath: state.videoPath,
-              firstFrame: state.processedFrames.first,
-            ),
-          );
-        } else if (state.status == ConvertStatus.error) {
+        if (state.status == ConvertStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );

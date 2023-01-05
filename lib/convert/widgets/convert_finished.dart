@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
@@ -52,7 +53,13 @@ class _ConvertFinishedState extends State<ConvertFinished>
   }
 
   void _finishConvert() {
-    context.read<ConvertBloc>().add(const FinishConvert());
+    final state = context.read<ConvertBloc>().state;
+    Navigator.of(context).push(
+      SharePage.route(
+        videoPath: state.videoPath,
+        firstFrame: state.processedFrames.first,
+      ),
+    );
   }
 
   @override
