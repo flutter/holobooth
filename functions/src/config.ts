@@ -8,4 +8,5 @@ export const ALLOWED_HOSTS = [
   'us-central1-io-photobooth-dev.cloudfunctions.net',
   'us-central1-io-photo-booth.cloudfunctions.net',
   'photobooth.flutter.dev',
+  'convert-it4sycsdja-uc.a.run.app',
 ];

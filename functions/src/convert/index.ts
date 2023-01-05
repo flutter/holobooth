@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v2';
 import * as path from 'path';
 
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
@@ -17,20 +17,23 @@ export const errorMessage = 'Something went wrong';
 /**
  * Public convert function
  */
-export const convert = functions.https.onRequest(async (req, res) => {
-  try {
-    const { status, videoUrl, gifUrl } = await convertImages(req);
+export const convert = functions.https.onRequest(
+  { memory: '1GiB' },
+  async (req, res) => {
+    try {
+      const { status, videoUrl, gifUrl } = await convertImages(req);
 
-    res.set('Access-Control-Allow-Origin', '*');
-    res.status(status).send({
-      video_url: videoUrl,
-      gif_url: gifUrl,
-    });
-  } catch (error) {
-    functions.logger.error(error);
-    res.status(500).send(errorMessage);
+      res.set('Access-Control-Allow-Origin', '*');
+      res.status(status).send({
+        video_url: videoUrl,
+        gif_url: gifUrl,
+      });
+    } catch (error) {
+      functions.logger.error(error);
+      res.status(500).send(errorMessage);
+    }
   }
-});
+);
 
 export async function convertImages(
   req: functions.https.Request,

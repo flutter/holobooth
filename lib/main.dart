@@ -41,7 +41,7 @@ Future<void> main() async {
 
   final avatarDetectorRepository = AvatarDetectorRepository();
   final convertRepository = ConvertRepository(
-    url: 'https://us-central1-io-photobooth-dev.cloudfunctions.net/convert',
+    url: 'https://convert-it4sycsdja-uc.a.run.app',
   );
 
   runZonedGuarded(
