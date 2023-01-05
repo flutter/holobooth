@@ -104,7 +104,7 @@ class _BottomContent extends StatelessWidget {
             ),
           ),
           Flexible(
-            flex: smallScreen ? 1 : 3,
+            flex: smallScreen ? 0 : 3,
             child: SelectableText(
               l10n.animojiIntroPageSubheading,
               key: const Key('animojiIntro_subheading_text'),
@@ -114,6 +114,7 @@ class _BottomContent extends StatelessWidget {
               textAlign: smallScreen ? TextAlign.center : TextAlign.left,
             ),
           ),
+          if (smallScreen) const SizedBox(height: 16),
           Flexible(
             child: NextButton(
               onNextPressed: () {
