@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
+import 'package:io_photobooth/share/share.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -15,32 +16,33 @@ class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
     implements ConvertBloc {}
 
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  late AudioPlayer audioPlayer;
-
-  setUp(() {
-    audioPlayer = _MockAudioPlayer();
-    when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
-    when(() => audioPlayer.play()).thenAnswer((_) async {});
-    when(() => audioPlayer.stop()).thenAnswer((_) async {});
-    when(() => audioPlayer.dispose()).thenAnswer((_) async {});
-    when(() => audioPlayer.playerStateStream).thenAnswer(
-      (_) => Stream.fromIterable(
-        [
-          PlayerState(true, ProcessingState.ready),
-        ],
-      ),
-    );
-
-    const MethodChannel('com.ryanheise.audio_session')
-        .setMockMethodCallHandler((call) async {
-      if (call.method == 'getConfiguration') {
-        return {};
-      }
-    });
-  });
-
   group('ConvertFinished', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    late AudioPlayer audioPlayer;
+    late ConvertBloc convertBloc;
+
+    setUp(() {
+      convertBloc = _MockConvertBloc();
+      audioPlayer = _MockAudioPlayer();
+      when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
+      when(() => audioPlayer.play()).thenAnswer((_) async {});
+      when(() => audioPlayer.stop()).thenAnswer((_) async {});
+      when(() => audioPlayer.dispose()).thenAnswer((_) async {});
+      when(() => audioPlayer.playerStateStream).thenAnswer(
+        (_) => Stream.fromIterable(
+          [
+            PlayerState(true, ProcessingState.ready),
+          ],
+        ),
+      );
+
+      const MethodChannel('com.ryanheise.audio_session')
+          .setMockMethodCallHandler((call) async {
+        if (call.method == 'getConfiguration') {
+          return {};
+        }
+      });
+    });
     testWidgets(
       'set asset correctly',
       (WidgetTester tester) async {
@@ -96,21 +98,24 @@ void main() {
     );
 
     testWidgets(
-      'after the play sound, send the event to the bloc',
+      'after the play sound, navigates to SharePage',
       (WidgetTester tester) async {
-        final bloc = _MockConvertBloc();
-
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(
+            processedFrames: [Uint8List.fromList(transparentImage)],
+          ),
+        );
         await tester.pumpApp(
-          BlocProvider<ConvertBloc>(
-            create: (_) => bloc,
+          BlocProvider.value(
+            value: convertBloc,
             child: ConvertFinished(
               dimension: 300,
               audioPlayer: () => audioPlayer,
             ),
           ),
         );
-
-        verify(() => bloc.add(const FinishConvert())).called(1);
+        await tester.pumpAndSettle();
+        expect(find.byType(SharePage), findsOneWidget);
       },
     );
   });

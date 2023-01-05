@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -144,30 +143,8 @@ void main() {
       await tester.pump(Duration(milliseconds: 300));
     });
 
-    testWidgets('navigates to SharePage on success', (tester) async {
-      final state = ConvertState(
-        isFinished: true,
-        processedFrames: [Uint8List.fromList(transparentImage)],
-      );
-
-      whenListen(
-        convertBloc,
-        Stream.value(state),
-        initialState: ConvertState(),
-      );
-
-      await tester.pumpSubject(
-        ConvertView(frames: frames),
-        convertBloc,
-      );
-
-      /// Wait for the player to complete
-      await tester.pump(Duration(seconds: 3));
-      await tester.pump();
-      expect(find.byType(SharePage), findsOneWidget);
-    });
-
-    testWidgets('shows snackbar with error if ', (tester) async {
+    testWidgets('shows snackbar with error if ConvertStatus.error',
+        (tester) async {
       whenListen(
         convertBloc,
         Stream.value(ConvertState(status: ConvertStatus.error)),
@@ -182,6 +159,22 @@ void main() {
       await tester.pump(kThemeAnimationDuration);
 
       expect(find.byType(SnackBar), findsOneWidget);
+    });
+
+    testWidgets('adds GenerateVideo if ConvertStatus.framesProcessed',
+        (tester) async {
+      whenListen(
+        convertBloc,
+        Stream.value(ConvertState(status: ConvertStatus.framesProcessed)),
+        initialState: ConvertState(),
+      );
+
+      await tester.pumpSubject(
+        ConvertView(frames: frames),
+        convertBloc,
+      );
+      verify(() => convertBloc.add(GenerateVideo())).called(1);
+      await tester.pump(Duration(milliseconds: 300));
     });
   });
 }

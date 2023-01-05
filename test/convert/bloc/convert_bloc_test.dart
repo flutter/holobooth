@@ -60,22 +60,6 @@ void main() {
           ConvertState(status: ConvertStatus.error),
         ],
       );
-
-      blocTest<ConvertBloc, ConvertState>(
-        'return finished state on FinishConvert event',
-        setUp: () {
-          convertRepository = _MockConvertRepository();
-        },
-        build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(FinishConvert()),
-        expect: () => [
-          isA<ConvertState>().having(
-            (state) => state.isFinished,
-            'isFinished',
-            true,
-          ),
-        ],
-      );
     });
 
     group('GenerateVideo', () {
