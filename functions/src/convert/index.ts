@@ -4,6 +4,8 @@ import * as path from 'path';
 
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
 import ffmpeg from 'fluent-ffmpeg';
+import Jimp from 'jimp';
+
 import fs from 'fs';
 import os from 'os';
 import _busboy from 'busboy';
@@ -33,7 +35,7 @@ export const convert = functions.https.onRequest(async (req, res) => {
 export async function convertImages(
   req: functions.https.Request,
 ): Promise<{
-  status: number;
+  status: number,
   videoUrl: string,
   gifUrl: string,
 }> {
@@ -59,8 +61,10 @@ export async function convertImages(
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
     const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
 
-    const videoUrl = await uploadFile(userId + '.mp4', videoPath);
-    const gifUrl = await uploadFile(userId + '.gif', gifPath);
+    const [ videoUrl, gifUrl ] = await Promise.all([
+      uploadFile(userId + '.mp4', videoPath),
+      uploadFile(userId + '.gif', gifPath),
+    ]);
 
     return { status: 200, videoUrl, gifUrl };
   } catch (error) {
@@ -132,16 +136,35 @@ export async function proceedFile(
   });
 }
 
+function adjustDimensions(width: number, height: number): {
+  width: number,
+  height: number,
+} {
+  const w = width % 2 == 0 ? width : width - 1;
+  const h = height % 2 == 0 ? height : height - 1;
+
+  return { width: w, height: h };
+}
+
 export async function convertToVideo(
   ffmpeg: ffmpeg,
   frames: string[],
   folder: string
 ): Promise<string> {
   const videoPath = `${folder}/video.mp4`;
+
+  const image = await Jimp.read(frames[0]);
+  const adjustedDimensions = adjustDimensions(
+    image.bitmap.width,
+    image.bitmap.height,
+  );
+
+  const scaleArg = `${adjustedDimensions.width}x${adjustedDimensions.height}`;
+
   return new Promise((resolve, reject) => {
     ffmpeg
       .addInput(folder + '/frame_%d.png')
-      .addOptions([ '-codec:v libx264', '-s 980x620', '-pix_fmt yuv420p' ])
+      .addOptions([ '-codec:v libx264', `-s ${scaleArg}`, '-pix_fmt yuv420p' ])
       .inputFPS(frames.length / 5)
       .mergeToFile(videoPath)
       .on('end', () => {

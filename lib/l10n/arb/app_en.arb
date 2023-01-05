@@ -417,5 +417,9 @@
   "getReady": "Get ready",
   "@getReady": {
     "description": "Text displayed before recording."
+  },
+  "faceNotDetected": "Face not detected",
+  "@faceNotDetected": {
+    "description": "Text displayed when there is no face detected."
   }
 }
