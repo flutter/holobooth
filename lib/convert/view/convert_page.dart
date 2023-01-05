@@ -99,15 +99,16 @@ class ConvertBody extends StatelessWidget {
         children: [
           Align(
             child: BlocBuilder<ConvertBloc, ConvertState>(
+              buildWhen: (previous, current) =>
+                  previous.status != current.status,
               builder: (context, state) {
                 if (state.status == ConvertStatus.error) {
                   return const SizedBox(key: errorViewKey);
-                } else if (state.status == ConvertStatus.loadingFrames) {
-                  return LoadingFramesView(progress: state.progress);
                 } else {
                   return AnimatedSwitcher(
                     duration: const Duration(seconds: 1),
-                    child: state.status == ConvertStatus.creatingVideo ||
+                    child: state.status == ConvertStatus.loadingFrames ||
+                            state.status == ConvertStatus.creatingVideo ||
                             state.status == ConvertStatus.framesProcessed
                         ? const CreatingVideoView()
                         : const ConvertFinished(dimension: 200),
