@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:just_audio/just_audio.dart';
@@ -36,6 +37,8 @@ void main() {
         ),
       );
 
+      AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+
       const MethodChannel('com.ryanheise.audio_session')
           .setMockMethodCallHandler((call) async {
         if (call.method == 'getConfiguration') {
@@ -43,13 +46,17 @@ void main() {
         }
       });
     });
+
+    tearDown(() {
+      AudioPlayerMixin.audioPlayerOverride = null;
+    });
+
     testWidgets(
       'set asset correctly',
       (WidgetTester tester) async {
         await tester.pumpApp(
           ConvertFinished(
             dimension: 300,
-            audioPlayer: () => audioPlayer,
           ),
         );
         await tester.pumpAndSettle();
@@ -91,7 +98,6 @@ void main() {
             value: convertBloc,
             child: ConvertFinished(
               dimension: 300,
-              audioPlayer: () => audioPlayer,
             ),
           ),
         );

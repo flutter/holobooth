@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
@@ -31,6 +32,7 @@ void main() {
         ],
       ),
     );
+    AudioPlayerMixin.audioPlayerOverride = audioPlayer;
 
     const MethodChannel('com.ryanheise.audio_session')
         .setMockMethodCallHandler((call) async {
@@ -40,6 +42,10 @@ void main() {
     });
   });
 
+  tearDown(() {
+    AudioPlayerMixin.audioPlayerOverride = null;
+  });
+
   group('ConvertLoadingView', () {
     testWidgets(
       'set asset correctly',
@@ -47,7 +53,6 @@ void main() {
         await tester.pumpApp(
           ConvertLoadingAnimation(
             dimension: 300,
-            audioPlayer: () => audioPlayer,
           ),
         );
         await tester.pump();

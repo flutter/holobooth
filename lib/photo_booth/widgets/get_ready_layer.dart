@@ -1,23 +1,18 @@
 import 'dart:async';
 
-import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-
-AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class GetReadyLayer extends StatefulWidget {
   const GetReadyLayer({
     super.key,
     required this.onCountdownCompleted,
-    ValueGetter<AudioPlayer>? audioPlayer,
-  }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
+  });
 
   final VoidCallback onCountdownCompleted;
-  final ValueGetter<AudioPlayer> _audioPlayer;
 
   static const countdownDuration = Duration(seconds: 3);
 
@@ -29,9 +24,11 @@ class GetReadyLayer extends StatefulWidget {
 }
 
 class _GetReadyLayerState extends State<GetReadyLayer>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AudioPlayerMixin {
   late final AnimationController controller;
-  late final AudioPlayer audioPlayer;
+
+  @override
+  String get audioAssetPath => Assets.audio.counting;
 
   @override
   void initState() {
@@ -46,17 +43,14 @@ class _GetReadyLayerState extends State<GetReadyLayer>
   }
 
   Future<void> _init() async {
-    audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
       duration: GetReadyLayer.countdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
     try {
-      final audioSession = await AudioSession.instance;
-      await audioSession.configure(const AudioSessionConfiguration.speech());
-      await audioPlayer.setAsset(Assets.audio.counting);
-      unawaited(audioPlayer.play());
+      await loadAudio();
+      unawaited(playAudio());
     } catch (_) {}
 
     await controller.reverse(from: 1);
@@ -80,7 +74,7 @@ class _GetReadyLayerState extends State<GetReadyLayer>
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
-    audioPlayer.dispose();
+
     super.dispose();
   }
 }

@@ -1,23 +1,18 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-
-AudioPlayer _getAudioPlayer() => AudioPlayer();
 
 class RecordingCountdown extends StatefulWidget {
   const RecordingCountdown({
     super.key,
     required this.onCountdownCompleted,
-    ValueGetter<AudioPlayer>? audioPlayer,
-  }) : _audioPlayer = audioPlayer ?? _getAudioPlayer;
+  });
 
   final VoidCallback onCountdownCompleted;
-  final ValueGetter<AudioPlayer> _audioPlayer;
 
   static const shutterCountdownDuration = Duration(seconds: 5);
 
@@ -29,9 +24,11 @@ class RecordingCountdown extends StatefulWidget {
 }
 
 class _RecordingCountdownState extends State<RecordingCountdown>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AudioPlayerMixin {
   late final AnimationController controller;
-  late final AudioPlayer audioPlayer;
+
+  @override
+  String get audioAssetPath => Assets.audio.camera;
 
   @override
   void initState() {
@@ -46,23 +43,12 @@ class _RecordingCountdownState extends State<RecordingCountdown>
   }
 
   Future<void> _init() async {
-    audioPlayer = widget._audioPlayer();
     controller = AnimationController(
       vsync: this,
       duration: RecordingCountdown.shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
-    final audioSession = await AudioSession.instance;
-    // Inform the operating system of our app's audio attributes etc.
-    // We pick a reasonable default for an app that plays speech.
-    try {
-      await audioSession.configure(const AudioSessionConfiguration.speech());
-    } catch (_) {}
-
-    // Try to load audio from a source and catch any errors.
-    try {
-      await audioPlayer.setAsset(Assets.audio.camera);
-    } catch (_) {}
+    await loadAudio();
 
     unawaited(controller.reverse(from: 1));
   }
@@ -72,7 +58,7 @@ class _RecordingCountdownState extends State<RecordingCountdown>
     controller
       ..removeStatusListener(_onAnimationStatusChanged)
       ..dispose();
-    audioPlayer.dispose();
+
     super.dispose();
   }
 
