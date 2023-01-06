@@ -24,7 +24,7 @@
   "dependencies": {
     "busboy": "^1.6.0",
     "firebase-admin": "^10.3.0",
-    "firebase-functions": "^4.1.0",
+    "firebase-functions": "^4.1.1",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
     "jimp": "^0.16.2",
