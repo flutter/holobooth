@@ -24,7 +24,7 @@ export default `
     <meta name="twitter:site" content="@flutterdev">
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500" rel="stylesheet">
-    
+
     <style>{{{styles}}}</style>
   </head>
   <body>
@@ -44,7 +44,7 @@ export default `
           <img class="flutter-forward-logo" src={{assetUrls.flutterForwardLogo}} />
           <h1>Check it out my Flutter holocard!</h1>
           <h2>
-            This video has been created with Flutter web app. 
+            This video has been created with Flutter web app.
             Create your unique video in a few steps:
           </h2>
           <a class="btn elevated-btn try-now-btn" href="/">
@@ -56,7 +56,9 @@ export default `
             Share
           </a>
           <p class="disclaimer">
-          Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact flutter-photo-booth@google.com and be sure to include your unique URL in your request.
+          Your photo will be available at that URL for 30 days and then automatically deleted.
+          To request early deletion of your photo, please contact flutter-photo-booth@google.com and
+          be sure to include your unique URL in your request.
           </p>
         </div>
       </div>
