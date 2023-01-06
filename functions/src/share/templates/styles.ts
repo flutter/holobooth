@@ -213,4 +213,87 @@ footer .right a {
   margin-right: 24px;
   text-decoration: none;
 }
+
+@media (max-width: 860px) {
+  body {
+    display: block;
+  }
+
+  main {
+    display: block;
+  }
+
+  .share-video {
+    margin-top: 32px;
+    height: 464px;
+  }
+
+  .card-frame {
+    width: 218px;
+    height: 217px;
+    position: absolute;
+    bottom: 256px;
+  }
+  
+  .card-frame .video-clip {
+    height: 218px;
+    width: 186px;
+    top: 14px;
+  }
+  
+  .card-frame .video-clip video {
+    height: 318px;
+    position: absolute;
+  }
+  
+  .holocard {
+    width: 608px;
+    height: 616px;
+  }
+
+  .info {
+    padding: 0px 24px;
+  }
+
+  .info .info-content {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info .flutter-forward-logo {
+    margin-top: 0px;
+  }
+
+  .info h1 {
+    font-size: 34px;
+    line-height: 44px;
+    text-align: center;
+  }
+
+  .info h2 {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .try-now-btn {
+    margin-right: 0px;
+    margin-bottom: 24px;
+  }
+
+  .disclaimer {
+    margin-bottom: 86px;
+  }
+
+  footer {
+    justify-content: center;
+  }
+
+  footer .right {
+    display: none;
+  }
+}
+
 `;
