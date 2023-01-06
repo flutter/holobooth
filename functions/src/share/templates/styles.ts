@@ -241,9 +241,76 @@ footer .right a {
   margin-bottom: 24px;
 }
 
+.not-found-backdrop {
+  z-index: -1;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-image: url("{{{assetUrls.notFoundBg}}}");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.not-found-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-panel h1 {
+  font-size: 54px;
+  line-height: 64px;
+  margin-bottom: 24px;
+}
+
+.not-found-panel h2 {
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+.relaunch-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 48px;
+  gap: 8px;
+
+  width: 286px;
+  height: 48px;
+}
+
 @media (max-width: 860px) {
   body {
     display: block;
+  }
+
+  body.not-found-page {
+    display: flex;
+  }
+
+  .not-found-backdrop {
+    background-image: url("{{{assetUrls.notFoundMobileBg}}}");
+  }
+
+  .not-found-panel {
+    padding: 24px 0;
+  }
+
+  .not-found-panel h1 {
+    font-size: 34px;
+    line-height: 44px;
+    text-align: center;
+  }
+
+  .not-found-panel h2 {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
   }
 
   main {

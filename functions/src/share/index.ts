@@ -7,6 +7,7 @@ import mustache from 'mustache';
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
 import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
+import footerTmpl from './templates/footer';
 import stylesTmpl from './templates/styles';
 import scriptsTmpl from './templates/scripts';
 import gaTmpl from './templates/ga';
@@ -21,8 +22,6 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   assetUrls: {
     favicon: bucketPathForFile('public/favicon.png'),
     bg: bucketPathForFile('public/background.png'),
-    bgMobile: bucketPathForFile('public/background.png'),
-    notFoundPhoto: bucketPathForFile('public/404-photo.png'),
     playArrowIcon: bucketPathForFile('public/play-arrow.png'),
     shareIcon: bucketPathForFile('public/share.png'),
     flutterForwardLogo: bucketPathForFile('public/flutter-forward-logo.png'),
@@ -31,6 +30,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     firebaseIcon: bucketPathForFile('public/firebase-icon.png'),
     tensorflowIcon: bucketPathForFile('public/tensorflow-icon.png'),
     holocard: bucketPathForFile('public/holocard.png'),
+    notFoundBg: bucketPathForFile('public/not-found-bg.png'),
+    notFoundMobileBg: bucketPathForFile('public/not-found-mobile-bg.png'),
   },
   meta: {
     title: 'Google I/O Photo Booth',
@@ -42,6 +43,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   ga: gaTmpl,
   styles: '',
   scripts: '',
+  footer: '',
 };
 
 
@@ -69,6 +71,7 @@ function renderTemplate(
 ): string {
   context.styles = mustache.render(stylesTmpl, context);
   context.scripts = mustache.render(scriptsTmpl, context);
+  context.footer = mustache.render(footerTmpl, context);
   return mustache.render(tmpl, context);
 }
 
