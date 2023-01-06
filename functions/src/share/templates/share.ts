@@ -94,6 +94,19 @@ export default `
         </ul>
       </div>
     </footer>
+    <div class="video-pop-up">
+      <video src="{{{shareVideoUrl}}}"></video>
+      <a href="#" class="btn elevated-btn play-button">
+        <img src={{assetUrls.playArrowIcon}} />
+        Play
+      </a>
+      <a href="#" class="btn outline-btn close-button">
+        Close
+      </a>
+    </div>
   </body>
+  <script type="text/javascript">
+  {{{scripts}}}
+  </script>
 </html>
 `;

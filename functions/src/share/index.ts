@@ -8,6 +8,7 @@ import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
 import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
 import stylesTmpl from './templates/styles';
+import scriptsTmpl from './templates/scripts';
 import gaTmpl from './templates/ga';
 
 
@@ -40,6 +41,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   },
   ga: gaTmpl,
   styles: '',
+  scripts: '',
 };
 
 
@@ -66,6 +68,7 @@ function renderTemplate(
   tmpl: string, context: Record<string, string | Record<string, string>>
 ): string {
   context.styles = mustache.render(stylesTmpl, context);
+  context.scripts = mustache.render(scriptsTmpl, context);
   return mustache.render(tmpl, context);
 }
 

@@ -134,6 +134,7 @@ h2 {
   bottom: 206px;
   left: 50%;
   transform: translate(-50%, 0);
+  cursor: pointer;
 }
 
 .card-frame img {
@@ -212,6 +213,32 @@ footer .right a {
   text-align: center;
   margin-right: 24px;
   text-decoration: none;
+}
+
+.video-pop-up {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  background: rgba(2, 3, 32, 0.95);
+  backdrop-filter: blur(7.5px);
+  border-radius: 38px;
+  border: 1px solid #9E81EF;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-pop-up video {
+  margin: 24px;
+}
+
+.video-pop-up .play-button {
+  margin-bottom: 16px;
+}
+
+.video-pop-up .close-button {
+  margin-bottom: 24px;
 }
 
 @media (max-width: 860px) {
@@ -295,5 +322,4 @@ footer .right a {
     display: none;
   }
 }
-
 `;
