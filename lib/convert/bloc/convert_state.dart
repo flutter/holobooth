@@ -4,34 +4,26 @@ class ConvertState extends Equatable {
   const ConvertState({
     this.videoPath = '',
     this.gifPath = '',
-    this.isFinished = false,
-    this.status = ConvertStatus.loadingFrames,
-    this.progress = 0,
-    this.processedFrames = const [],
+    this.status = ConvertStatus.creatingVideo,
+    this.firstFrameProcessed,
   });
 
   final String videoPath;
   final String gifPath;
-  final bool isFinished;
   final ConvertStatus status;
-  final double progress;
-  final List<Uint8List> processedFrames;
+  final Uint8List? firstFrameProcessed;
 
   ConvertState copyWith({
     String? videoPath,
     String? gifPath,
-    bool? isFinished,
     ConvertStatus? status,
-    double? progress,
-    List<Uint8List>? processedFrames,
+    Uint8List? firstFrameProcessed,
   }) {
     return ConvertState(
       videoPath: videoPath ?? this.videoPath,
       gifPath: gifPath ?? this.gifPath,
-      isFinished: isFinished ?? this.isFinished,
       status: status ?? this.status,
-      progress: progress ?? this.progress,
-      processedFrames: processedFrames ?? this.processedFrames,
+      firstFrameProcessed: firstFrameProcessed ?? this.firstFrameProcessed,
     );
   }
 
@@ -39,16 +31,12 @@ class ConvertState extends Equatable {
   List<Object?> get props => [
         videoPath,
         gifPath,
-        isFinished,
         status,
-        progress,
-        processedFrames,
+        firstFrameProcessed,
       ];
 }
 
 enum ConvertStatus {
-  loadingFrames,
-  framesProcessed,
   creatingVideo,
   videoCreated,
   error,
