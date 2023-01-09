@@ -1,10 +1,10 @@
 {
   "@@locale": "en",
-  "landingPageHeading": "Welcome to the HoloBooth",
+  "landingPageHeading": "Holobooth",
   "@landingPageHeading": {
     "description": "Heading shown on the landing page."
   },
-  "landingPageSubheading": " Jump into a new reality, create unique videos and share it with the community!",
+  "landingPageSubheading": " Jump into a new reality to bring Dash and Sparky to life and share your creations with the community!",
   "@landingPageSubheading": {
     "description": "Subheading shown on the landing page."
   },
@@ -12,7 +12,7 @@
   "@landingPageTakePhotoButtonText": {
     "description": "Button text shown on the landing page which navigates to the photo booth."
   },
-  "animojiIntroPageSubheading": "Activate your camera and move your face to control the character expressions and movements.",
+  "animojiIntroPageSubheading": "Activate your camera and move your head to control Dash and Sparky.",
   "@animojiIntroPageSubheading": {
     "description": "Subheading shown on the animoji intro page."
   },
@@ -320,11 +320,11 @@
   "@clearAllStickersButtonLabelText": {
     "description": "Semantic label for the clear all stickers button"
   },
-  "selectABackgroundTitleText": "Select a background",
+  "selectABackgroundTitleText": "Select a scene",
   "@selectABackgroundTitleText": {
     "description": "Title text displayed at top of select a background page"
   },
-  "chooseYourCharacterTitleText": "Choose your character",
+  "chooseYourCharacterTitleText": "Select your avatar",
   "@chooseYourCharacterTitleText": {
     "description": "Title text displayed at top of select a character page"
   },

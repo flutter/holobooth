@@ -1,5 +1,9 @@
 enum Clothes {
   none,
-  clothes1,
-  clothes2,
+  swimmingSuit,
+  greyShirt,
+  safariShirt,
+  blueCheckeredShirt,
+  greySuit,
+  astronautSuit,
 }

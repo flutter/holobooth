@@ -90,7 +90,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => convertBloc.state).thenReturn(
           ConvertState(
-            processedFrames: [Uint8List.fromList(transparentImage)],
+            firstFrameProcessed: Uint8List.fromList(transparentImage),
           ),
         );
         await tester.pumpApp(

@@ -88,6 +88,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
         const Divider(),
         Expanded(
           child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: const [
               HatsSelectionTabBarView(),

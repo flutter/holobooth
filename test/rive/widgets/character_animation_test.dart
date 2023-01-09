@@ -233,16 +233,29 @@ void main() {
     });
 
     group('left eye', () {
+      late LeftEyeGeometry openLeftEyeGeometry;
+      late LeftEyeGeometry winkingLeftEyeGeometry;
+
+      setUp(() {
+        openLeftEyeGeometry = _MockLeftEyeGeometry();
+        when(() => openLeftEyeGeometry.population).thenReturn(200);
+        when(() => openLeftEyeGeometry.isClosed).thenReturn(false);
+        when(() => openLeftEyeGeometry.minRatio).thenReturn(0);
+        when(() => openLeftEyeGeometry.maxRatio).thenReturn(1);
+        when(() => openLeftEyeGeometry.meanRatio).thenReturn(0.5);
+        when(() => openLeftEyeGeometry.distance).thenReturn(0);
+
+        winkingLeftEyeGeometry = _MockLeftEyeGeometry();
+        when(() => winkingLeftEyeGeometry.population).thenReturn(200);
+        when(() => winkingLeftEyeGeometry.isClosed).thenReturn(true);
+        when(() => winkingLeftEyeGeometry.minRatio).thenReturn(0);
+        when(() => winkingLeftEyeGeometry.maxRatio).thenReturn(1);
+        when(() => winkingLeftEyeGeometry.meanRatio).thenReturn(0.5);
+        when(() => winkingLeftEyeGeometry.distance).thenReturn(0.6);
+      });
+
       testWidgets('winks', (tester) async {
         await tester.runAsync(() async {
-          final openLeftEyeGeometry = _MockLeftEyeGeometry();
-          when(() => openLeftEyeGeometry.population).thenReturn(200);
-          when(() => openLeftEyeGeometry.isClosed).thenReturn(false);
-          when(() => openLeftEyeGeometry.minRatio).thenReturn(0);
-          when(() => openLeftEyeGeometry.maxRatio).thenReturn(1);
-          when(() => openLeftEyeGeometry.meanRatio).thenReturn(0.5);
-          when(() => openLeftEyeGeometry.distance).thenReturn(0);
-
           var avatar = Avatar(
             hasMouthOpen: false,
             mouthDistance: 0,
@@ -277,14 +290,6 @@ void main() {
               as CharacterAnimationState;
           final controller = state.characterController!;
           expect(controller.leftEyeIsClosed.value, equals(0));
-
-          final winkingLeftEyeGeometry = _MockLeftEyeGeometry();
-          when(() => winkingLeftEyeGeometry.population).thenReturn(200);
-          when(() => winkingLeftEyeGeometry.isClosed).thenReturn(true);
-          when(() => winkingLeftEyeGeometry.minRatio).thenReturn(0);
-          when(() => winkingLeftEyeGeometry.maxRatio).thenReturn(1);
-          when(() => winkingLeftEyeGeometry.meanRatio).thenReturn(0.5);
-          when(() => winkingLeftEyeGeometry.distance).thenReturn(0.6);
 
           stateSetter(() {
             avatar = Avatar(
@@ -318,14 +323,6 @@ void main() {
 
       testWidgets('opens after winking', (tester) async {
         await tester.runAsync(() async {
-          final openLeftEyeGeometry = _MockLeftEyeGeometry();
-          when(() => openLeftEyeGeometry.population).thenReturn(200);
-          when(() => openLeftEyeGeometry.isClosed).thenReturn(false);
-          when(() => openLeftEyeGeometry.minRatio).thenReturn(0);
-          when(() => openLeftEyeGeometry.maxRatio).thenReturn(1);
-          when(() => openLeftEyeGeometry.meanRatio).thenReturn(0.5);
-          when(() => openLeftEyeGeometry.distance).thenReturn(0);
-
           var avatar = Avatar(
             hasMouthOpen: false,
             mouthDistance: 0,
@@ -360,14 +357,6 @@ void main() {
               as CharacterAnimationState;
           final controller = state.characterController!;
           expect(controller.leftEyeIsClosed.value, equals(0));
-
-          final winkingLeftEyeGeometry = _MockLeftEyeGeometry();
-          when(() => winkingLeftEyeGeometry.population).thenReturn(200);
-          when(() => winkingLeftEyeGeometry.isClosed).thenReturn(true);
-          when(() => winkingLeftEyeGeometry.minRatio).thenReturn(0);
-          when(() => winkingLeftEyeGeometry.maxRatio).thenReturn(1);
-          when(() => winkingLeftEyeGeometry.meanRatio).thenReturn(0.5);
-          when(() => winkingLeftEyeGeometry.distance).thenReturn(0.6);
 
           stateSetter(() {
             avatar = Avatar(
@@ -413,75 +402,173 @@ void main() {
       });
     });
 
-    testWidgets('updates right eye', (tester) async {
-      final initialRightEyeGeometry = _MockRightEyeGeometry();
-      when(() => initialRightEyeGeometry.population).thenReturn(0);
-      when(() => initialRightEyeGeometry.isClosed).thenReturn(false);
-      when(() => initialRightEyeGeometry.minRatio).thenReturn(0);
-      when(() => initialRightEyeGeometry.maxRatio).thenReturn(0);
-      when(() => initialRightEyeGeometry.meanRatio).thenReturn(0);
-      when(() => initialRightEyeGeometry.distance).thenReturn(0);
+    group('right eye', () {
+      late RightEyeGeometry openRightEyeGeometry;
+      late RightEyeGeometry winkingRightEyeGeometry;
 
-      var avatar = Avatar(
-        hasMouthOpen: false,
-        mouthDistance: 0,
-        rotation: Vector3.zero,
-        leftEyeGeometry: LeftEyeGeometry.empty(),
-        rightEyeGeometry: initialRightEyeGeometry,
-        distance: 0.5,
-      );
+      setUp(() {
+        openRightEyeGeometry = _MockRightEyeGeometry();
+        when(() => openRightEyeGeometry.population).thenReturn(200);
+        when(() => openRightEyeGeometry.isClosed).thenReturn(false);
+        when(() => openRightEyeGeometry.minRatio).thenReturn(0);
+        when(() => openRightEyeGeometry.maxRatio).thenReturn(1);
+        when(() => openRightEyeGeometry.meanRatio).thenReturn(0.5);
+        when(() => openRightEyeGeometry.distance).thenReturn(0);
 
-      late StateSetter stateSetter;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              stateSetter = setState;
-              return CharacterAnimation(
-                avatar: avatar,
-                hat: Hats.none,
-                glasses: Glasses.none,
-                clothes: Clothes.none,
-                handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
-                riveImageSize: riveImageSize,
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-
-      final state = tester.state(find.byType(CharacterAnimation))
-          as CharacterAnimationState;
-      final controller = state.characterController!;
-      expect(controller.rightEyeIsClosed.value, equals(0));
-
-      final newRightEyeGeometry = _MockRightEyeGeometry();
-      when(() => newRightEyeGeometry.population).thenReturn(200);
-      when(() => newRightEyeGeometry.isClosed).thenReturn(true);
-      when(() => newRightEyeGeometry.minRatio).thenReturn(0);
-      when(() => newRightEyeGeometry.maxRatio).thenReturn(1);
-      when(() => newRightEyeGeometry.meanRatio).thenReturn(0.5);
-      when(() => newRightEyeGeometry.distance).thenReturn(0.6);
-
-      stateSetter(() {
-        avatar = Avatar(
-          hasMouthOpen: !avatar.hasMouthOpen,
-          mouthDistance: 0,
-          rotation: Vector3.zero,
-          leftEyeGeometry: LeftEyeGeometry.empty(),
-          rightEyeGeometry: newRightEyeGeometry,
-          distance: avatar.distance,
-        );
+        winkingRightEyeGeometry = _MockRightEyeGeometry();
+        when(() => winkingRightEyeGeometry.population).thenReturn(200);
+        when(() => winkingRightEyeGeometry.isClosed).thenReturn(true);
+        when(() => winkingRightEyeGeometry.minRatio).thenReturn(0);
+        when(() => winkingRightEyeGeometry.maxRatio).thenReturn(1);
+        when(() => winkingRightEyeGeometry.meanRatio).thenReturn(0.5);
+        when(() => winkingRightEyeGeometry.distance).thenReturn(0.6);
       });
-      await tester.pump(Duration(milliseconds: 150));
-      await tester.pump(Duration(milliseconds: 150));
 
-      expect(
-        controller.rightEyeIsClosed.value,
-        equals(-20),
-      );
+      testWidgets('winks', (tester) async {
+        await tester.runAsync(() async {
+          var avatar = Avatar(
+            hasMouthOpen: false,
+            mouthDistance: 0,
+            rotation: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: openRightEyeGeometry,
+            distance: 0.5,
+          );
+
+          late StateSetter stateSetter;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: StatefulBuilder(
+                builder: (context, setState) {
+                  stateSetter = setState;
+                  return CharacterAnimation(
+                    avatar: avatar,
+                    hat: Hats.none,
+                    glasses: Glasses.none,
+                    clothes: Clothes.none,
+                    handheldlLeft: HandheldlLeft.none,
+                    assetGenImage: assetGenImage,
+                    riveImageSize: riveImageSize,
+                  );
+                },
+              ),
+            ),
+          );
+          await tester.pump();
+
+          final state = tester.state(find.byType(CharacterAnimation))
+              as CharacterAnimationState;
+          final controller = state.characterController!;
+          expect(controller.rightEyeIsClosed.value, equals(0));
+
+          stateSetter(() {
+            avatar = Avatar(
+              hasMouthOpen: !avatar.hasMouthOpen,
+              mouthDistance: 0,
+              rotation: Vector3.zero,
+              leftEyeGeometry: LeftEyeGeometry.empty(),
+              rightEyeGeometry: winkingRightEyeGeometry,
+              distance: avatar.distance,
+            );
+          });
+          await tester.pump(Duration(milliseconds: 150));
+          await Future<void>.delayed(CharacterAnimationState.eyeWinkDuration);
+
+          stateSetter(() {
+            avatar = Avatar(
+              hasMouthOpen: !avatar.hasMouthOpen,
+              mouthDistance: 0,
+              rotation: Vector3.zero,
+              leftEyeGeometry: LeftEyeGeometry.empty(),
+              rightEyeGeometry: winkingRightEyeGeometry,
+              distance: avatar.distance,
+            );
+          });
+          await tester.pump(Duration(milliseconds: 150));
+          await tester.pump(Duration(milliseconds: 150));
+          expect(controller.rightEyeIsClosed.value, equals(100));
+        });
+      });
+
+      testWidgets('opens after winking', (tester) async {
+        await tester.runAsync(() async {
+          var avatar = Avatar(
+            hasMouthOpen: false,
+            mouthDistance: 0,
+            rotation: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: openRightEyeGeometry,
+            distance: 0.5,
+          );
+
+          late StateSetter stateSetter;
+          await tester.pumpWidget(
+            MaterialApp(
+              home: StatefulBuilder(
+                builder: (context, setState) {
+                  stateSetter = setState;
+                  return CharacterAnimation(
+                    avatar: avatar,
+                    hat: Hats.none,
+                    glasses: Glasses.none,
+                    clothes: Clothes.none,
+                    handheldlLeft: HandheldlLeft.none,
+                    assetGenImage: assetGenImage,
+                    riveImageSize: riveImageSize,
+                  );
+                },
+              ),
+            ),
+          );
+          await tester.pump();
+
+          final state = tester.state(find.byType(CharacterAnimation))
+              as CharacterAnimationState;
+          final controller = state.characterController!;
+          expect(controller.rightEyeIsClosed.value, equals(0));
+
+          stateSetter(() {
+            avatar = Avatar(
+              hasMouthOpen: !avatar.hasMouthOpen,
+              mouthDistance: 0,
+              rotation: Vector3.zero,
+              leftEyeGeometry: LeftEyeGeometry.empty(),
+              rightEyeGeometry: winkingRightEyeGeometry,
+              distance: avatar.distance,
+            );
+          });
+          await tester.pump(Duration(milliseconds: 150));
+          await Future<void>.delayed(CharacterAnimationState.eyeWinkDuration);
+
+          stateSetter(() {
+            avatar = Avatar(
+              hasMouthOpen: !avatar.hasMouthOpen,
+              mouthDistance: 0,
+              rotation: Vector3.zero,
+              leftEyeGeometry: LeftEyeGeometry.empty(),
+              rightEyeGeometry: winkingRightEyeGeometry,
+              distance: avatar.distance,
+            );
+          });
+          await tester.pump(Duration(milliseconds: 150));
+          await tester.pump(Duration(milliseconds: 150));
+          expect(controller.rightEyeIsClosed.value, equals(100));
+
+          stateSetter(() {
+            avatar = Avatar(
+              hasMouthOpen: !avatar.hasMouthOpen,
+              mouthDistance: 0,
+              rotation: Vector3.zero,
+              leftEyeGeometry: LeftEyeGeometry.empty(),
+              rightEyeGeometry: openRightEyeGeometry,
+              distance: avatar.distance,
+            );
+          });
+          await tester.pump(Duration(milliseconds: 150));
+          await tester.pump(Duration(milliseconds: 150));
+          expect(controller.rightEyeIsClosed.value, equals(0));
+        });
+      });
     });
 
     testWidgets('updates scale', (tester) async {
@@ -570,7 +657,7 @@ void main() {
       expect(controller.hats.value, equals(hat.index));
 
       stateSetter(() {
-        hat = Hats.helmet;
+        hat = Hats.astronaut;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -604,15 +691,15 @@ void main() {
       final state = tester.state(find.byType(CharacterAnimation))
           as CharacterAnimationState;
       final controller = state.characterController!;
-      expect(controller.glasses.value, equals(glasses.riveIndex));
+      expect(controller.glasses.value, equals(glasses.index));
 
       stateSetter(() {
-        glasses = Glasses.glasses1;
+        glasses = Glasses.sunGlasses;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller.glasses.value, equals(glasses.riveIndex));
+      expect(controller.glasses.value, equals(glasses.index));
     });
 
     testWidgets('updates clothes', (tester) async {
@@ -644,7 +731,7 @@ void main() {
       expect(controller.clothes.value, equals(clothes.index));
 
       stateSetter(() {
-        clothes = Clothes.clothes1;
+        clothes = Clothes.swimmingSuit;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -681,7 +768,7 @@ void main() {
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
       stateSetter(() {
-        handheldLeft = HandheldlLeft.handheldLeft1;
+        handheldLeft = HandheldlLeft.apple;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));

@@ -66,12 +66,6 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The smaller the value the more sensitive the animation will be.
   static const _rotationToleration = 3;
 
-  /// The amount of eye movement required to trigger an eye animation.
-  ///
-  /// The smaller the value the more sensitive the animation will be. This
-  /// tolerance applies to both the left and right eye.
-  static const _eyeDistanceToleration = 10;
-
   /// The minimum number of samples taken before the eye animation is
   /// enabled.
   ///
@@ -79,12 +73,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// before it can be used. This applies to both the left and right eye.
   static const _eyePopulationMin = 10;
 
-  /// The amount of eye movement required to consider the eye as fully closed.
-  ///
-  /// The higher the value the more the eye will be allowed to be closed before
-  /// it is considered to be a full closure. This applies to both the left and
-  /// right eye.
-  static const _eyeClosureToleration = 50;
+  /// The amount of time the eye will be closed for before it is considered to
+  /// be a wink.
+  @visibleForTesting
+  static const eyeWinkDuration = Duration(milliseconds: 100);
 
   /// The amount of movement towards or from the camera required to trigger a
   /// scale animation.
@@ -114,11 +106,6 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @visibleForTesting
   static const mouthScale = 5.0;
 
-  /// The amount of time the eye will be closed for before it is considered to
-  /// be a wink.
-  @visibleForTesting
-  static const eyeWinkDuration = Duration(milliseconds: 150);
-
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -141,9 +128,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   late final AnimationController _rightEyeAnimationController =
       AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 60),
+    duration: const Duration(milliseconds: 150),
   );
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
+  DateTime? _rightEyeClosureTimestamp;
 
   late final AnimationController _mouthAnimationController =
       AnimationController(
@@ -219,7 +207,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       );
       // Direction has range of values [-1, 1], and the
       // animation controller [-100, 100] so we multiply
-      // by 100 to correlate the values
+      // by 100 to correlate the values.
       final newRotationVector = Vector3(
         (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
         (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
@@ -263,26 +251,26 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         newLeftEyeValue = 0;
       }
 
-      final hasOpenedLeftEye =
-          !leftEyeGeometry.isClosed && _leftEyeClosureTimestamp != null;
+      late final bool shouldAnimateLeftEye;
+      final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+          _leftEyeClosureTimestamp != null &&
+          !_leftEyeAnimationController.isAnimating;
       if (hasOpenedLeftEye) {
         _leftEyeClosureTimestamp = null;
-        _leftEyeTween
-          ..begin = previousLeftEyeValue
-          ..end = newLeftEyeValue;
-        _leftEyeAnimationController.forward(from: 0);
+        shouldAnimateLeftEye = hasOpenedLeftEye;
       } else {
         final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
             previousLeftEyeValue == 0 &&
             _leftEyeClosureTimestamp != null &&
             DateTime.now().difference(_leftEyeClosureTimestamp!) >
                 eyeWinkDuration;
-        if (startedWinkingLeftEye) {
-          _leftEyeTween
-            ..begin = previousLeftEyeValue
-            ..end = newLeftEyeValue;
-          _leftEyeAnimationController.forward(from: 0);
-        }
+        shouldAnimateLeftEye = startedWinkingLeftEye;
+      }
+      if (shouldAnimateLeftEye) {
+        _leftEyeTween
+          ..begin = previousLeftEyeValue
+          ..end = newLeftEyeValue;
+        _leftEyeAnimationController.forward(from: 0);
       }
 
       final previousRightEyeValue = characterController.rightEyeIsClosed.value;
@@ -290,26 +278,36 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       late final double newRightEyeValue;
       if (rightEyeGeometry.population > _eyePopulationMin &&
           rightEyeGeometry.minRatio != null &&
+          rightEyeGeometry.maxRatio != null &&
           rightEyeGeometry.meanRatio != null &&
           rightEyeGeometry.distance != null &&
           rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
           rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
-        final accurateNewLeftEyeValue = 100 -
-            rightEyeGeometry.distance!.normalize(
-              fromMin: rightEyeGeometry.minRatio!,
-              fromMax: rightEyeGeometry.meanRatio!,
-              toMax: 100,
-            );
-        if (accurateNewLeftEyeValue > _eyeClosureToleration) {
+        if (rightEyeGeometry.isClosed) {
+          _rightEyeClosureTimestamp ??= DateTime.now();
           newRightEyeValue = 100;
         } else {
-          newRightEyeValue = accurateNewLeftEyeValue;
+          newRightEyeValue = 0;
         }
       } else {
         newRightEyeValue = 0;
       }
-      if ((newRightEyeValue - previousRightEyeValue).abs() >
-          _eyeDistanceToleration) {
+      late final bool shouldAnimateRightEye;
+      final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+          _rightEyeClosureTimestamp != null &&
+          !_rightEyeAnimationController.isAnimating;
+      if (hasOpenedRightEye) {
+        _rightEyeClosureTimestamp = null;
+        shouldAnimateRightEye = hasOpenedRightEye;
+      } else {
+        final startedWinkingRightEye = rightEyeGeometry.isClosed &&
+            previousRightEyeValue == 0 &&
+            _rightEyeClosureTimestamp != null &&
+            DateTime.now().difference(_rightEyeClosureTimestamp!) >
+                eyeWinkDuration;
+        shouldAnimateRightEye = startedWinkingRightEye;
+      }
+      if (shouldAnimateRightEye) {
         _rightEyeTween
           ..begin = previousRightEyeValue
           ..end = newRightEyeValue;
@@ -323,7 +321,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       }
       if (oldWidget.glasses != widget.glasses) {
         characterController.glasses.change(
-          widget.glasses.riveIndex,
+          widget.glasses.index.toDouble(),
         );
       }
       if (oldWidget.clothes != widget.clothes) {

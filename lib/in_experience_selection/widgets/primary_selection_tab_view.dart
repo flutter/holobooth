@@ -80,6 +80,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             child: TabBarView(
               key: PrimarySelectionView.primaryTabBarViewKey,
               controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
               children: const [
                 CharacterSelectionTabBarView(),
                 BackgroundSelectionTabBarView(),

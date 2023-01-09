@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
@@ -43,7 +45,7 @@ class _ConvertFinishedState extends State<ConvertFinished>
     Navigator.of(context).push(
       SharePage.route(
         videoPath: state.videoPath,
-        firstFrame: state.processedFrames.first,
+        firstFrame: state.firstFrameProcessed ?? Uint8List.fromList([]),
       ),
     );
   }
