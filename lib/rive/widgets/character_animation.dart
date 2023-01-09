@@ -114,11 +114,11 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The amount of time given to travel the
   /// [hairWiggleHorizontalRotationDistance].
   @visibleForTesting
-  static const Duration hairWiggleDurationLimit = Duration(seconds: 2);
+  static const Duration hairWiggleDurationLimit = Duration(seconds: 1);
 
   /// The amount of distance that needs to be travelled horizontally
   /// within the [hairWiggleDurationLimit] to trigger the hair wiggle animation.
-  static const double hairWiggleHorizontalRotationDistance = 0.4;
+  static const double hairWiggleHorizontalRotationDistance = 0.5;
 
   @visibleForTesting
   CharacterStateMachineController? characterController;
@@ -407,13 +407,11 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     if (hasHorizontalRotationDirectionChanged) {
       _timeSinceHorizontalRotationDirectionChanged = DateTime.now();
       _horizontalRotationTravelledDistance = 0;
-      print('Direction Changed');
     } else {
       _horizontalRotationTravelledDistance += horizontalRotationDifference;
       final elapsedTimeSinceDirectionChanged = DateTime.now()
           .difference(timeSinceHorizontalRotationDirectionChanged);
 
-      // TODO(alestiago): Check if already wiggling, if so it should not wiggle.
       final characterController = this.characterController;
       final canAnimateHairWiggle =
           characterController != null && characterController.hairWiggle != null;
@@ -421,10 +419,13 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         final shouldAnimateHairWiggle = _horizontalRotationTravelledDistance >
                 hairWiggleHorizontalRotationDistance &&
             elapsedTimeSinceDirectionChanged < hairWiggleDurationLimit;
-        if (shouldAnimateHairWiggle) {
-          // TODO(alestiago): Check if a Trigger animation would fit better.
+        final hairWiggle = characterController.hairWiggle!;
+        if (shouldAnimateHairWiggle && !hairWiggle.value) {
           characterController.hairWiggle!.change(true);
-          print('wiggle');
+          // TODO(alestiago): Check if a Trigger animation would fit better.
+          Future.delayed(const Duration(seconds: 3), () {
+            hairWiggle.change(false);
+          });
         }
       }
     }
