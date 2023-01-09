@@ -414,16 +414,18 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
           .difference(timeSinceHorizontalRotationDirectionChanged);
 
       // TODO(alestiago): Check if already wiggling, if so it should not wiggle.
-      final shouldAnimateHairWiggle = _horizontalRotationTravelledDistance >
-              hairWiggleHorizontalRotationDistance &&
-          elapsedTimeSinceDirectionChanged < hairWiggleDurationLimit;
       final characterController = this.characterController;
-      if (shouldAnimateHairWiggle && characterController != null) {
-        final hairWiggle = characterController.hairWiggle;
-        if (hairWiggle == null) return;
-        // TODO(alestiago): Check if a Trigger animation would fit better.
-        hairWiggle.change(true);
-        print('wiggle');
+      final canAnimateHairWiggle =
+          characterController != null && characterController.hairWiggle != null;
+      if (canAnimateHairWiggle) {
+        final shouldAnimateHairWiggle = _horizontalRotationTravelledDistance >
+                hairWiggleHorizontalRotationDistance &&
+            elapsedTimeSinceDirectionChanged < hairWiggleDurationLimit;
+        if (shouldAnimateHairWiggle) {
+          // TODO(alestiago): Check if a Trigger animation would fit better.
+          characterController.hairWiggle!.change(true);
+          print('wiggle');
+        }
       }
     }
   }
