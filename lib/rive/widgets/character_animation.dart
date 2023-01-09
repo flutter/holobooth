@@ -252,8 +252,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       }
 
       late final bool shouldAnimateLeftEye;
-      final hasOpenedLeftEye =
-          !leftEyeGeometry.isClosed && _leftEyeClosureTimestamp != null;
+      final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+          _leftEyeClosureTimestamp != null &&
+          !_leftEyeAnimationController.isAnimating;
       if (hasOpenedLeftEye) {
         _leftEyeClosureTimestamp = null;
         shouldAnimateLeftEye = hasOpenedLeftEye;
@@ -292,8 +293,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         newRightEyeValue = 0;
       }
       late final bool shouldAnimateRightEye;
-      final hasOpenedRightEye =
-          !rightEyeGeometry.isClosed && _rightEyeClosureTimestamp != null;
+      final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+          _rightEyeClosureTimestamp != null &&
+          !_rightEyeAnimationController.isAnimating;
       if (hasOpenedRightEye) {
         _rightEyeClosureTimestamp = null;
         shouldAnimateRightEye = hasOpenedRightEye;
