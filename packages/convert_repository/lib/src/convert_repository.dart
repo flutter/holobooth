@@ -81,8 +81,7 @@ class ConvertRepository {
   }
 
   /// Process a list of [Frame] and convert them to a list of [Uint8List].
-  @visibleForTesting
-  Future<List<Uint8List>> processFrames(List<Frame> preProcessedFrames) async {
+  Future<List<Uint8List>> _processFrames(List<Frame> preProcessedFrames) async {
     final bytes = await _getBytesFromImage(
       preProcessedFrames[_processedFrames.length].image,
     );
@@ -92,7 +91,7 @@ class ConvertRepository {
     if (_processedFrames.length < preProcessedFrames.length) {
       await Future<void>.delayed(
         webMinimumFrameDuration,
-        () => processFrames(preProcessedFrames),
+        () => _processFrames(preProcessedFrames),
       );
     }
     return _processedFrames;
@@ -110,7 +109,7 @@ class ConvertRepository {
 
     try {
       _processedFrames.clear();
-      final frames = await processFrames(preProcessedFrames);
+      final frames = await _processFrames(preProcessedFrames);
       final multipartRequest = _multipartRequestBuilder();
       for (var index = 0; index < frames.length; index++) {
         multipartRequest.files.add(
