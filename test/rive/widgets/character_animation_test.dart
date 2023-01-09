@@ -657,7 +657,7 @@ void main() {
       expect(controller.hats.value, equals(hat.index));
 
       stateSetter(() {
-        hat = Hats.helmet;
+        hat = Hats.astronaut;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -691,15 +691,15 @@ void main() {
       final state = tester.state(find.byType(CharacterAnimation))
           as CharacterAnimationState;
       final controller = state.characterController!;
-      expect(controller.glasses.value, equals(glasses.riveIndex));
+      expect(controller.glasses.value, equals(glasses.index));
 
       stateSetter(() {
-        glasses = Glasses.glasses1;
+        glasses = Glasses.sunGlasses;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
 
-      expect(controller.glasses.value, equals(glasses.riveIndex));
+      expect(controller.glasses.value, equals(glasses.index));
     });
 
     testWidgets('updates clothes', (tester) async {
@@ -731,7 +731,7 @@ void main() {
       expect(controller.clothes.value, equals(clothes.index));
 
       stateSetter(() {
-        clothes = Clothes.clothes1;
+        clothes = Clothes.swimmingSuit;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -768,7 +768,7 @@ void main() {
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
       stateSetter(() {
-        handheldLeft = HandheldlLeft.handheldLeft1;
+        handheldLeft = HandheldlLeft.apple;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));

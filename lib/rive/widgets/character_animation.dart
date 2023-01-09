@@ -321,7 +321,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       }
       if (oldWidget.glasses != widget.glasses) {
         characterController.glasses.change(
-          widget.glasses.riveIndex,
+          widget.glasses.index.toDouble(),
         );
       }
       if (oldWidget.clothes != widget.clothes) {
