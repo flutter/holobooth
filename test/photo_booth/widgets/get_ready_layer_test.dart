@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
@@ -31,12 +32,18 @@ void main() {
       ),
     );
 
+    AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+
     const MethodChannel('com.ryanheise.audio_session')
         .setMockMethodCallHandler((call) async {
       if (call.method == 'getConfiguration') {
         return {};
       }
     });
+  });
+
+  tearDown(() {
+    AudioPlayerMixin.audioPlayerOverride = null;
   });
 
   group('GetReadyLayer', () {
@@ -46,7 +53,6 @@ void main() {
         await tester.pumpApp(
           GetReadyLayer(
             onCountdownCompleted: () {},
-            audioPlayer: () => audioPlayer,
           ),
         );
         await tester.pumpAndSettle();
