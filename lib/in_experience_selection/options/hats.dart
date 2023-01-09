@@ -1,4 +1,7 @@
 enum Hats {
   none,
-  helmet,
+  astronaut,
+  safari,
+  christmas,
+  cartwheel,
 }
