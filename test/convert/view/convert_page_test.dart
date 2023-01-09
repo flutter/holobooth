@@ -31,7 +31,7 @@ void main() {
 
     setUp(() {
       convertRepository = _MockConvertRepository();
-      when(() => convertRepository.convertFrames(any())).thenAnswer(
+      when(() => convertRepository.generateVideo(any())).thenAnswer(
         (_) async => ConvertResponse(videoUrl: 'videoUrl', gifUrl: 'gifUrl'),
       );
       image = _MockImage();

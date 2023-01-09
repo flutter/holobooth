@@ -39,14 +39,14 @@ void main() {
       test('throws ConvertException with empty url', () async {
         final convertRepository = ConvertRepository(url: '');
         await expectLater(
-          () async => convertRepository.convertFrames([Uint8List(0)]),
+          () async => convertRepository.generateVideo([Uint8List(0)]),
           throwsA(isA<ConvertException>()),
         );
       });
 
       test('throws ConvertException on empty frames', () async {
         await expectLater(
-          () async => convertRepository.convertFrames([]),
+          () async => convertRepository.generateVideo([]),
           throwsA(isA<ConvertException>()),
         );
       });
@@ -59,7 +59,7 @@ void main() {
           ),
         );
 
-        final response = await convertRepository.convertFrames([Uint8List(0)]);
+        final response = await convertRepository.generateVideo([Uint8List(0)]);
 
         expect(response.videoUrl, equals('video'));
         expect(response.gifUrl, equals('gif'));
@@ -69,7 +69,7 @@ void main() {
         when(() => streamedResponse.statusCode).thenReturn(1);
 
         await expectLater(
-          () async => convertRepository.convertFrames([Uint8List(0)]),
+          () async => convertRepository.generateVideo([Uint8List(0)]),
           throwsA(isA<ConvertException>()),
         );
       });

@@ -48,7 +48,7 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ConvertBloc>().add(ConvertFrames(widget.frames));
+      context.read<ConvertBloc>().add(GenerateVideo(widget.frames));
     });
   }
 
@@ -90,8 +90,6 @@ class ConvertBody extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
-        } else if (state.status == ConvertStatus.framesProcessed) {
-          context.read<ConvertBloc>().add(const GenerateVideo());
         }
       },
       child: Stack(
@@ -107,9 +105,7 @@ class ConvertBody extends StatelessWidget {
                 } else {
                   return AnimatedSwitcher(
                     duration: const Duration(seconds: 1),
-                    child: state.status == ConvertStatus.loadingFrames ||
-                            state.status == ConvertStatus.creatingVideo ||
-                            state.status == ConvertStatus.framesProcessed
+                    child: state.status == ConvertStatus.creatingVideo
                         ? const CreatingVideoView()
                         : const ConvertFinished(dimension: 200),
                   );

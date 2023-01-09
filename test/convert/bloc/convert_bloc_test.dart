@@ -70,7 +70,7 @@ void main() {
       blocTest<ConvertBloc, ConvertState>(
         'emits [loadingVideo, videoProcessed] with videoPath and gifPath',
         setUp: () {
-          when(() => convertRepository.convertFrames(any())).thenAnswer(
+          when(() => convertRepository.generateVideo(any())).thenAnswer(
             (_) async => ConvertResponse(
               videoUrl: videoUrl,
               gifUrl: gifUrl,
@@ -97,7 +97,7 @@ void main() {
       blocTest<ConvertBloc, ConvertState>(
         'emits [loadingVideo, error] if convertFrames fails.',
         setUp: () {
-          when(() => convertRepository.convertFrames(any()))
+          when(() => convertRepository.generateVideo(any()))
               .thenThrow(Exception());
         },
         seed: () => ConvertState(firstFrameProcessed: processedFrames),

@@ -5,7 +5,7 @@ class ConvertState extends Equatable {
     this.videoPath = '',
     this.gifPath = '',
     this.isFinished = false,
-    this.status = ConvertStatus.loadingFrames,
+    this.status = ConvertStatus.creatingVideo,
     this.progress = 0,
     this.firstFrameProcessed,
   });
@@ -47,8 +47,6 @@ class ConvertState extends Equatable {
 }
 
 enum ConvertStatus {
-  loadingFrames,
-  framesProcessed,
   creatingVideo,
   videoCreated,
   error,
