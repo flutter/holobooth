@@ -106,6 +106,20 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @visibleForTesting
   static const mouthScale = 5.0;
 
+  /// The amount of distance required to consider a change in horizontal
+  /// direction.
+  @visibleForTesting
+  static const horizontalRotationChangeToleration = 0.05;
+
+  /// The amount of time given to travel the
+  /// [hairWiggleHorizontalRotationDistance].
+  @visibleForTesting
+  static const Duration hairWiggleDurationLimit = Duration(seconds: 2);
+
+  /// The amount of distance that needs to be travelled horizontally
+  /// within the [hairWiggleDurationLimit] to trigger the hair wiggle animation.
+  static const double hairWiggleHorizontalRotationDistance = 0.4;
+
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
@@ -141,6 +155,22 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   final Tween<double> _mouthTween = Tween(begin: 0, end: 0);
 
   late double _scale;
+
+  /// The direction where the avatar is moving towards horizontally.
+  ///
+  /// Null during the initial state, not-null otherwise.
+  _Direction? _horizontalRotationDirection;
+
+  /// The amount of distance travelled horizontally in the same direction.
+  ///
+  /// A change in [_horizontalRotationDirection] resets this value.
+  double _horizontalRotationTravelledDistance = 0;
+
+  /// Time total amount of time spent moving in [_horizontalRotationDirection].
+  ///
+  /// A change in [_horizontalRotationDirection] changes the value to the
+  /// current time.
+  DateTime? _timeSinceHorizontalRotationDirectionChanged;
 
   void onRiveInit(Artboard artboard) {
     characterController = CharacterStateMachineController(artboard);
@@ -199,151 +229,201 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   void didUpdateWidget(covariant T oldWidget) {
     super.didUpdateWidget(oldWidget);
     final characterController = this.characterController;
-    if (characterController != null) {
-      final previousRotationVector = Vector3(
-        characterController.x.value,
-        characterController.y.value,
-        characterController.z.value,
-      );
-      // Direction has range of values [-1, 1], and the
-      // animation controller [-100, 100] so we multiply
-      // by 100 to correlate the values.
-      final newRotationVector = Vector3(
-        (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
-      );
-      if (newRotationVector.distance(previousRotationVector) >
-          _rotationToleration) {
-        _rotationTween
-          ..begin = previousRotationVector
-          ..end = newRotationVector;
-        _rotationAnimationController.forward(from: 0);
-      }
+    if (characterController == null) return;
+    final previousRotationVector = Vector3(
+      characterController.x.value,
+      characterController.y.value,
+      characterController.z.value,
+    );
+    // Direction has range of values [-1, 1], and the
+    // animation controller [-100, 100] so we multiply
+    // by 100 to correlate the values.
+    final newRotationVector = Vector3(
+      (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
+      (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
+      (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
+    );
+    if (newRotationVector.distance(previousRotationVector) >
+        _rotationToleration) {
+      _rotationTween
+        ..begin = previousRotationVector
+        ..end = newRotationVector;
+      _rotationAnimationController.forward(from: 0);
+    }
 
-      final previousMouthValue = characterController.mouthDistance.value;
-      final newMouthValue =
-          (widget.avatar.mouthDistance * 100 * mouthScale).clamp(.0, 100.0);
-      if ((previousMouthValue - newMouthValue).abs() > mouthToleration) {
-        _mouthTween
-          ..begin = previousMouthValue
-          ..end = newMouthValue;
-        _mouthAnimationController.forward(from: 0);
-      }
+    final previousMouthValue = characterController.mouthDistance.value;
+    final newMouthValue =
+        (widget.avatar.mouthDistance * 100 * mouthScale).clamp(.0, 100.0);
+    if ((previousMouthValue - newMouthValue).abs() > mouthToleration) {
+      _mouthTween
+        ..begin = previousMouthValue
+        ..end = newMouthValue;
+      _mouthAnimationController.forward(from: 0);
+    }
 
-      final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
-      final leftEyeGeometry = widget.avatar.leftEyeGeometry;
-      late final double newLeftEyeValue;
-      if (leftEyeGeometry.population > _eyePopulationMin &&
-          leftEyeGeometry.minRatio != null &&
-          leftEyeGeometry.maxRatio != null &&
-          leftEyeGeometry.meanRatio != null &&
-          leftEyeGeometry.distance != null &&
-          leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
-          leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
-        if (leftEyeGeometry.isClosed) {
-          _leftEyeClosureTimestamp ??= DateTime.now();
-          newLeftEyeValue = 100;
-        } else {
-          newLeftEyeValue = 0;
-        }
+    final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
+    final leftEyeGeometry = widget.avatar.leftEyeGeometry;
+    late final double newLeftEyeValue;
+    if (leftEyeGeometry.population > _eyePopulationMin &&
+        leftEyeGeometry.minRatio != null &&
+        leftEyeGeometry.maxRatio != null &&
+        leftEyeGeometry.meanRatio != null &&
+        leftEyeGeometry.distance != null &&
+        leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
+        leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
+      if (leftEyeGeometry.isClosed) {
+        _leftEyeClosureTimestamp ??= DateTime.now();
+        newLeftEyeValue = 100;
       } else {
         newLeftEyeValue = 0;
       }
+    } else {
+      newLeftEyeValue = 0;
+    }
 
-      late final bool shouldAnimateLeftEye;
-      final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+    late final bool shouldAnimateLeftEye;
+    final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+        _leftEyeClosureTimestamp != null &&
+        !_leftEyeAnimationController.isAnimating;
+    if (hasOpenedLeftEye) {
+      _leftEyeClosureTimestamp = null;
+      shouldAnimateLeftEye = hasOpenedLeftEye;
+    } else {
+      final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
+          previousLeftEyeValue == 0 &&
           _leftEyeClosureTimestamp != null &&
-          !_leftEyeAnimationController.isAnimating;
-      if (hasOpenedLeftEye) {
-        _leftEyeClosureTimestamp = null;
-        shouldAnimateLeftEye = hasOpenedLeftEye;
-      } else {
-        final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
-            previousLeftEyeValue == 0 &&
-            _leftEyeClosureTimestamp != null &&
-            DateTime.now().difference(_leftEyeClosureTimestamp!) >
-                eyeWinkDuration;
-        shouldAnimateLeftEye = startedWinkingLeftEye;
-      }
-      if (shouldAnimateLeftEye) {
-        _leftEyeTween
-          ..begin = previousLeftEyeValue
-          ..end = newLeftEyeValue;
-        _leftEyeAnimationController.forward(from: 0);
-      }
+          DateTime.now().difference(_leftEyeClosureTimestamp!) >
+              eyeWinkDuration;
+      shouldAnimateLeftEye = startedWinkingLeftEye;
+    }
+    if (shouldAnimateLeftEye) {
+      _leftEyeTween
+        ..begin = previousLeftEyeValue
+        ..end = newLeftEyeValue;
+      _leftEyeAnimationController.forward(from: 0);
+    }
 
-      final previousRightEyeValue = characterController.rightEyeIsClosed.value;
-      final rightEyeGeometry = widget.avatar.rightEyeGeometry;
-      late final double newRightEyeValue;
-      if (rightEyeGeometry.population > _eyePopulationMin &&
-          rightEyeGeometry.minRatio != null &&
-          rightEyeGeometry.maxRatio != null &&
-          rightEyeGeometry.meanRatio != null &&
-          rightEyeGeometry.distance != null &&
-          rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
-          rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
-        if (rightEyeGeometry.isClosed) {
-          _rightEyeClosureTimestamp ??= DateTime.now();
-          newRightEyeValue = 100;
-        } else {
-          newRightEyeValue = 0;
-        }
+    final previousRightEyeValue = characterController.rightEyeIsClosed.value;
+    final rightEyeGeometry = widget.avatar.rightEyeGeometry;
+    late final double newRightEyeValue;
+    if (rightEyeGeometry.population > _eyePopulationMin &&
+        rightEyeGeometry.minRatio != null &&
+        rightEyeGeometry.maxRatio != null &&
+        rightEyeGeometry.meanRatio != null &&
+        rightEyeGeometry.distance != null &&
+        rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
+        rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
+      if (rightEyeGeometry.isClosed) {
+        _rightEyeClosureTimestamp ??= DateTime.now();
+        newRightEyeValue = 100;
       } else {
         newRightEyeValue = 0;
       }
-      late final bool shouldAnimateRightEye;
-      final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+    } else {
+      newRightEyeValue = 0;
+    }
+    late final bool shouldAnimateRightEye;
+    final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+        _rightEyeClosureTimestamp != null &&
+        !_rightEyeAnimationController.isAnimating;
+    if (hasOpenedRightEye) {
+      _rightEyeClosureTimestamp = null;
+      shouldAnimateRightEye = hasOpenedRightEye;
+    } else {
+      final startedWinkingRightEye = rightEyeGeometry.isClosed &&
+          previousRightEyeValue == 0 &&
           _rightEyeClosureTimestamp != null &&
-          !_rightEyeAnimationController.isAnimating;
-      if (hasOpenedRightEye) {
-        _rightEyeClosureTimestamp = null;
-        shouldAnimateRightEye = hasOpenedRightEye;
-      } else {
-        final startedWinkingRightEye = rightEyeGeometry.isClosed &&
-            previousRightEyeValue == 0 &&
-            _rightEyeClosureTimestamp != null &&
-            DateTime.now().difference(_rightEyeClosureTimestamp!) >
-                eyeWinkDuration;
-        shouldAnimateRightEye = startedWinkingRightEye;
-      }
-      if (shouldAnimateRightEye) {
-        _rightEyeTween
-          ..begin = previousRightEyeValue
-          ..end = newRightEyeValue;
-        _rightEyeAnimationController.forward(from: 0);
-      }
+          DateTime.now().difference(_rightEyeClosureTimestamp!) >
+              eyeWinkDuration;
+      shouldAnimateRightEye = startedWinkingRightEye;
+    }
+    if (shouldAnimateRightEye) {
+      _rightEyeTween
+        ..begin = previousRightEyeValue
+        ..end = newRightEyeValue;
+      _rightEyeAnimationController.forward(from: 0);
+    }
 
-      if (oldWidget.hat != widget.hat) {
-        characterController.hats.change(
-          widget.hat.index.toDouble(),
-        );
-      }
-      if (oldWidget.glasses != widget.glasses) {
-        characterController.glasses.change(
-          widget.glasses.riveIndex,
-        );
-      }
-      if (oldWidget.clothes != widget.clothes) {
-        characterController.clothes.change(
-          widget.clothes.index.toDouble(),
-        );
-      }
-      if (oldWidget.handheldlLeft != widget.handheldlLeft) {
-        characterController.handheldlLeft.change(
-          widget.handheldlLeft.index.toDouble(),
-        );
-      }
-
-      final newScale = widget.avatar.distance.normalize(
-        fromMax: 1,
-        toMin: 0.8,
-        toMax: 5,
+    if (oldWidget.hat != widget.hat) {
+      characterController.hats.change(
+        widget.hat.index.toDouble(),
       );
-      if ((newScale - _scale).abs() > _scaleToleration) {
-        setState(() {
-          _scale = newScale;
-        });
+    }
+    if (oldWidget.glasses != widget.glasses) {
+      characterController.glasses.change(
+        widget.glasses.riveIndex,
+      );
+    }
+    if (oldWidget.clothes != widget.clothes) {
+      characterController.clothes.change(
+        widget.clothes.index.toDouble(),
+      );
+    }
+    if (oldWidget.handheldlLeft != widget.handheldlLeft) {
+      characterController.handheldlLeft.change(
+        widget.handheldlLeft.index.toDouble(),
+      );
+    }
+
+    final newScale = widget.avatar.distance.normalize(
+      fromMax: 1,
+      toMin: 0.8,
+      toMax: 5,
+    );
+    if ((newScale - _scale).abs() > _scaleToleration) {
+      setState(() {
+        _scale = newScale;
+      });
+    }
+
+    if (characterController.hairWiggle != null) {
+      _handleHairWiggle(oldWidget.avatar);
+    }
+  }
+
+  void _handleHairWiggle(Avatar oldAvatar) {
+    final oldHorizontalRotation = oldAvatar.rotation.x;
+    final currentHorizontalRotation = widget.avatar.rotation.x;
+    final horizontalRotationDifference =
+        (oldHorizontalRotation - currentHorizontalRotation).abs();
+
+    if (horizontalRotationDifference < horizontalRotationChangeToleration) {
+      return;
+    }
+
+    final currentHorizontalRotationDirection =
+        oldHorizontalRotation < currentHorizontalRotation
+            ? _Direction.right
+            : _Direction.left;
+    final previousHorizontalRotationDirection =
+        _horizontalRotationDirection ??= currentHorizontalRotationDirection;
+    _horizontalRotationDirection = currentHorizontalRotationDirection;
+
+    final timeSinceHorizontalRotationDirectionChanged =
+        _timeSinceHorizontalRotationDirectionChanged ??= DateTime.now();
+    final hasHorizontalRotationDirectionChanged =
+        currentHorizontalRotationDirection !=
+            previousHorizontalRotationDirection;
+    if (hasHorizontalRotationDirectionChanged) {
+      _timeSinceHorizontalRotationDirectionChanged = DateTime.now();
+      _horizontalRotationTravelledDistance = 0;
+      print('Direction Changed');
+    } else {
+      _horizontalRotationTravelledDistance += horizontalRotationDifference;
+      final elapsedTimeSinceDirectionChanged = DateTime.now()
+          .difference(timeSinceHorizontalRotationDirectionChanged);
+
+      // TODO(alestiago): Check if already wiggling, if so it should not wiggle.
+      final shouldAnimateHairWiggle = _horizontalRotationTravelledDistance >
+              hairWiggleHorizontalRotationDistance &&
+          elapsedTimeSinceDirectionChanged < hairWiggleDurationLimit;
+      final characterController = this.characterController;
+      if (shouldAnimateHairWiggle && characterController != null) {
+        final hairWiggle = characterController.hairWiggle;
+        if (hairWiggle == null) return;
+        // TODO(alestiago): Check if a Trigger animation would fit better.
+        hairWiggle.change(true);
+        print('wiggle');
       }
     }
   }
@@ -373,4 +453,9 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       ),
     );
   }
+}
+
+enum _Direction {
+  left,
+  right,
 }

@@ -88,6 +88,14 @@ class CharacterStateMachineController extends StateMachineController {
     } else {
       throw StateError('Could not find input "$handheldLeftInputName"');
     }
+
+    const hairWiggleInputName = 'Hair Wiggle';
+    final hairWiggle = findInput<bool>(hairWiggleInputName);
+    if (hairWiggle is SMIBool) {
+      this.hairWiggle = hairWiggle;
+    } else {
+      this.hairWiggle = null;
+    }
   }
 
   late final SMINumber x;
@@ -100,5 +108,6 @@ class CharacterStateMachineController extends StateMachineController {
   late final SMINumber glasses;
   late final SMINumber clothes;
   late final SMINumber handheldlLeft;
+  late final SMIBool? hairWiggle;
 }
 // coverage:ignore-end
