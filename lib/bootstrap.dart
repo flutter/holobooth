@@ -16,7 +16,9 @@ import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
 
-Future<void> main() async {
+Future<void> bootstrap({
+  required String convertUrl,
+}) async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
@@ -35,7 +37,7 @@ Future<void> main() async {
 
   final avatarDetectorRepository = AvatarDetectorRepository();
   final convertRepository = ConvertRepository(
-    url: 'https://convert-it4sycsdja-uc.a.run.app',
+    url: convertUrl,
   );
 
   runZonedGuarded(
