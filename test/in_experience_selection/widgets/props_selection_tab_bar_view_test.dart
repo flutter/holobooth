@@ -84,7 +84,7 @@ void main() {
           PropsSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
-        const hat = Hats.helmet;
+        const hat = Hats.astronaut;
         await tester
             .tap(find.byKey(HatsSelectionTabBarView.hatSelectionKey(hat)));
         verify(
@@ -101,7 +101,7 @@ void main() {
           PropsSelectionTabBarView(initialIndex: 1),
           inExperienceSelectionBloc,
         );
-        const glasses = Glasses.glasses1;
+        const glasses = Glasses.sunGlasses;
         await tester.tap(
           find.byKey(GlassesSelectionTabBarView.glassesSelectionKey(glasses)),
         );
@@ -121,7 +121,7 @@ void main() {
           ),
           inExperienceSelectionBloc,
         );
-        const clothes = Clothes.clothes1;
+        const clothes = Clothes.swimmingSuit;
         await tester.tap(
           find.byKey(ClothesSelectionTabBarView.clothesSelectionKey(clothes)),
         );
@@ -140,7 +140,7 @@ void main() {
           PropsSelectionTabBarView(initialIndex: 3),
           inExperienceSelectionBloc,
         );
-        const item = HandheldlLeft.handheldLeft1;
+        const item = HandheldlLeft.apple;
         await tester.tap(
           find.byKey(
             MiscellaneousSelectionTabBarView.miscellaneousSelectionKey(item),
