@@ -1,11 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:screen_recorder/screen_recorder.dart';
+
+class _MockImage extends Mock implements ui.Image {}
 
 class _MockMultipartRequest extends Mock implements MultipartRequest {}
 
@@ -17,10 +19,12 @@ void main() {
       expect(ConvertRepository(url: ''), isNotNull);
     });
 
-    group('convertFrames', () {
+    group('generateVideo', () {
       late MultipartRequest multipartRequest;
       late ConvertRepository convertRepository;
       late StreamedResponse streamedResponse;
+      late ui.Image image;
+      late List<Frame> frames;
 
       setUp(() {
         multipartRequest = _MockMultipartRequest();
@@ -34,14 +38,11 @@ void main() {
         when(multipartRequest.send).thenAnswer(
           (_) async => streamedResponse,
         );
-      });
 
-      test('throws ConvertException with empty url', () async {
-        final convertRepository = ConvertRepository(url: '');
-        await expectLater(
-          () async => convertRepository.generateVideo([Uint8List(0)]),
-          throwsA(isA<ConvertException>()),
-        );
+        image = _MockImage();
+        when(() => image.toByteData(format: ui.ImageByteFormat.png))
+            .thenAnswer((_) async => ByteData(1));
+        frames = [Frame(Duration.zero, image)];
       });
 
       test('throws ConvertException on empty frames', () async {
@@ -51,7 +52,16 @@ void main() {
         );
       });
 
-      test('return value on success', () async {
+      test('throws ConvertException if toByteData fails', () async {
+        when(() => image.toByteData(format: ui.ImageByteFormat.png))
+            .thenThrow(Exception());
+        await expectLater(
+          () async => convertRepository.generateVideo([]),
+          throwsA(isA<ConvertException>()),
+        );
+      });
+
+      test('return ConvertResponse with video, gif and first frame', () async {
         when(() => streamedResponse.statusCode).thenReturn(200);
         when(() => streamedResponse.stream).thenAnswer(
           (_) => ByteStream.fromBytes(
@@ -59,17 +69,19 @@ void main() {
           ),
         );
 
-        final response = await convertRepository.generateVideo([Uint8List(0)]);
+        final response = await convertRepository.generateVideo(frames);
 
         expect(response.videoUrl, equals('video'));
         expect(response.gifUrl, equals('gif'));
+        expect(response.firstFrame, Uint8List(1));
       });
 
-      test('throws on status code different than 200', () async {
+      test('throws ConvertException on status code different than 200',
+          () async {
         when(() => streamedResponse.statusCode).thenReturn(1);
 
         await expectLater(
-          () async => convertRepository.generateVideo([Uint8List(0)]),
+          () async => convertRepository.generateVideo(frames),
           throwsA(isA<ConvertException>()),
         );
       });
