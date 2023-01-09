@@ -62,6 +62,7 @@
                 "${workspaceFolder}",
                 "packages/authentication_repository",
                 "packages/avatar_detector_repository",
+                "packages/convert_repository",
                 "packages/face_geometry",
                 "packages/photobooth_ui",
                 "packages/photos_repository",
