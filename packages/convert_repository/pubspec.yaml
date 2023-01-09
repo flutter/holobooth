@@ -8,10 +8,10 @@ environment:
   flutter: 3.3.7
 
 dependencies:
-  screen_recorder: 0.2.0
   flutter:
     sdk: flutter
   http: ^0.13.5
+  screen_recorder: 0.2.0
 
 
 dev_dependencies:

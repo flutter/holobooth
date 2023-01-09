@@ -32,7 +32,11 @@ void main() {
     setUp(() {
       convertRepository = _MockConvertRepository();
       when(() => convertRepository.generateVideo(any())).thenAnswer(
-        (_) async => ConvertResponse(videoUrl: 'videoUrl', gifUrl: 'gifUrl'),
+        (_) async => ConvertResponse(
+          videoUrl: 'videoUrl',
+          gifUrl: 'gifUrl',
+          firstFrame: Uint8List(1),
+        ),
       );
       image = _MockImage();
       when(() => image.toByteData(format: ui.ImageByteFormat.png))
@@ -63,41 +67,16 @@ void main() {
 
     setUp(() {
       convertBloc = _MockConvertBloc();
+      when(() => convertBloc.state).thenReturn(ConvertState());
       image = _MockImage();
       when(() => image.toByteData(format: ui.ImageByteFormat.png))
           .thenAnswer((_) async => ByteData(1));
       frames = List.filled(totalFrames, Frame(Duration.zero, image));
     });
 
-    testWidgets('renders LoadingFramesView on ConvertStatus.loadingFrames',
-        (tester) async {
-      when(() => convertBloc.state).thenReturn(ConvertState());
-
-      await tester.pumpSubject(
-        ConvertView(frames: frames),
-        convertBloc,
-      );
-
-      expect(find.byType(LoadingFramesView), findsOneWidget);
-    });
-
     testWidgets('renders CreatingVideoView on ConvertStatus.creatingVideo',
         (tester) async {
-      when(() => convertBloc.state)
-          .thenReturn(ConvertState(status: ConvertStatus.creatingVideo));
-
-      await tester.pumpSubject(
-        ConvertView(frames: frames),
-        convertBloc,
-      );
-
-      expect(find.byType(CreatingVideoView), findsOneWidget);
-    });
-
-    testWidgets('renders CreatingVideoView on ConvertStatus.framesProcessed',
-        (tester) async {
-      when(() => convertBloc.state)
-          .thenReturn(ConvertState(status: ConvertStatus.framesProcessed));
+      when(() => convertBloc.state).thenReturn(ConvertState());
 
       await tester.pumpSubject(
         ConvertView(frames: frames),
@@ -156,19 +135,14 @@ void main() {
       expect(find.byType(SnackBar), findsOneWidget);
     });
 
-    testWidgets('adds GenerateVideo if ConvertStatus.framesProcessed',
+    testWidgets('adds GenerateVideo after widget has been initialized',
         (tester) async {
-      whenListen(
-        convertBloc,
-        Stream.value(ConvertState(status: ConvertStatus.framesProcessed)),
-        initialState: ConvertState(),
-      );
-
       await tester.pumpSubject(
         ConvertView(frames: frames),
         convertBloc,
       );
-      verify(() => convertBloc.add(GenerateVideo())).called(1);
+
+      verify(() => convertBloc.add(GenerateVideo(frames))).called(1);
     });
   });
 }
