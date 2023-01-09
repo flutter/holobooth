@@ -35,9 +35,9 @@ class ConvertRepository {
   }
 
   /// Process a list of [Frame] and convert them to a list of [Uint8List].
-  Future<List<Uint8List>> _processFrames(List<Frame> preProcessedFrames) async {
+  Future<List<Uint8List>> _processFrames(List<Image> preProcessedFrames) async {
     final bytes = await _getBytesFromImage(
-      preProcessedFrames[_processedFrames.length].image,
+      preProcessedFrames[_processedFrames.length],
     );
     if (bytes != null) {
       _processedFrames.add(bytes);
@@ -57,7 +57,7 @@ class ConvertRepository {
   ///
   /// On error it throws a [GenerateVideoException].
   Future<GenerateVideoResponse> generateVideo(
-    List<Frame> preProcessedFrames,
+    List<Image> preProcessedFrames,
   ) async {
     if (preProcessedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');

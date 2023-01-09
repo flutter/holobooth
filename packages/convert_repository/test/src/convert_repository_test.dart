@@ -5,7 +5,6 @@ import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:screen_recorder/screen_recorder.dart';
 
 class _MockImage extends Mock implements ui.Image {}
 
@@ -19,7 +18,7 @@ void main() {
     late ConvertRepository convertRepository;
     late StreamedResponse streamedResponse;
     late ui.Image image;
-    late List<Frame> frames;
+    late List<ui.Image> frames;
 
     setUp(() {
       multipartRequest = _MockMultipartRequest();
@@ -38,8 +37,8 @@ void main() {
       when(() => image.toByteData(format: ui.ImageByteFormat.png))
           .thenAnswer((_) async => ByteData(1));
       frames = [
-        Frame(Duration.zero, image),
-        Frame(Duration.zero, image),
+        image,
+        image,
       ];
     });
 

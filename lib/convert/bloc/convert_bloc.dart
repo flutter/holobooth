@@ -25,7 +25,8 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ) async {
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
     try {
-      final result = await _convertRepository.generateVideo(event.frames);
+      final result = await _convertRepository
+          .generateVideo(event.frames.map((e) => e.image).toList());
       emit(
         state.copyWith(
           videoPath: result.videoUrl,
