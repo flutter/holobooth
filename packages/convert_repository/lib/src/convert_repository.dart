@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:screen_recorder/screen_recorder.dart';
 
 /// {@template convert_repository}
 /// Repository for converting frames in video.
@@ -34,7 +33,7 @@ class ConvertRepository {
     return bytesImage?.buffer.asUint8List();
   }
 
-  /// Process a list of [Frame] and convert them to a list of [Uint8List].
+  /// Process a list of [Image] and convert them to a list of [Uint8List].
   Future<List<Uint8List>> _processFrames(List<Image> preProcessedFrames) async {
     final bytes = await _getBytesFromImage(
       preProcessedFrames[_processedFrames.length],
