@@ -42,11 +42,17 @@ void main() {
         Frame(Duration.zero, image),
       ];
     });
+
     test('can be instantiated', () {
       expect(ConvertRepository(url: ''), isNotNull);
     });
 
     group('generateVideo', () {
+      test('throws exception if multipartRequest not set up', () {
+        final repository = ConvertRepository(url: 'url');
+        expect(repository.generateVideo(frames), throwsException);
+      });
+
       test('throws ConvertException on empty frames', () async {
         await expectLater(
           () async => convertRepository.generateVideo([]),
