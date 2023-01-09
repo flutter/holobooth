@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -24,9 +26,13 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> playAudio({bool loop = false}) async {
-    if (loop) {
+    if (loop && _audioPlayer.loopMode != LoopMode.all) {
       await _audioPlayer.setLoopMode(LoopMode.all);
     }
+
+    // Restarts the audio track.
+    await _audioPlayer.pause();
+    await _audioPlayer.seek(Duration.zero);
     await _audioPlayer.play();
   }
 

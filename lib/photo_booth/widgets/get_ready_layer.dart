@@ -28,7 +28,7 @@ class _GetReadyLayerState extends State<GetReadyLayer>
   late final AnimationController controller;
 
   @override
-  String get audioAssetPath => Assets.audio.counting;
+  String get audioAssetPath => Assets.audio.counting3Seconds;
 
   @override
   void initState() {

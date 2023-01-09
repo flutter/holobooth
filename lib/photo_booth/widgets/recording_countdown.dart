@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class RecordingCountdown extends StatefulWidget {
@@ -16,19 +14,13 @@ class RecordingCountdown extends StatefulWidget {
 
   static const shutterCountdownDuration = Duration(seconds: 5);
 
-  @visibleForTesting
-  static const emptySizedBox = Key('empty_sizedBox');
-
   @override
   State<RecordingCountdown> createState() => _RecordingCountdownState();
 }
 
 class _RecordingCountdownState extends State<RecordingCountdown>
-    with TickerProviderStateMixin, AudioPlayerMixin {
+    with TickerProviderStateMixin {
   late final AnimationController controller;
-
-  @override
-  String get audioAssetPath => Assets.audio.camera;
 
   @override
   void initState() {
@@ -48,8 +40,6 @@ class _RecordingCountdownState extends State<RecordingCountdown>
       duration: RecordingCountdown.shutterCountdownDuration,
     )..addStatusListener(_onAnimationStatusChanged);
 
-    await loadAudio();
-
     unawaited(controller.reverse(from: 1));
   }
 
@@ -67,12 +57,7 @@ class _RecordingCountdownState extends State<RecordingCountdown>
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
-        if (controller.isAnimating) {
-          return CountdownTimer(controller: controller);
-        }
-        return const SizedBox(
-          key: RecordingCountdown.emptySizedBox,
-        );
+        return CountdownTimer(controller: controller);
       },
     );
   }
