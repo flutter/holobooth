@@ -27,6 +27,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 
+    <link rel="preload" crossorigin="anonymous" as="fetch" href="assets/assets/animations/background.riv" />
+    <link rel="preload" crossorigin="anonymous" as="fetch" href="assets/assets/animations/dash.riv" />
+    <link rel="preload" crossorigin="anonymous" as="fetch" href="assets/assets/animations/sparky.riv" />
+
     <title>I/O Photo Booth</title>
 
     <script>
@@ -49,20 +53,7 @@
   </head>
   <body >
     <div id="loading-indicator" style="width: 60px; height: 60px;" role="progressbar" class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"><svg viewBox="22 22 44 44" class="MuiCircularProgress-svg"> <circle cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6" class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"></circle></svg></div>
-    <script>      
-
-      // Pre-fetch key assets.
-      var assets = [
-        "assets/assets/animations/background.riv",
-        "assets/assets/animations/dash.riv",
-        "assets/assets/animations/sparky.riv"
-      ].map(function (asset) {
-        return fetch(asset).catch(function (e) {
-          console.warn(e);
-        });
-      });
-    </script>
-<!-- Import this package to avoid crash on TF library -->   
+<!-- Import this package to avoid crash on TF library -->
 <script src="https://unpkg.com/showmodaldialog"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
