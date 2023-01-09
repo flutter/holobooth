@@ -76,7 +76,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The amount of time the eye will be closed for before it is considered to
   /// be a wink.
   @visibleForTesting
-  static const eyeWinkDuration = Duration(milliseconds: 150);
+  static const eyeWinkDuration = Duration(milliseconds: 100);
 
   /// The amount of movement towards or from the camera required to trigger a
   /// scale animation.
