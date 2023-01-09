@@ -103,7 +103,8 @@
   ],
   "functions": {
     "source": "functions",
-    "runtime": "nodejs14",
+    "runtime": "nodejs16",
+    "version": "v2",
     "predeploy": [
       "npm --prefix ./functions run test",
       "npm --prefix ./functions run build"
