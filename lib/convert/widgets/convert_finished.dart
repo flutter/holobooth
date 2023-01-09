@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +57,7 @@ class _ConvertFinishedState extends State<ConvertFinished> {
     Navigator.of(context).push(
       SharePage.route(
         videoPath: state.videoPath,
-        firstFrame: state.processedFrames.first,
+        firstFrame: state.firstFrameProcessed ?? Uint8List.fromList([]),
       ),
     );
   }

@@ -20,24 +20,30 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   }
 
   final ConvertRepository _convertRepository;
-  final processedFrames = <Uint8List>[];
+  final _processedFrames = <Uint8List>[];
+  late List<Frame> _preProcessedFrames = [];
 
   Future<Uint8List?> _getFrameData(Image image) async {
     final bytesImage = await image.toByteData(format: ImageByteFormat.png);
     return bytesImage?.buffer.asUint8List();
   }
 
-  Future<void> _processFrames(List<Frame> frames) async {
-    final bytesImage = await Future.delayed(
-      const Duration(milliseconds: 10),
-      () => _getFrameData(frames[state.processedFrames.length + 1].image),
+  Future<void> _processFrames() async {
+    final bytes = await _getFrameData(
+      _preProcessedFrames[_processedFrames.length].image,
     );
 
-    if (bytesImage != null) {
-      processedFrames.add(bytesImage);
+    if (bytes != null) {
+      _processedFrames.add(bytes);
     }
-    if (processedFrames.length == frames.length) return;
-    await _processFrames(frames);
+    if (_processedFrames.length < _preProcessedFrames.length) {
+      await Future<void>.delayed(
+        const Duration(
+          milliseconds: 10,
+        ), // Cualquier cosa < de 16 en el browser va a ser ~16
+        _processFrames,
+      );
+    } // else we're done, nothing to return.
   }
 
   FutureOr<void> _convertFrames(
@@ -47,9 +53,10 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     try {
       emit(state.copyWith(status: ConvertStatus.loadingFrames));
       //1
-      //await _processFrames(event.frames);
+      _preProcessedFrames = event.frames;
+      await _processFrames();
       //2
-      final totalFramesToProcess = event.frames.length;
+      /*final totalFramesToProcess = event.frames.length;
       for (var i = 0; i < totalFramesToProcess; i++) {
         await Future<void>.delayed(const Duration(milliseconds: 16));
         final bytesImage =
@@ -57,11 +64,12 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         if (bytesImage != null) {
           processedFrames.add(bytesImage.buffer.asUint8List());
         }
-      }
+      }*/
       //
 
       emit(
         state.copyWith(
+          firstFrameProcessed: _processedFrames.first,
           status: ConvertStatus.framesProcessed,
         ),
       );
@@ -78,7 +86,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
     try {
       final result = await _convertRepository.convertFrames(
-        processedFrames,
+        _processedFrames,
       );
       emit(
         state.copyWith(

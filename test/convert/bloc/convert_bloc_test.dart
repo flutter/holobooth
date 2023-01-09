@@ -42,7 +42,7 @@ void main() {
           ConvertState(
             progress: 1,
             status: ConvertStatus.framesProcessed,
-            processedFrames: List.filled(totalFrames, Uint8List(1)),
+            firstFrameProcessed: List.filled(totalFrames, Uint8List(1)),
           ),
         ],
       );
@@ -77,17 +77,17 @@ void main() {
             ),
           );
         },
-        seed: () => ConvertState(processedFrames: processedFrames),
+        seed: () => ConvertState(firstFrameProcessed: processedFrames),
         build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(GenerateVideo()),
         expect: () => [
           ConvertState(
             status: ConvertStatus.creatingVideo,
-            processedFrames: processedFrames,
+            firstFrameProcessed: processedFrames,
           ),
           ConvertState(
             status: ConvertStatus.videoCreated,
-            processedFrames: processedFrames,
+            firstFrameProcessed: processedFrames,
             gifPath: gifUrl,
             videoPath: videoUrl,
           ),
@@ -100,17 +100,17 @@ void main() {
           when(() => convertRepository.convertFrames(any()))
               .thenThrow(Exception());
         },
-        seed: () => ConvertState(processedFrames: processedFrames),
+        seed: () => ConvertState(firstFrameProcessed: processedFrames),
         build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(GenerateVideo()),
         expect: () => [
           ConvertState(
             status: ConvertStatus.creatingVideo,
-            processedFrames: processedFrames,
+            firstFrameProcessed: processedFrames,
           ),
           ConvertState(
             status: ConvertStatus.error,
-            processedFrames: processedFrames,
+            firstFrameProcessed: processedFrames,
           ),
         ],
       );
