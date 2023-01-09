@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -32,7 +32,9 @@ class ConvertResponse {
 
   /// {@macro convert_response}
   factory ConvertResponse.fromJson(
-      Map<String, dynamic> json, Uint8List firstFrame) {
+    Map<String, dynamic> json,
+    Uint8List firstFrame,
+  ) {
     return ConvertResponse(
       videoUrl: json['video_url'] as String,
       gifUrl: json['gif_url'] as String,
@@ -46,6 +48,7 @@ class ConvertResponse {
   /// Url to download the gif.
   final String gifUrl;
 
+  /// First frame of the video generated.
   final Uint8List firstFrame;
 }
 
@@ -66,24 +69,28 @@ class ConvertRepository {
 
   final _processedFrames = <Uint8List>[];
 
+  /// 16 is the minimum amount of time that you can delay
+  /// an operation on a web browser.
+  // https://developer.mozilla.org/en-US/docs/Web/Performance/Animation_performance_and_frame_rate#:~:text=However%2C%20the%20performance,smooth%20frame%20rate.
+  @visibleForTesting
+  static const webMinimumFrameDuration = Duration(milliseconds: 16);
+
   Future<Uint8List?> _getBytesFromImage(Image image) async {
     final bytesImage = await image.toByteData(format: ImageByteFormat.png);
     return bytesImage?.buffer.asUint8List();
   }
 
+  /// Process a list of [Frame] and convert them to a list of [Uint8List].
   Future<List<Uint8List>> _processFrames(List<Frame> preProcessedFrames) async {
     final bytes = await _getBytesFromImage(
       preProcessedFrames[_processedFrames.length].image,
     );
-
     if (bytes != null) {
       _processedFrames.add(bytes);
     }
     if (_processedFrames.length < preProcessedFrames.length) {
       await Future<void>.delayed(
-        // 16 is the minimum amount of time that you can delay
-        // an operation on a web brower
-        const Duration(milliseconds: 16),
+        webMinimumFrameDuration,
         () => _processFrames(preProcessedFrames),
       );
     }
@@ -91,12 +98,15 @@ class ConvertRepository {
   }
 
   /// Converts a list of images to video using firebase functions.
+  ///
   /// On success, returns the video path from the cloud storage.
+  ///
   /// On error it throws a [ConvertException].
   Future<ConvertResponse> generateVideo(List<Frame> preProcessedFrames) async {
     if (preProcessedFrames.isEmpty) {
       throw const ConvertException('No frames to convert');
     }
+    _processedFrames.clear();
     final frames = await _processFrames(preProcessedFrames);
     try {
       final multipartRequest = _multipartRequestBuilder();
