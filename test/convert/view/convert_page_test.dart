@@ -135,14 +135,14 @@ void main() {
       expect(find.byType(SnackBar), findsOneWidget);
     });
 
-    testWidgets('adds GenerateVideo after widget has been initialized',
+    testWidgets('adds GenerateVideoRequested after widget has been initialized',
         (tester) async {
       await tester.pumpSubject(
         ConvertView(frames: frames),
         convertBloc,
       );
 
-      verify(() => convertBloc.add(GenerateVideo(frames))).called(1);
+      verify(() => convertBloc.add(GenerateVideoRequested(frames))).called(1);
     });
   });
 }

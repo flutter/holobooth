@@ -4,8 +4,8 @@ abstract class ConvertEvent extends Equatable {
   const ConvertEvent();
 }
 
-class GenerateVideo extends ConvertEvent {
-  const GenerateVideo(this.frames);
+class GenerateVideoRequested extends ConvertEvent {
+  const GenerateVideoRequested(this.frames);
 
   final List<Frame> frames;
 

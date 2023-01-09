@@ -48,7 +48,7 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ConvertBloc>().add(GenerateVideo(widget.frames));
+      context.read<ConvertBloc>().add(GenerateVideoRequested(widget.frames));
     });
   }
 

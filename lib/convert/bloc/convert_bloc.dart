@@ -14,13 +14,13 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     required ConvertRepository convertRepository,
   })  : _convertRepository = convertRepository,
         super(const ConvertState()) {
-    on<GenerateVideo>(_generateVideo);
+    on<GenerateVideoRequested>(_generateVideo);
   }
 
   final ConvertRepository _convertRepository;
 
   FutureOr<void> _generateVideo(
-    GenerateVideo event,
+    GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
     emit(state.copyWith(status: ConvertStatus.creatingVideo));

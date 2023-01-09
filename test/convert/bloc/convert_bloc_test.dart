@@ -29,7 +29,7 @@ void main() {
       frames = List.filled(totalFrames, Frame(Duration.zero, image));
     });
 
-    group('GenerateVideo', () {
+    group('GenerateVideoRequested', () {
       const videoUrl = 'test-video-path';
       const gifUrl = 'test-gif-path';
       final firstFrame = Uint8List(1);
@@ -46,7 +46,7 @@ void main() {
           );
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(GenerateVideo(frames)),
+        act: (bloc) => bloc.add(GenerateVideoRequested(frames)),
         expect: () => [
           ConvertState(),
           ConvertState(
@@ -59,13 +59,13 @@ void main() {
       );
 
       blocTest<ConvertBloc, ConvertState>(
-        'emits [creatingVideo, error] if GenerateVideo fails.',
+        'emits [creatingVideo, error] if generateVideo fails.',
         setUp: () {
           when(() => convertRepository.generateVideo(any()))
               .thenThrow(Exception());
         },
         build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(GenerateVideo(frames)),
+        act: (bloc) => bloc.add(GenerateVideoRequested(frames)),
         expect: () => [
           ConvertState(),
           ConvertState(
