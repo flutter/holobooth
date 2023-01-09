@@ -66,13 +66,13 @@ class ConvertRepository {
 
   final _processedFrames = <Uint8List>[];
 
-  Future<Uint8List?> _getFrameData(Image image) async {
+  Future<Uint8List?> _getBytesFromImage(Image image) async {
     final bytesImage = await image.toByteData(format: ImageByteFormat.png);
     return bytesImage?.buffer.asUint8List();
   }
 
   Future<List<Uint8List>> _processFrames(List<Frame> preProcessedFrames) async {
-    final bytes = await _getFrameData(
+    final bytes = await _getBytesFromImage(
       preProcessedFrames[_processedFrames.length].image,
     );
 
@@ -81,12 +81,12 @@ class ConvertRepository {
     }
     if (_processedFrames.length < preProcessedFrames.length) {
       await Future<void>.delayed(
-        const Duration(
-          milliseconds: 10,
-        ), // Cualquier cosa < de 16 en el browser va a ser ~16
+        // 16 is the minimum amount of time that you can delay
+        // an operation on a web brower
+        const Duration(milliseconds: 16),
         () => _processFrames(preProcessedFrames),
       );
-    } // else we're done, nothing to return.
+    }
     return _processedFrames;
   }
 
