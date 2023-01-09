@@ -1,56 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:screen_recorder/screen_recorder.dart';
-
-/// {@template convert_exception}
-/// Exception thrown when convert frames fails.
-/// {@endtemplate}
-class ConvertException implements Exception {
-  /// {@macro convert_exception}
-  const ConvertException(this.message);
-
-  /// Description of the failure
-  final String message;
-
-  @override
-  String toString() => message;
-}
-
-/// {@template convert_response}
-/// Response data for the convert operation.
-/// {@endtemplate}
-class ConvertResponse {
-  /// {@macro convert_response}
-  const ConvertResponse({
-    required this.videoUrl,
-    required this.gifUrl,
-    required this.firstFrame,
-  });
-
-  /// {@macro convert_response}
-  factory ConvertResponse.fromJson(
-    Map<String, dynamic> json,
-    Uint8List firstFrame,
-  ) {
-    return ConvertResponse(
-      videoUrl: json['video_url'] as String,
-      gifUrl: json['gif_url'] as String,
-      firstFrame: firstFrame,
-    );
-  }
-
-  /// Url to download the video.
-  final String videoUrl;
-
-  /// Url to download the gif.
-  final String gifUrl;
-
-  /// First frame of the video generated.
-  final Uint8List firstFrame;
-}
 
 /// {@template convert_repository}
 /// Repository for converting frames in video.
@@ -101,10 +55,12 @@ class ConvertRepository {
   ///
   /// On success, returns the video path from the cloud storage.
   ///
-  /// On error it throws a [ConvertException].
-  Future<ConvertResponse> generateVideo(List<Frame> preProcessedFrames) async {
+  /// On error it throws a [GenerateVideoException].
+  Future<GenerateVideoResponse> generateVideo(
+    List<Frame> preProcessedFrames,
+  ) async {
     if (preProcessedFrames.isEmpty) {
-      throw const ConvertException('No frames to convert');
+      throw const GenerateVideoException('No frames to convert');
     }
 
     try {
@@ -125,15 +81,15 @@ class ConvertRepository {
       if (response.statusCode == 200) {
         final rawData = await response.stream.bytesToString();
         final json = jsonDecode(rawData) as Map<String, dynamic>;
-        return ConvertResponse.fromJson(
+        return GenerateVideoResponse.fromJson(
           json,
           frames.first,
         );
       } else {
-        throw const ConvertException('Failed to convert frames');
+        throw const GenerateVideoException('Failed to convert frames');
       }
     } catch (error) {
-      throw ConvertException(error.toString());
+      throw GenerateVideoException(error.toString());
     }
   }
 }

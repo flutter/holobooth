@@ -15,40 +15,42 @@ class _MockStreamedResponse extends Mock implements StreamedResponse {}
 
 void main() {
   group('ConvertRepository', () {
+    late MultipartRequest multipartRequest;
+    late ConvertRepository convertRepository;
+    late StreamedResponse streamedResponse;
+    late ui.Image image;
+    late List<Frame> frames;
+
+    setUp(() {
+      multipartRequest = _MockMultipartRequest();
+      convertRepository = ConvertRepository(
+        multipartRequestBuilder: () => multipartRequest,
+        url: '',
+      );
+      streamedResponse = _MockStreamedResponse();
+
+      when(() => multipartRequest.files).thenReturn([]);
+      when(multipartRequest.send).thenAnswer(
+        (_) async => streamedResponse,
+      );
+
+      image = _MockImage();
+      when(() => image.toByteData(format: ui.ImageByteFormat.png))
+          .thenAnswer((_) async => ByteData(1));
+      frames = [
+        Frame(Duration.zero, image),
+        Frame(Duration.zero, image),
+      ];
+    });
     test('can be instantiated', () {
       expect(ConvertRepository(url: ''), isNotNull);
     });
 
     group('generateVideo', () {
-      late MultipartRequest multipartRequest;
-      late ConvertRepository convertRepository;
-      late StreamedResponse streamedResponse;
-      late ui.Image image;
-      late List<Frame> frames;
-
-      setUp(() {
-        multipartRequest = _MockMultipartRequest();
-        convertRepository = ConvertRepository(
-          multipartRequestBuilder: () => multipartRequest,
-          url: '',
-        );
-        streamedResponse = _MockStreamedResponse();
-
-        when(() => multipartRequest.files).thenReturn([]);
-        when(multipartRequest.send).thenAnswer(
-          (_) async => streamedResponse,
-        );
-
-        image = _MockImage();
-        when(() => image.toByteData(format: ui.ImageByteFormat.png))
-            .thenAnswer((_) async => ByteData(1));
-        frames = [Frame(Duration.zero, image)];
-      });
-
       test('throws ConvertException on empty frames', () async {
         await expectLater(
           () async => convertRepository.generateVideo([]),
-          throwsA(isA<ConvertException>()),
+          throwsA(isA<GenerateVideoException>()),
         );
       });
 
@@ -57,7 +59,7 @@ void main() {
             .thenThrow(Exception());
         await expectLater(
           () async => convertRepository.generateVideo([]),
-          throwsA(isA<ConvertException>()),
+          throwsA(isA<GenerateVideoException>()),
         );
       });
 
@@ -82,7 +84,7 @@ void main() {
 
         await expectLater(
           () async => convertRepository.generateVideo(frames),
-          throwsA(isA<ConvertException>()),
+          throwsA(isA<GenerateVideoException>()),
         );
       });
     });

@@ -38,7 +38,7 @@ void main() {
         'emits [loadingVideo, videoProcessed] with videoPath and gifPath',
         setUp: () {
           when(() => convertRepository.generateVideo(any())).thenAnswer(
-            (_) async => ConvertResponse(
+            (_) async => GenerateVideoResponse(
               videoUrl: videoUrl,
               gifUrl: gifUrl,
               firstFrame: firstFrame,

@@ -32,7 +32,7 @@ void main() {
     setUp(() {
       convertRepository = _MockConvertRepository();
       when(() => convertRepository.generateVideo(any())).thenAnswer(
-        (_) async => ConvertResponse(
+        (_) async => GenerateVideoResponse(
           videoUrl: 'videoUrl',
           gifUrl: 'gifUrl',
           firstFrame: Uint8List(1),
