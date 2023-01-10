@@ -99,11 +99,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
                       offset: Offset(0, characterOffestY),
-                      child: Container(
-                        color: Colors.red,
-                        height: 200,
-                        width: 200,
-                      ),
+                      child: const PhotoboothCharacter(),
                     ),
                   ),
                 ],
