@@ -14,8 +14,6 @@ dependencies:
     path: ../../../face_geometry
   flutter:
     sdk: flutter
-  gif_compositor:
-    path: ../../../gif_compositor/gif_compositor
   image: ^3.2.0
   isolated_worker: ^0.1.1
   js: ^0.6.4
