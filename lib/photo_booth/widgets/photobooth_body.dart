@@ -93,6 +93,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
+                  // This breaks completely the app 100% times.
                   //const PhotoboothBackground(),
                   Align(
                     alignment: Alignment.bottomCenter,
