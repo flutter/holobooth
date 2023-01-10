@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/footer/footer.dart';
@@ -58,21 +57,16 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   }
 
   void _startRecording() {
-    //_screenRecorderController.start();
+    _screenRecorderController.start();
     context.read<PhotoBoothBloc>().add(const PhotoBoothRecordingStarted());
   }
 
   Future<void> _stopRecording() async {
-    //_screenRecorderController.stop();
+    _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
-
-    /*final frames =
-        (_screenRecorderController.exporter as CustomExporter).frames;*/
-    final renderObject = _screenRecorderController.globalKey.currentContext!
-        .findRenderObject() as RenderRepaintBoundary;
-    final image = renderObject.toImageSync();
-    photoBoothBloc
-        .add(PhotoBoothRecordingFinished([Frame(Duration.zero, image)]));
+    final frames =
+        (_screenRecorderController.exporter as CustomExporter).frames;
+    photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
   }
 
   @override
