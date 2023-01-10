@@ -1,6 +1,8 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
@@ -30,8 +32,28 @@ class PhotoBoothPage extends StatelessWidget {
   }
 }
 
-class PhotoBoothView extends StatelessWidget {
+class PhotoBoothView extends StatefulWidget {
   const PhotoBoothView({super.key});
+
+  @override
+  State<PhotoBoothView> createState() => _PhotoBoothViewState();
+}
+
+class _PhotoBoothViewState extends State<PhotoBoothView> with AudioPlayerMixin {
+  @override
+  String get audioAssetPath => Assets.audio.experienceAmbient;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadAndPlayAudio();
+  }
+
+  Future<void> _loadAndPlayAudio() async {
+    await loadAudio();
+    await playAudio(loop: true);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -30,11 +30,23 @@ class $AssetsAnimationsGen {
 class $AssetsAudioGen {
   const $AssetsAudioGen();
 
-  /// File path: assets/audio/camera.mp3
-  String get camera => 'assets/audio/camera.mp3';
+  /// File path: assets/audio/button_press.mp3
+  String get buttonPress => 'assets/audio/button_press.mp3';
 
-  /// File path: assets/audio/counting.mp3
-  String get counting => 'assets/audio/counting.mp3';
+  /// File path: assets/audio/counting_3_seconds.mp3
+  String get counting3Seconds => 'assets/audio/counting_3_seconds.mp3';
+
+  /// File path: assets/audio/experience_ambient.mp3
+  String get experienceAmbient => 'assets/audio/experience_ambient.mp3';
+
+  /// File path: assets/audio/face_not_detected.mp3
+  String get faceNotDetected => 'assets/audio/face_not_detected.mp3';
+
+  /// File path: assets/audio/hologram_entrance.mp3
+  String get hologramEntrance => 'assets/audio/hologram_entrance.mp3';
+
+  /// File path: assets/audio/landing_page_ambient.mp3
+  String get landingPageAmbient => 'assets/audio/landing_page_ambient.mp3';
 
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
@@ -42,8 +54,21 @@ class $AssetsAudioGen {
   /// File path: assets/audio/loading_finished.mp3
   String get loadingFinished => 'assets/audio/loading_finished.mp3';
 
+  /// File path: assets/audio/tab_click.mp3
+  String get tabClick => 'assets/audio/tab_click.mp3';
+
   /// List of all assets
-  List<String> get values => [camera, counting, loading, loadingFinished];
+  List<String> get values => [
+        buttonPress,
+        counting3Seconds,
+        experienceAmbient,
+        faceNotDetected,
+        hologramEntrance,
+        landingPageAmbient,
+        loading,
+        loadingFinished,
+        tabClick
+      ];
 }
 
 class $AssetsBackgroundsGen {
