@@ -1,9 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-class HoloBoothCharacterError extends StatelessWidget {
+class HoloBoothCharacterError extends StatefulWidget {
   const HoloBoothCharacterError({super.key});
+
+  @override
+  State<HoloBoothCharacterError> createState() =>
+      _HoloBoothCharacterErrorState();
+}
+
+class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
+    with AudioPlayerMixin {
+  @override
+  String get audioAssetPath => Assets.audio.faceNotDetected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadAndPlayAudio();
+  }
+
+  Future<void> _loadAndPlayAudio() async {
+    await loadAudio();
+    await playAudio();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +43,8 @@ class HoloBoothCharacterError extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
-            Icons.priority_high,
-            color: PhotoboothColors.white,
+            Icons.error,
+            color: PhotoboothColors.red,
           ),
           const SizedBox(width: 12),
           Text(

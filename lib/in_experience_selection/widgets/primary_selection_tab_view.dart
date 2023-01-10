@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -22,9 +24,12 @@ class PrimarySelectionView extends StatefulWidget {
 }
 
 class _PrimarySelectionViewState extends State<PrimarySelectionView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, AudioPlayerMixin {
   late final TabController _tabController;
   late int _indexSelected;
+
+  @override
+  String get audioAssetPath => Assets.audio.tabClick;
 
   @override
   void initState() {
@@ -43,6 +48,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
         _indexSelected = _tabController.index;
       });
     });
+    loadAudio();
   }
 
   @override
@@ -61,6 +67,9 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
         Padding(
           padding: const EdgeInsets.all(12).copyWith(bottom: isSmall ? 12 : 24),
           child: TabBar(
+            onTap: (_) {
+              playAudio();
+            },
             controller: _tabController,
             tabs: const [
               PrimarySelectionTab(
