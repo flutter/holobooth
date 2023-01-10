@@ -27,6 +27,14 @@ class _CameraStreamListenerState extends State<CameraStreamListener> {
   }
 
   @override
+  void dispose() {
+    try {
+      widget.cameraController.stopImageStream();
+    } catch (_) {}
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return const SizedBox();
   }
