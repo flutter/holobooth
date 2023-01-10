@@ -398,6 +398,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "propsTabTitle": "Add props:",
+  "@propsTabTitle": {
+    "description": "Title text displayed on the prop selection tab",
+    "type": "text",
+    "placeholders": {}
+  },
   "recordButtonText": "Record",
   "@recordButtonText": {
     "description": "Text displayed on a record button."
