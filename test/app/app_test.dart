@@ -7,14 +7,11 @@ import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photos_repository/photos_repository.dart';
 
 import '../helpers/helpers.dart';
 
 class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
-
-class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
 
@@ -32,7 +29,6 @@ void main() {
       await tester.pumpWidget(
         App(
           authenticationRepository: _MockAuthenticationRepository(),
-          photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
         ),
@@ -49,7 +45,6 @@ void main() {
       await tester.pumpWidget(
         App(
           authenticationRepository: _MockAuthenticationRepository(),
-          photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
         ),
@@ -65,7 +60,6 @@ void main() {
       await tester.pumpWidget(
         App(
           authenticationRepository: _MockAuthenticationRepository(),
-          photosRepository: _MockPhotosRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
         ),
