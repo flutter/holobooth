@@ -43,8 +43,8 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
-            Icons.priority_high,
-            color: PhotoboothColors.white,
+            Icons.error,
+            color: PhotoboothColors.red,
           ),
           const SizedBox(width: 12),
           Text(

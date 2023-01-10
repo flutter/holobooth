@@ -57,3 +57,15 @@ class TensorflowIconLink extends StatelessWidget {
     );
   }
 }
+
+class MediapipeIconLink extends StatelessWidget {
+  const MediapipeIconLink({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconLink(
+      icon: Assets.icons.mediapipeIcon.image(),
+      link: mediaPipeLink,
+    );
+  }
+}

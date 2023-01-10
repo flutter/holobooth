@@ -197,6 +197,10 @@ class $AssetsIconsGen {
   AssetGenImage get loadingFinish =>
       const AssetGenImage('assets/icons/loading_finish.png');
 
+  /// File path: assets/icons/mediapipe_icon.png
+  AssetGenImage get mediapipeIcon =>
+      const AssetGenImage('assets/icons/mediapipe_icon.png');
+
   /// File path: assets/icons/play_icon.png
   AssetGenImage get playIcon =>
       const AssetGenImage('assets/icons/play_icon.png');
@@ -228,6 +232,7 @@ class $AssetsIconsGen {
         goNextButtonIcon,
         loadingCircle,
         loadingFinish,
+        mediapipeIcon,
         playIcon,
         recordingButtonIcon,
         retakeButtonIcon,

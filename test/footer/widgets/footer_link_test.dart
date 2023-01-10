@@ -68,42 +68,22 @@ void main() {
       ).called(1);
     });
 
-    group('FlutterFooterLink', () {
+    group('FlutterForwardFooterLink', () {
       testWidgets('opens proper link on tap', (tester) async {
-        await tester.pumpApp(FlutterFooterLink());
-        await tester.tap(find.byType(FlutterFooterLink));
+        await tester.pumpApp(FlutterForwardFooterLink());
+        await tester.tap(find.byType(FlutterForwardFooterLink));
         verify(
-          () => mock.launchUrl(flutterDevExternalLink, any()),
+          () => mock.launchUrl(flutterForwardLink, any()),
         ).called(1);
       });
     });
 
-    group('FirebaseFooterLink', () {
+    group('HowItsMadeFooterLink', () {
       testWidgets('opens proper link on tap', (tester) async {
-        await tester.pumpApp(FirebaseFooterLink());
-        await tester.tap(find.byType(FirebaseFooterLink));
+        await tester.pumpApp(HowItsMadeFooterLink());
+        await tester.tap(find.byType(HowItsMadeFooterLink));
         verify(
-          () => mock.launchUrl(firebaseExternalLink, any()),
-        ).called(1);
-      });
-    });
-
-    group('TensorFlowFooterLink', () {
-      testWidgets('opens proper link on tap', (tester) async {
-        await tester.pumpApp(TensorFlowFooterLink());
-        await tester.tap(find.byType(TensorFlowFooterLink));
-        verify(
-          () => mock.launchUrl(tensorFlowLink, any()),
-        ).called(1);
-      });
-    });
-
-    group('MediapipeFooterLink', () {
-      testWidgets('opens proper link on tap', (tester) async {
-        await tester.pumpApp(MediapipeFooterLink());
-        await tester.tap(find.byType(MediapipeFooterLink));
-        verify(
-          () => mock.launchUrl(mediaPipeLink, any()),
+          () => mock.launchUrl(howItsMadeLink, any()),
         ).called(1);
       });
     });

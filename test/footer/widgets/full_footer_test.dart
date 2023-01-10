@@ -15,6 +15,7 @@ void main() {
         expect(find.byType(FlutterIconLink), findsOneWidget);
         expect(find.byType(FirebaseIconLink), findsOneWidget);
         expect(find.byType(TensorflowIconLink), findsOneWidget);
+        expect(find.byType(MediapipeIconLink), findsOneWidget);
       },
     );
 
@@ -23,10 +24,8 @@ void main() {
       (tester) async {
         tester.setSmallDisplaySize();
         await tester.pumpApp(FullFooter(showIconsForSmall: false));
-        expect(find.byType(FlutterFooterLink), findsOneWidget);
-        expect(find.byType(FirebaseFooterLink), findsOneWidget);
-        expect(find.byType(TensorFlowFooterLink), findsOneWidget);
-        expect(find.byType(MediapipeFooterLink), findsOneWidget);
+        expect(find.byType(FlutterForwardFooterLink), findsOneWidget);
+        expect(find.byType(HowItsMadeFooterLink), findsOneWidget);
         expect(find.byType(FooterTermsOfServiceLink), findsOneWidget);
         expect(find.byType(FooterPrivacyPolicyLink), findsOneWidget);
       },
@@ -40,10 +39,9 @@ void main() {
         expect(find.byType(FlutterIconLink), findsOneWidget);
         expect(find.byType(FirebaseIconLink), findsOneWidget);
         expect(find.byType(TensorflowIconLink), findsOneWidget);
-        expect(find.byType(FlutterFooterLink), findsOneWidget);
-        expect(find.byType(FirebaseFooterLink), findsOneWidget);
-        expect(find.byType(TensorFlowFooterLink), findsOneWidget);
-        expect(find.byType(MediapipeFooterLink), findsOneWidget);
+        expect(find.byType(MediapipeIconLink), findsOneWidget);
+        expect(find.byType(FlutterForwardFooterLink), findsOneWidget);
+        expect(find.byType(HowItsMadeFooterLink), findsOneWidget);
         expect(find.byType(FooterTermsOfServiceLink), findsOneWidget);
         expect(find.byType(FooterPrivacyPolicyLink), findsOneWidget);
       },

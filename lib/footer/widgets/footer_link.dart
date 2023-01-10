@@ -27,58 +27,30 @@ class FooterLink extends StatelessWidget {
   }
 }
 
-class FlutterFooterLink extends StatelessWidget {
-  const FlutterFooterLink({super.key});
+class FlutterForwardFooterLink extends StatelessWidget {
+  const FlutterForwardFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: flutterDevExternalLink,
-      text: l10n.flutterLinkFooterText,
+      link: flutterForwardLink,
+      text: l10n.flutterForwardLinkFooterText,
     );
   }
 }
 
-class FirebaseFooterLink extends StatelessWidget {
-  const FirebaseFooterLink({super.key});
+class HowItsMadeFooterLink extends StatelessWidget {
+  const HowItsMadeFooterLink({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return FooterLink(
-      link: firebaseExternalLink,
-      text: l10n.firebaseLinkFooterText,
-    );
-  }
-}
-
-class TensorFlowFooterLink extends StatelessWidget {
-  const TensorFlowFooterLink({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return FooterLink(
-      link: tensorFlowLink,
-      text: l10n.tensorflowLinkFooterText,
-    );
-  }
-}
-
-class MediapipeFooterLink extends StatelessWidget {
-  const MediapipeFooterLink({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return FooterLink(
-      link: mediaPipeLink,
-      text: l10n.mediaPipeLinkFooterText,
+      link: howItsMadeLink,
+      text: l10n.footerHowItsMadeLinkText,
     );
   }
 }
