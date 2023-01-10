@@ -58,8 +58,6 @@ class ConvertRepository {
   Future<GenerateVideoResponse> generateVideo(
     List<Image> preProcessedFrames,
   ) async {
-    await Future.delayed(Duration(seconds: 1));
-    throw const GenerateVideoException('Failed to convert frames');
     if (preProcessedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');
     }

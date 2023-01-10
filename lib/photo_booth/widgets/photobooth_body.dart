@@ -115,8 +115,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               child: SimplifiedFooter(),
             ),
             Align(child: CameraView(onCameraReady: _onCameraReady)),
-            if (_isCameraAvailable)
-              CameraStreamListener(cameraController: _cameraController!),
+            /*if (_isCameraAvailable)
+              CameraStreamListener(cameraController: _cameraController!),*/
             if (_isCameraAvailable &&
                 avatarStatus == AvatarDetectorStatus.notDetected)
               const Align(child: HoloBoothCharacterError()),
