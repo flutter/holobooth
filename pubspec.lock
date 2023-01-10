@@ -466,13 +466,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
-  image_loader:
-    dependency: transitive
-    description:
-      path: "packages/image_loader"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   intl:
     dependency: "direct main"
     description:
