@@ -7,7 +7,7 @@
     "holobooth-prod": {
       "hosting": {
         "app_prod": [
-          "holobooth-prod"
+          "0cf34931-6ab3-8cd9-57b5-f38b5fa5ba1e"
         ]
       }
     },
