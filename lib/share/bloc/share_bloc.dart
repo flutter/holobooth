@@ -37,9 +37,9 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
     emit(
       state.copyWith(
         shareStatus: ShareStatus.success,
-        explicitShareUrl: '',
-        facebookShareUrl: '',
-        twitterShareUrl: '',
+        explicitShareUrl: 'https://google.com',
+        facebookShareUrl: 'https://facebook.com',
+        twitterShareUrl: 'https://twitter.com',
       ),
     );
   }
