@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:photos_repository/photos_repository.dart';
 
 part 'share_event.dart';
 part 'share_state.dart';
@@ -33,24 +32,15 @@ class ShareBloc extends Bloc<ShareEvent, ShareState> {
 
     emit(state.copyWith(shareStatus: ShareStatus.loading));
 
-    final shareUrls = await _shareImage();
+    // TODO(laura177): change to sharePhoto methods when we have final asset.
 
     emit(
       state.copyWith(
         shareStatus: ShareStatus.success,
-        explicitShareUrl: shareUrls.explicitShareUrl,
-        facebookShareUrl: shareUrls.facebookShareUrl,
-        twitterShareUrl: shareUrls.twitterShareUrl,
+        explicitShareUrl: '',
+        facebookShareUrl: '',
+        twitterShareUrl: '',
       ),
-    );
-  }
-
-  // TODO(laura177): change to sharePhoto methods when we have final asset.
-  Future<ShareUrls> _shareImage() async {
-    return const ShareUrls(
-      explicitShareUrl: 'https://google.com',
-      facebookShareUrl: 'https://facebook.com',
-      twitterShareUrl: 'https://twitter.com',
     );
   }
 }

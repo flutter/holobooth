@@ -32,15 +32,11 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
-  image_compositor:
-    path: packages/image_compositor
   intl: ^0.17.0
   just_audio: ^0.9.30
   meta: ^1.8.0
   photobooth_ui:
     path: packages/photobooth_ui
-  photos_repository:
-    path: packages/photos_repository
   platform_helper:
     path: packages/platform_helper
   rive: ^0.9.1
