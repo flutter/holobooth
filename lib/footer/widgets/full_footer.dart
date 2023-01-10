@@ -17,6 +17,7 @@ class FullFooter extends StatelessWidget {
       FlutterIconLink(),
       FirebaseIconLink(),
       TensorflowIconLink(),
+      MediapipeIconLink(),
     ];
 
     return SizedBox(
@@ -80,13 +81,9 @@ class FullFooter extends StatelessWidget {
           alignment: WrapAlignment.center,
           runSpacing: 8,
           children: const [
-            FlutterFooterLink(),
+            FlutterForwardFooterLink(),
             gap,
-            FirebaseFooterLink(),
-            gap,
-            TensorFlowFooterLink(),
-            gap,
-            MediapipeFooterLink(),
+            HowItsMadeFooterLink(),
             gap,
             FooterTermsOfServiceLink(),
             gap,

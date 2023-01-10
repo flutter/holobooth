@@ -90,4 +90,17 @@ void main() {
       },
     );
   });
+
+  group('MediapipeIconLink', () {
+    testWidgets(
+      'opens mediaPipeLink',
+      (WidgetTester tester) async {
+        await tester.pumpApp(MediapipeIconLink());
+        await tester.tap(find.byType(MediapipeIconLink));
+        verify(
+          () => mock.launchUrl(mediaPipeLink, any()),
+        ).called(1);
+      },
+    );
+  });
 }
