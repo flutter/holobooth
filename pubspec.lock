@@ -466,13 +466,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
-  image_compositor:
-    dependency: "direct main"
-    description:
-      path: "packages/image_compositor"
-      relative: true
-    source: path
-    version: "0.0.0"
   image_loader:
     dependency: transitive
     description:
@@ -707,13 +700,6 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/photobooth_ui"
-      relative: true
-    source: path
-    version: "1.0.0+1"
-  photos_repository:
-    dependency: "direct main"
-    description:
-      path: "packages/photos_repository"
       relative: true
     source: path
     version: "1.0.0+1"

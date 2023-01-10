@@ -9,10 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
-import 'package:photos_repository/photos_repository.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
-
-class _MockPhotosRepository extends Mock implements PhotosRepository {}
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
 
@@ -32,7 +29,6 @@ class _MockAvatarDetectorRepository extends Mock
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
-    PhotosRepository? photosRepository,
     AvatarDetectorRepository? avatarDetectorRepository,
     ConvertRepository? convertRepository,
   }) async {
@@ -40,9 +36,6 @@ extension PumpApp on WidgetTester {
       return pumpWidget(
         MultiRepositoryProvider(
           providers: [
-            RepositoryProvider.value(
-              value: photosRepository ?? _MockPhotosRepository(),
-            ),
             RepositoryProvider.value(
               value:
                   avatarDetectorRepository ?? _MockAvatarDetectorRepository(),

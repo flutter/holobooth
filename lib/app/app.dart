@@ -6,19 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/landing/landing.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
-import 'package:photos_repository/photos_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     super.key,
     required this.authenticationRepository,
-    required this.photosRepository,
     required this.avatarDetectorRepository,
     required this.convertRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
-  final PhotosRepository photosRepository;
   final AvatarDetectorRepository avatarDetectorRepository;
   final ConvertRepository convertRepository;
 
@@ -27,7 +24,6 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
-        RepositoryProvider.value(value: photosRepository),
         RepositoryProvider.value(value: avatarDetectorRepository),
         RepositoryProvider.value(value: convertRepository),
       ],
