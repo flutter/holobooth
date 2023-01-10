@@ -99,7 +99,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
                       offset: Offset(0, characterOffestY),
-                      child: const PhotoboothCharacter(),
+                      child: Container(
+                        color: Colors.red,
+                        height: 200,
+                        width: 200,
+                      ),
                     ),
                   ),
                 ],
@@ -110,8 +114,8 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               child: SimplifiedFooter(),
             ),
             Align(child: CameraView(onCameraReady: _onCameraReady)),
-            /*if (_isCameraAvailable)
-              CameraStreamListener(cameraController: _cameraController!),*/
+            if (_isCameraAvailable)
+              CameraStreamListener(cameraController: _cameraController!),
             if (_isCameraAvailable &&
                 avatarStatus == AvatarDetectorStatus.notDetected)
               const Align(child: HoloBoothCharacterError()),
