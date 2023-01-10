@@ -57,7 +57,6 @@ class _PhotoBoothViewState extends State<PhotoBoothView> with AudioPlayerMixin {
 
   @override
   Widget build(BuildContext context) {
-    print('print');
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
