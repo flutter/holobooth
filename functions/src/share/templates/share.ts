@@ -65,14 +65,39 @@ export default `
     </main>
     {{{footer}}}
     <div class="video-pop-up">
-      <video src="{{{shareVideoUrl}}}"></video>
-      <a href="#" class="btn elevated-btn play-button">
-        <img src={{assetUrls.playArrowIcon}} />
-        Play
-      </a>
-      <a href="#" class="btn outline-btn close-button">
-        Close
-      </a>
+      <div class="video-pop-up-screen">
+        <video src="{{{shareVideoUrl}}}"></video>
+        <a href="#" class="close-button">
+          <img src={{assetUrls.close}} />
+        </a>
+      </div>
+      <div class="video-progress-bar">
+        <div></div>
+      </div>
+      <div class="video-pop-up-controls">
+        <div class="left-side-controls">
+          <a href="#" class="player-btn play-button">
+            <img src={{assetUrls.playerPlay}} />
+          </a>
+          <span class="time-counter">
+            0:02 / 0:05
+          </span>
+        </div>
+        <div class="right-side-controls">
+          <a href="https://flutter.dev/" class="player-btn">
+            <img class="flutter-icon" src={{assetUrls.flutterIcon}} />
+          </a>
+          <a href="https://firebase.google.com/" class="player-btn">
+            <img class="firebase-icon" src={{assetUrls.firebaseIcon}} />
+          </a>
+          <a href="https://www.tensorflow.org/" class="player-btn">
+            <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
+          </a>
+          <a href="#" class="player-btn fullscreen-button">
+            <img class="tensorflow-icon" src={{assetUrls.playerFullscreen}} />
+          </a>
+        </div>
+      </div>
     </div>
   </body>
   <script type="text/javascript">

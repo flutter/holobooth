@@ -25,7 +25,7 @@ body {
   z-index: -1;
   height: 100%;
   width: 100%;
-  background-image: url("{{{assetUrls.bgMobile}}}");
+  background-image: url("{{{assetUrls.bg}}}");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -227,18 +227,110 @@ footer .right a {
   border: 1px solid #9E81EF;
   flex-direction: column;
   align-items: center;
+  padding: 16px;
 }
 
-.video-pop-up video {
-  margin: 24px;
+.video-pop-up-screen {
+  position: relative;
 }
 
-.video-pop-up .play-button {
-  margin-bottom: 16px;
+.video-pop-up-screen video {
+  border-radius: 10px;
 }
 
 .video-pop-up .close-button {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 27.5px;
+  background: rgba(4, 5, 34, 0.56);
+  top: 8px;
+  position: absolute;
+  right: 8px;
+}
+
+.video-pop-up .close-button img {
+  width: 34px;
+  height: 34px;
+}
+
+.video-pop-up .video-progress-bar {
+  background: #1E1E1E;
+  border-radius: 10px;
+  height: 8px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.video-pop-up .video-progress-bar > div {
+  background: #27F5DD;
+  border-radius: 10px;
+  height: 8px;
+  width: 0%;
+}
+
+.video-pop-up .player-btn {
+  text-decoration: none;
+}
+
+.video-pop-up-controls {
+  padding: 12px 0px;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+}
+
+.video-pop-up-controls > div {
+  display: flex;
+  align-items: center;
+}
+
+.video-pop-up-controls .left-side-controls {
+}
+
+.video-pop-up .play-button {
+  margin-right: 22px;
+}
+
+.video-pop-up .play-button img {
+  width: 18px;
+  height: 22px;
+}
+
+.video-pop-up .time-counter {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #FFFFFF;
+}
+
+.right-side-controls .flutter-icon {
+  width: 18px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+.right-side-controls .firebase-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+}
+
+.right-side-controls .tensorflow-icon {
+  width: 20px;
+  height: 22px;
+  margin-right: 18px;
+}
+
+.right-side-controls .fullscreen-button img {
+  width: 30px;
+  height: 30px;
 }
 
 .not-found-backdrop {
@@ -328,18 +420,18 @@ footer .right a {
     position: absolute;
     bottom: 256px;
   }
-  
+
   .card-frame .video-clip {
     height: 218px;
     width: 186px;
     top: 14px;
   }
-  
+
   .card-frame .video-clip video {
     height: 318px;
     position: absolute;
   }
-  
+
   .holocard {
     width: 608px;
     height: 616px;

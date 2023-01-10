@@ -32,6 +32,10 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     holocard: bucketPathForFile('public/holocard.png'),
     notFoundBg: bucketPathForFile('public/not-found-bg.png'),
     notFoundMobileBg: bucketPathForFile('public/not-found-mobile-bg.png'),
+    playerPlay: bucketPathForFile('public/player-play.png'),
+    playerVolume: bucketPathForFile('public/player-volume.png'),
+    playerFullscreen: bucketPathForFile('public/player-fullscreen.png'),
+    close: bucketPathForFile('public/close.png'),
   },
   meta: {
     title: 'Google I/O Photo Booth',
