@@ -173,34 +173,20 @@ To debug the web app on the iphone, we need to run it as https, because without 
 npm install -g http-server
 ```
 
-2. Create a script.sh file
+2. Execute these commands
 
 ```sh
 cd ~/
 mkdir .localhost-ssl
-
 sudo openssl genrsa -out ~/.localhost-ssl/localhost.key 2048
 sudo openssl req -new -x509 -key ~/.localhost-ssl/localhost.key -out ~/.localhost-ssl/localhost.crt -days 3650 -subj /CN=localhost
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/.localhost-ssl/localhost.crt
-
-echo "
-function https-server() {
-  http-server --ssl --cert ~/.localhost-ssl/localhost.crt --key ~/.localhost-ssl/localhost.key
-}
-" >> ~/.bash_profile
-source ~/.bash_profile
 ```
 
-3. Run `script.sh` file, each running of a script will add function to ~/.bash_profile
+3. Build web project
 
 ```sh
-sh script.sh
-```
-
-4. Build web project
-
-```sh
-flutter build web
+flutter build web --web-renderer canvaskit
 ```
 
 5. Go to the generated directory
@@ -212,7 +198,7 @@ cd {project_dir}/build/web
 6. Run server
 
 ```sh
-https-server
+http-server --ssl --cert ~/.localhost-ssl/localhost.crt --key ~/.localhost-ssl/localhost.key
 ```
 
 ### Configure Safari to listen for logs
