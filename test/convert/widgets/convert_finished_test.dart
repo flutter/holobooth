@@ -27,6 +27,8 @@ void main() {
       audioPlayer = _MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.play()).thenAnswer((_) async {});
+      when(() => audioPlayer.pause()).thenAnswer((_) async {});
+      when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
       when(() => audioPlayer.stop()).thenAnswer((_) async {});
       when(() => audioPlayer.dispose()).thenAnswer((_) async {});
       when(() => audioPlayer.playerStateStream).thenAnswer(
