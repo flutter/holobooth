@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class PropsSelectionTabBarView extends StatefulWidget {
@@ -49,6 +50,16 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Text(
+            context.l10n.propsTabTitle,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: PhotoboothColors.white),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Theme(
