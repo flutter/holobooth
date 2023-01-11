@@ -4,7 +4,7 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 part 'avatar_detector_event.dart';
