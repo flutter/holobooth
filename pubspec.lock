@@ -114,11 +114,11 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/camera/camera"
-      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
-      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      ref: da722ef898b1da47c339a17653067e070bb8e608
+      resolved-ref: da722ef898b1da47c339a17653067e070bb8e608
       url: "https://github.com/VGVentures/plugins"
     source: git
-    version: "0.10.0+3"
+    version: "0.10.1"
   camera_android:
     dependency: transitive
     description:
@@ -147,11 +147,11 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/camera/camera_web"
-      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
-      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      ref: da722ef898b1da47c339a17653067e070bb8e608
+      resolved-ref: da722ef898b1da47c339a17653067e070bb8e608
       url: "https://github.com/VGVentures/plugins"
     source: git
-    version: "0.3.0+1"
+    version: "0.3.1"
   characters:
     dependency: transitive
     description:
