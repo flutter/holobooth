@@ -5,7 +5,6 @@ export 'app_circular_progress_indicator.dart';
 export 'app_dialog.dart';
 export 'blurry_container.dart';
 export 'clickable.dart';
-export 'draggable_resizable.dart';
 export 'gradient_elevated_button.dart';
 export 'gradient_frame.dart';
 export 'gradient_outlined_button.dart';
