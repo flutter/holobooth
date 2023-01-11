@@ -69,7 +69,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
                   )
               : StateMachine(),
         ) {
-    const xInputName = 'X';
     final x = testFindInput != null
         ? testFindInput(xInputName)
         : findInput<double>(xInputName);
@@ -79,7 +78,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$xInputName"');
     }
 
-    const yInputName = 'Y';
     final y = testFindInput != null
         ? testFindInput(yInputName)
         : findInput<double>(yInputName);
@@ -89,7 +87,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const zInputName = 'Z';
     final z = testFindInput != null
         ? testFindInput(zInputName)
         : findInput<double>(zInputName);
@@ -99,7 +96,6 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$zInputName"');
     }
 
-    const backgroundInputName = 'BG';
     final background = testFindInput != null
         ? testFindInput(backgroundInputName)
         : findInput<double>(backgroundInputName);
@@ -109,6 +105,18 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$backgroundInputName"');
     }
   }
+
+  @visibleForTesting
+  static const xInputName = 'X';
+
+  @visibleForTesting
+  static const yInputName = 'Y';
+
+  @visibleForTesting
+  static const zInputName = 'Z';
+
+  @visibleForTesting
+  static const backgroundInputName = 'BG';
 
   late final SMINumber x;
   late final SMINumber y;

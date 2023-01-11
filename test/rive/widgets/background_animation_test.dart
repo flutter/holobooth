@@ -4,7 +4,7 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
-class _FakeNumber extends Fake implements SMINumber {
+class _FakeSMINumber extends Fake implements SMINumber {
   @override
   double get value => 0;
 }
@@ -45,10 +45,11 @@ void main() {
 
   group('BackgroundAnimationStateMachineController', () {
     final artboard = Artboard();
-    const xInputName = 'X';
-    const yInputName = 'Y';
-    const zInputName = 'Z';
-    const backgroundInputName = 'BG';
+    const xInputName = BackgroundAnimationStateMachineController.xInputName;
+    const yInputName = BackgroundAnimationStateMachineController.yInputName;
+    const zInputName = BackgroundAnimationStateMachineController.zInputName;
+    const backgroundInputName =
+        BackgroundAnimationStateMachineController.backgroundInputName;
 
     test('throws StateError if X is missing', () {
       expect(
@@ -77,7 +78,7 @@ void main() {
           artboard,
           testFindInput: (name) {
             if (name == xInputName) {
-              return _FakeNumber();
+              return _FakeSMINumber();
             }
             if (name == yInputName) {
               return null;
@@ -101,7 +102,7 @@ void main() {
           artboard,
           testFindInput: (name) {
             if (name == xInputName || name == yInputName) {
-              return _FakeNumber();
+              return _FakeSMINumber();
             }
             if (name == zInputName) {
               return null;
@@ -127,7 +128,7 @@ void main() {
             if (name == xInputName ||
                 name == yInputName ||
                 name == zInputName) {
-              return _FakeNumber();
+              return _FakeSMINumber();
             }
             if (name == backgroundInputName) {
               return null;
