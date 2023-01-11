@@ -13,48 +13,62 @@ class LandingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayoutBuilder(
-      small: (context, _) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            children: [
-              const SizedBox(height: 46),
-              const _LandingBodyContent(smallScreen: true),
-              const SizedBox(height: 34),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Assets.backgrounds.holobooth.image(
-                  key: landingPageImageKey,
-                ),
-              ),
-            ],
+      small: (context, _) => const _SmallLandingBody(),
+      large: (context, _) => const _LargeLandingBody(),
+    );
+  }
+}
+
+class _SmallLandingBody extends StatelessWidget {
+  const _SmallLandingBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          const SizedBox(height: 46),
+          const _LandingBodyContent(smallScreen: true),
+          const SizedBox(height: 34),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Assets.backgrounds.holobooth.image(
+              key: LandingBody.landingPageImageKey,
+            ),
           ),
-        );
-      },
-      large: (context, _) {
-        return Align(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
+        ],
+      ),
+    );
+  }
+}
+
+class _LargeLandingBody extends StatelessWidget {
+  const _LargeLandingBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Assets.backgrounds.holobooth.image(
-                        key: landingPageImageKey,
-                      ),
-                    ),
-                    const SizedBox(width: 32),
-                    const Expanded(
-                      child: _LandingBodyContent(smallScreen: false),
-                    ),
-                  ],
+                Expanded(
+                  child: Assets.backgrounds.holobooth.image(
+                    key: LandingBody.landingPageImageKey,
+                  ),
+                ),
+                const SizedBox(width: 32),
+                const Expanded(
+                  child: _LandingBodyContent(smallScreen: false),
                 ),
               ],
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
