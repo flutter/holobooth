@@ -101,6 +101,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           Padding(
             padding: const EdgeInsets.all(15),
             child: NextButton(
+              key: const Key('primarySelection_nextButton_character'),
               onNextPressed: () {
                 _tabController.animateTo(1);
               },
@@ -110,6 +111,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           Padding(
             padding: const EdgeInsets.all(15),
             child: NextButton(
+              key: const Key('primarySelection_nextButton_background'),
               onNextPressed: () {
                 _tabController.animateTo(2);
               },

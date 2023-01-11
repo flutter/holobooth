@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimojiIntroBody extends StatelessWidget {
-  const AnimojiIntroBody({super.key});
+  const AnimojiIntroBody({
+    super.key,
+    required this.onNextPressed,
+  });
+
+  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +57,7 @@ class AnimojiIntroBody extends StatelessWidget {
                       Expanded(
                         child: _BottomContent(
                           smallScreen: small,
+                          onNextPressed: onNextPressed,
                         ),
                       ),
                     ],
@@ -70,9 +75,11 @@ class AnimojiIntroBody extends StatelessWidget {
 class _BottomContent extends StatelessWidget {
   const _BottomContent({
     required this.smallScreen,
+    required this.onNextPressed,
   });
 
   final bool smallScreen;
+  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +124,7 @@ class _BottomContent extends StatelessWidget {
           if (smallScreen) const SizedBox(height: 16),
           Flexible(
             child: NextButton(
-              onNextPressed: () {
-                Navigator.of(context).push(PhotoBoothPage.route());
-              },
+              onNextPressed: onNextPressed,
             ),
           ),
         ],
