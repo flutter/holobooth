@@ -38,18 +38,18 @@ void main() {
         'emits state with background selected.',
         build: InExperienceSelectionBloc.new,
         act: (bloc) =>
-            bloc.add(InExperienceSelectionBackgroundSelected(Background.beach)),
+            bloc.add(InExperienceSelectionBackgroundSelected(Background.bg02)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(background: Background.beach)
+          InExperienceSelectionState(background: Background.bg02)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'does not emit new state if background already selected.',
         build: InExperienceSelectionBloc.new,
-        seed: () => InExperienceSelectionState(background: Background.beach),
+        seed: () => InExperienceSelectionState(background: Background.bg02),
         act: (bloc) =>
-            bloc.add(InExperienceSelectionBackgroundSelected(Background.beach)),
+            bloc.add(InExperienceSelectionBackgroundSelected(Background.bg02)),
         expect: () => const <InExperienceSelectionState>[],
       );
     });
