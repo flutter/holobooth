@@ -7,6 +7,12 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class BackgroundSelectionTabBarView extends StatelessWidget {
   const BackgroundSelectionTabBarView({super.key});
 
+  static const listviewKey = Key('background_listview');
+  @visibleForTesting
+  static Key backgroundSelectionKey(Background background) {
+    return Key('backgroundSelectionElement_${background.name}');
+  }
+
   @override
   Widget build(BuildContext context) {
     final backgroundSelected = context
@@ -29,6 +35,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
         ),
         Flexible(
           child: ListView.separated(
+            key: listviewKey,
             scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
             itemCount: Background.values.length,
             itemBuilder: (context, index) {
@@ -67,40 +74,26 @@ class _BackgroundSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
+    const borderRadius = BorderRadius.all(Radius.circular(12));
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: isSelected ? null : HoloBoothColors.darkBlue,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        gradient: isSelected
-            ? const LinearGradient(
-                colors: [
-                  HoloBoothColors.gradientSecondaryOne,
-                  HoloBoothColors.gradientSecondaryTwo,
-                ],
-              )
-            : null,
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          image: DecorationImage(
-            image: background.toImageProvider(),
-            fit: BoxFit.cover,
-          ),
+        borderRadius: borderRadius,
+        image: DecorationImage(
+          image: background.toImageProvider(),
+          fit: BoxFit.cover,
         ),
-        child: Material(
-          clipBehavior: Clip.hardEdge,
-          shape: const RoundedRectangleBorder(),
-          color: PhotoboothColors.transparent,
-          child: InkWell(
-            key: Key('backgroundSelectionElement_${background.name}'),
-            onTap: () {
-              context
-                  .read<InExperienceSelectionBloc>()
-                  .add(InExperienceSelectionBackgroundSelected(background));
-            },
-          ),
+      ),
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        shape: const RoundedRectangleBorder(),
+        color: PhotoboothColors.transparent,
+        child: InkWell(
+          key: BackgroundSelectionTabBarView.backgroundSelectionKey(background),
+          onTap: () {
+            context
+                .read<InExperienceSelectionBloc>()
+                .add(InExperienceSelectionBackgroundSelected(background));
+          },
         ),
       ),
     );
