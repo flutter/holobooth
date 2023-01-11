@@ -75,25 +75,41 @@ class _BackgroundSelectionElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(12));
-    return DecoratedBox(
+    return Container(
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        image: DecorationImage(
-          image: background.toImageProvider(),
-          fit: BoxFit.cover,
-        ),
+        color: isSelected ? null : HoloBoothColors.darkBlue,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        gradient: isSelected
+            ? const LinearGradient(
+                colors: [
+                  HoloBoothColors.gradientSecondaryOne,
+                  HoloBoothColors.gradientSecondaryTwo,
+                ],
+              )
+            : null,
       ),
-      child: Material(
-        clipBehavior: Clip.hardEdge,
-        shape: const RoundedRectangleBorder(),
-        color: PhotoboothColors.transparent,
-        child: InkWell(
-          key: BackgroundSelectionTabBarView.backgroundSelectionKey(background),
-          onTap: () {
-            context
-                .read<InExperienceSelectionBloc>()
-                .add(InExperienceSelectionBackgroundSelected(background));
-          },
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          image: DecorationImage(
+            image: background.toImageProvider(),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Material(
+          clipBehavior: Clip.hardEdge,
+          shape: const RoundedRectangleBorder(),
+          color: PhotoboothColors.transparent,
+          child: InkWell(
+            key: BackgroundSelectionTabBarView.backgroundSelectionKey(
+                background),
+            onTap: () {
+              context
+                  .read<InExperienceSelectionBloc>()
+                  .add(InExperienceSelectionBackgroundSelected(background));
+            },
+          ),
         ),
       ),
     );
