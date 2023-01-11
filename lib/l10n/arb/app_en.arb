@@ -92,7 +92,7 @@
   "@previewPageCameraNotAllowedText": {
     "description": "Text shown when user denies camera permission"
   },
-  "sharePageSocialMediaShareClarification1": "If you choose to share your photo on social media, it will be available at a unique URL for 30 days and then automatically deleted. Photos that are not shared, are not stored. To request early deletion of your photo, please contact ",
+  "sharePageSocialMediaShareClarification1": "Your video will be automatically deleted after 30 days. To request early deletion of your photo, please contact ",
   "@sharePageSocialMediaShareClarification1": {
     "description": "First part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
   },
@@ -172,11 +172,11 @@
   "@cameraNotFoundMessage": {
     "description": "Text displayed when camera is not found."
   },
-  "stickersDrawerTitle": "Add Props",
+  "stickersDrawerTitle": "Choose your props",
   "@stickersDrawerTitle": {
     "description": "Text displayed on the stickers drawer as title"
   },
-  "openStickersTooltip": "Add Props",
+  "openStickersTooltip": "Choose your props",
   "@openStickersTooltip": {
     "description": "Text displayed on the tooltip for the open stickers button"
   },
@@ -228,7 +228,7 @@
   "@clearStickersDialogConfirmButtonText": {
     "description": "Confirm button text displayed on the clear stickers dialog"
   },
-  "propsReminderText": "Add some props",
+  "propsReminderText": "Choose your props",
   "@propsReminderText": {
     "description": "Helper text to add props"
   },
@@ -304,7 +304,7 @@
   "@androidButtonLabelText": {
     "description": "Semantic label for the android jetpack character button"
   },
-  "addStickersButtonLabelText": "Add props",
+  "addStickersButtonLabelText": "Choose your props",
   "@addStickersButtonLabelText": {
     "description": "Semantic label for the add props button"
   },
@@ -318,15 +318,15 @@
   },
   "selectABackgroundTitleText": "Select a scene",
   "@selectABackgroundTitleText": {
-    "description": "Title text displayed at top of select a background page"
+    "description": "Title text displayed at top of select a scene page"
   },
   "chooseYourCharacterTitleText": "Select your avatar",
   "@chooseYourCharacterTitleText": {
-    "description": "Title text displayed at top of select a character page"
+    "description": "Title text displayed at top of select your avatar page"
   },
   "youCanChangeThemLaterSubheading": "You can change them later",
   "@youCanChangeThemLaterSubheading": {
-    "description": "Subheading text displayed at top of select a character page"
+    "description": "Subheading text displayed at top of select your avatar page"
   },
   "nextButtonText": "Next",
   "@nextButtonText": {
@@ -336,9 +336,9 @@
   "@toThePhotoBoothButtonText": {
     "description": "Text displayed on button to navigate to the camera after selecting a character"
   },
-  "backgroundSelectorButton": "Background",
+  "backgroundSelectorButton": "Scene",
   "@backgroundSelectorButton": {
-    "description": "Title text displayed on the background selection button and drawer on camera capture page",
+    "description": "Title text displayed on the scene selection button and drawer on camera capture page",
     "type": "text",
     "placeholders": {}
   },
@@ -366,9 +366,9 @@
   "@firebaseLinkText": {
     "description": "Text on the link which navigates to the Firebase page"
   },
-  "charactersTabTitle": "Select a character:",
+  "charactersTabTitle": "Select your avator:",
   "@charactersTabTitle": {
-    "description": "Title text displayed on the character selection tab",
+    "description": "Title text displayed on the avatar selection tab",
     "type": "text",
     "placeholders": {}
   },
@@ -380,13 +380,13 @@
   "@classicPhotoboothLabel": {
     "description": "Text show on the label of the classic photo booth banner"
   },
-  "backgroundsTabTitle": "Choose a background",
+  "backgroundsTabTitle": "Select a scene",
   "@backgroundsTabTitle": {
-    "description": "Title text displayed on the background selection tab",
+    "description": "Title text displayed on the scene selection tab",
     "type": "text",
     "placeholders": {}
   },
-  "propsTabTitle": "Add props:",
+  "propsTabTitle": "Choose your props:",
   "@propsTabTitle": {
     "description": "Title text displayed on the prop selection tab",
     "type": "text",
