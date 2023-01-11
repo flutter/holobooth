@@ -42,9 +42,6 @@ class $AssetsAudioGen {
   /// File path: assets/audio/face_not_detected.mp3
   String get faceNotDetected => 'assets/audio/face_not_detected.mp3';
 
-  /// File path: assets/audio/hologram_entrance.mp3
-  String get hologramEntrance => 'assets/audio/hologram_entrance.mp3';
-
   /// File path: assets/audio/landing_page_ambient.mp3
   String get landingPageAmbient => 'assets/audio/landing_page_ambient.mp3';
 
@@ -63,7 +60,6 @@ class $AssetsAudioGen {
         counting3Seconds,
         experienceAmbient,
         faceNotDetected,
-        hologramEntrance,
         landingPageAmbient,
         loading,
         loadingFinished,
@@ -78,13 +74,29 @@ class $AssetsBackgroundsGen {
   AssetGenImage get animojiIntroBackground =>
       const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
 
-  /// File path: assets/backgrounds/beach.png
-  AssetGenImage get beach =>
-      const AssetGenImage('assets/backgrounds/beach.png');
+  /// File path: assets/backgrounds/bg_01.png
+  AssetGenImage get bg01 => const AssetGenImage('assets/backgrounds/bg_01.png');
 
-  /// File path: assets/backgrounds/blue_circle.png
-  AssetGenImage get blueCircle =>
-      const AssetGenImage('assets/backgrounds/blue_circle.png');
+  /// File path: assets/backgrounds/bg_02.png
+  AssetGenImage get bg02 => const AssetGenImage('assets/backgrounds/bg_02.png');
+
+  /// File path: assets/backgrounds/bg_03.png
+  AssetGenImage get bg03 => const AssetGenImage('assets/backgrounds/bg_03.png');
+
+  /// File path: assets/backgrounds/bg_04.png
+  AssetGenImage get bg04 => const AssetGenImage('assets/backgrounds/bg_04.png');
+
+  /// File path: assets/backgrounds/bg_05.png
+  AssetGenImage get bg05 => const AssetGenImage('assets/backgrounds/bg_05.png');
+
+  /// File path: assets/backgrounds/bg_06.png
+  AssetGenImage get bg06 => const AssetGenImage('assets/backgrounds/bg_06.png');
+
+  /// File path: assets/backgrounds/bg_07.png
+  AssetGenImage get bg07 => const AssetGenImage('assets/backgrounds/bg_07.png');
+
+  /// File path: assets/backgrounds/bg_08.png
+  AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
 
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
@@ -98,49 +110,30 @@ class $AssetsBackgroundsGen {
   AssetGenImage get loadingBackground =>
       const AssetGenImage('assets/backgrounds/loading_background.png');
 
-  /// File path: assets/backgrounds/photobooth_background.jpg
-  AssetGenImage get photoboothBackground =>
-      const AssetGenImage('assets/backgrounds/photobooth_background.jpg');
-
-  /// File path: assets/backgrounds/red_box.png
-  AssetGenImage get redBox =>
-      const AssetGenImage('assets/backgrounds/red_box.png');
-
   /// File path: assets/backgrounds/share_background.png
   AssetGenImage get shareBackground =>
       const AssetGenImage('assets/backgrounds/share_background.png');
-
-  /// File path: assets/backgrounds/space.png
-  AssetGenImage get space =>
-      const AssetGenImage('assets/backgrounds/space.png');
-
-  /// File path: assets/backgrounds/underwater.png
-  AssetGenImage get underwater =>
-      const AssetGenImage('assets/backgrounds/underwater.png');
 
   /// File path: assets/backgrounds/video_frame.png
   AssetGenImage get videoFrame =>
       const AssetGenImage('assets/backgrounds/video_frame.png');
 
-  /// File path: assets/backgrounds/yellow_plus.png
-  AssetGenImage get yellowPlus =>
-      const AssetGenImage('assets/backgrounds/yellow_plus.png');
-
   /// List of all assets
   List<AssetGenImage> get values => [
         animojiIntroBackground,
-        beach,
-        blueCircle,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
         holobooth,
         landingBackground,
         loadingBackground,
-        photoboothBackground,
-        redBox,
         shareBackground,
-        space,
-        underwater,
-        videoFrame,
-        yellowPlus
+        videoFrame
       ];
 }
 
