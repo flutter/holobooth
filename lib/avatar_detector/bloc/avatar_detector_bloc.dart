@@ -19,11 +19,14 @@ class AvatarDetectorBloc
   }
   final AvatarDetectorRepository _avatarDetectorRepository;
 
-  /// The time to wait before considering the avatar as not detected.
+  /// The time to wait before considering the [Avatar] as not detected.
   @visibleForTesting
   static const undectedDelay = Duration(seconds: 2);
 
-  /// The last time the avatar was detected.
+  /// The last time the [Avatar] was detected.
+  ///
+  /// Initially set to [DateTime.now], after the model is [_initialized]; then
+  /// set to [DateTime.now] after every [Avatar] detection.
   late DateTime _lastAvatarDetection;
 
   @override
