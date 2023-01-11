@@ -74,10 +74,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get animojiIntroBackground =>
       const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
 
-  /// File path: assets/backgrounds/beach.png
-  AssetGenImage get beach =>
-      const AssetGenImage('assets/backgrounds/beach.png');
-
   /// File path: assets/backgrounds/bg_01.png
   AssetGenImage get bg01 => const AssetGenImage('assets/backgrounds/bg_01.png');
 
@@ -102,10 +98,6 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/bg_08.png
   AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
 
-  /// File path: assets/backgrounds/blue_circle.png
-  AssetGenImage get blueCircle =>
-      const AssetGenImage('assets/backgrounds/blue_circle.png');
-
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
       const AssetGenImage('assets/backgrounds/holobooth.png');
@@ -118,14 +110,6 @@ class $AssetsBackgroundsGen {
   AssetGenImage get loadingBackground =>
       const AssetGenImage('assets/backgrounds/loading_background.png');
 
-  /// File path: assets/backgrounds/photobooth_background.jpg
-  AssetGenImage get photoboothBackground =>
-      const AssetGenImage('assets/backgrounds/photobooth_background.jpg');
-
-  /// File path: assets/backgrounds/red_box.png
-  AssetGenImage get redBox =>
-      const AssetGenImage('assets/backgrounds/red_box.png');
-
   /// File path: assets/backgrounds/share_background.png
   AssetGenImage get shareBackground =>
       const AssetGenImage('assets/backgrounds/share_background.png');
@@ -134,14 +118,9 @@ class $AssetsBackgroundsGen {
   AssetGenImage get videoFrame =>
       const AssetGenImage('assets/backgrounds/video_frame.png');
 
-  /// File path: assets/backgrounds/yellow_plus.png
-  AssetGenImage get yellowPlus =>
-      const AssetGenImage('assets/backgrounds/yellow_plus.png');
-
   /// List of all assets
   List<AssetGenImage> get values => [
         animojiIntroBackground,
-        beach,
         bg01,
         bg02,
         bg03,
@@ -150,15 +129,11 @@ class $AssetsBackgroundsGen {
         bg06,
         bg07,
         bg08,
-        blueCircle,
         holobooth,
         landingBackground,
         loadingBackground,
-        photoboothBackground,
-        redBox,
         shareBackground,
-        videoFrame,
-        yellowPlus
+        videoFrame
       ];
 }
 

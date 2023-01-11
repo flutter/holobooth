@@ -103,7 +103,8 @@ class _BackgroundSelectionElement extends StatelessWidget {
           color: PhotoboothColors.transparent,
           child: InkWell(
             key: BackgroundSelectionTabBarView.backgroundSelectionKey(
-                background),
+              background,
+            ),
             onTap: () {
               context
                   .read<InExperienceSelectionBloc>()
