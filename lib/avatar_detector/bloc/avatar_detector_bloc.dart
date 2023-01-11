@@ -25,7 +25,7 @@ class AvatarDetectorBloc
 
   /// The last time the [Avatar] was detected.
   ///
-  /// Initially set to [DateTime.now], after the model is [_initialized]; then
+  /// Initially set to [DateTime.now] after the model is [_initialized]; then
   /// set to [DateTime.now] after every [Avatar] detection.
   late DateTime _lastAvatarDetection;
 
