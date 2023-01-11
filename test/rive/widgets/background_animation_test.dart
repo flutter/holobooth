@@ -7,7 +7,7 @@ void main() {
   group('BackgroundAnimation', () {
     testWidgets('can update background', (tester) async {
       late StateSetter stateSetter;
-      var background = Background.space;
+      var background = Background.bg01;
       await tester.pumpWidget(
         MaterialApp(
           home: StatefulBuilder(
@@ -26,7 +26,7 @@ void main() {
       final backgroundValue = controller.background.value;
 
       stateSetter(() {
-        background = Background.underwater;
+        background = Background.bg02;
       });
 
       await tester.pump(Duration(milliseconds: 150));

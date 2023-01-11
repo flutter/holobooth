@@ -28,17 +28,41 @@ void main() {
           BackgroundSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
-        const background = Background.beach;
-        final finder =
-            find.byKey(Key('backgroundSelectionElement_${background.name}'));
-        await tester.scrollUntilVisible(finder, 50);
-        await tester.pumpAndSettle();
+        const background = Background.bg01;
+        final finder = find.byKey(
+          BackgroundSelectionTabBarView.backgroundSelectionKey(background),
+        );
         await tester.tap(finder);
         await tester.pumpAndSettle();
         verify(
           () => inExperienceSelectionBloc
               .add(InExperienceSelectionBackgroundSelected(background)),
         ).called(1);
+      },
+    );
+
+    testWidgets(
+      'renders every background',
+      (WidgetTester tester) async {
+        tester.setLargeDisplaySize();
+
+        await tester.pumpSubject(
+          BackgroundSelectionTabBarView(),
+          inExperienceSelectionBloc,
+        );
+        for (final background in Background.values) {
+          await tester.drag(
+            find.byKey(BackgroundSelectionTabBarView.listviewKey),
+            Offset(0, -50),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(
+              BackgroundSelectionTabBarView.backgroundSelectionKey(background),
+            ),
+            findsOneWidget,
+          );
+        }
       },
     );
   });
@@ -52,7 +76,9 @@ extension on WidgetTester {
       pumpApp(
         BlocProvider.value(
           value: inExperienceSelectionBloc,
-          child: Scaffold(body: subject),
+          child: Scaffold(
+            body: SizedBox(width: 200, height: 500, child: subject),
+          ),
         ),
       );
 }
