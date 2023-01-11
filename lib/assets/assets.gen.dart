@@ -241,8 +241,12 @@ class $AssetsImagesGen {
   AssetGenImage get flutterForwardLogo =>
       const AssetGenImage('assets/images/flutter_forward_logo.png');
 
+  /// File path: assets/images/holobooth_avatar.png
+  AssetGenImage get holoboothAvatar =>
+      const AssetGenImage('assets/images/holobooth_avatar.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [flutterForwardLogo];
+  List<AssetGenImage> get values => [flutterForwardLogo, holoboothAvatar];
 }
 
 class $AssetsPropsGen {

@@ -8,6 +8,7 @@ import 'package:io_photobooth/in_experience_selection/in_experience_selection.da
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -61,7 +62,7 @@ void main() {
 
     testWidgets('plays audio', (tester) async {
       await tester.pumpApp(const AnimojiIntroView());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       verify(() => audioPlayer.setAsset(Assets.audio.landingPageAmbient))
           .called(1);
@@ -73,6 +74,13 @@ void main() {
       expect(find.byKey(Key('animojiIntro_subheading_text')), findsOneWidget);
     });
 
+    testWidgets('renders animation', (tester) async {
+      await tester.pumpApp(const AnimojiIntroView());
+      expect(find.byType(AnimatedSprite), findsOneWidget);
+      final widget = tester.widget<AnimatedSprite>(find.byType(AnimatedSprite));
+      expect(widget.sprites.asset, equals('holobooth_avatar.png'));
+    });
+
     testWidgets('renders next button', (tester) async {
       await tester.pumpApp(const AnimojiIntroView());
       expect(find.byType(NextButton), findsOneWidget);
@@ -82,7 +90,7 @@ void main() {
         (tester) async {
       await tester.pumpApp(const AnimojiIntroView());
       await tester.ensureVisible(find.byType(NextButton));
-      await tester.pumpAndSettle();
+      await tester.pump();
       await tester.tap(
         find.byType(
           NextButton,
