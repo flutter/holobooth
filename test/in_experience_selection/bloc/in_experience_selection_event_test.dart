@@ -5,8 +5,8 @@ void main() {
   group('InExperienceSelectionEvent', () {
     group('InExperienceSelectionHatToggled', () {
       test('support value comparison', () {
-        final eventA = InExperienceSelectionHatToggled(Hats.astronaut);
-        final eventB = InExperienceSelectionHatToggled(Hats.astronaut);
+        final eventA = InExperienceSelectionHatToggled(Hats.hat01);
+        final eventB = InExperienceSelectionHatToggled(Hats.hat01);
         final eventC = InExperienceSelectionHatToggled(Hats.none);
         expect(eventA, equals(eventB));
         expect(eventA, isNot(equals(eventC)));

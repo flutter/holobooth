@@ -27,6 +27,7 @@ class ClothesSelectionTabBarView extends StatelessWidget {
           },
           name: item.name,
           isSelected: item == selectedClothes,
+          imageProvider: item.toImageProvider(),
         );
       },
       itemCount: items.length,

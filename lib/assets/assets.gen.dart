@@ -251,24 +251,202 @@ class $AssetsPropsGen {
   /// File path: assets/props/clothes.png
   AssetGenImage get clothes => const AssetGenImage('assets/props/clothes.png');
 
+  /// File path: assets/props/glasses_01.png
+  AssetGenImage get glasses01 =>
+      const AssetGenImage('assets/props/glasses_01.png');
+
+  /// File path: assets/props/glasses_02.png
+  AssetGenImage get glasses02 =>
+      const AssetGenImage('assets/props/glasses_02.png');
+
+  /// File path: assets/props/glasses_03.png
+  AssetGenImage get glasses03 =>
+      const AssetGenImage('assets/props/glasses_03.png');
+
+  /// File path: assets/props/glasses_04.png
+  AssetGenImage get glasses04 =>
+      const AssetGenImage('assets/props/glasses_04.png');
+
+  /// File path: assets/props/glasses_05.png
+  AssetGenImage get glasses05 =>
+      const AssetGenImage('assets/props/glasses_05.png');
+
+  /// File path: assets/props/glasses_06.png
+  AssetGenImage get glasses06 =>
+      const AssetGenImage('assets/props/glasses_06.png');
+
+  /// File path: assets/props/glasses_07.png
+  AssetGenImage get glasses07 =>
+      const AssetGenImage('assets/props/glasses_07.png');
+
+  /// File path: assets/props/glasses_08.png
+  AssetGenImage get glasses08 =>
+      const AssetGenImage('assets/props/glasses_08.png');
+
+  /// File path: assets/props/glasses_09.png
+  AssetGenImage get glasses09 =>
+      const AssetGenImage('assets/props/glasses_09.png');
+
   /// File path: assets/props/glasses_icon.png
   AssetGenImage get glassesIcon =>
       const AssetGenImage('assets/props/glasses_icon.png');
+
+  /// File path: assets/props/handheld_01.png
+  AssetGenImage get handheld01 =>
+      const AssetGenImage('assets/props/handheld_01.png');
+
+  /// File path: assets/props/handheld_02.png
+  AssetGenImage get handheld02 =>
+      const AssetGenImage('assets/props/handheld_02.png');
+
+  /// File path: assets/props/handheld_03.png
+  AssetGenImage get handheld03 =>
+      const AssetGenImage('assets/props/handheld_03.png');
+
+  /// File path: assets/props/handheld_04.png
+  AssetGenImage get handheld04 =>
+      const AssetGenImage('assets/props/handheld_04.png');
+
+  /// File path: assets/props/handheld_05.png
+  AssetGenImage get handheld05 =>
+      const AssetGenImage('assets/props/handheld_05.png');
+
+  /// File path: assets/props/handheld_06.png
+  AssetGenImage get handheld06 =>
+      const AssetGenImage('assets/props/handheld_06.png');
+
+  /// File path: assets/props/handheld_07.png
+  AssetGenImage get handheld07 =>
+      const AssetGenImage('assets/props/handheld_07.png');
+
+  /// File path: assets/props/handheld_08.png
+  AssetGenImage get handheld08 =>
+      const AssetGenImage('assets/props/handheld_08.png');
+
+  /// File path: assets/props/handheld_09.png
+  AssetGenImage get handheld09 =>
+      const AssetGenImage('assets/props/handheld_09.png');
+
+  /// File path: assets/props/handheld_10.png
+  AssetGenImage get handheld10 =>
+      const AssetGenImage('assets/props/handheld_10.png');
+
+  /// File path: assets/props/handheld_11.png
+  AssetGenImage get handheld11 =>
+      const AssetGenImage('assets/props/handheld_11.png');
+
+  /// File path: assets/props/hat_01.png
+  AssetGenImage get hat01 => const AssetGenImage('assets/props/hat_01.png');
+
+  /// File path: assets/props/hat_02.png
+  AssetGenImage get hat02 => const AssetGenImage('assets/props/hat_02.png');
+
+  /// File path: assets/props/hat_03.png
+  AssetGenImage get hat03 => const AssetGenImage('assets/props/hat_03.png');
+
+  /// File path: assets/props/hat_04.png
+  AssetGenImage get hat04 => const AssetGenImage('assets/props/hat_04.png');
+
+  /// File path: assets/props/hat_05.png
+  AssetGenImage get hat05 => const AssetGenImage('assets/props/hat_05.png');
+
+  /// File path: assets/props/hat_06.png
+  AssetGenImage get hat06 => const AssetGenImage('assets/props/hat_06.png');
+
+  /// File path: assets/props/hat_07.png
+  AssetGenImage get hat07 => const AssetGenImage('assets/props/hat_07.png');
+
+  /// File path: assets/props/hat_08.png
+  AssetGenImage get hat08 => const AssetGenImage('assets/props/hat_08.png');
+
+  /// File path: assets/props/hat_09.png
+  AssetGenImage get hat09 => const AssetGenImage('assets/props/hat_09.png');
 
   /// File path: assets/props/hats_icon.png
   AssetGenImage get hatsIcon =>
       const AssetGenImage('assets/props/hats_icon.png');
 
+  /// File path: assets/props/none_props.png
+  AssetGenImage get noneProps =>
+      const AssetGenImage('assets/props/none_props.png');
+
   /// File path: assets/props/others_icon.png
   AssetGenImage get othersIcon =>
       const AssetGenImage('assets/props/others_icon.png');
 
-  /// File path: assets/props/prop1.png
-  AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
+  /// File path: assets/props/shirt_01.png
+  AssetGenImage get shirt01 => const AssetGenImage('assets/props/shirt_01.png');
+
+  /// File path: assets/props/shirt_02.png
+  AssetGenImage get shirt02 => const AssetGenImage('assets/props/shirt_02.png');
+
+  /// File path: assets/props/shirt_03.png
+  AssetGenImage get shirt03 => const AssetGenImage('assets/props/shirt_03.png');
+
+  /// File path: assets/props/shirt_04.png
+  AssetGenImage get shirt04 => const AssetGenImage('assets/props/shirt_04.png');
+
+  /// File path: assets/props/shirt_05.png
+  AssetGenImage get shirt05 => const AssetGenImage('assets/props/shirt_05.png');
+
+  /// File path: assets/props/shirt_06.png
+  AssetGenImage get shirt06 => const AssetGenImage('assets/props/shirt_06.png');
+
+  /// File path: assets/props/shirt_07.png
+  AssetGenImage get shirt07 => const AssetGenImage('assets/props/shirt_07.png');
+
+  /// File path: assets/props/shirt_08.png
+  AssetGenImage get shirt08 => const AssetGenImage('assets/props/shirt_08.png');
+
+  /// File path: assets/props/shirt_09.png
+  AssetGenImage get shirt09 => const AssetGenImage('assets/props/shirt_09.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [clothes, glassesIcon, hatsIcon, othersIcon, prop1];
+  List<AssetGenImage> get values => [
+        clothes,
+        glasses01,
+        glasses02,
+        glasses03,
+        glasses04,
+        glasses05,
+        glasses06,
+        glasses07,
+        glasses08,
+        glasses09,
+        glassesIcon,
+        handheld01,
+        handheld02,
+        handheld03,
+        handheld04,
+        handheld05,
+        handheld06,
+        handheld07,
+        handheld08,
+        handheld09,
+        handheld10,
+        handheld11,
+        hat01,
+        hat02,
+        hat03,
+        hat04,
+        hat05,
+        hat06,
+        hat07,
+        hat08,
+        hat09,
+        hatsIcon,
+        noneProps,
+        othersIcon,
+        shirt01,
+        shirt02,
+        shirt03,
+        shirt04,
+        shirt05,
+        shirt06,
+        shirt07,
+        shirt08,
+        shirt09
+      ];
 }
 
 class Assets {

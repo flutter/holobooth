@@ -27,6 +27,7 @@ class MiscellaneousSelectionTabBarView extends StatelessWidget {
           },
           name: item.name,
           isSelected: item == selectedHandheldlLeft,
+          imageProvider: item.toImageProvider(),
         );
       },
       itemCount: items.length,

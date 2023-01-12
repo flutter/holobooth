@@ -657,7 +657,7 @@ void main() {
       expect(controller.hats.value, equals(hat.index));
 
       stateSetter(() {
-        hat = Hats.astronaut;
+        hat = Hats.hat01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -694,7 +694,7 @@ void main() {
       expect(controller.glasses.value, equals(glasses.index));
 
       stateSetter(() {
-        glasses = Glasses.sunGlasses;
+        glasses = Glasses.glasses01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -731,7 +731,7 @@ void main() {
       expect(controller.clothes.value, equals(clothes.index));
 
       stateSetter(() {
-        clothes = Clothes.swimmingSuit;
+        clothes = Clothes.shirt01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -768,7 +768,7 @@ void main() {
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
       stateSetter(() {
-        handheldLeft = HandheldlLeft.apple;
+        handheldLeft = HandheldlLeft.handheld01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));

@@ -27,6 +27,7 @@ class GlassesSelectionTabBarView extends StatelessWidget {
           },
           name: item.name,
           isSelected: item == selectedGlasses,
+          imageProvider: item.toImageProvider(),
         );
       },
       itemCount: items.length,
