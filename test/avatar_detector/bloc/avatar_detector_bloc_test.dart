@@ -161,7 +161,7 @@ void main() {
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
         'AvatarDetectorStatus.estimating, AvatarDetectorStatus.notDetected] '
-        'if detectAvatar returns null and undectedDelay elapsed.',
+        'if detectAvatar returns null and undetectedDelay elapsed.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),
@@ -170,7 +170,7 @@ void main() {
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) async {
           bloc.add(AvatarDetectorInitialized());
-          await Future<void>.delayed(AvatarDetectorBloc.undectedDelay);
+          await Future<void>.delayed(AvatarDetectorBloc.undetectedDelay);
           bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
         },
         expect: () => [
@@ -200,7 +200,7 @@ void main() {
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
         'AvatarDetectorStatus.estimating] '
-        'if detectAvatar returns null and undectedDelay not elapsed.',
+        'if detectAvatar returns null and undetectedDelay not elapsed.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),

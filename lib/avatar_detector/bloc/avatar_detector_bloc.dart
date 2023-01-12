@@ -21,7 +21,7 @@ class AvatarDetectorBloc
 
   /// The time to wait before considering the [Avatar] as not detected.
   @visibleForTesting
-  static const undectedDelay = Duration(seconds: 2);
+  static const undetectedDelay = Duration(seconds: 2);
 
   /// The last time the [Avatar] was detected.
   ///
@@ -73,7 +73,7 @@ class AvatarDetectorBloc
     try {
       final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
       if (avatar == null) {
-        if (DateTime.now().difference(_lastAvatarDetection) > undectedDelay) {
+        if (DateTime.now().difference(_lastAvatarDetection) > undetectedDelay) {
           emit(
             state.copyWith(status: AvatarDetectorStatus.notDetected),
           );
