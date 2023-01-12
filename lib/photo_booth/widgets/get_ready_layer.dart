@@ -93,6 +93,8 @@ class GetReadyCountdown extends StatelessWidget {
     final l10n = context.l10n;
     final seconds =
         (GetReadyLayer.countdownDuration.inSeconds * controller.value).ceil();
+    final isSmall =
+        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -106,15 +108,17 @@ class GetReadyCountdown extends StatelessWidget {
             Align(
               child: GradientText(
                 text: '$seconds',
-                style: PhotoboothTextStyle.displayMedium.copyWith(
-                  fontSize: 400,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: isSmall ? 280 : 400,
+                  height: 1,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
             GradientText(
               text: l10n.getReady,
-              style: PhotoboothTextStyle.headlineMedium,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
           ],

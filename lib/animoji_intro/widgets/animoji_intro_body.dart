@@ -121,7 +121,7 @@ class _BottomContent extends StatelessWidget {
             child: SelectableText(
               l10n.animojiIntroPageSubheading,
               key: const Key('animojiIntro_subheading_text'),
-              style: textTheme.displaySmall!.copyWith(
+              style: textTheme.bodyLarge?.copyWith(
                 color: HoloBoothColors.white,
               ),
               textAlign: smallScreen ? TextAlign.center : TextAlign.left,
