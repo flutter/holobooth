@@ -3,6 +3,7 @@ export const UPLOAD_PATH = 'uploads';
 export const SHARE_PATH = 'share';
 export const ALLOWED_HOSTS = [
   'http://localhost:5001',
+  'http://localhost:5000',
   'https://io-photobooth-dev.web.app',
   'https://io-photo-booth.web.app',
   'https://photobooth.flutter.dev',

@@ -215,6 +215,17 @@ footer .right a {
   text-decoration: none;
 }
 
+.video-pop-up-backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(28, 32, 64, 0.8);
+  backdrop-filter: blur(8px);
+  display: none;
+}
+
 .video-pop-up {
   position: fixed;
   left: 50%;

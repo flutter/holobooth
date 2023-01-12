@@ -123,7 +123,7 @@ export async function getShareResponse(
     const baseUrl = `${req.protocol}://${host}`;
     const { ext, base: videoFileName } = path.parse(req.path);
 
-    if (!ALLOWED_HOSTS.includes(host) || !VALID_VIDEO_EXT.includes(ext)) {
+    if (!ALLOWED_HOSTS.includes(baseUrl) || !VALID_VIDEO_EXT.includes(ext)) {
       functions.logger.log('Bad host or video ext', { host, baseUrl, ext, videoFileName });
       return {
         status: 404,

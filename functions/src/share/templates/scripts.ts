@@ -4,12 +4,14 @@ export default `
   const playButton = document.querySelector('.play-button');
   const closeButton = document.querySelector('.close-button');
   const videoPopUp = document.querySelector('.video-pop-up');
+  const backdrop = document.querySelector('.video-pop-up-backdrop');
   const videoPlayer = document.querySelector('.video-pop-up video');
   const timeCounter = document.querySelector('.time-counter');
   const progressBar = document.querySelector('.video-progress-bar > div');
   const fullscreenButton = document.querySelector('.fullscreen-button');
 
   frame.addEventListener('click', function() {
+    backdrop.style.display = 'block';
     videoPopUp.classList.remove('fullscreen');
     videoPopUp.style.display = 'flex';
     videoPlayer.play();
@@ -20,6 +22,7 @@ export default `
   });
 
   closeButton.addEventListener('click', function() {
+    backdrop.style.display = 'none';
     videoPopUp.style.display = 'none';
   });
 

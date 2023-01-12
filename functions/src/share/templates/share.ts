@@ -60,6 +60,8 @@ export default `
       </div>
     </main>
     {{{footer}}}
+    <div class="video-pop-up-backdrop">
+    </div>
     <div class="video-pop-up">
       <div class="video-pop-up-screen">
         <video src="{{{shareVideoUrl}}}"></video>
