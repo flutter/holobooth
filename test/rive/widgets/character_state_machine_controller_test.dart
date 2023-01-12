@@ -29,12 +29,7 @@ void main() {
       expect(
         () => CharacterStateMachineController(
           artboard,
-          testFindInput: (name) {
-            if (name == xInputName) {
-              return null;
-            }
-            return null;
-          },
+          testFindInput: (name) => null,
         ),
         throwsA(
           predicate(
