@@ -1,4 +1,4 @@
-name: deploy_app_staging
+name: deploy_app_production
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
-    name: Deploy App Staging
+    name: Deploy App Production
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -14,12 +14,13 @@ jobs:
           flutter-version: "3.6.0-0.1.pre"
           channel: "beta"
       - run: flutter packages get
-      - run: flutter build web --web-renderer canvaskit -t lib/main_dev.dart
+      - run: flutter build web --web-renderer canvaskit -t lib/main_prod.dart
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_DEV }}"
-          projectId: io-photobooth-dev
-          target: app_staging
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PHOTOBOOTH_PRODUCTION }}"
+          projectId: holobooth-prod
+          target: app_prod
           expires: 30d
           channelId: live
+

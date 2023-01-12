@@ -26,6 +26,7 @@ void main() {
 
     when(audioPlayer.pause).thenAnswer((_) async {});
     when(audioPlayer.play).thenAnswer((_) async {});
+    when(audioPlayer.stop).thenAnswer((_) async {});
     when(audioPlayer.dispose).thenAnswer((_) async {});
     when(() => audioPlayer.setLoopMode(any())).thenAnswer((_) async {});
     when(() => audioPlayer.loopMode).thenReturn(LoopMode.off);

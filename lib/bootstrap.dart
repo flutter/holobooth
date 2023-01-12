@@ -12,11 +12,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
-import 'package:io_photobooth/firebase_options.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
 
-Future<void> main() async {
+Future<void> bootstrap({
+  required String convertUrl,
+  required FirebaseOptions firebaseOptions,
+}) async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
@@ -25,7 +27,7 @@ Future<void> main() async {
   };
 
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: firebaseOptions,
   );
 
   final authenticationRepository = AuthenticationRepository(
@@ -35,7 +37,7 @@ Future<void> main() async {
 
   final avatarDetectorRepository = AvatarDetectorRepository();
   final convertRepository = ConvertRepository(
-    url: 'https://convert-it4sycsdja-uc.a.run.app',
+    url: convertUrl,
   );
 
   runZonedGuarded(
