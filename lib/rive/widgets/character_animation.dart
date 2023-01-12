@@ -64,7 +64,8 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The amount of head movement required to trigger a rotation animation.
   ///
   /// The smaller the value the more sensitive the animation will be.
-  static const _rotationToleration = 3;
+  @visibleForTesting
+  static const rotationToleration = 3;
 
   /// The minimum number of samples taken before the eye animation is
   /// enabled.
@@ -82,7 +83,8 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// scale animation.
   ///
   /// The smaller the value the more sensitive the animation will be.
-  static const _scaleToleration = .1;
+  @visibleForTesting
+  static const scaleToleration = .1;
 
   /// The amount we scale the rotation movement by.
   ///
@@ -166,7 +168,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     if (characterController == null) return;
 
     final distance = _leftEyeTween.evaluate(_leftEyeAnimationController);
-    characterController.leftEyeIsClosed.change(distance);
+    characterController.leftEye.change(distance);
   }
 
   void _controlRightEye() {
@@ -174,7 +176,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     if (characterController == null) return;
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
-    characterController.rightEyeIsClosed.change(distance);
+    characterController.rightEye.change(distance);
   }
 
   void _controlMouth() {
@@ -188,11 +190,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @override
   void initState() {
     super.initState();
-    _scale = widget.avatar.distance.normalize(
-      fromMax: 1,
-      toMin: 0.8,
-      toMax: 5,
-    );
+    _scale = widget.avatar.distance.normalize(fromMax: 1, toMin: 0.8, toMax: 5);
   }
 
   @override
@@ -200,21 +198,19 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     super.didUpdateWidget(oldWidget);
     final characterController = this.characterController;
     if (characterController == null) return;
+
     final previousRotationVector = Vector3(
       characterController.x.value,
       characterController.y.value,
       characterController.z.value,
     );
-    // Direction has range of values [-1, 1], and the
-    // animation controller [-100, 100] so we multiply
-    // by 100 to correlate the values.
     final newRotationVector = Vector3(
       (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
       (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
       (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
     );
     if (newRotationVector.distance(previousRotationVector) >
-        _rotationToleration) {
+        rotationToleration) {
       _rotationTween
         ..begin = previousRotationVector
         ..end = newRotationVector;
@@ -231,7 +227,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       _mouthAnimationController.forward(from: 0);
     }
 
-    final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
+    final previousLeftEyeValue = characterController.leftEye.value;
     final leftEyeGeometry = widget.avatar.leftEyeGeometry;
     late final double newLeftEyeValue;
     if (leftEyeGeometry.population > _eyePopulationMin &&
@@ -273,7 +269,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       _leftEyeAnimationController.forward(from: 0);
     }
 
-    final previousRightEyeValue = characterController.rightEyeIsClosed.value;
+    final previousRightEyeValue = characterController.rightEye.value;
     final rightEyeGeometry = widget.avatar.rightEyeGeometry;
     late final double newRightEyeValue;
     if (rightEyeGeometry.population > _eyePopulationMin &&
@@ -335,15 +331,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
       );
     }
 
-    final newScale = widget.avatar.distance.normalize(
-      fromMax: 1,
-      toMin: 0.8,
-      toMax: 5,
-    );
-    if ((newScale - _scale).abs() > _scaleToleration) {
-      setState(() {
-        _scale = newScale;
-      });
+    final newScale =
+        widget.avatar.distance.normalize(fromMax: 1, toMin: 0.8, toMax: 5);
+    if ((newScale - _scale).abs() > scaleToleration) {
+      setState(() => _scale = newScale);
     }
   }
 

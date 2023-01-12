@@ -41,20 +41,20 @@ class CharacterStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$mouthDistanceInputName"');
     }
 
-    const leftEyeIsClosedInputName = 'Eyelid LF';
-    final leftEyeIsClosed = findInput<double>(leftEyeIsClosedInputName);
-    if (leftEyeIsClosed is SMINumber) {
-      this.leftEyeIsClosed = leftEyeIsClosed;
+    const leftEyeInputName = 'Eyelid LF';
+    final leftEye = findInput<double>(leftEyeInputName);
+    if (leftEye is SMINumber) {
+      this.leftEye = leftEye;
     } else {
-      throw StateError('Could not find input "$leftEyeIsClosedInputName"');
+      throw StateError('Could not find input "$leftEyeInputName"');
     }
 
-    const rightEyeIsClosedInputName = 'Eyelid RT';
-    final rightEyeIsClosed = findInput<double>(rightEyeIsClosedInputName);
-    if (rightEyeIsClosed is SMINumber) {
-      this.rightEyeIsClosed = rightEyeIsClosed;
+    const rightEyeInputName = 'Eyelid RT';
+    final rightEye = findInput<double>(rightEyeInputName);
+    if (rightEye is SMINumber) {
+      this.rightEye = rightEye;
     } else {
-      throw StateError('Could not find input "$rightEyeIsClosedInputName"');
+      throw StateError('Could not find input "$rightEyeInputName"');
     }
 
     const hatsInputName = 'Hats';
@@ -94,8 +94,8 @@ class CharacterStateMachineController extends StateMachineController {
   late final SMINumber y;
   late final SMINumber z;
   late final SMINumber mouthDistance;
-  late final SMINumber leftEyeIsClosed;
-  late final SMINumber rightEyeIsClosed;
+  late final SMINumber leftEye;
+  late final SMINumber rightEye;
   late final SMINumber hats;
   late final SMINumber glasses;
   late final SMINumber clothes;
