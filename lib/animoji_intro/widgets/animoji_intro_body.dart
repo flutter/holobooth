@@ -56,12 +56,12 @@ class AnimojiIntroBody extends StatelessWidget {
                                 width: 960,
                                 height: 450,
                                 child: AnimatedSprite(
+                                  showLoadingIndicator: false,
                                   sprites: Sprites(
                                     asset: 'holobooth_avatar.png',
                                     size: Size(960, 450),
                                     frames: 45,
                                   ),
-                                  loadingIndicatorColor: Color(0xFF51F6D9),
                                 ),
                               ),
                             ),
