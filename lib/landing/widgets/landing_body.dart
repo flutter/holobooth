@@ -100,7 +100,7 @@ class _LandingBodyContent extends StatelessWidget {
           l10n.landingPageSubheading,
           key: const Key('landingPage_subheading_text'),
           style: theme.textTheme.displaySmall!.copyWith(
-            color: PhotoboothColors.white,
+            color: HoloBoothColors.white,
           ),
           textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),

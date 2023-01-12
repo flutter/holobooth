@@ -26,7 +26,7 @@ class HoloBoothAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
-      backgroundColor: PhotoboothColors.transparent,
+      backgroundColor: HoloBoothColors.transparent,
       content: GradientFrame(
         height: height,
         width: width,

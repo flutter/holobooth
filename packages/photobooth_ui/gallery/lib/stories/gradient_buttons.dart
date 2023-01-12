@@ -15,7 +15,7 @@ void addGradientButtonStories(Dashbook dashbook) {
             ),
             const SizedBox(height: 24),
             Container(
-              color: PhotoboothColors.black,
+              color: HoloBoothColors.black,
               padding: const EdgeInsets.all(20),
               child: GradientOutlinedButton(
                 onPressed: () {},

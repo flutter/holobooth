@@ -11,7 +11,7 @@ class DownloadButton extends StatelessWidget {
     return GradientOutlinedButton(
       icon: const Icon(
         Icons.file_download_rounded,
-        color: PhotoboothColors.white,
+        color: HoloBoothColors.white,
       ),
       label: l10n.sharePageDownloadButtonText,
     );

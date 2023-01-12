@@ -30,33 +30,22 @@ class GradientOutlinedButton extends StatelessWidget {
       radius: const Radius.circular(50),
       strokeWidth: 2,
       padding: const EdgeInsets.symmetric(vertical: 16),
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomCenter,
-        colors: [
-          HoloBoothColors.gradientSecondaryFourStart,
-          HoloBoothColors.purple,
-        ],
-      ),
+      gradient: HoloBoothGradients.buttonBorder,
       onTap: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ShaderMask(
             shaderCallback: (bounds) {
-              return const LinearGradient(
-                colors: [
-                  Color(0xFFEFBDCF),
-                  Color(0xFF9E81EF),
-                ],
-              ).createShader(Offset.zero & bounds.size);
+              return HoloBoothGradients.secondaryFour
+                  .createShader(Offset.zero & bounds.size);
             },
             child: icon,
           ),
           const SizedBox(width: 19),
           Text(
             label,
-            style: const TextStyle(color: PhotoboothColors.white),
+            style: const TextStyle(color: HoloBoothColors.white),
           ),
         ],
       ),
