@@ -26,8 +26,10 @@ class PropsScrollView extends StatelessWidget {
       );
     }
     return GridView.builder(
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+      ),
       itemCount: itemCount,
       itemBuilder: itemBuilder,
     );
