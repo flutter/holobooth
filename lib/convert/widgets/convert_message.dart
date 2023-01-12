@@ -8,18 +8,19 @@ class ConvertMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       children: [
         GradientText(
           text: l10n.convertMessage,
-          style: PhotoboothTextStyle.displayMedium,
+          style: textTheme.headlineSmall,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
         Text(
           l10n.convertInfo,
-          style: PhotoboothTextStyle.bodyMedium.copyWith(
+          style: textTheme.bodyMedium?.copyWith(
             color: HoloBoothColors.white,
           ),
           textAlign: TextAlign.center,
