@@ -57,42 +57,48 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
   }
 }
 
-// TODO(oscar): remove on the scope of this task https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3428762748
-// coverage:ignore-start
 @visibleForTesting
 class BackgroundAnimationStateMachineController extends StateMachineController {
-  BackgroundAnimationStateMachineController(Artboard artboard)
-      : super(
-          artboard.animations.whereType<StateMachine>().firstWhere(
-                (stateMachine) => stateMachine.name == 'State Machine 1',
-              ),
+  BackgroundAnimationStateMachineController(
+    Artboard artboard, {
+    SMIInput<dynamic>? Function(String name)? testFindInput,
+  }) : super(
+          testFindInput == null
+              ? artboard.animations.whereType<StateMachine>().firstWhere(
+                    (stateMachine) => stateMachine.name == 'State Machine 1',
+                  )
+              : StateMachine(),
         ) {
-    const xInputName = 'X';
-    final x = findInput<double>(xInputName);
+    final x = testFindInput != null
+        ? testFindInput(xInputName)
+        : findInput<double>(xInputName);
     if (x is SMINumber) {
       this.x = x;
     } else {
       throw StateError('Could not find input "$xInputName"');
     }
 
-    const yInputName = 'Y';
-    final y = findInput<double>(yInputName);
+    final y = testFindInput != null
+        ? testFindInput(yInputName)
+        : findInput<double>(yInputName);
     if (y is SMINumber) {
       this.y = y;
     } else {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const zInputName = 'Z';
-    final z = findInput<double>(zInputName);
+    final z = testFindInput != null
+        ? testFindInput(zInputName)
+        : findInput<double>(zInputName);
     if (z is SMINumber) {
       this.z = z;
     } else {
       throw StateError('Could not find input "$zInputName"');
     }
 
-    const backgroundInputName = 'BG';
-    final background = findInput<double>(backgroundInputName);
+    final background = testFindInput != null
+        ? testFindInput(backgroundInputName)
+        : findInput<double>(backgroundInputName);
     if (background is SMINumber) {
       this.background = background;
     } else {
@@ -100,9 +106,20 @@ class BackgroundAnimationStateMachineController extends StateMachineController {
     }
   }
 
+  @visibleForTesting
+  static const xInputName = 'X';
+
+  @visibleForTesting
+  static const yInputName = 'Y';
+
+  @visibleForTesting
+  static const zInputName = 'Z';
+
+  @visibleForTesting
+  static const backgroundInputName = 'BG';
+
   late final SMINumber x;
   late final SMINumber y;
   late final SMINumber z;
   late final SMINumber background;
 }
-// coverage:ignore-end
