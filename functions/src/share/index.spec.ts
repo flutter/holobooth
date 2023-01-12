@@ -24,7 +24,7 @@ describe('Share API', () => {
     path: '',
     protocol: 'http',
     get(_: string) {
-      return 'http://localhost:5001';
+      return 'localhost:5001';
     },
   } as functions.https.Request;
 
