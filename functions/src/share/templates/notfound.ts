@@ -27,19 +27,12 @@ export default `
     
     <style>{{{styles}}}</style>
   </head>
-  <body>
-    <div class="backdrop"></div>
-    <img src="{{{assetUrls.fixedPhotosLeft}}}" class="fixed-photos left">
-    <img src="{{{assetUrls.fixedPhotosRight}}}" class="fixed-photos right">
-    <main>
-      <div class="share-image no-shadow">
-        <img src="{{{assetUrls.notFoundPhoto}}}">
-      </div>
-      <div class="text">
-        <h1>Taken with I/O Photo Booth</h1>
-        <h2>Oops! This photo is gone, but that doesn't mean the fun has to end.</h2>
-        <a class="share-btn" href="/">Take your own</a>
-      </div>
+  <body class="not-found-page">
+    <div class="not-found-backdrop"></div>
+    <main class="not-found-panel">
+      <h1>This page can’t be found</h1>
+      <h2>Try going back or relaunch the app.</h2>
+      <a class="btn elevated-btn relaunch-btn" href="/">Relaunch HoloBooth</a>
     </main>
     {{{footer}}}
   </body>
