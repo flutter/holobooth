@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/animoji_intro/animoji_intro.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimojiIntroPage extends StatelessWidget {
@@ -20,29 +19,8 @@ class AnimojiIntroPage extends StatelessWidget {
   }
 }
 
-class AnimojiIntroView extends StatefulWidget {
+class AnimojiIntroView extends StatelessWidget {
   const AnimojiIntroView({super.key});
-
-  @override
-  State<AnimojiIntroView> createState() => _AnimojiIntroViewState();
-}
-
-class _AnimojiIntroViewState extends State<AnimojiIntroView>
-    with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.landingPageAmbient;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _loadAndPlayAudio();
-  }
-
-  Future<void> _loadAndPlayAudio() async {
-    await loadAudio();
-    await playAudio();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +29,15 @@ class _AnimojiIntroViewState extends State<AnimojiIntroView>
         const Positioned.fill(child: AnimojiIntroBackground()),
         Positioned.fill(
           child: Column(
-            children: const [
-              Expanded(child: AnimojiIntroBody()),
-              FullFooter(),
+            children: [
+              Expanded(
+                child: AnimojiIntroBody(
+                  onNextPressed: () {
+                    Navigator.of(context).push(PhotoBoothPage.route());
+                  },
+                ),
+              ),
+              const FullFooter(),
             ],
           ),
         ),

@@ -14,6 +14,7 @@ import 'package:io_photobooth/app/app.dart';
 import 'package:io_photobooth/app/app_bloc_observer.dart';
 import 'package:io_photobooth/landing/loading_indicator_io.dart'
     if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 Future<void> bootstrap({
   required String convertUrl,
@@ -38,6 +39,12 @@ Future<void> bootstrap({
   final avatarDetectorRepository = AvatarDetectorRepository();
   final convertRepository = ConvertRepository(
     url: convertUrl,
+  );
+
+  unawaited(
+    Future.wait([
+      Flame.images.load('holobooth_avatar.png'),
+    ]),
   );
 
   runZonedGuarded(
