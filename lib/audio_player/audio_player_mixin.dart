@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -19,17 +18,17 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
   late final AudioPlayer _audioPlayer = _audioPlayerOverride ?? AudioPlayer();
 
   Future<void> loadAudio() async {
-    final audioSession = await AudioSession.instance;
+    /*final audioSession = await AudioSession.instance;
     // Inform the operating system of our app's audio attributes etc.
     // We pick a reasonable default for an app that plays speech.
     try {
       await audioSession.configure(const AudioSessionConfiguration.speech());
       await _audioPlayer.setAsset(audioAssetPath);
-    } catch (_) {}
+    } catch (_) {}*/
   }
 
   Future<void> playAudio({bool loop = false}) async {
-    final completer = Completer<void>();
+    /* final completer = Completer<void>();
     _playing = completer.future;
     if (loop && _audioPlayer.loopMode != LoopMode.all) {
       await _audioPlayer.setLoopMode(LoopMode.all);
@@ -39,7 +38,7 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
     await _audioPlayer.pause();
     await _audioPlayer.seek(Duration.zero);
     await _audioPlayer.play();
-    completer.complete();
+    completer.complete();*/
   }
 
   Future<void> stopAudio() async {
