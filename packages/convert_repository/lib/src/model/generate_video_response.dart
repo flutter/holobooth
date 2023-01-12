@@ -9,6 +9,7 @@ class GenerateVideoResponse {
     required this.videoUrl,
     required this.gifUrl,
     required this.firstFrame,
+    this.twitterUrl = '',
   });
 
   /// {@macro generate_video_response}
@@ -31,4 +32,20 @@ class GenerateVideoResponse {
 
   /// First frame of the video generated.
   final Uint8List firstFrame;
+
+  final String twitterUrl;
+
+  GenerateVideoResponse copyWith({
+    String? videoUrl,
+    String? gifUrl,
+    Uint8List? firstFrame,
+    String? twitterUrl,
+  }) {
+    return GenerateVideoResponse(
+      videoUrl: videoUrl ?? this.videoUrl,
+      gifUrl: gifUrl ?? this.gifUrl,
+      firstFrame: firstFrame ?? this.firstFrame,
+      twitterUrl: twitterUrl ?? this.twitterUrl,
+    );
+  }
 }

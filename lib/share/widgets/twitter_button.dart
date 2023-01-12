@@ -13,16 +13,10 @@ class TwitterButton extends StatelessWidget {
     final l10n = context.l10n;
     return GradientOutlinedButton(
       onPressed: () {
-        final gifPath = context.read<ConvertBloc>().state.gifPath;
-        final assetName = gifPath.replaceAll(
-          'https://storage.googleapis.com/io-photobooth-dev.appspot.com/uploads/',
-          '',
-        );
-        final fullShareUrl = _baseShareUrl + assetName;
-        final shareText = Uri.encodeComponent(l10n.socialMediaShareLinkText);
-        final url =
-            'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
-        openLink(url);
+        final twitterShareUrl =
+            context.read<ConvertBloc>().state.twitterShareUrl;
+
+        openLink(twitterShareUrl);
         Navigator.of(context).pop();
       },
       label: l10n.shareDialogTwitterButtonText,

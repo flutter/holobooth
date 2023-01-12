@@ -19,6 +19,7 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 Future<void> bootstrap({
   required String convertUrl,
   required FirebaseOptions firebaseOptions,
+  required String shareUrl,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
@@ -39,6 +40,7 @@ Future<void> bootstrap({
   final avatarDetectorRepository = AvatarDetectorRepository();
   final convertRepository = ConvertRepository(
     url: convertUrl,
+    shareUrl: shareUrl,
   );
 
   unawaited(

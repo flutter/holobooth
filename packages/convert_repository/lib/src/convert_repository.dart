@@ -14,7 +14,7 @@ class ConvertRepository {
     required String url,
     required String shareUrl,
     MultipartRequest Function()? multipartRequestBuilder,
-  }) {
+  }) : _shareUrl = shareUrl {
     _multipartRequestBuilder = multipartRequestBuilder ??
         () => MultipartRequest('POST', Uri.parse(url));
   }
@@ -22,6 +22,7 @@ class ConvertRepository {
   late final MultipartRequest Function() _multipartRequestBuilder;
 
   final _processedFrames = <Uint8List>[];
+  final String _shareUrl;
 
   /// 16 is the minimum amount of time that you can delay
   /// an operation on a web browser.
@@ -49,6 +50,17 @@ class ConvertRepository {
       );
     }
     return _processedFrames;
+  }
+
+  String _getTwitterShareUrl(String gifPath) {
+    // We could do the parsing on the cloud function
+    final assetName = gifPath.replaceAll(
+      'https://storage.googleapis.com/io-photobooth-dev.appspot.com/uploads/',
+      '',
+    );
+    final fullShareUrl = _shareUrl + assetName;
+    final shareText = Uri.encodeComponent('Hey from Twitter!');
+    return 'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
   }
 
   /// Converts a list of images to video using firebase functions.
@@ -81,9 +93,12 @@ class ConvertRepository {
       if (response.statusCode == 200) {
         final rawData = await response.stream.bytesToString();
         final json = jsonDecode(rawData) as Map<String, dynamic>;
-        return GenerateVideoResponse.fromJson(
+        final videoResponse = GenerateVideoResponse.fromJson(
           json,
           frames.first,
+        );
+        return videoResponse.copyWith(
+          twitterUrl: _getTwitterShareUrl(videoResponse.gifUrl),
         );
       } else {
         throw const GenerateVideoException('Failed to convert frames');

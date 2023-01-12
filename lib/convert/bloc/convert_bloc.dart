@@ -33,6 +33,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           gifPath: result.gifUrl,
           status: ConvertStatus.videoCreated,
           firstFrameProcessed: result.firstFrame,
+          twitterShareUrl: result.twitterUrl,
         ),
       );
     } catch (error, stackTrace) {
@@ -44,6 +45,4 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       );
     }
   }
-
-  String _getTwitterShareUrl(String gifUrl) {}
 }
