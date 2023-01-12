@@ -6,12 +6,14 @@ class PropSelectionElement extends StatelessWidget {
     required this.name,
     required this.isSelected,
     required this.onTap,
+    required this.imageProvider,
     super.key,
   });
 
   final String name;
   final bool isSelected;
   final VoidCallback onTap;
+  final ImageProvider? imageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +44,15 @@ class PropSelectionElement extends StatelessWidget {
               ],
             ),
           ),
-          child: Text(
-            name,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
-          ),
+          child: imageProvider == null
+              ? Text(
+                  name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: PhotoboothColors.white),
+                )
+              : Image(image: imageProvider!),
         ),
       ),
     );
