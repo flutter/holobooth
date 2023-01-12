@@ -33,8 +33,10 @@ class GenerateVideoResponse {
   /// First frame of the video generated.
   final Uint8List firstFrame;
 
+  /// Twitter share url.
   final String twitterUrl;
 
+  /// CopyWith
   GenerateVideoResponse copyWith({
     String? videoUrl,
     String? gifUrl,

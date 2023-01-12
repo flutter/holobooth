@@ -25,6 +25,8 @@ void main() {
       convertRepository = ConvertRepository(
         multipartRequestBuilder: () => multipartRequest,
         url: '',
+        assetBucketUrl: '',
+        shareUrl: '',
       );
       streamedResponse = _MockStreamedResponse();
 
@@ -43,12 +45,23 @@ void main() {
     });
 
     test('can be instantiated', () {
-      expect(ConvertRepository(url: ''), isNotNull);
+      expect(
+        ConvertRepository(
+          url: '',
+          assetBucketUrl: '',
+          shareUrl: '',
+        ),
+        isNotNull,
+      );
     });
 
     group('generateVideo', () {
       test('throws exception if multipartRequest not set up', () {
-        final repository = ConvertRepository(url: 'url');
+        final repository = ConvertRepository(
+          url: 'url',
+          assetBucketUrl: '',
+          shareUrl: '',
+        );
         expect(repository.generateVideo(frames), throwsException);
       });
 

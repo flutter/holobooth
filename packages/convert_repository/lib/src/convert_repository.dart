@@ -13,8 +13,10 @@ class ConvertRepository {
   ConvertRepository({
     required String url,
     required String shareUrl,
+    required String assetBucketUrl,
     MultipartRequest Function()? multipartRequestBuilder,
-  }) : _shareUrl = shareUrl {
+  })  : _shareUrl = shareUrl,
+        _assetBucketUrl = assetBucketUrl {
     _multipartRequestBuilder = multipartRequestBuilder ??
         () => MultipartRequest('POST', Uri.parse(url));
   }
@@ -23,6 +25,7 @@ class ConvertRepository {
 
   final _processedFrames = <Uint8List>[];
   final String _shareUrl;
+  final String _assetBucketUrl;
 
   /// 16 is the minimum amount of time that you can delay
   /// an operation on a web browser.
@@ -54,10 +57,7 @@ class ConvertRepository {
 
   String _getTwitterShareUrl(String gifPath) {
     // We could do the parsing on the cloud function
-    final assetName = gifPath.replaceAll(
-      'https://storage.googleapis.com/io-photobooth-dev.appspot.com/uploads/',
-      '',
-    );
+    final assetName = gifPath.replaceAll(_assetBucketUrl, '');
     final fullShareUrl = _shareUrl + assetName;
     final shareText = Uri.encodeComponent('Hey from Twitter!');
     return 'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
@@ -97,6 +97,7 @@ class ConvertRepository {
           json,
           frames.first,
         );
+
         return videoResponse.copyWith(
           twitterUrl: _getTwitterShareUrl(videoResponse.gifUrl),
         );

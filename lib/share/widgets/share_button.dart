@@ -15,14 +15,15 @@ class ShareButton extends StatelessWidget {
     return GradientOutlinedButton(
       onPressed: () async {
         await showAppDialog<void>(
-            context: context,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<ShareBloc>()),
-                BlocProvider.value(value: context.read<ConvertBloc>()),
-              ],
-              child: const ShareDialog(),
-            ));
+          context: context,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: context.read<ShareBloc>()),
+              BlocProvider.value(value: context.read<ConvertBloc>()),
+            ],
+            child: const ShareDialog(),
+          ),
+        );
       },
       icon: const Icon(
         Icons.share,

@@ -20,6 +20,7 @@ Future<void> bootstrap({
   required String convertUrl,
   required FirebaseOptions firebaseOptions,
   required String shareUrl,
+  required String assetBucketUrl,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
@@ -41,6 +42,7 @@ Future<void> bootstrap({
   final convertRepository = ConvertRepository(
     url: convertUrl,
     shareUrl: shareUrl,
+    assetBucketUrl: assetBucketUrl,
   );
 
   unawaited(
