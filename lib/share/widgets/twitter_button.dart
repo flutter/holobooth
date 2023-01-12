@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:io_photobooth/assets/assets.dart';
+import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class TwitterButton extends StatelessWidget {
@@ -13,17 +13,16 @@ class TwitterButton extends StatelessWidget {
     final l10n = context.l10n;
     return GradientOutlinedButton(
       onPressed: () {
-        final state = context.read<ShareBloc>().state;
-        if (state.shareStatus.isSuccess && state.shareUrl == ShareUrl.twitter) {
-          Navigator.of(context).pop();
-          openLink(state.twitterShareUrl);
-          return;
-        }
-
-        context
-            .read<ShareBloc>()
-            .add(const ShareTapped(shareUrl: ShareUrl.twitter));
-
+        final gifPath = context.read<ConvertBloc>().state.gifPath;
+        final assetName = gifPath.replaceAll(
+          'https://storage.googleapis.com/io-photobooth-dev.appspot.com/uploads/',
+          '',
+        );
+        final fullShareUrl = _baseShareUrl + assetName;
+        final shareText = Uri.encodeComponent(l10n.socialMediaShareLinkText);
+        final url =
+            'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
+        openLink(url);
         Navigator.of(context).pop();
       },
       label: l10n.shareDialogTwitterButtonText,

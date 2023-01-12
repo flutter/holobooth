@@ -12,6 +12,7 @@ class ConvertRepository {
   /// {@macro convert_repository}
   ConvertRepository({
     required String url,
+    required String shareUrl,
     MultipartRequest Function()? multipartRequestBuilder,
   }) {
     _multipartRequestBuilder = multipartRequestBuilder ??

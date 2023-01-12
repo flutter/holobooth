@@ -44,4 +44,6 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       );
     }
   }
+
+  String _getTwitterShareUrl(String gifUrl) {}
 }

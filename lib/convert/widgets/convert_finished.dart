@@ -42,10 +42,12 @@ class _ConvertFinishedState extends State<ConvertFinished>
 
   void _finishConvert() {
     final state = context.read<ConvertBloc>().state;
+
     Navigator.of(context).push(
       SharePage.route(
         videoPath: state.videoPath,
         firstFrame: state.firstFrameProcessed ?? Uint8List.fromList([]),
+        convertBloc: context.read<ConvertBloc>(),
       ),
     );
   }

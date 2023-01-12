@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -11,29 +12,39 @@ class SharePage extends StatelessWidget {
     super.key,
     required this.firstFrame,
     required this.videoPath,
+    required this.convertBloc,
   });
 
   final Uint8List firstFrame;
   final String videoPath;
+  final ConvertBloc convertBloc;
 
   static Route<void> route({
     required Uint8List firstFrame,
     required String videoPath,
-  }) =>
-      AppPageRoute(
-        builder: (_) => SharePage(
-          firstFrame: firstFrame,
-          videoPath: videoPath,
-        ),
-      );
+    required ConvertBloc convertBloc,
+  }) {
+    return AppPageRoute(
+      builder: (_) => SharePage(
+        firstFrame: firstFrame,
+        videoPath: videoPath,
+        convertBloc: convertBloc,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ShareBloc(
-        thumbnail: firstFrame,
-        videoPath: videoPath,
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ShareBloc(
+            thumbnail: firstFrame,
+            videoPath: videoPath,
+          ),
+        ),
+        BlocProvider.value(value: convertBloc),
+      ],
       child: const ShareView(),
     );
   }
