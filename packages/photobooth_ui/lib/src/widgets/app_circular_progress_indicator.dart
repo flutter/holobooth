@@ -8,8 +8,8 @@ class AppCircularProgressIndicator extends StatelessWidget {
   /// {@macro app_circular_progress_indicator}
   const AppCircularProgressIndicator({
     super.key,
-    this.color = PhotoboothColors.orange,
-    this.backgroundColor = PhotoboothColors.white,
+    this.color = HoloBoothColors.orange,
+    this.backgroundColor = HoloBoothColors.white,
     this.strokeWidth = 4.0,
   });
 

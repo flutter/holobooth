@@ -6,7 +6,7 @@ class PhotoboothTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'photobooth_ui',
     fontFamily: 'GoogleSans',
-    color: PhotoboothColors.black,
+    color: HoloBoothColors.black,
     fontWeight: PhotoboothFontWeight.regular,
   );
 

@@ -30,7 +30,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ),
         Flexible(
@@ -80,14 +80,7 @@ class _BackgroundSelectionElement extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected ? null : HoloBoothColors.darkBlue,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        gradient: isSelected
-            ? const LinearGradient(
-                colors: [
-                  HoloBoothColors.gradientSecondaryOne,
-                  HoloBoothColors.gradientSecondaryTwo,
-                ],
-              )
-            : null,
+        gradient: isSelected ? HoloBoothGradients.secondarySix : null,
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -100,7 +93,7 @@ class _BackgroundSelectionElement extends StatelessWidget {
         child: Material(
           clipBehavior: Clip.hardEdge,
           shape: const RoundedRectangleBorder(),
-          color: PhotoboothColors.transparent,
+          color: HoloBoothColors.transparent,
           child: InkWell(
             key: BackgroundSelectionTabBarView.backgroundSelectionKey(
               background,

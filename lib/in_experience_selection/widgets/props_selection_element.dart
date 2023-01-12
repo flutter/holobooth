@@ -30,24 +30,17 @@ class PropSelectionElement extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: isSelected
-                  ? PhotoboothColors.white
-                  : PhotoboothColors.transparent,
+                  ? HoloBoothColors.white
+                  : HoloBoothColors.transparent,
             ),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                const Color(0xFF2C2C2C).withOpacity(0.3),
-                const Color(0xFF868686).withOpacity(0.4),
-              ],
-            ),
+            gradient: HoloBoothGradients.props,
           ),
           child: Text(
             name,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ),
       ),

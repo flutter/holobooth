@@ -54,7 +54,7 @@ class AnimatedSprite extends StatefulWidget {
     required this.sprites,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
-    this.loadingIndicatorColor = PhotoboothColors.orange,
+    this.loadingIndicatorColor = HoloBoothColors.orange,
   });
 
   /// The collection of sprites which will be animated.

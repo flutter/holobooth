@@ -10,7 +10,7 @@ class PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: PhotoboothColors.transparent,
+      color: HoloBoothColors.transparent,
       shape: const CircleBorder(),
       clipBehavior: Clip.hardEdge,
       child: InkWell(

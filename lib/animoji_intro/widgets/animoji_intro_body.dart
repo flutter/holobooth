@@ -32,12 +32,7 @@ class AnimojiIntroBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: DecoratedBox(
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Color(0xFF9E81EF),
-                    Color(0xFF4100E0),
-                  ],
-                ),
+                gradient: HoloBoothGradients.secondarySix,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(1),
@@ -49,7 +44,7 @@ class AnimojiIntroBody extends StatelessWidget {
                       Expanded(
                         flex: small ? 1 : 2,
                         child: const ColoredBox(
-                          color: Color(0xFF030524),
+                          color: HoloBoothColors.holoboothAvatarBackground,
                           child: Center(
                             child: FittedBox(
                               child: SizedBox(
@@ -102,7 +97,7 @@ class _BottomContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      color: const Color(0xFF020320).withOpacity(0.95),
+      color: HoloBoothColors.modalSurface,
       padding: const EdgeInsets.all(20),
       child: Flex(
         direction: smallScreen ? Axis.vertical : Axis.horizontal,
@@ -111,12 +106,8 @@ class _BottomContent extends StatelessWidget {
           Flexible(
             child: ShaderMask(
               shaderCallback: (bounds) {
-                return const LinearGradient(
-                  colors: <Color>[
-                    Color(0xFF74F1DD),
-                    Color(0xFF9E81EF),
-                  ],
-                ).createShader(Offset.zero & bounds.size);
+                return HoloBoothGradients.secondaryFive
+                    .createShader(Offset.zero & bounds.size);
               },
               child: const Icon(
                 Icons.videocam_rounded,
@@ -131,7 +122,7 @@ class _BottomContent extends StatelessWidget {
               l10n.animojiIntroPageSubheading,
               key: const Key('animojiIntro_subheading_text'),
               style: textTheme.displaySmall!.copyWith(
-                color: PhotoboothColors.white,
+                color: HoloBoothColors.white,
               ),
               textAlign: smallScreen ? TextAlign.center : TextAlign.left,
             ),

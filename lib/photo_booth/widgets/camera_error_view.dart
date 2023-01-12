@@ -61,7 +61,7 @@ class _CameraErrorViewContent extends StatelessWidget {
         children: [
           const Icon(
             Icons.videocam_off,
-            color: PhotoboothColors.white,
+            color: HoloBoothColors.white,
           ),
           const SizedBox(width: 12),
           Text(
@@ -69,7 +69,7 @@ class _CameraErrorViewContent extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ],
       ),

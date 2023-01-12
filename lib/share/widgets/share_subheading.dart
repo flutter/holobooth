@@ -18,7 +18,7 @@ class ShareSubheading extends StatelessWidget {
         text: l10n.sharePageLearnMoreAboutTextPart1,
         style: theme.textTheme.displaySmall?.copyWith(
           fontWeight: PhotoboothFontWeight.regular,
-          color: PhotoboothColors.white,
+          color: HoloBoothColors.white,
         ),
         children: <TextSpan>[
           TextSpan(

@@ -14,7 +14,7 @@ class ShareDialogSubheading extends StatelessWidget {
     return SelectableText.rich(
       TextSpan(
         style:
-            theme.textTheme.bodyMedium?.copyWith(color: PhotoboothColors.white),
+            theme.textTheme.bodyMedium?.copyWith(color: HoloBoothColors.white),
         children: <TextSpan>[
           TextSpan(
             text: l10n.shareDialogSubheading1,
@@ -22,7 +22,7 @@ class ShareDialogSubheading extends StatelessWidget {
           TextSpan(
             text: l10n.shareDialogSubheading2,
             style: theme.textTheme.bodyMedium
-                ?.copyWith(color: HoloBoothColors.secondaryTwoStart),
+                ?.copyWith(color: HoloBoothColors.lighterPurple),
           ),
           TextSpan(
             text: l10n.shareDialogSubheading3,

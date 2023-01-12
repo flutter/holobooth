@@ -20,7 +20,7 @@ class ConvertMessage extends StatelessWidget {
         Text(
           l10n.convertInfo,
           style: PhotoboothTextStyle.bodyMedium.copyWith(
-            color: PhotoboothColors.white,
+            color: HoloBoothColors.white,
           ),
           textAlign: TextAlign.center,
         ),

@@ -15,7 +15,7 @@ class RetakeButton extends StatelessWidget {
       },
       icon: const Icon(
         Icons.videocam_rounded,
-        color: PhotoboothColors.white,
+        color: HoloBoothColors.white,
       ),
       label: l10n.sharePageRetakeButtonText,
     );

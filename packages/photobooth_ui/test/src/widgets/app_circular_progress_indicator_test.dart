@@ -14,13 +14,13 @@ void main() {
       final widget = tester.widget<AppCircularProgressIndicator>(
         find.byType(AppCircularProgressIndicator),
       );
-      expect(widget.color, PhotoboothColors.orange);
-      expect(widget.backgroundColor, PhotoboothColors.white);
+      expect(widget.color, HoloBoothColors.orange);
+      expect(widget.backgroundColor, HoloBoothColors.white);
     });
 
     testWidgets('renders with provided colors', (tester) async {
-      const color = PhotoboothColors.black;
-      const backgroundColor = PhotoboothColors.blue;
+      const color = HoloBoothColors.black;
+      const backgroundColor = HoloBoothColors.blue;
       await tester.pumpWidget(
         AppCircularProgressIndicator(
           color: color,

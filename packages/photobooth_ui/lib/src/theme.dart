@@ -9,12 +9,12 @@ class PhotoboothTheme {
   /// Standard `ThemeData` for Photobooth UI.
   static ThemeData get standard {
     return ThemeData(
-      colorScheme: ColorScheme.fromSwatch(accentColor: PhotoboothColors.blue),
+      colorScheme: ColorScheme.fromSwatch(accentColor: HoloBoothColors.blue),
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
       textTheme: _textTheme,
-      dialogBackgroundColor: PhotoboothColors.whiteBackground,
+      dialogBackgroundColor: HoloBoothColors.whiteBackground,
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
       bottomSheetTheme: _bottomSheetTheme,
@@ -96,14 +96,14 @@ class PhotoboothTheme {
   }
 
   static AppBarTheme get _appBarTheme {
-    return const AppBarTheme(color: PhotoboothColors.blue);
+    return const AppBarTheme(color: HoloBoothColors.blue);
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        backgroundColor: PhotoboothColors.blue,
+        backgroundColor: HoloBoothColors.blue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
@@ -116,11 +116,11 @@ class PhotoboothTheme {
   static OutlinedButtonThemeData get _outlinedButtonTheme {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: PhotoboothColors.white,
+        foregroundColor: HoloBoothColors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        side: const BorderSide(color: PhotoboothColors.white, width: 2),
+        side: const BorderSide(color: HoloBoothColors.white, width: 2),
         padding: const EdgeInsets.symmetric(vertical: 16),
         minimumSize: const Size(208, 54),
       ),
@@ -130,11 +130,11 @@ class PhotoboothTheme {
   static TooltipThemeData get _tooltipTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
-        color: PhotoboothColors.charcoal,
+        color: HoloBoothColors.charcoal,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       padding: EdgeInsets.all(10),
-      textStyle: TextStyle(color: PhotoboothColors.white),
+      textStyle: TextStyle(color: HoloBoothColors.white),
     );
   }
 
@@ -148,7 +148,7 @@ class PhotoboothTheme {
 
   static BottomSheetThemeData get _bottomSheetTheme {
     return const BottomSheetThemeData(
-      backgroundColor: PhotoboothColors.whiteBackground,
+      backgroundColor: HoloBoothColors.whiteBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
@@ -159,20 +159,14 @@ class PhotoboothTheme {
     return TabBarTheme(
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(80),
-        gradient: LinearGradient(
-          colors: [
-            // TODO(oscar): use theming color once design is ready
-            const Color(0xFF9e81ef).withOpacity(1),
-            HoloBoothColors.purple,
-          ],
-        ),
+        gradient: HoloBoothGradients.secondarySix,
       ),
-      labelColor: PhotoboothColors.white,
+      labelColor: HoloBoothColors.white,
       unselectedLabelColor: HoloBoothColors.gray,
     );
   }
 
   static DividerThemeData get _dividerTheme {
-    return const DividerThemeData(color: PhotoboothColors.transparent);
+    return const DividerThemeData(color: HoloBoothColors.transparent);
   }
 }
