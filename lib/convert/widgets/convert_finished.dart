@@ -36,18 +36,19 @@ class _ConvertFinishedState extends State<ConvertFinished>
     try {
       await loadAudio();
       await playAudio();
-      _finishConvert();
     } catch (_) {}
+    _finishConvert();
   }
 
   void _finishConvert() {
-    final state = context.read<ConvertBloc>().state;
+    final converBloc = context.read<ConvertBloc>();
+    final state = converBloc.state;
 
     Navigator.of(context).push(
       SharePage.route(
         videoPath: state.videoPath,
         firstFrame: state.firstFrameProcessed ?? Uint8List.fromList([]),
-        convertBloc: context.read<ConvertBloc>(),
+        convertBloc: converBloc,
       ),
     );
   }
