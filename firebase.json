@@ -13,7 +13,7 @@
         "__/**"
       ],
       "rewrites": [
-        { "source": "/share/**", "function": "shareImage" },
+        { "source": "/share/**", "function": "shareVideo" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -63,7 +63,7 @@
         "__/**"
       ],
       "rewrites": [
-        { "source": "/share/**", "function": "shareImage" },
+        { "source": "/share/**", "function": "shareVideo" },
         {
           "source": "**",
           "destination": "/index.html"
