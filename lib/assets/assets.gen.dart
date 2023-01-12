@@ -42,9 +42,6 @@ class $AssetsAudioGen {
   /// File path: assets/audio/face_not_detected.mp3
   String get faceNotDetected => 'assets/audio/face_not_detected.mp3';
 
-  /// File path: assets/audio/landing_page_ambient.mp3
-  String get landingPageAmbient => 'assets/audio/landing_page_ambient.mp3';
-
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
 
@@ -60,7 +57,6 @@ class $AssetsAudioGen {
         counting3Seconds,
         experienceAmbient,
         faceNotDetected,
-        landingPageAmbient,
         loading,
         loadingFinished,
         tabClick
