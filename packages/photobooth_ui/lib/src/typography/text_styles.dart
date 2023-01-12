@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-/// Photobooth text style definitions
-class PhotoboothTextStyle {
+/// Photobooth text style definitions for larger devices.
+class PhotoboothDesktopTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'photobooth_ui',
     fontFamily: 'GoogleSans',
@@ -10,27 +10,12 @@ class PhotoboothTextStyle {
     fontWeight: PhotoboothFontWeight.regular,
   );
 
-  /// Display large text style
-  static TextStyle get displayLarge {
+  /// Headline large text style
+  static TextStyle get headlineLarge {
     return _baseTextStyle.copyWith(
-      fontSize: 56,
-      fontWeight: PhotoboothFontWeight.medium,
-    );
-  }
-
-  /// Display medium text style
-  static TextStyle get displayMedium {
-    return _baseTextStyle.copyWith(
-      fontSize: 30,
-      fontWeight: PhotoboothFontWeight.regular,
-    );
-  }
-
-  /// Display small text style
-  static TextStyle get displaySmall {
-    return _baseTextStyle.copyWith(
-      fontSize: 24,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontSize: 64,
+      height: 1.25,
+      fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
@@ -38,6 +23,7 @@ class PhotoboothTextStyle {
   static TextStyle get headlineMedium {
     return _baseTextStyle.copyWith(
       fontSize: 54,
+      height: 16 / 13,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }
@@ -45,32 +31,18 @@ class PhotoboothTextStyle {
   /// Headline small text style
   static TextStyle get headlineSmall {
     return _baseTextStyle.copyWith(
-      fontSize: 22,
+      fontSize: 32,
+      height: 1.25,
       fontWeight: PhotoboothFontWeight.medium,
-    );
-  }
-
-  /// Title large text style
-  static TextStyle get titleLarge {
-    return _baseTextStyle.copyWith(
-      fontSize: 22,
-      fontWeight: PhotoboothFontWeight.bold,
-    );
-  }
-
-  /// Title medium text style
-  static TextStyle get titleMedium {
-    return _baseTextStyle.copyWith(
-      fontSize: 16,
-      fontWeight: PhotoboothFontWeight.bold,
     );
   }
 
   /// Title small text style
   static TextStyle get titleSmall {
     return _baseTextStyle.copyWith(
-      fontSize: 14,
-      fontWeight: PhotoboothFontWeight.bold,
+      fontSize: 24,
+      height: 4 / 3,
+      fontWeight: PhotoboothFontWeight.medium,
     );
   }
 
@@ -78,14 +50,16 @@ class PhotoboothTextStyle {
   static TextStyle get bodyLarge {
     return _baseTextStyle.copyWith(
       fontSize: 18,
-      fontWeight: PhotoboothFontWeight.medium,
+      height: 4 / 3,
+      fontWeight: PhotoboothFontWeight.regular,
     );
   }
 
   /// Body medium text style (the default)
   static TextStyle get bodyMedium {
     return _baseTextStyle.copyWith(
-      fontSize: 18,
+      fontSize: 14,
+      height: 10 / 7,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
@@ -93,15 +67,8 @@ class PhotoboothTextStyle {
   /// Body small text style
   static TextStyle get bodySmall {
     return _baseTextStyle.copyWith(
-      fontSize: 14,
-      fontWeight: PhotoboothFontWeight.regular,
-    );
-  }
-
-  /// Label small text style
-  static TextStyle get labelSmall {
-    return _baseTextStyle.copyWith(
-      fontSize: 16,
+      fontSize: 12,
+      height: 5 / 3,
       fontWeight: PhotoboothFontWeight.regular,
     );
   }
@@ -109,7 +76,90 @@ class PhotoboothTextStyle {
   /// Label large text style
   static TextStyle get labelLarge {
     return _baseTextStyle.copyWith(
-      fontSize: 21,
+      fontSize: 20,
+      height: 1.4,
+      fontWeight: PhotoboothFontWeight.medium,
+    );
+  }
+}
+
+/// Photobooth text style definitions for small devices.
+class PhotoboothMobileTextStyle {
+  static const _baseTextStyle = TextStyle(
+    package: 'photobooth_ui',
+    fontFamily: 'GoogleSans',
+    color: HoloBoothColors.black,
+    fontWeight: PhotoboothFontWeight.regular,
+  );
+
+  /// Headline large text style
+  static TextStyle get headlineLarge {
+    return _baseTextStyle.copyWith(
+      fontSize: 34,
+      height: 22 / 17,
+      fontWeight: PhotoboothFontWeight.bold,
+    );
+  }
+
+  /// Headline medium text style
+  static TextStyle get headlineMedium {
+    return _baseTextStyle.copyWith(
+      fontSize: 34,
+      height: 1,
+      fontWeight: PhotoboothFontWeight.medium,
+    );
+  }
+
+  /// Headline small text style
+  static TextStyle get headlineSmall {
+    return _baseTextStyle.copyWith(
+      fontSize: 24,
+      height: 4 / 3,
+      fontWeight: PhotoboothFontWeight.medium,
+    );
+  }
+
+  /// Title small text style
+  static TextStyle get titleSmall {
+    return _baseTextStyle.copyWith(
+      fontSize: 18,
+      height: 4 / 3,
+      fontWeight: PhotoboothFontWeight.medium,
+    );
+  }
+
+  /// Body large text style
+  static TextStyle get bodyLarge {
+    return _baseTextStyle.copyWith(
+      fontSize: 16,
+      height: 1.5,
+      fontWeight: PhotoboothFontWeight.regular,
+    );
+  }
+
+  /// Body medium text style (the default)
+  static TextStyle get bodyMedium {
+    return _baseTextStyle.copyWith(
+      fontSize: 12,
+      height: 5 / 3,
+      fontWeight: PhotoboothFontWeight.regular,
+    );
+  }
+
+  /// Body small text style
+  static TextStyle get bodySmall {
+    return _baseTextStyle.copyWith(
+      fontSize: 12,
+      height: 5 / 3,
+      fontWeight: PhotoboothFontWeight.regular,
+    );
+  }
+
+  /// Label large text style
+  static TextStyle get labelLarge {
+    return _baseTextStyle.copyWith(
+      fontSize: 18,
+      height: 14 / 9,
       fontWeight: PhotoboothFontWeight.medium,
     );
   }

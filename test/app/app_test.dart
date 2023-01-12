@@ -35,8 +35,8 @@ void main() {
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
-        materialApp.theme!.textTheme.displayLarge!.fontSize,
-        equals(PhotoboothTheme.standard.textTheme.displayLarge!.fontSize),
+        materialApp.theme!.textTheme.headlineLarge!.fontSize,
+        equals(PhotoboothTheme.standard.textTheme.headlineLarge!.fontSize),
       );
     });
 
@@ -51,8 +51,8 @@ void main() {
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(
-        materialApp.theme!.textTheme.displayLarge!.fontSize,
-        equals(PhotoboothTheme.small.textTheme.displayLarge!.fontSize),
+        materialApp.theme!.textTheme.headlineLarge!.fontSize,
+        equals(PhotoboothTheme.small.textTheme.headlineLarge!.fontSize),
       );
     });
 
