@@ -4,6 +4,7 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 part 'avatar_detector_event.dart';
@@ -17,6 +18,16 @@ class AvatarDetectorBloc
     on<AvatarDetectorEstimateRequested>(_estimateRequested);
   }
   final AvatarDetectorRepository _avatarDetectorRepository;
+
+  /// The time to wait before considering the [Avatar] as not detected.
+  @visibleForTesting
+  static const undetectedDelay = Duration(seconds: 2);
+
+  /// The last time the [Avatar] was detected.
+  ///
+  /// Initially set to [DateTime.now] after the model is [_initialized]; then
+  /// set to [DateTime.now] after every [Avatar] detection.
+  late DateTime _lastAvatarDetection;
 
   @override
   Future<void> close() {
@@ -37,6 +48,7 @@ class AvatarDetectorBloc
       emit(
         state.copyWith(status: AvatarDetectorStatus.loaded),
       );
+      _lastAvatarDetection = DateTime.now();
     } on Exception catch (error, trace) {
       addError(error, trace);
       emit(
@@ -61,9 +73,11 @@ class AvatarDetectorBloc
     try {
       final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
       if (avatar == null) {
-        emit(
-          state.copyWith(status: AvatarDetectorStatus.notDetected),
-        );
+        if (DateTime.now().difference(_lastAvatarDetection) > undetectedDelay) {
+          emit(
+            state.copyWith(status: AvatarDetectorStatus.notDetected),
+          );
+        }
       } else {
         emit(
           state.copyWith(
@@ -71,6 +85,7 @@ class AvatarDetectorBloc
             avatar: avatar,
           ),
         );
+        _lastAvatarDetection = DateTime.now();
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);

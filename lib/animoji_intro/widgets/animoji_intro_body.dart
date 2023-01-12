@@ -44,9 +44,24 @@ class AnimojiIntroBody extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: small ? 1 : 2,
-                        // TODO(willhlas): add animation.
-                        child: Container(
-                          color: const Color(0xFF020320).withOpacity(0.95),
+                        child: const ColoredBox(
+                          color: Color(0xFF030524),
+                          child: Center(
+                            child: FittedBox(
+                              child: SizedBox(
+                                width: 960,
+                                height: 450,
+                                child: AnimatedSprite(
+                                  sprites: Sprites(
+                                    asset: 'holobooth_avatar.png',
+                                    size: Size(960, 450),
+                                    frames: 45,
+                                  ),
+                                  loadingIndicatorColor: Color(0xFF51F6D9),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 1),
