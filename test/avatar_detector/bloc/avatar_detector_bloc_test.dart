@@ -161,7 +161,46 @@ void main() {
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
         'AvatarDetectorStatus.estimating, AvatarDetectorStatus.notDetected] '
-        'if detectAvatar returns null.',
+        'if detectAvatar returns null and undetectedDelay elapsed.',
+        setUp: () {
+          when(
+            () => avatarDetectorRepository.detectAvatar(any()),
+          ).thenAnswer((_) async => null);
+        },
+        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        act: (bloc) async {
+          bloc.add(AvatarDetectorInitialized());
+          await Future<void>.delayed(AvatarDetectorBloc.undetectedDelay);
+          bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+        },
+        expect: () => [
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.estimating),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.notDetected),
+          ),
+        ],
+      );
+
+      blocTest<AvatarDetectorBloc, AvatarDetectorState>(
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
+        'AvatarDetectorStatus.estimating] '
+        'if detectAvatar returns null and undetectedDelay not elapsed.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),
@@ -188,11 +227,6 @@ void main() {
             (state) => state.status,
             'status',
             equals(AvatarDetectorStatus.estimating),
-          ),
-          isInstanceOf<AvatarDetectorState>().having(
-            (state) => state.status,
-            'status',
-            equals(AvatarDetectorStatus.notDetected),
           ),
         ],
       );
