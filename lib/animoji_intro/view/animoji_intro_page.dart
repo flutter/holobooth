@@ -3,6 +3,7 @@ import 'package:io_photobooth/animoji_intro/animoji_intro.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/footer/footer.dart';
+import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class AnimojiIntroPage extends StatelessWidget {
@@ -51,9 +52,16 @@ class _AnimojiIntroViewState extends State<AnimojiIntroView>
         const Positioned.fill(child: AnimojiIntroBackground()),
         Positioned.fill(
           child: Column(
-            children: const [
-              Expanded(child: AnimojiIntroBody()),
-              FullFooter(),
+            children: [
+              Expanded(
+                child: AnimojiIntroBody(
+                  onNextPressed: () {
+                    stopAudio();
+                    Navigator.of(context).push(PhotoBoothPage.route());
+                  },
+                ),
+              ),
+              const FullFooter(),
             ],
           ),
         ),

@@ -60,6 +60,8 @@ class _PhotoBoothViewState extends State<PhotoBoothView> with AudioPlayerMixin {
     return BlocListener<PhotoBoothBloc, PhotoBoothState>(
       listener: (context, state) {
         if (state.isFinished) {
+          stopAudio();
+
           Navigator.of(context).pushReplacement(
             ConvertPage.route(state.frames),
           );
