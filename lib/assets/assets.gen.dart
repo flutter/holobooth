@@ -370,6 +370,10 @@ class $AssetsPropsGen {
   AssetGenImage get hatsIcon =>
       const AssetGenImage('assets/props/hats_icon.png');
 
+  /// File path: assets/props/none_props.png
+  AssetGenImage get noneProps =>
+      const AssetGenImage('assets/props/none_props.png');
+
   /// File path: assets/props/others_icon.png
   AssetGenImage get othersIcon =>
       const AssetGenImage('assets/props/others_icon.png');
@@ -435,6 +439,7 @@ class $AssetsPropsGen {
         hat08,
         hat09,
         hatsIcon,
+        noneProps,
         othersIcon,
         shirt01,
         shirt02,

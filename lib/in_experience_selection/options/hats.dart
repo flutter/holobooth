@@ -16,10 +16,10 @@ enum Hats {
   const Hats(this.riveIndex);
   final double riveIndex;
 
-  ImageProvider? toImageProvider() {
+  ImageProvider toImageProvider() {
     switch (this) {
       case Hats.none:
-        return null;
+        return Assets.props.noneProps.provider();
       case Hats.hat01:
         return Assets.props.hat01.provider();
       case Hats.hat02:

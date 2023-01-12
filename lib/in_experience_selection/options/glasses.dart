@@ -16,10 +16,10 @@ enum Glasses {
   const Glasses(this.riveIndex);
   final double riveIndex;
 
-  ImageProvider? toImageProvider() {
+  ImageProvider toImageProvider() {
     switch (this) {
       case Glasses.none:
-        return null;
+        return Assets.props.noneProps.provider();
       case Glasses.glasses01:
         return Assets.props.glasses01.provider();
       case Glasses.glasses02:

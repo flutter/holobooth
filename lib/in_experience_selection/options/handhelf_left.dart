@@ -16,10 +16,10 @@ enum HandheldlLeft {
   const HandheldlLeft(this.riveIndex);
   final double riveIndex;
 
-  ImageProvider? toImageProvider() {
+  ImageProvider toImageProvider() {
     switch (this) {
       case HandheldlLeft.none:
-        return null;
+        return Assets.props.noneProps.provider();
       case HandheldlLeft.handheld01:
         return Assets.props.handheld01.provider();
       case HandheldlLeft.handheld02:
