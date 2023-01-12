@@ -23,15 +23,14 @@ class SharePage extends StatelessWidget {
     required Uint8List firstFrame,
     required String videoPath,
     required ConvertBloc convertBloc,
-  }) {
-    return AppPageRoute(
-      builder: (_) => SharePage(
-        firstFrame: firstFrame,
-        videoPath: videoPath,
-        convertBloc: convertBloc,
-      ),
-    );
-  }
+  }) =>
+      AppPageRoute(
+        builder: (_) => SharePage(
+          firstFrame: firstFrame,
+          videoPath: videoPath,
+          convertBloc: convertBloc,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
