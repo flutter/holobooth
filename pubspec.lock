@@ -786,11 +786,12 @@ packages:
   screen_recorder:
     dependency: "direct main"
     description:
-      name: screen_recorder
-      sha256: "9c0ec2ae245ec3f7b7abc59fb9105391af0b8ac144a9871a89038241cf8a78c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
+      path: "."
+      ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
+      resolved-ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
+      url: "https://github.com/ueman/screenrecorder"
+    source: git
+    version: "0.2.1"
   shelf:
     dependency: transitive
     description:

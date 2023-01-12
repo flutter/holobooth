@@ -35,7 +35,7 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _MockExporter extends Mock implements CustomExporter {}
+class _MockExporter extends Mock implements Exporter {}
 
 class _MockImage extends Mock implements ui.Image {}
 
@@ -47,7 +47,7 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
-    late CustomExporter exporter;
+    late Exporter exporter;
 
     setUp(() {
       xfile = _MockXFile();

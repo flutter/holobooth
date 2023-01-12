@@ -57,6 +57,10 @@ dependency_overrides:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
       ref: da722ef898b1da47c339a17653067e070bb8e608
+  screen_recorder:
+    git:
+      url: https://github.com/ueman/screenrecorder
+      ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
 
 dev_dependencies:
   alchemist: ^0.6.0-dev.1
