@@ -63,7 +63,7 @@ void main() {
     );
 
     testWidgets(
-      'display OthersSelectionTabBarView by tapping on others tab',
+      'display MiscellaneousSelectionTabBarView by tapping on others tab',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(),
@@ -78,13 +78,113 @@ void main() {
     );
 
     testWidgets(
+      'renders every hat',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(),
+          inExperienceSelectionBloc,
+        );
+        for (final hat in Hats.values) {
+          await tester.drag(
+            find.byType(HatsSelectionTabBarView),
+            Offset(0, -50),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(
+              HatsSelectionTabBarView.hatSelectionKey(hat),
+            ),
+            findsOneWidget,
+          );
+        }
+      },
+    );
+
+    testWidgets(
+      'renders every glasses',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(
+            initialIndex: 1,
+          ),
+          inExperienceSelectionBloc,
+        );
+        for (final glasses in Glasses.values) {
+          await tester.drag(
+            find.byType(GlassesSelectionTabBarView),
+            Offset(0, -50),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(
+              GlassesSelectionTabBarView.glassesSelectionKey(glasses),
+            ),
+            findsOneWidget,
+          );
+        }
+      },
+    );
+
+    testWidgets(
+      'renders every clothes',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(
+            initialIndex: 2,
+          ),
+          inExperienceSelectionBloc,
+        );
+        for (final clothes in Clothes.values) {
+          await tester.drag(
+            find.byType(ClothesSelectionTabBarView),
+            Offset(0, -50),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(
+              ClothesSelectionTabBarView.clothesSelectionKey(clothes),
+            ),
+            findsOneWidget,
+          );
+        }
+      },
+    );
+
+    testWidgets(
+      'renders every HandheldlLeft',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PropsSelectionTabBarView(
+            initialIndex: 3,
+          ),
+          inExperienceSelectionBloc,
+        );
+        for (final handheldlLeft in HandheldlLeft.values) {
+          await tester.drag(
+            find.byType(MiscellaneousSelectionTabBarView),
+            Offset(0, -50),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            find.byKey(
+              MiscellaneousSelectionTabBarView.miscellaneousSelectionKey(
+                handheldlLeft,
+              ),
+            ),
+            findsOneWidget,
+          );
+        }
+      },
+    );
+
+    testWidgets(
       'adds InExperienceSelectionHatToggled tapping on a hat',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PropsSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
-        const hat = Hats.astronaut;
+        const hat = Hats.hat01;
         await tester
             .tap(find.byKey(HatsSelectionTabBarView.hatSelectionKey(hat)));
         verify(
@@ -101,7 +201,7 @@ void main() {
           PropsSelectionTabBarView(initialIndex: 1),
           inExperienceSelectionBloc,
         );
-        const glasses = Glasses.sunGlasses;
+        const glasses = Glasses.glasses01;
         await tester.tap(
           find.byKey(GlassesSelectionTabBarView.glassesSelectionKey(glasses)),
         );
@@ -121,7 +221,7 @@ void main() {
           ),
           inExperienceSelectionBloc,
         );
-        const clothes = Clothes.swimmingSuit;
+        const clothes = Clothes.shirt01;
         await tester.tap(
           find.byKey(ClothesSelectionTabBarView.clothesSelectionKey(clothes)),
         );
@@ -140,7 +240,7 @@ void main() {
           PropsSelectionTabBarView(initialIndex: 3),
           inExperienceSelectionBloc,
         );
-        const item = HandheldlLeft.apple;
+        const item = HandheldlLeft.handheld01;
         await tester.tap(
           find.byKey(
             MiscellaneousSelectionTabBarView.miscellaneousSelectionKey(item),
@@ -164,7 +264,7 @@ extension on WidgetTester {
         MultiBlocProvider(
           providers: [BlocProvider.value(value: inExperienceSelectionBloc)],
           child: Scaffold(
-            body: subject,
+            body: SizedBox(width: 200, height: 500, child: subject),
           ),
         ),
       );
