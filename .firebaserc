@@ -1,8 +1,16 @@
 {
   "projects": {
-    "default": "io-photobooth-dev"
+    "default": "io-photobooth-dev",
+    "production": "holobooth-prod"
   },
   "targets": {
+    "holobooth-prod": {
+      "hosting": {
+        "app_prod": [
+          "0cf34931-6ab3-8cd9-57b5-f38b5fa5ba1e"
+        ]
+      }
+    },
     "io-photobooth-dev": {
       "hosting": {
         "app_dev": [

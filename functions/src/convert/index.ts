@@ -51,13 +51,11 @@ export async function convertImages(
   let tempDir: string | null = null;
 
   try {
-    const host = req.get('host') ?? '';
-    const baseUrl = `${req.protocol}://${host}`;
+    const host = req.get('origin') ?? '';
 
     if (!ALLOWED_HOSTS.includes(host)) {
       functions.logger.log('Bad host', {
         host,
-        baseUrl,
       });
       throw new Error('Bad host');
     }
