@@ -7,8 +7,10 @@ export default `
   const videoPlayer = document.querySelector('.video-pop-up video');
   const timeCounter = document.querySelector('.time-counter');
   const progressBar = document.querySelector('.video-progress-bar > div');
+  const fullscreenButton = document.querySelector('.fullscreen-button');
 
   frame.addEventListener('click', function() {
+    videoPopUp.classList.remove('fullscreen');
     videoPopUp.style.display = 'flex';
     videoPlayer.play();
   });
@@ -35,6 +37,10 @@ export default `
 
     const progress = videoPlayer.currentTime / videoPlayer.duration * 100;
     progressBar.style.width = progress + '%';
+  });
+
+  fullscreenButton.addEventListener('click', function() {
+    videoPopUp.classList.toggle('fullscreen');
   });
 })();
 `;

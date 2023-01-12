@@ -47,13 +47,9 @@ export default `
             This video has been created with Flutter web app.
             Create your unique video in a few steps:
           </h2>
-          <a class="btn elevated-btn try-now-btn" href="/">
+          <a class="btn elevated-btn try-now-btn" href="http://holobooth.flutter.dev/">
             <img src={{assetUrls.playArrowIcon}} />
             Try now
-          </a>
-          <a class="btn outline-btn" href="/">
-            <img src={{assetUrls.shareIcon}} />
-            Share
           </a>
           <p class="disclaimer">
           Your photo will be available at that URL for 30 days and then automatically deleted.

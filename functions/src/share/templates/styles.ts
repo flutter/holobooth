@@ -219,6 +219,7 @@ footer .right a {
   position: fixed;
   left: 50%;
   top: 50%;
+  width: 80%;
   transform: translate(-50%, -50%);
   display: none;
   background: rgba(2, 3, 32, 0.95);
@@ -230,12 +231,23 @@ footer .right a {
   padding: 16px;
 }
 
+.video-pop-up.fullscreen {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+}
+
 .video-pop-up-screen {
   position: relative;
+  flex: 1;
+  align-items: center;
+  display: flex;
 }
 
 .video-pop-up-screen video {
   border-radius: 10px;
+  width: 100%;
 }
 
 .video-pop-up .close-button {
@@ -279,7 +291,6 @@ footer .right a {
   padding: 12px 0px;
   display: flex;
   justify-content: space-between;
-  flex: 1;
   width: 100%;
   align-items: center;
 }

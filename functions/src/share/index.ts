@@ -38,11 +38,12 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     close: bucketPathForFile('public/close.png'),
   },
   meta: {
-    title: 'Google I/O Photo Booth',
-    desc: (
-      'Take a photo in the I/O Photo Booth with your favorite Google Developer Mascots! ' +
-      'Built with Flutter & Firebase for Google I/O 2021.'
-    ),
+    title: 'Flutter Forward Holobooth',
+    desc: [
+      'Jump into a new reality with the Flutter Holobooth! ',
+      'Bring Dash and Sparky to life in this open source demo ',
+      'built with Flutter, Firebase, Media Pipe & Tensorflow',
+    ].join(''),
   },
   ga: gaTmpl,
   styles: '',
