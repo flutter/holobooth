@@ -36,8 +36,8 @@ class _ConvertFinishedState extends State<ConvertFinished>
     try {
       await loadAudio();
       await playAudio();
-      _finishConvert();
     } catch (_) {}
+    _finishConvert();
   }
 
   void _finishConvert() {

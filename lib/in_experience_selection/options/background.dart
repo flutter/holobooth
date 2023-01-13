@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:io_photobooth/assets/assets.dart';
 
 enum Background {
+  bg00(0),
   bg01(1),
   bg02(2),
   bg03(3),
@@ -16,6 +17,8 @@ enum Background {
 
   ImageProvider toImageProvider() {
     switch (this) {
+      case Background.bg00:
+        return Assets.backgrounds.bg00.provider();
       case Background.bg01:
         return Assets.backgrounds.bg01.provider();
       case Background.bg02:

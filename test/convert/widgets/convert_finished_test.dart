@@ -24,6 +24,11 @@ void main() {
 
     setUp(() {
       convertBloc = _MockConvertBloc();
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(
+          firstFrameProcessed: Uint8List.fromList(transparentImage),
+        ),
+      );
       audioPlayer = _MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.play()).thenAnswer((_) async {});
@@ -56,24 +61,14 @@ void main() {
     testWidgets(
       'set asset correctly',
       (WidgetTester tester) async {
-        await tester.pumpApp(
-          ConvertFinished(
-            dimension: 300,
-          ),
-        );
+        await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
         await tester.pumpAndSettle();
         verify(() => audioPlayer.setAsset(any())).called(1);
       },
     );
 
     testWidgets('renders correctly with loading finish image', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: ConvertFinished(
-            dimension: 300,
-          ),
-        ),
-      );
+      await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
 
       expect(
         find.byWidgetPredicate(
@@ -90,22 +85,23 @@ void main() {
     testWidgets(
       'after the play sound, navigates to SharePage',
       (WidgetTester tester) async {
-        when(() => convertBloc.state).thenReturn(
-          ConvertState(
-            firstFrameProcessed: Uint8List.fromList(transparentImage),
-          ),
-        );
-        await tester.pumpApp(
-          BlocProvider.value(
-            value: convertBloc,
-            child: ConvertFinished(
-              dimension: 300,
-            ),
-          ),
-        );
+        await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
       },
     );
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(
+    ConvertFinished subject,
+    ConvertBloc convertBloc,
+  ) =>
+      pumpApp(
+        BlocProvider.value(
+          value: convertBloc,
+          child: subject,
+        ),
+      );
 }

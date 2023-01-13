@@ -17,6 +17,33 @@ class $AssetsAnimationsGen {
   RiveGenImage get background =>
       const RiveGenImage('assets/animations/background.riv');
 
+  /// File path: assets/animations/bg_00.riv
+  RiveGenImage get bg00 => const RiveGenImage('assets/animations/bg_00.riv');
+
+  /// File path: assets/animations/bg_01.riv
+  RiveGenImage get bg01 => const RiveGenImage('assets/animations/bg_01.riv');
+
+  /// File path: assets/animations/bg_02.riv
+  RiveGenImage get bg02 => const RiveGenImage('assets/animations/bg_02.riv');
+
+  /// File path: assets/animations/bg_03.riv
+  RiveGenImage get bg03 => const RiveGenImage('assets/animations/bg_03.riv');
+
+  /// File path: assets/animations/bg_04.riv
+  RiveGenImage get bg04 => const RiveGenImage('assets/animations/bg_04.riv');
+
+  /// File path: assets/animations/bg_05.riv
+  RiveGenImage get bg05 => const RiveGenImage('assets/animations/bg_05.riv');
+
+  /// File path: assets/animations/bg_06.riv
+  RiveGenImage get bg06 => const RiveGenImage('assets/animations/bg_06.riv');
+
+  /// File path: assets/animations/bg_07.riv
+  RiveGenImage get bg07 => const RiveGenImage('assets/animations/bg_07.riv');
+
+  /// File path: assets/animations/bg_08.riv
+  RiveGenImage get bg08 => const RiveGenImage('assets/animations/bg_08.riv');
+
   /// File path: assets/animations/dash.riv
   RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
 
@@ -24,7 +51,20 @@ class $AssetsAnimationsGen {
   RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
 
   /// List of all assets
-  List<RiveGenImage> get values => [background, dash, sparky];
+  List<RiveGenImage> get values => [
+        background,
+        bg00,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
+        dash,
+        sparky
+      ];
 }
 
 class $AssetsAudioGen {
@@ -69,6 +109,9 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/animoji_intro_background.png
   AssetGenImage get animojiIntroBackground =>
       const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
+
+  /// File path: assets/backgrounds/bg_00.png
+  AssetGenImage get bg00 => const AssetGenImage('assets/backgrounds/bg_00.png');
 
   /// File path: assets/backgrounds/bg_01.png
   AssetGenImage get bg01 => const AssetGenImage('assets/backgrounds/bg_01.png');
@@ -117,6 +160,7 @@ class $AssetsBackgroundsGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         animojiIntroBackground,
+        bg00,
         bg01,
         bg02,
         bg03,
