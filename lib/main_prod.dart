@@ -6,7 +6,7 @@ Future<void> main() async {
   const shareUrl =
       'https://holobooth.flutter.dev/share/';
   const assetBucketUrl =
-      'https://storage.googleapis.com/io-photobooth-dev.appspot.com/uploads/';
+      'https://storage.googleapis.com/holobooth-prod.appspot.com/uploads/';
   await bootstrap(
     convertUrl: convertUrl,
     firebaseOptions: DefaultFirebaseOptions.currentPlatform,
