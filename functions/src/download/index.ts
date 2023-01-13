@@ -7,7 +7,7 @@ import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
 const VALID_VIDEO_EXT = [ '.mp4' ];
 
 /**
- * Get the files and wrtites it on the response.
+ * Get the files and writes it on the response.
  * @param {Object} req - request object
  * @return {Object} share response
  */
