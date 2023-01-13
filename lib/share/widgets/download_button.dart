@@ -28,41 +28,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         onPressed: () {
           showAppDialog<void>(
             context: context,
-            child: AlertDialog(
-              shadowColor: Colors.transparent,
-              contentPadding: EdgeInsets.zero,
-              backgroundColor: HoloBoothColors.transparent,
-              content: CompositedTransformFollower(
-                link: layerLink,
-                offset: const Offset(0, 70),
-                child: GradientFrame(
-                  height: 100,
-                  width: 100,
-                  borderRadius: 12,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('GIF'),
-                        ),
-                        const SizedBox(height: 16),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('VIDEO'),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            child: DownloadOptionDialog(layerLink: layerLink),
           );
         },
       ),
@@ -70,15 +36,66 @@ class _DownloadButtonState extends State<DownloadButton> {
   }
 }
 
-extension GlobalKeyExtension on GlobalKey {
-  Rect? get globalPaintBounds {
-    final renderObject = currentContext?.findRenderObject();
-    final translation = renderObject?.getTransformTo(null).getTranslation();
-    if (translation != null && renderObject?.paintBounds != null) {
-      final offset = Offset(translation.x, translation.y);
-      return renderObject!.paintBounds.shift(offset);
-    } else {
-      return null;
-    }
+class DownloadOptionDialog extends StatelessWidget {
+  const DownloadOptionDialog({super.key, required this.layerLink});
+
+  final LayerLink layerLink;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shadowColor: Colors.transparent,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: HoloBoothColors.transparent,
+      content: CompositedTransformFollower(
+        link: layerLink,
+        offset: const Offset(0, 70),
+        child: GradientFrame(
+          height: 100,
+          width: 100,
+          borderRadius: 12,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: const [
+                  DownloadAsAGifButton(),
+                  SizedBox(height: 16),
+                  DownloadAsAVideoButton(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DownloadAsAGifButton extends StatelessWidget {
+  const DownloadAsAGifButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      child: const Text('GIF'),
+    );
+  }
+}
+
+class DownloadAsAVideoButton extends StatelessWidget {
+  const DownloadAsAVideoButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      child: const Text('VIDEO'),
+    );
   }
 }
