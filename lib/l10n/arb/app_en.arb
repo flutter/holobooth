@@ -88,33 +88,37 @@
   "@cameraNotFoundMessage": {
     "description": "Text displayed when camera is not found."
   },
-  "sharePageLearnMoreAboutTextPart1": "Learn more about ",
+  "sharePageLearnMoreAboutTextPart1": "Learn ",
   "@sharePageLearnMoreAboutTextPart1": {
     "description": "Part 1 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart2": " and ",
+  "sharePageLearnMoreAboutTextLink1": "how we made it",
+  "@sharePageLearnMoreAboutTextLink1": {
+    "description": "First link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart2": " for ",
   "@sharePageLearnMoreAboutTextPart2": {
     "description": "Part 2 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart3": " or dive right into the ",
+  "sharePageLearnMoreAboutTextLink2": "Flutter Forward",
+  "@sharePageLearnMoreAboutTextLink2": {
+    "description": "Second link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart3": " and then dive right into the ",
   "@sharePageLearnMoreAboutTextPart3": {
     "description": "Part 3 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart4": "open source code",
+  "sharePageLearnMoreAboutTextLink3": "open source code",
+  "@sharePageLearnMoreAboutTextLink3": {
+    "description": "Third link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart4": ".",
   "@sharePageLearnMoreAboutTextPart4": {
     "description": "Part 4 text shown on the share page which mentions technologies used to build the app."
   },
   "nextButtonText": "Next",
   "@nextButtonText": {
     "description": "Text displayed on a next button."
-  },
-  "flutterLinkText": "Flutter",
-  "@flutterLinkText": {
-    "description": "Text on the link which navigates to the Flutter page"
-  },
-  "firebaseLinkText": "Firebase",
-  "@firebaseLinkText": {
-    "description": "Text on the link which navigates to the Firebase page"
   },
   "charactersTabTitle": "Select a character:",
   "@charactersTabTitle": {

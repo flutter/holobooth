@@ -22,28 +22,31 @@ class ShareSubheading extends StatelessWidget {
         ),
         children: <TextSpan>[
           TextSpan(
-            text: l10n.flutterLinkText,
+            text: l10n.sharePageLearnMoreAboutTextLink1,
             recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink(flutterDevExternalLink),
+              ..onTap = () => openLink(howItsMadeLink),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart2,
           ),
           TextSpan(
-            text: l10n.firebaseLinkText,
+            text: l10n.sharePageLearnMoreAboutTextLink2,
             recognizer: TapGestureRecognizer()
-              ..onTap = () => openLink(firebaseExternalLink),
+              ..onTap = () => openLink(flutterForwardLink),
             style: const TextStyle(decoration: TextDecoration.underline),
           ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart3,
           ),
-          // TODO(oscar): update once we have final link
+          TextSpan(
+            text: l10n.sharePageLearnMoreAboutTextLink3,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => openLink(repositoryLink),
+            style: const TextStyle(decoration: TextDecoration.underline),
+          ),
           TextSpan(
             text: l10n.sharePageLearnMoreAboutTextPart4,
-            recognizer: TapGestureRecognizer()..onTap = () => openLink(''),
-            style: const TextStyle(decoration: TextDecoration.underline),
           ),
         ],
       ),
