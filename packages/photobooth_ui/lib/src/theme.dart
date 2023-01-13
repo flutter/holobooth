@@ -10,6 +10,7 @@ class PhotoboothTheme {
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
+      textButtonTheme: _textButtonThemeData,
       textTheme: _textTheme,
       dialogBackgroundColor: HoloBoothColors.whiteBackground,
       dialogTheme: _dialogTheme,
@@ -58,6 +59,14 @@ class PhotoboothTheme {
 
   static AppBarTheme get _appBarTheme {
     return const AppBarTheme(color: HoloBoothColors.blue);
+  }
+
+  static TextButtonThemeData get _textButtonThemeData {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: HoloBoothColors.white,
+      ),
+    );
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
