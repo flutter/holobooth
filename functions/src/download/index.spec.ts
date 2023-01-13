@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as functions from 'firebase-functions';
 
 import { download } from './';
@@ -15,9 +16,9 @@ jest.mock('firebase-admin', () => {
           }),
           download: jest.fn(async () => {
             if (filePath.indexOf('fail') == -1) {
-              return [ [1, 2] ];
+              return [ [ 1, 2 ] ];
             } else {
-              throw 'Error';
+              throw Error('Error');
             }
           }),
         })),
