@@ -19,7 +19,7 @@ export const download = functions.https.onRequest(async (req, res) => {
 
     if (!ALLOWED_HOSTS.includes(baseUrl) || !VALID_VIDEO_EXT.includes(ext)) {
       functions.logger.log('Bad host or video ext', { host, baseUrl, ext, videoFileName });
-      res.status(404).send();
+      res.status(400).send();
     } else {
       const videoBlobPath = `${UPLOAD_PATH}/${videoFileName}`;
       const file = await admin.storage().bucket().file(videoBlobPath);
@@ -31,7 +31,7 @@ export const download = functions.https.onRequest(async (req, res) => {
       } else {
         functions.logger.log('Video does not exist', { videoBlobPath });
 
-        res.status(400).send();
+        res.status(404).send();
       }
     }
   } catch (error) {

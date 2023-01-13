@@ -36,7 +36,7 @@ describe('Download API', () => {
     },
   } as functions.https.Request;
 
-  test('Invalid path returns 404 and html', async () => {
+  test('Invalid path returns 400 and html', async () => {
     const req = Object.assign({}, baseReq);
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -44,11 +44,11 @@ describe('Download API', () => {
     };
 
     await download(req, res as any);
-    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalled();
   });
 
-  test('Invalid file extension returns 404', async () => {
+  test('Invalid file extension returns 400', async () => {
     const req = Object.assign({}, baseReq, {
       path: 'wrong.gif',
     });
@@ -59,7 +59,7 @@ describe('Download API', () => {
     };
 
     await download(req, res as any);
-    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalled();
   });
 
@@ -74,11 +74,11 @@ describe('Download API', () => {
     };
 
     await download(req, res as any);
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(404);
     expect(res.send).toHaveBeenCalled();
   });
 
-  test('returns 404 with an invalid host', async () => {
+  test('returns 400 with an invalid host', async () => {
     const req = Object.assign({}, baseReq, {
       get(_: string) {
         return null;
@@ -91,7 +91,7 @@ describe('Download API', () => {
     };
 
     await download(req, res as any);
-    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalled();
   });
 
