@@ -42,29 +42,21 @@ class DownloadOptionDialog extends StatelessWidget {
   final LayerLink layerLink;
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shadowColor: Colors.transparent,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: HoloBoothColors.transparent,
-      content: CompositedTransformFollower(
-        link: layerLink,
-        offset: const Offset(0, 70),
+    return CompositedTransformFollower(
+      link: layerLink,
+      offset: const Offset(0, 70),
+      child: Align(
+        alignment: Alignment.topLeft,
         child: GradientFrame(
-          height: 100,
-          width: 100,
+          width: 200,
           borderRadius: 12,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  DownloadAsAGifButton(),
-                  SizedBox(height: 16),
-                  DownloadAsAVideoButton(),
-                ],
-              ),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              DownloadAsAGifButton(),
+              DownloadAsAVideoButton(),
+            ],
           ),
         ),
       ),
@@ -78,6 +70,9 @@ class DownloadAsAGifButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -92,6 +87,9 @@ class DownloadAsAVideoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+      ),
       onPressed: () {
         Navigator.of(context).pop();
       },
