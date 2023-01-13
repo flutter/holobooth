@@ -26,9 +26,10 @@ class _DownloadButtonState extends State<DownloadButton> {
         ),
         label: l10n.sharePageDownloadButtonText,
         onPressed: () {
-          showAppDialog<void>(
+          showDialog<void>(
             context: context,
-            child: DownloadOptionDialog(layerLink: layerLink),
+            barrierColor: Colors.transparent,
+            builder: (context) => DownloadOptionDialog(layerLink: layerLink),
           );
         },
       ),
@@ -69,14 +70,26 @@ class DownloadAsAGifButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return TextButton.icon(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       onPressed: () {
         Navigator.of(context).pop();
       },
-      child: const Text('GIF'),
+      icon: ShaderMask(
+        shaderCallback: (bounds) {
+          return HoloBoothGradients.secondaryFour
+              .createShader(Offset.zero & bounds.size);
+        },
+        child: const Icon(Icons.download),
+      ),
+      label: Text(
+        context.l10n.downloadOptionGif,
+        textHeightBehavior: const TextHeightBehavior(
+          applyHeightToFirstAscent: false,
+        ),
+      ),
     );
   }
 }
@@ -86,14 +99,26 @@ class DownloadAsAVideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return TextButton.icon(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       onPressed: () {
         Navigator.of(context).pop();
       },
-      child: const Text('VIDEO'),
+      icon: ShaderMask(
+        shaderCallback: (bounds) {
+          return HoloBoothGradients.secondaryFour
+              .createShader(Offset.zero & bounds.size);
+        },
+        child: const Icon(Icons.download),
+      ),
+      label: Text(
+        context.l10n.downloadOptionVideo,
+        textHeightBehavior: const TextHeightBehavior(
+          applyHeightToFirstAscent: false,
+        ),
+      ),
     );
   }
 }
