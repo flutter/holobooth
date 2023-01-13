@@ -30,11 +30,20 @@
           ]
         },
         {
-          "source": "**/*.*",
+          "source": "**/*.@(jpg|jpeg|gif|png)",
           "headers": [
             {
               "key": "Cache-Control",
               "value": "max-age=3600"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
             }
           ]
         }
@@ -71,7 +80,7 @@
           ]
         },
         {
-          "source": "**/*.*",
+          "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
@@ -112,7 +121,7 @@
           ]
         },
         {
-          "source": "**/*.*",
+          "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
