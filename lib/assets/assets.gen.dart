@@ -13,10 +13,6 @@ import 'package:rive/rive.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
-  /// File path: assets/animations/background.riv
-  RiveGenImage get background =>
-      const RiveGenImage('assets/animations/background.riv');
-
   /// File path: assets/animations/bg_00.riv
   RiveGenImage get bg00 => const RiveGenImage('assets/animations/bg_00.riv');
 
@@ -51,20 +47,8 @@ class $AssetsAnimationsGen {
   RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
 
   /// List of all assets
-  List<RiveGenImage> get values => [
-        background,
-        bg00,
-        bg01,
-        bg02,
-        bg03,
-        bg04,
-        bg05,
-        bg06,
-        bg07,
-        bg08,
-        dash,
-        sparky
-      ];
+  List<RiveGenImage> get values =>
+      [bg00, bg01, bg02, bg03, bg04, bg05, bg06, bg07, bg08, dash, sparky];
 }
 
 class $AssetsAudioGen {
