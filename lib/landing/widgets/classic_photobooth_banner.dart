@@ -64,15 +64,21 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                           children: [
                             Text(
                               l10n.classicPhotoboothHeading,
-                              style: PhotoboothTextStyle.bodySmall.copyWith(
-                                color: HoloBoothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                             Text(
                               l10n.classicPhotoboothLabel,
-                              style: PhotoboothTextStyle.bodyLarge.copyWith(
-                                color: HoloBoothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                           ],
                         ),

@@ -11,7 +11,7 @@ void addGradientTextStory(Dashbook dashbook) {
             builder: (context) {
               return GradientText(
                 text: 'Gradient Text',
-                style: Theme.of(context).textTheme.displayLarge,
+                style: Theme.of(context).textTheme.headlineMedium,
               );
             },
           ),
