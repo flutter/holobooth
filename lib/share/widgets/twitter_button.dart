@@ -27,7 +27,7 @@ class TwitterButton extends StatelessWidget {
           openLink(twitterShareUrl);
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Sharing disabled')));
+              .showSnackBar(SnackBar(content: Text(l10n.sharingDisabled)));
         }
         Navigator.of(context).pop();
       },

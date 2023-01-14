@@ -419,5 +419,9 @@
   "faceNotDetected": "Face not detected",
   "@faceNotDetected": {
     "description": "Text displayed when there is no face detected."
+  },
+  "sharingDisabled": "Sharing disabled",
+  "@sharingDisabled": {
+    "description": "Text displayed when trying to share and it is disabled."
   }
 }
