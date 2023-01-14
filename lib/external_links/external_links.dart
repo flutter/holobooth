@@ -4,6 +4,8 @@ const flutterDevExternalLink = 'https://flutter.dev';
 const flutterForwardLink = 'https://flutter.dev/events/flutter-forward';
 // TODO(kirpal): replace with real link.
 const howItsMadeLink = '';
+// TODO(kirpal): replace with real link.
+const repositoryLink = '';
 const firebaseExternalLink = 'https://firebase.google.com';
 const tensorFlowLink = 'https://tensorflow.org';
 const mediaPipeLink = 'https://mediapipe.dev/';

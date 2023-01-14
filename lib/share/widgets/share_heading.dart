@@ -14,7 +14,7 @@ class ShareHeading extends StatelessWidget {
     return GradientText(
       text: l10n.sharePageHeading,
       textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,
-      style: textTheme.displayLarge,
+      style: textTheme.headlineMedium,
     );
   }
 }

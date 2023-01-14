@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-// TODO(oscar): to be deleted, and replaced by new mobile theme
-const _smallTextScaleFactor = 1;
-
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
   /// Standard `ThemeData` for Photobooth UI.
@@ -13,6 +10,7 @@ class PhotoboothTheme {
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
+      textButtonTheme: _textButtonThemeData,
       textTheme: _textTheme,
       dialogBackgroundColor: HoloBoothColors.whiteBackground,
       dialogTheme: _dialogTheme,
@@ -30,73 +28,45 @@ class PhotoboothTheme {
 
   /// `ThemeData` for Photobooth UI for medium screens.
   static ThemeData get medium {
-    return standard.copyWith(textTheme: _smallTextTheme);
+    return standard;
   }
 
   static TextTheme get _textTheme {
     return TextTheme(
-      displayLarge: PhotoboothTextStyle.displayLarge,
-      displayMedium: PhotoboothTextStyle.displayMedium,
-      displaySmall: PhotoboothTextStyle.displaySmall,
-      headlineMedium: PhotoboothTextStyle.headlineMedium,
-      headlineSmall: PhotoboothTextStyle.headlineSmall,
-      titleLarge: PhotoboothTextStyle.titleLarge,
-      titleMedium: PhotoboothTextStyle.titleMedium,
-      titleSmall: PhotoboothTextStyle.titleSmall,
-      bodyLarge: PhotoboothTextStyle.bodyLarge,
-      bodyMedium: PhotoboothTextStyle.bodyMedium,
-      bodySmall: PhotoboothTextStyle.bodySmall,
-      labelSmall: PhotoboothTextStyle.labelSmall,
-      labelLarge: PhotoboothTextStyle.labelLarge,
+      headlineLarge: PhotoboothDesktopTextStyle.headlineLarge,
+      headlineMedium: PhotoboothDesktopTextStyle.headlineMedium,
+      headlineSmall: PhotoboothDesktopTextStyle.headlineSmall,
+      titleSmall: PhotoboothDesktopTextStyle.titleSmall,
+      bodyLarge: PhotoboothDesktopTextStyle.bodyLarge,
+      bodyMedium: PhotoboothDesktopTextStyle.bodyMedium,
+      bodySmall: PhotoboothDesktopTextStyle.bodySmall,
+      labelLarge: PhotoboothDesktopTextStyle.labelLarge,
     );
   }
 
   static TextTheme get _smallTextTheme {
     return TextTheme(
-      displayLarge: PhotoboothTextStyle.displayLarge.copyWith(
-        fontSize: _textTheme.displayLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      displayMedium: PhotoboothTextStyle.displayMedium.copyWith(
-        fontSize: _textTheme.displayMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      displaySmall: PhotoboothTextStyle.displaySmall.copyWith(
-        fontSize: _textTheme.displaySmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      headlineMedium: PhotoboothTextStyle.headlineMedium.copyWith(
-        fontSize: _textTheme.headlineMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      headlineSmall: PhotoboothTextStyle.headlineSmall.copyWith(
-        fontSize: _textTheme.headlineSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleLarge: PhotoboothTextStyle.titleLarge.copyWith(
-        fontSize: _textTheme.titleLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleMedium: PhotoboothTextStyle.titleMedium.copyWith(
-        fontSize: _textTheme.titleMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleSmall: PhotoboothTextStyle.titleSmall.copyWith(
-        fontSize: _textTheme.titleSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodyLarge: PhotoboothTextStyle.bodyLarge.copyWith(
-        fontSize: _textTheme.bodyLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodyMedium: PhotoboothTextStyle.bodyMedium.copyWith(
-        fontSize: _textTheme.bodyMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodySmall: PhotoboothTextStyle.bodySmall.copyWith(
-        fontSize: _textTheme.bodySmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      labelSmall: PhotoboothTextStyle.labelSmall.copyWith(
-        fontSize: _textTheme.labelSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      labelLarge: PhotoboothTextStyle.labelLarge.copyWith(
-        fontSize: _textTheme.labelLarge!.fontSize! * _smallTextScaleFactor,
-      ),
+      headlineLarge: PhotoboothMobileTextStyle.headlineLarge,
+      headlineMedium: PhotoboothMobileTextStyle.headlineMedium,
+      headlineSmall: PhotoboothMobileTextStyle.headlineSmall,
+      titleSmall: PhotoboothMobileTextStyle.titleSmall,
+      bodyLarge: PhotoboothMobileTextStyle.bodyLarge,
+      bodyMedium: PhotoboothMobileTextStyle.bodyMedium,
+      bodySmall: PhotoboothMobileTextStyle.bodySmall,
+      labelLarge: PhotoboothMobileTextStyle.labelLarge,
     );
   }
 
   static AppBarTheme get _appBarTheme {
     return const AppBarTheme(color: HoloBoothColors.blue);
+  }
+
+  static TextButtonThemeData get _textButtonThemeData {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: HoloBoothColors.white,
+      ),
+    );
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
