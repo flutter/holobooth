@@ -6,7 +6,14 @@ import 'package:io_photobooth/share/share.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class FacebookButton extends StatelessWidget {
-  const FacebookButton({super.key});
+  const FacebookButton({
+    super.key,
+    this.shareEnabled = const bool.fromEnvironment(
+      'SHARING_ENABLED',
+    ),
+  });
+
+  final bool shareEnabled;
 
   @override
   Widget build(BuildContext context) {
