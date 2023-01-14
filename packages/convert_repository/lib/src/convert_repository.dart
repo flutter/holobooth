@@ -56,9 +56,10 @@ class ConvertRepository {
   }
 
   String _getTwitterShareUrl(String gifPath) {
-    // We could do the parsing on the cloud function
+    // TODO(OSCAR): We could do the parsing on the cloud function
     final assetName = gifPath.replaceAll(_assetBucketUrl, '');
     final fullShareUrl = _shareUrl + assetName;
+    // TODO(oscar): update with final text
     final shareText = Uri.encodeComponent('Hey from Twitter!');
     return 'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
   }
