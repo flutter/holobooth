@@ -8,19 +8,19 @@ import 'package:photobooth_ui/photobooth_ui.dart';
 class TwitterButton extends StatelessWidget {
   const TwitterButton({
     super.key,
-    this.shareEnabled = const bool.fromEnvironment(
+    this.sharingEnabled = const bool.fromEnvironment(
       'SHARING_ENABLED',
     ),
   });
 
-  final bool shareEnabled;
+  final bool sharingEnabled;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return GradientOutlinedButton(
       onPressed: () {
-        if (shareEnabled) {
+        if (sharingEnabled) {
           final twitterShareUrl =
               context.read<ConvertBloc>().state.twitterShareUrl;
 
