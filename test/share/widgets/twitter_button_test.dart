@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:io_photobooth/convert/convert.dart';
@@ -47,14 +48,23 @@ void main() {
       expect(find.byType(TwitterButton), findsNothing);
     });
 
-    testWidgets('opens link', (tester) async {
-      await tester.pumpSubject(TwitterButton(), convertBloc);
+    testWidgets('opens link if sharing enabled', (tester) async {
+      await tester.pumpSubject(TwitterButton(shareEnabled: true), convertBloc);
       await tester.tap(find.byType(TwitterButton));
       await tester.pumpAndSettle();
       verify(
         () => mock.launchUrl(twitterUrl, any()),
       ).called(1);
       expect(find.byType(TwitterButton), findsNothing);
+    });
+
+    testWidgets('shows Snackbar if sharing disabled', (tester) async {
+      await tester.pumpSubject(TwitterButton(), convertBloc);
+      await tester.tap(find.byType(TwitterButton));
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }
@@ -67,7 +77,7 @@ extension on WidgetTester {
       pumpApp(
         MultiBlocProvider(
           providers: [BlocProvider.value(value: bloc)],
-          child: subject,
+          child: Scaffold(body: subject),
         ),
       );
 }

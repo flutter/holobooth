@@ -6,17 +6,29 @@ import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
 class TwitterButton extends StatelessWidget {
-  const TwitterButton({super.key});
+  const TwitterButton({
+    super.key,
+    this.shareEnabled = const bool.fromEnvironment(
+      'SHARING_ENABLED',
+    ),
+  });
+
+  final bool shareEnabled;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return GradientOutlinedButton(
       onPressed: () {
-        final twitterShareUrl =
-            context.read<ConvertBloc>().state.twitterShareUrl;
+        if (shareEnabled) {
+          final twitterShareUrl =
+              context.read<ConvertBloc>().state.twitterShareUrl;
 
-        openLink(twitterShareUrl);
+          openLink(twitterShareUrl);
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Sharing disabled')));
+        }
         Navigator.of(context).pop();
       },
       label: l10n.shareDialogTwitterButtonText,
