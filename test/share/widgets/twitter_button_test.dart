@@ -49,7 +49,10 @@ void main() {
     });
 
     testWidgets('opens link if sharing enabled', (tester) async {
-      await tester.pumpSubject(TwitterButton(shareEnabled: true), convertBloc);
+      await tester.pumpSubject(
+        TwitterButton(sharingEnabled: true),
+        convertBloc,
+      );
       await tester.tap(find.byType(TwitterButton));
       await tester.pumpAndSettle();
       verify(
