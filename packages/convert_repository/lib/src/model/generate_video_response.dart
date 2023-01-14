@@ -10,6 +10,7 @@ class GenerateVideoResponse {
     required this.gifUrl,
     required this.firstFrame,
     this.twitterUrl = '',
+    this.facebookShareUrl = '',
   });
 
   /// {@macro generate_video_response}
@@ -36,18 +37,23 @@ class GenerateVideoResponse {
   /// Twitter share url.
   final String twitterUrl;
 
+  /// Facebook share url.
+  final String facebookShareUrl;
+
   /// CopyWith
   GenerateVideoResponse copyWith({
     String? videoUrl,
     String? gifUrl,
     Uint8List? firstFrame,
     String? twitterUrl,
+    String? facebookShareUrl,
   }) {
     return GenerateVideoResponse(
       videoUrl: videoUrl ?? this.videoUrl,
       gifUrl: gifUrl ?? this.gifUrl,
       firstFrame: firstFrame ?? this.firstFrame,
       twitterUrl: twitterUrl ?? this.twitterUrl,
+      facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
     );
   }
 }

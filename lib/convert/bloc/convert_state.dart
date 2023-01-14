@@ -7,6 +7,7 @@ class ConvertState extends Equatable {
     this.status = ConvertStatus.creatingVideo,
     this.firstFrameProcessed,
     this.twitterShareUrl = '',
+    this.facebookShareUrl = '',
   });
 
   final String videoPath;
@@ -14,6 +15,7 @@ class ConvertState extends Equatable {
   final ConvertStatus status;
   final Uint8List? firstFrameProcessed;
   final String twitterShareUrl;
+  final String facebookShareUrl;
 
   ConvertState copyWith({
     String? videoPath,
@@ -21,6 +23,7 @@ class ConvertState extends Equatable {
     ConvertStatus? status,
     Uint8List? firstFrameProcessed,
     String? twitterShareUrl,
+    String? facebookShareUrl,
   }) {
     return ConvertState(
       videoPath: videoPath ?? this.videoPath,
@@ -28,6 +31,7 @@ class ConvertState extends Equatable {
       status: status ?? this.status,
       firstFrameProcessed: firstFrameProcessed ?? this.firstFrameProcessed,
       twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
+      facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
     );
   }
 
@@ -38,6 +42,7 @@ class ConvertState extends Equatable {
         status,
         firstFrameProcessed,
         twitterShareUrl,
+        facebookShareUrl
       ];
 }
 

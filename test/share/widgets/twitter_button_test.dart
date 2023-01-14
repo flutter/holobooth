@@ -29,7 +29,7 @@ void main() {
       convertBloc = _MockConvertBloc();
 
       when(() => convertBloc.state).thenReturn(
-        ConvertState(twitterShareUrl: 'https://twitter.com'),
+        ConvertState(twitterShareUrl: twitterUrl),
       );
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(

@@ -55,13 +55,18 @@ class ConvertRepository {
     return _processedFrames;
   }
 
-  String _getTwitterShareUrl(String gifPath) {
+  String _getShareUrl(String fullPath) {
     // TODO(OSCAR): We could do the parsing on the cloud function
-    final assetName = gifPath.replaceAll(_assetBucketUrl, '');
-    final fullShareUrl = _shareUrl + assetName;
-    // TODO(oscar): update with final text
-    final shareText = Uri.encodeComponent('Hey from Twitter!');
-    return 'https://twitter.com/intent/tweet?url=$fullShareUrl&text=$shareText';
+    final assetName = fullPath.replaceAll(_assetBucketUrl, '');
+    return _shareUrl + assetName;
+  }
+
+  String _getTwitterShareUrl(String shareUrl, String shareText) {
+    return 'https://twitter.com/intent/tweet?url=$shareUrl&text=$shareText';
+  }
+
+  String _getFacebookShareUrl(String shareUrl, String shareText) {
+    return 'https://www.facebook.com/sharer.php?u=$shareUrl&quote=$shareText';
   }
 
   /// Converts a list of images to video using firebase functions.
@@ -98,9 +103,11 @@ class ConvertRepository {
           json,
           frames.first,
         );
-
+        final shareUrl = _getShareUrl(videoResponse.gifUrl);
+        final shareText = Uri.encodeComponent('Hey from Social Media!');
         return videoResponse.copyWith(
-          twitterUrl: _getTwitterShareUrl(videoResponse.gifUrl),
+          twitterUrl: _getTwitterShareUrl(shareUrl, shareText),
+          facebookShareUrl: _getFacebookShareUrl(shareUrl, shareText),
         );
       } else {
         throw const GenerateVideoException('Failed to convert frames');
