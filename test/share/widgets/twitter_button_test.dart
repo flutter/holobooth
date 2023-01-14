@@ -22,14 +22,14 @@ void main() {
   late UrlLauncherPlatform mock;
 
   group('TwitterButton', () {
-    const twitterUrl = 'https://twitter.com';
+    const twitterShareUrl = 'https://twitter.com';
     setUp(() {
       mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
       convertBloc = _MockConvertBloc();
 
       when(() => convertBloc.state).thenReturn(
-        ConvertState(twitterShareUrl: twitterUrl),
+        ConvertState(twitterShareUrl: twitterShareUrl),
       );
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
@@ -56,7 +56,7 @@ void main() {
       await tester.tap(find.byType(TwitterButton));
       await tester.pumpAndSettle();
       verify(
-        () => mock.launchUrl(twitterUrl, any()),
+        () => mock.launchUrl(twitterShareUrl, any()),
       ).called(1);
       expect(find.byType(TwitterButton), findsNothing);
     });

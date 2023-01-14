@@ -9,7 +9,7 @@ class GenerateVideoResponse {
     required this.videoUrl,
     required this.gifUrl,
     required this.firstFrame,
-    this.twitterUrl = '',
+    this.twitterShareUrl = '',
     this.facebookShareUrl = '',
   });
 
@@ -35,7 +35,7 @@ class GenerateVideoResponse {
   final Uint8List firstFrame;
 
   /// Twitter share url.
-  final String twitterUrl;
+  final String twitterShareUrl;
 
   /// Facebook share url.
   final String facebookShareUrl;
@@ -45,14 +45,14 @@ class GenerateVideoResponse {
     String? videoUrl,
     String? gifUrl,
     Uint8List? firstFrame,
-    String? twitterUrl,
+    String? twitterShareUrl,
     String? facebookShareUrl,
   }) {
     return GenerateVideoResponse(
       videoUrl: videoUrl ?? this.videoUrl,
       gifUrl: gifUrl ?? this.gifUrl,
       firstFrame: firstFrame ?? this.firstFrame,
-      twitterUrl: twitterUrl ?? this.twitterUrl,
+      twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
     );
   }

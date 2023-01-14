@@ -106,7 +106,7 @@ class ConvertRepository {
         final shareUrl = _getShareUrl(videoResponse.gifUrl);
         final shareText = Uri.encodeComponent('Hey from Social Media!');
         return videoResponse.copyWith(
-          twitterUrl: _getTwitterShareUrl(shareUrl, shareText),
+          twitterShareUrl: _getTwitterShareUrl(shareUrl, shareText),
           facebookShareUrl: _getFacebookShareUrl(shareUrl, shareText),
         );
       } else {

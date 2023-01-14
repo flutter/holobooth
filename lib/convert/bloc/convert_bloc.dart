@@ -33,7 +33,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           gifPath: result.gifUrl,
           status: ConvertStatus.videoCreated,
           firstFrameProcessed: result.firstFrame,
-          twitterShareUrl: result.twitterUrl,
+          twitterShareUrl: result.twitterShareUrl,
         ),
       );
     } catch (error, stackTrace) {
