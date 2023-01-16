@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,13 @@ class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
 void main() {
   group('ShareDialog', () {
     late ConvertBloc convertBloc;
-    final thumbnail = Uint8List.fromList(transparentImage);
+    late Uint8List thumbnail;
 
-    setUp(() {
+    setUp(() async {
       convertBloc = _MockConvertBloc();
+      final image = await createTestImage(height: 10, width: 10);
+      final bytesImage = await image.toByteData(format: ImageByteFormat.png);
+      thumbnail = bytesImage!.buffer.asUint8List();
       when(() => convertBloc.state)
           .thenReturn(ConvertState(firstFrameProcessed: thumbnail));
     });

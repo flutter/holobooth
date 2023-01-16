@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:typed_data';
 import 'dart:ui' as ui show Image;
 
 import 'package:flame/cache.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
-
-import '../../helpers/helpers.dart';
 
 class __MockImages extends Mock implements Images {}
 
@@ -22,7 +19,7 @@ void main() {
     setUp(() async {
       images = __MockImages();
       Flame.images = images;
-      image = await decodeImageFromList(Uint8List.fromList(transparentImage));
+      image = await createTestImage(height: 10, width: 10);
     });
 
     testWidgets('renders AppCircularProgressIndicator when loading asset',
