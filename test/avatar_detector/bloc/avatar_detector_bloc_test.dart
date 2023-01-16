@@ -262,17 +262,10 @@ void main() {
             'status',
             equals(AvatarDetectorStatus.estimating),
           ),
-          isInstanceOf<AvatarDetectorState>()
-              .having(
-                (state) => state.status,
-                'status',
-                equals(AvatarDetectorStatus.warming),
-              )
-              .having(
-                (state) => state.avatar,
-                'avatar',
-                equals(avatar),
-              ),
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.warming,
+            avatar: avatar,
+          ),
         ],
       );
 
@@ -311,10 +304,9 @@ void main() {
               'status',
               equals(AvatarDetectorStatus.estimating),
             ),
-            isInstanceOf<AvatarDetectorState>().having(
-              (state) => state.status,
-              'status',
-              equals(AvatarDetectorStatus.warming),
+            AvatarDetectorState(
+              status: AvatarDetectorStatus.warming,
+              avatar: avatar,
             ),
           ],
           isInstanceOf<AvatarDetectorState>().having(
@@ -322,17 +314,10 @@ void main() {
             'status',
             equals(AvatarDetectorStatus.estimating),
           ),
-          isInstanceOf<AvatarDetectorState>()
-              .having(
-                (state) => state.status,
-                'status',
-                equals(AvatarDetectorStatus.detected),
-              )
-              .having(
-                (state) => state.avatar,
-                'avatar',
-                equals(avatar),
-              ),
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.detected,
+            avatar: avatar,
+          ),
         ],
       );
     });
