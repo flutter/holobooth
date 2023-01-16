@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 

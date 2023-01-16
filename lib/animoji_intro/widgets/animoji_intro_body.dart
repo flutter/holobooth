@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroBody extends StatelessWidget {
   const AnimojiIntroBody({
@@ -14,7 +14,7 @@ class AnimojiIntroBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final small = size.width <= PhotoboothBreakpoints.small;
+    final small = size.width <= HoloboothBreakpoints.small;
 
     return Align(
       child: SingleChildScrollView(

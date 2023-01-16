@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:holobooth/assets/assets.dart';
 
 enum Glasses {
   none(0),

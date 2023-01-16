@@ -6,11 +6,11 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -204,7 +204,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a large display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.large, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.large, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),
@@ -219,7 +219,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a small display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.small, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RecordingCountdown extends StatefulWidget {
   const RecordingCountdown({

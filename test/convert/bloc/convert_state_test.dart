@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/convert/convert.dart';
+import 'package:holobooth/convert/convert.dart';
 
 void main() {
   group('ConvertState', () {

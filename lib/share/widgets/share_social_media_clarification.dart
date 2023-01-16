@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/external_links/external_links.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SocialMediaShareClarificationNote extends StatelessWidget {
   const SocialMediaShareClarificationNote({super.key});
@@ -12,12 +12,12 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final small =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         style: theme.textTheme.bodySmall?.copyWith(
           color: HoloBoothColors.lightGrey,
-          fontWeight: PhotoboothFontWeight.regular,
+          fontWeight: HoloboothFontWeight.regular,
         ),
         children: <TextSpan>[
           TextSpan(

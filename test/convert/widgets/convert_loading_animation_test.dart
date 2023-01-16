@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/convert/convert.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 
