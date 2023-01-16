@@ -51,8 +51,7 @@ class _CameraErrorViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlurryContainer(
-      // TODO(OSCAR): This color is not in the palette.
-      color: const Color.fromRGBO(19, 22, 44, 0.75),
+      color: HoloBoothColors.blurrySurface,
       blur: 7.5,
       borderRadius: BorderRadius.circular(38),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

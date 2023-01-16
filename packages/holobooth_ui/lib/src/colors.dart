@@ -70,6 +70,9 @@ abstract class HoloBoothColors {
 
   /// Transparent scrim color
   static const Color scrim = Color(0x8513162C);
+
+  /// Color used for blurry containers.
+  static const Color blurrySurface = Color.fromRGBO(19, 22, 44, 0.75);
 }
 
 /// Defines the gradients for the Holobooth UI.
