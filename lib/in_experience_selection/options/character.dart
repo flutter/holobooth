@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 enum Character {
   dash,

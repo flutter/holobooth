@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PrimarySelectionView extends StatefulWidget {
   const PrimarySelectionView({

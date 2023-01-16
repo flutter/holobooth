@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroBody extends StatelessWidget {
   const AnimojiIntroBody({
