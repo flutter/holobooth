@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/camera/camera.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({
