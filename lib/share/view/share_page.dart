@@ -36,12 +36,6 @@ class SharePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => ShareBloc(
-            thumbnail: firstFrame,
-            videoPath: videoPath,
-          ),
-        ),
         BlocProvider.value(value: convertBloc),
       ],
       child: const ShareView(),
@@ -54,42 +48,19 @@ class ShareView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ShareBloc, ShareState>(
-      listenWhen: (previous, current) {
-        return previous.shareStatus != current.shareStatus ||
-            previous.shareUrl != current.shareUrl;
-      },
-      listener: (context, state) {
-        if (state.shareStatus.isSuccess) {
-          final String url;
-          switch (state.shareUrl) {
-            case ShareUrl.none:
-              url = state.explicitShareUrl;
-              break;
-            case ShareUrl.twitter:
-              url = state.twitterShareUrl;
-              break;
-            case ShareUrl.facebook:
-              url = state.facebookShareUrl;
-              break;
-          }
-          openLink(url);
-        }
-      },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const Positioned.fill(child: ShareBackground()),
-            Positioned.fill(
-              child: Column(
-                children: const [
-                  Expanded(child: ShareBody()),
-                  FullFooter(),
-                ],
-              ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Positioned.fill(child: ShareBackground()),
+          Positioned.fill(
+            child: Column(
+              children: const [
+                Expanded(child: ShareBody()),
+                FullFooter(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
