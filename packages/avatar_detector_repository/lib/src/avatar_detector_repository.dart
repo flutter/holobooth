@@ -30,6 +30,7 @@ class AvatarDetectorRepository {
   Future<void> preloadLandmarksModel() async {
     try {
       _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
+      _faceGeometry = null;
     } catch (error) {
       throw PreloadLandmarksModelException(error.toString());
     }

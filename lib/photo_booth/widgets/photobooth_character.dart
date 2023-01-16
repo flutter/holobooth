@@ -21,7 +21,8 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
         context.select((AvatarDetectorBloc bloc) => bloc.state.status);
     final avatar =
         context.select((AvatarDetectorBloc bloc) => bloc.state.avatar);
-    if (avatarStatus == AvatarDetectorStatus.detected) {
+    final enabled = avatarStatus == AvatarDetectorStatus.detected;
+    if (enabled) {
       _latestValidAvatar = avatar;
     }
     final hat =
@@ -40,6 +41,7 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
       case Character.dash:
         character = DashCharacterAnimation(
           avatar: _latestValidAvatar,
+          enabled: enabled,
           hat: hat,
           glasses: glasses,
           clothes: clothes,
@@ -49,6 +51,7 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
       case Character.sparky:
         character = SparkyCharacterAnimation(
           avatar: _latestValidAvatar,
+          enabled: enabled,
           hat: hat,
           glasses: glasses,
           clothes: clothes,
