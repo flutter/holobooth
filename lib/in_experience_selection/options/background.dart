@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 
 enum Background {
-  bg00(0),
-  bg01(1),
-  bg02(2),
-  bg03(3),
-  bg04(4),
-  bg05(5),
-  bg06(6),
-  bg07(7),
-  bg08(8);
-
-  const Background(this.riveIndex);
-  final double riveIndex;
+  bg00,
+  bg01,
+  bg02,
+  bg03,
+  bg04,
+  bg05,
+  bg06,
+  bg07,
+  bg08;
 
   ImageProvider toImageProvider() {
     switch (this) {
