@@ -101,7 +101,7 @@ class ConvertBody extends StatelessWidget {
                   previous.status != current.status,
               builder: (context, state) {
                 if (state.status == ConvertStatus.error) {
-                  return const SizedBox(key: errorViewKey);
+                  return const ConvertErrorView();
                 } else {
                   return AnimatedSwitcher(
                     duration: const Duration(seconds: 1),
