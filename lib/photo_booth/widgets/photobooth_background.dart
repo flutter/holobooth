@@ -15,31 +15,31 @@ class PhotoboothBackground extends StatelessWidget {
     RiveGenImage riveAsset;
 
     switch (backgroundSelected) {
-      case Background.bg00:
+      case Background.bg0:
         riveAsset = Assets.animations.bg00;
         break;
-      case Background.bg01:
+      case Background.bg1:
         riveAsset = Assets.animations.bg01;
         break;
-      case Background.bg02:
+      case Background.bg2:
         riveAsset = Assets.animations.bg02;
         break;
-      case Background.bg03:
+      case Background.bg3:
         riveAsset = Assets.animations.bg03;
         break;
-      case Background.bg04:
+      case Background.bg4:
         riveAsset = Assets.animations.bg04;
         break;
-      case Background.bg05:
+      case Background.bg5:
         riveAsset = Assets.animations.bg05;
         break;
-      case Background.bg06:
+      case Background.bg6:
         riveAsset = Assets.animations.bg06;
         break;
-      case Background.bg07:
+      case Background.bg7:
         riveAsset = Assets.animations.bg07;
         break;
-      case Background.bg08:
+      case Background.bg8:
         riveAsset = Assets.animations.bg08;
         break;
     }

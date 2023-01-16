@@ -3,7 +3,7 @@ part of 'in_experience_selection_bloc.dart';
 class InExperienceSelectionState extends Equatable {
   const InExperienceSelectionState({
     this.hat = Hats.none,
-    this.background = Background.bg00,
+    this.background = Background.bg0,
     this.character = Character.dash,
     this.glasses = Glasses.none,
     this.clothes = Clothes.none,
