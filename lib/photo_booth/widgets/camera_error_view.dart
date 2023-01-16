@@ -51,7 +51,7 @@ class _CameraErrorViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlurryContainer(
-      color: HoloBoothColors.blurryContainerColor,
+      color: HoloBoothColors.blurrySurface,
       blur: 7.5,
       borderRadius: BorderRadius.circular(38),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
