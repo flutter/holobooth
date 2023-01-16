@@ -7,8 +7,8 @@ abstract class ConvertEvent extends Equatable {
 class GenerateVideoRequested extends ConvertEvent {
   const GenerateVideoRequested(this.frames);
 
-  final List<Frame> frames;
+  final List<Frame>? frames;
 
   @override
-  List<Object> get props => [frames];
+  List<Object?> get props => [frames];
 }

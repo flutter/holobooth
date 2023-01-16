@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -19,14 +20,20 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
   final ConvertRepository _convertRepository;
 
+  var _frames = <Image>[];
+
   FutureOr<void> _generateVideo(
     GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
+    if (event.frames != null) {
+      _frames = event.frames!.map((e) => e.image).toList();
+    }
+
     try {
-      final result = await _convertRepository
-          .generateVideo(event.frames.map((e) => e.image).toList());
+      throw Exception();
+      final result = await _convertRepository.generateVideo(_frames);
       emit(
         state.copyWith(
           videoPath: result.videoUrl,

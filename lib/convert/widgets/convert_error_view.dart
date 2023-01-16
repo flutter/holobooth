@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -26,7 +28,7 @@ class RetryVideoGenerationButton extends StatelessWidget {
     return GradientElevatedButton(
       child: const Text('Try again'),
       onPressed: () {
-        //context.read<ConvertBloc>().add( GenerateVideoRequested());
+        context.read<ConvertBloc>().add(GenerateVideoRequested(null));
       },
     );
   }
