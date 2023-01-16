@@ -57,7 +57,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ),
         Padding(

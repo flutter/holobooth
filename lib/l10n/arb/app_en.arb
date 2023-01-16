@@ -16,21 +16,9 @@
   "@animojiIntroPageSubheading": {
     "description": "Subheading shown on the animoji intro page."
   },
-  "footerMadeWithText": "Made with ",
-  "@footerMadeWithText": {
-    "description": "Text shown on the footer which mentions technologies used to build the app."
-  },
   "flutterForwardLinkFooterText": "Flutter Forward",
   "@flutterForwardLinkFooterText": {
     "description": "Text on the link shown on the footer which navigates to the Flutter Forward page"
-  },
-  "footerGoogleIOLinkText": "Google I∕O",
-  "@footerGoogleIOLinkText": {
-    "description": "Text on the link shown on the footer which navigates to the Google I∕O page."
-  },
-  "footerCodelabLinkText": "Codelab",
-  "@footerCodelabLinkText": {
-    "description": "Text on the link shown on the footer which navigates to the Codelab page."
   },
   "footerHowItsMadeLinkText": "How It's Made",
   "@footerHowItsMadeLinkText": {
@@ -48,30 +36,6 @@
   "@sharePageHeading": {
     "description": "Heading shown on the share page."
   },
-  "sharePageSubheading": "Share your photo with the community!",
-  "@sharePageSubheading": {
-    "description": "Subheading shown on the share page."
-  },
-  "sharePageSuccessHeading": "Photo Shared!",
-  "@sharePageSuccessHeading": {
-    "description": "Heading shown on the share page after successful share."
-  },
-  "sharePageSuccessSubheading": "Thanks for using our Flutter web app! Your photo has been published at this unique URL",
-  "@sharePageSuccessSubheading": {
-    "description": "Subheading shown on the share page after successful share."
-  },
-  "sharePageSuccessCaption1": "Your photo will be available at that URL for 30 days and then automatically deleted. To request early deletion of your photo, please contact ",
-  "@sharePageSuccessCaption1": {
-    "description": "First part of the caption shown at the bottom of the share page after successful share."
-  },
-  "sharePageSuccessCaption2": "flutter-photo-booth@google.com",
-  "@sharePageSuccessCaption2": {
-    "description": "Second part of the caption shown at the bottom of the share page after successful share."
-  },
-  "sharePageSuccessCaption3": " and be sure to include your unique URL in your request.",
-  "@sharePageSuccessCaption3": {
-    "description": "Third part of the caption shown at the bottom of the share page after successful share."
-  },
   "sharePageRetakeButtonText": "Retake",
   "@sharePageRetakeButtonText": {
     "description": "Button text shown on the share page which navigates back to the photo booth."
@@ -84,14 +48,6 @@
   "@sharePageDownloadButtonText": {
     "description": "Button text shown on the share page which downloads the taken photo."
   },
-  "socialMediaShareLinkText": "Just took a selfie at the #IOPhotoBooth. See you at #GoogleIO!",
-  "@socialMediaShareLinkText": {
-    "description": "Text that is put into the social media share URL link."
-  },
-  "previewPageCameraNotAllowedText": "You have denied camera permissions. Please grant access in order to use app.",
-  "@previewPageCameraNotAllowedText": {
-    "description": "Text shown when user denies camera permission"
-  },
   "sharePageSocialMediaShareClarification1": "If you choose to share your photo on social media, it will be available at a unique URL for 30 days and then automatically deleted. Photos that are not shared, are not stored. To request early deletion of your photo, please contact ",
   "@sharePageSocialMediaShareClarification1": {
     "description": "First part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
@@ -99,26 +55,6 @@
   "sharePageSocialMediaShareClarification2": "flutter-photo-booth@google.com",
   "@sharePageSocialMediaShareClarification2": {
     "description": "Second part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
-  },
-  "sharePageSocialMediaShareClarification3": " and be sure to include your unique URL in your request.",
-  "@sharePageSocialMediaShareClarification3": {
-    "description": "Third part of the text shown at the bottom of the share page that clarifies how photos are stored on the backend when shared on social medias"
-  },
-  "sharePageCopyLinkButton": "Copy",
-  "@sharePageCopyLinkButton": {
-    "description": "Title of the button used to copy the share link."
-  },
-  "sharePageLinkedCopiedButton": "Copied",
-  "@sharePageLinkedCopiedButton": {
-    "description": "Title of the button used to indicate that the link has been copied."
-  },
-  "sharePageErrorHeading": "We're having trouble processing your image",
-  "@sharePageErrorHeading": {
-    "description": "Heading shown on the share page when an error occurs."
-  },
-  "sharePageErrorSubheading": "Please make sure your device and browser are up to date. If this issue persists, please contact flutter-photo-booth@google.com.",
-  "@sharePageErrorSubheading": {
-    "description": "Subheading shown on the share page when an error occurs."
   },
   "shareDialogHeading": "Share your video!",
   "@shareDialogHeading": {
@@ -136,26 +72,6 @@
   "@shareDialogSubheading3": {
     "description": "Third Subheading part shown on the share dialog."
   },
-  "shareErrorDialogHeading": "Oops!",
-  "@shareErrorDialogHeading": {
-    "description": "Heading shown on the share error dialog."
-  },
-  "shareErrorDialogTryAgainButton": "Go back",
-  "@shareErrorDialogTryAgainButton": {
-    "description": "Title of the button displayed on the share error dialog used to retry the upload operation."
-  },
-  "shareErrorDialogSubheading": "Something went wrong and we couldn't load your photo.",
-  "@shareErrorDialogSubheading": {
-    "description": "Subheading shown on the share error dialog."
-  },
-  "sharePageProgressOverlayHeading": "We're making your photo pixel perfect with Flutter! ",
-  "@sharePageProgressOverlayHeading": {
-    "description": "Heading shown on the share page progress overlay."
-  },
-  "sharePageProgressOverlaySubheading": "Please do not close this tab.",
-  "@sharePageProgressOverlaySubheading": {
-    "description": "Subheading shown on the share page progress overlay."
-  },
   "shareDialogTwitterButtonText": "Twitter",
   "@shareDialogTwitterButtonText": {
     "description": "Button text shown on the share dialog which shares on Twitter the photo."
@@ -172,199 +88,37 @@
   "@cameraNotFoundMessage": {
     "description": "Text displayed when camera is not found."
   },
-  "stickersDrawerTitle": "Add Props",
-  "@stickersDrawerTitle": {
-    "description": "Text displayed on the stickers drawer as title"
-  },
-  "openStickersTooltip": "Add Props",
-  "@openStickersTooltip": {
-    "description": "Text displayed on the tooltip for the open stickers button"
-  },
-  "retakeButtonTooltip": "Retake",
-  "@retakeButtonTooltip": {
-    "description": "Text displayed on the tooltip for the retake button"
-  },
-  "clearStickersButtonTooltip": "Clear Props",
-  "@clearStickersButtonTooltip": {
-    "description": "Text displayed on the tooltip for the clear stickers button"
-  },
-  "charactersCaptionText": "Add Friends",
-  "@charactersCaptionText": {
-    "description": "Text displayed as a caption on the characters layout"
-  },
-  "sharePageLearnMoreAboutTextPart1": "Learn more about ",
+  "sharePageLearnMoreAboutTextPart1": "Learn ",
   "@sharePageLearnMoreAboutTextPart1": {
     "description": "Part 1 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart2": " and ",
+  "sharePageLearnMoreAboutTextLink1": "how we made it",
+  "@sharePageLearnMoreAboutTextLink1": {
+    "description": "First link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart2": " for ",
   "@sharePageLearnMoreAboutTextPart2": {
     "description": "Part 2 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart3": " or dive right into the ",
+  "sharePageLearnMoreAboutTextLink2": "Flutter Forward",
+  "@sharePageLearnMoreAboutTextLink2": {
+    "description": "Second link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart3": " and then dive right into the ",
   "@sharePageLearnMoreAboutTextPart3": {
     "description": "Part 3 text shown on the share page which mentions technologies used to build the app."
   },
-  "sharePageLearnMoreAboutTextPart4": "open source code",
+  "sharePageLearnMoreAboutTextLink3": "open source code",
+  "@sharePageLearnMoreAboutTextLink3": {
+    "description": "Third link text shown on the share page which mentions technologies used to build the app."
+  },
+  "sharePageLearnMoreAboutTextPart4": ".",
   "@sharePageLearnMoreAboutTextPart4": {
     "description": "Part 4 text shown on the share page which mentions technologies used to build the app."
-  },
-  "goToGoogleIOButtonText": "Go to Google I∕O",
-  "@goToGoogleIOButtonText": {
-    "description": "Text displayed on the button to navigate to Google I∕O"
-  },
-  "clearStickersDialogHeading": "Clear all props?",
-  "@clearStickersDialogHeading": {
-    "description": "Heading displayed on the clear stickers dialog"
-  },
-  "clearStickersDialogSubheading": "Do you want to remove all of the props from the screen?",
-  "@clearStickersDialogSubheading": {
-    "description": "Subheading displayed on the clear stickers dialog"
-  },
-  "clearStickersDialogCancelButtonText": "No, take me back",
-  "@clearStickersDialogCancelButtonText": {
-    "description": "Cancel button text displayed on the clear stickers dialog"
-  },
-  "clearStickersDialogConfirmButtonText": "Yes, clear all props",
-  "@clearStickersDialogConfirmButtonText": {
-    "description": "Confirm button text displayed on the clear stickers dialog"
-  },
-  "propsReminderText": "Add some props",
-  "@propsReminderText": {
-    "description": "Helper text to add props"
-  },
-  "stickersNextConfirmationHeading": "Ready to see the final photo?",
-  "@stickersNextConfirmationHeading": {
-    "description": "Heading shown in the confirmation when user taps the next button"
-  },
-  "stickersNextConfirmationSubheading": "Once you leave this screen you won't be able to make any changes",
-  "@stickersNextConfirmationSubheading": {
-    "description": "Subheading shown in the confirmation when user taps the next button"
-  },
-  "stickersNextConfirmationCancelButtonText": "No, I'm still creating",
-  "@stickersNextConfirmationCancelButtonText": {
-    "description": "Cancel button text shown in the confirmation when user taps the next button"
-  },
-  "stickersNextConfirmationConfirmButtonText": "Yes, show me",
-  "@stickersNextConfirmationConfirmButtonText": {
-    "description": "Confirm button text shown in the confirmation when user taps the next button"
-  },
-  "stickersRetakeConfirmationHeading": "Are you sure?",
-  "@stickersRetakeConfirmationHeading": {
-    "description": "Heading shown in the confirmation when user taps the retake button"
-  },
-  "stickersRetakeConfirmationSubheading": "Retaking the photo will remove any props you've added",
-  "@stickersRetakeConfirmationSubheading": {
-    "description": "Subheading shown in the confirmation when user taps the retake button"
-  },
-  "stickersRetakeConfirmationCancelButtonText": "No, stay here",
-  "@stickersRetakeConfirmationCancelButtonText": {
-    "description": "Cancel button text shown in the confirmation when user taps the retake button"
-  },
-  "stickersRetakeConfirmationConfirmButtonText": "Yes, retake photo",
-  "@stickersRetakeConfirmationConfirmButtonText": {
-    "description": "Confirm button text shown in the confirmation when user taps the retake button"
-  },
-  "shareRetakeConfirmationHeading": "Ready to take a new photo?",
-  "@shareRetakeConfirmationHeading": {
-    "description": "Heading shown in the confirmation when user taps the retake button"
-  },
-  "shareRetakeConfirmationSubheading": "Remember to download or share this one first",
-  "@shareRetakeConfirmationSubheading": {
-    "description": "Subheading shown in the confirmation when user taps the retake button"
-  },
-  "shareRetakeConfirmationCancelButtonText": "No, stay here",
-  "@shareRetakeConfirmationCancelButtonText": {
-    "description": "Cancel button text shown in the confirmation when user taps the retake button"
-  },
-  "shareRetakeConfirmationConfirmButtonText": "Yes, retake photo",
-  "@shareRetakeConfirmationConfirmButtonText": {
-    "description": "Confirm button text shown in the confirmation when user taps the retake button"
-  },
-  "shutterButtonLabelText": "Take photo",
-  "@shutterButtonLabelText": {
-    "description": "Semantic label for the shutter button used to take a photo"
-  },
-  "stickersNextButtonLabelText": "Create final photo",
-  "@stickersNextButtonLabelText": {
-    "description": "Semantic label for the next button used to proceed to the share page"
-  },
-  "dashButtonLabelText": "Add dash friend",
-  "@dashButtonLabelText": {
-    "description": "Semantic label for the dash character button"
-  },
-  "sparkyButtonLabelText": "Add sparky friend",
-  "@sparkyButtonLabelText": {
-    "description": "Semantic label for the sparky character button"
-  },
-  "dinoButtonLabelText": "Add dino friend",
-  "@dinoButtonLabelText": {
-    "description": "Semantic label for the dino character button"
-  },
-  "androidButtonLabelText": "Add android jetpack friend",
-  "@androidButtonLabelText": {
-    "description": "Semantic label for the android jetpack character button"
-  },
-  "addStickersButtonLabelText": "Add props",
-  "@addStickersButtonLabelText": {
-    "description": "Semantic label for the add props button"
-  },
-  "retakePhotoButtonLabelText": "Retake photo",
-  "@retakePhotoButtonLabelText": {
-    "description": "Semantic label for the retake photo button"
-  },
-  "clearAllStickersButtonLabelText": "Clear all props",
-  "@clearAllStickersButtonLabelText": {
-    "description": "Semantic label for the clear all stickers button"
-  },
-  "selectABackgroundTitleText": "Select a scene",
-  "@selectABackgroundTitleText": {
-    "description": "Title text displayed at top of select a background page"
-  },
-  "chooseYourCharacterTitleText": "Select your avatar",
-  "@chooseYourCharacterTitleText": {
-    "description": "Title text displayed at top of select a character page"
-  },
-  "youCanChangeThemLaterSubheading": "You can change them later",
-  "@youCanChangeThemLaterSubheading": {
-    "description": "Subheading text displayed at top of select a character page"
   },
   "nextButtonText": "Next",
   "@nextButtonText": {
     "description": "Text displayed on a next button."
-  },
-  "toThePhotoBoothButtonText": "To the photobooth!",
-  "@toThePhotoBoothButtonText": {
-    "description": "Text displayed on button to navigate to the camera after selecting a character"
-  },
-  "backgroundSelectorButton": "Background",
-  "@backgroundSelectorButton": {
-    "description": "Title text displayed on the background selection button and drawer on camera capture page",
-    "type": "text",
-    "placeholders": {}
-  },
-  "propsSelectorButton": "Props",
-  "@propsSelectorButton": {
-    "description": "Title text displayed on the props selection button and drawer on camera capture page",
-    "type": "text",
-    "placeholders": {}
-  },
-  "characterSelectorButton": "Friends",
-  "@characterSelectorButton": {
-    "description": "Title text displayed on the character selection button and drawer on camera capture page",
-    "type": "text",
-    "placeholders": {}
-  },
-  "takeANewPhotoButtonText": "Take a new photo",
-  "@takeANewPhotoButtonText": {
-    "description": "Text on the link shown on the footer which navigates to the MediaPipe page"
-  },
-  "flutterLinkText": "Flutter",
-  "@flutterLinkText": {
-    "description": "Text on the link which navigates to the Flutter page"
-  },
-  "firebaseLinkText": "Firebase",
-  "@firebaseLinkText": {
-    "description": "Text on the link which navigates to the Firebase page"
   },
   "charactersTabTitle": "Select a character:",
   "@charactersTabTitle": {
@@ -412,12 +166,16 @@
   "@getReady": {
     "description": "Text displayed before recording."
   },
-  "loadingFramesMessage": "Loading...",
-  "@loadingFramesMessage": {
-    "description": "Text displayed while loading frames."
-  },
   "faceNotDetected": "Face not detected",
   "@faceNotDetected": {
     "description": "Text displayed when there is no face detected."
+  },
+  "downloadOptionGif": "GIF Format",
+  "@downloadOptionGif": {
+    "description": "Text shown to download in gif format."
+  },
+  "downloadOptionVideo": "Video Format",
+  "@downloadOptionVideo": {
+    "description": "Text shown to download as a video."
   }
 }

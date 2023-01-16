@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photobooth_ui/photobooth_ui.dart';
 
 /// {@template gradient_frame}
 /// Wrap the [child] on frame with a [gradient].
@@ -45,17 +46,11 @@ class GradientFrame extends StatelessWidget {
       padding: EdgeInsets.all(borderWidth),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        gradient: gradient ??
-            const LinearGradient(
-              colors: <Color>[
-                Color(0xFF9E81EF),
-                Color(0xFF4100E0),
-              ],
-            ),
+        gradient: gradient ?? HoloBoothGradients.secondarySix,
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: backgroundColor ?? const Color(0xFF020320).withOpacity(0.95),
+          color: backgroundColor ?? HoloBoothColors.modalSurface,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: child,

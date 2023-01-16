@@ -44,7 +44,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
         children: [
           const Icon(
             Icons.error,
-            color: PhotoboothColors.red,
+            color: HoloBoothColors.red,
           ),
           const SizedBox(width: 12),
           Text(
@@ -52,7 +52,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ],
       ),

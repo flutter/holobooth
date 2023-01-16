@@ -9,7 +9,7 @@ Future<T?> showAppDialog<T>({
 }) =>
     showDialog<T>(
       context: context,
-      barrierColor: PhotoboothColors.charcoal,
+      barrierColor: HoloBoothColors.charcoal,
       barrierDismissible: barrierDismissible,
       builder: (context) => child,
     );

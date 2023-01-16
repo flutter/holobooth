@@ -25,7 +25,7 @@ class CharacterSelectionTabBarView extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ),
         Expanded(
@@ -65,19 +65,12 @@ class _CharacterSelectionElement extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected ? null : HoloBoothColors.darkBlue,
-        gradient: isSelected
-            ? const LinearGradient(
-                colors: [
-                  HoloBoothColors.gradientSecondaryOne,
-                  HoloBoothColors.gradientSecondaryTwo,
-                ],
-              )
-            : null,
+        gradient: isSelected ? HoloBoothGradients.secondarySix : null,
       ),
       child: DecoratedBox(
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: PhotoboothColors.transparent,
+          color: HoloBoothColors.transparent,
         ),
         child: Material(
           clipBehavior: Clip.hardEdge,

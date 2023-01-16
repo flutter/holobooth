@@ -23,7 +23,7 @@ class ShareButton extends StatelessWidget {
       },
       icon: const Icon(
         Icons.share,
-        color: PhotoboothColors.white,
+        color: HoloBoothColors.white,
       ),
       label: l10n.sharePageShareButtonText,
     );

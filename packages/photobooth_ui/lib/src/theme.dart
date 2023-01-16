@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
 
-// TODO(oscar): to be deleted, and replaced by new mobile theme
-const _smallTextScaleFactor = 1;
-
 /// Namespace for the Photobooth [ThemeData].
 class PhotoboothTheme {
   /// Standard `ThemeData` for Photobooth UI.
   static ThemeData get standard {
     return ThemeData(
-      colorScheme: ColorScheme.fromSwatch(accentColor: PhotoboothColors.blue),
+      colorScheme: ColorScheme.fromSwatch(accentColor: HoloBoothColors.blue),
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
+      textButtonTheme: _textButtonThemeData,
       textTheme: _textTheme,
-      dialogBackgroundColor: PhotoboothColors.whiteBackground,
+      dialogBackgroundColor: HoloBoothColors.whiteBackground,
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
       bottomSheetTheme: _bottomSheetTheme,
@@ -30,80 +28,52 @@ class PhotoboothTheme {
 
   /// `ThemeData` for Photobooth UI for medium screens.
   static ThemeData get medium {
-    return standard.copyWith(textTheme: _smallTextTheme);
+    return standard;
   }
 
   static TextTheme get _textTheme {
     return TextTheme(
-      displayLarge: PhotoboothTextStyle.displayLarge,
-      displayMedium: PhotoboothTextStyle.displayMedium,
-      displaySmall: PhotoboothTextStyle.displaySmall,
-      headlineMedium: PhotoboothTextStyle.headlineMedium,
-      headlineSmall: PhotoboothTextStyle.headlineSmall,
-      titleLarge: PhotoboothTextStyle.titleLarge,
-      titleMedium: PhotoboothTextStyle.titleMedium,
-      titleSmall: PhotoboothTextStyle.titleSmall,
-      bodyLarge: PhotoboothTextStyle.bodyLarge,
-      bodyMedium: PhotoboothTextStyle.bodyMedium,
-      bodySmall: PhotoboothTextStyle.bodySmall,
-      labelSmall: PhotoboothTextStyle.labelSmall,
-      labelLarge: PhotoboothTextStyle.labelLarge,
+      headlineLarge: PhotoboothDesktopTextStyle.headlineLarge,
+      headlineMedium: PhotoboothDesktopTextStyle.headlineMedium,
+      headlineSmall: PhotoboothDesktopTextStyle.headlineSmall,
+      titleSmall: PhotoboothDesktopTextStyle.titleSmall,
+      bodyLarge: PhotoboothDesktopTextStyle.bodyLarge,
+      bodyMedium: PhotoboothDesktopTextStyle.bodyMedium,
+      bodySmall: PhotoboothDesktopTextStyle.bodySmall,
+      labelLarge: PhotoboothDesktopTextStyle.labelLarge,
     );
   }
 
   static TextTheme get _smallTextTheme {
     return TextTheme(
-      displayLarge: PhotoboothTextStyle.displayLarge.copyWith(
-        fontSize: _textTheme.displayLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      displayMedium: PhotoboothTextStyle.displayMedium.copyWith(
-        fontSize: _textTheme.displayMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      displaySmall: PhotoboothTextStyle.displaySmall.copyWith(
-        fontSize: _textTheme.displaySmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      headlineMedium: PhotoboothTextStyle.headlineMedium.copyWith(
-        fontSize: _textTheme.headlineMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      headlineSmall: PhotoboothTextStyle.headlineSmall.copyWith(
-        fontSize: _textTheme.headlineSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleLarge: PhotoboothTextStyle.titleLarge.copyWith(
-        fontSize: _textTheme.titleLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleMedium: PhotoboothTextStyle.titleMedium.copyWith(
-        fontSize: _textTheme.titleMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      titleSmall: PhotoboothTextStyle.titleSmall.copyWith(
-        fontSize: _textTheme.titleSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodyLarge: PhotoboothTextStyle.bodyLarge.copyWith(
-        fontSize: _textTheme.bodyLarge!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodyMedium: PhotoboothTextStyle.bodyMedium.copyWith(
-        fontSize: _textTheme.bodyMedium!.fontSize! * _smallTextScaleFactor,
-      ),
-      bodySmall: PhotoboothTextStyle.bodySmall.copyWith(
-        fontSize: _textTheme.bodySmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      labelSmall: PhotoboothTextStyle.labelSmall.copyWith(
-        fontSize: _textTheme.labelSmall!.fontSize! * _smallTextScaleFactor,
-      ),
-      labelLarge: PhotoboothTextStyle.labelLarge.copyWith(
-        fontSize: _textTheme.labelLarge!.fontSize! * _smallTextScaleFactor,
-      ),
+      headlineLarge: PhotoboothMobileTextStyle.headlineLarge,
+      headlineMedium: PhotoboothMobileTextStyle.headlineMedium,
+      headlineSmall: PhotoboothMobileTextStyle.headlineSmall,
+      titleSmall: PhotoboothMobileTextStyle.titleSmall,
+      bodyLarge: PhotoboothMobileTextStyle.bodyLarge,
+      bodyMedium: PhotoboothMobileTextStyle.bodyMedium,
+      bodySmall: PhotoboothMobileTextStyle.bodySmall,
+      labelLarge: PhotoboothMobileTextStyle.labelLarge,
     );
   }
 
   static AppBarTheme get _appBarTheme {
-    return const AppBarTheme(color: PhotoboothColors.blue);
+    return const AppBarTheme(color: HoloBoothColors.blue);
+  }
+
+  static TextButtonThemeData get _textButtonThemeData {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: HoloBoothColors.white,
+      ),
+    );
   }
 
   static ElevatedButtonThemeData get _elevatedButtonTheme {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        backgroundColor: PhotoboothColors.blue,
+        backgroundColor: HoloBoothColors.blue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
@@ -116,11 +86,11 @@ class PhotoboothTheme {
   static OutlinedButtonThemeData get _outlinedButtonTheme {
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: PhotoboothColors.white,
+        foregroundColor: HoloBoothColors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        side: const BorderSide(color: PhotoboothColors.white, width: 2),
+        side: const BorderSide(color: HoloBoothColors.white, width: 2),
         padding: const EdgeInsets.symmetric(vertical: 16),
         minimumSize: const Size(208, 54),
       ),
@@ -130,11 +100,11 @@ class PhotoboothTheme {
   static TooltipThemeData get _tooltipTheme {
     return const TooltipThemeData(
       decoration: BoxDecoration(
-        color: PhotoboothColors.charcoal,
+        color: HoloBoothColors.charcoal,
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       padding: EdgeInsets.all(10),
-      textStyle: TextStyle(color: PhotoboothColors.white),
+      textStyle: TextStyle(color: HoloBoothColors.white),
     );
   }
 
@@ -148,7 +118,7 @@ class PhotoboothTheme {
 
   static BottomSheetThemeData get _bottomSheetTheme {
     return const BottomSheetThemeData(
-      backgroundColor: PhotoboothColors.whiteBackground,
+      backgroundColor: HoloBoothColors.whiteBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
@@ -159,20 +129,14 @@ class PhotoboothTheme {
     return TabBarTheme(
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(80),
-        gradient: LinearGradient(
-          colors: [
-            // TODO(oscar): use theming color once design is ready
-            const Color(0xFF9e81ef).withOpacity(1),
-            HoloBoothColors.purple,
-          ],
-        ),
+        gradient: HoloBoothGradients.secondarySix,
       ),
-      labelColor: PhotoboothColors.white,
+      labelColor: HoloBoothColors.white,
       unselectedLabelColor: HoloBoothColors.gray,
     );
   }
 
   static DividerThemeData get _dividerTheme {
-    return const DividerThemeData(color: PhotoboothColors.transparent);
+    return const DividerThemeData(color: HoloBoothColors.transparent);
   }
 }

@@ -56,7 +56,7 @@ class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation>
                 child: SizedBox.square(
                   dimension: widget.dimension,
                   child: const CircularProgressIndicator(
-                    color: Color(0xFFe196d8),
+                    color: HoloBoothColors.convertLoading,
                   ),
                 ),
               ),

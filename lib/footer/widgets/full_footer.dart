@@ -37,7 +37,7 @@ class FullFooter extends StatelessWidget {
               decoration: showIconsForSmall
                   ? null
                   : BoxDecoration(
-                      color: const Color(0xFF1D1D1D).withOpacity(0.5),
+                      color: HoloBoothColors.scrim,
                       borderRadius: BorderRadius.circular(16),
                     ),
               child: showIconsForSmall

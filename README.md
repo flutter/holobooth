@@ -22,7 +22,7 @@ A Photo Booth built with [Flutter][flutter_link] and [Firebase][firebase_link] f
 To run the desired project either use the launch configuration in VSCode/Android Studio or use the following commands:
 
 ```sh
-$ flutter run -d chrome
+$ flutter run -d chrome -t lib/main_dev.dart
 ```
 
 _\*I/O Photo Booth works on Web._

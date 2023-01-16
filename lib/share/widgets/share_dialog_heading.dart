@@ -15,7 +15,7 @@ class ShareDialogHeading extends StatelessWidget {
     return GradientText(
       text: l10n.shareDialogHeading,
       style:
-          small ? theme.textTheme.displayLarge : theme.textTheme.displaySmall,
+          small ? theme.textTheme.headlineLarge : theme.textTheme.headlineSmall,
       textAlign: small ? TextAlign.center : TextAlign.start,
     );
   }

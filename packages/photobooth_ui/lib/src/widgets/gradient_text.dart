@@ -12,10 +12,7 @@ class GradientText extends StatelessWidget {
     required this.text,
     this.style,
     this.textAlign,
-    this.gradientColors = const [
-      HoloBoothColors.gradientSecondaryFourStart,
-      HoloBoothColors.gradientSecondaryFourStop,
-    ],
+    this.gradient = HoloBoothGradients.secondaryFour,
   });
 
   /// The text.
@@ -27,8 +24,8 @@ class GradientText extends StatelessWidget {
   /// Optional text alignment.
   final TextAlign? textAlign;
 
-  /// Color for the gradient text.
-  final List<Color> gradientColors;
+  /// Gradient for the gradient text.
+  final Gradient gradient;
 
   static const _defaultTextStyle = TextStyle(color: Colors.white);
 
@@ -36,9 +33,7 @@ class GradientText extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       shaderCallback: (bounds) {
-        return LinearGradient(
-          colors: gradientColors,
-        ).createShader(Offset.zero & bounds.size);
+        return gradient.createShader(Offset.zero & bounds.size);
       },
       child: SelectableText(
         text,

@@ -20,7 +20,7 @@ class FooterLink extends StatelessWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: PhotoboothColors.white,
+              color: HoloBoothColors.white,
             ),
       ),
     );

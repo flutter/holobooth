@@ -44,7 +44,7 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8),
                     ),
-                    color: PhotoboothColors.black20,
+                    color: HoloBoothColors.black20,
                   ),
                   width: _bannerSize.width,
                   height: _bannerSize.height,
@@ -64,15 +64,21 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                           children: [
                             Text(
                               l10n.classicPhotoboothHeading,
-                              style: PhotoboothTextStyle.bodySmall.copyWith(
-                                color: PhotoboothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                             Text(
                               l10n.classicPhotoboothLabel,
-                              style: PhotoboothTextStyle.bodyLarge.copyWith(
-                                color: PhotoboothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                           ],
                         ),

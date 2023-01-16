@@ -48,7 +48,7 @@ describe('Share API', () => {
 
   test('Valid file name returns 200 and html', async () => {
     const req = Object.assign({}, baseReq, {
-      path: 'test.png',
+      path: 'test.mp4',
     });
     const res = await getShareResponse(req);
     expect(res.status).toEqual(200);

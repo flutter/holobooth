@@ -18,7 +18,7 @@ enum Character {
   Color toBackgroundColor() {
     switch (this) {
       case Character.dash:
-        return PhotoboothColors.blue;
+        return HoloBoothColors.blue;
       case Character.sparky:
         return HoloBoothColors.sparkyColor;
     }

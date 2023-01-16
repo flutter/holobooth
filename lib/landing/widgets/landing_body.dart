@@ -92,15 +92,15 @@ class _LandingBodyContent extends StatelessWidget {
         const SizedBox(height: 32),
         GradientText(
           text: l10n.landingPageHeading,
-          style: theme.textTheme.displayLarge,
+          style: theme.textTheme.headlineLarge,
           textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),
         const SizedBox(height: 16),
         SelectableText(
           l10n.landingPageSubheading,
           key: const Key('landingPage_subheading_text'),
-          style: theme.textTheme.displaySmall!.copyWith(
-            color: PhotoboothColors.white,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: HoloBoothColors.white,
           ),
           textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),

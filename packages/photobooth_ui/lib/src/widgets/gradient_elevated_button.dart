@@ -26,12 +26,7 @@ class GradientElevatedButton extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(50)),
-        gradient: const LinearGradient(
-          colors: [
-            HoloBoothColors.purple,
-            HoloBoothColors.gradientSecondaryFourStart,
-          ],
-        ),
+        gradient: HoloBoothGradients.button,
         boxShadow: [
           BoxShadow(
             color: HoloBoothColors.lightPurple.withOpacity(.24),

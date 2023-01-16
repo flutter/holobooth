@@ -1,21 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-/// Defines the color palette for the Photobooth UI.
-abstract class PhotoboothColors {
+/// Defines the color palette for the Holobooth UI.
+abstract class HoloBoothColors {
   /// Black
   static const Color black = Color(0xFF202124);
 
-  /// Black 54% opacity
-  static const Color black54 = Color(0x8A000000);
-
-  /// Black 25% opacity
-  static const Color black25 = Color(0x40202124);
-
   /// Black 20% opacity
   static const Color black20 = Color(0x40202124);
-
-  /// Gray
-  static const Color gray = Color(0xFFCFCFCF);
 
   /// White
   static const Color white = Color(0xFFFFFFFF);
@@ -32,9 +23,6 @@ abstract class PhotoboothColors {
   /// Red
   static const Color red = Color(0xFFFB5246);
 
-  /// Green
-  static const Color green = Color(0xFF3fBC5C);
-
   /// Orange
   static const Color orange = Color(0xFFFFBB00);
 
@@ -42,16 +30,13 @@ abstract class PhotoboothColors {
   static const Color charcoal = Color(0xBF202124);
 
   /// Purple
-  static const Color purple = Color(0xFFBB42F4);
-}
-
-/// Defines the color palette for the Holobooth UI.
-abstract class HoloBoothColors {
-  /// Purple
   static const Color purple = Color(0xFF4100E0);
 
   /// Light purple
   static const Color lightPurple = Color(0xFF9455D9);
+
+  /// Lighter purple
+  static const Color lighterPurple = Color(0xFF9E81EF);
 
   /// Dark purple
   static const Color darkPurple = Color(0xFF20225A);
@@ -68,27 +53,132 @@ abstract class HoloBoothColors {
   /// Light grey
   static const Color lightGrey = Color(0xffC0C0C0);
 
-  /// First color of gradient secondary
-  static const Color gradientSecondaryOne = Color(0xffF9F8C4);
-
-  /// Second color of gradient secondary
-  static const Color gradientSecondaryTwo = Color(0xff27F5DD);
-
   /// Color for prop tab
   static const Color propTabSelection = Color(0xffB7F7CC);
 
-  /// Color for secondary two start
-  static const Color secondaryTwoStart = Color(0xff9E81EF);
+  /// Color for convert loading animation.
+  static const Color convertLoading = Color(0xFFe196d8);
 
-  /// Color for gradient secondary four start.
-  static const Color gradientSecondaryFourStart = Color(0xffF8BBD0);
+  /// Color used as the background of the avatar animation.
+  static const Color holoboothAvatarBackground = Color(0xFF030524);
 
-  /// Color for gradient secondary four stop.
-  static const Color gradientSecondaryFourStop = Color(0xff9E81EF);
+  /// Color used for modal surfaces.
+  static const Color modalSurface = Color(0xF2020320);
 
-  /// Color for gradient secondary three start.
-  static const Color gradientSecondaryThreeStart = Color(0xffF9F7C9);
+  /// Background color
+  static const Color background = Color(0xFF12152B);
 
-  /// Color for gradient secondary three stop.
-  static const Color gradientSecondaryThreeStop = Color(0xff9E81EF);
+  /// Transparent scrim color
+  static const Color scrim = Color(0x8513162C);
+}
+
+/// Defines the gradients for the Holobooth UI.
+class HoloBoothGradients {
+  /// Primary One gradient
+  static const Gradient primaryOne = LinearGradient(
+    colors: <Color>[
+      HoloBoothColors.purple,
+      _gradientPink,
+    ],
+  );
+
+  /// Primary Two gradient
+  static const Gradient primaryTwo = LinearGradient(
+    colors: <Color>[
+      _gradientLightBlue,
+      _gradientTeal,
+    ],
+  );
+
+  /// Primary Three gradient
+  static const Gradient primaryThree = LinearGradient(
+    colors: <Color>[
+      _gradientLightBlue,
+      HoloBoothColors.purple,
+    ],
+  );
+
+  /// Secondary One gradient
+  static const Gradient secondaryOne = LinearGradient(
+    colors: <Color>[
+      _gradientYellow,
+      _gradientTeal,
+    ],
+  );
+
+  /// Secondary Two gradient
+  static const Gradient secondaryTwo = LinearGradient(
+    colors: <Color>[
+      HoloBoothColors.lighterPurple,
+      Color(0xFF52B8F7),
+    ],
+  );
+
+  /// Secondary Three gradient
+  static const Gradient secondaryThree = LinearGradient(
+    colors: <Color>[
+      _gradientYellow,
+      HoloBoothColors.lighterPurple,
+    ],
+  );
+
+  /// Secondary Four gradient
+  static const Gradient secondaryFour = LinearGradient(
+    colors: <Color>[
+      _gradientPink,
+      HoloBoothColors.lighterPurple,
+    ],
+  );
+
+  /// Secondary Five gradient
+  static const Gradient secondaryFive = LinearGradient(
+    colors: <Color>[
+      _gradientTeal,
+      HoloBoothColors.lighterPurple,
+    ],
+  );
+
+  /// Secondary Six gradient
+  static const Gradient secondarySix = LinearGradient(
+    colors: <Color>[
+      HoloBoothColors.lighterPurple,
+      HoloBoothColors.purple,
+    ],
+  );
+
+  /// Props gradient
+  static const Gradient props = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: <Color>[
+      Color(0xFF2C2C2C),
+      Color(0xFF868686),
+    ],
+  );
+
+  /// Button gradient
+  static const Gradient button = LinearGradient(
+    colors: <Color>[
+      HoloBoothColors.purple,
+      _gradientPink,
+    ],
+  );
+
+  /// Button Border gradient
+  static const Gradient buttonBorder = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomCenter,
+    colors: <Color>[
+      _gradientPink,
+      HoloBoothColors.purple,
+    ],
+  );
+
+  static const _gradientPink = Color(0xFFF8BBD0);
+
+  static const _gradientLightBlue = Color(0xFF027DFD);
+
+  static const _gradientTeal = Color(0xFF27F5DD);
+
+  static const _gradientYellow = Color(0xffF9F8C4);
 }
