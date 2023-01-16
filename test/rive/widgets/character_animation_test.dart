@@ -41,6 +41,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -123,6 +124,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -190,6 +192,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -252,6 +255,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -346,6 +350,7 @@ void main() {
                   stateSetter = setState;
                   return CharacterAnimation(
                     avatar: avatar,
+                    enabled: true,
                     hat: Hats.none,
                     glasses: Glasses.none,
                     clothes: Clothes.none,
@@ -413,6 +418,7 @@ void main() {
                   stateSetter = setState;
                   return CharacterAnimation(
                     avatar: avatar,
+                    enabled: true,
                     hat: Hats.none,
                     glasses: Glasses.none,
                     clothes: Clothes.none,
@@ -516,6 +522,7 @@ void main() {
                   stateSetter = setState;
                   return CharacterAnimation(
                     avatar: avatar,
+                    enabled: true,
                     hat: Hats.none,
                     glasses: Glasses.none,
                     clothes: Clothes.none,
@@ -582,6 +589,7 @@ void main() {
                   stateSetter = setState;
                   return CharacterAnimation(
                     avatar: avatar,
+                    enabled: true,
                     hat: Hats.none,
                     glasses: Glasses.none,
                     clothes: Clothes.none,
@@ -664,6 +672,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -725,6 +734,7 @@ void main() {
                 stateSetter = setState;
                 return CharacterAnimation(
                   avatar: avatar,
+                  enabled: true,
                   hat: Hats.none,
                   glasses: Glasses.none,
                   clothes: Clothes.none,
@@ -777,6 +787,7 @@ void main() {
               stateSetter = setState;
               return CharacterAnimation(
                 avatar: Avatar.zero,
+                enabled: true,
                 hat: hat,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
@@ -814,6 +825,7 @@ void main() {
               stateSetter = setState;
               return CharacterAnimation(
                 avatar: Avatar.zero,
+                enabled: true,
                 hat: Hats.none,
                 glasses: glasses,
                 clothes: Clothes.none,
@@ -851,6 +863,7 @@ void main() {
               stateSetter = setState;
               return CharacterAnimation(
                 avatar: Avatar.zero,
+                enabled: true,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: clothes,
@@ -888,6 +901,7 @@ void main() {
               stateSetter = setState;
               return CharacterAnimation(
                 avatar: Avatar.zero,
+                enabled: true,
                 hat: Hats.none,
                 glasses: Glasses.none,
                 clothes: Clothes.none,
