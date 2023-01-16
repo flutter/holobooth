@@ -2,9 +2,9 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/rive/rive.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
 
 class _MockLeftEyeGeometry extends Mock implements LeftEyeGeometry {}

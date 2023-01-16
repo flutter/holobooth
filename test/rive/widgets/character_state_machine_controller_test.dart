@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/rive/rive.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:rive/rive.dart';
 
 class _FakeSMINumber extends Fake implements SMINumber {

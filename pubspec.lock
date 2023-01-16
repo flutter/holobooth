@@ -426,6 +426,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  holobooth_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/holobooth_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   html:
     dependency: transitive
     description:
@@ -689,13 +696,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
-  photobooth_ui:
-    dependency: "direct main"
-    description:
-      path: "packages/photobooth_ui"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:

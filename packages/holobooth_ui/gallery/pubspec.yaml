@@ -1,0 +1,26 @@
+name: gallery
+description: UI gallery for the photoboth ui.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.0-374.1.beta <3.0.0'
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  dashbook: ^0.1.11
+  flutter:
+    sdk: flutter
+  holobooth_ui:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  very_good_analysis: ^3.1.0
+
+flutter:
+  uses-material-design: true

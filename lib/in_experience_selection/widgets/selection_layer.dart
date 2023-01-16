@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 const _collapseButtonHeight = 50.0;
 const _collapseButtonWidth = 100.0;
@@ -14,7 +14,7 @@ class SelectionLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     // Can not use LayoutBuilder because it takes whole space on Stack
     final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth <= PhotoboothBreakpoints.small) {
+    if (screenWidth <= HoloboothBreakpoints.small) {
       return const MobileSelectionLayer();
     }
     return const DesktopSelectionLayer();

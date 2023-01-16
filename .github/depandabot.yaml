@@ -38,7 +38,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/packages/photobooth_ui"
+    directory: "/packages/holobooth_ui"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
@@ -46,7 +46,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"
-    directory: "/packages/photobooth_ui"
+    directory: "/packages/holobooth_ui"
     schedule:
       interval: "daily"
   - package-ecosystem: "pub"

@@ -1,10 +1,3 @@
-// Copyright (c) 2022, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:tensorflow_models/tensorflow_models.dart';
@@ -30,6 +23,7 @@ class AvatarDetectorRepository {
   Future<void> preloadLandmarksModel() async {
     try {
       _faceLandmarksDetector = await TensorFlowFaceLandmarks.load();
+      _faceGeometry = null;
     } catch (error) {
       throw PreloadLandmarksModelException(error.toString());
     }

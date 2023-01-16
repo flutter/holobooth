@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PlayButton extends StatelessWidget {
   const PlayButton({super.key});
