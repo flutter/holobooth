@@ -233,7 +233,7 @@ void main() {
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
-        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.detected] '
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.warming] '
         'if detectAvatar returns null.',
         setUp: () {
           when(
@@ -257,6 +257,66 @@ void main() {
             'status',
             equals(AvatarDetectorStatus.loaded),
           ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.estimating),
+          ),
+          isInstanceOf<AvatarDetectorState>()
+              .having(
+                (state) => state.status,
+                'status',
+                equals(AvatarDetectorStatus.warming),
+              )
+              .having(
+                (state) => state.avatar,
+                'avatar',
+                equals(avatar),
+              ),
+        ],
+      );
+
+      blocTest<AvatarDetectorBloc, AvatarDetectorState>(
+        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.warming, '
+        'AvatarDetectorStatus.detected] if detectAvatar returns null.',
+        setUp: () {
+          when(
+            () => avatarDetectorRepository.detectAvatar(any()),
+          ).thenAnswer((_) async => avatar);
+        },
+        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        act: (bloc) async {
+          bloc.add(AvatarDetectorInitialized());
+
+          for (var i = 0; i <= AvatarDetectorBloc.warmingUpImages; i++) {
+            await Future<void>.delayed(Duration.zero);
+            bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+          }
+        },
+        expect: () => [
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loading),
+          ),
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.loaded),
+          ),
+          for (var i = 0; i < AvatarDetectorBloc.warmingUpImages; i++) ...[
+            isInstanceOf<AvatarDetectorState>().having(
+              (state) => state.status,
+              'status',
+              equals(AvatarDetectorStatus.estimating),
+            ),
+            isInstanceOf<AvatarDetectorState>().having(
+              (state) => state.status,
+              'status',
+              equals(AvatarDetectorStatus.warming),
+            ),
+          ],
           isInstanceOf<AvatarDetectorState>().having(
             (state) => state.status,
             'status',
