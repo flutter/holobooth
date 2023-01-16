@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/animoji_intro/animoji_intro.dart';
+import 'package:io_photobooth/camera/widgets/widgets.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
 import 'package:photobooth_ui/photobooth_ui.dart';
@@ -26,6 +27,7 @@ class AnimojiIntroView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        Align(child: CameraView(onCameraReady: (_) => {})),
         const Positioned.fill(child: AnimojiIntroBackground()),
         Positioned.fill(
           child: Column(
