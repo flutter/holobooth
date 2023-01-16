@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class CharacterStateMachineController extends StateMachineController {
@@ -102,15 +103,25 @@ class CharacterStateMachineController extends StateMachineController {
     }
   }
 
+  @visibleForTesting
   static const xInputName = 'x';
+  @visibleForTesting
   static const yInputName = 'y';
+  @visibleForTesting
   static const zInputName = 'z';
+  @visibleForTesting
   static const mouthDistanceInputName = 'Mouth Open';
+  @visibleForTesting
   static const leftEyeInputName = 'Eyelid LF';
+  @visibleForTesting
   static const rightEyeInputName = 'Eyelid RT';
+  @visibleForTesting
   static const hatsInputName = 'Hats';
+  @visibleForTesting
   static const glassesInputName = 'Glasses';
+  @visibleForTesting
   static const clothesInputName = 'Clothes';
+  @visibleForTesting
   static const handheldLeftInputName = 'HandheldLeft';
 
   late final SMINumber x;
