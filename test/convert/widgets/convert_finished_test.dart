@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,14 +23,11 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     late AudioPlayer audioPlayer;
     late ConvertBloc convertBloc;
+    late Uint8List? bytes;
 
-    setUp(() {
+    setUp(() async {
       convertBloc = _MockConvertBloc();
-      when(() => convertBloc.state).thenReturn(
-        ConvertState(
-          firstFrameProcessed: Uint8List.fromList(transparentImage),
-        ),
-      );
+
       audioPlayer = _MockAudioPlayer();
       when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
       when(() => audioPlayer.play()).thenAnswer((_) async {});
@@ -45,13 +44,19 @@ void main() {
       );
 
       AudioPlayerMixin.audioPlayerOverride = audioPlayer;
-
       const MethodChannel('com.ryanheise.audio_session')
           .setMockMethodCallHandler((call) async {
         if (call.method == 'getConfiguration') {
           return {};
         }
       });
+
+      final image = await createTestImage(height: 10, width: 10);
+      final bytesImage = await image.toByteData(format: ImageByteFormat.png);
+      bytes = bytesImage?.buffer.asUint8List();
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(firstFrameProcessed: bytes),
+      );
     });
 
     tearDown(() {
