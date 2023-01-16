@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/footer/footer.dart';
 
 class SimplifiedFooter extends StatelessWidget {
   const SimplifiedFooter({super.key});

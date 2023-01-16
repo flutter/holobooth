@@ -1,11 +1,11 @@
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class ConvertPage extends StatelessWidget {

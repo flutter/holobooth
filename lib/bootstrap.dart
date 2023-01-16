@@ -11,10 +11,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/app/app.dart';
-import 'package:io_photobooth/app/app_bloc_observer.dart';
-import 'package:io_photobooth/landing/loading_indicator_io.dart'
-    if (dart.library.html) 'package:io_photobooth/landing/loading_indicator_web.dart';
+import 'package:holobooth/app/app.dart';
+import 'package:holobooth/app/app_bloc_observer.dart';
+import 'package:holobooth/landing/loading_indicator_io.dart'
+    if (dart.library.html) 'package:holobooth/landing/loading_indicator_web.dart';
 
 Future<void> bootstrap({
   required String convertUrl,

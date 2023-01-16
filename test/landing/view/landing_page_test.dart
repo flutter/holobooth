@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/animoji_intro/view/animoji_intro_page.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/animoji_intro/view/animoji_intro_page.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/landing/landing.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 

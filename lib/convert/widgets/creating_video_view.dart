@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/convert/convert.dart';
+import 'package:holobooth/convert/convert.dart';
 
 class CreatingVideoView extends StatelessWidget {
   const CreatingVideoView({super.key});

@@ -3,9 +3,9 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/landing/landing.dart';
 
 class App extends StatelessWidget {
   const App({

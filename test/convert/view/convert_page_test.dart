@@ -6,8 +6,8 @@ import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/convert/convert.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 

@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/share/bloc/share_bloc.dart';
+import 'package:holobooth/share/bloc/share_bloc.dart';
 
 void main() {
   group('ShareBloc', () {

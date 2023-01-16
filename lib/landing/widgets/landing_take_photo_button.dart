@@ -1,10 +1,10 @@
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:holobooth/animoji_intro/view/animoji_intro_page.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:io_photobooth/animoji_intro/view/animoji_intro_page.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 
 class LandingTakePhotoButton extends StatefulWidget {
   const LandingTakePhotoButton({super.key});
