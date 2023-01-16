@@ -13,7 +13,9 @@
         "-d",
         "chrome",
         "--web-renderer",
-        "canvaskit"
+        "canvaskit",
+        "--dart-define",
+        "SHARING_ENABLED=true"
       ]
     },
     {

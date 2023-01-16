@@ -26,7 +26,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         onPressed: () {
           showDialog<void>(
             context: context,
-            barrierColor: Colors.transparent,
+            barrierColor: HoloBoothColors.transparent,
             builder: (context) => DownloadOptionDialog(layerLink: layerLink),
           );
         },
