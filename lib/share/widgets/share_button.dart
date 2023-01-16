@@ -18,7 +18,6 @@ class ShareButton extends StatelessWidget {
           context: context,
           child: MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: context.read<ShareBloc>()),
               BlocProvider.value(value: context.read<ConvertBloc>()),
             ],
             child: const ShareDialog(),

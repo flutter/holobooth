@@ -13,9 +13,6 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
-
 class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
     implements ConvertBloc {}
 
@@ -48,15 +45,15 @@ void main() {
   });
 
   group('ShareView', () {
-    late ShareBloc shareBloc;
     late UrlLauncherPlatform mock;
+    late ConvertBloc convertBloc;
 
     setUp(() {
       mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
-      shareBloc = _MockShareBloc();
+      convertBloc = _MockConvertBloc();
 
-      when(() => shareBloc.state).thenReturn(ShareState());
+      when(() => convertBloc.state).thenReturn(ConvertState());
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
         () => mock.launchUrl(any(), any()),
@@ -70,7 +67,7 @@ void main() {
     testWidgets('renders ShareBackground', (tester) async {
       await tester.pumpSubject(
         ShareView(),
-        shareBloc,
+        convertBloc,
       );
       expect(find.byType(ShareBackground), findsOneWidget);
     });
@@ -78,109 +75,15 @@ void main() {
     testWidgets('contains a ShareBody', (tester) async {
       await tester.pumpSubject(
         ShareView(),
-        shareBloc,
+        convertBloc,
       );
       expect(find.byType(ShareBody), findsOneWidget);
-    });
-
-    testWidgets('opens the correct twitter url when ShareStatus is successful',
-        (tester) async {
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([
-          ShareState(),
-          ShareState(
-            shareUrl: ShareUrl.twitter,
-            shareStatus: ShareStatus.success,
-            twitterShareUrl: 'http://twitter.com',
-          )
-        ]),
-      );
-      await tester.pumpSubject(
-        ShareView(),
-        shareBloc,
-      );
-      await tester.pumpAndSettle();
-      verify(
-        () => mock.launchUrl('http://twitter.com', any()),
-      ).called(1);
-    });
-
-    testWidgets('opens the correct facebook url when ShareStatus is successful',
-        (tester) async {
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([
-          ShareState(),
-          ShareState(
-            shareUrl: ShareUrl.facebook,
-            shareStatus: ShareStatus.success,
-            facebookShareUrl: 'http://facebook.com',
-          )
-        ]),
-      );
-      await tester.pumpSubject(
-        ShareView(),
-        shareBloc,
-      );
-      await tester.pumpAndSettle();
-      verify(
-        () => mock.launchUrl('http://facebook.com', any()),
-      ).called(1);
-    });
-
-    testWidgets('opens the explicit share url when ShareStatus is successful',
-        (tester) async {
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([
-          ShareState(),
-          ShareState(
-            shareStatus: ShareStatus.success,
-            explicitShareUrl: 'http://google.com',
-          )
-        ]),
-      );
-      await tester.pumpSubject(
-        ShareView(),
-        shareBloc,
-      );
-      await tester.pumpAndSettle();
-      verify(
-        () => mock.launchUrl('http://google.com', any()),
-      ).called(1);
-    });
-
-    testWidgets('opens the correct url when a different button is pressed',
-        (tester) async {
-      whenListen(
-        shareBloc,
-        Stream.fromIterable([
-          ShareState(
-            shareUrl: ShareUrl.facebook,
-            shareStatus: ShareStatus.success,
-          ),
-          ShareState(
-            shareUrl: ShareUrl.twitter,
-            shareStatus: ShareStatus.success,
-            twitterShareUrl: 'http://twitter.com',
-          )
-        ]),
-      );
-      await tester.pumpSubject(
-        ShareView(),
-        shareBloc,
-      );
-      await tester.pumpAndSettle();
-      verify(
-        () => mock.launchUrl('http://twitter.com', any()),
-      ).called(1);
     });
   });
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(ShareView subject, ShareBloc bloc) => pumpApp(
+  Future<void> pumpSubject(ShareView subject, ConvertBloc bloc) => pumpApp(
         BlocProvider.value(
           value: bloc,
           child: subject,
