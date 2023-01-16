@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:io_photobooth/share/share.dart';
 
 class VideoDialog extends StatefulWidget {
   const VideoDialog({super.key, required this.videoPath});

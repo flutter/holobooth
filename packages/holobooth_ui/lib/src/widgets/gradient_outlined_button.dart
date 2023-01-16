@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
 
 /// {@template gradient_outlined_button}
 /// A widget that uses a [Stack] to construct an [OutlinedButton.icon]

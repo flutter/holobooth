@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/external_links/external_links.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 
 const _bannerSize = Size(170, 72);
 

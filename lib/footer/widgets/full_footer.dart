@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/footer/footer.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:io_photobooth/footer/footer.dart';
 
 class FullFooter extends StatelessWidget {
   const FullFooter({

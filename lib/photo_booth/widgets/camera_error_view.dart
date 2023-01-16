@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:io_photobooth/l10n/l10n.dart';
 
 class CameraErrorView extends StatelessWidget {
   const CameraErrorView({super.key, required this.error});

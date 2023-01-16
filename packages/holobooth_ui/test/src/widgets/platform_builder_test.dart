@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/platform_helper.dart';
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
 import 'package:io_photobooth/share/share.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareButton extends StatelessWidget {
   const ShareButton({super.key});

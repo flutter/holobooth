@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:io_photobooth/animoji_intro/animoji_intro.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroPage extends StatelessWidget {
   const AnimojiIntroPage({super.key});
