@@ -12,12 +12,12 @@ class SocialMediaShareClarificationNote extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final small =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         style: theme.textTheme.bodySmall?.copyWith(
           color: HoloBoothColors.lightGrey,
-          fontWeight: PhotoboothFontWeight.regular,
+          fontWeight: HoloboothFontWeight.regular,
         ),
         children: <TextSpan>[
           TextSpan(

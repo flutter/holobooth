@@ -13,7 +13,7 @@ class ShareDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return HoloBoothAlertDialog(
       height: isSmall ? _smallShareDialogHeight : largeShareDialogHeight,
       width: isSmall ? _smallShareDialogWidth : _largeShareDialogWidth,

@@ -14,7 +14,7 @@ class SelectionLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     // Can not use LayoutBuilder because it takes whole space on Stack
     final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth <= PhotoboothBreakpoints.small) {
+    if (screenWidth <= HoloboothBreakpoints.small) {
       return const MobileSelectionLayer();
     }
     return const DesktopSelectionLayer();

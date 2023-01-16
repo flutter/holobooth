@@ -4,7 +4,7 @@ import 'package:gallery/stories/stories.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 void main() {
-  final dashbook = Dashbook(theme: PhotoboothTheme.standard);
+  final dashbook = Dashbook(theme: HoloboothTheme.standard);
 
   addGradientButtonStories(dashbook);
   addGradientTextStory(dashbook);

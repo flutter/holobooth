@@ -60,7 +60,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
   @override
   Widget build(BuildContext context) {
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

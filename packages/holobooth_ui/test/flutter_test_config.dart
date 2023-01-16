@@ -9,7 +9,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       !Platform.environment.containsKey('GITHUB_ACTIONS');
   return AlchemistConfig.runWithConfig(
     config: AlchemistConfig(
-      theme: PhotoboothTheme.standard,
+      theme: HoloboothTheme.standard,
       platformGoldensConfig:
           AlchemistConfig.current().platformGoldensConfig.copyWith(
                 enabled: enablePlatformTests,

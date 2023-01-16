@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-extension PhotoboothWidgetTester on WidgetTester {
+extension HoloboothWidgetTester on WidgetTester {
   void setDisplaySize(Size size) {
     binding.window.physicalSizeTestValue = size;
     binding.window.devicePixelRatioTestValue = 1.0;
@@ -13,10 +13,10 @@ extension PhotoboothWidgetTester on WidgetTester {
   }
 
   void setLandscapeDisplaySize() {
-    setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
+    setDisplaySize(const Size(HoloboothBreakpoints.large, 1000));
   }
 
   void setPortraitDisplaySize() {
-    setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+    setDisplaySize(const Size(HoloboothBreakpoints.small, 1000));
   }
 }

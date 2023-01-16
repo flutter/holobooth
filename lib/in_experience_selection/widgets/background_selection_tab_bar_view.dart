@@ -19,7 +19,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
     final l10n = context.l10n;
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

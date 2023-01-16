@@ -12,12 +12,12 @@ class ShareSubheading extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final isSmallScreen =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
         style: theme.textTheme.bodyLarge?.copyWith(
-          fontWeight: PhotoboothFontWeight.regular,
+          fontWeight: HoloboothFontWeight.regular,
           color: HoloBoothColors.white,
         ),
         children: <TextSpan>[

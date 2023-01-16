@@ -74,7 +74,7 @@ void main() {
     });
 
     testWidgets('renders image on small screens', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 1000));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.small, 1000));
       await tester.pumpApp(const LandingView());
       expect(find.byKey(LandingBody.landingPageImageKey), findsOneWidget);
     });

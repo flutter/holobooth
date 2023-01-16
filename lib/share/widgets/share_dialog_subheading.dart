@@ -10,7 +10,7 @@ class ShareDialogSubheading extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final small =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         style:

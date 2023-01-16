@@ -16,10 +16,10 @@ extension PhotoboothWidgetTester on WidgetTester {
   }
 
   void setLargeDisplaySize() {
-    setDisplaySize(const Size(PhotoboothBreakpoints.large, 1000));
+    setDisplaySize(const Size(HoloboothBreakpoints.large, 1000));
   }
 
   void setSmallDisplaySize() {
-    setDisplaySize(const Size(PhotoboothBreakpoints.small - 1, 1000));
+    setDisplaySize(const Size(HoloboothBreakpoints.small - 1, 1000));
   }
 }

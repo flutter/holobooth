@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-/// Photobooth text style definitions for larger devices.
-class PhotoboothDesktopTextStyle {
+/// Holobooth text style definitions for larger devices.
+class HoloboothDesktopTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'holobooth_ui',
     fontFamily: 'GoogleSans',
     color: HoloBoothColors.black,
-    fontWeight: PhotoboothFontWeight.regular,
+    fontWeight: HoloboothFontWeight.regular,
   );
 
   /// Headline large text style
@@ -15,7 +15,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 64,
       height: 1.25,
-      fontWeight: PhotoboothFontWeight.bold,
+      fontWeight: HoloboothFontWeight.bold,
     );
   }
 
@@ -24,7 +24,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 54,
       height: 16 / 13,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -33,7 +33,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 32,
       height: 1.25,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -42,7 +42,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 24,
       height: 4 / 3,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -51,7 +51,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 18,
       height: 4 / 3,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -60,7 +60,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 14,
       height: 10 / 7,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -69,7 +69,7 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 12,
       height: 5 / 3,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -78,18 +78,18 @@ class PhotoboothDesktopTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 20,
       height: 1.4,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 }
 
-/// Photobooth text style definitions for small devices.
-class PhotoboothMobileTextStyle {
+/// Holobooth text style definitions for small devices.
+class HoloboothMobileTextStyle {
   static const _baseTextStyle = TextStyle(
     package: 'holobooth_ui',
     fontFamily: 'GoogleSans',
     color: HoloBoothColors.black,
-    fontWeight: PhotoboothFontWeight.regular,
+    fontWeight: HoloboothFontWeight.regular,
   );
 
   /// Headline large text style
@@ -97,7 +97,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 34,
       height: 22 / 17,
-      fontWeight: PhotoboothFontWeight.bold,
+      fontWeight: HoloboothFontWeight.bold,
     );
   }
 
@@ -106,7 +106,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 34,
       height: 1,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -115,7 +115,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 24,
       height: 4 / 3,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -124,7 +124,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 18,
       height: 4 / 3,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 
@@ -133,7 +133,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 16,
       height: 1.5,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -142,7 +142,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 12,
       height: 5 / 3,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -151,7 +151,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 12,
       height: 5 / 3,
-      fontWeight: PhotoboothFontWeight.regular,
+      fontWeight: HoloboothFontWeight.regular,
     );
   }
 
@@ -160,7 +160,7 @@ class PhotoboothMobileTextStyle {
     return _baseTextStyle.copyWith(
       fontSize: 18,
       height: 14 / 9,
-      fontWeight: PhotoboothFontWeight.medium,
+      fontWeight: HoloboothFontWeight.medium,
     );
   }
 }

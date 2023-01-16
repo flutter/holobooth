@@ -1,5 +1,5 @@
-/// Namespace for Default Photobooth Breakpoints
-abstract class PhotoboothBreakpoints {
+/// Namespace for Default Holobooth Breakpoints
+abstract class HoloboothBreakpoints {
   /// Max width for a small layout.
   static const double small = 760;
 

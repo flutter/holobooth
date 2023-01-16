@@ -14,7 +14,7 @@ class AnimojiIntroBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final small = size.width <= PhotoboothBreakpoints.small;
+    final small = size.width <= HoloboothBreakpoints.small;
 
     return Align(
       child: SingleChildScrollView(

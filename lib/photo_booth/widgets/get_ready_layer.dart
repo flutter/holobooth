@@ -94,7 +94,7 @@ class GetReadyCountdown extends StatelessWidget {
     final seconds =
         (GetReadyLayer.countdownDuration.inSeconds * controller.value).ceil();
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Stack(
       fit: StackFit.expand,
       children: [

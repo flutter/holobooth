@@ -8,7 +8,7 @@ void main() {
   group('ResponsiveLayout', () {
     testWidgets('displays a large layout if medium is not provided',
         (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.medium, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.medium, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
@@ -24,7 +24,7 @@ void main() {
     });
 
     testWidgets('displays a medium layout', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small + 1, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.small + 1, 800));
       const smallKey = Key('__small__');
       const mediumKey = Key('__medium__');
       const largeKey = Key('__large__');
@@ -44,7 +44,7 @@ void main() {
 
     testWidgets('displays a large layout if xLarge is not provided',
         (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.large + 1, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
@@ -60,7 +60,7 @@ void main() {
     });
 
     testWidgets('displays a xLarge layout', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large + 1, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.large + 1, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
       const xLargeKey = Key('__xLarge__');
@@ -79,7 +79,7 @@ void main() {
     });
 
     testWidgets('displays a large layout', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.large, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
       const xLargeKey = Key('__xLarge__');
@@ -98,7 +98,7 @@ void main() {
     });
 
     testWidgets('displays a small layout', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.small, 800));
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');
 
@@ -132,7 +132,7 @@ void main() {
     });
 
     testWidgets('displays child when available (small)', (tester) async {
-      tester.setDisplaySize(const Size(PhotoboothBreakpoints.small, 800));
+      tester.setDisplaySize(const Size(HoloboothBreakpoints.small, 800));
 
       const smallKey = Key('__small__');
       const largeKey = Key('__large__');

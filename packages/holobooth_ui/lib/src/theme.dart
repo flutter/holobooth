@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-/// Namespace for the Photobooth [ThemeData].
-class PhotoboothTheme {
-  /// Standard `ThemeData` for Photobooth UI.
+/// Namespace for the Holobooth [ThemeData].
+class HoloboothTheme {
+  /// Standard `ThemeData` for Holobooth UI.
   static ThemeData get standard {
     return ThemeData(
       colorScheme: ColorScheme.fromSwatch(accentColor: HoloBoothColors.blue),
@@ -21,39 +21,39 @@ class PhotoboothTheme {
     );
   }
 
-  /// `ThemeData` for Photobooth UI for small screens.
+  /// `ThemeData` for Holobooth UI for small screens.
   static ThemeData get small {
     return standard.copyWith(textTheme: _smallTextTheme);
   }
 
-  /// `ThemeData` for Photobooth UI for medium screens.
+  /// `ThemeData` for Holobooth UI for medium screens.
   static ThemeData get medium {
     return standard;
   }
 
   static TextTheme get _textTheme {
     return TextTheme(
-      headlineLarge: PhotoboothDesktopTextStyle.headlineLarge,
-      headlineMedium: PhotoboothDesktopTextStyle.headlineMedium,
-      headlineSmall: PhotoboothDesktopTextStyle.headlineSmall,
-      titleSmall: PhotoboothDesktopTextStyle.titleSmall,
-      bodyLarge: PhotoboothDesktopTextStyle.bodyLarge,
-      bodyMedium: PhotoboothDesktopTextStyle.bodyMedium,
-      bodySmall: PhotoboothDesktopTextStyle.bodySmall,
-      labelLarge: PhotoboothDesktopTextStyle.labelLarge,
+      headlineLarge: HoloboothDesktopTextStyle.headlineLarge,
+      headlineMedium: HoloboothDesktopTextStyle.headlineMedium,
+      headlineSmall: HoloboothDesktopTextStyle.headlineSmall,
+      titleSmall: HoloboothDesktopTextStyle.titleSmall,
+      bodyLarge: HoloboothDesktopTextStyle.bodyLarge,
+      bodyMedium: HoloboothDesktopTextStyle.bodyMedium,
+      bodySmall: HoloboothDesktopTextStyle.bodySmall,
+      labelLarge: HoloboothDesktopTextStyle.labelLarge,
     );
   }
 
   static TextTheme get _smallTextTheme {
     return TextTheme(
-      headlineLarge: PhotoboothMobileTextStyle.headlineLarge,
-      headlineMedium: PhotoboothMobileTextStyle.headlineMedium,
-      headlineSmall: PhotoboothMobileTextStyle.headlineSmall,
-      titleSmall: PhotoboothMobileTextStyle.titleSmall,
-      bodyLarge: PhotoboothMobileTextStyle.bodyLarge,
-      bodyMedium: PhotoboothMobileTextStyle.bodyMedium,
-      bodySmall: PhotoboothMobileTextStyle.bodySmall,
-      labelLarge: PhotoboothMobileTextStyle.labelLarge,
+      headlineLarge: HoloboothMobileTextStyle.headlineLarge,
+      headlineMedium: HoloboothMobileTextStyle.headlineMedium,
+      headlineSmall: HoloboothMobileTextStyle.headlineSmall,
+      titleSmall: HoloboothMobileTextStyle.titleSmall,
+      bodyLarge: HoloboothMobileTextStyle.bodyLarge,
+      bodyMedium: HoloboothMobileTextStyle.bodyMedium,
+      bodySmall: HoloboothMobileTextStyle.bodySmall,
+      labelLarge: HoloboothMobileTextStyle.labelLarge,
     );
   }
 

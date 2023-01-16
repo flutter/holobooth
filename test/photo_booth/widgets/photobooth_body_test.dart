@@ -204,7 +204,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a large display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.large, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.large, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),
@@ -219,7 +219,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a small display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.small, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),

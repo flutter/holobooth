@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-/// Namespace for Default Photobooth Font Weights
-abstract class PhotoboothFontWeight {
+/// Namespace for Default Holobooth Font Weights
+abstract class HoloboothFontWeight {
   /// FontWeight value of `w900`
   static const FontWeight black = FontWeight.w900;
 

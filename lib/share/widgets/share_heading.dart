@@ -10,7 +10,7 @@ class ShareHeading extends StatelessWidget {
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
     final isSmallScreen =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return GradientText(
       text: l10n.sharePageHeading,
       textAlign: isSmallScreen ? TextAlign.center : TextAlign.left,

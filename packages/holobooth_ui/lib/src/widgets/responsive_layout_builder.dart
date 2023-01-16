@@ -40,13 +40,13 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth <= PhotoboothBreakpoints.small) {
+        if (constraints.maxWidth <= HoloboothBreakpoints.small) {
           return small(context, child);
         }
-        if (constraints.maxWidth <= PhotoboothBreakpoints.medium) {
+        if (constraints.maxWidth <= HoloboothBreakpoints.medium) {
           return (medium ?? large).call(context, child);
         }
-        if (constraints.maxWidth <= PhotoboothBreakpoints.large) {
+        if (constraints.maxWidth <= HoloboothBreakpoints.large) {
           return large(context, child);
         }
 
