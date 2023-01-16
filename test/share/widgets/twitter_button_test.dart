@@ -1,7 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:holobooth/share/bloc/share_bloc.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -9,24 +10,27 @@ import 'package:url_launcher_platform_interface/url_launcher_platform_interface.
 
 import '../../helpers/helpers.dart';
 
-class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
 
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
 void main() {
-  late ShareBloc shareBloc;
+  late ConvertBloc convertBloc;
   late UrlLauncherPlatform mock;
 
   group('TwitterButton', () {
+    const twitterShareUrl = 'https://twitter.com';
     setUp(() {
       mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
-      shareBloc = _MockShareBloc();
+      convertBloc = _MockConvertBloc();
 
-      when(() => shareBloc.state).thenReturn(ShareState());
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(twitterShareUrl: twitterShareUrl),
+      );
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
         () => mock.launchUrl(any(), any()),
@@ -38,41 +42,45 @@ void main() {
     });
 
     testWidgets('dismissed after tapping', (tester) async {
-      await tester.pumpSubject(TwitterButton(), shareBloc);
+      await tester.pumpSubject(TwitterButton(), convertBloc);
       await tester.tap(find.byType(TwitterButton));
       await tester.pumpAndSettle();
       expect(find.byType(TwitterButton), findsNothing);
-      verify(() => shareBloc.add(const ShareTapped(shareUrl: ShareUrl.twitter)))
-          .called(1);
     });
 
-    testWidgets('opens link when sharing is successful', (tester) async {
-      when(() => shareBloc.state).thenReturn(
-        ShareState(
-          shareStatus: ShareStatus.success,
-          shareUrl: ShareUrl.twitter,
-          twitterShareUrl: 'https://twitter.com',
-        ),
+    testWidgets('opens link if sharing enabled', (tester) async {
+      await tester.pumpSubject(
+        TwitterButton(sharingEnabled: true),
+        convertBloc,
       );
-      await tester.pumpSubject(TwitterButton(), shareBloc);
       await tester.tap(find.byType(TwitterButton));
       await tester.pumpAndSettle();
       verify(
-        () => mock.launchUrl('https://twitter.com', any()),
+        () => mock.launchUrl(twitterShareUrl, any()),
       ).called(1);
       expect(find.byType(TwitterButton), findsNothing);
-      verifyNever(
-        () => shareBloc.add(const ShareTapped(shareUrl: ShareUrl.twitter)),
-      );
+    });
+
+    testWidgets('shows Snackbar if sharing disabled', (tester) async {
+      await tester.pumpSubject(TwitterButton(), convertBloc);
+      await tester.tap(find.byType(TwitterButton));
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(TwitterButton subject, ShareBloc bloc) => pumpApp(
+  Future<void> pumpSubject(
+    TwitterButton subject,
+    ConvertBloc bloc,
+  ) =>
+      pumpApp(
         MultiBlocProvider(
           providers: [BlocProvider.value(value: bloc)],
-          child: subject,
+          child: Scaffold(body: subject),
         ),
       );
 }

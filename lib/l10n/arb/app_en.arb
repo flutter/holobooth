@@ -177,5 +177,9 @@
   "downloadOptionVideo": "Video Format",
   "@downloadOptionVideo": {
     "description": "Text shown to download as a video."
+  },
+  "sharingDisabled": "Sharing disabled",
+  "@sharingDisabled": {
+    "description": "Text displayed when trying to share and it is disabled."
   }
 }

@@ -61,15 +61,15 @@ void main() {
     testWidgets(
       'set asset correctly',
       (WidgetTester tester) async {
-        await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
+        await tester.pumpSubject(ConvertFinished(dimension: 300), convertBloc);
+
         await tester.pumpAndSettle();
         verify(() => audioPlayer.setAsset(any())).called(1);
       },
     );
 
     testWidgets('renders correctly with loading finish image', (tester) async {
-      await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
-
+      await tester.pumpSubject(ConvertFinished(dimension: 300), convertBloc);
       expect(
         find.byWidgetPredicate(
           (widget) =>
@@ -85,7 +85,7 @@ void main() {
     testWidgets(
       'after the play sound, navigates to SharePage',
       (WidgetTester tester) async {
-        await tester.pumpSubject(ConvertFinished(dimension: 200), convertBloc);
+        await tester.pumpSubject(ConvertFinished(dimension: 300), convertBloc);
         await tester.pumpAndSettle();
         expect(find.byType(SharePage), findsOneWidget);
       },

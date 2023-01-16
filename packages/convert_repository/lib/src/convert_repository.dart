@@ -12,8 +12,11 @@ class ConvertRepository {
   /// {@macro convert_repository}
   ConvertRepository({
     required String url,
+    required String shareUrl,
+    required String assetBucketUrl,
     MultipartRequest Function()? multipartRequestBuilder,
-  }) {
+  })  : _shareUrl = shareUrl,
+        _assetBucketUrl = assetBucketUrl {
     _multipartRequestBuilder = multipartRequestBuilder ??
         () => MultipartRequest('POST', Uri.parse(url));
   }
@@ -21,6 +24,8 @@ class ConvertRepository {
   late final MultipartRequest Function() _multipartRequestBuilder;
 
   final _processedFrames = <Uint8List>[];
+  final String _shareUrl;
+  final String _assetBucketUrl;
 
   /// 16 is the minimum amount of time that you can delay
   /// an operation on a web browser.
@@ -48,6 +53,20 @@ class ConvertRepository {
       );
     }
     return _processedFrames;
+  }
+
+  String _getShareUrl(String fullPath) {
+    // TODO(OSCAR): We could do the parsing on the cloud function
+    final assetName = fullPath.replaceAll(_assetBucketUrl, '');
+    return _shareUrl + assetName;
+  }
+
+  String _getTwitterShareUrl(String shareUrl, String shareText) {
+    return 'https://twitter.com/intent/tweet?url=$shareUrl&text=$shareText';
+  }
+
+  String _getFacebookShareUrl(String shareUrl, String shareText) {
+    return 'https://www.facebook.com/sharer.php?u=$shareUrl&quote=$shareText';
   }
 
   /// Converts a list of images to video using firebase functions.
@@ -80,9 +99,15 @@ class ConvertRepository {
       if (response.statusCode == 200) {
         final rawData = await response.stream.bytesToString();
         final json = jsonDecode(rawData) as Map<String, dynamic>;
-        return GenerateVideoResponse.fromJson(
+        final videoResponse = GenerateVideoResponse.fromJson(
           json,
           frames.first,
+        );
+        final shareUrl = _getShareUrl(videoResponse.gifUrl);
+        final shareText = Uri.encodeComponent('Hey from Social Media!');
+        return videoResponse.copyWith(
+          twitterShareUrl: _getTwitterShareUrl(shareUrl, shareText),
+          facebookShareUrl: _getFacebookShareUrl(shareUrl, shareText),
         );
       } else {
         throw const GenerateVideoException('Failed to convert frames');

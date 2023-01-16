@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 part 'share_event.dart';
 part 'share_state.dart';
 
+// TODO(oscar): to be deleted in next PR.
 class ShareBloc extends Bloc<ShareEvent, ShareState> {
   ShareBloc({Uint8List? thumbnail, required String videoPath})
       : super(

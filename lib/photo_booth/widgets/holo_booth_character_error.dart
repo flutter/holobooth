@@ -34,8 +34,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
     final l10n = context.l10n;
 
     return BlurryContainer(
-      // TODO(OSCAR): This color is not in the palette.
-      color: const Color.fromRGBO(19, 22, 44, 0.75),
+      color: HoloBoothColors.blurrySurface,
       blur: 7.5,
       borderRadius: BorderRadius.circular(38),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
