@@ -28,7 +28,7 @@ void main() {
           BackgroundSelectionTabBarView(),
           inExperienceSelectionBloc,
         );
-        const background = Background.bg01;
+        const background = Background.bg1;
         final finder = find.byKey(
           BackgroundSelectionTabBarView.backgroundSelectionKey(background),
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -25,7 +26,7 @@ class SmallShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = context.read<ShareBloc>().state.thumbnail;
+    final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -43,8 +44,7 @@ class LargeShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = context.read<ShareBloc>().state.thumbnail;
-
+    final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
     return Column(
       children: [
         Row(
