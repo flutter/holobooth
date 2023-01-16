@@ -48,11 +48,23 @@ class CharacterAnimation extends StatefulWidget {
   });
 
   final Avatar avatar;
+
+  /// The hat the character should wear.
   final Hats hat;
+
+  /// The glasses the character should wear.
   final Glasses glasses;
+
+  /// The clothes the character should wear.
   final Clothes clothes;
+
+  /// The left handheld item the character should hold.
   final HandheldlLeft handheldlLeft;
+
+  /// The character's [RiveGenImage].
   final RiveGenImage assetGenImage;
+
+  /// The size of the character's [RiveGenImage].
   final Size riveImageSize;
 
   @override
@@ -66,13 +78,6 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The smaller the value the more sensitive the animation will be.
   @visibleForTesting
   static const rotationToleration = 3;
-
-  /// The minimum number of samples taken before the eye animation is
-  /// enabled.
-  ///
-  /// This is due to the fact that the eye geometry requires some calibration
-  /// before it can be used. This applies to both the left and right eye.
-  static const _eyePopulationMin = 10;
 
   /// The amount of time the eye will be closed for before it is considered to
   /// be a wink.
@@ -199,6 +204,27 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     final characterController = this.characterController;
     if (characterController == null) return;
 
+    if (oldWidget.hat != widget.hat) {
+      characterController.hats.change(
+        widget.hat.index.toDouble(),
+      );
+    }
+    if (oldWidget.glasses != widget.glasses) {
+      characterController.glasses.change(
+        widget.glasses.index.toDouble(),
+      );
+    }
+    if (oldWidget.clothes != widget.clothes) {
+      characterController.clothes.change(
+        widget.clothes.index.toDouble(),
+      );
+    }
+    if (oldWidget.handheldlLeft != widget.handheldlLeft) {
+      characterController.handheldlLeft.change(
+        widget.handheldlLeft.index.toDouble(),
+      );
+    }
+
     final previousRotationVector = Vector3(
       characterController.x.value,
       characterController.y.value,
@@ -230,8 +256,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     final previousLeftEyeValue = characterController.leftEye.value;
     final leftEyeGeometry = widget.avatar.leftEyeGeometry;
     late final double newLeftEyeValue;
-    if (leftEyeGeometry.population > _eyePopulationMin &&
-        leftEyeGeometry.minRatio != null &&
+    if (leftEyeGeometry.minRatio != null &&
         leftEyeGeometry.maxRatio != null &&
         leftEyeGeometry.meanRatio != null &&
         leftEyeGeometry.distance != null &&
@@ -272,8 +297,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     final previousRightEyeValue = characterController.rightEye.value;
     final rightEyeGeometry = widget.avatar.rightEyeGeometry;
     late final double newRightEyeValue;
-    if (rightEyeGeometry.population > _eyePopulationMin &&
-        rightEyeGeometry.minRatio != null &&
+    if (rightEyeGeometry.minRatio != null &&
         rightEyeGeometry.maxRatio != null &&
         rightEyeGeometry.meanRatio != null &&
         rightEyeGeometry.distance != null &&
@@ -308,27 +332,6 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         ..begin = previousRightEyeValue
         ..end = newRightEyeValue;
       _rightEyeAnimationController.forward(from: 0);
-    }
-
-    if (oldWidget.hat != widget.hat) {
-      characterController.hats.change(
-        widget.hat.index.toDouble(),
-      );
-    }
-    if (oldWidget.glasses != widget.glasses) {
-      characterController.glasses.change(
-        widget.glasses.index.toDouble(),
-      );
-    }
-    if (oldWidget.clothes != widget.clothes) {
-      characterController.clothes.change(
-        widget.clothes.index.toDouble(),
-      );
-    }
-    if (oldWidget.handheldlLeft != widget.handheldlLeft) {
-      characterController.handheldlLeft.change(
-        widget.handheldlLeft.index.toDouble(),
-      );
     }
 
     final newScale =
