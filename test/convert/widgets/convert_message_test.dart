@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/l10n/l10n.dart';
 
 import '../../helpers/helpers.dart';
 

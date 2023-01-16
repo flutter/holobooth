@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:holobooth/assets/assets.dart';
 
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({

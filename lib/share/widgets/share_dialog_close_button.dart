@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:holobooth/assets/assets.dart';
 
 class ShareDialogCloseButton extends StatelessWidget {
   const ShareDialogCloseButton({super.key, required this.size});
