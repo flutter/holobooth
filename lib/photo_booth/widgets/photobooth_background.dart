@@ -45,7 +45,7 @@ class PhotoboothBackground extends StatelessWidget {
     }
     return BackgroundAnimation(
       key: Key(backgroundSelected.name),
-      assetGenImage: riveAsset,
+      riveGenImage: riveAsset,
     );
   }
 }

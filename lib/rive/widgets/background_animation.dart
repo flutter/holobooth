@@ -4,10 +4,10 @@ import 'package:io_photobooth/assets/assets.dart';
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({
     super.key,
-    required this.assetGenImage,
+    required this.riveGenImage,
   });
 
-  final RiveGenImage assetGenImage;
+  final RiveGenImage riveGenImage;
 
   @override
   State<BackgroundAnimation> createState() => BackgroundAnimationState();
@@ -17,7 +17,7 @@ class BackgroundAnimation extends StatefulWidget {
 class BackgroundAnimationState extends State<BackgroundAnimation> {
   @override
   Widget build(BuildContext context) {
-    return widget.assetGenImage
+    return widget.riveGenImage
         .rive(fit: BoxFit.cover, stateMachines: ['State Machine 1']);
   }
 }
