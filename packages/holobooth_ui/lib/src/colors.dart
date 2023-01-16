@@ -151,8 +151,8 @@ class HoloBoothGradients {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: <Color>[
-      Color(0xFF2C2C2C),
-      Color(0xFF868686),
+      Color.fromRGBO(44, 44, 44, 0.33),
+      Color.fromRGBO(134, 134, 134, 0.4),
     ],
   );
 
