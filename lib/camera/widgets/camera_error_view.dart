@@ -1,3 +1,4 @@
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
