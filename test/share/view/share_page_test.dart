@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,6 +15,9 @@ import '../../helpers/helpers.dart';
 class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
     implements ShareBloc {}
 
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
+
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
@@ -21,9 +25,17 @@ class _MockUrlLauncher extends Mock
 void main() {
   group('SharePage', () {
     final firstFrame = Uint8List.fromList(transparentImage);
+    late ConvertBloc convertBloc;
+
+    setUp(() => convertBloc = _MockConvertBloc());
+
     test('is routable', () {
       expect(
-        SharePage.route(firstFrame: firstFrame, videoPath: ''),
+        SharePage.route(
+          firstFrame: firstFrame,
+          videoPath: '',
+          convertBloc: convertBloc,
+        ),
         isA<AppPageRoute<void>>(),
       );
     });
