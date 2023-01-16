@@ -112,7 +112,7 @@ class _BottomContent extends StatelessWidget {
               child: const Icon(
                 Icons.videocam_rounded,
                 size: 40,
-                color: Colors.white,
+                color: HoloBoothColors.white,
               ),
             ),
           ),

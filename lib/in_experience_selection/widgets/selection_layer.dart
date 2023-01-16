@@ -100,7 +100,7 @@ class CollapseButton extends StatelessWidget {
         onPressed: onPressed,
         icon: const Icon(
           Icons.expand_more,
-          color: Colors.white,
+          color: HoloBoothColors.white,
         ),
       ),
     );

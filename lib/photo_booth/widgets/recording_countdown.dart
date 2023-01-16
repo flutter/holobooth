@@ -83,7 +83,11 @@ class CountdownTimer extends StatelessWidget {
                 return HoloBoothGradients.secondaryThree
                     .createShader(Offset.zero & bounds.size);
               },
-              child: const Icon(Icons.videocam, color: Colors.white, size: 40),
+              child: const Icon(
+                Icons.videocam,
+                color: HoloBoothColors.white,
+                size: 40,
+              ),
             ),
           ),
           Positioned.fill(
