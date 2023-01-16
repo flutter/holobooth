@@ -5,7 +5,7 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 const landscapeDisplaySize = Size(1920, 1080);
 const portraitDisplaySize = Size(1080, 1920);
 
-extension PhotoboothWidgetTester on WidgetTester {
+extension HoloboothWidgetTester on WidgetTester {
   void setDisplaySize(Size size) {
     binding.window.physicalSizeTestValue = size;
     binding.window.devicePixelRatioTestValue = 1.0;

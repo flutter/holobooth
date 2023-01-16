@@ -1,3 +1,3 @@
 # holobooth_ui
 
-UI Toolkit for the Photobooth Flutter Application
+UI Toolkit for the Holobooth Flutter Application
