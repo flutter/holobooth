@@ -20,20 +20,18 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
 
   final ConvertRepository _convertRepository;
 
-  var _frames = <Image>[];
-
   FutureOr<void> _generateVideo(
     GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
     if (event.frames != null) {
-      _frames = event.frames!.map((e) => e.image).toList();
+      final frames = event.frames!.map((e) => e.image).toList();
+      emit(state.copyWith(frames: frames));
     }
 
     try {
-      throw Exception();
-      final result = await _convertRepository.generateVideo(_frames);
+      final result = await _convertRepository.generateVideo(state.frames);
       emit(
         state.copyWith(
           videoPath: result.videoUrl,
@@ -45,11 +43,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(
-        state.copyWith(
-          status: ConvertStatus.error,
-        ),
-      );
+      emit(state.copyWith(status: ConvertStatus.error));
     }
   }
 }
