@@ -64,7 +64,8 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// The amount of head movement required to trigger a rotation animation.
   ///
   /// The smaller the value the more sensitive the animation will be.
-  static const _rotationToleration = 3;
+  @visibleForTesting
+  static const rotationToleration = 3;
 
   /// The minimum number of samples taken before the eye animation is
   /// enabled.
@@ -82,7 +83,8 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   /// scale animation.
   ///
   /// The smaller the value the more sensitive the animation will be.
-  static const _scaleToleration = .1;
+  @visibleForTesting
+  static const scaleToleration = .1;
 
   /// The amount we scale the rotation movement by.
   ///
@@ -153,12 +155,12 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
 
   void _controlDashRotation() {
     final characterController = this.characterController;
-    if (characterController != null) {
-      final vector = _rotationTween.evaluate(_rotationAnimationController);
-      characterController.x.change(vector.x.clamp(-100, 100));
-      characterController.y.change(vector.y.clamp(-100, 100));
-      characterController.z.change(vector.z.clamp(-100, 100));
-    }
+    if (characterController == null) return;
+
+    final vector = _rotationTween.evaluate(_rotationAnimationController);
+    characterController.x.change(vector.x.clamp(-100, 100));
+    characterController.y.change(vector.y.clamp(-100, 100));
+    characterController.z.change(vector.z.clamp(-100, 100));
   }
 
   void _controlLeftEye() {
@@ -166,7 +168,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     if (characterController == null) return;
 
     final distance = _leftEyeTween.evaluate(_leftEyeAnimationController);
-    characterController.leftEyeIsClosed.change(distance);
+    characterController.leftEye.change(distance);
   }
 
   void _controlRightEye() {
@@ -174,7 +176,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     if (characterController == null) return;
 
     final distance = _rightEyeTween.evaluate(_rightEyeAnimationController);
-    characterController.rightEyeIsClosed.change(distance);
+    characterController.rightEye.change(distance);
   }
 
   void _controlMouth() {
@@ -188,163 +190,151 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @override
   void initState() {
     super.initState();
-    _scale = widget.avatar.distance.normalize(
-      fromMax: 1,
-      toMin: 0.8,
-      toMax: 5,
-    );
+    _scale = widget.avatar.distance.normalize(fromMax: 1, toMin: 0.8, toMax: 5);
   }
 
   @override
   void didUpdateWidget(covariant T oldWidget) {
     super.didUpdateWidget(oldWidget);
     final characterController = this.characterController;
-    if (characterController != null) {
-      final previousRotationVector = Vector3(
-        characterController.x.value,
-        characterController.y.value,
-        characterController.z.value,
-      );
-      // Direction has range of values [-1, 1], and the
-      // animation controller [-100, 100] so we multiply
-      // by 100 to correlate the values.
-      final newRotationVector = Vector3(
-        (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
-        (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
-      );
-      if (newRotationVector.distance(previousRotationVector) >
-          _rotationToleration) {
-        _rotationTween
-          ..begin = previousRotationVector
-          ..end = newRotationVector;
-        _rotationAnimationController.forward(from: 0);
-      }
+    if (characterController == null) return;
 
-      final previousMouthValue = characterController.mouthDistance.value;
-      final newMouthValue =
-          (widget.avatar.mouthDistance * 100 * mouthScale).clamp(.0, 100.0);
-      if ((previousMouthValue - newMouthValue).abs() > mouthToleration) {
-        _mouthTween
-          ..begin = previousMouthValue
-          ..end = newMouthValue;
-        _mouthAnimationController.forward(from: 0);
-      }
+    final previousRotationVector = Vector3(
+      characterController.x.value,
+      characterController.y.value,
+      characterController.z.value,
+    );
+    final newRotationVector = Vector3(
+      (widget.avatar.rotation.x * 100 * rotationScale).clamp(-100, 100),
+      (widget.avatar.rotation.y * 100 * rotationScale).clamp(-100, 100),
+      (widget.avatar.rotation.z * 100 * rotationScale).clamp(-100, 100),
+    );
+    if (newRotationVector.distance(previousRotationVector) >
+        rotationToleration) {
+      _rotationTween
+        ..begin = previousRotationVector
+        ..end = newRotationVector;
+      _rotationAnimationController.forward(from: 0);
+    }
 
-      final previousLeftEyeValue = characterController.leftEyeIsClosed.value;
-      final leftEyeGeometry = widget.avatar.leftEyeGeometry;
-      late final double newLeftEyeValue;
-      if (leftEyeGeometry.population > _eyePopulationMin &&
-          leftEyeGeometry.minRatio != null &&
-          leftEyeGeometry.maxRatio != null &&
-          leftEyeGeometry.meanRatio != null &&
-          leftEyeGeometry.distance != null &&
-          leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
-          leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
-        if (leftEyeGeometry.isClosed) {
-          _leftEyeClosureTimestamp ??= DateTime.now();
-          newLeftEyeValue = 100;
-        } else {
-          newLeftEyeValue = 0;
-        }
+    final previousMouthValue = characterController.mouthDistance.value;
+    final newMouthValue =
+        (widget.avatar.mouthDistance * 100 * mouthScale).clamp(.0, 100.0);
+    if ((previousMouthValue - newMouthValue).abs() > mouthToleration) {
+      _mouthTween
+        ..begin = previousMouthValue
+        ..end = newMouthValue;
+      _mouthAnimationController.forward(from: 0);
+    }
+
+    final previousLeftEyeValue = characterController.leftEye.value;
+    final leftEyeGeometry = widget.avatar.leftEyeGeometry;
+    late final double newLeftEyeValue;
+    if (leftEyeGeometry.population > _eyePopulationMin &&
+        leftEyeGeometry.minRatio != null &&
+        leftEyeGeometry.maxRatio != null &&
+        leftEyeGeometry.meanRatio != null &&
+        leftEyeGeometry.distance != null &&
+        leftEyeGeometry.meanRatio! > leftEyeGeometry.minRatio! &&
+        leftEyeGeometry.meanRatio! < leftEyeGeometry.maxRatio!) {
+      if (leftEyeGeometry.isClosed) {
+        _leftEyeClosureTimestamp ??= DateTime.now();
+        newLeftEyeValue = 100;
       } else {
         newLeftEyeValue = 0;
       }
+    } else {
+      newLeftEyeValue = 0;
+    }
 
-      late final bool shouldAnimateLeftEye;
-      final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+    late final bool shouldAnimateLeftEye;
+    final hasOpenedLeftEye = !leftEyeGeometry.isClosed &&
+        _leftEyeClosureTimestamp != null &&
+        !_leftEyeAnimationController.isAnimating;
+    if (hasOpenedLeftEye) {
+      _leftEyeClosureTimestamp = null;
+      shouldAnimateLeftEye = hasOpenedLeftEye;
+    } else {
+      final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
+          previousLeftEyeValue == 0 &&
           _leftEyeClosureTimestamp != null &&
-          !_leftEyeAnimationController.isAnimating;
-      if (hasOpenedLeftEye) {
-        _leftEyeClosureTimestamp = null;
-        shouldAnimateLeftEye = hasOpenedLeftEye;
-      } else {
-        final startedWinkingLeftEye = leftEyeGeometry.isClosed &&
-            previousLeftEyeValue == 0 &&
-            _leftEyeClosureTimestamp != null &&
-            DateTime.now().difference(_leftEyeClosureTimestamp!) >
-                eyeWinkDuration;
-        shouldAnimateLeftEye = startedWinkingLeftEye;
-      }
-      if (shouldAnimateLeftEye) {
-        _leftEyeTween
-          ..begin = previousLeftEyeValue
-          ..end = newLeftEyeValue;
-        _leftEyeAnimationController.forward(from: 0);
-      }
+          DateTime.now().difference(_leftEyeClosureTimestamp!) >
+              eyeWinkDuration;
+      shouldAnimateLeftEye = startedWinkingLeftEye;
+    }
+    if (shouldAnimateLeftEye) {
+      _leftEyeTween
+        ..begin = previousLeftEyeValue
+        ..end = newLeftEyeValue;
+      _leftEyeAnimationController.forward(from: 0);
+    }
 
-      final previousRightEyeValue = characterController.rightEyeIsClosed.value;
-      final rightEyeGeometry = widget.avatar.rightEyeGeometry;
-      late final double newRightEyeValue;
-      if (rightEyeGeometry.population > _eyePopulationMin &&
-          rightEyeGeometry.minRatio != null &&
-          rightEyeGeometry.maxRatio != null &&
-          rightEyeGeometry.meanRatio != null &&
-          rightEyeGeometry.distance != null &&
-          rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
-          rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
-        if (rightEyeGeometry.isClosed) {
-          _rightEyeClosureTimestamp ??= DateTime.now();
-          newRightEyeValue = 100;
-        } else {
-          newRightEyeValue = 0;
-        }
+    final previousRightEyeValue = characterController.rightEye.value;
+    final rightEyeGeometry = widget.avatar.rightEyeGeometry;
+    late final double newRightEyeValue;
+    if (rightEyeGeometry.population > _eyePopulationMin &&
+        rightEyeGeometry.minRatio != null &&
+        rightEyeGeometry.maxRatio != null &&
+        rightEyeGeometry.meanRatio != null &&
+        rightEyeGeometry.distance != null &&
+        rightEyeGeometry.meanRatio! > rightEyeGeometry.minRatio! &&
+        rightEyeGeometry.meanRatio! < rightEyeGeometry.maxRatio!) {
+      if (rightEyeGeometry.isClosed) {
+        _rightEyeClosureTimestamp ??= DateTime.now();
+        newRightEyeValue = 100;
       } else {
         newRightEyeValue = 0;
       }
-      late final bool shouldAnimateRightEye;
-      final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+    } else {
+      newRightEyeValue = 0;
+    }
+    late final bool shouldAnimateRightEye;
+    final hasOpenedRightEye = !rightEyeGeometry.isClosed &&
+        _rightEyeClosureTimestamp != null &&
+        !_rightEyeAnimationController.isAnimating;
+    if (hasOpenedRightEye) {
+      _rightEyeClosureTimestamp = null;
+      shouldAnimateRightEye = hasOpenedRightEye;
+    } else {
+      final startedWinkingRightEye = rightEyeGeometry.isClosed &&
+          previousRightEyeValue == 0 &&
           _rightEyeClosureTimestamp != null &&
-          !_rightEyeAnimationController.isAnimating;
-      if (hasOpenedRightEye) {
-        _rightEyeClosureTimestamp = null;
-        shouldAnimateRightEye = hasOpenedRightEye;
-      } else {
-        final startedWinkingRightEye = rightEyeGeometry.isClosed &&
-            previousRightEyeValue == 0 &&
-            _rightEyeClosureTimestamp != null &&
-            DateTime.now().difference(_rightEyeClosureTimestamp!) >
-                eyeWinkDuration;
-        shouldAnimateRightEye = startedWinkingRightEye;
-      }
-      if (shouldAnimateRightEye) {
-        _rightEyeTween
-          ..begin = previousRightEyeValue
-          ..end = newRightEyeValue;
-        _rightEyeAnimationController.forward(from: 0);
-      }
+          DateTime.now().difference(_rightEyeClosureTimestamp!) >
+              eyeWinkDuration;
+      shouldAnimateRightEye = startedWinkingRightEye;
+    }
+    if (shouldAnimateRightEye) {
+      _rightEyeTween
+        ..begin = previousRightEyeValue
+        ..end = newRightEyeValue;
+      _rightEyeAnimationController.forward(from: 0);
+    }
 
-      if (oldWidget.hat != widget.hat) {
-        characterController.hats.change(
-          widget.hat.index.toDouble(),
-        );
-      }
-      if (oldWidget.glasses != widget.glasses) {
-        characterController.glasses.change(
-          widget.glasses.index.toDouble(),
-        );
-      }
-      if (oldWidget.clothes != widget.clothes) {
-        characterController.clothes.change(
-          widget.clothes.index.toDouble(),
-        );
-      }
-      if (oldWidget.handheldlLeft != widget.handheldlLeft) {
-        characterController.handheldlLeft.change(
-          widget.handheldlLeft.index.toDouble(),
-        );
-      }
-
-      final newScale = widget.avatar.distance.normalize(
-        fromMax: 1,
-        toMin: 0.8,
-        toMax: 5,
+    if (oldWidget.hat != widget.hat) {
+      characterController.hats.change(
+        widget.hat.index.toDouble(),
       );
-      if ((newScale - _scale).abs() > _scaleToleration) {
-        setState(() {
-          _scale = newScale;
-        });
-      }
+    }
+    if (oldWidget.glasses != widget.glasses) {
+      characterController.glasses.change(
+        widget.glasses.index.toDouble(),
+      );
+    }
+    if (oldWidget.clothes != widget.clothes) {
+      characterController.clothes.change(
+        widget.clothes.index.toDouble(),
+      );
+    }
+    if (oldWidget.handheldlLeft != widget.handheldlLeft) {
+      characterController.handheldlLeft.change(
+        widget.handheldlLeft.index.toDouble(),
+      );
+    }
+
+    final newScale =
+        widget.avatar.distance.normalize(fromMax: 1, toMin: 0.8, toMax: 5);
+    if ((newScale - _scale).abs() > scaleToleration) {
+      setState(() => _scale = newScale);
     }
   }
 
