@@ -21,6 +21,122 @@ void main() {
       riveImageSize = Size(100, 100);
     });
 
+    group('enabled', () {
+      testWidgets('changes character when true', (tester) async {
+        const initialMouthDistance = 0.0;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: initialMouthDistance,
+          rotation: Vector3.zero,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  enabled: true,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  assetGenImage: assetGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        final firstMouthValue = controller.mouthDistance.value;
+
+        const newMouthDistance = initialMouthDistance + .1;
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: newMouthDistance,
+            rotation: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        final secondMountValue = controller.mouthDistance.value;
+        expect(firstMouthValue, isNot(equals(secondMountValue)));
+      });
+
+      testWidgets('does not change character when false', (tester) async {
+        const initialMouthDistance = 0.0;
+        var enabled = true;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: initialMouthDistance,
+          rotation: Vector3.zero,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  enabled: enabled,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  assetGenImage: assetGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        final firstMouthValue = controller.mouthDistance.value;
+
+        const newMouthDistance = initialMouthDistance + .1;
+        stateSetter(() {
+          enabled = false;
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: newMouthDistance,
+            rotation: Vector3.zero,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        final secondMountValue = controller.mouthDistance.value;
+        expect(firstMouthValue, equals(secondMountValue));
+      });
+    });
+
     group('rotation', () {
       testWidgets('updates', (tester) async {
         final initialRotation = Vector3(0, 0, 0);
