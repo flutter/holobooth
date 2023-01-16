@@ -48,27 +48,25 @@ class _LargeLandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Assets.backgrounds.holobooth.image(
-                    key: LandingBody.landingPageImageKey,
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Assets.backgrounds.holobooth.image(
+                  key: LandingBody.landingPageImageKey,
                 ),
-                const SizedBox(width: 32),
-                const Expanded(
-                  child: _LandingBodyContent(smallScreen: false),
-                ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(width: 32),
+              const Expanded(
+                child: _LandingBodyContent(smallScreen: false),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
