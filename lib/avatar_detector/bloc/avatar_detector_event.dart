@@ -8,8 +8,7 @@ abstract class AvatarDetectorEvent extends Equatable {
 
 /// Initializes the [AvatarDetectorBloc].
 ///
-/// It should be called once when the [AvatarDetectorBloc] is created to load
-/// the tensorflow model.
+/// Initializing loads the tensorflow model required to estimate the [Avatar].
 class AvatarDetectorInitialized extends AvatarDetectorEvent {
   const AvatarDetectorInitialized();
 }
