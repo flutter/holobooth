@@ -28,7 +28,7 @@ enum AvatarDetectorStatus {
   /// The [Avatar] has not been detected.
   ///
   /// This occurs only when [estimating] the [Avatar] has failed for a certain
-  /// amount of time, which is given by [AvatarDetectorBloc.undetectedDelay].
+  /// amount of time, given by [AvatarDetectorBloc.undetectedDelay].
   notDetected;
 
   bool get hasLoadedModel =>
