@@ -4,30 +4,32 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
 
 void main() {
   group('ShareBody', () {
-    late ShareBloc shareBloc;
+    late ConvertBloc convertBloc;
     final thumbnail = Uint8List.fromList(transparentImage);
 
     setUp(() {
-      shareBloc = _MockShareBloc();
-      when(() => shareBloc.state).thenReturn(ShareState(thumbnail: thumbnail));
+      convertBloc = _MockConvertBloc();
+      when(() => convertBloc.state)
+          .thenReturn(ConvertState(firstFrameProcessed: thumbnail));
     });
 
     testWidgets(
       'renders SmallShareBody in small layout',
       (WidgetTester tester) async {
         tester.setSmallDisplaySize();
-        await tester.pumpSubject(ShareBody(), shareBloc);
+        await tester.pumpSubject(ShareBody(), convertBloc);
         expect(find.byType(SmallShareBody), findsOneWidget);
       },
     );
@@ -36,18 +38,18 @@ void main() {
       'renders LargeShareBody in large layout',
       (WidgetTester tester) async {
         tester.setLargeDisplaySize();
-        await tester.pumpSubject(ShareBody(), shareBloc);
+        await tester.pumpSubject(ShareBody(), convertBloc);
         expect(find.byType(LargeShareBody), findsOneWidget);
       },
     );
 
     testWidgets('displays a ShareButton', (tester) async {
-      await tester.pumpSubject(ShareBody(), shareBloc);
+      await tester.pumpSubject(ShareBody(), convertBloc);
       expect(find.byType(ShareButton), findsOneWidget);
     });
 
     testWidgets('displays a DownloadButton', (tester) async {
-      await tester.pumpSubject(ShareBody(), shareBloc);
+      await tester.pumpSubject(ShareBody(), convertBloc);
       expect(
         find.byType(DownloadButton),
         findsOneWidget,
@@ -55,7 +57,7 @@ void main() {
     });
 
     testWidgets('displays a RetakeButton', (tester) async {
-      await tester.pumpSubject(ShareBody(), shareBloc);
+      await tester.pumpSubject(ShareBody(), convertBloc);
       expect(
         find.byType(RetakeButton),
         findsOneWidget,
@@ -65,7 +67,7 @@ void main() {
     testWidgets(
       'RetakeButton navigates to photobooth when pressed',
       (tester) async {
-        await tester.pumpSubject(ShareBody(), shareBloc);
+        await tester.pumpSubject(ShareBody(), convertBloc);
         final finder = find.byType(RetakeButton);
         await tester.ensureVisible(finder);
         await tester.tap(finder);
@@ -78,7 +80,7 @@ void main() {
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(ShareBody subject, ShareBloc bloc) => pumpApp(
+  Future<void> pumpSubject(ShareBody subject, ConvertBloc bloc) => pumpApp(
         MultiBlocProvider(
           providers: [BlocProvider.value(value: bloc)],
           child: SingleChildScrollView(child: subject),
