@@ -14,6 +14,7 @@
       ],
       "rewrites": [
         { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -64,6 +65,7 @@
       ],
       "rewrites": [
         { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -80,20 +82,11 @@
           ]
         },
         {
-          "source": "**/*.@(jpg|jpeg|gif|png)",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "max-age=3600"
-            }
-          ]
-        },
-        {
           "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "no-cache, no-store, must-revalidate"
+              "value": "max-age=3600"
             }
           ]
         }
@@ -113,7 +106,8 @@
         "__/**"
       ],
       "rewrites": [
-        { "source": "/share/**", "function": "shareImage" },
+        { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -130,20 +124,11 @@
           ]
         },
         {
-          "source": "**/*.@(jpg|jpeg|gif|png)",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "max-age=3600"
-            }
-          ]
-        },
-        {
           "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "no-cache, no-store, must-revalidate"
+              "value": "max-age=3600"
             }
           ]
         }
