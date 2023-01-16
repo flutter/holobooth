@@ -5,7 +5,7 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class ConvertPage extends StatelessWidget {

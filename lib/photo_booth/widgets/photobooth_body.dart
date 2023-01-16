@@ -5,7 +5,7 @@ import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
 import 'package:io_photobooth/footer/footer.dart';
 import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 Exporter _getExporter() => Exporter();

@@ -6,7 +6,7 @@ import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/convert/convert.dart';
 import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ConvertFinished extends StatefulWidget {
   const ConvertFinished({

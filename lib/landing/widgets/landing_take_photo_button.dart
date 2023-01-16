@@ -4,7 +4,7 @@ import 'package:io_photobooth/animoji_intro/view/animoji_intro_page.dart';
 import 'package:io_photobooth/assets/assets.dart';
 import 'package:io_photobooth/audio_player/audio_player.dart';
 import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class LandingTakePhotoButton extends StatefulWidget {
   const LandingTakePhotoButton({super.key});
