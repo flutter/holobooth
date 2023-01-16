@@ -29,16 +29,11 @@ class _DownloadButtonState extends State<DownloadButton> {
           final convertBloc = context.read<ConvertBloc>();
           showDialog<void>(
             context: context,
-<<<<<<< HEAD
             barrierColor: HoloBoothColors.transparent,
-            builder: (context) => DownloadOptionDialog(layerLink: layerLink),
-=======
-            barrierColor: Colors.transparent,
             builder: (context) => DownloadOptionDialog(
               layerLink: layerLink,
               download: convertBloc.download,
             ),
->>>>>>> 973e23b (feat: adding download video feature)
           );
         },
       ),
