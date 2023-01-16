@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
