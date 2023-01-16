@@ -21,6 +21,8 @@ dependencies:
   convert_repository:
     path: packages/convert_repository
   cross_file: ^0.3.3+2
+  download_repository:
+    path: packages/download_repository
   equatable: ^2.0.5
   face_geometry:
     path: packages/face_geometry

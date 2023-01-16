@@ -1,4 +1,5 @@
 import 'package:convert_repository/convert_repository.dart';
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -27,6 +28,7 @@ class ConvertPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ConvertBloc(
         convertRepository: context.read<ConvertRepository>(),
+        downloadRepository: context.read<DownloadRepository>(),
       ),
       child: ConvertView(frames: frames),
     );
