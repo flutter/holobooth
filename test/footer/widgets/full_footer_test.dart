@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -34,7 +34,7 @@ void main() {
     testWidgets(
       'renders elements on large screen',
       (tester) async {
-        tester.setDisplaySize(const Size(PhotoboothBreakpoints.large, 800));
+        tester.setDisplaySize(const Size(HoloboothBreakpoints.large, 800));
         await tester.pumpApp(FullFooter());
         expect(find.byType(FlutterIconLink), findsOneWidget);
         expect(find.byType(FirebaseIconLink), findsOneWidget);

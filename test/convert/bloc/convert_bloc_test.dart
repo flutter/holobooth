@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/convert/convert.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 

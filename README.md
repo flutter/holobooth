@@ -1,13 +1,13 @@
-# I/O Photo Booth
+# Holobooth
 
-[![Photo Booth Header][logo]][photo_booth_link]
+[![Holobooth Header][logo]][photo_booth_link]
 
 [![io_photobooth][build_status_badge]][workflow_link]
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
 
-A Photo Booth built with [Flutter][flutter_link] and [Firebase][firebase_link] for [Google I/O 2021][google_io_link].
+A Holobooth built with [Flutter][flutter_link] and [Firebase][firebase_link] for [Google I/O 2021][google_io_link].
 
 [Try it now][photo_booth_link] and [learn about how it's made][blog_link].
 
@@ -25,7 +25,7 @@ To run the desired project either use the launch configuration in VSCode/Android
 $ flutter run -d chrome -t lib/main_dev.dart
 ```
 
-_\*I/O Photo Booth works on Web._
+_\*Holobooth works on Web._
 
 ---
 
@@ -85,7 +85,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 3. Use the new string
 
 ```dart
-import 'package:io_photobooth/l10n/l10n.dart';
+import 'package:holobooth/l10n/l10n.dart';
 
 @override
 Widget build(BuildContext context) {

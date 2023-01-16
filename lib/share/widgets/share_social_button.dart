@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:holobooth/share/share.dart';
 
 class SmallShareSocialButtons extends StatelessWidget {
   const SmallShareSocialButtons({super.key});

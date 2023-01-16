@@ -19,15 +19,34 @@ class AvatarDetectorBloc
   }
   final AvatarDetectorRepository _avatarDetectorRepository;
 
-  /// The time to wait before considering the [Avatar] as not detected.
+  /// The time to wait before considering the [Avatar] as not detected in the
+  /// next estimation.
   @visibleForTesting
   static const undetectedDelay = Duration(seconds: 2);
+
+  /// The number of [CameraImage]s with a detected [Avatar] required before
+  /// an [Avatar] is detected.
+  ///
+  /// It needs to warm up to calibrate a person's face geometric data.
+  @visibleForTesting
+  static const warmingUpImages = 10;
 
   /// The last time the [Avatar] was detected.
   ///
   /// Initially set to [DateTime.now] after the model is [_initialized]; then
   /// set to [DateTime.now] after every [Avatar] detection.
+  ///
+  /// Used to determine if the [Avatar] has been detected for a certain amount
+  /// of time, which is given by [undetectedDelay].
   late DateTime _lastAvatarDetection;
+
+  /// The number of [CameraImage]s with an [Avatar].
+  ///
+  /// The count stops at [warmingUpImages].
+  ///
+  /// Used to determine if the face geometric data of a person has been
+  /// calibrated.
+  int _detectedAvatarCount = 0;
 
   @override
   Future<void> close() {
@@ -72,20 +91,29 @@ class AvatarDetectorBloc
     );
     try {
       final avatar = await _avatarDetectorRepository.detectAvatar(imageData);
-      if (avatar == null) {
+      final avatarDetected = avatar != null;
+
+      if (avatarDetected) {
+        _lastAvatarDetection = DateTime.now();
+        final hasWarmedUp = _detectedAvatarCount >= warmingUpImages;
+        if (!hasWarmedUp) {
+          _detectedAvatarCount++;
+        }
+
+        emit(
+          state.copyWith(
+            status: hasWarmedUp
+                ? AvatarDetectorStatus.detected
+                : AvatarDetectorStatus.warming,
+            avatar: avatar,
+          ),
+        );
+      } else {
         if (DateTime.now().difference(_lastAvatarDetection) > undetectedDelay) {
           emit(
             state.copyWith(status: AvatarDetectorStatus.notDetected),
           );
         }
-      } else {
-        emit(
-          state.copyWith(
-            status: AvatarDetectorStatus.detected,
-            avatar: avatar,
-          ),
-        );
-        _lastAvatarDetection = DateTime.now();
       }
     } catch (error, stackTrace) {
       addError(error, stackTrace);

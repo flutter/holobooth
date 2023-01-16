@@ -1,5 +1,5 @@
-name: io_photobooth
-description: I/O Photo Booth app.
+name: holobooth
+description: Holobooth app.
 version: 1.0.0+1
 publish_to: none
 
@@ -32,11 +32,11 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
+  holobooth_ui:
+    path: packages/holobooth_ui
   intl: ^0.17.0
   just_audio: ^0.9.30
   meta: ^1.8.0
-  photobooth_ui:
-    path: packages/photobooth_ui
   platform_helper:
     path: packages/platform_helper
   rive: ^0.9.1

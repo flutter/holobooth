@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/external_links/external_links.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareSubheading extends StatelessWidget {
   const ShareSubheading({super.key});
@@ -12,12 +12,12 @@ class ShareSubheading extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final isSmallScreen =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return SelectableText.rich(
       TextSpan(
         text: l10n.sharePageLearnMoreAboutTextPart1,
         style: theme.textTheme.bodyLarge?.copyWith(
-          fontWeight: PhotoboothFontWeight.regular,
+          fontWeight: HoloboothFontWeight.regular,
           color: HoloBoothColors.white,
         ),
         children: <TextSpan>[

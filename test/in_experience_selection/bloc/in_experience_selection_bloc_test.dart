@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
   group('InExperienceSelectionBloc', () {

@@ -2,10 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SharePage extends StatelessWidget {
   const SharePage({
