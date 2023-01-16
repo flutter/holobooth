@@ -34,6 +34,8 @@ class Avatar extends Equatable {
   final double mouthDistance;
 
   /// Direction of the [Avatar] represented by x, y and z.
+  ///
+  /// The vector values are between -1 and 1.
   final Vector3 rotation;
 
   /// The value that correlates to the distance the [Avatar] is from the camera.

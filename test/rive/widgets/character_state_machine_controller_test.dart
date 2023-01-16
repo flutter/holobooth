@@ -16,9 +16,9 @@ void main() {
     const mouthDistanceInputName =
         CharacterStateMachineController.mouthDistanceInputName;
     const leftEyeIsClosedInputName =
-        CharacterStateMachineController.leftEyeIsClosedInputName;
+        CharacterStateMachineController.leftEyeInputName;
     const rightEyeIsClosedInputName =
-        CharacterStateMachineController.rightEyeIsClosedInputName;
+        CharacterStateMachineController.rightEyeInputName;
     const hatsInputName = CharacterStateMachineController.hatsInputName;
     const glassesInputName = CharacterStateMachineController.glassesInputName;
     const clothesInputName = CharacterStateMachineController.clothesInputName;

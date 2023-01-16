@@ -29,17 +29,17 @@ class App extends StatelessWidget {
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
-          small: (_, __) => _App(theme: PhotoboothTheme.small),
-          medium: (_, __) => _App(theme: PhotoboothTheme.medium),
-          large: (_, __) => _App(theme: PhotoboothTheme.standard),
+          small: (_, __) => _AppView(theme: PhotoboothTheme.small),
+          medium: (_, __) => _AppView(theme: PhotoboothTheme.medium),
+          large: (_, __) => _AppView(theme: PhotoboothTheme.standard),
         ),
       ),
     );
   }
 }
 
-class _App extends StatelessWidget {
-  const _App({required this.theme});
+class _AppView extends StatelessWidget {
+  const _AppView({required this.theme});
 
   final ThemeData theme;
 

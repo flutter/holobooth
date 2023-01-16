@@ -169,5 +169,13 @@
   "faceNotDetected": "Face not detected",
   "@faceNotDetected": {
     "description": "Text displayed when there is no face detected."
+  },
+  "downloadOptionGif": "GIF Format",
+  "@downloadOptionGif": {
+    "description": "Text shown to download in gif format."
+  },
+  "downloadOptionVideo": "Video Format",
+  "@downloadOptionVideo": {
+    "description": "Text shown to download as a video."
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class CharacterStateMachineController extends StateMachineController {
@@ -47,22 +48,22 @@ class CharacterStateMachineController extends StateMachineController {
       throw StateError('Could not find input "$mouthDistanceInputName"');
     }
 
-    final leftEyeIsClosed = testFindInput != null
-        ? testFindInput(leftEyeIsClosedInputName)
-        : findInput<double>(leftEyeIsClosedInputName);
-    if (leftEyeIsClosed is SMINumber) {
-      this.leftEyeIsClosed = leftEyeIsClosed;
+    final leftEye = testFindInput != null
+        ? testFindInput(leftEyeInputName)
+        : findInput<double>(leftEyeInputName);
+    if (leftEye is SMINumber) {
+      this.leftEye = leftEye;
     } else {
-      throw StateError('Could not find input "$leftEyeIsClosedInputName"');
+      throw StateError('Could not find input "$leftEyeInputName"');
     }
 
-    final rightEyeIsClosed = testFindInput != null
-        ? testFindInput(rightEyeIsClosedInputName)
-        : findInput<double>(rightEyeIsClosedInputName);
-    if (rightEyeIsClosed is SMINumber) {
-      this.rightEyeIsClosed = rightEyeIsClosed;
+    final rightEye = testFindInput != null
+        ? testFindInput(rightEyeInputName)
+        : findInput<double>(rightEyeInputName);
+    if (rightEye is SMINumber) {
+      this.rightEye = rightEye;
     } else {
-      throw StateError('Could not find input "$rightEyeIsClosedInputName"');
+      throw StateError('Could not find input "$rightEyeInputName"');
     }
 
     final hats = testFindInput != null
@@ -102,26 +103,35 @@ class CharacterStateMachineController extends StateMachineController {
     }
   }
 
+  @visibleForTesting
   static const xInputName = 'x';
+  @visibleForTesting
   static const yInputName = 'y';
+  @visibleForTesting
   static const zInputName = 'z';
+  @visibleForTesting
   static const mouthDistanceInputName = 'Mouth Open';
-  static const leftEyeIsClosedInputName = 'Eyelid LF';
-  static const rightEyeIsClosedInputName = 'Eyelid RT';
+  @visibleForTesting
+  static const leftEyeInputName = 'Eyelid LF';
+  @visibleForTesting
+  static const rightEyeInputName = 'Eyelid RT';
+  @visibleForTesting
   static const hatsInputName = 'Hats';
+  @visibleForTesting
   static const glassesInputName = 'Glasses';
+  @visibleForTesting
   static const clothesInputName = 'Clothes';
+  @visibleForTesting
   static const handheldLeftInputName = 'HandheldLeft';
 
   late final SMINumber x;
   late final SMINumber y;
   late final SMINumber z;
   late final SMINumber mouthDistance;
-  late final SMINumber leftEyeIsClosed;
-  late final SMINumber rightEyeIsClosed;
+  late final SMINumber leftEye;
+  late final SMINumber rightEye;
   late final SMINumber hats;
   late final SMINumber glasses;
   late final SMINumber clothes;
   late final SMINumber handheldlLeft;
 }
-// coverage:ignore-end
