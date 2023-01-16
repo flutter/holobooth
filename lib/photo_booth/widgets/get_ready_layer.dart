@@ -98,8 +98,8 @@ class GetReadyCountdown extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Positioned.fill(
-          child: Container(color: const Color.fromRGBO(19, 22, 44, 0.75)),
+        const Positioned.fill(
+          child: ColoredBox(color: HoloBoothColors.blurrySurface),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
