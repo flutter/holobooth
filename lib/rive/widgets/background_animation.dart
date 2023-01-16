@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:rive/rive.dart';
 
 class BackgroundAnimation extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PropsScrollView extends StatelessWidget {
   const PropsScrollView({
@@ -14,7 +14,7 @@ class PropsScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     if (isSmall) {
       return ListView.separated(
         scrollDirection: Axis.horizontal,

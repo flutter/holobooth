@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/animoji_intro/animoji_intro.dart';
-import 'package:io_photobooth/camera/widgets/widgets.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/animoji_intro/animoji_intro.dart';
+import 'package:holobooth/camera/camera.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroPage extends StatelessWidget {
   const AnimojiIntroPage({super.key});

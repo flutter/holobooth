@@ -1,4 +1,4 @@
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 const flutterDevExternalLink = 'https://flutter.dev';
 const flutterForwardLink = 'https://flutter.dev/events/flutter-forward';

@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class GetReadyLayer extends StatefulWidget {
   const GetReadyLayer({
@@ -94,7 +94,7 @@ class GetReadyCountdown extends StatelessWidget {
     final seconds =
         (GetReadyLayer.countdownDuration.inSeconds * controller.value).ceil();
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Stack(
       fit: StackFit.expand,
       children: [
