@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 
 enum Background {
-  bg01(1),
-  bg02(2),
-  bg03(3),
-  bg04(4),
-  bg05(5),
-  bg06(6),
-  bg07(7),
-  bg08(8);
-
-  const Background(this.riveIndex);
-  final double riveIndex;
+  bg0,
+  bg1,
+  bg2,
+  bg3,
+  bg4,
+  bg5,
+  bg6,
+  bg7,
+  bg8;
 
   ImageProvider toImageProvider() {
     switch (this) {
-      case Background.bg01:
+      case Background.bg0:
+        return Assets.backgrounds.bg00.provider();
+      case Background.bg1:
         return Assets.backgrounds.bg01.provider();
-      case Background.bg02:
+      case Background.bg2:
         return Assets.backgrounds.bg02.provider();
-      case Background.bg03:
+      case Background.bg3:
         return Assets.backgrounds.bg03.provider();
-      case Background.bg04:
+      case Background.bg4:
         return Assets.backgrounds.bg04.provider();
-      case Background.bg05:
+      case Background.bg5:
         return Assets.backgrounds.bg05.provider();
-      case Background.bg06:
+      case Background.bg6:
         return Assets.backgrounds.bg06.provider();
-      case Background.bg07:
+      case Background.bg7:
         return Assets.backgrounds.bg07.provider();
-      case Background.bg08:
+      case Background.bg8:
         return Assets.backgrounds.bg08.provider();
     }
   }

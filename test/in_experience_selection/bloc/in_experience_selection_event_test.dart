@@ -15,9 +15,9 @@ void main() {
 
     group('InExperienceSelectionBackgroundSelected', () {
       test('support value comparison', () {
-        final eventA = InExperienceSelectionBackgroundSelected(Background.bg01);
-        final eventB = InExperienceSelectionBackgroundSelected(Background.bg01);
-        final eventC = InExperienceSelectionBackgroundSelected(Background.bg02);
+        final eventA = InExperienceSelectionBackgroundSelected(Background.bg1);
+        final eventB = InExperienceSelectionBackgroundSelected(Background.bg1);
+        final eventC = InExperienceSelectionBackgroundSelected(Background.bg2);
         expect(eventA, equals(eventB));
         expect(eventA, isNot(equals(eventC)));
       });
