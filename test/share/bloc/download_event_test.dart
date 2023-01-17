@@ -5,6 +5,8 @@ void main() {
   group('DownloadEvent', () {
     test('can be instantiated', () {
       expect(DownloadEvent(''), isNotNull);
+      expect(DownloadEvent.video().extension, equals('mp4'));
+      expect(DownloadEvent.gif().extension, equals('gif'));
     });
 
     test('supports equality', () {

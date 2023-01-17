@@ -99,7 +99,7 @@ class DownloadAsAGifButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        context.read<DownloadBloc>().add(const DownloadEvent('gif'));
+        context.read<DownloadBloc>().add(const DownloadEvent.gif());
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
@@ -129,7 +129,7 @@ class DownloadAsAVideoButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        context.read<DownloadBloc>().add(const DownloadEvent('mp4'));
+        context.read<DownloadBloc>().add(const DownloadEvent.video());
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
