@@ -59,7 +59,6 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
         clipper: BlurryContainerClipPath(),
         child: BlurryContainer(
           color: HoloBoothColors.darkPurple.withOpacity(0.84),
-          // TODO(oscar): add animation
           height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -68,15 +67,10 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
                 alignment: Alignment.centerRight,
                 child: CollapseButton(
                   onPressed: () => setState(() => collapsed = !collapsed),
+                  collapsed: collapsed,
                 ),
               ),
-              Flexible(
-                child: Center(
-                  child: PrimarySelectionView(
-                    collapsed: collapsed,
-                  ),
-                ),
-              ),
+              Flexible(child: PrimarySelectionView(collapsed: collapsed)),
             ],
           ),
         ),
@@ -87,9 +81,14 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
 
 @visibleForTesting
 class CollapseButton extends StatelessWidget {
-  const CollapseButton({super.key, required this.onPressed});
+  const CollapseButton({
+    super.key,
+    required this.onPressed,
+    required this.collapsed,
+  });
 
   final VoidCallback onPressed;
+  final bool collapsed;
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +97,8 @@ class CollapseButton extends StatelessWidget {
       height: _collapseButtonHeight,
       child: IconButton(
         onPressed: onPressed,
-        icon: const Icon(
-          Icons.expand_more,
+        icon: Icon(
+          collapsed ? Icons.expand_less : Icons.expand_more,
           color: HoloBoothColors.white,
         ),
       ),
