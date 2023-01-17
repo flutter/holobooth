@@ -144,6 +144,42 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/bg_08.png
   AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
 
+  /// File path: assets/backgrounds/bg_thumbnail_00.png
+  AssetGenImage get bgThumbnail00 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_00.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_01.png
+  AssetGenImage get bgThumbnail01 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_01.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_02.png
+  AssetGenImage get bgThumbnail02 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_02.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_03.png
+  AssetGenImage get bgThumbnail03 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_03.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_04.png
+  AssetGenImage get bgThumbnail04 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_04.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_05.png
+  AssetGenImage get bgThumbnail05 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_05.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_06.png
+  AssetGenImage get bgThumbnail06 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_06.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_07.png
+  AssetGenImage get bgThumbnail07 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_07.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_08.png
+  AssetGenImage get bgThumbnail08 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_08.png');
+
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
       const AssetGenImage('assets/backgrounds/holobooth.png');
@@ -176,6 +212,15 @@ class $AssetsBackgroundsGen {
         bg06,
         bg07,
         bg08,
+        bgThumbnail00,
+        bgThumbnail01,
+        bgThumbnail02,
+        bgThumbnail03,
+        bgThumbnail04,
+        bgThumbnail05,
+        bgThumbnail06,
+        bgThumbnail07,
+        bgThumbnail08,
         holobooth,
         landingBackground,
         loadingBackground,

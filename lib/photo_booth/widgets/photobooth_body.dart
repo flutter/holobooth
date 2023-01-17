@@ -83,7 +83,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  const PhotoboothBackground(),
+                  PhotoboothBackground(),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
