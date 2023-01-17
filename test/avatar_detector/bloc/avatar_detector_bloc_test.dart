@@ -198,91 +198,63 @@ void main() {
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
-        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.warming] '
-        'if detectAvatar returns null.',
+        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.warming '
+        'if detectAvatar returns avatar but still no 10 avatars.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),
           ).thenAnswer((_) async => avatar);
         },
+        seed: () => AvatarDetectorState(
+          status: AvatarDetectorStatus.loaded,
+          lastAvatarDetection: DateTime.now(),
+        ),
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) async {
-          bloc
-            ..add(AvatarDetectorInitialized())
-            ..add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
+          bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
         },
         expect: () => [
           isInstanceOf<AvatarDetectorState>().having(
             (state) => state.status,
             'status',
-            equals(AvatarDetectorStatus.loading),
-          ),
-          isInstanceOf<AvatarDetectorState>().having(
-            (state) => state.status,
-            'status',
-            equals(AvatarDetectorStatus.loaded),
-          ),
-          isInstanceOf<AvatarDetectorState>().having(
-            (state) => state.status,
-            'status',
             equals(AvatarDetectorStatus.estimating),
           ),
-          AvatarDetectorState(
-            status: AvatarDetectorStatus.warming,
-            avatar: avatar,
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.warming),
           ),
         ],
       );
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
-        'emits [AvatarDetectorStatus.loading, AvatarDetectorStatus.loaded, '
-        'AvatarDetectorStatus.estimating, AvatarDetectorStatus.warming, '
-        'AvatarDetectorStatus.detected] if detectAvatar returns null.',
+        'emits AvatarDetectorStatus.estimating, '
+        'AvatarDetectorStatus.detected] if detectAvatar '
+        'returns avatar and already warm up.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),
           ).thenAnswer((_) async => avatar);
         },
+        seed: () => AvatarDetectorState(
+          status: AvatarDetectorStatus.loaded,
+          lastAvatarDetection: DateTime.now(),
+          detectedAvatarCount: 10,
+        ),
         build: () => AvatarDetectorBloc(avatarDetectorRepository),
         act: (bloc) async {
-          bloc.add(AvatarDetectorInitialized());
-
-          for (var i = 0; i <= AvatarDetectorBloc.warmingUpImages; i++) {
-            await Future<void>.delayed(Duration.zero);
-            bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
-          }
+          bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
         },
         expect: () => [
           isInstanceOf<AvatarDetectorState>().having(
             (state) => state.status,
             'status',
-            equals(AvatarDetectorStatus.loading),
-          ),
-          isInstanceOf<AvatarDetectorState>().having(
-            (state) => state.status,
-            'status',
-            equals(AvatarDetectorStatus.loaded),
-          ),
-          for (var i = 0; i < AvatarDetectorBloc.warmingUpImages; i++) ...[
-            isInstanceOf<AvatarDetectorState>().having(
-              (state) => state.status,
-              'status',
-              equals(AvatarDetectorStatus.estimating),
-            ),
-            AvatarDetectorState(
-              status: AvatarDetectorStatus.warming,
-              avatar: avatar,
-            ),
-          ],
-          isInstanceOf<AvatarDetectorState>().having(
-            (state) => state.status,
-            'status',
             equals(AvatarDetectorStatus.estimating),
           ),
-          AvatarDetectorState(
-            status: AvatarDetectorStatus.detected,
-            avatar: avatar,
+          isInstanceOf<AvatarDetectorState>().having(
+            (state) => state.status,
+            'status',
+            equals(AvatarDetectorStatus.detected),
           ),
         ],
       );

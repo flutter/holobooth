@@ -44,24 +44,33 @@ class AvatarDetectorState extends Equatable {
     this.status = AvatarDetectorStatus.initial,
     this.avatar = Avatar.zero,
     this.lastAvatarDetection,
+    this.detectedAvatarCount = 0,
   });
 
   final AvatarDetectorStatus status;
   final Avatar avatar;
   final DateTime? lastAvatarDetection;
+  final int detectedAvatarCount;
 
   AvatarDetectorState copyWith({
     AvatarDetectorStatus? status,
     Avatar? avatar,
     DateTime? lastAvatarDetection,
+    int? detectedAvatarCount,
   }) {
     return AvatarDetectorState(
       status: status ?? this.status,
       avatar: avatar ?? this.avatar,
       lastAvatarDetection: lastAvatarDetection ?? this.lastAvatarDetection,
+      detectedAvatarCount: detectedAvatarCount ?? this.detectedAvatarCount,
     );
   }
 
   @override
-  List<Object?> get props => [status, avatar, lastAvatarDetection];
+  List<Object?> get props => [
+        status,
+        avatar,
+        lastAvatarDetection,
+        detectedAvatarCount,
+      ];
 }

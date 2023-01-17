@@ -45,7 +45,6 @@ class AvatarDetectorBloc
   ///
   /// Used to determine if the face geometric data of a person has been
   /// calibrated.
-  int _detectedAvatarCount = 0;
 
   @override
   Future<void> close() {
@@ -95,9 +94,10 @@ class AvatarDetectorBloc
       final avatarDetected = avatar != null;
 
       if (avatarDetected) {
-        final hasWarmedUp = _detectedAvatarCount >= warmingUpImages;
+        var detectedAvatarCount = state.detectedAvatarCount;
+        final hasWarmedUp = detectedAvatarCount >= warmingUpImages;
         if (!hasWarmedUp) {
-          _detectedAvatarCount++;
+          detectedAvatarCount++;
         }
 
         emit(
@@ -107,6 +107,7 @@ class AvatarDetectorBloc
                 : AvatarDetectorStatus.warming,
             avatar: avatar,
             lastAvatarDetection: DateTime.now(),
+            detectedAvatarCount: detectedAvatarCount,
           ),
         );
       } else {
