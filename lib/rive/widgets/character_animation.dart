@@ -4,60 +4,39 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
-class MobileDashCharacterAnimation extends CharacterAnimation {
-  MobileDashCharacterAnimation({
+class DashCharacterAnimation extends CharacterAnimation {
+  DashCharacterAnimation({
     super.key,
     required super.avatar,
     required super.hat,
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
+    PlatformHelper? platformHelper,
   }) : super(
-          riveGenImage: Assets.animations.dashMobile,
+          riveGenImage: (platformHelper ?? PlatformHelper()).isMobile
+              ? Assets.animations.dashMobile
+              : Assets.animations.dashDesktop,
           riveImageSize: const Size(2400, 2100),
         );
 }
 
-class DesktopDashCharacterAnimation extends CharacterAnimation {
-  DesktopDashCharacterAnimation({
+class SparkyCharacterAnimation extends CharacterAnimation {
+  SparkyCharacterAnimation({
     super.key,
     required super.avatar,
     required super.hat,
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
+    PlatformHelper? platformHelper,
   }) : super(
-          riveGenImage: Assets.animations.dashDesktop,
-          riveImageSize: const Size(2400, 2100),
-        );
-}
-
-class MobileSparkyCharacterAnimation extends CharacterAnimation {
-  MobileSparkyCharacterAnimation({
-    super.key,
-    required super.avatar,
-    required super.hat,
-    required super.glasses,
-    required super.clothes,
-    required super.handheldlLeft,
-  }) : super(
-          riveGenImage: Assets.animations.sparkyMobile,
-          riveImageSize: const Size(2500, 2100),
-        );
-}
-
-class DesktopSparkyCharacterAnimation extends CharacterAnimation {
-  DesktopSparkyCharacterAnimation({
-    super.key,
-    required super.avatar,
-    required super.hat,
-    required super.glasses,
-    required super.clothes,
-    required super.handheldlLeft,
-  }) : super(
-          riveGenImage: Assets.animations.sparkyDesktop,
+          riveGenImage: (platformHelper ?? PlatformHelper()).isMobile
+              ? Assets.animations.sparkyMobile
+              : Assets.animations.sparkyDesktop,
           riveImageSize: const Size(2500, 2100),
         );
 }

@@ -6,12 +6,129 @@ import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
+
+import '../../helpers/helpers.dart';
 
 class _MockLeftEyeGeometry extends Mock implements LeftEyeGeometry {}
 
 class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
 void main() {
+  late PlatformHelper platformHelper;
+
+  setUp(() => platformHelper = _MockPlatformHelper());
+
+  group('DashCharacterAnimation', () {
+    testWidgets(
+      'renders mobile asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(true);
+
+        await tester.pumpApp(
+          DashCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder = find.byWidgetPredicate(
+          (widget) =>
+              widget is DashCharacterAnimation &&
+              widget.riveGenImage.path == Assets.animations.dashMobile.path,
+        );
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders desktop asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpApp(
+          DashCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder = find.byWidgetPredicate(
+          (widget) =>
+              widget is DashCharacterAnimation &&
+              widget.riveGenImage.path == Assets.animations.dashDesktop.path,
+        );
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+  });
+
+  group('SparkyCharacterAnimation', () {
+    testWidgets(
+      'renders mobile asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(true);
+
+        await tester.pumpApp(
+          SparkyCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder = find.byWidgetPredicate(
+          (widget) =>
+              widget is SparkyCharacterAnimation &&
+              widget.riveGenImage.path == Assets.animations.sparkyMobile.path,
+        );
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders desktop asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpApp(
+          SparkyCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder = find.byWidgetPredicate(
+          (widget) =>
+              widget is SparkyCharacterAnimation &&
+              widget.riveGenImage.path == Assets.animations.sparkyDesktop.path,
+        );
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+  });
+
   group('CharacterAnimation', () {
     late RiveGenImage riveGenImage;
     late Size riveImageSize;

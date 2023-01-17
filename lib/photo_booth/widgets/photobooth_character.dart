@@ -4,13 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
-import 'package:platform_helper/platform_helper.dart';
 
 class PhotoboothCharacter extends StatefulWidget {
-  PhotoboothCharacter({super.key, PlatformHelper? platformHelper})
-      : platformHelper = platformHelper ?? PlatformHelper();
-
-  final PlatformHelper platformHelper;
+  const PhotoboothCharacter({super.key});
 
   @override
   State<PhotoboothCharacter> createState() => _PhotoboothCharacterState();
@@ -42,38 +38,22 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
     late final Widget character;
     switch (characterSelected) {
       case Character.dash:
-        character = widget.platformHelper.isMobile
-            ? MobileDashCharacterAnimation(
-                avatar: _latestValidAvatar,
-                hat: hat,
-                glasses: glasses,
-                clothes: clothes,
-                handheldlLeft: handheldlLeft,
-              )
-            : DesktopDashCharacterAnimation(
-                avatar: _latestValidAvatar,
-                hat: hat,
-                glasses: glasses,
-                clothes: clothes,
-                handheldlLeft: handheldlLeft,
-              );
+        character = DashCharacterAnimation(
+          avatar: _latestValidAvatar,
+          hat: hat,
+          glasses: glasses,
+          clothes: clothes,
+          handheldlLeft: handheldlLeft,
+        );
         break;
       case Character.sparky:
-        character = widget.platformHelper.isMobile
-            ? MobileSparkyCharacterAnimation(
-                avatar: _latestValidAvatar,
-                hat: hat,
-                glasses: glasses,
-                clothes: clothes,
-                handheldlLeft: handheldlLeft,
-              )
-            : DesktopSparkyCharacterAnimation(
-                avatar: _latestValidAvatar,
-                hat: hat,
-                glasses: glasses,
-                clothes: clothes,
-                handheldlLeft: handheldlLeft,
-              );
+        character = SparkyCharacterAnimation(
+          avatar: _latestValidAvatar,
+          hat: hat,
+          glasses: glasses,
+          clothes: clothes,
+          handheldlLeft: handheldlLeft,
+        );
         break;
     }
 

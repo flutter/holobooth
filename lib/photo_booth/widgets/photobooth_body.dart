@@ -88,7 +88,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
                       offset: Offset(0, characterOffestY),
-                      child: PhotoboothCharacter(),
+                      child: const PhotoboothCharacter(),
                     ),
                   ),
                 ],
