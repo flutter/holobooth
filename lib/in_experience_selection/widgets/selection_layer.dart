@@ -55,24 +55,30 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
       right: 0,
       left: 0,
       bottom: 0,
-      child: ClipPath(
-        clipper: BlurryContainerClipPath(),
-        child: BlurryContainer(
-          color: HoloBoothColors.darkPurple.withOpacity(0.84),
-          // TODO(oscar): add animation
-          height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: CollapseButton(
-                  onPressed: () => setState(() => collapsed = !collapsed),
-                  collapsed: collapsed,
+      child: AnimatedSize(
+        duration: Duration(milliseconds: 300),
+        reverseDuration: Duration(seconds: 3),
+        alignment: Alignment.bottomCenter,
+        child: ClipPath(
+          clipper: BlurryContainerClipPath(),
+          child: BlurryContainer(
+            color: HoloBoothColors.darkPurple.withOpacity(0.84),
+            // TODO(oscar): add animation
+            height:
+                collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CollapseButton(
+                    onPressed: () => setState(() => collapsed = !collapsed),
+                    collapsed: collapsed,
+                  ),
                 ),
-              ),
-              Flexible(child: PrimarySelectionView(collapsed: collapsed)),
-            ],
+                Flexible(child: PrimarySelectionView(collapsed: collapsed)),
+              ],
+            ),
           ),
         ),
       ),
