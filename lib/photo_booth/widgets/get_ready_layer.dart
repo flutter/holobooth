@@ -14,7 +14,7 @@ class GetReadyLayer extends StatefulWidget {
 
   final VoidCallback onCountdownCompleted;
 
-  static const countdownDuration = Duration(seconds: 1);
+  static const countdownDuration = Duration(seconds: 3);
 
   @visibleForTesting
   static const emptySizedBox = Key('empty_sizedBox');

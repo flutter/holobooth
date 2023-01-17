@@ -13,9 +13,8 @@ class _MockConvertRepository extends Mock implements ConvertRepository {}
 class _MockImage extends Mock implements Image {}
 
 void main() {
-  late ConvertRepository convertRepository;
-
   group('ConvertBloc', () {
+    late ConvertRepository convertRepository;
     late Image image;
     late List<Frame> frames;
     const totalFrames = 10;
@@ -74,7 +73,11 @@ void main() {
         expect: () => [
           ConvertState(),
           ConvertState(frames: framesAsImages),
-          ConvertState(status: ConvertStatus.error, frames: framesAsImages),
+          ConvertState(
+            status: ConvertStatus.error,
+            frames: framesAsImages,
+            triesCount: 1,
+          ),
         ],
       );
 
