@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
 class DashCharacterAnimation extends CharacterAnimation {
@@ -14,8 +15,11 @@ class DashCharacterAnimation extends CharacterAnimation {
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
+    PlatformHelper? platformHelper,
   }) : super(
-          assetGenImage: Assets.animations.dash,
+          assetGenImage: (platformHelper ?? PlatformHelper()).isMobile
+              ? Assets.animations.dashMobile
+              : Assets.animations.dashDesktop,
           riveImageSize: const Size(2400, 2100),
         );
 }
@@ -28,8 +32,11 @@ class SparkyCharacterAnimation extends CharacterAnimation {
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
+    PlatformHelper? platformHelper,
   }) : super(
-          assetGenImage: Assets.animations.sparky,
+          assetGenImage: (platformHelper ?? PlatformHelper()).isMobile
+              ? Assets.animations.sparkyMobile
+              : Assets.animations.sparkyDesktop,
           riveImageSize: const Size(2500, 2100),
         );
 }

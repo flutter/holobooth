@@ -17,7 +17,7 @@ void main() {
     late Size riveImageSize;
 
     setUp(() {
-      assetGenImage = Assets.animations.dash;
+      assetGenImage = Assets.animations.dashMobile;
       riveImageSize = Size(100, 100);
     });
 
