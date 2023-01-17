@@ -3,14 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class PhotoboothBackground extends StatelessWidget {
-  const PhotoboothBackground({super.key});
+  PhotoboothBackground({super.key, PlatformHelper? platformHelper})
+      : platformHelper = platformHelper ?? PlatformHelper();
+
+  final PlatformHelper platformHelper;
 
   @override
   Widget build(BuildContext context) {
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
+
+    if (platformHelper.isMobile) {
+      return Image(
+        key: Key(backgroundSelected.name),
+        image: backgroundSelected.toImageProvider(),
+        fit: BoxFit.cover,
+      );
+    }
 
     RiveGenImage riveAsset;
 
