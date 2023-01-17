@@ -96,7 +96,9 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
                 PropsSelectionTabBarView(),
               ],
             ),
-          ),
+          )
+        else
+          Expanded(child: SizedBox()),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),

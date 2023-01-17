@@ -72,10 +72,8 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
                 ),
               ),
               Flexible(
-                child: Center(
-                  child: PrimarySelectionView(
-                    collapsed: collapsed,
-                  ),
+                child: PrimarySelectionView(
+                  collapsed: collapsed,
                 ),
               ),
             ],
