@@ -16,6 +16,9 @@ import '../../helpers/helpers.dart';
 class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
     implements ConvertBloc {}
 
+class _MockDownloadBloc extends MockBloc<DownloadEvent, DownloadState>
+    implements DownloadBloc {}
+
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
@@ -25,11 +28,17 @@ void main() {
     late Uint8List firstFrame;
 
     late ConvertBloc convertBloc;
+    late DownloadBloc downloadBloc;
+
     setUp(() async {
       final image = await createTestImage(height: 10, width: 10);
       final bytesImage = await image.toByteData(format: ImageByteFormat.png);
       firstFrame = bytesImage!.buffer.asUint8List();
       convertBloc = _MockConvertBloc();
+
+      downloadBloc = _MockDownloadBloc();
+      when(() => downloadBloc.state)
+          .thenReturn(const DownloadState.initial(videoPath: ''));
     });
 
     test('is routable', () {
@@ -47,6 +56,7 @@ void main() {
   group('ShareView', () {
     late UrlLauncherPlatform mock;
     late ConvertBloc convertBloc;
+    late DownloadBloc downloadBloc;
 
     setUp(() {
       mock = _MockUrlLauncher();
@@ -58,6 +68,10 @@ void main() {
       when(
         () => mock.launchUrl(any(), any()),
       ).thenAnswer((_) async => true);
+
+      downloadBloc = _MockDownloadBloc();
+      when(() => downloadBloc.state)
+          .thenReturn(const DownloadState.initial(videoPath: ''));
     });
 
     setUpAll(() {
@@ -67,7 +81,8 @@ void main() {
     testWidgets('renders ShareBackground', (tester) async {
       await tester.pumpSubject(
         ShareView(),
-        convertBloc,
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
       );
       expect(find.byType(ShareBackground), findsOneWidget);
     });
@@ -75,7 +90,8 @@ void main() {
     testWidgets('contains a ShareBody', (tester) async {
       await tester.pumpSubject(
         ShareView(),
-        convertBloc,
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
       );
       expect(find.byType(ShareBody), findsOneWidget);
     });
@@ -83,9 +99,17 @@ void main() {
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(ShareView subject, ConvertBloc bloc) => pumpApp(
-        BlocProvider.value(
-          value: bloc,
+  Future<void> pumpSubject(
+    ShareView subject, {
+    required ConvertBloc convertBloc,
+    required DownloadBloc downloadBloc,
+  }) =>
+      pumpApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: convertBloc),
+            BlocProvider.value(value: downloadBloc),
+          ],
           child: subject,
         ),
       );
