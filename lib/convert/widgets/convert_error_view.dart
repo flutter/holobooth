@@ -12,30 +12,33 @@ class ConvertErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final maxTriesReached =
         context.select((ConvertBloc bloc) => bloc.state.maxTriesReached);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (maxTriesReached)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(
-              context.l10n.maxRetriesReached,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: HoloBoothColors.white),
+    const buttonWidth = 250.0;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 84),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (maxTriesReached)
+            GradientText(
+              text: context.l10n.maxRetriesReached,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
+            )
+          else
+            const SizedBox(
+              width: buttonWidth,
+              child: TryAgainVideoGenerationButton(),
             ),
-          )
-        else
-          const TryAgainVideoGenerationButton(),
-        const SizedBox(height: 16),
-        const RetakeExperienceButton(),
-      ],
+          const SizedBox(height: 24),
+          const SizedBox(width: buttonWidth, child: RetakeExperienceButton()),
+        ],
+      ),
     );
   }
 }
 
+@visibleForTesting
 class TryAgainVideoGenerationButton extends StatelessWidget {
   const TryAgainVideoGenerationButton({super.key});
 
@@ -51,18 +54,18 @@ class TryAgainVideoGenerationButton extends StatelessWidget {
   }
 }
 
+@visibleForTesting
 class RetakeExperienceButton extends StatelessWidget {
   const RetakeExperienceButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
-    return GradientElevatedButton(
-      child: Text(l10n.retakeVideoGeneration),
+    return OutlinedButton(
       onPressed: () {
         Navigator.of(context).pushReplacement(PhotoBoothPage.route());
       },
+      child: Text(l10n.retakeVideoGeneration),
     );
   }
 }

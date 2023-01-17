@@ -190,7 +190,7 @@
   "@retakeVideoGeneration": {
     "description": "Text displayed on retake button when generate video fails."
   },
-  "maxRetriesReached": "'It seems you have tried many times already, please restart the experience",
+  "maxRetriesReached": "Unfortunately we were unable to generate this video for you.",
   "@maxRetriesReached": {
     "description": "Text displayed when maximum amount of tries has been reaching to generate the video."
   }
