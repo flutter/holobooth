@@ -38,7 +38,6 @@ class AvatarDetectorBloc
   ///
   /// Used to determine if the [Avatar] has been detected for a certain amount
   /// of time, which is given by [undetectedDelay].
-  late DateTime _lastAvatarDetection;
 
   /// The number of [CameraImage]s with an [Avatar].
   ///
@@ -65,9 +64,11 @@ class AvatarDetectorBloc
     try {
       await _avatarDetectorRepository.preloadLandmarksModel();
       emit(
-        state.copyWith(status: AvatarDetectorStatus.loaded),
+        state.copyWith(
+          status: AvatarDetectorStatus.loaded,
+          lastAvatarDetection: DateTime.now(),
+        ),
       );
-      _lastAvatarDetection = DateTime.now();
     } on Exception catch (error, trace) {
       addError(error, trace);
       emit(
@@ -94,7 +95,6 @@ class AvatarDetectorBloc
       final avatarDetected = avatar != null;
 
       if (avatarDetected) {
-        _lastAvatarDetection = DateTime.now();
         final hasWarmedUp = _detectedAvatarCount >= warmingUpImages;
         if (!hasWarmedUp) {
           _detectedAvatarCount++;
@@ -106,10 +106,12 @@ class AvatarDetectorBloc
                 ? AvatarDetectorStatus.detected
                 : AvatarDetectorStatus.warming,
             avatar: avatar,
+            lastAvatarDetection: DateTime.now(),
           ),
         );
       } else {
-        if (DateTime.now().difference(_lastAvatarDetection) > undetectedDelay) {
+        if (DateTime.now().difference(state.lastAvatarDetection!) >
+            undetectedDelay) {
           emit(
             state.copyWith(status: AvatarDetectorStatus.notDetected),
           );
