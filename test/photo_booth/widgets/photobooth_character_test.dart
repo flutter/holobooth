@@ -26,11 +26,11 @@ void main() {
   group('PhotoboothCharacter', () {
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
+
     setUp(() {
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
-
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorState());
     });
@@ -40,6 +40,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
+
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
@@ -59,6 +60,7 @@ void main() {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
         );
+
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,

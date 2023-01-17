@@ -1,0 +1,22 @@
+name: download_repository
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - "packages/download_repository/**"
+      - ".github/workflows/download_repository.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      flutter_channel: "beta"
+      flutter_version: 3.6.0-0.1.pre
+      coverage_excludes: "**/*.gen.dart"
+      working_directory: packages/download_repository
