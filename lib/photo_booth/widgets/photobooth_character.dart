@@ -59,13 +59,21 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
               );
         break;
       case Character.sparky:
-        character = SparkyCharacterAnimation(
-          avatar: _latestValidAvatar,
-          hat: hat,
-          glasses: glasses,
-          clothes: clothes,
-          handheldlLeft: handheldlLeft,
-        );
+        character = widget.platformHelper.isMobile
+            ? MobileSparkyCharacterAnimation(
+                avatar: _latestValidAvatar,
+                hat: hat,
+                glasses: glasses,
+                clothes: clothes,
+                handheldlLeft: handheldlLeft,
+              )
+            : DesktopSparkyCharacterAnimation(
+                avatar: _latestValidAvatar,
+                hat: hat,
+                glasses: glasses,
+                clothes: clothes,
+                handheldlLeft: handheldlLeft,
+              );
         break;
     }
 

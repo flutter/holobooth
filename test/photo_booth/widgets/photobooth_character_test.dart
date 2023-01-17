@@ -84,19 +84,44 @@ void main() {
     );
 
     testWidgets(
-      'renders SparkyCharacterAnimation if sparky selected',
+      'renders MobileSparkyCharacterAnimation if sparky selected and '
+      'it is mobile',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
         );
+        when(() => platformHelper.isMobile).thenReturn(true);
+
         await tester.pumpSubject(
-          PhotoboothCharacter(),
+          PhotoboothCharacter(platformHelper: platformHelper),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
 
         expect(
-          find.byType(SparkyCharacterAnimation),
+          find.byType(MobileSparkyCharacterAnimation),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'renders DesktopSparkyCharacterAnimation if sparky selected and '
+      'it is desktop',
+      (WidgetTester tester) async {
+        when(() => inExperienceSelectionBloc.state).thenReturn(
+          InExperienceSelectionState(character: Character.sparky),
+        );
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpSubject(
+          PhotoboothCharacter(platformHelper: platformHelper),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+
+        expect(
+          find.byType(DesktopSparkyCharacterAnimation),
           findsOneWidget,
         );
       },

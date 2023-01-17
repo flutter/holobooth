@@ -34,8 +34,8 @@ class DesktopDashCharacterAnimation extends CharacterAnimation {
         );
 }
 
-class SparkyCharacterAnimation extends CharacterAnimation {
-  SparkyCharacterAnimation({
+class MobileSparkyCharacterAnimation extends CharacterAnimation {
+  MobileSparkyCharacterAnimation({
     super.key,
     required super.avatar,
     required super.hat,
@@ -44,6 +44,20 @@ class SparkyCharacterAnimation extends CharacterAnimation {
     required super.handheldlLeft,
   }) : super(
           riveGenImage: Assets.animations.sparkyMobile,
+          riveImageSize: const Size(2500, 2100),
+        );
+}
+
+class DesktopSparkyCharacterAnimation extends CharacterAnimation {
+  DesktopSparkyCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          riveGenImage: Assets.animations.sparkyDesktop,
           riveImageSize: const Size(2500, 2100),
         );
 }
