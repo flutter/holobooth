@@ -31,21 +31,6 @@ class AvatarDetectorBloc
   @visibleForTesting
   static const warmingUpImages = 10;
 
-  /// The last time the [Avatar] was detected.
-  ///
-  /// Initially set to [DateTime.now] after the model is [_initialized]; then
-  /// set to [DateTime.now] after every [Avatar] detection.
-  ///
-  /// Used to determine if the [Avatar] has been detected for a certain amount
-  /// of time, which is given by [undetectedDelay].
-
-  /// The number of [CameraImage]s with an [Avatar].
-  ///
-  /// The count stops at [warmingUpImages].
-  ///
-  /// Used to determine if the face geometric data of a person has been
-  /// calibrated.
-
   @override
   Future<void> close() {
     _avatarDetectorRepository.dispose();
