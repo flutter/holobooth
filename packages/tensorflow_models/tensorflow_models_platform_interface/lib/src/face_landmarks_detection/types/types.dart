@@ -142,7 +142,6 @@ class BoundingBox {
           map['width'] as num,
           map['height'] as num,
         );
-  // TODO(oscar): check if worth to use double instead.
 
   /// The x-coordinate of the top-left corner of the bounding box.
   final num xMin;

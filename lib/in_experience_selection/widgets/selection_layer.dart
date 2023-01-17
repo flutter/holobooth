@@ -59,7 +59,6 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
         clipper: BlurryContainerClipPath(),
         child: BlurryContainer(
           color: HoloBoothColors.darkPurple.withOpacity(0.84),
-          // TODO(oscar): add animation
           height: collapsed ? _panelHeightCollapsed : _panelHeightNotCollapsed,
           child: Column(
             mainAxisSize: MainAxisSize.min,
