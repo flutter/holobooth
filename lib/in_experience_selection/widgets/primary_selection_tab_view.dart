@@ -19,6 +19,9 @@ class PrimarySelectionView extends StatefulWidget {
   @visibleForTesting
   static const primaryTabBarViewKey = Key('primaryTabBarView');
 
+  @visibleForTesting
+  static const collapsedEmptyViewKey = Key('collapsedEmptyView');
+
   @override
   State<PrimarySelectionView> createState() => _PrimarySelectionViewState();
 }
@@ -98,7 +101,9 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             ),
           )
         else
-          const Expanded(child: SizedBox()),
+          const Expanded(
+            child: SizedBox(key: PrimarySelectionView.collapsedEmptyViewKey),
+          ),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),

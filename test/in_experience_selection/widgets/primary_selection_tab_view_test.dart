@@ -65,6 +65,22 @@ void main() {
     });
 
     testWidgets(
+      'renders empty view inside the tabview if collapsed ',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PrimarySelectionView(collapsed: true),
+          inExperienceSelectionBloc,
+          photoBoothBloc,
+        );
+
+        expect(
+          find.byKey(PrimarySelectionView.collapsedEmptyViewKey),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
       'moves to BackgroundSelectionTabBarView clicking on NextButton '
       'on CharacterSelectionTabBarView',
       (WidgetTester tester) async {
