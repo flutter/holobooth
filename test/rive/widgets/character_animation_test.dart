@@ -16,6 +16,13 @@ class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
+Finder _findCharacterAnimation<T extends CharacterAnimation>(
+  String path,
+) =>
+    find.byWidgetPredicate(
+      (widget) => widget is T && widget.riveGenImage.path == path,
+    );
+
 void main() {
   late PlatformHelper platformHelper;
 
@@ -38,11 +45,8 @@ void main() {
           ),
         );
 
-        final widgetFinder = find.byWidgetPredicate(
-          (widget) =>
-              widget is DashCharacterAnimation &&
-              widget.riveGenImage.path == Assets.animations.dashMobile.path,
-        );
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.dashMobile.path);
 
         expect(widgetFinder, findsOneWidget);
       },
@@ -64,11 +68,8 @@ void main() {
           ),
         );
 
-        final widgetFinder = find.byWidgetPredicate(
-          (widget) =>
-              widget is DashCharacterAnimation &&
-              widget.riveGenImage.path == Assets.animations.dashDesktop.path,
-        );
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.dashDesktop.path);
 
         expect(widgetFinder, findsOneWidget);
       },
@@ -92,11 +93,8 @@ void main() {
           ),
         );
 
-        final widgetFinder = find.byWidgetPredicate(
-          (widget) =>
-              widget is SparkyCharacterAnimation &&
-              widget.riveGenImage.path == Assets.animations.sparkyMobile.path,
-        );
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.sparkyMobile.path);
 
         expect(widgetFinder, findsOneWidget);
       },
@@ -118,11 +116,8 @@ void main() {
           ),
         );
 
-        final widgetFinder = find.byWidgetPredicate(
-          (widget) =>
-              widget is SparkyCharacterAnimation &&
-              widget.riveGenImage.path == Assets.animations.sparkyDesktop.path,
-        );
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.sparkyDesktop.path);
 
         expect(widgetFinder, findsOneWidget);
       },
