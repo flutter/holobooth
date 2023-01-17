@@ -223,7 +223,7 @@ describe('convert', () => {
     expect(mockResponse.send).toHaveBeenCalledWith({
       video_url: 'https://storage.googleapis.com/test-bucket/test-file',
       gif_url: 'https://storage.googleapis.com/test-bucket/test-file',
-      thumb_url: 'https://storage.googleapis.com/test-bucket/test-file',
+      thumbnail_url: 'https://storage.googleapis.com/test-bucket/test-file',
     });
   });
 
