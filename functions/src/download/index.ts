@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import { UPLOAD_PATH, ALLOWED_HOSTS } from '../config';
 
-const VALID_VIDEO_EXT = [ '.mp4' ];
+const VALID_VIDEO_EXT = [ '.mp4', '.gif' ];
 
 /**
  * Get the files and writes it on the response.

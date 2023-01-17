@@ -86,7 +86,7 @@ class _BackgroundSelectionElement extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           image: DecorationImage(
-            image: background.toImageProvider(),
+            image: background.thumbnailImageProvider(),
             fit: BoxFit.cover,
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/app/app.dart';
@@ -14,6 +15,8 @@ class _MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
+
+class _MockDownloadRepository extends Mock implements DownloadRepository {}
 
 class _MockAvatarDetectorRepository extends Mock
     implements AvatarDetectorRepository {
@@ -31,6 +34,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
+          downloadRepository: _MockDownloadRepository(),
         ),
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -47,6 +51,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
+          downloadRepository: _MockDownloadRepository(),
         ),
       );
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -62,6 +67,7 @@ void main() {
           authenticationRepository: _MockAuthenticationRepository(),
           avatarDetectorRepository: _MockAvatarDetectorRepository(),
           convertRepository: _MockConvertRepository(),
+          downloadRepository: _MockDownloadRepository(),
         ),
       );
       expect(find.byType(LandingPage), findsOneWidget);
