@@ -4,7 +4,7 @@ import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
-import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class App extends StatelessWidget {
@@ -50,7 +50,7 @@ class _AppView extends StatelessWidget {
       theme: theme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const PhotoBoothPage(),
+      home: const LandingPage(),
     );
   }
 }
