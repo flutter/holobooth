@@ -104,7 +104,6 @@ class GetReadyCountdown extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // TODO(oscar): add border or images to text
             Align(
               child: GradientText(
                 text: '$seconds',
