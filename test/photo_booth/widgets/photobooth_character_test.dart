@@ -40,11 +40,13 @@ void main() {
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
+
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
+
         expect(
           find.byType(DashCharacterAnimation),
           findsOneWidget,
