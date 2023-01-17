@@ -98,7 +98,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             ),
           )
         else
-          const Expanded(child: SizedBox()),
+          const SizedBox.expand(),
         if (_indexSelected == 0)
           Padding(
             padding: const EdgeInsets.all(15),
