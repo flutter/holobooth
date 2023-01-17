@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class DownloadButton extends StatefulWidget {
@@ -17,25 +17,40 @@ class _DownloadButtonState extends State<DownloadButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final state = context.watch<DownloadBloc>().state;
+    final isLoading = state.status == DownloadStatus.fetching;
+
     return CompositedTransformTarget(
       link: layerLink,
       child: GradientOutlinedButton(
-        icon: const Icon(
-          Icons.file_download_rounded,
-          color: HoloBoothColors.white,
-        ),
+        icon: isLoading
+            ? const SizedBox(
+                width: 25,
+                height: 25,
+                child: CircularProgressIndicator(
+                  color: HoloBoothColors.convertLoading,
+                ),
+              )
+            : const Icon(
+                Icons.file_download_rounded,
+                color: HoloBoothColors.white,
+              ),
         label: l10n.sharePageDownloadButtonText,
-        onPressed: () {
-          final convertBloc = context.read<ConvertBloc>();
-          showDialog<void>(
-            context: context,
-            barrierColor: HoloBoothColors.transparent,
-            builder: (context) => DownloadOptionDialog(
-              layerLink: layerLink,
-              download: convertBloc.download,
-            ),
-          );
-        },
+        onPressed: isLoading
+            ? null
+            : () {
+                final downloadBloc = context.read<DownloadBloc>();
+                showDialog<void>(
+                  context: context,
+                  barrierColor: HoloBoothColors.transparent,
+                  builder: (context) => BlocProvider.value(
+                    value: downloadBloc,
+                    child: DownloadOptionDialog(
+                      layerLink: layerLink,
+                    ),
+                  ),
+                );
+              },
       ),
     );
   }
@@ -45,11 +60,9 @@ class DownloadOptionDialog extends StatelessWidget {
   const DownloadOptionDialog({
     super.key,
     required this.layerLink,
-    required this.download,
   });
 
   final LayerLink layerLink;
-  final void Function(String) download;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +77,9 @@ class DownloadOptionDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
-            children: [
-              DownloadAsAGifButton(download: download),
-              DownloadAsAVideoButton(download: download),
+            children: const [
+              DownloadAsAGifButton(),
+              DownloadAsAVideoButton(),
             ],
           ),
         ),
@@ -76,11 +89,7 @@ class DownloadOptionDialog extends StatelessWidget {
 }
 
 class DownloadAsAGifButton extends StatelessWidget {
-  const DownloadAsAGifButton({
-    super.key,
-    required this.download,
-  });
-  final void Function(String) download;
+  const DownloadAsAGifButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,7 @@ class DownloadAsAGifButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        download('gif');
+        context.read<DownloadBloc>().add(const DownloadEvent('gif'));
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
@@ -110,11 +119,7 @@ class DownloadAsAGifButton extends StatelessWidget {
 }
 
 class DownloadAsAVideoButton extends StatelessWidget {
-  const DownloadAsAVideoButton({
-    super.key,
-    required this.download,
-  });
-  final void Function(String) download;
+  const DownloadAsAVideoButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +129,7 @@ class DownloadAsAVideoButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        download('mp4');
+        context.read<DownloadBloc>().add(const DownloadEvent('mp4'));
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
