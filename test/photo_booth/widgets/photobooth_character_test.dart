@@ -11,6 +11,7 @@ import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -22,11 +23,17 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
 void main() {
   group('PhotoboothCharacter', () {
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
+    late PlatformHelper platformHelper;
+
     setUp(() {
+      platformHelper = _MockPlatformHelper();
+
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
@@ -36,18 +43,41 @@ void main() {
     });
 
     testWidgets(
-      'renders DashCharacterAnimation if dash selected',
+      'renders MobileDashCharacterAnimation if dash selected and it is mobile',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
+        when(() => platformHelper.isMobile).thenReturn(true);
+
         await tester.pumpSubject(
-          PhotoboothCharacter(),
+          PhotoboothCharacter(platformHelper: platformHelper),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
 
         expect(
-          find.byType(DashCharacterAnimation),
+          find.byType(MobileDashCharacterAnimation),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'renders DesktopDashCharacterAnimation if dash selected and '
+      'it is desktop',
+      (WidgetTester tester) async {
+        when(() => inExperienceSelectionBloc.state)
+            .thenReturn(InExperienceSelectionState());
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpSubject(
+          PhotoboothCharacter(platformHelper: platformHelper),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+
+        expect(
+          find.byType(DesktopDashCharacterAnimation),
           findsOneWidget,
         );
       },
@@ -103,8 +133,8 @@ void main() {
         await tester.pumpAndSettle();
         expect(
           tester
-              .widget<DashCharacterAnimation>(
-                find.byType(DashCharacterAnimation),
+              .widget<MobileDashCharacterAnimation>(
+                find.byType(MobileDashCharacterAnimation),
               )
               .avatar,
           equals(avatar1),
@@ -128,8 +158,8 @@ void main() {
         await tester.pumpAndSettle();
         expect(
           tester
-              .widget<DashCharacterAnimation>(
-                find.byType(DashCharacterAnimation),
+              .widget<MobileDashCharacterAnimation>(
+                find.byType(MobileDashCharacterAnimation),
               )
               .avatar,
           equals(avatar1),

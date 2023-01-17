@@ -4,22 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
-import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
-class DashCharacterAnimation extends CharacterAnimation {
-  DashCharacterAnimation({
+class MobileDashCharacterAnimation extends CharacterAnimation {
+  MobileDashCharacterAnimation({
     super.key,
     required super.avatar,
     required super.hat,
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
-    PlatformHelper? platformHelper,
   }) : super(
-          assetGenImage: (platformHelper ?? PlatformHelper()).isMobile
-              ? Assets.animations.dashMobile
-              : Assets.animations.dashDesktop,
+          riveGenImage: Assets.animations.dashMobile,
+          riveImageSize: const Size(2400, 2100),
+        );
+}
+
+class DesktopDashCharacterAnimation extends CharacterAnimation {
+  DesktopDashCharacterAnimation({
+    super.key,
+    required super.avatar,
+    required super.hat,
+    required super.glasses,
+    required super.clothes,
+    required super.handheldlLeft,
+  }) : super(
+          riveGenImage: Assets.animations.dashDesktop,
           riveImageSize: const Size(2400, 2100),
         );
 }
@@ -32,11 +42,8 @@ class SparkyCharacterAnimation extends CharacterAnimation {
     required super.glasses,
     required super.clothes,
     required super.handheldlLeft,
-    PlatformHelper? platformHelper,
   }) : super(
-          assetGenImage: (platformHelper ?? PlatformHelper()).isMobile
-              ? Assets.animations.sparkyMobile
-              : Assets.animations.sparkyDesktop,
+          riveGenImage: Assets.animations.sparkyMobile,
           riveImageSize: const Size(2500, 2100),
         );
 }
@@ -50,7 +57,7 @@ class CharacterAnimation extends StatefulWidget {
     required this.glasses,
     required this.clothes,
     required this.handheldlLeft,
-    required this.assetGenImage,
+    required this.riveGenImage,
     required this.riveImageSize,
   });
 
@@ -69,7 +76,7 @@ class CharacterAnimation extends StatefulWidget {
   final HandheldlLeft handheldlLeft;
 
   /// The character's [RiveGenImage].
-  final RiveGenImage assetGenImage;
+  final RiveGenImage riveGenImage;
 
   /// The size of the character's [RiveGenImage].
   final Size riveImageSize;
@@ -366,7 +373,7 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
         scale: _scale,
         alignment: const Alignment(0, 5 / 6),
         duration: const Duration(milliseconds: 400),
-        child: widget.assetGenImage.rive(
+        child: widget.riveGenImage.rive(
           onInit: onRiveInit,
           fit: BoxFit.cover,
         ),

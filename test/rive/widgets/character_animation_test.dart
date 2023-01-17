@@ -13,11 +13,11 @@ class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
 void main() {
   group('CharacterAnimation', () {
-    late RiveGenImage assetGenImage;
+    late RiveGenImage riveGenImage;
     late Size riveImageSize;
 
     setUp(() {
-      assetGenImage = Assets.animations.dashMobile;
+      riveGenImage = Assets.animations.dashMobile;
       riveImageSize = Size(100, 100);
     });
 
@@ -45,7 +45,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -127,7 +127,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -194,7 +194,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -256,7 +256,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -350,7 +350,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -417,7 +417,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -520,7 +520,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -586,7 +586,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -668,7 +668,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -729,7 +729,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -781,7 +781,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -818,7 +818,7 @@ void main() {
                 glasses: glasses,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -855,7 +855,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: clothes,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -892,7 +892,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: handheldLeft,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
