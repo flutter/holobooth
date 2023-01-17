@@ -5,6 +5,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
+import 'package:download_repository/download_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/scheduler.dart';
@@ -45,6 +46,8 @@ Future<void> bootstrap({
     assetBucketUrl: assetBucketUrl,
   );
 
+  final downloadRepository = DownloadRepository();
+
   unawaited(
     Future.wait([
       Flame.images.load('holobooth_avatar.png'),
@@ -57,6 +60,7 @@ Future<void> bootstrap({
         authenticationRepository: authenticationRepository,
         avatarDetectorRepository: avatarDetectorRepository,
         convertRepository: convertRepository,
+        downloadRepository: downloadRepository,
       ),
     ),
     (error, stackTrace) {

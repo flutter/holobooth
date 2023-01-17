@@ -45,7 +45,9 @@ void main() {
             ),
           );
         },
-        build: () => ConvertBloc(convertRepository: convertRepository),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+        ),
         act: (bloc) => bloc.add(GenerateVideoRequested(frames)),
         expect: () => [
           ConvertState(),
@@ -64,7 +66,9 @@ void main() {
           when(() => convertRepository.generateVideo(any()))
               .thenThrow(Exception());
         },
-        build: () => ConvertBloc(convertRepository: convertRepository),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+        ),
         act: (bloc) => bloc.add(GenerateVideoRequested(frames)),
         expect: () => [
           ConvertState(),

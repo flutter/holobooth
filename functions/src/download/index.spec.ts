@@ -50,7 +50,7 @@ describe('Download API', () => {
 
   test('Invalid file extension returns 400', async () => {
     const req = Object.assign({}, baseReq, {
-      path: 'wrong.gif',
+      path: 'wrong.avi',
     });
 
     const res = {

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -37,6 +38,12 @@ class SharePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: convertBloc),
+        BlocProvider(
+          create: (_) => DownloadBloc(
+            videoPath: convertBloc.state.videoPath,
+            downloadRepository: context.read<DownloadRepository>(),
+          ),
+        ),
       ],
       child: const ShareView(),
     );

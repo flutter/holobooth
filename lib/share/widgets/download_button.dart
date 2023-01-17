@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class DownloadButton extends StatefulWidget {
@@ -15,30 +17,53 @@ class _DownloadButtonState extends State<DownloadButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final state = context.watch<DownloadBloc>().state;
+    final isLoading = state.status == DownloadStatus.fetching;
+
     return CompositedTransformTarget(
       link: layerLink,
       child: GradientOutlinedButton(
-        icon: const Icon(
-          Icons.file_download_rounded,
-          color: HoloBoothColors.white,
-        ),
+        icon: isLoading
+            ? const SizedBox(
+                width: 25,
+                height: 25,
+                child: CircularProgressIndicator(
+                  color: HoloBoothColors.convertLoading,
+                ),
+              )
+            : const Icon(
+                Icons.file_download_rounded,
+                color: HoloBoothColors.white,
+              ),
         label: l10n.sharePageDownloadButtonText,
-        onPressed: () {
-          showDialog<void>(
-            context: context,
-            barrierColor: HoloBoothColors.transparent,
-            builder: (context) => DownloadOptionDialog(layerLink: layerLink),
-          );
-        },
+        onPressed: isLoading
+            ? null
+            : () {
+                final downloadBloc = context.read<DownloadBloc>();
+                showDialog<void>(
+                  context: context,
+                  barrierColor: HoloBoothColors.transparent,
+                  builder: (context) => BlocProvider.value(
+                    value: downloadBloc,
+                    child: DownloadOptionDialog(
+                      layerLink: layerLink,
+                    ),
+                  ),
+                );
+              },
       ),
     );
   }
 }
 
 class DownloadOptionDialog extends StatelessWidget {
-  const DownloadOptionDialog({super.key, required this.layerLink});
+  const DownloadOptionDialog({
+    super.key,
+    required this.layerLink,
+  });
 
   final LayerLink layerLink;
+
   @override
   Widget build(BuildContext context) {
     return CompositedTransformFollower(
@@ -74,6 +99,7 @@ class DownloadAsAGifButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
+        context.read<DownloadBloc>().add(const DownloadRequested.gif());
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
@@ -103,6 +129,7 @@ class DownloadAsAVideoButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
+        context.read<DownloadBloc>().add(const DownloadRequested.video());
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
