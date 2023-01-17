@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
@@ -13,11 +14,13 @@ class App extends StatelessWidget {
     required this.authenticationRepository,
     required this.avatarDetectorRepository,
     required this.convertRepository,
+    required this.downloadRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
   final AvatarDetectorRepository avatarDetectorRepository;
   final ConvertRepository convertRepository;
+  final DownloadRepository downloadRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: avatarDetectorRepository),
         RepositoryProvider.value(value: convertRepository),
+        RepositoryProvider.value(value: downloadRepository),
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(

@@ -42,6 +42,9 @@ class _MockImage extends Mock implements ui.Image {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -144,6 +147,7 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
+    late ConvertBloc convertBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
 
@@ -161,6 +165,9 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
+
+      convertBloc = _MockConvertBloc();
+      when(() => convertBloc.state).thenReturn(const ConvertState());
     });
 
     testWidgets('plays audio', (WidgetTester tester) async {
@@ -169,6 +176,7 @@ void main() {
         photoBoothBloc: photoBoothBloc,
         inExperienceSelectionBloc: inExperienceSelectionBloc,
         avatarDetectorBloc: avatarDetectorBloc,
+        convertBloc: convertBloc,
       );
 
       await tester.pump();
@@ -192,6 +200,7 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
+          convertBloc: convertBloc,
         );
 
         /// Wait for the player to complete
@@ -209,6 +218,7 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
+    required ConvertBloc convertBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
@@ -216,6 +226,7 @@ extension on WidgetTester {
             BlocProvider.value(value: photoBoothBloc),
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
+            BlocProvider.value(value: convertBloc),
           ],
           child: subject,
         ),
