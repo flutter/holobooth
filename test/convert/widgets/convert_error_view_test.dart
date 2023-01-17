@@ -40,6 +40,20 @@ void main() {
         expect(find.byType(PhotoBoothPage), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'does not render TryAgainVideoGenerationButton if maxTriesReached',
+      (WidgetTester tester) async {
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(
+            status: ConvertStatus.error,
+            triesCount: 3,
+          ),
+        );
+        await tester.pumpSubject(ConvertErrorView(), convertBloc);
+        expect(find.byType(TryAgainVideoGenerationButton), findsNothing);
+      },
+    );
   });
 }
 

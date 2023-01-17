@@ -107,6 +107,47 @@ void main() {
           ),
         ],
       );
+
+      blocTest<ConvertBloc, ConvertState>(
+        'emit error state until maxTriesReached if generateVideo fails.',
+        setUp: () {
+          when(() => convertRepository.generateVideo(any()))
+              .thenThrow(Exception());
+        },
+        build: () => ConvertBloc(convertRepository: convertRepository),
+        act: (bloc) {
+          for (var i = 0; i < 3; i++) {
+            bloc.add(GenerateVideoRequested(frames: frames));
+          }
+        },
+        expect: () => <ConvertState>[
+          ConvertState(),
+          ConvertState(frames: framesAsImages),
+          ConvertState(
+            status: ConvertStatus.error,
+            frames: framesAsImages,
+            triesCount: 1,
+          ),
+          ConvertState(
+            frames: framesAsImages,
+            triesCount: 1,
+          ),
+          ConvertState(
+            status: ConvertStatus.error,
+            frames: framesAsImages,
+            triesCount: 2,
+          ),
+          ConvertState(
+            frames: framesAsImages,
+            triesCount: 2,
+          ),
+          ConvertState(
+            status: ConvertStatus.error,
+            frames: framesAsImages,
+            triesCount: 3,
+          ),
+        ],
+      );
     });
   });
 }

@@ -9,6 +9,7 @@ class ConvertState extends Equatable {
     this.twitterShareUrl = '',
     this.facebookShareUrl = '',
     this.frames = const [],
+    this.triesCount = 0,
   });
 
   final String videoPath;
@@ -18,6 +19,9 @@ class ConvertState extends Equatable {
   final String twitterShareUrl;
   final String facebookShareUrl;
   final List<Image> frames;
+  final int triesCount;
+
+  bool get maxTriesReached => triesCount == 3;
 
   ConvertState copyWith({
     String? videoPath,
@@ -27,6 +31,7 @@ class ConvertState extends Equatable {
     String? twitterShareUrl,
     String? facebookShareUrl,
     List<Image>? frames,
+    int? triesCount,
   }) {
     return ConvertState(
       videoPath: videoPath ?? this.videoPath,
@@ -36,6 +41,7 @@ class ConvertState extends Equatable {
       twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
       frames: frames ?? this.frames,
+      triesCount: triesCount ?? this.triesCount,
     );
   }
 
@@ -48,6 +54,7 @@ class ConvertState extends Equatable {
         twitterShareUrl,
         facebookShareUrl,
         frames,
+        triesCount,
       ];
 }
 

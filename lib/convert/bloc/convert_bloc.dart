@@ -24,6 +24,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
+    if (state.maxTriesReached) return;
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
     if (event.frames != null) {
       final frames = event.frames!.map((e) => e.image).toList();
@@ -39,11 +40,17 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           status: ConvertStatus.videoCreated,
           firstFrameProcessed: result.firstFrame,
           twitterShareUrl: result.twitterShareUrl,
+          triesCount: 0,
         ),
       );
     } catch (error, stackTrace) {
       addError(error, stackTrace);
-      emit(state.copyWith(status: ConvertStatus.error));
+      emit(
+        state.copyWith(
+          status: ConvertStatus.error,
+          triesCount: state.triesCount + 1,
+        ),
+      );
     }
   }
 }

@@ -10,12 +10,27 @@ class ConvertErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxTriesReached =
+        context.select((ConvertBloc bloc) => bloc.state.maxTriesReached);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        TryAgainVideoGenerationButton(),
-        SizedBox(height: 16),
-        RetakeExperienceButton(),
+      children: [
+        if (maxTriesReached)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              context.l10n.maxRetriesReached,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: HoloBoothColors.white),
+              textAlign: TextAlign.center,
+            ),
+          )
+        else
+          const TryAgainVideoGenerationButton(),
+        const SizedBox(height: 16),
+        const RetakeExperienceButton(),
       ],
     );
   }
