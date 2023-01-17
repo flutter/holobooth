@@ -98,7 +98,7 @@ void main() {
       await tester.tap(find.byType(DownloadAsAGifButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadEvent('gif'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('gif'))).called(1);
     });
 
     testWidgets('downloads the mp4 when tapping on DownloadAsAVideoButton',
@@ -113,7 +113,7 @@ void main() {
       await tester.tap(find.byType(DownloadAsAVideoButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadEvent('mp4'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('mp4'))).called(1);
     });
   });
 }

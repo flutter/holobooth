@@ -1,11 +1,15 @@
 part of 'download_bloc.dart';
 
-class DownloadEvent extends Equatable {
-  const DownloadEvent(this.extension);
+abstract class DownloadEvent extends Equatable {
+  const DownloadEvent();
+}
 
-  const DownloadEvent.video() : this('mp4');
+class DownloadRequested extends DownloadEvent {
+  const DownloadRequested(this.extension);
 
-  const DownloadEvent.gif() : this('gif');
+  const DownloadRequested.video() : this('mp4');
+
+  const DownloadRequested.gif() : this('gif');
 
   final String extension;
 

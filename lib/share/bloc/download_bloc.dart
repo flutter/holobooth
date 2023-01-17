@@ -11,13 +11,13 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     required DownloadRepository downloadRepository,
   })  : _downloadRepository = downloadRepository,
         super(DownloadState.initial(videoPath: videoPath)) {
-    on<DownloadEvent>(_onDownloadEvent);
+    on<DownloadRequested>(_onDownloadEvent);
   }
 
   final DownloadRepository _downloadRepository;
 
   Future<void> _onDownloadEvent(
-    DownloadEvent event,
+    DownloadRequested event,
     Emitter<DownloadState> emit,
   ) async {
     emit(state.copyWith(status: DownloadStatus.fetching));

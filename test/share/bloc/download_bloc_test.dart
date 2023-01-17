@@ -25,7 +25,7 @@ void main() {
           downloadRepository: downloadRepository,
           videoPath: 'https://storage/1234.mp4',
         ),
-        act: (bloc) => bloc.add(DownloadEvent('mp4')),
+        act: (bloc) => bloc.add(DownloadRequested('mp4')),
         verify: (_) {
           verify(
             () => downloadRepository.downloadFile(any(), any()),
@@ -43,7 +43,7 @@ void main() {
           downloadRepository: downloadRepository,
           videoPath: 'https://storage/1234.mp4',
         ),
-        act: (bloc) => bloc.add(DownloadEvent('mp4')),
+        act: (bloc) => bloc.add(DownloadRequested('mp4')),
         verify: (_) {
           verify(
             () => downloadRepository.downloadFile('1234.mp4', 'video/mp4'),
@@ -61,7 +61,7 @@ void main() {
           downloadRepository: downloadRepository,
           videoPath: 'https://storage/1234.mp4',
         ),
-        act: (bloc) => bloc.add(DownloadEvent('gif')),
+        act: (bloc) => bloc.add(DownloadRequested('gif')),
         verify: (_) {
           verify(
             () => downloadRepository.downloadFile('1234.gif', 'image/gif'),
