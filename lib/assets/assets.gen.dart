@@ -117,6 +117,33 @@ class $AssetsBackgroundsGen {
   AssetGenImage get animojiIntroBackground =>
       const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
 
+  /// File path: assets/backgrounds/bg_00.png
+  AssetGenImage get bg00 => const AssetGenImage('assets/backgrounds/bg_00.png');
+
+  /// File path: assets/backgrounds/bg_01.png
+  AssetGenImage get bg01 => const AssetGenImage('assets/backgrounds/bg_01.png');
+
+  /// File path: assets/backgrounds/bg_02.png
+  AssetGenImage get bg02 => const AssetGenImage('assets/backgrounds/bg_02.png');
+
+  /// File path: assets/backgrounds/bg_03.png
+  AssetGenImage get bg03 => const AssetGenImage('assets/backgrounds/bg_03.png');
+
+  /// File path: assets/backgrounds/bg_04.png
+  AssetGenImage get bg04 => const AssetGenImage('assets/backgrounds/bg_04.png');
+
+  /// File path: assets/backgrounds/bg_05.png
+  AssetGenImage get bg05 => const AssetGenImage('assets/backgrounds/bg_05.png');
+
+  /// File path: assets/backgrounds/bg_06.png
+  AssetGenImage get bg06 => const AssetGenImage('assets/backgrounds/bg_06.png');
+
+  /// File path: assets/backgrounds/bg_07.png
+  AssetGenImage get bg07 => const AssetGenImage('assets/backgrounds/bg_07.png');
+
+  /// File path: assets/backgrounds/bg_08.png
+  AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
+
   /// File path: assets/backgrounds/bg_thumbnail_00.png
   AssetGenImage get bgThumbnail00 =>
       const AssetGenImage('assets/backgrounds/bg_thumbnail_00.png');
@@ -176,6 +203,15 @@ class $AssetsBackgroundsGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         animojiIntroBackground,
+        bg00,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
         bgThumbnail00,
         bgThumbnail01,
         bgThumbnail02,
