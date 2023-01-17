@@ -19,9 +19,6 @@ class PrimarySelectionView extends StatefulWidget {
   @visibleForTesting
   static const primaryTabBarViewKey = Key('primaryTabBarView');
 
-  @visibleForTesting
-  static const collapsedEmptyViewKey = Key('collapsedEmptyView');
-
   @override
   State<PrimarySelectionView> createState() => _PrimarySelectionViewState();
 }
