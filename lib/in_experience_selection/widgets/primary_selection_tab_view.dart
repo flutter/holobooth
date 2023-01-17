@@ -64,6 +64,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
   Widget build(BuildContext context) {
     final isSmall =
         MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
+    const buttonPadding = EdgeInsets.only(left: 15, right: 15, bottom: 15);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -99,14 +100,10 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
                 PropsSelectionTabBarView(),
               ],
             ),
-          )
-        else
-          const Expanded(
-            child: SizedBox(key: PrimarySelectionView.collapsedEmptyViewKey),
           ),
         if (_indexSelected == 0)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: NextButton(
               key: const Key('primarySelection_nextButton_character'),
               onNextPressed: () {
@@ -116,7 +113,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           ),
         if (_indexSelected == 1)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: NextButton(
               key: const Key('primarySelection_nextButton_background'),
               onNextPressed: () {
@@ -126,7 +123,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           ),
         if (_indexSelected == 2)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: RecordingButton(
               onRecordingPressed: () {
                 context

@@ -65,7 +65,7 @@ void main() {
     });
 
     testWidgets(
-      'renders empty view inside the tabview if collapsed ',
+      'does not render TabBarView if collapsed ',
       (WidgetTester tester) async {
         await tester.pumpSubject(
           PrimarySelectionView(collapsed: true),
@@ -74,8 +74,8 @@ void main() {
         );
 
         expect(
-          find.byKey(PrimarySelectionView.collapsedEmptyViewKey),
-          findsOneWidget,
+          find.byType(TabBarView),
+          findsNothing,
         );
       },
     );
