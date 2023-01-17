@@ -14,13 +14,13 @@ export default `
     <meta property="og:title" content="{{meta.title}}">
     <meta property="og:description" content="{{meta.desc}}">
     <meta property="og:url" content="{{{shareUrl}}}">
-    <meta property="og:image" content="{{{shareImageUrl}}}">
+    <meta property="og:image" content="{{{thumbImageUrl}}}">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{meta.title}}">
     <meta name="twitter:text:title" content="{{meta.title}}">
     <meta name="twitter:description" content="{{meta.desc}}">
-    <meta name="twitter:image" content="{{{shareImageUrl}}}">
+    <meta name="twitter:image" content="{{{thumbImageUrl}}}">
     <meta name="twitter:site" content="@flutterdev">
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500" rel="stylesheet">

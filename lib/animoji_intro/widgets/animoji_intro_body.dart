@@ -40,6 +40,7 @@ class AnimojiIntroBody extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(
                         flex: small ? 1 : 2,
