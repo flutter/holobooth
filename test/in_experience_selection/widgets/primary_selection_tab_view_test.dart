@@ -65,6 +65,22 @@ void main() {
     });
 
     testWidgets(
+      'does not render TabBarView if collapsed ',
+      (WidgetTester tester) async {
+        await tester.pumpSubject(
+          PrimarySelectionView(collapsed: true),
+          inExperienceSelectionBloc,
+          photoBoothBloc,
+        );
+
+        expect(
+          find.byType(TabBarView),
+          findsNothing,
+        );
+      },
+    );
+
+    testWidgets(
       'moves to BackgroundSelectionTabBarView clicking on NextButton '
       'on CharacterSelectionTabBarView',
       (WidgetTester tester) async {
