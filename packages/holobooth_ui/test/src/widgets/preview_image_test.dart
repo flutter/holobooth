@@ -1,16 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-import '../../helpers/helpers.dart';
-
 void main() {
-  final data = 'data:image/png,${base64.encode(transparentImage)}';
-
   group('PreviewImage', () {
+    late String data;
+
+    setUp(() async {
+      final image = await createTestImage(height: 10, width: 10);
+      final bytesImage = await image.toByteData(format: ImageByteFormat.png);
+      final bytes = bytesImage!.buffer.asUint8List();
+      data = 'data:image/png,${base64.encode(bytes.toList())}';
+    });
+
     testWidgets('renders with height and width', (tester) async {
       await tester.pumpWidget(
         PreviewImage(

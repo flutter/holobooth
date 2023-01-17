@@ -40,15 +40,64 @@ class $AssetsAnimationsGen {
   /// File path: assets/animations/bg_08.riv
   RiveGenImage get bg08 => const RiveGenImage('assets/animations/bg_08.riv');
 
-  /// File path: assets/animations/dash.riv
-  RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
+  /// File path: assets/animations/bg_01.riv
+  RiveGenImage get bg01 => const RiveGenImage('assets/animations/bg_01.riv');
 
-  /// File path: assets/animations/sparky.riv
-  RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
+  /// File path: assets/animations/bg_02.riv
+  RiveGenImage get bg02 => const RiveGenImage('assets/animations/bg_02.riv');
+
+  /// File path: assets/animations/bg_03.riv
+  RiveGenImage get bg03 => const RiveGenImage('assets/animations/bg_03.riv');
+
+  /// File path: assets/animations/bg_04.riv
+  RiveGenImage get bg04 => const RiveGenImage('assets/animations/bg_04.riv');
+
+  /// File path: assets/animations/bg_05.riv
+  RiveGenImage get bg05 => const RiveGenImage('assets/animations/bg_05.riv');
+
+  /// File path: assets/animations/bg_06.riv
+  RiveGenImage get bg06 => const RiveGenImage('assets/animations/bg_06.riv');
+
+  /// File path: assets/animations/bg_07.riv
+  RiveGenImage get bg07 => const RiveGenImage('assets/animations/bg_07.riv');
+
+  /// File path: assets/animations/bg_08.riv
+  RiveGenImage get bg08 => const RiveGenImage('assets/animations/bg_08.riv');
+
+  /// File path: assets/animations/dash_desktop.riv
+  RiveGenImage get dashDesktop =>
+      const RiveGenImage('assets/animations/dash_desktop.riv');
+
+  /// File path: assets/animations/dash_mobile.riv
+  RiveGenImage get dashMobile =>
+      const RiveGenImage('assets/animations/dash_mobile.riv');
+
+  /// File path: assets/animations/sparky_desktop.riv
+  RiveGenImage get sparkyDesktop =>
+      const RiveGenImage('assets/animations/sparky_desktop.riv');
+
+  /// File path: assets/animations/sparky_mobile.riv
+  RiveGenImage get sparkyMobile =>
+      const RiveGenImage('assets/animations/sparky_mobile.riv');
 
   /// List of all assets
   List<RiveGenImage> get values =>
       [bg00, bg01, bg02, bg03, bg04, bg05, bg06, bg07, bg08, dash, sparky];
+  List<RiveGenImage> get values => [
+        bg00,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
+        dashDesktop,
+        dashMobile,
+        sparkyDesktop,
+        sparkyMobile
+      ];
 }
 
 class $AssetsAudioGen {
