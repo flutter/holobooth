@@ -15,7 +15,9 @@
         "--web-renderer",
         "canvaskit",
         "--dart-define",
-        "SHARING_ENABLED=true"
+        "SHARING_ENABLED=true",
+        "--web-port",
+        "5001"
       ]
     },
     {
