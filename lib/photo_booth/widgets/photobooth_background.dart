@@ -44,7 +44,7 @@ class PhotoboothBackground extends StatelessWidget {
         break;
     }
     return AnimatedSwitcher(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       child: BackgroundAnimation(
         key: Key(backgroundSelected.name),
         riveGenImage: riveAsset,
