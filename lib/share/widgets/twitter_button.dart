@@ -1,4 +1,4 @@
-import 'package:analytics/analytics.dart';
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -22,11 +22,13 @@ class TwitterButton extends StatelessWidget {
     return GradientOutlinedButton(
       onPressed: () {
         if (sharingEnabled) {
-          trackEvent(
-            category: 'button',
-            action: 'click-share-twitter',
-            label: 'share-twitter',
-          );
+          context.read<AnalyticsRepository>().trackEvent(
+                const AnalyticsEvent(
+                  category: 'button',
+                  action: 'click-share-twitter',
+                  label: 'share-twitter',
+                ),
+              );
           final twitterShareUrl =
               context.read<ConvertBloc>().state.twitterShareUrl;
 

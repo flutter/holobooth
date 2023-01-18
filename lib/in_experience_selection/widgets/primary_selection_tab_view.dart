@@ -1,4 +1,4 @@
-import 'package:analytics/analytics.dart';
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -105,11 +105,13 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             child: NextButton(
               key: const Key('primarySelection_nextButton_character'),
               onNextPressed: () {
-                trackEvent(
-                  category: 'button',
-                  action: 'click-next',
-                  label: 'next-from-characters',
-                );
+                context.read<AnalyticsRepository>().trackEvent(
+                      const AnalyticsEvent(
+                        category: 'button',
+                        action: 'click-next',
+                        label: 'next-from-characters',
+                      ),
+                    );
                 _tabController.animateTo(1);
               },
             ),
@@ -120,11 +122,13 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             child: NextButton(
               key: const Key('primarySelection_nextButton_background'),
               onNextPressed: () {
-                trackEvent(
-                  category: 'button',
-                  action: 'click-next',
-                  label: 'next-from-background',
-                );
+                context.read<AnalyticsRepository>().trackEvent(
+                      const AnalyticsEvent(
+                        category: 'button',
+                        action: 'click-next',
+                        label: 'next-from-background',
+                      ),
+                    );
                 _tabController.animateTo(2);
               },
             ),
@@ -134,11 +138,13 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
             padding: buttonPadding,
             child: RecordingButton(
               onRecordingPressed: () {
-                trackEvent(
-                  category: 'button',
-                  action: 'click-recording',
-                  label: 'start-recording',
-                );
+                context.read<AnalyticsRepository>().trackEvent(
+                      const AnalyticsEvent(
+                        category: 'button',
+                        action: 'click-recording',
+                        label: 'start-recording',
+                      ),
+                    );
                 context
                     .read<PhotoBoothBloc>()
                     .add(const PhotoBoothGetReadyStarted());

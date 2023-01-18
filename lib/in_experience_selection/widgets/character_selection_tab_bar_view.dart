@@ -79,11 +79,6 @@ class _CharacterSelectionElement extends StatelessWidget {
           child: InkWell(
             key: Key('characterSelectionElement_${character.name}'),
             onTap: () {
-              trackEvent(
-                category: 'button',
-                action: 'click-character',
-                label: 'select-character-${character.name}',
-              );
               context
                   .read<InExperienceSelectionBloc>()
                   .add(InExperienceSelectionCharacterSelected(character));

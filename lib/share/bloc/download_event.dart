@@ -4,7 +4,7 @@ abstract class DownloadEvent extends Equatable {
   const DownloadEvent();
 }
 
-class DownloadRequested extends DownloadEvent {
+class DownloadRequested extends DownloadEvent with AnalyticsEventMixin {
   const DownloadRequested(this.extension);
 
   const DownloadRequested.video() : this('mp4');
@@ -14,5 +14,12 @@ class DownloadRequested extends DownloadEvent {
   final String extension;
 
   @override
-  List<Object?> get props => [extension];
+  AnalyticsEvent get event => AnalyticsEvent(
+        category: 'button',
+        action: 'click-download-$extension',
+        label: 'download-$extension',
+      );
+
+  @override
+  List<Object> get props => [extension];
 }

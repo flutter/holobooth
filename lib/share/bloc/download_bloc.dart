@@ -1,3 +1,4 @@
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:download_repository/download_repository.dart';
 import 'package:equatable/equatable.dart';
