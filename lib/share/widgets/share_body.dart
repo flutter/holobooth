@@ -141,7 +141,7 @@ class _LargeShareBodyButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const buttonWidth = 200.0;
+    const buttonWidth = 250.0;
     const buttonSpacing = 24.0;
     return Wrap(
       runSpacing: 16,

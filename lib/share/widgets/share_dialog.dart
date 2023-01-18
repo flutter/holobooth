@@ -6,7 +6,7 @@ class ShareDialog extends StatelessWidget {
   const ShareDialog({super.key});
 
   static const largeShareDialogHeight = 600.0;
-  static const _largeShareDialogWidth = 900.0;
+  static const _largeShareDialogWidth = 1000.0;
   static const _smallShareDialogHeight = 900.0;
   static const _smallShareDialogWidth = 500.0;
 
