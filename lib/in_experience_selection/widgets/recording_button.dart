@@ -13,26 +13,22 @@ class RecordingButton extends StatefulWidget {
   State<RecordingButton> createState() => _RecordingButtonState();
 }
 
-class _RecordingButtonState extends State<RecordingButton>
-    with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.counting3Seconds;
-
-  @override
-  void initState() {
-    super.initState();
-    loadAudio();
-  }
+class _RecordingButtonState extends State<RecordingButton> {
+  final _audioPlayerController = AudioPlayerController();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return GradientElevatedButton(
-      onPressed: () {
-        playAudio();
-        widget.onRecordingPressed();
-      },
-      child: Text(l10n.recordButtonText),
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.counting3Seconds,
+      controller: _audioPlayerController,
+      child: GradientElevatedButton(
+        onPressed: () {
+          _audioPlayerController.playAudio();
+          widget.onRecordingPressed();
+        },
+        child: Text(l10n.recordButtonText),
+      ),
     );
   }
 }

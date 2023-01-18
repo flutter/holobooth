@@ -39,35 +39,28 @@ class PhotoBoothView extends StatefulWidget {
   State<PhotoBoothView> createState() => _PhotoBoothViewState();
 }
 
-class _PhotoBoothViewState extends State<PhotoBoothView> with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.experienceAmbient;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _loadAndPlayAudio();
-  }
-
-  Future<void> _loadAndPlayAudio() async {
-    await loadAudio();
-    await playAudio(loop: true);
-  }
+class _PhotoBoothViewState extends State<PhotoBoothView> {
+  final _audioPlayerController = AudioPlayerController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PhotoBoothBloc, PhotoBoothState>(
-      listener: (context, state) {
-        if (state.isFinished) {
-          stopAudio();
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.experienceAmbient,
+      controller: _audioPlayerController,
+      autoplay: true,
+      loop: true,
+      child: BlocListener<PhotoBoothBloc, PhotoBoothState>(
+        listener: (context, state) {
+          if (state.isFinished) {
+            _audioPlayerController.stopAudio();
 
-          Navigator.of(context).pushReplacement(
-            ConvertPage.route(state.frames),
-          );
-        }
-      },
-      child: const Scaffold(body: PhotoboothBody()),
+            Navigator.of(context).pushReplacement(
+              ConvertPage.route(state.frames),
+            );
+          }
+        },
+        child: const Scaffold(body: PhotoboothBody()),
+      ),
     );
   }
 }

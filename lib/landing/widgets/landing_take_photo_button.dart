@@ -13,32 +13,27 @@ class LandingTakePhotoButton extends StatefulWidget {
   State<LandingTakePhotoButton> createState() => _LandingTakePhotoButtonState();
 }
 
-class _LandingTakePhotoButtonState extends State<LandingTakePhotoButton>
-    with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.buttonPress;
-
-  @override
-  void initState() {
-    super.initState();
-
-    loadAudio();
-  }
+class _LandingTakePhotoButtonState extends State<LandingTakePhotoButton> {
+  final _audioPlayerController = AudioPlayerController();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return GradientElevatedButton(
-      onPressed: () {
-        playAudio();
-        trackEvent(
-          category: 'button',
-          action: 'click-start-photobooth',
-          label: 'start-photobooth',
-        );
-        Navigator.of(context).push<void>(AnimojiIntroPage.route());
-      },
-      child: Text(l10n.landingPageTakePhotoButtonText),
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.buttonPress,
+      controller: _audioPlayerController,
+      child: GradientElevatedButton(
+        onPressed: () {
+          _audioPlayerController.playAudio();
+          trackEvent(
+            category: 'button',
+            action: 'click-start-photobooth',
+            label: 'start-photobooth',
+          );
+          Navigator.of(context).push<void>(AnimojiIntroPage.route());
+        },
+        child: Text(l10n.landingPageTakePhotoButtonText),
+      ),
     );
   }
 }

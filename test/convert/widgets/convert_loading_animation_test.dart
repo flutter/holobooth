@@ -1,25 +1,25 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/convert/convert.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as just_audio;
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockAudioPlayer extends Mock implements AudioPlayer {}
+class _MockAudioPlayer extends Mock implements just_audio.AudioPlayer {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  late AudioPlayer audioPlayer;
+  late just_audio.AudioPlayer audioPlayer;
 
   setUpAll(() {
-    registerFallbackValue(LoopMode.off);
+    registerFallbackValue(just_audio.LoopMode.off);
   });
 
   setUp(() {
     audioPlayer = _MockAudioPlayer();
+    when(() => audioPlayer.loopMode).thenReturn(just_audio.LoopMode.off);
     when(() => audioPlayer.setAsset(any())).thenAnswer((_) async => null);
     when(() => audioPlayer.setLoopMode(any())).thenAnswer((_) async {});
     when(() => audioPlayer.play()).thenAnswer((_) async {});
@@ -28,11 +28,11 @@ void main() {
     when(() => audioPlayer.playerStateStream).thenAnswer(
       (_) => Stream.fromIterable(
         [
-          PlayerState(true, ProcessingState.ready),
+          just_audio.PlayerState(true, just_audio.ProcessingState.ready),
         ],
       ),
     );
-    AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+    AudioPlayer.audioPlayerOverride = audioPlayer;
 
     const MethodChannel('com.ryanheise.audio_session')
         .setMockMethodCallHandler((call) async {
@@ -43,7 +43,7 @@ void main() {
   });
 
   tearDown(() {
-    AudioPlayerMixin.audioPlayerOverride = null;
+    AudioPlayer.audioPlayerOverride = null;
   });
 
   group('ConvertLoadingView', () {
@@ -61,11 +61,9 @@ void main() {
     );
 
     testWidgets('renders correctly', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: ConvertLoadingAnimation(
-            dimension: 300,
-          ),
+      await tester.pumpApp(
+        ConvertLoadingAnimation(
+          dimension: 300,
         ),
       );
 

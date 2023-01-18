@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -28,6 +29,7 @@ void main() {
         expect(find.byType(HowItsMadeFooterLink), findsOneWidget);
         expect(find.byType(FooterTermsOfServiceLink), findsOneWidget);
         expect(find.byType(FooterPrivacyPolicyLink), findsOneWidget);
+        expect(find.byType(MuteButton), findsOneWidget);
       },
     );
 
@@ -44,6 +46,7 @@ void main() {
         expect(find.byType(HowItsMadeFooterLink), findsOneWidget);
         expect(find.byType(FooterTermsOfServiceLink), findsOneWidget);
         expect(find.byType(FooterPrivacyPolicyLink), findsOneWidget);
+        expect(find.byType(MuteButton), findsOneWidget);
       },
     );
   });

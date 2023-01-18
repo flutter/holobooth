@@ -6,6 +6,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
@@ -227,6 +228,21 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         expect(find.byType(PhotoboothCharacter), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders MuteButton on a small display size',
+      (WidgetTester tester) async {
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
+
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(MuteButton), findsOneWidget);
       },
     );
 

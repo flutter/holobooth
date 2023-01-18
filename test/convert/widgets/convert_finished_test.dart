@@ -8,12 +8,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/share.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as just_audio;
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockAudioPlayer extends Mock implements AudioPlayer {}
+class _MockAudioPlayer extends Mock implements just_audio.AudioPlayer {}
 
 class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
     implements ConvertBloc {}
@@ -21,7 +21,7 @@ class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
 void main() {
   group('ConvertFinished', () {
     TestWidgetsFlutterBinding.ensureInitialized();
-    late AudioPlayer audioPlayer;
+    late just_audio.AudioPlayer audioPlayer;
     late ConvertBloc convertBloc;
     late Uint8List? bytes;
 
@@ -38,12 +38,13 @@ void main() {
       when(() => audioPlayer.playerStateStream).thenAnswer(
         (_) => Stream.fromIterable(
           [
-            PlayerState(true, ProcessingState.ready),
+            just_audio.PlayerState(true, just_audio.ProcessingState.ready),
           ],
         ),
       );
 
-      AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+      AudioPlayer.audioPlayerOverride = audioPlayer;
+
       const MethodChannel('com.ryanheise.audio_session')
           .setMockMethodCallHandler((call) async {
         if (call.method == 'getConfiguration') {
@@ -60,7 +61,7 @@ void main() {
     });
 
     tearDown(() {
-      AudioPlayerMixin.audioPlayerOverride = null;
+      AudioPlayer.audioPlayerOverride = null;
     });
 
     testWidgets(

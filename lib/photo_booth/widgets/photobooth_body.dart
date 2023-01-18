@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/footer/footer.dart';
@@ -98,6 +99,14 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               alignment: Alignment.bottomCenter,
               child: SimplifiedFooter(),
             ),
+            if (constraints.maxWidth <= HoloboothBreakpoints.small)
+              const Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: MuteButton(),
+                ),
+              ),
             Align(child: CameraView(onCameraReady: _onCameraReady)),
             if (_isCameraAvailable)
               CameraStreamListener(cameraController: _cameraController!),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -79,6 +80,7 @@ class FullFooter extends StatelessWidget {
         },
         child: Wrap(
           alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           runSpacing: 8,
           children: const [
             FlutterForwardFooterLink(),
@@ -88,6 +90,8 @@ class FullFooter extends StatelessWidget {
             FooterTermsOfServiceLink(),
             gap,
             FooterPrivacyPolicyLink(),
+            gap,
+            MuteButton(),
           ],
         ),
       ),

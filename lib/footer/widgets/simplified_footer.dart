@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -30,14 +31,16 @@ class SimplifiedFooter extends StatelessWidget {
         large: (_, __) {
           return Container(
             alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.only(left: 48, bottom: 48),
+            padding: const EdgeInsets.only(left: 48, bottom: 24, right: 24),
             child: Row(
               children: const [
                 FlutterIconLink(),
                 SizedBox(width: _separationSize),
                 FirebaseIconLink(),
                 SizedBox(width: _separationSize),
-                TensorflowIconLink()
+                TensorflowIconLink(),
+                Spacer(),
+                MuteButton(),
               ],
             ),
           );
