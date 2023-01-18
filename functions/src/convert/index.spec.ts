@@ -205,7 +205,7 @@ jest.mock('firebase-admin', () => {
 describe('convert', () => {
   it('returns response with status 200 on success', async () => {
     const mockRequest = mockDeep<functions.https.Request>();
-    mockRequest.get.mockReturnValue('localhost:5001');
+    mockRequest.get.mockReturnValue('http://localhost:5001');
     mockRequest.protocol = 'https';
     setUpBusboy('finish', 'end');
     setUpFfmpeg('end');
@@ -223,12 +223,13 @@ describe('convert', () => {
     expect(mockResponse.send).toHaveBeenCalledWith({
       video_url: 'https://storage.googleapis.com/test-bucket/test-file',
       gif_url: 'https://storage.googleapis.com/test-bucket/test-file',
+      thumbnail_url: 'https://storage.googleapis.com/test-bucket/test-file',
     });
   });
 
   it('returns status 500 on error', async () => {
     const mockRequest = mockDeep<functions.https.Request>();
-    mockRequest.get.mockReturnValue('localhost:5001');
+    mockRequest.get.mockReturnValue('http://localhost:5001');
     mockRequest.protocol = 'https';
     setUpBusboy('error', 'error');
 
@@ -254,7 +255,7 @@ describe('convertImages', () => {
 
   it('returns response with status 200 and file url on success', async () => {
     const mockRequest = mockDeep<functions.https.Request>();
-    mockRequest.get.mockReturnValue('localhost:5001');
+    mockRequest.get.mockReturnValue('http://localhost:5001');
     mockRequest.protocol = 'https';
 
     setUpBusboy('finish', 'end');

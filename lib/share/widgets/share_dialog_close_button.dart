@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareDialogCloseButton extends StatelessWidget {
   const ShareDialogCloseButton({super.key, required this.size});
@@ -11,7 +12,7 @@ class ShareDialogCloseButton extends StatelessWidget {
     return SizedBox.square(
       dimension: size,
       child: Material(
-        color: Colors.transparent,
+        color: HoloBoothColors.transparent,
         child: InkWell(
           child: Assets.icons.closeIcon.image(height: size),
           onTap: () {

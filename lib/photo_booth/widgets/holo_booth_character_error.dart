@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class HoloBoothCharacterError extends StatefulWidget {
   const HoloBoothCharacterError({super.key});
@@ -34,8 +34,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
     final l10n = context.l10n;
 
     return BlurryContainer(
-      // TODO(OSCAR): This color is not in the palette.
-      color: const Color.fromRGBO(19, 22, 44, 0.75),
+      color: HoloBoothColors.blurrySurface,
       blur: 7.5,
       borderRadius: BorderRadius.circular(38),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -44,7 +43,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
         children: [
           const Icon(
             Icons.error,
-            color: PhotoboothColors.red,
+            color: HoloBoothColors.red,
           ),
           const SizedBox(width: 12),
           Text(
@@ -52,7 +51,7 @@ class _HoloBoothCharacterErrorState extends State<HoloBoothCharacterError>
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ],
       ),

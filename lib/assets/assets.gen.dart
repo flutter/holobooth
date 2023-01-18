@@ -13,18 +13,65 @@ import 'package:rive/rive.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
-  /// File path: assets/animations/background.riv
-  RiveGenImage get background =>
-      const RiveGenImage('assets/animations/background.riv');
+  /// File path: assets/animations/bg_00.riv
+  RiveGenImage get bg00 => const RiveGenImage('assets/animations/bg_00.riv');
 
-  /// File path: assets/animations/dash.riv
-  RiveGenImage get dash => const RiveGenImage('assets/animations/dash.riv');
+  /// File path: assets/animations/bg_01.riv
+  RiveGenImage get bg01 => const RiveGenImage('assets/animations/bg_01.riv');
 
-  /// File path: assets/animations/sparky.riv
-  RiveGenImage get sparky => const RiveGenImage('assets/animations/sparky.riv');
+  /// File path: assets/animations/bg_02.riv
+  RiveGenImage get bg02 => const RiveGenImage('assets/animations/bg_02.riv');
+
+  /// File path: assets/animations/bg_03.riv
+  RiveGenImage get bg03 => const RiveGenImage('assets/animations/bg_03.riv');
+
+  /// File path: assets/animations/bg_04.riv
+  RiveGenImage get bg04 => const RiveGenImage('assets/animations/bg_04.riv');
+
+  /// File path: assets/animations/bg_05.riv
+  RiveGenImage get bg05 => const RiveGenImage('assets/animations/bg_05.riv');
+
+  /// File path: assets/animations/bg_06.riv
+  RiveGenImage get bg06 => const RiveGenImage('assets/animations/bg_06.riv');
+
+  /// File path: assets/animations/bg_07.riv
+  RiveGenImage get bg07 => const RiveGenImage('assets/animations/bg_07.riv');
+
+  /// File path: assets/animations/bg_08.riv
+  RiveGenImage get bg08 => const RiveGenImage('assets/animations/bg_08.riv');
+
+  /// File path: assets/animations/dash_desktop.riv
+  RiveGenImage get dashDesktop =>
+      const RiveGenImage('assets/animations/dash_desktop.riv');
+
+  /// File path: assets/animations/dash_mobile.riv
+  RiveGenImage get dashMobile =>
+      const RiveGenImage('assets/animations/dash_mobile.riv');
+
+  /// File path: assets/animations/sparky_desktop.riv
+  RiveGenImage get sparkyDesktop =>
+      const RiveGenImage('assets/animations/sparky_desktop.riv');
+
+  /// File path: assets/animations/sparky_mobile.riv
+  RiveGenImage get sparkyMobile =>
+      const RiveGenImage('assets/animations/sparky_mobile.riv');
 
   /// List of all assets
-  List<RiveGenImage> get values => [background, dash, sparky];
+  List<RiveGenImage> get values => [
+        bg00,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
+        dashDesktop,
+        dashMobile,
+        sparkyDesktop,
+        sparkyMobile
+      ];
 }
 
 class $AssetsAudioGen {
@@ -42,12 +89,6 @@ class $AssetsAudioGen {
   /// File path: assets/audio/face_not_detected.mp3
   String get faceNotDetected => 'assets/audio/face_not_detected.mp3';
 
-  /// File path: assets/audio/hologram_entrance.mp3
-  String get hologramEntrance => 'assets/audio/hologram_entrance.mp3';
-
-  /// File path: assets/audio/landing_page_ambient.mp3
-  String get landingPageAmbient => 'assets/audio/landing_page_ambient.mp3';
-
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
 
@@ -63,8 +104,6 @@ class $AssetsAudioGen {
         counting3Seconds,
         experienceAmbient,
         faceNotDetected,
-        hologramEntrance,
-        landingPageAmbient,
         loading,
         loadingFinished,
         tabClick
@@ -78,13 +117,68 @@ class $AssetsBackgroundsGen {
   AssetGenImage get animojiIntroBackground =>
       const AssetGenImage('assets/backgrounds/animoji_intro_background.png');
 
-  /// File path: assets/backgrounds/beach.png
-  AssetGenImage get beach =>
-      const AssetGenImage('assets/backgrounds/beach.png');
+  /// File path: assets/backgrounds/bg_00.png
+  AssetGenImage get bg00 => const AssetGenImage('assets/backgrounds/bg_00.png');
 
-  /// File path: assets/backgrounds/blue_circle.png
-  AssetGenImage get blueCircle =>
-      const AssetGenImage('assets/backgrounds/blue_circle.png');
+  /// File path: assets/backgrounds/bg_01.png
+  AssetGenImage get bg01 => const AssetGenImage('assets/backgrounds/bg_01.png');
+
+  /// File path: assets/backgrounds/bg_02.png
+  AssetGenImage get bg02 => const AssetGenImage('assets/backgrounds/bg_02.png');
+
+  /// File path: assets/backgrounds/bg_03.png
+  AssetGenImage get bg03 => const AssetGenImage('assets/backgrounds/bg_03.png');
+
+  /// File path: assets/backgrounds/bg_04.png
+  AssetGenImage get bg04 => const AssetGenImage('assets/backgrounds/bg_04.png');
+
+  /// File path: assets/backgrounds/bg_05.png
+  AssetGenImage get bg05 => const AssetGenImage('assets/backgrounds/bg_05.png');
+
+  /// File path: assets/backgrounds/bg_06.png
+  AssetGenImage get bg06 => const AssetGenImage('assets/backgrounds/bg_06.png');
+
+  /// File path: assets/backgrounds/bg_07.png
+  AssetGenImage get bg07 => const AssetGenImage('assets/backgrounds/bg_07.png');
+
+  /// File path: assets/backgrounds/bg_08.png
+  AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_00.png
+  AssetGenImage get bgThumbnail00 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_00.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_01.png
+  AssetGenImage get bgThumbnail01 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_01.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_02.png
+  AssetGenImage get bgThumbnail02 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_02.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_03.png
+  AssetGenImage get bgThumbnail03 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_03.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_04.png
+  AssetGenImage get bgThumbnail04 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_04.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_05.png
+  AssetGenImage get bgThumbnail05 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_05.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_06.png
+  AssetGenImage get bgThumbnail06 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_06.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_07.png
+  AssetGenImage get bgThumbnail07 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_07.png');
+
+  /// File path: assets/backgrounds/bg_thumbnail_08.png
+  AssetGenImage get bgThumbnail08 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_08.png');
 
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
@@ -98,49 +192,40 @@ class $AssetsBackgroundsGen {
   AssetGenImage get loadingBackground =>
       const AssetGenImage('assets/backgrounds/loading_background.png');
 
-  /// File path: assets/backgrounds/photobooth_background.jpg
-  AssetGenImage get photoboothBackground =>
-      const AssetGenImage('assets/backgrounds/photobooth_background.jpg');
-
-  /// File path: assets/backgrounds/red_box.png
-  AssetGenImage get redBox =>
-      const AssetGenImage('assets/backgrounds/red_box.png');
-
   /// File path: assets/backgrounds/share_background.png
   AssetGenImage get shareBackground =>
       const AssetGenImage('assets/backgrounds/share_background.png');
-
-  /// File path: assets/backgrounds/space.png
-  AssetGenImage get space =>
-      const AssetGenImage('assets/backgrounds/space.png');
-
-  /// File path: assets/backgrounds/underwater.png
-  AssetGenImage get underwater =>
-      const AssetGenImage('assets/backgrounds/underwater.png');
 
   /// File path: assets/backgrounds/video_frame.png
   AssetGenImage get videoFrame =>
       const AssetGenImage('assets/backgrounds/video_frame.png');
 
-  /// File path: assets/backgrounds/yellow_plus.png
-  AssetGenImage get yellowPlus =>
-      const AssetGenImage('assets/backgrounds/yellow_plus.png');
-
   /// List of all assets
   List<AssetGenImage> get values => [
         animojiIntroBackground,
-        beach,
-        blueCircle,
+        bg00,
+        bg01,
+        bg02,
+        bg03,
+        bg04,
+        bg05,
+        bg06,
+        bg07,
+        bg08,
+        bgThumbnail00,
+        bgThumbnail01,
+        bgThumbnail02,
+        bgThumbnail03,
+        bgThumbnail04,
+        bgThumbnail05,
+        bgThumbnail06,
+        bgThumbnail07,
+        bgThumbnail08,
         holobooth,
         landingBackground,
         loadingBackground,
-        photoboothBackground,
-        redBox,
         shareBackground,
-        space,
-        underwater,
-        videoFrame,
-        yellowPlus
+        videoFrame
       ];
 }
 
@@ -248,8 +333,12 @@ class $AssetsImagesGen {
   AssetGenImage get flutterForwardLogo =>
       const AssetGenImage('assets/images/flutter_forward_logo.png');
 
+  /// File path: assets/images/holobooth_avatar.png
+  AssetGenImage get holoboothAvatar =>
+      const AssetGenImage('assets/images/holobooth_avatar.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [flutterForwardLogo];
+  List<AssetGenImage> get values => [flutterForwardLogo, holoboothAvatar];
 }
 
 class $AssetsPropsGen {
@@ -258,24 +347,202 @@ class $AssetsPropsGen {
   /// File path: assets/props/clothes.png
   AssetGenImage get clothes => const AssetGenImage('assets/props/clothes.png');
 
+  /// File path: assets/props/glasses_01.png
+  AssetGenImage get glasses01 =>
+      const AssetGenImage('assets/props/glasses_01.png');
+
+  /// File path: assets/props/glasses_02.png
+  AssetGenImage get glasses02 =>
+      const AssetGenImage('assets/props/glasses_02.png');
+
+  /// File path: assets/props/glasses_03.png
+  AssetGenImage get glasses03 =>
+      const AssetGenImage('assets/props/glasses_03.png');
+
+  /// File path: assets/props/glasses_04.png
+  AssetGenImage get glasses04 =>
+      const AssetGenImage('assets/props/glasses_04.png');
+
+  /// File path: assets/props/glasses_05.png
+  AssetGenImage get glasses05 =>
+      const AssetGenImage('assets/props/glasses_05.png');
+
+  /// File path: assets/props/glasses_06.png
+  AssetGenImage get glasses06 =>
+      const AssetGenImage('assets/props/glasses_06.png');
+
+  /// File path: assets/props/glasses_07.png
+  AssetGenImage get glasses07 =>
+      const AssetGenImage('assets/props/glasses_07.png');
+
+  /// File path: assets/props/glasses_08.png
+  AssetGenImage get glasses08 =>
+      const AssetGenImage('assets/props/glasses_08.png');
+
+  /// File path: assets/props/glasses_09.png
+  AssetGenImage get glasses09 =>
+      const AssetGenImage('assets/props/glasses_09.png');
+
   /// File path: assets/props/glasses_icon.png
   AssetGenImage get glassesIcon =>
       const AssetGenImage('assets/props/glasses_icon.png');
+
+  /// File path: assets/props/handheld_01.png
+  AssetGenImage get handheld01 =>
+      const AssetGenImage('assets/props/handheld_01.png');
+
+  /// File path: assets/props/handheld_02.png
+  AssetGenImage get handheld02 =>
+      const AssetGenImage('assets/props/handheld_02.png');
+
+  /// File path: assets/props/handheld_03.png
+  AssetGenImage get handheld03 =>
+      const AssetGenImage('assets/props/handheld_03.png');
+
+  /// File path: assets/props/handheld_04.png
+  AssetGenImage get handheld04 =>
+      const AssetGenImage('assets/props/handheld_04.png');
+
+  /// File path: assets/props/handheld_05.png
+  AssetGenImage get handheld05 =>
+      const AssetGenImage('assets/props/handheld_05.png');
+
+  /// File path: assets/props/handheld_06.png
+  AssetGenImage get handheld06 =>
+      const AssetGenImage('assets/props/handheld_06.png');
+
+  /// File path: assets/props/handheld_07.png
+  AssetGenImage get handheld07 =>
+      const AssetGenImage('assets/props/handheld_07.png');
+
+  /// File path: assets/props/handheld_08.png
+  AssetGenImage get handheld08 =>
+      const AssetGenImage('assets/props/handheld_08.png');
+
+  /// File path: assets/props/handheld_09.png
+  AssetGenImage get handheld09 =>
+      const AssetGenImage('assets/props/handheld_09.png');
+
+  /// File path: assets/props/handheld_10.png
+  AssetGenImage get handheld10 =>
+      const AssetGenImage('assets/props/handheld_10.png');
+
+  /// File path: assets/props/handheld_11.png
+  AssetGenImage get handheld11 =>
+      const AssetGenImage('assets/props/handheld_11.png');
+
+  /// File path: assets/props/hat_01.png
+  AssetGenImage get hat01 => const AssetGenImage('assets/props/hat_01.png');
+
+  /// File path: assets/props/hat_02.png
+  AssetGenImage get hat02 => const AssetGenImage('assets/props/hat_02.png');
+
+  /// File path: assets/props/hat_03.png
+  AssetGenImage get hat03 => const AssetGenImage('assets/props/hat_03.png');
+
+  /// File path: assets/props/hat_04.png
+  AssetGenImage get hat04 => const AssetGenImage('assets/props/hat_04.png');
+
+  /// File path: assets/props/hat_05.png
+  AssetGenImage get hat05 => const AssetGenImage('assets/props/hat_05.png');
+
+  /// File path: assets/props/hat_06.png
+  AssetGenImage get hat06 => const AssetGenImage('assets/props/hat_06.png');
+
+  /// File path: assets/props/hat_07.png
+  AssetGenImage get hat07 => const AssetGenImage('assets/props/hat_07.png');
+
+  /// File path: assets/props/hat_08.png
+  AssetGenImage get hat08 => const AssetGenImage('assets/props/hat_08.png');
+
+  /// File path: assets/props/hat_09.png
+  AssetGenImage get hat09 => const AssetGenImage('assets/props/hat_09.png');
 
   /// File path: assets/props/hats_icon.png
   AssetGenImage get hatsIcon =>
       const AssetGenImage('assets/props/hats_icon.png');
 
+  /// File path: assets/props/none_props.png
+  AssetGenImage get noneProps =>
+      const AssetGenImage('assets/props/none_props.png');
+
   /// File path: assets/props/others_icon.png
   AssetGenImage get othersIcon =>
       const AssetGenImage('assets/props/others_icon.png');
 
-  /// File path: assets/props/prop1.png
-  AssetGenImage get prop1 => const AssetGenImage('assets/props/prop1.png');
+  /// File path: assets/props/shirt_01.png
+  AssetGenImage get shirt01 => const AssetGenImage('assets/props/shirt_01.png');
+
+  /// File path: assets/props/shirt_02.png
+  AssetGenImage get shirt02 => const AssetGenImage('assets/props/shirt_02.png');
+
+  /// File path: assets/props/shirt_03.png
+  AssetGenImage get shirt03 => const AssetGenImage('assets/props/shirt_03.png');
+
+  /// File path: assets/props/shirt_04.png
+  AssetGenImage get shirt04 => const AssetGenImage('assets/props/shirt_04.png');
+
+  /// File path: assets/props/shirt_05.png
+  AssetGenImage get shirt05 => const AssetGenImage('assets/props/shirt_05.png');
+
+  /// File path: assets/props/shirt_06.png
+  AssetGenImage get shirt06 => const AssetGenImage('assets/props/shirt_06.png');
+
+  /// File path: assets/props/shirt_07.png
+  AssetGenImage get shirt07 => const AssetGenImage('assets/props/shirt_07.png');
+
+  /// File path: assets/props/shirt_08.png
+  AssetGenImage get shirt08 => const AssetGenImage('assets/props/shirt_08.png');
+
+  /// File path: assets/props/shirt_09.png
+  AssetGenImage get shirt09 => const AssetGenImage('assets/props/shirt_09.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [clothes, glassesIcon, hatsIcon, othersIcon, prop1];
+  List<AssetGenImage> get values => [
+        clothes,
+        glasses01,
+        glasses02,
+        glasses03,
+        glasses04,
+        glasses05,
+        glasses06,
+        glasses07,
+        glasses08,
+        glasses09,
+        glassesIcon,
+        handheld01,
+        handheld02,
+        handheld03,
+        handheld04,
+        handheld05,
+        handheld06,
+        handheld07,
+        handheld08,
+        handheld09,
+        handheld10,
+        handheld11,
+        hat01,
+        hat02,
+        hat03,
+        hat04,
+        hat05,
+        hat06,
+        hat07,
+        hat08,
+        hat09,
+        hatsIcon,
+        noneProps,
+        othersIcon,
+        shirt01,
+        shirt02,
+        shirt03,
+        shirt04,
+        shirt05,
+        shirt06,
+        shirt07,
+        shirt08,
+        shirt09
+      ];
 }
 
 class Assets {

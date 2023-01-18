@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
   group('InExperienceSelectionBloc', () {
@@ -15,19 +15,17 @@ void main() {
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state with hat selected.',
         build: InExperienceSelectionBloc.new,
-        act: (bloc) =>
-            bloc.add(InExperienceSelectionHatToggled(Hats.astronaut)),
+        act: (bloc) => bloc.add(InExperienceSelectionHatToggled(Hats.hat01)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(hat: Hats.astronaut)
+          InExperienceSelectionState(hat: Hats.hat01)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state without hat when hat was previously selected.',
         build: InExperienceSelectionBloc.new,
-        seed: () => InExperienceSelectionState(hat: Hats.astronaut),
-        act: (bloc) =>
-            bloc.add(InExperienceSelectionHatToggled(Hats.astronaut)),
+        seed: () => InExperienceSelectionState(hat: Hats.hat01),
+        act: (bloc) => bloc.add(InExperienceSelectionHatToggled(Hats.hat01)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );
@@ -38,18 +36,18 @@ void main() {
         'emits state with background selected.',
         build: InExperienceSelectionBloc.new,
         act: (bloc) =>
-            bloc.add(InExperienceSelectionBackgroundSelected(Background.beach)),
+            bloc.add(InExperienceSelectionBackgroundSelected(Background.bg2)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(background: Background.beach)
+          InExperienceSelectionState(background: Background.bg2)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'does not emit new state if background already selected.',
         build: InExperienceSelectionBloc.new,
-        seed: () => InExperienceSelectionState(background: Background.beach),
+        seed: () => InExperienceSelectionState(background: Background.bg2),
         act: (bloc) =>
-            bloc.add(InExperienceSelectionBackgroundSelected(Background.beach)),
+            bloc.add(InExperienceSelectionBackgroundSelected(Background.bg2)),
         expect: () => const <InExperienceSelectionState>[],
       );
     });
@@ -73,6 +71,26 @@ void main() {
             bloc.add(InExperienceSelectionCharacterSelected(Character.dash)),
         expect: () => const <InExperienceSelectionState>[],
       );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state clearing props and keeping background.',
+        build: InExperienceSelectionBloc.new,
+        seed: () => InExperienceSelectionState(
+          background: Background.bg8,
+          clothes: Clothes.shirt01,
+          glasses: Glasses.glasses01,
+          handheldlLeft: HandheldlLeft.handheld01,
+          hat: Hats.hat01,
+        ),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionCharacterSelected(Character.sparky)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(
+            character: Character.sparky,
+            background: Background.bg8,
+          )
+        ],
+      );
     });
 
     group('InExperienceSelectionGlassesToggled', () {
@@ -80,18 +98,18 @@ void main() {
         'emits state with glasses selected.',
         build: InExperienceSelectionBloc.new,
         act: (bloc) =>
-            bloc.add(InExperienceSelectionGlassesToggled(Glasses.sunGlasses)),
+            bloc.add(InExperienceSelectionGlassesToggled(Glasses.glasses01)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(glasses: Glasses.sunGlasses)
+          InExperienceSelectionState(glasses: Glasses.glasses01)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state without glasses when glasses were previously selected.',
         build: InExperienceSelectionBloc.new,
-        seed: () => InExperienceSelectionState(glasses: Glasses.sunGlasses),
+        seed: () => InExperienceSelectionState(glasses: Glasses.glasses01),
         act: (bloc) =>
-            bloc.add(InExperienceSelectionGlassesToggled(Glasses.sunGlasses)),
+            bloc.add(InExperienceSelectionGlassesToggled(Glasses.glasses01)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );
@@ -102,18 +120,18 @@ void main() {
         'emits state with clothes selected.',
         build: InExperienceSelectionBloc.new,
         act: (bloc) =>
-            bloc.add(InExperienceSelectionClothesToggled(Clothes.swimmingSuit)),
+            bloc.add(InExperienceSelectionClothesToggled(Clothes.shirt01)),
         expect: () => const <InExperienceSelectionState>[
-          InExperienceSelectionState(clothes: Clothes.swimmingSuit)
+          InExperienceSelectionState(clothes: Clothes.shirt01)
         ],
       );
 
       blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
         'emits state without clothes when clothes was previously selected.',
         build: InExperienceSelectionBloc.new,
-        seed: () => InExperienceSelectionState(clothes: Clothes.swimmingSuit),
+        seed: () => InExperienceSelectionState(clothes: Clothes.shirt01),
         act: (bloc) =>
-            bloc.add(InExperienceSelectionClothesToggled(Clothes.swimmingSuit)),
+            bloc.add(InExperienceSelectionClothesToggled(Clothes.shirt01)),
         expect: () =>
             const <InExperienceSelectionState>[InExperienceSelectionState()],
       );
@@ -125,12 +143,12 @@ void main() {
         build: InExperienceSelectionBloc.new,
         act: (bloc) => bloc.add(
           InExperienceSelectionHandleheldLeftToggled(
-            HandheldlLeft.apple,
+            HandheldlLeft.handheld01,
           ),
         ),
         expect: () => const <InExperienceSelectionState>[
           InExperienceSelectionState(
-            handheldlLeft: HandheldlLeft.apple,
+            handheldlLeft: HandheldlLeft.handheld01,
           )
         ],
       );
@@ -139,11 +157,11 @@ void main() {
         'emits state with handleheld left unselected.',
         build: InExperienceSelectionBloc.new,
         seed: () => InExperienceSelectionState(
-          handheldlLeft: HandheldlLeft.apple,
+          handheldlLeft: HandheldlLeft.handheld01,
         ),
         act: (bloc) => bloc.add(
           InExperienceSelectionHandleheldLeftToggled(
-            HandheldlLeft.apple,
+            HandheldlLeft.handheld01,
           ),
         ),
         expect: () => const <InExperienceSelectionState>[

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PrimarySelectionView extends StatefulWidget {
   const PrimarySelectionView({
@@ -60,7 +60,8 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
   @override
   Widget build(BuildContext context) {
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
+    const buttonPadding = EdgeInsets.only(left: 15, right: 15, bottom: 15);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -99,8 +100,9 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           ),
         if (_indexSelected == 0)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: NextButton(
+              key: const Key('primarySelection_nextButton_character'),
               onNextPressed: () {
                 _tabController.animateTo(1);
               },
@@ -108,8 +110,9 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           ),
         if (_indexSelected == 1)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: NextButton(
+              key: const Key('primarySelection_nextButton_background'),
               onNextPressed: () {
                 _tabController.animateTo(2);
               },
@@ -117,7 +120,7 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
           ),
         if (_indexSelected == 2)
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: buttonPadding,
             child: RecordingButton(
               onRecordingPressed: () {
                 context

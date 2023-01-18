@@ -1,11 +1,11 @@
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class ConvertPage extends StatelessWidget {
@@ -48,7 +48,9 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ConvertBloc>().add(GenerateVideoRequested(widget.frames));
+      context
+          .read<ConvertBloc>()
+          .add(GenerateVideoRequested(frames: widget.frames));
     });
   }
 
@@ -101,7 +103,7 @@ class ConvertBody extends StatelessWidget {
                   previous.status != current.status,
               builder: (context, state) {
                 if (state.status == ConvertStatus.error) {
-                  return const SizedBox(key: errorViewKey);
+                  return const ConvertErrorView();
                 } else {
                   return AnimatedSwitcher(
                     duration: const Duration(seconds: 1),

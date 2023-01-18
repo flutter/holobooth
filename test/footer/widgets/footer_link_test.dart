@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
-import 'package:io_photobooth/footer/footer.dart';
+import 'package:holobooth/external_links/external_links.dart';
+import 'package:holobooth/footer/footer.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
@@ -15,26 +13,6 @@ class _MockUrlLauncher extends Mock
     implements UrlLauncherPlatform {}
 
 class _FakeLaunchOptions extends Fake implements LaunchOptions {}
-
-// TODO(oscar): this is not used anymore after this PR, but
-//it will be used on Share Screen PR
-bool findTextAndTap(InlineSpan visitor, String text) {
-  if (visitor is TextSpan && visitor.text == text) {
-    (visitor.recognizer as TapGestureRecognizer?)?.onTap?.call();
-
-    return false;
-  }
-
-  return true;
-}
-
-bool tapTextSpan(RichText richText, String text) {
-  final isTapped = !richText.text.visitChildren(
-    (visitor) => findTextAndTap(visitor, text),
-  );
-
-  return isTapped;
-}
 
 void main() {
   group('FooterLink', () {

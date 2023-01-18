@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ConvertLoadingAnimation extends StatefulWidget {
   const ConvertLoadingAnimation({
@@ -56,7 +56,7 @@ class _ConvertLoadingAnimationState extends State<ConvertLoadingAnimation>
                 child: SizedBox.square(
                   dimension: widget.dimension,
                   child: const CircularProgressIndicator(
-                    color: Color(0xFFe196d8),
+                    color: HoloBoothColors.convertLoading,
                   ),
                 ),
               ),

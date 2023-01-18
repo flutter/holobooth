@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroBody extends StatelessWidget {
-  const AnimojiIntroBody({super.key});
+  const AnimojiIntroBody({
+    super.key,
+    required this.onNextPressed,
+  });
+
+  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final small = size.width <= PhotoboothBreakpoints.small;
+    final small = size.width <= HoloboothBreakpoints.small;
 
     return Align(
       child: SingleChildScrollView(
@@ -28,12 +32,7 @@ class AnimojiIntroBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: DecoratedBox(
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: <Color>[
-                    Color(0xFF9E81EF),
-                    Color(0xFF4100E0),
-                  ],
-                ),
+                gradient: HoloBoothGradients.secondarySix,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(1),
@@ -41,18 +40,35 @@ class AnimojiIntroBody extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(
                         flex: small ? 1 : 2,
-                        // TODO(willhlas): add animation.
-                        child: Container(
-                          color: const Color(0xFF020320).withOpacity(0.95),
+                        child: const ColoredBox(
+                          color: HoloBoothColors.holoboothAvatarBackground,
+                          child: Center(
+                            child: FittedBox(
+                              child: SizedBox(
+                                width: 960,
+                                height: 450,
+                                child: AnimatedSprite(
+                                  showLoadingIndicator: false,
+                                  sprites: Sprites(
+                                    asset: 'holobooth_avatar.png',
+                                    size: Size(960, 450),
+                                    frames: 45,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 1),
                       Expanded(
                         child: _BottomContent(
                           smallScreen: small,
+                          onNextPressed: onNextPressed,
                         ),
                       ),
                     ],
@@ -70,9 +86,11 @@ class AnimojiIntroBody extends StatelessWidget {
 class _BottomContent extends StatelessWidget {
   const _BottomContent({
     required this.smallScreen,
+    required this.onNextPressed,
   });
 
   final bool smallScreen;
+  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +98,7 @@ class _BottomContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      color: const Color(0xFF020320).withOpacity(0.95),
+      color: HoloBoothColors.modalSurface,
       padding: const EdgeInsets.all(20),
       child: Flex(
         direction: smallScreen ? Axis.vertical : Axis.horizontal,
@@ -89,17 +107,13 @@ class _BottomContent extends StatelessWidget {
           Flexible(
             child: ShaderMask(
               shaderCallback: (bounds) {
-                return const LinearGradient(
-                  colors: <Color>[
-                    Color(0xFF74F1DD),
-                    Color(0xFF9E81EF),
-                  ],
-                ).createShader(Offset.zero & bounds.size);
+                return HoloBoothGradients.secondaryFive
+                    .createShader(Offset.zero & bounds.size);
               },
               child: const Icon(
                 Icons.videocam_rounded,
                 size: 40,
-                color: Colors.white,
+                color: HoloBoothColors.white,
               ),
             ),
           ),
@@ -108,8 +122,8 @@ class _BottomContent extends StatelessWidget {
             child: SelectableText(
               l10n.animojiIntroPageSubheading,
               key: const Key('animojiIntro_subheading_text'),
-              style: textTheme.displaySmall!.copyWith(
-                color: PhotoboothColors.white,
+              style: textTheme.bodyLarge?.copyWith(
+                color: HoloBoothColors.white,
               ),
               textAlign: smallScreen ? TextAlign.center : TextAlign.left,
             ),
@@ -117,9 +131,7 @@ class _BottomContent extends StatelessWidget {
           if (smallScreen) const SizedBox(height: 16),
           Flexible(
             child: NextButton(
-              onNextPressed: () {
-                Navigator.of(context).push(PhotoBoothPage.route());
-              },
+              onNextPressed: onNextPressed,
             ),
           ),
         ],

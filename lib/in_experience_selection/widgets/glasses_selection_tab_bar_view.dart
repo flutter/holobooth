@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 
 class GlassesSelectionTabBarView extends StatelessWidget {
   const GlassesSelectionTabBarView({super.key});
@@ -27,6 +27,7 @@ class GlassesSelectionTabBarView extends StatelessWidget {
           },
           name: item.name,
           isSelected: item == selectedGlasses,
+          imageProvider: item.toImageProvider(),
         );
       },
       itemCount: items.length,

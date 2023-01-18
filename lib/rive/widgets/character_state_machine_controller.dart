@@ -1,88 +1,101 @@
+import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
-// TODO(oscar): remove on the scope of this task https://very-good-ventures-team.monday.com/boards/3161754080/pulses/3428762748
-// coverage:ignore-start
 class CharacterStateMachineController extends StateMachineController {
-  CharacterStateMachineController(Artboard artboard)
-      : super(
-          artboard.animations.whereType<StateMachine>().firstWhere(
-                (stateMachine) => stateMachine.name == 'State Machine 1',
-              ),
+  CharacterStateMachineController(
+    Artboard artboard, {
+    SMIInput<dynamic>? Function(String name)? testFindInput,
+  }) : super(
+          testFindInput == null
+              ? artboard.animations.whereType<StateMachine>().firstWhere(
+                    (stateMachine) => stateMachine.name == 'State Machine 1',
+                  )
+              : StateMachine(),
         ) {
-    const xInputName = 'x';
-    final x = findInput<double>(xInputName);
+    final x = testFindInput != null
+        ? testFindInput(xInputName)
+        : findInput<double>(xInputName);
     if (x is SMINumber) {
       this.x = x;
     } else {
       throw StateError('Could not find input "$xInputName"');
     }
 
-    const yInputName = 'y';
-    final y = findInput<double>(yInputName);
+    final y = testFindInput != null
+        ? testFindInput(yInputName)
+        : findInput<double>(yInputName);
     if (y is SMINumber) {
       this.y = y;
     } else {
       throw StateError('Could not find input "$yInputName"');
     }
 
-    const zInputName = 'z';
-    final z = findInput<double>(zInputName);
+    final z = testFindInput != null
+        ? testFindInput(zInputName)
+        : findInput<double>(zInputName);
     if (z is SMINumber) {
       this.z = z;
     } else {
       throw StateError('Could not find input "$zInputName"');
     }
 
-    const mouthDistanceInputName = 'Mouth Open';
-    final mouthDistance = findInput<double>(mouthDistanceInputName);
+    final mouthDistance = testFindInput != null
+        ? testFindInput(mouthDistanceInputName)
+        : findInput<double>(mouthDistanceInputName);
     if (mouthDistance is SMINumber) {
       this.mouthDistance = mouthDistance;
     } else {
       throw StateError('Could not find input "$mouthDistanceInputName"');
     }
 
-    const leftEyeIsClosedInputName = 'Eyelid LF';
-    final leftEyeIsClosed = findInput<double>(leftEyeIsClosedInputName);
-    if (leftEyeIsClosed is SMINumber) {
-      this.leftEyeIsClosed = leftEyeIsClosed;
+    final leftEye = testFindInput != null
+        ? testFindInput(leftEyeInputName)
+        : findInput<double>(leftEyeInputName);
+    if (leftEye is SMINumber) {
+      this.leftEye = leftEye;
     } else {
-      throw StateError('Could not find input "$leftEyeIsClosedInputName"');
+      throw StateError('Could not find input "$leftEyeInputName"');
     }
 
-    const rightEyeIsClosedInputName = 'Eyelid RT';
-    final rightEyeIsClosed = findInput<double>(rightEyeIsClosedInputName);
-    if (rightEyeIsClosed is SMINumber) {
-      this.rightEyeIsClosed = rightEyeIsClosed;
+    final rightEye = testFindInput != null
+        ? testFindInput(rightEyeInputName)
+        : findInput<double>(rightEyeInputName);
+    if (rightEye is SMINumber) {
+      this.rightEye = rightEye;
     } else {
-      throw StateError('Could not find input "$rightEyeIsClosedInputName"');
+      throw StateError('Could not find input "$rightEyeInputName"');
     }
 
-    const hatsInputName = 'Hats';
-    final hats = findInput<double>(hatsInputName);
+    final hats = testFindInput != null
+        ? testFindInput(hatsInputName)
+        : findInput<double>(hatsInputName);
     if (hats is SMINumber) {
       this.hats = hats;
     } else {
       throw StateError('Could not find input "$hatsInputName"');
     }
 
-    const glassesInputName = 'Glasses';
-    final glasses = findInput<double>(glassesInputName);
+    final glasses = testFindInput != null
+        ? testFindInput(glassesInputName)
+        : findInput<double>(glassesInputName);
     if (glasses is SMINumber) {
       this.glasses = glasses;
     } else {
       throw StateError('Could not find input "$glassesInputName"');
     }
 
-    const clothesInputName = 'Clothes';
-    final clothes = findInput<double>(clothesInputName);
+    final clothes = testFindInput != null
+        ? testFindInput(clothesInputName)
+        : findInput<double>(clothesInputName);
     if (clothes is SMINumber) {
       this.clothes = clothes;
     } else {
       throw StateError('Could not find input "$clothesInputName"');
     }
 
-    const handheldLeftInputName = 'HandheldLeft';
-    final handheldlLeft = findInput<double>(handheldLeftInputName);
+    final handheldlLeft = testFindInput != null
+        ? testFindInput(handheldLeftInputName)
+        : findInput<double>(handheldLeftInputName);
     if (handheldlLeft is SMINumber) {
       this.handheldlLeft = handheldlLeft;
     } else {
@@ -90,15 +103,35 @@ class CharacterStateMachineController extends StateMachineController {
     }
   }
 
+  @visibleForTesting
+  static const xInputName = 'x';
+  @visibleForTesting
+  static const yInputName = 'y';
+  @visibleForTesting
+  static const zInputName = 'z';
+  @visibleForTesting
+  static const mouthDistanceInputName = 'Mouth Open';
+  @visibleForTesting
+  static const leftEyeInputName = 'Eyelid LF';
+  @visibleForTesting
+  static const rightEyeInputName = 'Eyelid RT';
+  @visibleForTesting
+  static const hatsInputName = 'Hats';
+  @visibleForTesting
+  static const glassesInputName = 'Glasses';
+  @visibleForTesting
+  static const clothesInputName = 'Clothes';
+  @visibleForTesting
+  static const handheldLeftInputName = 'HandheldLeft';
+
   late final SMINumber x;
   late final SMINumber y;
   late final SMINumber z;
   late final SMINumber mouthDistance;
-  late final SMINumber leftEyeIsClosed;
-  late final SMINumber rightEyeIsClosed;
+  late final SMINumber leftEye;
+  late final SMINumber rightEye;
   late final SMINumber hats;
   late final SMINumber glasses;
   late final SMINumber clothes;
   late final SMINumber handheldlLeft;
 }
-// coverage:ignore-end

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RetakeButton extends StatelessWidget {
   const RetakeButton({super.key});
@@ -15,7 +15,7 @@ class RetakeButton extends StatelessWidget {
       },
       icon: const Icon(
         Icons.videocam_rounded,
-        color: PhotoboothColors.white,
+        color: HoloBoothColors.white,
       ),
       label: l10n.sharePageRetakeButtonText,
     );

@@ -2,99 +2,284 @@ import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/rive/rive.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
+
+import '../../helpers/helpers.dart';
 
 class _MockLeftEyeGeometry extends Mock implements LeftEyeGeometry {}
 
 class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
+Finder _findCharacterAnimation<T extends CharacterAnimation>(
+  String path,
+) =>
+    find.byWidgetPredicate(
+      (widget) => widget is T && widget.riveGenImage.path == path,
+    );
+
 void main() {
+  late PlatformHelper platformHelper;
+
+  setUp(() => platformHelper = _MockPlatformHelper());
+
+  group('DashCharacterAnimation', () {
+    testWidgets(
+      'renders mobile asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(true);
+
+        await tester.pumpApp(
+          DashCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.dashMobile.path);
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders desktop asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpApp(
+          DashCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.dashDesktop.path);
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+  });
+
+  group('SparkyCharacterAnimation', () {
+    testWidgets(
+      'renders mobile asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(true);
+
+        await tester.pumpApp(
+          SparkyCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.sparkyMobile.path);
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders desktop asset',
+      (WidgetTester tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpApp(
+          SparkyCharacterAnimation(
+            avatar: Avatar.zero,
+            hat: Hats.none,
+            glasses: Glasses.none,
+            clothes: Clothes.none,
+            handheldlLeft: HandheldlLeft.none,
+            platformHelper: platformHelper,
+          ),
+        );
+
+        final widgetFinder =
+            _findCharacterAnimation(Assets.animations.sparkyDesktop.path);
+
+        expect(widgetFinder, findsOneWidget);
+      },
+    );
+  });
+
   group('CharacterAnimation', () {
-    late RiveGenImage assetGenImage;
+    late RiveGenImage riveGenImage;
     late Size riveImageSize;
 
     setUp(() {
-      assetGenImage = Assets.animations.dash;
+      riveGenImage = Assets.animations.dashMobile;
       riveImageSize = Size(100, 100);
     });
 
-    testWidgets('updates rotation', (tester) async {
-      final initialDirection = Vector3(0, 0, 0);
-      var avatar = Avatar(
-        hasMouthOpen: false,
-        mouthDistance: 0,
-        rotation: initialDirection,
-        leftEyeGeometry: LeftEyeGeometry.empty(),
-        rightEyeGeometry: RightEyeGeometry.empty(),
-        distance: 0.5,
-      );
-
-      late StateSetter stateSetter;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              stateSetter = setState;
-              return CharacterAnimation(
-                avatar: avatar,
-                hat: Hats.none,
-                glasses: Glasses.none,
-                clothes: Clothes.none,
-                handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
-                riveImageSize: riveImageSize,
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-
-      final state = tester.state(find.byType(CharacterAnimation))
-          as CharacterAnimationState;
-      final controller = state.characterController!;
-      expect(controller.x.value, equals(initialDirection.x));
-      expect(controller.y.value, equals(initialDirection.y));
-      expect(controller.z.value, equals(initialDirection.z));
-
-      final newDirection = Vector3(0.7, 0.7, 0.7);
-      stateSetter(() {
-        avatar = Avatar(
-          hasMouthOpen: !avatar.hasMouthOpen,
-          mouthDistance: avatar.mouthDistance + 1,
-          rotation: newDirection,
+    group('rotation', () {
+      testWidgets('updates', (tester) async {
+        final initialRotation = Vector3(0, 0, 0);
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: 0,
+          rotation: initialRotation,
           leftEyeGeometry: LeftEyeGeometry.empty(),
           rightEyeGeometry: RightEyeGeometry.empty(),
-          distance: avatar.distance,
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  riveGenImage: riveGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        expect(controller.x.value, equals(initialRotation.x));
+        expect(controller.y.value, equals(initialRotation.y));
+        expect(controller.z.value, equals(initialRotation.z));
+
+        const tolerationBoundary = CharacterAnimationState.rotationToleration /
+            (100 * CharacterAnimationState.rotationScale);
+        final newRotation = Vector3(
+          initialRotation.x + tolerationBoundary,
+          initialRotation.y + tolerationBoundary,
+          initialRotation.z + tolerationBoundary,
+        );
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: avatar.mouthDistance + 1,
+            rotation: newRotation,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        expect(
+          controller.x.value,
+          equals(
+            (newRotation.x * 100 * CharacterAnimationState.rotationScale)
+                .clamp(-100, 100),
+          ),
+        );
+        expect(
+          controller.y.value,
+          equals(
+            (newRotation.y * 100 * CharacterAnimationState.rotationScale)
+                .clamp(-100, 100),
+          ),
+        );
+        expect(
+          controller.z.value,
+          equals(
+            (newRotation.z * 100 * CharacterAnimationState.rotationScale)
+                .clamp(-100, 100),
+          ),
         );
       });
-      await tester.pump(Duration(milliseconds: 150));
-      await tester.pump(Duration(milliseconds: 150));
 
-      expect(
-        controller.x.value,
-        equals(
-          (newDirection.x * 100 * CharacterAnimationState.rotationScale)
-              .clamp(-100, 100),
-        ),
-      );
-      expect(
-        controller.y.value,
-        equals(
-          (newDirection.y * 100 * CharacterAnimationState.rotationScale)
-              .clamp(-100, 100),
-        ),
-      );
-      expect(
-        controller.z.value,
-        equals(
-          (newDirection.z * 100 * CharacterAnimationState.rotationScale)
-              .clamp(-100, 100),
-        ),
-      );
+      testWidgets('tolerates', (tester) async {
+        final initialRotation = Vector3(0, 0, 0);
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: 0,
+          rotation: initialRotation,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: 0.5,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  riveGenImage: riveGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final state = tester.state(find.byType(CharacterAnimation))
+            as CharacterAnimationState;
+        final controller = state.characterController!;
+        expect(controller.x.value, equals(initialRotation.x));
+        expect(controller.y.value, equals(initialRotation.y));
+        expect(controller.z.value, equals(initialRotation.z));
+
+        const tolerationBoundary = (CharacterAnimationState.rotationToleration /
+                (100 * CharacterAnimationState.rotationScale)) -
+            0.01;
+        final newRotation = Vector3(
+          initialRotation.x + tolerationBoundary,
+          initialRotation.y + tolerationBoundary,
+          initialRotation.z + tolerationBoundary,
+        );
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: !avatar.hasMouthOpen,
+            mouthDistance: avatar.mouthDistance + 1,
+            rotation: newRotation,
+            leftEyeGeometry: LeftEyeGeometry.empty(),
+            rightEyeGeometry: RightEyeGeometry.empty(),
+            distance: avatar.distance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        expect(controller.x.value, equals(initialRotation.x));
+        expect(controller.y.value, equals(initialRotation.y));
+        expect(controller.z.value, equals(initialRotation.z));
+      });
     });
 
     group('mouth', () {
@@ -121,7 +306,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -160,7 +345,7 @@ void main() {
         );
       });
 
-      testWidgets('tolerates values', (tester) async {
+      testWidgets('tolerates', (tester) async {
         var mouthDistance = .0;
         var avatar = Avatar(
           hasMouthOpen: false,
@@ -183,7 +368,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  assetGenImage: assetGenImage,
+                  riveGenImage: riveGenImage,
                   riveImageSize: riveImageSize,
                 );
               },
@@ -277,7 +462,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -289,7 +474,7 @@ void main() {
           final state = tester.state(find.byType(CharacterAnimation))
               as CharacterAnimationState;
           final controller = state.characterController!;
-          expect(controller.leftEyeIsClosed.value, equals(0));
+          expect(controller.leftEye.value, equals(0));
 
           stateSetter(() {
             avatar = Avatar(
@@ -317,7 +502,7 @@ void main() {
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
 
-          expect(controller.leftEyeIsClosed.value, equals(100));
+          expect(controller.leftEye.value, equals(100));
         });
       });
 
@@ -344,7 +529,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -356,7 +541,7 @@ void main() {
           final state = tester.state(find.byType(CharacterAnimation))
               as CharacterAnimationState;
           final controller = state.characterController!;
-          expect(controller.leftEyeIsClosed.value, equals(0));
+          expect(controller.leftEye.value, equals(0));
 
           stateSetter(() {
             avatar = Avatar(
@@ -383,7 +568,7 @@ void main() {
           });
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
-          expect(controller.leftEyeIsClosed.value, equals(100));
+          expect(controller.leftEye.value, equals(100));
 
           stateSetter(() {
             avatar = Avatar(
@@ -397,7 +582,7 @@ void main() {
           });
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
-          expect(controller.leftEyeIsClosed.value, equals(0));
+          expect(controller.leftEye.value, equals(0));
         });
       });
     });
@@ -447,7 +632,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -459,7 +644,7 @@ void main() {
           final state = tester.state(find.byType(CharacterAnimation))
               as CharacterAnimationState;
           final controller = state.characterController!;
-          expect(controller.rightEyeIsClosed.value, equals(0));
+          expect(controller.rightEye.value, equals(0));
 
           stateSetter(() {
             avatar = Avatar(
@@ -486,7 +671,7 @@ void main() {
           });
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
-          expect(controller.rightEyeIsClosed.value, equals(100));
+          expect(controller.rightEye.value, equals(100));
         });
       });
 
@@ -513,7 +698,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    assetGenImage: assetGenImage,
+                    riveGenImage: riveGenImage,
                     riveImageSize: riveImageSize,
                   );
                 },
@@ -525,7 +710,7 @@ void main() {
           final state = tester.state(find.byType(CharacterAnimation))
               as CharacterAnimationState;
           final controller = state.characterController!;
-          expect(controller.rightEyeIsClosed.value, equals(0));
+          expect(controller.rightEye.value, equals(0));
 
           stateSetter(() {
             avatar = Avatar(
@@ -552,7 +737,7 @@ void main() {
           });
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
-          expect(controller.rightEyeIsClosed.value, equals(100));
+          expect(controller.rightEye.value, equals(100));
 
           stateSetter(() {
             avatar = Avatar(
@@ -566,66 +751,132 @@ void main() {
           });
           await tester.pump(Duration(milliseconds: 150));
           await tester.pump(Duration(milliseconds: 150));
-          expect(controller.rightEyeIsClosed.value, equals(0));
+          expect(controller.rightEye.value, equals(0));
         });
       });
     });
 
-    testWidgets('updates scale', (tester) async {
-      const initialDistance = 0.0;
-      var avatar = Avatar(
-        hasMouthOpen: false,
-        mouthDistance: 0,
-        rotation: Vector3.zero,
-        leftEyeGeometry: LeftEyeGeometry.empty(),
-        rightEyeGeometry: RightEyeGeometry.empty(),
-        distance: initialDistance,
-      );
-
-      late StateSetter stateSetter;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: StatefulBuilder(
-            builder: (context, setState) {
-              stateSetter = setState;
-              return CharacterAnimation(
-                avatar: avatar,
-                hat: Hats.none,
-                glasses: Glasses.none,
-                clothes: Clothes.none,
-                handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
-                riveImageSize: riveImageSize,
-              );
-            },
-          ),
-        ),
-      );
-      await tester.pump();
-
-      final initialAnimatedScaleFinder = find.byType(AnimatedScale);
-      final initialAnimatedScale =
-          tester.widget<AnimatedScale>(initialAnimatedScaleFinder);
-      expect(initialAnimatedScale.scale, .8);
-
-      const newDistance = initialDistance + .2;
-      stateSetter(() {
-        avatar = Avatar(
-          hasMouthOpen: avatar.hasMouthOpen,
-          mouthDistance: avatar.mouthDistance,
-          rotation: avatar.rotation,
-          leftEyeGeometry: avatar.leftEyeGeometry,
-          rightEyeGeometry: avatar.rightEyeGeometry,
-          distance: newDistance,
+    group('scale', () {
+      testWidgets('updates', (tester) async {
+        const initialDistance = 0.0;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: 0,
+          rotation: Vector3.zero,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: initialDistance,
         );
-      });
-      await tester.pump(Duration(milliseconds: 150));
-      await tester.pump(Duration(milliseconds: 150));
 
-      final newAnimatedScaleFinder = find.byType(AnimatedScale);
-      final newAnimatedScale =
-          tester.widget<AnimatedScale>(newAnimatedScaleFinder);
-      expect(newAnimatedScale.scale, greaterThan(.8));
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  riveGenImage: riveGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final initialAnimatedScaleFinder = find.byType(AnimatedScale);
+        final initialAnimatedScale =
+            tester.widget<AnimatedScale>(initialAnimatedScaleFinder);
+        expect(initialAnimatedScale.scale, .8);
+
+        final newDistance = ((initialAnimatedScale.scale +
+                    CharacterAnimationState.scaleToleration +
+                    0.01) -
+                0.8) /
+            (5 - 0.8);
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: avatar.hasMouthOpen,
+            mouthDistance: avatar.mouthDistance,
+            rotation: avatar.rotation,
+            leftEyeGeometry: avatar.leftEyeGeometry,
+            rightEyeGeometry: avatar.rightEyeGeometry,
+            distance: newDistance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        final newAnimatedScaleFinder = find.byType(AnimatedScale);
+        final newAnimatedScale =
+            tester.widget<AnimatedScale>(newAnimatedScaleFinder);
+        expect(newAnimatedScale.scale, greaterThan(.8));
+      });
+
+      testWidgets('tolerates', (tester) async {
+        const initialDistance = 0.0;
+        var avatar = Avatar(
+          hasMouthOpen: false,
+          mouthDistance: 0,
+          rotation: Vector3.zero,
+          leftEyeGeometry: LeftEyeGeometry.empty(),
+          rightEyeGeometry: RightEyeGeometry.empty(),
+          distance: initialDistance,
+        );
+
+        late StateSetter stateSetter;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: StatefulBuilder(
+              builder: (context, setState) {
+                stateSetter = setState;
+                return CharacterAnimation(
+                  avatar: avatar,
+                  hat: Hats.none,
+                  glasses: Glasses.none,
+                  clothes: Clothes.none,
+                  handheldlLeft: HandheldlLeft.none,
+                  riveGenImage: riveGenImage,
+                  riveImageSize: riveImageSize,
+                );
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final initialAnimatedScaleFinder = find.byType(AnimatedScale);
+        final initialAnimatedScale =
+            tester.widget<AnimatedScale>(initialAnimatedScaleFinder);
+        expect(initialAnimatedScale.scale, .8);
+
+        final newDistance = ((initialAnimatedScale.scale +
+                    CharacterAnimationState.scaleToleration) -
+                0.8) /
+            (5 - 0.8);
+        stateSetter(() {
+          avatar = Avatar(
+            hasMouthOpen: avatar.hasMouthOpen,
+            mouthDistance: avatar.mouthDistance,
+            rotation: avatar.rotation,
+            leftEyeGeometry: avatar.leftEyeGeometry,
+            rightEyeGeometry: avatar.rightEyeGeometry,
+            distance: newDistance,
+          );
+        });
+        await tester.pump(Duration(milliseconds: 150));
+        await tester.pump(Duration(milliseconds: 150));
+
+        final newAnimatedScaleFinder = find.byType(AnimatedScale);
+        final newAnimatedScale =
+            tester.widget<AnimatedScale>(newAnimatedScaleFinder);
+        expect(newAnimatedScale.scale, initialAnimatedScale.scale);
+      });
     });
 
     testWidgets('updates hat', (tester) async {
@@ -642,7 +893,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -657,7 +908,7 @@ void main() {
       expect(controller.hats.value, equals(hat.index));
 
       stateSetter(() {
-        hat = Hats.astronaut;
+        hat = Hats.hat01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -679,7 +930,7 @@ void main() {
                 glasses: glasses,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -694,7 +945,7 @@ void main() {
       expect(controller.glasses.value, equals(glasses.index));
 
       stateSetter(() {
-        glasses = Glasses.sunGlasses;
+        glasses = Glasses.glasses01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -716,7 +967,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: clothes,
                 handheldlLeft: HandheldlLeft.none,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -731,7 +982,7 @@ void main() {
       expect(controller.clothes.value, equals(clothes.index));
 
       stateSetter(() {
-        clothes = Clothes.swimmingSuit;
+        clothes = Clothes.shirt01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));
@@ -753,7 +1004,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: handheldLeft,
-                assetGenImage: assetGenImage,
+                riveGenImage: riveGenImage,
                 riveImageSize: riveImageSize,
               );
             },
@@ -768,7 +1019,7 @@ void main() {
       expect(controller.handheldlLeft.value, equals(handheldLeft.index));
 
       stateSetter(() {
-        handheldLeft = HandheldlLeft.apple;
+        handheldLeft = HandheldlLeft.handheld01;
       });
       await tester.pump(Duration(milliseconds: 150));
       await tester.pump(Duration(milliseconds: 150));

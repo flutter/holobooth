@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RecordingCountdown extends StatefulWidget {
   const RecordingCountdown({
@@ -80,14 +80,14 @@ class CountdownTimer extends StatelessWidget {
           Align(
             child: ShaderMask(
               shaderCallback: (bounds) {
-                return const LinearGradient(
-                  colors: <Color>[
-                    HoloBoothColors.gradientSecondaryThreeStart,
-                    HoloBoothColors.gradientSecondaryThreeStop,
-                  ],
-                ).createShader(Offset.zero & bounds.size);
+                return HoloBoothGradients.secondaryThree
+                    .createShader(Offset.zero & bounds.size);
               },
-              child: const Icon(Icons.videocam, color: Colors.white, size: 40),
+              child: const Icon(
+                Icons.videocam,
+                color: HoloBoothColors.white,
+                size: 40,
+              ),
             ),
           ),
           Positioned.fill(
@@ -123,12 +123,7 @@ class TimerPainter extends CustomPainter {
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..shader = const LinearGradient(
-        colors: [
-          HoloBoothColors.gradientSecondaryFourStart,
-          HoloBoothColors.gradientSecondaryFourStop,
-        ],
-      ).createShader(rect);
+      ..shader = HoloBoothGradients.secondaryFour.createShader(rect);
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, progress, false, paint);
   }
 

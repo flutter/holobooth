@@ -114,11 +114,11 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/camera/camera"
-      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
-      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      ref: da722ef898b1da47c339a17653067e070bb8e608
+      resolved-ref: da722ef898b1da47c339a17653067e070bb8e608
       url: "https://github.com/VGVentures/plugins"
     source: git
-    version: "0.10.0+3"
+    version: "0.10.1"
   camera_android:
     dependency: transitive
     description:
@@ -147,11 +147,11 @@ packages:
     dependency: "direct overridden"
     description:
       path: "packages/camera/camera_web"
-      ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
-      resolved-ref: "795029b21f6c5ca9df2a0eb3ff1d5f288757141c"
+      ref: da722ef898b1da47c339a17653067e070bb8e608
+      resolved-ref: da722ef898b1da47c339a17653067e070bb8e608
       url: "https://github.com/VGVentures/plugins"
     source: git
-    version: "0.3.0+1"
+    version: "0.3.1"
   characters:
     dependency: transitive
     description:
@@ -161,7 +161,7 @@ packages:
     source: hosted
     version: "1.2.1"
   clock:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: clock
       sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
@@ -247,6 +247,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
+  download_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/download_repository"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   equatable:
     dependency: "direct main"
     description:
@@ -426,6 +433,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  holobooth_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/holobooth_ui"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   html:
     dependency: transitive
     description:
@@ -689,13 +703,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
-  photobooth_ui:
-    dependency: "direct main"
-    description:
-      path: "packages/photobooth_ui"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   platform:
     dependency: transitive
     description:
@@ -786,11 +793,12 @@ packages:
   screen_recorder:
     dependency: "direct main"
     description:
-      name: screen_recorder
-      sha256: "9c0ec2ae245ec3f7b7abc59fb9105391af0b8ac144a9871a89038241cf8a78c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
+      path: "."
+      ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
+      resolved-ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
+      url: "https://github.com/ueman/screenrecorder"
+    source: git
+    version: "0.2.1"
   shelf:
     dependency: transitive
     description:

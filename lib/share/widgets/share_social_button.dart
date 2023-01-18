@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:holobooth/share/share.dart';
 
 class SmallShareSocialButtons extends StatelessWidget {
   const SmallShareSocialButtons({super.key});
@@ -24,11 +24,15 @@ class LargeShareSocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    const buttonWidth = 200.0;
+    const buttonSpacing = 24.0;
+    return Wrap(
+      runSpacing: 16,
+      spacing: buttonSpacing,
+      alignment: WrapAlignment.center,
       children: const [
-        Expanded(child: TwitterButton()),
-        SizedBox(width: 16),
-        Expanded(child: FacebookButton()),
+        SizedBox(width: buttonWidth, child: TwitterButton()),
+        SizedBox(width: buttonWidth, child: FacebookButton()),
       ],
     );
   }

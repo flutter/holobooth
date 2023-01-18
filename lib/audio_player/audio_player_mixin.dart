@@ -13,6 +13,9 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
   static set audioPlayerOverride(AudioPlayer? audioPlayer) =>
       _audioPlayerOverride = audioPlayer;
 
+  // A future that indicates that the audio player is playing or about to play.
+  Future<void> _playing = Future.value();
+
   late final AudioPlayer _audioPlayer = _audioPlayerOverride ?? AudioPlayer();
 
   Future<void> loadAudio() async {
@@ -26,6 +29,8 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> playAudio({bool loop = false}) async {
+    final completer = Completer<void>();
+    _playing = completer.future;
     if (loop && _audioPlayer.loopMode != LoopMode.all) {
       await _audioPlayer.setLoopMode(LoopMode.all);
     }
@@ -34,11 +39,16 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
     await _audioPlayer.pause();
     await _audioPlayer.seek(Duration.zero);
     await _audioPlayer.play();
+    completer.complete();
+  }
+
+  Future<void> stopAudio() async {
+    await _audioPlayer.stop();
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    _playing.then((_) => _audioPlayer.dispose());
     super.dispose();
   }
 }

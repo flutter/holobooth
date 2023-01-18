@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/landing/landing.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/landing/landing.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class LandingBody extends StatelessWidget {
   const LandingBody({super.key});
@@ -12,41 +12,61 @@ class LandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = Padding(
-      padding: const EdgeInsets.all(96),
-      child: Assets.backgrounds.holobooth.image(
-        key: landingPageImageKey,
+    return ResponsiveLayoutBuilder(
+      small: (context, _) => const _SmallLandingBody(),
+      large: (context, _) => const _LargeLandingBody(),
+    );
+  }
+}
+
+class _SmallLandingBody extends StatelessWidget {
+  const _SmallLandingBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          const SizedBox(height: 46),
+          const _LandingBodyContent(smallScreen: true),
+          const SizedBox(height: 34),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Assets.backgrounds.holobooth.image(
+              key: LandingBody.landingPageImageKey,
+            ),
+          ),
+        ],
       ),
     );
+  }
+}
 
+class _LargeLandingBody extends StatelessWidget {
+  const _LargeLandingBody();
+
+  @override
+  Widget build(BuildContext context) {
     return Align(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: ResponsiveLayoutBuilder(
-          small: (context, _) {
-            return Column(
+        child: Column(
+          children: [
+            Row(
               children: [
-                const SizedBox(height: 54),
-                const _LandingBodyContent(smallScreen: true),
-                const SizedBox(height: 54),
-                image,
-              ],
-            );
-          },
-          large: (context, _) {
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(child: image),
-                    const Expanded(
-                      child: _LandingBodyContent(smallScreen: false),
-                    ),
-                  ],
+                Expanded(
+                  child: Assets.backgrounds.holobooth.image(
+                    key: LandingBody.landingPageImageKey,
+                  ),
+                ),
+                const SizedBox(width: 32),
+                const Expanded(
+                  child: _LandingBodyContent(smallScreen: false),
                 ),
               ],
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -72,15 +92,15 @@ class _LandingBodyContent extends StatelessWidget {
         const SizedBox(height: 32),
         GradientText(
           text: l10n.landingPageHeading,
-          style: theme.textTheme.displayLarge,
+          style: theme.textTheme.headlineLarge,
           textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),
         const SizedBox(height: 16),
         SelectableText(
           l10n.landingPageSubheading,
           key: const Key('landingPage_subheading_text'),
-          style: theme.textTheme.displaySmall!.copyWith(
-            color: PhotoboothColors.white,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: HoloBoothColors.white,
           ),
           textAlign: smallScreen ? TextAlign.center : TextAlign.left,
         ),

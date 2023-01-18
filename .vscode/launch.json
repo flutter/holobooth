@@ -5,15 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch",
+      "name": "Launch dev",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main.dart",
+      "program": "lib/main_dev.dart",
       "args": [
         "-d",
         "chrome",
         "--web-renderer",
-        "canvaskit"
+        "canvaskit",
+        "--dart-define",
+        "SHARING_ENABLED=true",
+        "--web-port",
+        "5001"
       ]
     },
     {

@@ -6,10 +6,10 @@ import 'package:face_geometry/face_geometry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:io_photobooth/rive/rive.dart';
+import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
@@ -26,11 +26,11 @@ void main() {
   group('PhotoboothCharacter', () {
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
+
     setUp(() {
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
       when(() => inExperienceSelectionBloc.state)
           .thenReturn(InExperienceSelectionState());
-
       avatarDetectorBloc = _MockAvatarDetectorBloc();
       when(() => avatarDetectorBloc.state).thenReturn(AvatarDetectorState());
     });
@@ -40,6 +40,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
+
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,
@@ -59,6 +60,7 @@ void main() {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
         );
+
         await tester.pumpSubject(
           PhotoboothCharacter(),
           inExperienceSelectionBloc: inExperienceSelectionBloc,

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class BackgroundSelectionTabBarView extends StatelessWidget {
   const BackgroundSelectionTabBarView({super.key});
+
+  static const listviewKey = Key('background_listview');
+  @visibleForTesting
+  static Key backgroundSelectionKey(Background background) {
+    return Key('backgroundSelectionElement_${background.name}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +19,7 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
     final l10n = context.l10n;
     final isSmall =
-        MediaQuery.of(context).size.width <= PhotoboothBreakpoints.small;
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -24,11 +30,12 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
-                ?.copyWith(color: PhotoboothColors.white),
+                ?.copyWith(color: HoloBoothColors.white),
           ),
         ),
         Flexible(
           child: ListView.separated(
+            key: listviewKey,
             scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
             itemCount: Background.values.length,
             itemBuilder: (context, index) {
@@ -67,34 +74,30 @@ class _BackgroundSelectionElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const borderRadius = BorderRadius.all(Radius.circular(12));
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: isSelected ? null : HoloBoothColors.darkBlue,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        gradient: isSelected
-            ? const LinearGradient(
-                colors: [
-                  HoloBoothColors.gradientSecondaryOne,
-                  HoloBoothColors.gradientSecondaryTwo,
-                ],
-              )
-            : null,
+        gradient: isSelected ? HoloBoothGradients.secondarySix : null,
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          borderRadius: borderRadius,
           image: DecorationImage(
-            image: background.toImageProvider(),
+            image: background.thumbnailImageProvider(),
             fit: BoxFit.cover,
           ),
         ),
         child: Material(
           clipBehavior: Clip.hardEdge,
           shape: const RoundedRectangleBorder(),
-          color: PhotoboothColors.transparent,
+          color: HoloBoothColors.transparent,
           child: InkWell(
-            key: Key('backgroundSelectionElement_${background.name}'),
+            key: BackgroundSelectionTabBarView.backgroundSelectionKey(
+              background,
+            ),
             onTap: () {
               context
                   .read<InExperienceSelectionBloc>()

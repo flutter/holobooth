@@ -1,5 +1,5 @@
-name: io_photobooth
-description: I/O Photo Booth app.
+name: holobooth
+description: Holobooth app.
 version: 1.0.0+1
 publish_to: none
 
@@ -17,10 +17,13 @@ dependencies:
     path: packages/avatar_detector_repository
   bloc: ^8.1.0
   camera: ^0.10.0+3
+  clock: ^1.1.1
   collection: ^1.16.0
   convert_repository:
     path: packages/convert_repository
   cross_file: ^0.3.3+2
+  download_repository:
+    path: packages/download_repository
   equatable: ^2.0.5
   face_geometry:
     path: packages/face_geometry
@@ -32,11 +35,11 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
+  holobooth_ui:
+    path: packages/holobooth_ui
   intl: ^0.17.0
   just_audio: ^0.9.30
   meta: ^1.8.0
-  photobooth_ui:
-    path: packages/photobooth_ui
   platform_helper:
     path: packages/platform_helper
   rive: ^0.9.1
@@ -51,12 +54,16 @@ dependency_overrides:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera
-      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
+      ref: da722ef898b1da47c339a17653067e070bb8e608
   camera_web:
     git:
       url: https://github.com/VGVentures/plugins
       path: packages/camera/camera_web
-      ref: 795029b21f6c5ca9df2a0eb3ff1d5f288757141c
+      ref: da722ef898b1da47c339a17653067e070bb8e608
+  screen_recorder:
+    git:
+      url: https://github.com/ueman/screenrecorder
+      ref: b5efd033df719e3d81473c55b8f1eeec7fd9badd
 
 dev_dependencies:
   alchemist: ^0.6.0-dev.1

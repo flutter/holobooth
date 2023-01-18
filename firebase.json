@@ -13,7 +13,8 @@
         "__/**"
       ],
       "rewrites": [
-        { "source": "/share/**", "function": "shareImage" },
+        { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -63,7 +64,8 @@
         "__/**"
       ],
       "rewrites": [
-        { "source": "/share/**", "function": "shareImage" },
+        { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
         {
           "source": "**",
           "destination": "/index.html"
@@ -80,11 +82,44 @@
           ]
         },
         {
-          "source": "**/*.@(jpg|jpeg|gif|png)",
+          "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
               "value": "max-age=3600"
+            }
+          ]
+        }
+      ],
+      "predeploy": []
+    },
+    {
+      "target": "app_prod",
+      "public": "build/web",
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "ignore": [
+        ".firebase",
+        "firebase.json",
+        "functions/node_modules",
+        "functions/src",
+        "__/**"
+      ],
+      "rewrites": [
+        { "source": "/share/**", "function": "shareVideo" },
+        { "source": "/download/**", "function": "download" },
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
             }
           ]
         },
@@ -93,7 +128,7 @@
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "no-cache, no-store, must-revalidate"
+              "value": "max-age=3600"
             }
           ]
         }

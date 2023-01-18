@@ -6,9 +6,9 @@ import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/convert/convert.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 import '../../helpers/helpers.dart';
@@ -104,7 +104,8 @@ void main() {
       expect(find.byType(ConvertFinished), findsOneWidget);
     });
 
-    testWidgets('renders error view on ConvertStatus.error', (tester) async {
+    testWidgets('renders ConvertErrorView on ConvertStatus.error',
+        (tester) async {
       when(() => convertBloc.state).thenReturn(
         ConvertState(status: ConvertStatus.error),
       );
@@ -114,7 +115,7 @@ void main() {
         convertBloc,
       );
 
-      expect(find.byKey(ConvertBody.errorViewKey), findsOneWidget);
+      expect(find.byType(ConvertErrorView), findsOneWidget);
     });
 
     testWidgets('shows snackbar with error if ConvertStatus.error',
@@ -142,7 +143,8 @@ void main() {
         convertBloc,
       );
 
-      verify(() => convertBloc.add(GenerateVideoRequested(frames))).called(1);
+      verify(() => convertBloc.add(GenerateVideoRequested(frames: frames)))
+          .called(1);
     });
   });
 }

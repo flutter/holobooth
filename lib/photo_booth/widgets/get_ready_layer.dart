@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/audio_player/audio_player.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class GetReadyLayer extends StatefulWidget {
   const GetReadyLayer({
@@ -93,28 +93,31 @@ class GetReadyCountdown extends StatelessWidget {
     final l10n = context.l10n;
     final seconds =
         (GetReadyLayer.countdownDuration.inSeconds * controller.value).ceil();
+    final isSmall =
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Stack(
       fit: StackFit.expand,
       children: [
-        Positioned.fill(
-          child: Container(color: const Color.fromRGBO(19, 22, 44, 0.75)),
+        const Positioned.fill(
+          child: ColoredBox(color: HoloBoothColors.blurrySurface),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // TODO(oscar): add border or images to text
             Align(
               child: GradientText(
                 text: '$seconds',
-                style: PhotoboothTextStyle.displayMedium.copyWith(
-                  fontSize: 400,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: isSmall ? 280 : 400,
+                  height: 1,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
             GradientText(
               text: l10n.getReady,
-              style: PhotoboothTextStyle.headlineMedium,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
           ],

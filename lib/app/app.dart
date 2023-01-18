@@ -1,11 +1,12 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:io_photobooth/landing/landing.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/landing/landing.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -13,11 +14,13 @@ class App extends StatelessWidget {
     required this.authenticationRepository,
     required this.avatarDetectorRepository,
     required this.convertRepository,
+    required this.downloadRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
   final AvatarDetectorRepository avatarDetectorRepository;
   final ConvertRepository convertRepository;
+  final DownloadRepository downloadRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +29,28 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider.value(value: avatarDetectorRepository),
         RepositoryProvider.value(value: convertRepository),
+        RepositoryProvider.value(value: downloadRepository),
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
-          small: (_, __) => _App(theme: PhotoboothTheme.small),
-          medium: (_, __) => _App(theme: PhotoboothTheme.medium),
-          large: (_, __) => _App(theme: PhotoboothTheme.standard),
+          small: (_, __) => _AppView(theme: HoloboothTheme.small),
+          medium: (_, __) => _AppView(theme: HoloboothTheme.medium),
+          large: (_, __) => _AppView(theme: HoloboothTheme.standard),
         ),
       ),
     );
   }
 }
 
-class _App extends StatelessWidget {
-  const _App({required this.theme});
+class _AppView extends StatelessWidget {
+  const _AppView({required this.theme});
 
   final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'I/O Photo Booth',
+      title: 'Holobooth',
       theme: theme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

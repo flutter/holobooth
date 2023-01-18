@@ -6,11 +6,12 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/camera/camera.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -35,7 +36,7 @@ class _MockAvatarDetectorBloc
     extends MockBloc<AvatarDetectorEvent, AvatarDetectorState>
     implements AvatarDetectorBloc {}
 
-class _MockExporter extends Mock implements CustomExporter {}
+class _MockExporter extends Mock implements Exporter {}
 
 class _MockImage extends Mock implements ui.Image {}
 
@@ -47,7 +48,7 @@ void main() {
     const cameraId = 1;
     late CameraPlatform cameraPlatform;
     late XFile xfile;
-    late CustomExporter exporter;
+    late Exporter exporter;
 
     setUp(() {
       xfile = _MockXFile();
@@ -113,24 +114,22 @@ void main() {
       CameraPlatform.instance = _MockCameraPlatform();
     });
 
-    group('renders', () {
-      testWidgets(
-        'PhotoboothError if any CameraException finding camera',
-        (WidgetTester tester) async {
-          when(() => cameraPlatform.availableCameras())
-              .thenThrow(CameraException('', ''));
-          await tester.pumpSubject(
-            PhotoboothBody(),
-            inExperienceSelectionBloc: inExperienceSelectionBloc,
-            photoBoothBloc: photoBoothBloc,
-            avatarDetectorBloc: avatarDetectorBloc,
-          );
-          await tester.pump();
+    testWidgets(
+      'renders PhotoboothError if any CameraException finding camera',
+      (WidgetTester tester) async {
+        when(() => cameraPlatform.availableCameras())
+            .thenThrow(CameraException('', ''));
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
 
-          expect(find.byType(CameraErrorView), findsOneWidget);
-        },
-      );
-    });
+        expect(find.byType(CameraErrorView), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'adds PhotoBoothRecordingStarted when GetReadyLayer.onCountdownCompleted '
@@ -204,7 +203,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a large display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.large, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.large, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),
@@ -219,7 +218,7 @@ void main() {
     testWidgets(
       'renders PhotoboothCharacter on a small display size',
       (WidgetTester tester) async {
-        tester.setDisplaySize(Size(PhotoboothBreakpoints.small, 800));
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
 
         await tester.pumpSubject(
           PhotoboothBody(),
@@ -232,9 +231,15 @@ void main() {
     );
 
     testWidgets(
-      'renders SelectionLayer if not PhotoBoothState.isRecording',
+      'renders SelectionLayer if not [PhotoBoothState.isRecording, '
+      'PhotoBoothState.gettingReady] and avatarStatus.hasLoadedModel',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state).thenReturn(PhotoBoothState());
+        when(() => avatarDetectorBloc.state).thenReturn(
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.estimating,
+          ),
+        );
         await tester.pumpSubject(
           PhotoboothBody(),
           photoBoothBloc: photoBoothBloc,

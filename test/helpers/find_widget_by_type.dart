@@ -1,7 +1,6 @@
 // Copyright (c) 2021, Very Good Ventures
 // https://verygood.ventures
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -36,9 +35,5 @@ extension FindWidgetByTypeExtension on WidgetTester {
       },
     );
     return textSpan;
-  }
-
-  void tapTextSpan(TextSpan textSpan) {
-    (textSpan.recognizer as TapGestureRecognizer?)?.onTap?.call();
   }
 }

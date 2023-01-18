@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 
 void main() {
   group('InExperienceSelectionEvent', () {
     group('InExperienceSelectionHatToggled', () {
       test('support value comparison', () {
-        final eventA = InExperienceSelectionHatToggled(Hats.astronaut);
-        final eventB = InExperienceSelectionHatToggled(Hats.astronaut);
+        final eventA = InExperienceSelectionHatToggled(Hats.hat01);
+        final eventB = InExperienceSelectionHatToggled(Hats.hat01);
         final eventC = InExperienceSelectionHatToggled(Hats.none);
         expect(eventA, equals(eventB));
         expect(eventA, isNot(equals(eventC)));
@@ -15,12 +15,9 @@ void main() {
 
     group('InExperienceSelectionBackgroundSelected', () {
       test('support value comparison', () {
-        final eventA =
-            InExperienceSelectionBackgroundSelected(Background.beach);
-        final eventB =
-            InExperienceSelectionBackgroundSelected(Background.beach);
-        final eventC =
-            InExperienceSelectionBackgroundSelected(Background.space);
+        final eventA = InExperienceSelectionBackgroundSelected(Background.bg1);
+        final eventB = InExperienceSelectionBackgroundSelected(Background.bg1);
+        final eventC = InExperienceSelectionBackgroundSelected(Background.bg2);
         expect(eventA, equals(eventB));
         expect(eventA, isNot(equals(eventC)));
       });

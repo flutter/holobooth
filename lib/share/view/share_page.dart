@@ -1,39 +1,50 @@
 import 'dart:typed_data';
 
+import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SharePage extends StatelessWidget {
   const SharePage({
     super.key,
     required this.firstFrame,
     required this.videoPath,
+    required this.convertBloc,
   });
 
   final Uint8List firstFrame;
   final String videoPath;
+  final ConvertBloc convertBloc;
 
   static Route<void> route({
     required Uint8List firstFrame,
     required String videoPath,
+    required ConvertBloc convertBloc,
   }) =>
       AppPageRoute(
         builder: (_) => SharePage(
           firstFrame: firstFrame,
           videoPath: videoPath,
+          convertBloc: convertBloc,
         ),
       );
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ShareBloc(
-        thumbnail: firstFrame,
-        videoPath: videoPath,
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: convertBloc),
+        BlocProvider(
+          create: (_) => DownloadBloc(
+            videoPath: convertBloc.state.videoPath,
+            downloadRepository: context.read<DownloadRepository>(),
+          ),
+        ),
+      ],
       child: const ShareView(),
     );
   }
@@ -44,42 +55,19 @@ class ShareView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ShareBloc, ShareState>(
-      listenWhen: (previous, current) {
-        return previous.shareStatus != current.shareStatus ||
-            previous.shareUrl != current.shareUrl;
-      },
-      listener: (context, state) {
-        if (state.shareStatus.isSuccess) {
-          final String url;
-          switch (state.shareUrl) {
-            case ShareUrl.none:
-              url = state.explicitShareUrl;
-              break;
-            case ShareUrl.twitter:
-              url = state.twitterShareUrl;
-              break;
-            case ShareUrl.facebook:
-              url = state.facebookShareUrl;
-              break;
-          }
-          openLink(url);
-        }
-      },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const Positioned.fill(child: ShareBackground()),
-            Positioned.fill(
-              child: Column(
-                children: const [
-                  Expanded(child: ShareBody()),
-                  FullFooter(),
-                ],
-              ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Positioned.fill(child: ShareBackground()),
+          Positioned.fill(
+            child: Column(
+              children: const [
+                Expanded(child: ShareBody()),
+                FullFooter(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

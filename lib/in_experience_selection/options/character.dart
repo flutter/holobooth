@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 enum Character {
   dash,
@@ -18,7 +18,7 @@ enum Character {
   Color toBackgroundColor() {
     switch (this) {
       case Character.dash:
-        return PhotoboothColors.blue;
+        return HoloBoothColors.blue;
       case Character.sparky:
         return HoloBoothColors.sparkyColor;
     }

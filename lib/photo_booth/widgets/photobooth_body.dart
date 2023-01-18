@@ -1,32 +1,23 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/camera/camera.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
-CustomExporter _getExporter() => CustomExporter();
-
-// TODO(Oscar): to be deleted after this PR gets merged
-// https://github.com/ueman/screenrecorder/pull/28
-class CustomExporter extends Exporter {
-  final List<Frame> frames = [];
-  @override
-  void onNewFrame(Frame frame) {
-    frames.add(frame);
-  }
-}
+Exporter _getExporter() => Exporter();
 
 class PhotoboothBody extends StatefulWidget {
   const PhotoboothBody({
     super.key,
-    ValueGetter<CustomExporter>? exporter,
+    ValueGetter<Exporter>? exporter,
   }) : _exporter = exporter ?? _getExporter;
 
-  final ValueGetter<CustomExporter> _exporter;
+  final ValueGetter<Exporter> _exporter;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
@@ -64,8 +55,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
   Future<void> _stopRecording() async {
     _screenRecorderController.stop();
     final photoBoothBloc = context.read<PhotoBoothBloc>();
-    final frames =
-        (_screenRecorderController.exporter as CustomExporter).frames;
+    final frames = _screenRecorderController.exporter.frames;
     photoBoothBloc.add(PhotoBoothRecordingFinished(frames));
   }
 
@@ -77,7 +67,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double characterOffestY;
-        if (constraints.maxWidth > PhotoboothBreakpoints.small) {
+        if (constraints.maxWidth > HoloboothBreakpoints.small) {
           characterOffestY = constraints.maxHeight / 6;
         } else {
           characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
@@ -93,7 +83,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  const PhotoboothBackground(),
+                  PhotoboothBackground(),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
@@ -127,8 +117,10 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                   return GetReadyLayer(
                     onCountdownCompleted: _startRecording,
                   );
+                } else if (avatarStatus.hasLoadedModel) {
+                  return const SelectionLayer();
                 }
-                return const SelectionLayer();
+                return const SizedBox();
               },
             ),
           ],

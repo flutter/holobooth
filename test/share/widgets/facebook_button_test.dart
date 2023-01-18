@@ -1,31 +1,36 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/share/share.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockShareBloc extends MockBloc<ShareEvent, ShareState>
-    implements ShareBloc {}
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
 
 class _MockUrlLauncher extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
 
 void main() {
-  group('FacebookButton', () {
-    late ShareBloc shareBloc;
-    late UrlLauncherPlatform mock;
+  late ConvertBloc convertBloc;
+  late UrlLauncherPlatform mock;
 
+  group('FacebookButton', () {
+    const facebookUrl = 'https://facebook.com';
     setUp(() {
       mock = _MockUrlLauncher();
       UrlLauncherPlatform.instance = mock;
-      shareBloc = _MockShareBloc();
+      convertBloc = _MockConvertBloc();
 
-      when(() => shareBloc.state).thenReturn(ShareState());
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(facebookShareUrl: facebookUrl),
+      );
       when(() => mock.canLaunch(any())).thenAnswer((_) async => true);
       when(
         () => mock.launchUrl(any(), any()),
@@ -37,42 +42,45 @@ void main() {
     });
 
     testWidgets('dismissed after tapping', (tester) async {
-      await tester.pumpSubject(FacebookButton(), shareBloc);
+      await tester.pumpSubject(FacebookButton(), convertBloc);
       await tester.tap(find.byType(FacebookButton));
       await tester.pumpAndSettle();
       expect(find.byType(FacebookButton), findsNothing);
-      verify(
-        () => shareBloc.add(const ShareTapped(shareUrl: ShareUrl.facebook)),
-      ).called(1);
     });
 
-    testWidgets('opens link when sharing is successful', (tester) async {
-      when(() => shareBloc.state).thenReturn(
-        ShareState(
-          shareStatus: ShareStatus.success,
-          shareUrl: ShareUrl.facebook,
-          facebookShareUrl: 'https://facebook.com',
-        ),
+    testWidgets('opens link if sharing enabled', (tester) async {
+      await tester.pumpSubject(
+        FacebookButton(sharingEnabled: true),
+        convertBloc,
       );
-      await tester.pumpSubject(FacebookButton(), shareBloc);
       await tester.tap(find.byType(FacebookButton));
       await tester.pumpAndSettle();
       verify(
-        () => mock.launchUrl('https://facebook.com', any()),
+        () => mock.launchUrl(facebookUrl, any()),
       ).called(1);
       expect(find.byType(FacebookButton), findsNothing);
-      verifyNever(
-        () => shareBloc.add(const ShareTapped(shareUrl: ShareUrl.facebook)),
-      );
+    });
+
+    testWidgets('shows Snackbar if sharing disabled', (tester) async {
+      await tester.pumpSubject(FacebookButton(), convertBloc);
+      await tester.tap(find.byType(FacebookButton));
+      await tester.pump(kThemeAnimationDuration);
+      await tester.pump(kThemeAnimationDuration);
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }
 
 extension on WidgetTester {
-  Future<void> pumpSubject(FacebookButton subject, ShareBloc bloc) => pumpApp(
+  Future<void> pumpSubject(
+    FacebookButton subject,
+    ConvertBloc bloc,
+  ) =>
+      pumpApp(
         MultiBlocProvider(
           providers: [BlocProvider.value(value: bloc)],
-          child: subject,
+          child: Scaffold(body: subject),
         ),
       );
 }

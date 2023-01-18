@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/share/share.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PlayButton extends StatelessWidget {
   const PlayButton({super.key});
@@ -10,12 +11,12 @@ class PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: PhotoboothColors.transparent,
+      color: HoloBoothColors.transparent,
       shape: const CircleBorder(),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: () {
-          final videoPath = context.read<ShareBloc>().state.videoPath;
+          final videoPath = context.read<ConvertBloc>().state.videoPath;
           showDialog<void>(
             context: context,
             builder: (_) => VideoDialog(videoPath: videoPath),

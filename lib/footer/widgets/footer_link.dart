@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/external_links/external_links.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class FooterLink extends StatelessWidget {
   const FooterLink({
@@ -20,7 +20,7 @@ class FooterLink extends StatelessWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: PhotoboothColors.white,
+              color: HoloBoothColors.white,
             ),
       ),
     );

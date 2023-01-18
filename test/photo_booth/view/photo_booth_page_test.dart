@@ -3,12 +3,16 @@ import 'dart:ui' as ui;
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:io_photobooth/avatar_detector/avatar_detector.dart';
-import 'package:io_photobooth/convert/convert.dart';
-import 'package:io_photobooth/in_experience_selection/in_experience_selection.dart';
-import 'package:io_photobooth/photo_booth/photo_booth.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/avatar_detector/avatar_detector.dart';
+import 'package:holobooth/convert/convert.dart';
+import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
@@ -36,12 +40,22 @@ class _MockAvatarDetectorBloc
 
 class _MockImage extends Mock implements ui.Image {}
 
+class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    registerFallbackValue(LoopMode.all);
+  });
 
   const cameraId = 1;
   late CameraPlatform cameraPlatform;
   late XFile xfile;
+  late AudioPlayer audioPlayer;
 
   setUp(() {
     xfile = _MockXFile();
@@ -84,10 +98,33 @@ void main() {
     when(() => cameraPlatform.dispose(any())).thenAnswer((_) async => <void>{});
     when(() => cameraPlatform.onStreamedFrameAvailable(any()))
         .thenAnswer((_) => Stream.empty());
+
+    audioPlayer = _MockAudioPlayer();
+
+    when(audioPlayer.pause).thenAnswer((_) async {});
+    when(audioPlayer.play).thenAnswer((_) async {});
+    when(audioPlayer.stop).thenAnswer((_) async {});
+    when(audioPlayer.dispose).thenAnswer((_) async {});
+    when(() => audioPlayer.setLoopMode(any())).thenAnswer((_) async {});
+    when(() => audioPlayer.loopMode).thenReturn(LoopMode.off);
+    when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
+    when(() => audioPlayer.setAsset(any()))
+        .thenAnswer((_) async => Duration.zero);
+
+    AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+
+    const MethodChannel('com.ryanheise.audio_session')
+        .setMockMethodCallHandler((call) async {
+      if (call.method == 'getConfiguration') {
+        return {};
+      }
+    });
   });
 
   tearDown(() {
     CameraPlatform.instance = _MockCameraPlatform();
+
+    AudioPlayerMixin.audioPlayerOverride = null;
   });
 
   group('PhotoBoothPage', () {
@@ -110,6 +147,7 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
+    late ConvertBloc convertBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
 
@@ -127,6 +165,25 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
+
+      convertBloc = _MockConvertBloc();
+      when(() => convertBloc.state).thenReturn(const ConvertState());
+    });
+
+    testWidgets('plays audio', (WidgetTester tester) async {
+      await tester.pumpSubject(
+        PhotoBoothView(),
+        photoBoothBloc: photoBoothBloc,
+        inExperienceSelectionBloc: inExperienceSelectionBloc,
+        avatarDetectorBloc: avatarDetectorBloc,
+        convertBloc: convertBloc,
+      );
+
+      await tester.pump();
+
+      verify(() => audioPlayer.setAsset(Assets.audio.experienceAmbient))
+          .called(1);
+      verify(audioPlayer.play).called(1);
     });
 
     testWidgets(
@@ -143,6 +200,7 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
+          convertBloc: convertBloc,
         );
 
         /// Wait for the player to complete
@@ -160,6 +218,7 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
+    required ConvertBloc convertBloc,
   }) =>
       pumpApp(
         MultiBlocProvider(
@@ -167,6 +226,7 @@ extension on WidgetTester {
             BlocProvider.value(value: photoBoothBloc),
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
+            BlocProvider.value(value: convertBloc),
           ],
           child: subject,
         ),

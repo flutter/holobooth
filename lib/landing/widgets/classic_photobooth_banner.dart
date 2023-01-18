@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/assets/assets.dart';
-import 'package:io_photobooth/external_links/external_links.dart';
-import 'package:io_photobooth/l10n/l10n.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/external_links/external_links.dart';
+import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 const _bannerSize = Size(170, 72);
 
@@ -44,7 +44,7 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                       topLeft: Radius.circular(8),
                       bottomLeft: Radius.circular(8),
                     ),
-                    color: PhotoboothColors.black20,
+                    color: HoloBoothColors.black20,
                   ),
                   width: _bannerSize.width,
                   height: _bannerSize.height,
@@ -64,15 +64,21 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                           children: [
                             Text(
                               l10n.classicPhotoboothHeading,
-                              style: PhotoboothTextStyle.bodySmall.copyWith(
-                                color: PhotoboothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                             Text(
                               l10n.classicPhotoboothLabel,
-                              style: PhotoboothTextStyle.bodyLarge.copyWith(
-                                color: PhotoboothColors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                    color: HoloBoothColors.white,
+                                  ),
                             ),
                           ],
                         ),

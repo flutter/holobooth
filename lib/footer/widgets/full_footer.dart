@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:io_photobooth/footer/footer.dart';
-import 'package:photobooth_ui/photobooth_ui.dart';
+import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class FullFooter extends StatelessWidget {
   const FullFooter({
@@ -37,7 +37,7 @@ class FullFooter extends StatelessWidget {
               decoration: showIconsForSmall
                   ? null
                   : BoxDecoration(
-                      color: const Color(0xFF1D1D1D).withOpacity(0.5),
+                      color: HoloBoothColors.scrim,
                       borderRadius: BorderRadius.circular(16),
                     ),
               child: showIconsForSmall
