@@ -27,12 +27,13 @@ export const convert = functions.https.onRequest(
   { memory: '1GiB' },
   async (req, res) => {
     try {
-      const { status, videoUrl, gifUrl } = await convertImages(req);
+      const { status, videoUrl, gifUrl, thumbnailUrl } = await convertImages(req);
 
       res.set('Access-Control-Allow-Origin', '*');
       res.status(status).send({
         video_url: videoUrl,
         gif_url: gifUrl,
+        thumbnail_url: thumbnailUrl,
       });
     } catch (error) {
       functions.logger.error(error);
@@ -47,6 +48,7 @@ export async function convertImages(
   status: number,
   videoUrl: string,
   gifUrl: string,
+  thumbnailUrl: string,
 }> {
   let tempDir: string | null = null;
 
@@ -65,6 +67,7 @@ export async function convertImages(
     const busboy = _busboy({ headers: req.headers });
     const frames = await readFramesFromRequest(busboy, req, tempDir);
 
+    const thumbnailUrl = await uploadFile(userId + '.png', frames[0]);
     const videoPath = await convertToVideo(ffmpeg(), frames, tempDir);
     const gifPath = await convertVideoToGif(ffmpeg(), videoPath, tempDir);
 
@@ -73,7 +76,7 @@ export async function convertImages(
       uploadFile(userId + '.gif', gifPath),
     ]);
 
-    return { status: 200, videoUrl, gifUrl };
+    return { status: 200, videoUrl, gifUrl, thumbnailUrl };
   } catch (error) {
     functions.logger.error(error);
     throw error;

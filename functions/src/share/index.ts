@@ -106,6 +106,7 @@ function renderSharePage(videoFileName: string, baseUrl: string): string {
     appUrl: baseUrl,
     shareUrl: `${baseUrl}/share/${videoFileName}`,
     shareVideoUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName}`),
+    thumbImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName.replace('mp4', 'png')}`),
   });
   return renderTemplate(shareTmpl, context);
 }
