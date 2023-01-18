@@ -173,8 +173,8 @@ void main() {
 
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits '
-        'AvatarDetectorStatus.estimating] '
-        'if detectAvatar returns null and undetectedDelay not elapsed.',
+        'AvatarDetectorStatus.estimating if detectAvatar returns null and '
+        'undetectedDelay not elapsed.',
         setUp: () {
           when(
             () => avatarDetectorRepository.detectAvatar(any()),
