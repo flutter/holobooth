@@ -104,7 +104,8 @@ void main() {
       expect(find.byType(ConvertFinished), findsOneWidget);
     });
 
-    testWidgets('renders error view on ConvertStatus.error', (tester) async {
+    testWidgets('renders ConvertErrorView on ConvertStatus.error',
+        (tester) async {
       when(() => convertBloc.state).thenReturn(
         ConvertState(status: ConvertStatus.error),
       );
@@ -114,7 +115,7 @@ void main() {
         convertBloc,
       );
 
-      expect(find.byKey(ConvertBody.errorViewKey), findsOneWidget);
+      expect(find.byType(ConvertErrorView), findsOneWidget);
     });
 
     testWidgets('shows snackbar with error if ConvertStatus.error',
@@ -142,7 +143,8 @@ void main() {
         convertBloc,
       );
 
-      verify(() => convertBloc.add(GenerateVideoRequested(frames))).called(1);
+      verify(() => convertBloc.add(GenerateVideoRequested(frames: frames)))
+          .called(1);
     });
   });
 }
