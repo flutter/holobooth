@@ -73,6 +73,15 @@ abstract class HoloBoothColors {
 
   /// Color used for blurry containers.
   static const Color blurrySurface = Color.fromRGBO(19, 22, 44, 0.75);
+
+  /// Background color for the video player progress bar.
+  static const Color progressBarBackground = Color(0xFF1E1E1E);
+
+  /// Color for the video player progress bar.
+  static const Color progressBarColor = Color(0xFF27F5DD);
+
+  /// Color for the video player close button.
+  static final Color closeIcon = const Color(0xFF040522).withOpacity(.56);
 }
 
 /// Defines the gradients for the Holobooth UI.
