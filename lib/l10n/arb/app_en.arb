@@ -181,5 +181,17 @@
   "sharingDisabled": "Sharing disabled",
   "@sharingDisabled": {
     "description": "Text displayed when trying to share and it is disabled."
+  },
+  "tryAgainVideoGeneration": "Try again",
+  "@tryAgainVideoGeneration": {
+    "description": "Text displayed on try again button when generate video fails."
+  },
+  "retakeVideoGeneration": "Retake",
+  "@retakeVideoGeneration": {
+    "description": "Text displayed on retake button when generate video fails."
+  },
+  "maxRetriesReached": "Unfortunately we were unable to generate this video for you.",
+  "@maxRetriesReached": {
+    "description": "Text displayed when maximum amount of tries has been reaching to generate the video."
   }
 }

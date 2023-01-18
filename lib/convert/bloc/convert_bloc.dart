@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -23,10 +24,15 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
+    if (state.maxTriesReached) return;
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
+    if (event.frames != null) {
+      final frames = event.frames!.map((e) => e.image).toList();
+      emit(state.copyWith(frames: frames));
+    }
+
     try {
-      final result = await _convertRepository
-          .generateVideo(event.frames.map((e) => e.image).toList());
+      final result = await _convertRepository.generateVideo(state.frames);
       emit(
         state.copyWith(
           videoPath: result.videoUrl,
@@ -34,6 +40,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           status: ConvertStatus.videoCreated,
           firstFrameProcessed: result.firstFrame,
           twitterShareUrl: result.twitterShareUrl,
+          triesCount: 0,
         ),
       );
     } catch (error, stackTrace) {
@@ -41,6 +48,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       emit(
         state.copyWith(
           status: ConvertStatus.error,
+          triesCount: state.triesCount + 1,
         ),
       );
     }
