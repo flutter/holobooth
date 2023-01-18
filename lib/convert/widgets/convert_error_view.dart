@@ -48,7 +48,7 @@ class TryAgainVideoGenerationButton extends StatelessWidget {
     return GradientElevatedButton(
       child: Text(l10n.tryAgainVideoGeneration),
       onPressed: () {
-        context.read<ConvertBloc>().add(const GenerateVideoRequested());
+        //context.read<ConvertBloc>().add(const GenerateVideoRequested());
       },
     );
   }

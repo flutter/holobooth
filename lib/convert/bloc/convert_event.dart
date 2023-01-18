@@ -4,13 +4,6 @@ abstract class ConvertEvent extends Equatable {
   const ConvertEvent();
 }
 
-class GenerateVideoRequested extends ConvertEvent {
-  const GenerateVideoRequested();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class ProcessFramesRequested extends ConvertEvent {
   const ProcessFramesRequested({required this.frames});
 

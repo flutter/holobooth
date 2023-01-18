@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -15,30 +14,37 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     required ConvertRepository convertRepository,
   })  : _convertRepository = convertRepository,
         super(const ConvertState()) {
-    on<GenerateVideoRequested>(_generateVideo);
     on<ProcessFramesRequested>(_processFramesRequested);
     on<ShareRequested>(_shareRequested);
   }
 
   final ConvertRepository _convertRepository;
 
-  FutureOr<void> _generateVideo(
-    GenerateVideoRequested event,
+  Future<void> _processFramesRequested(
+    ProcessFramesRequested event,
     Emitter<ConvertState> emit,
   ) async {
+    emit(state.copyWith(status: ConvertStatus.loadingFrames));
+    final framesAsImages = event.frames.map((e) => e.image).toList();
+    final framesProcessed =
+        await _convertRepository.processFrames(framesAsImages);
+    emit(
+      state.copyWith(
+        status: ConvertStatus.loadedFrames,
+        firstFrameProcessed: framesProcessed.first,
+      ),
+    );
     if (state.maxTriesReached) return;
     emit(state.copyWith(status: ConvertStatus.creatingVideo));
 
     try {
-      final result =
-          await _convertRepository.generateVideo(state.framesProcessed);
+      final result = await _convertRepository.generateVideo(framesProcessed);
       final isWaitingForVideo = state.shareStatus == ShareStatus.waiting;
       emit(
         state.copyWith(
           videoPath: result.videoUrl,
           gifPath: result.gifUrl,
           status: ConvertStatus.videoCreated,
-          firstFrameProcessed: result.firstFrame,
           twitterShareUrl: result.twitterShareUrl,
           triesCount: 0,
           shareStatus:
@@ -54,21 +60,6 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         ),
       );
     }
-  }
-
-  Future<FutureOr<void>> _processFramesRequested(
-    ProcessFramesRequested event,
-    Emitter<ConvertState> emit,
-  ) async {
-    emit(state.copyWith(status: ConvertStatus.loadingFrames));
-    final framesAsImages = event.frames.map((e) => e.image).toList();
-    final frames = await _convertRepository.processFrames(framesAsImages);
-    emit(
-      state.copyWith(
-        status: ConvertStatus.loadedFrames,
-        framesProcessed: frames,
-      ),
-    );
   }
 
   FutureOr<void> _shareRequested(

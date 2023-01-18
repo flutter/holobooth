@@ -8,9 +8,7 @@ class ConvertState extends Equatable {
     this.firstFrameProcessed,
     this.twitterShareUrl = '',
     this.facebookShareUrl = '',
-    this.frames = const [],
     this.triesCount = 0,
-    this.framesProcessed = const [],
     this.shareStatus = ShareStatus.initial,
   });
 
@@ -20,9 +18,7 @@ class ConvertState extends Equatable {
   final Uint8List? firstFrameProcessed;
   final String twitterShareUrl;
   final String facebookShareUrl;
-  final List<Image> frames;
   final int triesCount;
-  final List<Uint8List> framesProcessed;
   final ShareStatus shareStatus;
 
   bool get maxTriesReached => triesCount == 3;
@@ -34,9 +30,7 @@ class ConvertState extends Equatable {
     Uint8List? firstFrameProcessed,
     String? twitterShareUrl,
     String? facebookShareUrl,
-    List<Image>? frames,
     int? triesCount,
-    List<Uint8List>? framesProcessed,
     ShareStatus? shareStatus,
   }) {
     return ConvertState(
@@ -46,9 +40,7 @@ class ConvertState extends Equatable {
       firstFrameProcessed: firstFrameProcessed ?? this.firstFrameProcessed,
       twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
-      frames: frames ?? this.frames,
       triesCount: triesCount ?? this.triesCount,
-      framesProcessed: framesProcessed ?? this.framesProcessed,
       shareStatus: shareStatus ?? this.shareStatus,
     );
   }
@@ -61,9 +53,7 @@ class ConvertState extends Equatable {
         firstFrameProcessed,
         twitterShareUrl,
         facebookShareUrl,
-        frames,
         triesCount,
-        framesProcessed,
         shareStatus,
       ];
 }

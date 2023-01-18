@@ -65,7 +65,6 @@ class _ConvertViewState extends State<ConvertView> {
           );
         } else if (state.status == ConvertStatus.loadedFrames) {
           final convertBloc = context.read<ConvertBloc>();
-          convertBloc.add(const GenerateVideoRequested());
           Navigator.of(context).push(SharePage.route(convertBloc: convertBloc));
         }
       },
@@ -111,12 +110,6 @@ class ConvertBody extends StatelessWidget {
                 return const ConvertErrorView();
               } else {
                 return CreatingVideoView();
-                return AnimatedSwitcher(
-                  duration: const Duration(seconds: 1),
-                  child: state.status == ConvertStatus.creatingVideo
-                      ? const CreatingVideoView()
-                      : const ConvertFinished(dimension: 200),
-                );
               }
             },
           ),
