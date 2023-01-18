@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
@@ -31,23 +32,6 @@ class AvatarDetectorBloc
   @visibleForTesting
   static const warmingUpImages = 10;
 
-  /// The last time the [Avatar] was detected.
-  ///
-  /// Initially set to [DateTime.now] after the model is [_initialized]; then
-  /// set to [DateTime.now] after every [Avatar] detection.
-  ///
-  /// Used to determine if the [Avatar] has been detected for a certain amount
-  /// of time, which is given by [undetectedDelay].
-  late DateTime _lastAvatarDetection;
-
-  /// The number of [CameraImage]s with an [Avatar].
-  ///
-  /// The count stops at [warmingUpImages].
-  ///
-  /// Used to determine if the face geometric data of a person has been
-  /// calibrated.
-  int _detectedAvatarCount = 0;
-
   @override
   Future<void> close() {
     _avatarDetectorRepository.dispose();
@@ -65,9 +49,11 @@ class AvatarDetectorBloc
     try {
       await _avatarDetectorRepository.preloadLandmarksModel();
       emit(
-        state.copyWith(status: AvatarDetectorStatus.loaded),
+        state.copyWith(
+          status: AvatarDetectorStatus.loaded,
+          lastAvatarDetection: clock.now(),
+        ),
       );
-      _lastAvatarDetection = DateTime.now();
     } on Exception catch (error, trace) {
       addError(error, trace);
       emit(
@@ -94,10 +80,10 @@ class AvatarDetectorBloc
       final avatarDetected = avatar != null;
 
       if (avatarDetected) {
-        _lastAvatarDetection = DateTime.now();
-        final hasWarmedUp = _detectedAvatarCount >= warmingUpImages;
+        var detectedAvatarCount = state.detectedAvatarCount;
+        final hasWarmedUp = detectedAvatarCount >= warmingUpImages;
         if (!hasWarmedUp) {
-          _detectedAvatarCount++;
+          detectedAvatarCount++;
         }
 
         emit(
@@ -106,10 +92,13 @@ class AvatarDetectorBloc
                 ? AvatarDetectorStatus.detected
                 : AvatarDetectorStatus.warming,
             avatar: avatar,
+            lastAvatarDetection: clock.now(),
+            detectedAvatarCount: detectedAvatarCount,
           ),
         );
       } else {
-        if (DateTime.now().difference(_lastAvatarDetection) > undetectedDelay) {
+        if (clock.now().difference(state.lastAvatarDetection!) >
+            undetectedDelay) {
           emit(
             state.copyWith(status: AvatarDetectorStatus.notDetected),
           );
