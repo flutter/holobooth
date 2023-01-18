@@ -1,0 +1,14 @@
+name: firebase_analytics_client
+
+on:
+  pull_request:
+    paths:
+      - "packages/firebase_analytics_client/**"
+      - ".github/workflows/firebase_analytics_client.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    with:
+      platform: "chrome,vm"
+      working_directory: packages/firebase_analytics_client

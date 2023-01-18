@@ -4,8 +4,10 @@ import 'package:meta/meta.dart';
 
 class FirebaseAnalyticsClient {
   /// Exposed [JsObject] for testing purposes.
+
   @visibleForTesting
   JsObject? testContext;
+  JsObject get _testContext => testContext ?? context;
 
   /// Method which tracks an event for the provided
   /// [category], [action], and [label].
@@ -15,7 +17,7 @@ class FirebaseAnalyticsClient {
     required String label,
   }) {
     try {
-      (testContext ?? context).callMethod(
+      _testContext.callMethod(
         'ga',
         <dynamic>['send', 'event', category, action, label],
       );
