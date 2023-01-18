@@ -26,7 +26,7 @@ class SmallShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
+    final thumbnail = context.read<ConvertBloc>().state.framesProcessed.first;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -44,7 +44,7 @@ class LargeShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
+    final thumbnail = context.read<ConvertBloc>().state.framesProcessed.first;
     return Column(
       children: [
         Row(

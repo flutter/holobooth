@@ -13,6 +13,7 @@ export 'share_dialog_subheading.dart';
 export 'share_heading.dart';
 export 'share_social_button.dart';
 export 'share_social_media_clarification.dart';
+export 'share_status_listener.dart';
 export 'share_subheading.dart';
 export 'twitter_button.dart';
 export 'video_dialog.dart';

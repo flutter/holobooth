@@ -69,27 +69,31 @@ class ConvertRepository {
     return 'https://www.facebook.com/sharer.php?u=$shareUrl&quote=$shareText';
   }
 
+  Future<List<Uint8List>> processFrames(List<Image> preProcessedFrames) async {
+    _processedFrames.clear();
+    final frames = await _processFrames(preProcessedFrames);
+    return frames;
+  }
+
   /// Converts a list of images to video using firebase functions.
   ///
   /// On success, returns the video path from the cloud storage.
   ///
   /// On error it throws a [GenerateVideoException].
   Future<GenerateVideoResponse> generateVideo(
-    List<Image> preProcessedFrames,
+    List<Uint8List> processedFrames,
   ) async {
-    if (preProcessedFrames.isEmpty) {
+    if (processedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');
     }
 
     try {
-      _processedFrames.clear();
-      final frames = await _processFrames(preProcessedFrames);
       final multipartRequest = _multipartRequestBuilder();
-      for (var index = 0; index < frames.length; index++) {
+      for (var index = 0; index < processedFrames.length; index++) {
         multipartRequest.files.add(
           MultipartFile.fromBytes(
             'frames',
-            frames[index],
+            processedFrames[index],
             filename: 'frame_$index.png',
           ),
         );
@@ -101,7 +105,7 @@ class ConvertRepository {
         final json = jsonDecode(rawData) as Map<String, dynamic>;
         final videoResponse = GenerateVideoResponse.fromJson(
           json,
-          frames.first,
+          processedFrames.first,
         );
         final shareUrl = _getShareUrl(videoResponse.gifUrl);
         final shareText = Uri.encodeComponent('Hey from Social Media!');

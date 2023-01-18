@@ -14,15 +14,22 @@ class ShareButton extends StatelessWidget {
 
     return GradientOutlinedButton(
       onPressed: () async {
-        await showAppDialog<void>(
-          context: context,
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: context.read<ConvertBloc>()),
-            ],
-            child: const ShareDialog(),
-          ),
-        );
+        final convertStatus = context.read<ConvertBloc>().state.status;
+        if (convertStatus == ConvertStatus.videoCreated) {
+          print('Open share dialog from share button');
+
+          await showAppDialog<void>(
+            context: context,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: context.read<ConvertBloc>()),
+              ],
+              child: const ShareDialog(),
+            ),
+          );
+        } else {
+          context.read<ConvertBloc>().add(const ShareRequested());
+        }
       },
       icon: const Icon(
         Icons.share,

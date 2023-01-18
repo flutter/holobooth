@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,24 +9,16 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class SharePage extends StatelessWidget {
   const SharePage({
     super.key,
-    required this.firstFrame,
-    required this.videoPath,
     required this.convertBloc,
   });
 
-  final Uint8List firstFrame;
-  final String videoPath;
   final ConvertBloc convertBloc;
 
   static Route<void> route({
-    required Uint8List firstFrame,
-    required String videoPath,
     required ConvertBloc convertBloc,
   }) =>
       AppPageRoute(
         builder: (_) => SharePage(
-          firstFrame: firstFrame,
-          videoPath: videoPath,
           convertBloc: convertBloc,
         ),
       );
@@ -67,6 +57,7 @@ class ShareView extends StatelessWidget {
               ],
             ),
           ),
+          Positioned.fill(child: ShareStatusListener()),
         ],
       ),
     );
