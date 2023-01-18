@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:download_repository/download_repository.dart';
@@ -29,12 +30,23 @@ class _MockAvatarDetectorRepository extends Mock
   }
 }
 
+class _FakeAnalyticsEvent extends Fake implements AnalyticsEvent {}
+
+class _MockAnalyticsRepository extends Mock implements AnalyticsRepository {
+  _MockAnalyticsRepository() {
+    registerFallbackValue(_FakeAnalyticsEvent());
+
+    when(() => trackEvent(any())).thenAnswer((_) {});
+  }
+}
+
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
     AvatarDetectorRepository? avatarDetectorRepository,
     ConvertRepository? convertRepository,
     DownloadRepository? downloadRepository,
+    AnalyticsRepository? analyticsRepository,
   }) async {
     return mockNetworkImages(() async {
       return pumpWidget(
@@ -49,6 +61,9 @@ extension PumpApp on WidgetTester {
             ),
             RepositoryProvider.value(
               value: downloadRepository ?? _MockDownloadRepository(),
+            ),
+            RepositoryProvider.value(
+              value: analyticsRepository ?? _MockAnalyticsRepository(),
             ),
           ],
           child: MaterialApp(
