@@ -47,7 +47,8 @@
             "default": "packages/",
             "type": "pickString",
             "options": [
-                "packages/analytics",
+                "packages/analytics_repository",
+                "packages/firebase_analytics_client",
                 "packages/image_compositor",
                 "packages/platform_helper",
                 "packages/tensorflow_models/tensorflow_models_platform_interface",
