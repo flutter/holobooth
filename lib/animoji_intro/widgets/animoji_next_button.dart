@@ -1,19 +1,19 @@
 import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:holobooth/animoji_intro/view/animoji_intro_page.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-class LandingTakePhotoButton extends StatefulWidget {
-  const LandingTakePhotoButton({super.key});
+class AnimojiNextButton extends StatefulWidget {
+  const AnimojiNextButton({super.key});
 
   @override
-  State<LandingTakePhotoButton> createState() => _LandingTakePhotoButtonState();
+  State<AnimojiNextButton> createState() => _AnimojiNextButtonState();
 }
 
-class _LandingTakePhotoButtonState extends State<LandingTakePhotoButton>
+class _AnimojiNextButtonState extends State<AnimojiNextButton>
     with AudioPlayerMixin {
   @override
   String get audioAssetPath => Assets.audio.buttonPress;
@@ -32,12 +32,12 @@ class _LandingTakePhotoButtonState extends State<LandingTakePhotoButton>
         playAudio();
         trackEvent(
           category: 'button',
-          action: 'click-get-started',
-          label: 'get-started',
+          action: 'click-start-holobooth',
+          label: 'start-holobooth',
         );
-        Navigator.of(context).push<void>(AnimojiIntroPage.route());
+        Navigator.of(context).push(PhotoBoothPage.route());
       },
-      child: Text(l10n.landingPageTakePhotoButtonText),
+      child: Text(l10n.nextButtonText),
     );
   }
 }

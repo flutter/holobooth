@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/footer/footer.dart';
-import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroPage extends StatelessWidget {
@@ -31,15 +30,9 @@ class AnimojiIntroView extends StatelessWidget {
         const Positioned.fill(child: AnimojiIntroBackground()),
         Positioned.fill(
           child: Column(
-            children: [
-              Expanded(
-                child: AnimojiIntroBody(
-                  onNextPressed: () {
-                    Navigator.of(context).push(PhotoBoothPage.route());
-                  },
-                ),
-              ),
-              const FullFooter(),
+            children: const [
+              Expanded(child: AnimojiIntroBody()),
+              FullFooter(),
             ],
           ),
         ),
