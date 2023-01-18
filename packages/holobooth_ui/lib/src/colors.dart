@@ -84,7 +84,7 @@ abstract class HoloBoothColors {
   static const Color progressBarColor = Color(0xFF27F5DD);
 
   /// Color for the video player close button.
-  static final Color closeIcon = const Color(0xFF040522).withOpacity(.56);
+  static const Color closeIcon = Color(0xFF040522);
 }
 
 /// Defines the gradients for the Holobooth UI.

@@ -154,7 +154,7 @@ class _CloseButton extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(27.5)),
-          color: HoloBoothColors.closeIcon,
+          color: HoloBoothColors.closeIcon.withOpacity(.56),
         ),
         child: Assets.icons.close.image(),
       ),
