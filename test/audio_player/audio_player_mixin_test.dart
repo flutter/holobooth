@@ -9,24 +9,6 @@ import 'package:mocktail/mocktail.dart';
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
-class TestWidgetWithAudioPlayer extends StatefulWidget {
-  const TestWidgetWithAudioPlayer({super.key});
-
-  @override
-  State<StatefulWidget> createState() => TestStateWithAudioPlayer();
-}
-
-class TestStateWithAudioPlayer extends State<TestWidgetWithAudioPlayer>
-    with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => 'audioAssetPath';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -81,6 +63,15 @@ void main() {
           verify(() => audioPlayer.setLoopMode(LoopMode.all)).called(1);
         },
       );
+
+      test('calls stop on the audio player if playing fails', () async {
+        when(audioPlayer.play).thenThrow(Exception());
+
+        final state = TestStateWithAudioPlayer();
+        await state.playAudio();
+
+        verify(() => audioPlayer.stop()).called(1);
+      });
 
       test(
         'does not set the loop mode when loop is true and already set',
@@ -145,6 +136,24 @@ void main() {
         verifyNever(() => audioPlayer.dispose());
 
         completer.complete();
+        await playFuture;
+        await tester.pumpAndSettle();
+
+        verify(() => audioPlayer.dispose()).called(1);
+      });
+
+      testWidgets('still disposes even when playing fails', (tester) async {
+        when(audioPlayer.play).thenThrow(Exception());
+
+        await tester.pumpWidget(TestWidgetWithAudioPlayer());
+        await tester.pumpAndSettle();
+        final playFuture = tester
+            .state<TestStateWithAudioPlayer>(
+              find.byType(TestWidgetWithAudioPlayer),
+            )
+            .playAudio();
+
+        await tester.pumpWidget(Container());
         await playFuture;
         await tester.pumpAndSettle();
 
