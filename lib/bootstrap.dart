@@ -26,7 +26,7 @@ Future<void> bootstrap({
   required String assetBucketUrl,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = AppBlocObserver();
+
   FlutterError.onError = (details) {
     print(details.exceptionAsString());
     print(details.stack);
@@ -50,6 +50,8 @@ Future<void> bootstrap({
 
   final downloadRepository = DownloadRepository();
   final analyticsRepository = AnalyticsRepository(FirebaseAnalyticsClient());
+
+  Bloc.observer = AppBlocObserver(analyticsRepository: analyticsRepository);
 
   unawaited(
     Future.wait([
