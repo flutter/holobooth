@@ -2,6 +2,7 @@ import 'dart:js';
 
 import 'package:meta/meta.dart';
 
+/// Analytics client based on Firebase working for web.
 class FirebaseAnalyticsClient {
   /// Exposed [JsObject] for testing purposes.
 

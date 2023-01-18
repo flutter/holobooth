@@ -1,3 +1,5 @@
+/// Analytics client based on Firebase working for mobile.
+/// Currently not supported
 class FirebaseAnalyticsClient {
   /// Method which tracks an event for the provided
   /// [category], [action], and [label].
