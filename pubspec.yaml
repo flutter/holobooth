@@ -8,8 +8,8 @@ environment:
   flutter: 3.6.0-0.1.pre
 
 dependencies:
-  analytics:
-    path: packages/analytics
+  analytics_repository:
+    path: packages/analytics_repository
   audio_session: ^0.1.10
   authentication_repository:
     path: packages/authentication_repository
@@ -28,6 +28,8 @@ dependencies:
   face_geometry:
     path: packages/face_geometry
   firebase_auth: ^4.1.3
+  firebase_analytics_client:
+    path: packages/firebase_analytics_client
   firebase_core: ^2.3.0
   firebase_storage: ^11.0.6
   flutter:

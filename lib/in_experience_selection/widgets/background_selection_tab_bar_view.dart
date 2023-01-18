@@ -1,4 +1,3 @@
-import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
@@ -100,11 +99,6 @@ class _BackgroundSelectionElement extends StatelessWidget {
               background,
             ),
             onTap: () {
-              trackEvent(
-                category: 'button',
-                action: 'click-background',
-                label: 'select-background-${background.name}',
-              );
               context
                   .read<InExperienceSelectionBloc>()
                   .add(InExperienceSelectionBackgroundSelected(background));

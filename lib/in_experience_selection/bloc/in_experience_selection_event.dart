@@ -13,9 +13,16 @@ class InExperienceSelectionHatToggled extends InExperienceSelectionEvent {
   List<Object> get props => [hat];
 }
 
-class InExperienceSelectionBackgroundSelected
-    extends InExperienceSelectionEvent {
+class InExperienceSelectionBackgroundSelected extends InExperienceSelectionEvent
+    with AnalyticsEventMixin {
   const InExperienceSelectionBackgroundSelected(this.background);
+
+  @override
+  AnalyticsEvent get event => AnalyticsEvent(
+        category: 'button',
+        action: 'click-background',
+        label: 'select-background-${background.name}',
+      );
 
   final Background background;
 

@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
 import 'dart:async';
 
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:download_repository/download_repository.dart';
+import 'package:firebase_analytics_client/firebase_analytics_client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/scheduler.dart';
@@ -47,6 +49,7 @@ Future<void> bootstrap({
   );
 
   final downloadRepository = DownloadRepository();
+  final analyticsRepository = AnalyticsRepository(FirebaseAnalyticsClient());
 
   unawaited(
     Future.wait([
@@ -61,6 +64,7 @@ Future<void> bootstrap({
         avatarDetectorRepository: avatarDetectorRepository,
         convertRepository: convertRepository,
         downloadRepository: downloadRepository,
+        analyticsRepository: analyticsRepository,
       ),
     ),
     (error, stackTrace) {

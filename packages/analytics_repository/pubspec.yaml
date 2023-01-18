@@ -7,7 +7,9 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
-  
+  equatable: ^2.0.5
+  firebase_analytics_client:
+    path: ../firebase_analytics_client
 
 dev_dependencies:
   mocktail: ^0.3.0

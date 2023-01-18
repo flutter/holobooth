@@ -1,3 +1,4 @@
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -15,12 +16,14 @@ class App extends StatelessWidget {
     required this.avatarDetectorRepository,
     required this.convertRepository,
     required this.downloadRepository,
+    required this.analyticsRepository,
   });
 
   final AuthenticationRepository authenticationRepository;
   final AvatarDetectorRepository avatarDetectorRepository;
   final ConvertRepository convertRepository;
   final DownloadRepository downloadRepository;
+  final AnalyticsRepository analyticsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: avatarDetectorRepository),
         RepositoryProvider.value(value: convertRepository),
         RepositoryProvider.value(value: downloadRepository),
+        RepositoryProvider.value(value: analyticsRepository),
       ],
       child: AnimatedFadeIn(
         child: ResponsiveLayoutBuilder(
