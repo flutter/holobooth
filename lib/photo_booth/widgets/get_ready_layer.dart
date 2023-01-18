@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:holobooth/assets/assets.dart';
-import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -16,24 +14,24 @@ class GetReadyLayer extends StatefulWidget {
 
   static const countdownDuration = Duration(seconds: 3);
 
-  @visibleForTesting
-  static const emptySizedBox = Key('empty_sizedBox');
-
   @override
   State<GetReadyLayer> createState() => _GetReadyLayerState();
 }
 
 class _GetReadyLayerState extends State<GetReadyLayer>
-    with TickerProviderStateMixin, AudioPlayerMixin {
+    with TickerProviderStateMixin {
   late final AnimationController controller;
-
-  @override
-  String get audioAssetPath => Assets.audio.counting3Seconds;
 
   @override
   void initState() {
     super.initState();
-    _init();
+
+    controller = AnimationController(
+      vsync: this,
+      duration: GetReadyLayer.countdownDuration,
+    )..addStatusListener(_onAnimationStatusChanged);
+
+    controller.reverse(from: 1);
   }
 
   Future<void> _onAnimationStatusChanged(AnimationStatus status) async {
@@ -42,30 +40,11 @@ class _GetReadyLayerState extends State<GetReadyLayer>
     }
   }
 
-  Future<void> _init() async {
-    controller = AnimationController(
-      vsync: this,
-      duration: GetReadyLayer.countdownDuration,
-    )..addStatusListener(_onAnimationStatusChanged);
-
-    try {
-      await loadAudio();
-      unawaited(playAudio());
-    } catch (_) {}
-
-    await controller.reverse(from: 1);
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
-      builder: (context, child) {
-        if (controller.isAnimating) {
-          return GetReadyCountdown(controller: controller);
-        }
-        return const SizedBox(key: GetReadyLayer.emptySizedBox);
-      },
+      builder: (context, child) => GetReadyCountdown(controller: controller),
     );
   }
 
