@@ -134,7 +134,7 @@
   "@classicPhotoboothLabel": {
     "description": "Text show on the label of the classic photo booth banner"
   },
-  "backgroundsTabTitle": "Select a scene",
+  "backgroundsTabTitle": "Select a scene:",
   "@backgroundsTabTitle": {
     "description": "Title text displayed on the scene selection tab",
     "type": "text",
