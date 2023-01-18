@@ -13,16 +13,6 @@ void addGradientButtonStories(Dashbook dashbook) {
               child: const Text('Press me'),
               onPressed: () {},
             ),
-            const SizedBox(height: 24),
-            Container(
-              color: HoloBoothColors.black,
-              padding: const EdgeInsets.all(20),
-              child: GradientOutlinedButton(
-                onPressed: () {},
-                icon: const Icon(Icons.touch_app_rounded),
-                label: 'Press me',
-              ),
-            )
           ],
         ),
       );

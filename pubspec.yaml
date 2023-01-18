@@ -17,6 +17,7 @@ dependencies:
     path: packages/avatar_detector_repository
   bloc: ^8.1.0
   camera: ^0.10.0+3
+  clock: ^1.1.1
   collection: ^1.16.0
   convert_repository:
     path: packages/convert_repository

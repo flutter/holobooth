@@ -48,7 +48,9 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ConvertBloc>().add(GenerateVideoRequested(widget.frames));
+      context
+          .read<ConvertBloc>()
+          .add(GenerateVideoRequested(frames: widget.frames));
     });
   }
 
@@ -101,7 +103,7 @@ class ConvertBody extends StatelessWidget {
                   previous.status != current.status,
               builder: (context, state) {
                 if (state.status == ConvertStatus.error) {
-                  return const SizedBox(key: errorViewKey);
+                  return const ConvertErrorView();
                 } else {
                   return AnimatedSwitcher(
                     duration: const Duration(seconds: 1),
