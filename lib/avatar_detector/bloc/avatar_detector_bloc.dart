@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
@@ -50,7 +51,7 @@ class AvatarDetectorBloc
       emit(
         state.copyWith(
           status: AvatarDetectorStatus.loaded,
-          lastAvatarDetection: DateTime.now(),
+          lastAvatarDetection: clock.now(),
         ),
       );
     } on Exception catch (error, trace) {
@@ -91,12 +92,12 @@ class AvatarDetectorBloc
                 ? AvatarDetectorStatus.detected
                 : AvatarDetectorStatus.warming,
             avatar: avatar,
-            lastAvatarDetection: DateTime.now(),
+            lastAvatarDetection: clock.now(),
             detectedAvatarCount: detectedAvatarCount,
           ),
         );
       } else {
-        if (DateTime.now().difference(state.lastAvatarDetection!) >
+        if (clock.now().difference(state.lastAvatarDetection!) >
             undetectedDelay) {
           emit(
             state.copyWith(status: AvatarDetectorStatus.notDetected),

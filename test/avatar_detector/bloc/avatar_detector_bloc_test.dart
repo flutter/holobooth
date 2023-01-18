@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:mocktail/mocktail.dart';
@@ -146,6 +147,18 @@ void main() {
         ],
       );
 
+      final previousTime = DateTime(2022);
+      final elapsedTime = Clock.fixed(
+        DateTime(
+          2022,
+          1,
+          1,
+          0,
+          0,
+          AvatarDetectorBloc.undetectedDelay.inSeconds + 1,
+        ),
+      );
+
       blocTest<AvatarDetectorBloc, AvatarDetectorState>(
         'emits AvatarDetectorStatus.notDetected '
         'if detectAvatar returns null and undetectedDelay elapsed.',
@@ -156,9 +169,13 @@ void main() {
         },
         seed: () => AvatarDetectorState(
           status: AvatarDetectorStatus.estimating,
-          lastAvatarDetection: DateTime(1),
+          lastAvatarDetection: previousTime,
         ),
-        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        build: () {
+          return withClock(elapsedTime, () {
+            return AvatarDetectorBloc(avatarDetectorRepository);
+          });
+        },
         act: (bloc) async {
           bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
         },
@@ -182,9 +199,13 @@ void main() {
         },
         seed: () => AvatarDetectorState(
           status: AvatarDetectorStatus.loaded,
-          lastAvatarDetection: DateTime.now(),
+          lastAvatarDetection: previousTime,
         ),
-        build: () => AvatarDetectorBloc(avatarDetectorRepository),
+        build: () {
+          return withClock(Clock.fixed(previousTime), () {
+            return AvatarDetectorBloc(avatarDetectorRepository);
+          });
+        },
         act: (bloc) async {
           bloc.add(AvatarDetectorEstimateRequested(_FakeCameraImage()));
         },
