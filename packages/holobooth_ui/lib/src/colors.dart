@@ -73,7 +73,7 @@ abstract class HoloBoothColors {
 
   /// Color used for blurry containers.
   static const Color blurrySurface = Color.fromRGBO(19, 22, 44, 0.75);
-  
+
   /// Dusk color.
   static const Color dusk = Color(0xff676AB6);
 
