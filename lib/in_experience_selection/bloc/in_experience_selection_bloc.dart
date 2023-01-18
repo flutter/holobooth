@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
