@@ -2,6 +2,7 @@ export default `
 (function() {
   const frame = document.querySelector('.card-frame');
   const playButton = document.querySelector('.play-button');
+  const pauseButton = document.querySelector('.pause-button');
   const closeButton = document.querySelector('.close-button');
   const videoPopUp = document.querySelector('.video-pop-up');
   const backdrop = document.querySelector('.video-pop-up-backdrop');
@@ -19,6 +20,10 @@ export default `
 
   playButton.addEventListener('click', function() {
     videoPlayer.play();
+  });
+
+  pauseButton.addEventListener('click', function() {
+    videoPlayer.pause();
   });
 
   closeButton.addEventListener('click', function() {
@@ -40,6 +45,16 @@ export default `
 
     const progress = videoPlayer.currentTime / videoPlayer.duration * 100;
     progressBar.style.width = progress + '%';
+  });
+
+  videoPlayer.addEventListener('play', function(event) {
+    playButton.style.display = 'none';
+    pauseButton.style.display = 'flex';
+  });
+
+  videoPlayer.addEventListener('pause', function(event) {
+    playButton.style.display = 'flex';
+    pauseButton.style.display = 'none';
   });
 
   fullscreenButton.addEventListener('click', function() {
