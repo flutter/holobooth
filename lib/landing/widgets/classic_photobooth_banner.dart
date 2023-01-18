@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/external_links/external_links.dart';
@@ -36,7 +37,14 @@ class _ClassicPhotoboothBannerState extends State<ClassicPhotoboothBanner> {
                 setState(() => _open = false);
               },
               child: Clickable(
-                onPressed: () => openLink(classicPhotoboothLink),
+                onPressed: () {
+                  trackEvent(
+                    category: 'button',
+                    action: 'click-classic-photobooth',
+                    label: 'open-classic-photobooth',
+                  );
+                  openLink(classicPhotoboothLink);
+                },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: const BoxDecoration(

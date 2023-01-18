@@ -20,7 +20,6 @@ class _NextButtonState extends State<NextButton> with AudioPlayerMixin {
   @override
   void initState() {
     super.initState();
-
     loadAudio();
   }
 

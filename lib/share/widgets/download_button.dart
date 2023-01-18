@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
@@ -98,6 +99,11 @@ class DownloadAsAGifButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       onPressed: () {
+        trackEvent(
+          category: 'button',
+          action: 'click-download-gif',
+          label: 'download-gif',
+        );
         Navigator.of(context).pop();
         context.read<DownloadBloc>().add(const DownloadRequested.gif());
       },
@@ -128,6 +134,11 @@ class DownloadAsAVideoButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       onPressed: () {
+        trackEvent(
+          category: 'button',
+          action: 'click-download-video',
+          label: 'download-video',
+        );
         Navigator.of(context).pop();
         context.read<DownloadBloc>().add(const DownloadRequested.video());
       },

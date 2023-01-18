@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
@@ -21,6 +22,11 @@ class ClothesSelectionTabBarView extends StatelessWidget {
         return PropSelectionElement(
           key: clothesSelectionKey(item),
           onTap: () {
+            trackEvent(
+              category: 'button',
+              action: 'click-clothes-props',
+              label: 'select-clothes-${item.name}',
+            );
             context
                 .read<InExperienceSelectionBloc>()
                 .add(InExperienceSelectionClothesToggled(item));

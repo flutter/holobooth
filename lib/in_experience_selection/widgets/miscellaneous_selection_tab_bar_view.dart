@@ -1,3 +1,4 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
@@ -21,6 +22,11 @@ class MiscellaneousSelectionTabBarView extends StatelessWidget {
         return PropSelectionElement(
           key: miscellaneousSelectionKey(item),
           onTap: () {
+            trackEvent(
+              category: 'button',
+              action: 'click-handheldLeft-props',
+              label: 'select-handheldLeft-${item.name}',
+            );
             context
                 .read<InExperienceSelectionBloc>()
                 .add(InExperienceSelectionHandleheldLeftToggled(item));
