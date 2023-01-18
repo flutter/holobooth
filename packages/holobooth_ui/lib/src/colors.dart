@@ -73,6 +73,9 @@ abstract class HoloBoothColors {
 
   /// Color used for blurry containers.
   static const Color blurrySurface = Color.fromRGBO(19, 22, 44, 0.75);
+  
+  /// Dusk color.
+  static const Color dusk = Color(0xff676AB6);
 
   /// Background color for the video player progress bar.
   static const Color progressBarBackground = Color(0xFF1E1E1E);

@@ -77,7 +77,7 @@ class HoloboothTheme {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         minimumSize: const Size(208, 54),
       ),
     );
@@ -90,8 +90,8 @@ class HoloboothTheme {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        side: const BorderSide(color: HoloBoothColors.white, width: 2),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        side: const BorderSide(color: HoloBoothColors.dusk),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         minimumSize: const Size(208, 54),
       ),
     );

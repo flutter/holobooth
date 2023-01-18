@@ -114,24 +114,22 @@ void main() {
       CameraPlatform.instance = _MockCameraPlatform();
     });
 
-    group('renders', () {
-      testWidgets(
-        'PhotoboothError if any CameraException finding camera',
-        (WidgetTester tester) async {
-          when(() => cameraPlatform.availableCameras())
-              .thenThrow(CameraException('', ''));
-          await tester.pumpSubject(
-            PhotoboothBody(),
-            inExperienceSelectionBloc: inExperienceSelectionBloc,
-            photoBoothBloc: photoBoothBloc,
-            avatarDetectorBloc: avatarDetectorBloc,
-          );
-          await tester.pump();
+    testWidgets(
+      'renders PhotoboothError if any CameraException finding camera',
+      (WidgetTester tester) async {
+        when(() => cameraPlatform.availableCameras())
+            .thenThrow(CameraException('', ''));
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          photoBoothBloc: photoBoothBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        await tester.pump();
 
-          expect(find.byType(CameraErrorView), findsOneWidget);
-        },
-      );
-    });
+        expect(find.byType(CameraErrorView), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'adds PhotoBoothRecordingStarted when GetReadyLayer.onCountdownCompleted '
@@ -233,9 +231,15 @@ void main() {
     );
 
     testWidgets(
-      'renders SelectionLayer if not PhotoBoothState.isRecording',
+      'renders SelectionLayer if not [PhotoBoothState.isRecording, '
+      'PhotoBoothState.gettingReady] and avatarStatus.hasLoadedModel',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state).thenReturn(PhotoBoothState());
+        when(() => avatarDetectorBloc.state).thenReturn(
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.estimating,
+          ),
+        );
         await tester.pumpSubject(
           PhotoboothBody(),
           photoBoothBloc: photoBoothBloc,

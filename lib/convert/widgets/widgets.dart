@@ -1,3 +1,4 @@
+export 'convert_error_view.dart';
 export 'convert_finished.dart';
 export 'convert_loading_animation.dart';
 export 'convert_message.dart';
