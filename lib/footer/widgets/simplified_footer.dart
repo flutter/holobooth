@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/widgets/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class SimplifiedFooter extends StatelessWidget {
-  const SimplifiedFooter({super.key});
+  SimplifiedFooter({super.key, PlatformHelper? platformHelper})
+      : _platformHelper = platformHelper ?? PlatformHelper();
+
+  final PlatformHelper _platformHelper;
 
   static const _separationSize = 22.0;
 
@@ -33,14 +37,16 @@ class SimplifiedFooter extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.only(left: 48, bottom: 24, right: 24),
             child: Row(
-              children: const [
-                FlutterIconLink(),
-                SizedBox(width: _separationSize),
-                FirebaseIconLink(),
-                SizedBox(width: _separationSize),
-                TensorflowIconLink(),
-                Spacer(),
-                MuteButton(),
+              children: [
+                const FlutterIconLink(),
+                const SizedBox(width: _separationSize),
+                const FirebaseIconLink(),
+                const SizedBox(width: _separationSize),
+                const TensorflowIconLink(),
+                if (!_platformHelper.isMobile) ...[
+                  const Spacer(),
+                  const MuteButton(),
+                ],
               ],
             ),
           );

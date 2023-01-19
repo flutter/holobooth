@@ -59,7 +59,7 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
             );
           }
         },
-        child: const Scaffold(body: PhotoboothBody()),
+        child: Scaffold(body: PhotoboothBody()),
       ),
     );
   }

@@ -3,14 +3,17 @@ import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/widgets/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class FullFooter extends StatelessWidget {
-  const FullFooter({
+  FullFooter({
     super.key,
     this.showIconsForSmall = true,
-  });
+    PlatformHelper? platformHelper,
+  }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   final bool showIconsForSmall;
+  final PlatformHelper _platformHelper;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +55,10 @@ class FullFooter extends StatelessWidget {
                     ]
                   else ...[
                     if (child != null) Flexible(child: child),
-                    gap,
-                    const MuteButton(),
+                    if (!_platformHelper.isMobile) ...[
+                      gap,
+                      const MuteButton(),
+                    ],
                   ],
                 ],
               ),
@@ -78,8 +83,10 @@ class FullFooter extends StatelessWidget {
                     child: child,
                   ),
                 ),
-                gap,
-                const MuteButton(),
+                if (!_platformHelper.isMobile) ...[
+                  gap,
+                  const MuteButton(),
+                ],
               ],
             ),
           );

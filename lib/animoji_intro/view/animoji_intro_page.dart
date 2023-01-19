@@ -39,7 +39,7 @@ class AnimojiIntroView extends StatelessWidget {
                   },
                 ),
               ),
-              const FullFooter(),
+              FullFooter(),
             ],
           ),
         ),
