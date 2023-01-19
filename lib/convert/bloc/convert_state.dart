@@ -69,5 +69,5 @@ enum ConvertStatus {
 enum ShareStatus {
   initial,
   waiting,
-  success,
+  ready,
 }

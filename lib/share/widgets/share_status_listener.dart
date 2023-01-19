@@ -15,7 +15,7 @@ class ShareStatusListener extends StatelessWidget {
       listenWhen: (previous, current) =>
           previous.shareStatus != current.shareStatus,
       listener: (context, state) {
-        if (state.shareStatus == ShareStatus.success) {
+        if (state.shareStatus == ShareStatus.ready) {
           showAppDialog<void>(
             context: context,
             child: MultiBlocProvider(

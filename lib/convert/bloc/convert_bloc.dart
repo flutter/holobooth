@@ -58,7 +58,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           twitterShareUrl: result.twitterShareUrl,
           triesCount: 0,
           shareStatus:
-              isWaitingForVideo ? ShareStatus.success : ShareStatus.initial,
+              isWaitingForVideo ? ShareStatus.ready : ShareStatus.initial,
         ),
       );
     } catch (error, stackTrace) {
@@ -85,7 +85,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     } else {
       emit(
         state.copyWith(
-          shareStatus: ShareStatus.success,
+          shareStatus: ShareStatus.ready,
         ),
       );
     }
