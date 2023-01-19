@@ -51,7 +51,7 @@ class _ConvertViewState extends State<ConvertView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context
           .read<ConvertBloc>()
-          .add(ProcessFramesRequested(frames: widget.frames));
+          .add(GenerateVideoRequested(frames: widget.frames));
     });
   }
 
