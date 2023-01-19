@@ -42,17 +42,21 @@ class FullFooter extends StatelessWidget {
                       color: HoloBoothColors.scrim,
                       borderRadius: BorderRadius.circular(16),
                     ),
-              child: showIconsForSmall
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (final icon in icons) ...[
-                          icon,
-                          if (icon != icons.last) gap,
-                        ],
-                      ],
-                    )
-                  : child,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (showIconsForSmall)
+                    for (final icon in icons) ...[
+                      icon,
+                      if (icon != icons.last) gap,
+                    ]
+                  else ...[
+                    if (child != null) Flexible(child: child),
+                    gap,
+                    const MuteButton(),
+                  ],
+                ],
+              ),
             ),
           );
         },
@@ -63,18 +67,19 @@ class FullFooter extends StatelessWidget {
               vertical: 24,
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 for (final icon in icons) ...[
                   icon,
-                  if (icon != icons.last) gap,
+                  gap,
                 ],
                 Expanded(
                   child: Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.centerRight,
                     child: child,
                   ),
-                )
+                ),
+                gap,
+                const MuteButton(),
               ],
             ),
           );
@@ -91,8 +96,6 @@ class FullFooter extends StatelessWidget {
             FooterTermsOfServiceLink(),
             gap,
             FooterPrivacyPolicyLink(),
-            gap,
-            MuteButton(),
           ],
         ),
       ),
