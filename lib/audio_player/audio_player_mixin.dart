@@ -35,11 +35,17 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
       await _audioPlayer.setLoopMode(LoopMode.all);
     }
 
-    // Restarts the audio track.
-    await _audioPlayer.pause();
-    await _audioPlayer.seek(Duration.zero);
-    await _audioPlayer.play();
-    completer.complete();
+    try {
+      // Restarts the audio track.
+      await _audioPlayer.pause();
+      await _audioPlayer.seek(Duration.zero);
+      await _audioPlayer.play();
+    } catch (_) {
+      // If an error occurs, stop the audio.
+      await _audioPlayer.stop();
+    } finally {
+      completer.complete();
+    }
   }
 
   Future<void> stopAudio() async {
@@ -50,5 +56,25 @@ mixin AudioPlayerMixin<T extends StatefulWidget> on State<T> {
   void dispose() {
     _playing.then((_) => _audioPlayer.dispose());
     super.dispose();
+  }
+}
+
+@visibleForTesting
+class TestWidgetWithAudioPlayer extends StatefulWidget {
+  const TestWidgetWithAudioPlayer({super.key});
+
+  @override
+  State<StatefulWidget> createState() => TestStateWithAudioPlayer();
+}
+
+@visibleForTesting
+class TestStateWithAudioPlayer extends State<TestWidgetWithAudioPlayer>
+    with AudioPlayerMixin {
+  @override
+  String get audioAssetPath => 'audioAssetPath';
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

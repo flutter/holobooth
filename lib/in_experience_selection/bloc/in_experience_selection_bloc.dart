@@ -41,7 +41,12 @@ class InExperienceSelectionBloc
     InExperienceSelectionCharacterSelected event,
     Emitter<InExperienceSelectionState> emit,
   ) {
-    emit(state.copyWith(character: event.character));
+    emit(
+      InExperienceSelectionState(
+        character: event.character,
+        background: state.background,
+      ),
+    );
   }
 
   FutureOr<void> _glassesToggled(

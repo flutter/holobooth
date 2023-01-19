@@ -71,6 +71,26 @@ void main() {
             bloc.add(InExperienceSelectionCharacterSelected(Character.dash)),
         expect: () => const <InExperienceSelectionState>[],
       );
+
+      blocTest<InExperienceSelectionBloc, InExperienceSelectionState>(
+        'emits state clearing props and keeping background.',
+        build: InExperienceSelectionBloc.new,
+        seed: () => InExperienceSelectionState(
+          background: Background.bg8,
+          clothes: Clothes.shirt01,
+          glasses: Glasses.glasses01,
+          handheldlLeft: HandheldlLeft.handheld01,
+          hat: Hats.hat01,
+        ),
+        act: (bloc) =>
+            bloc.add(InExperienceSelectionCharacterSelected(Character.sparky)),
+        expect: () => const <InExperienceSelectionState>[
+          InExperienceSelectionState(
+            character: Character.sparky,
+            background: Background.bg8,
+          )
+        ],
+      );
     });
 
     group('InExperienceSelectionGlassesToggled', () {
