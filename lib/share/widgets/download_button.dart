@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
@@ -17,40 +18,41 @@ class _DownloadButtonState extends State<DownloadButton> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final state = context.watch<DownloadBloc>().state;
-    final isLoading = state.status == DownloadStatus.fetching;
+    final downloadState = context.watch<DownloadBloc>().state;
+    final convertState = context.watch<ConvertBloc>().state;
+    final isLoading = (convertState.shareStatus == ShareStatus.waiting &&
+            convertState.shareType == ShareType.download) ||
+        downloadState.status == DownloadStatus.fetching;
 
     return CompositedTransformTarget(
       link: layerLink,
       child: GradientOutlinedButton(
-        icon: isLoading
-            ? const SizedBox(
-                width: 25,
-                height: 25,
-                child: CircularProgressIndicator(
-                  color: HoloBoothColors.convertLoading,
-                ),
-              )
-            : const Icon(
-                Icons.file_download_rounded,
-                color: HoloBoothColors.white,
-              ),
+        loading: isLoading,
+        icon: const Icon(
+          Icons.file_download_rounded,
+          color: HoloBoothColors.white,
+        ),
         label: l10n.sharePageDownloadButtonText,
-        onPressed: isLoading
-            ? null
-            : () {
-                final downloadBloc = context.read<DownloadBloc>();
-                showDialog<void>(
-                  context: context,
-                  barrierColor: HoloBoothColors.transparent,
-                  builder: (context) => BlocProvider.value(
-                    value: downloadBloc,
-                    child: DownloadOptionDialog(
-                      layerLink: layerLink,
-                    ),
-                  ),
-                );
-              },
+        onPressed: () {
+          final downloadBloc = context.read<DownloadBloc>();
+          final convertStatus = context.read<ConvertBloc>().state.status;
+          if (convertStatus == ConvertStatus.videoCreated) {
+            showDialog<void>(
+              context: context,
+              barrierColor: HoloBoothColors.transparent,
+              builder: (context) => BlocProvider.value(
+                value: downloadBloc,
+                child: DownloadOptionDialog(
+                  layerLink: layerLink,
+                ),
+              ),
+            );
+          } else {
+            context
+                .read<ConvertBloc>()
+                .add(const ShareRequested(ShareType.download));
+          }
+        },
       ),
     );
   }

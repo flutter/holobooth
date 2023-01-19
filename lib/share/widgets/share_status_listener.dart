@@ -16,15 +16,28 @@ class ShareStatusListener extends StatelessWidget {
           previous.shareStatus != current.shareStatus,
       listener: (context, state) {
         if (state.shareStatus == ShareStatus.ready) {
-          showAppDialog<void>(
-            context: context,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<ConvertBloc>()),
-              ],
-              child: const ShareDialog(),
-            ),
-          );
+          if (state.shareType == ShareType.socialMedia) {
+            showAppDialog<void>(
+              context: context,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: context.read<ConvertBloc>()),
+                ],
+                child: const ShareDialog(),
+              ),
+            );
+          } else if (state.shareType == ShareType.download) {
+            showDialog<void>(
+              context: context,
+              barrierColor: HoloBoothColors.transparent,
+              builder: (context) => BlocProvider.value(
+                value: context.read<DownloadBloc>(),
+                child: DownloadOptionDialog(
+                  layerLink: LayerLink(),
+                ),
+              ),
+            );
+          }
         }
       },
       child: child,

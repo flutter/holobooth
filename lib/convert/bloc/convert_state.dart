@@ -10,6 +10,7 @@ class ConvertState extends Equatable {
     this.facebookShareUrl = '',
     this.triesCount = 0,
     this.shareStatus = ShareStatus.initial,
+    this.shareType = ShareType.none,
   });
 
   final String videoPath;
@@ -20,6 +21,7 @@ class ConvertState extends Equatable {
   final String facebookShareUrl;
   final int triesCount;
   final ShareStatus shareStatus;
+  final ShareType shareType;
 
   bool get maxTriesReached => triesCount == 3;
 
@@ -32,6 +34,7 @@ class ConvertState extends Equatable {
     String? facebookShareUrl,
     int? triesCount,
     ShareStatus? shareStatus,
+    ShareType? shareType,
   }) {
     return ConvertState(
       videoPath: videoPath ?? this.videoPath,
@@ -42,6 +45,7 @@ class ConvertState extends Equatable {
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
       triesCount: triesCount ?? this.triesCount,
       shareStatus: shareStatus ?? this.shareStatus,
+      shareType: shareType ?? this.shareType,
     );
   }
 
@@ -55,6 +59,7 @@ class ConvertState extends Equatable {
         facebookShareUrl,
         triesCount,
         shareStatus,
+        shareType,
       ];
 }
 
@@ -70,4 +75,10 @@ enum ShareStatus {
   initial,
   waiting,
   ready,
+}
+
+enum ShareType {
+  none,
+  socialMedia,
+  download,
 }

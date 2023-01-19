@@ -14,8 +14,10 @@ class GenerateVideoRequested extends ConvertEvent {
 }
 
 class ShareRequested extends ConvertEvent {
-  const ShareRequested();
+  const ShareRequested(this.shareType);
+
+  final ShareType shareType;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [shareType];
 }

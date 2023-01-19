@@ -80,6 +80,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       emit(
         state.copyWith(
           shareStatus: ShareStatus.waiting,
+          shareType: event.shareType,
         ),
       );
     } else {

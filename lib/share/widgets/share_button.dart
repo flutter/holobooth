@@ -13,7 +13,8 @@ class ShareButton extends StatelessWidget {
     final l10n = context.l10n;
 
     final state = context.watch<ConvertBloc>().state;
-    final isLoading = state.shareStatus == ShareStatus.waiting;
+    final isLoading = state.shareStatus == ShareStatus.waiting &&
+        state.shareType == ShareType.socialMedia;
 
     return GradientOutlinedButton(
       loading: isLoading,
@@ -30,7 +31,9 @@ class ShareButton extends StatelessWidget {
             ),
           );
         } else {
-          context.read<ConvertBloc>().add(const ShareRequested());
+          context
+              .read<ConvertBloc>()
+              .add(const ShareRequested(ShareType.socialMedia));
         }
       },
       icon: const Icon(
