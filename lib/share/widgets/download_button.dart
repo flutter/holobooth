@@ -47,10 +47,26 @@ class _DownloadButtonState extends State<DownloadButton> {
                 ),
               ),
             );
-          } else {
+          } else if (convertStatus == ConvertStatus.creatingVideo) {
             context
                 .read<ConvertBloc>()
                 .add(const ShareRequested(ShareType.download));
+          } else {
+            /// Shows error screen
+            showAppDialog<void>(
+              context: context,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: context.read<ConvertBloc>()),
+                ],
+                child: const HoloBoothAlertDialog(
+                  height: 300,
+                  child: ConvertErrorView(
+                    convertErrorOrigin: ConvertErrorOrigin.video,
+                  ),
+                ),
+              ),
+            );
           }
         },
       ),
