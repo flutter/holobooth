@@ -33,6 +33,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     notFoundBg: bucketPathForFile('public/not-found-bg.png'),
     notFoundMobileBg: bucketPathForFile('public/not-found-mobile-bg.png'),
     playerPlay: bucketPathForFile('public/player-play.png'),
+    playerPause: bucketPathForFile('public/player-pause.png'),
     playerVolume: bucketPathForFile('public/player-volume.png'),
     playerFullscreen: bucketPathForFile('public/player-fullscreen.png'),
     close: bucketPathForFile('public/close.png'),
