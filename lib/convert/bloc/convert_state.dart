@@ -4,7 +4,7 @@ class ConvertState extends Equatable {
   const ConvertState({
     this.videoPath = '',
     this.gifPath = '',
-    this.status = ConvertStatus.creatingVideo,
+    this.status = ConvertStatus.loadingFrames,
     this.firstFrameProcessed,
     this.twitterShareUrl = '',
     this.facebookShareUrl = '',

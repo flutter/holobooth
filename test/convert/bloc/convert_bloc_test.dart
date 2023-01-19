@@ -30,62 +30,87 @@ void main() {
       framesAsImages = frames.map((e) => e.image).toList();
     });
 
+    group('GenerateFramesRequested', () {
+      blocTest<ConvertBloc, ConvertState>(
+        'emits ConvertStatus.loadingFrames, and '
+        'ConvertStatus.errorLoadingFrames if processFrames fails',
+        setUp: () {
+          when(() => convertRepository.processFrames(any()))
+              .thenThrow(Exception());
+        },
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(GenerateFramesRequested()),
+        expect: () => [
+          ConvertState(),
+          ConvertState(status: ConvertStatus.errorLoadingFrames, triesCount: 1),
+        ],
+      );
+
+      blocTest<ConvertBloc, ConvertState>(
+        'emits ConvertStatus.loadingFrames, and '
+        'ConvertStatus.loadedFrames if processFrames return frames.',
+        setUp: () {
+          when(() => convertRepository.processFrames(any()))
+              .thenAnswer((invocation) async => [Uint8List(1)]);
+        },
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(GenerateFramesRequested()),
+        expect: () => [
+          ConvertState(),
+          ConvertState(
+            status: ConvertStatus.loadedFrames,
+            firstFrameProcessed: Uint8List(1),
+          ),
+        ],
+      );
+    });
+
     group('GenerateVideoRequested', () {
       const videoUrl = 'test-video-path';
       const gifUrl = 'test-gif-path';
       final firstFrame = Uint8List(1);
 
       blocTest<ConvertBloc, ConvertState>(
-        'emits [creatingVideo, creatingVideo, videoCreated] with frames, '
-        'videoPath and gifPath',
-        setUp: () {
-          when(() => convertRepository.generateVideo(any())).thenAnswer(
-            (_) async => GenerateVideoResponse(
-              videoUrl: videoUrl,
-              gifUrl: gifUrl,
-              firstFrame: firstFrame,
-            ),
-          );
-        },
-        build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(GenerateVideoRequested(frames: frames)),
-        expect: () => [
-          ConvertState(),
-          ConvertState(frames: framesAsImages),
-          ConvertState(
-            status: ConvertStatus.videoCreated,
-            gifPath: gifUrl,
-            videoPath: videoUrl,
-            firstFrameProcessed: firstFrame,
-            frames: framesAsImages,
-          ),
-        ],
+        'emits nothing if maxTriesReached ',
+        seed: () => ConvertState(triesCount: 3),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(GenerateVideoRequested()),
+        expect: () => <ConvertState>[],
       );
 
       blocTest<ConvertBloc, ConvertState>(
         'emits [creatingVideo, error] if generateVideo fails.',
         setUp: () {
-          when(() => convertRepository.generateVideo(any()))
-              .thenThrow(Exception());
+          when(() => convertRepository.generateVideo()).thenThrow(Exception());
         },
-        build: () => ConvertBloc(convertRepository: convertRepository),
-        act: (bloc) => bloc.add(GenerateVideoRequested(frames: frames)),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(GenerateVideoRequested()),
         expect: () => [
-          ConvertState(),
-          ConvertState(frames: framesAsImages),
+          ConvertState(status: ConvertStatus.creatingVideo),
           ConvertState(
             status: ConvertStatus.errorGeneratingVideo,
-            frames: framesAsImages,
             triesCount: 1,
           ),
         ],
       );
 
       blocTest<ConvertBloc, ConvertState>(
-        'emits [creatingVideo, videoCreated] with videoPath and gifPath '
-        'if frames already in the state and no frames passed on the event',
+        'emits [creatingVideo, videoCreated] '
+        'with videoPath and gifPath',
         setUp: () {
-          when(() => convertRepository.generateVideo(any())).thenAnswer(
+          when(() => convertRepository.generateVideo()).thenAnswer(
             (_) async => GenerateVideoResponse(
               videoUrl: videoUrl,
               gifUrl: gifUrl,
@@ -93,20 +118,50 @@ void main() {
             ),
           );
         },
-        seed: () => ConvertState(
-          frames: framesAsImages,
-          status: ConvertStatus.errorGeneratingVideo,
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
         ),
-        build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(GenerateVideoRequested()),
         expect: () => [
-          ConvertState(frames: framesAsImages),
+          ConvertState(status: ConvertStatus.creatingVideo),
           ConvertState(
             status: ConvertStatus.videoCreated,
             gifPath: gifUrl,
             videoPath: videoUrl,
-            firstFrameProcessed: firstFrame,
-            frames: framesAsImages,
+          ),
+        ],
+      );
+
+      blocTest<ConvertBloc, ConvertState>(
+        'emits [creatingVideo, videoCreated] '
+        'with videoPath and gifPath and updating shareStatus '
+        'to ShareStatus.ready if previous was  ShareStatus.waiting',
+        setUp: () {
+          when(() => convertRepository.generateVideo()).thenAnswer(
+            (_) async => GenerateVideoResponse(
+              videoUrl: videoUrl,
+              gifUrl: gifUrl,
+              firstFrame: firstFrame,
+            ),
+          );
+        },
+        seed: () => ConvertState(shareStatus: ShareStatus.waiting),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(GenerateVideoRequested()),
+        expect: () => [
+          ConvertState(
+            status: ConvertStatus.creatingVideo,
+            shareStatus: ShareStatus.waiting,
+          ),
+          ConvertState(
+            status: ConvertStatus.videoCreated,
+            gifPath: gifUrl,
+            videoPath: videoUrl,
+            shareStatus: ShareStatus.ready,
           ),
         ],
       );
@@ -114,39 +169,31 @@ void main() {
       blocTest<ConvertBloc, ConvertState>(
         'emit error state until maxTriesReached if generateVideo fails.',
         setUp: () {
-          when(() => convertRepository.generateVideo(any()))
-              .thenThrow(Exception());
+          when(() => convertRepository.generateVideo()).thenThrow(Exception());
         },
-        build: () => ConvertBloc(convertRepository: convertRepository),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
         act: (bloc) {
           for (var i = 0; i < 3; i++) {
-            bloc.add(GenerateVideoRequested(frames: frames));
+            bloc.add(GenerateVideoRequested());
           }
         },
         expect: () => <ConvertState>[
-          ConvertState(),
-          ConvertState(frames: framesAsImages),
+          ConvertState(status: ConvertStatus.creatingVideo),
           ConvertState(
             status: ConvertStatus.errorGeneratingVideo,
-            frames: framesAsImages,
             triesCount: 1,
           ),
-          ConvertState(
-            frames: framesAsImages,
-            triesCount: 1,
-          ),
+          ConvertState(triesCount: 1, status: ConvertStatus.creatingVideo),
           ConvertState(
             status: ConvertStatus.errorGeneratingVideo,
-            frames: framesAsImages,
             triesCount: 2,
           ),
-          ConvertState(
-            frames: framesAsImages,
-            triesCount: 2,
-          ),
+          ConvertState(triesCount: 2, status: ConvertStatus.creatingVideo),
           ConvertState(
             status: ConvertStatus.errorGeneratingVideo,
-            frames: framesAsImages,
             triesCount: 3,
           ),
         ],
