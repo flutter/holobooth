@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
@@ -8,27 +9,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/share/share.dart';
 
-void main() async {
+void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  // Create a random, yet consistent mock image for the thumb.
-  final random = Random(1);
-  final recorder = PictureRecorder();
-  final canvas = Canvas(recorder);
+  late Uint8List imageBytes;
 
-  for (var y = 0; y < 8; y++) {
-    for (var x = 0; x < 8; x++) {
-      canvas.drawRect(
-        Rect.fromLTWH(x.toDouble(), y.toDouble(), 1, 1),
-        Paint()..color = Colors.accents[random.nextInt(Colors.accents.length)],
-      );
+  setUpAll(() async {
+    // Create a random, yet consistent mock image for the thumb.
+    final random = Random(1);
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+
+    for (var y = 0; y < 8; y++) {
+      for (var x = 0; x < 8; x++) {
+        canvas.drawRect(
+          Rect.fromLTWH(x.toDouble(), y.toDouble(), 1, 1),
+          Paint()
+            ..color = Colors.accents[random.nextInt(Colors.accents.length)],
+        );
+      }
     }
-  }
 
-  final picture = recorder.endRecording();
-  final image = await picture.toImage(8, 8);
-  final byteData = await image.toByteData(format: ImageByteFormat.png);
-  final imageBytes = byteData!.buffer.asUint8List();
+    final picture = recorder.endRecording();
+    final image = await picture.toImage(8, 8);
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    imageBytes = byteData!.buffer.asUint8List();
+  });
 
   group('PortalAnimation', () {
     testWithGame(
