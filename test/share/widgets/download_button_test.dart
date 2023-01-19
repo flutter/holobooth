@@ -19,16 +19,15 @@ void main() {
     late ConvertBloc convertBloc;
     late DownloadBloc downloadBloc;
 
+    const videoPath = 'https://storage/videoPath.mp4';
+
     setUp(() {
       convertBloc = _MockConvertBloc();
-      when(() => convertBloc.state).thenReturn(
-        const ConvertState(videoPath: 'https://storage/videoPath.mp4'),
-      );
+      when(() => convertBloc.state)
+          .thenReturn(ConvertState(videoPath: videoPath));
 
       downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state).thenReturn(
-        const DownloadState.initial(videoPath: 'https://storage/videoPath.mp4'),
-      );
+      when(() => downloadBloc.state).thenReturn(const DownloadState());
     });
 
     testWidgets(
@@ -51,10 +50,7 @@ void main() {
     testWidgets('renders a loading indicator when DownloadStatus.fetching',
         (tester) async {
       when(() => downloadBloc.state).thenReturn(
-        const DownloadState(
-          videoPath: 'https://storage/videoPath.mp4',
-          status: DownloadStatus.fetching,
-        ),
+        const DownloadState(status: DownloadStatus.fetching),
       );
 
       await tester.pumpSubject(
@@ -184,7 +180,8 @@ void main() {
       await tester.tap(find.byType(DownloadAsAGifButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadRequested('gif'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('gif', videoPath)))
+          .called(1);
     });
 
     testWidgets('downloads the mp4 when tapping on DownloadAsAVideoButton',
@@ -202,7 +199,8 @@ void main() {
       await tester.tap(find.byType(DownloadAsAVideoButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadRequested('mp4'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('mp4', videoPath)))
+          .called(1);
     });
   });
 }

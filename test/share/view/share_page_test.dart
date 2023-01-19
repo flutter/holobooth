@@ -53,8 +53,7 @@ void main() {
       ).thenAnswer((_) async => true);
 
       downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state)
-          .thenReturn(const DownloadState.initial(videoPath: ''));
+      when(() => downloadBloc.state).thenReturn(const DownloadState());
     });
 
     setUpAll(() {
