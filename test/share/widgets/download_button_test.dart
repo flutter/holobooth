@@ -19,24 +19,38 @@ void main() {
     late ConvertBloc convertBloc;
     late DownloadBloc downloadBloc;
 
+    const videoPath = 'https://storage/videoPath.mp4';
+
     setUp(() {
       convertBloc = _MockConvertBloc();
-      when(() => convertBloc.state).thenReturn(
-        const ConvertState(videoPath: 'https://storage/videoPath.mp4'),
-      );
+      when(() => convertBloc.state)
+          .thenReturn(ConvertState(videoPath: videoPath));
 
       downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state).thenReturn(
-        const DownloadState.initial(videoPath: 'https://storage/videoPath.mp4'),
-      );
+      when(() => downloadBloc.state).thenReturn(const DownloadState());
     });
 
-    testWidgets('renders a loading indicator when loading', (tester) async {
-      when(() => downloadBloc.state).thenReturn(
-        const DownloadState(
-          videoPath: 'https://storage/videoPath.mp4',
-          status: DownloadStatus.fetching,
+    testWidgets(
+        'renders a loading indicator when '
+        'ShareStatus.waiting and  ShareType.download', (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(
+          shareStatus: ShareStatus.waiting,
+          shareType: ShareType.download,
         ),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('renders a loading indicator when DownloadStatus.fetching',
+        (tester) async {
+      when(() => downloadBloc.state).thenReturn(
+        const DownloadState(status: DownloadStatus.fetching),
       );
 
       await tester.pumpSubject(
@@ -47,7 +61,34 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('opens DownloadOptionDialog on tap', (tester) async {
+    testWidgets(
+        'opens DownloadOptionDialog if '
+        'ShareStatus.ready and ShareType.download', (tester) async {
+      whenListen(
+        convertBloc,
+        Stream.value(
+          ConvertState(
+            shareStatus: ShareStatus.ready,
+            shareType: ShareType.download,
+          ),
+        ),
+        initialState: ConvertState(),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(DownloadOptionDialog), findsOneWidget);
+    });
+
+    testWidgets(
+        'opens DownloadOptionDialog on tap if ConvertStatus.videoCreated',
+        (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.videoCreated),
+      );
       await tester.pumpSubject(
         DownloadButton(),
         convertBloc: convertBloc,
@@ -58,8 +99,43 @@ void main() {
       expect(find.byType(DownloadOptionDialog), findsOneWidget);
     });
 
+    testWidgets(
+        'adds ShareRequested with ShareType.download on tap '
+        'if ConvertStatus.creatingVideo', (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.creatingVideo),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      await tester.tap(find.byType(DownloadButton));
+      verify(() => convertBloc.add(ShareRequested(ShareType.download)))
+          .called(1);
+    });
+
+    testWidgets(
+        'opens ConvertErrorView on tap if ConvertStatus.errorGeneratingVideo',
+        (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.errorGeneratingVideo),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      await tester.tap(find.byType(DownloadButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(ConvertErrorView), findsOneWidget);
+    });
+
     testWidgets('closes DownloadOptionDialog tapping on DownloadAsAGifButton',
         (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.videoCreated),
+      );
       await tester.pumpSubject(
         DownloadButton(),
         convertBloc: convertBloc,
@@ -74,6 +150,9 @@ void main() {
 
     testWidgets('closes DownloadOptionDialog tapping on DownloadAsAVideoButton',
         (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.videoCreated),
+      );
       await tester.pumpSubject(
         DownloadButton(),
         convertBloc: convertBloc,
@@ -88,6 +167,9 @@ void main() {
 
     testWidgets('downloads the gif when tapping on DownloadAsAGifButton',
         (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.videoCreated),
+      );
       await tester.pumpSubject(
         DownloadButton(),
         convertBloc: convertBloc,
@@ -98,11 +180,15 @@ void main() {
       await tester.tap(find.byType(DownloadAsAGifButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadRequested('gif'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('gif', videoPath)))
+          .called(1);
     });
 
     testWidgets('downloads the mp4 when tapping on DownloadAsAVideoButton',
         (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(status: ConvertStatus.videoCreated),
+      );
       await tester.pumpSubject(
         DownloadButton(),
         convertBloc: convertBloc,
@@ -113,7 +199,8 @@ void main() {
       await tester.tap(find.byType(DownloadAsAVideoButton));
       await tester.pumpAndSettle();
 
-      verify(() => downloadBloc.add(DownloadRequested('mp4'))).called(1);
+      verify(() => downloadBloc.add(DownloadRequested('mp4', videoPath)))
+          .called(1);
     });
   });
 }

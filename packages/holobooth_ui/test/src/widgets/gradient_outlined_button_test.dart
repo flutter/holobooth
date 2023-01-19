@@ -4,6 +4,21 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 void main() {
   group('GradientOutlinedButton', () {
+    testWidgets('renders CircularProgressIndicator if loading', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: GradientOutlinedButton(
+            onPressed: () {},
+            icon: const Icon(Icons.abc),
+            label: 'Button',
+            loading: true,
+          ),
+        ),
+      );
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
     testWidgets('renders correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(

@@ -21,13 +21,79 @@ void main() {
     });
 
     testWidgets(
-      'opens ShareDialog on tap',
+      'renders loading indicator if isLoading',
+      (WidgetTester tester) async {
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(
+            shareStatus: ShareStatus.waiting,
+            shareType: ShareType.socialMedia,
+          ),
+        );
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'opens ShareDialog on tap if ConvertStatus.videoCreated',
       (tester) async {
-        final subject = ShareButton();
-        await tester.pumpSubject(subject, convertBloc);
-        await tester.tap(find.byWidget(subject));
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(status: ConvertStatus.videoCreated),
+        );
+
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        await tester.tap(find.byType(ShareButton));
         await tester.pumpAndSettle();
         expect(find.byType(ShareDialog), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'opens ShareDialog if ShareStatus.ready and ShareType.socialMedia',
+      (tester) async {
+        whenListen(
+          convertBloc,
+          Stream.value(
+            ConvertState(
+              shareStatus: ShareStatus.ready,
+              shareType: ShareType.socialMedia,
+            ),
+          ),
+          initialState: ConvertState(),
+        );
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        await tester.pumpAndSettle();
+        expect(find.byType(ShareDialog), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'adds ShareRequested with ShareType.socialMedia on tap '
+      'if ConvertStatus.creatingVideo',
+      (tester) async {
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(status: ConvertStatus.creatingVideo),
+        );
+
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        await tester.tap(find.byType(ShareButton));
+        verify(() => convertBloc.add(ShareRequested(ShareType.socialMedia)))
+            .called(1);
+      },
+    );
+
+    testWidgets(
+      'opens ConvertErrorView on tap '
+      'if ConvertStatus.errorGeneratingVideo',
+      (tester) async {
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(status: ConvertStatus.errorGeneratingVideo),
+        );
+
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        await tester.tap(find.byType(ShareButton));
+        await tester.pumpAndSettle();
+        expect(find.byType(ConvertErrorView), findsOneWidget);
       },
     );
   });

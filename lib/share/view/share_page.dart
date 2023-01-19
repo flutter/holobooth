@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,27 +9,15 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class SharePage extends StatelessWidget {
   const SharePage({
     super.key,
-    required this.firstFrame,
-    required this.videoPath,
     required this.convertBloc,
   });
 
-  final Uint8List firstFrame;
-  final String videoPath;
   final ConvertBloc convertBloc;
 
   static Route<void> route({
-    required Uint8List firstFrame,
-    required String videoPath,
     required ConvertBloc convertBloc,
   }) =>
-      AppPageRoute(
-        builder: (_) => SharePage(
-          firstFrame: firstFrame,
-          videoPath: videoPath,
-          convertBloc: convertBloc,
-        ),
-      );
+      AppPageRoute(builder: (_) => SharePage(convertBloc: convertBloc));
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +26,11 @@ class SharePage extends StatelessWidget {
         BlocProvider.value(value: convertBloc),
         BlocProvider(
           create: (_) => DownloadBloc(
-            videoPath: convertBloc.state.videoPath,
             downloadRepository: context.read<DownloadRepository>(),
           ),
         ),
       ],
-      child: const ShareView(),
+      child: const Scaffold(body: ShareView()),
     );
   }
 }
@@ -55,20 +40,18 @@ class ShareView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ShareBackground()),
-          Positioned.fill(
-            child: Column(
-              children: const [
-                Expanded(child: ShareBody()),
-                FullFooter(),
-              ],
-            ),
+    return Stack(
+      children: [
+        const Positioned.fill(child: ShareBackground()),
+        Positioned.fill(
+          child: Column(
+            children: const [
+              Expanded(child: ShareBody()),
+              FullFooter(),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

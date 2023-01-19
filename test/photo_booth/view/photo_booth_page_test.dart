@@ -1,7 +1,9 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +44,7 @@ class _MockImage extends Mock implements ui.Image {}
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
-class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
-    implements ConvertBloc {}
+class _MockConvertRepository extends Mock implements ConvertRepository {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -56,8 +57,15 @@ void main() {
   late CameraPlatform cameraPlatform;
   late XFile xfile;
   late AudioPlayer audioPlayer;
+  late ConvertRepository convertRepository;
 
-  setUp(() {
+  setUp(() async {
+    final image = await createTestImage(height: 10, width: 10);
+    final bytesImage = await image.toByteData(format: ImageByteFormat.png);
+    final bytes = bytesImage!.buffer.asUint8List();
+    convertRepository = _MockConvertRepository();
+    when(() => convertRepository.processFrames(any()))
+        .thenAnswer((invocation) async => [bytes]);
     xfile = _MockXFile();
     when(() => xfile.path).thenReturn('');
 
@@ -147,7 +155,6 @@ void main() {
 
   group('PhotoBoothView', () {
     late PhotoBoothBloc photoBoothBloc;
-    late ConvertBloc convertBloc;
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late AvatarDetectorBloc avatarDetectorBloc;
 
@@ -165,9 +172,6 @@ void main() {
       when(() => avatarDetectorBloc.state).thenReturn(
         AvatarDetectorState(status: AvatarDetectorStatus.loaded),
       );
-
-      convertBloc = _MockConvertBloc();
-      when(() => convertBloc.state).thenReturn(const ConvertState());
     });
 
     testWidgets('plays audio', (WidgetTester tester) async {
@@ -176,7 +180,7 @@ void main() {
         photoBoothBloc: photoBoothBloc,
         inExperienceSelectionBloc: inExperienceSelectionBloc,
         avatarDetectorBloc: avatarDetectorBloc,
-        convertBloc: convertBloc,
+        convertRepository: convertRepository,
       );
 
       await tester.pump();
@@ -200,7 +204,7 @@ void main() {
           photoBoothBloc: photoBoothBloc,
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
-          convertBloc: convertBloc,
+          convertRepository: convertRepository,
         );
 
         /// Wait for the player to complete
@@ -218,7 +222,7 @@ extension on WidgetTester {
     required PhotoBoothBloc photoBoothBloc,
     required InExperienceSelectionBloc inExperienceSelectionBloc,
     required AvatarDetectorBloc avatarDetectorBloc,
-    required ConvertBloc convertBloc,
+    required ConvertRepository convertRepository,
   }) =>
       pumpApp(
         MultiBlocProvider(
@@ -226,9 +230,9 @@ extension on WidgetTester {
             BlocProvider.value(value: photoBoothBloc),
             BlocProvider.value(value: inExperienceSelectionBloc),
             BlocProvider.value(value: avatarDetectorBloc),
-            BlocProvider.value(value: convertBloc),
           ],
           child: subject,
         ),
+        convertRepository: convertRepository,
       );
 }

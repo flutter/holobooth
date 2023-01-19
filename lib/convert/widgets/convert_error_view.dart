@@ -5,8 +5,15 @@ import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
+enum ConvertErrorOrigin {
+  frames,
+  video,
+}
+
 class ConvertErrorView extends StatelessWidget {
-  const ConvertErrorView({super.key});
+  const ConvertErrorView({super.key, required this.convertErrorOrigin});
+
+  final ConvertErrorOrigin convertErrorOrigin;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +31,11 @@ class ConvertErrorView extends StatelessWidget {
               text: context.l10n.maxRetriesReached,
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
+            )
+          else if (convertErrorOrigin == ConvertErrorOrigin.frames)
+            const SizedBox(
+              width: buttonWidth,
+              child: TryAgainFrameProcessingButton(),
             )
           else
             const SizedBox(
@@ -49,6 +61,22 @@ class TryAgainVideoGenerationButton extends StatelessWidget {
       child: Text(l10n.tryAgainVideoGeneration),
       onPressed: () {
         context.read<ConvertBloc>().add(const GenerateVideoRequested());
+      },
+    );
+  }
+}
+
+@visibleForTesting
+class TryAgainFrameProcessingButton extends StatelessWidget {
+  const TryAgainFrameProcessingButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return GradientElevatedButton(
+      child: Text(l10n.tryAgainVideoGeneration),
+      onPressed: () {
+        context.read<ConvertBloc>().add(const GenerateFramesRequested());
       },
     );
   }
