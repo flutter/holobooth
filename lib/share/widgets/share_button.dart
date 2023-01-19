@@ -30,10 +30,21 @@ class ShareButton extends StatelessWidget {
               child: const ShareDialog(),
             ),
           );
-        } else {
+        } else if (convertStatus == ConvertStatus.creatingVideo) {
           context
               .read<ConvertBloc>()
               .add(const ShareRequested(ShareType.socialMedia));
+        } else {
+          /// Shows error screen
+          await showAppDialog<void>(
+            context: context,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: context.read<ConvertBloc>()),
+              ],
+              child: HoloBoothAlertDialog(child: const ConvertErrorView()),
+            ),
+          );
         }
       },
       icon: const Icon(

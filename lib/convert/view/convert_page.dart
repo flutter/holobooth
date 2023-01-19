@@ -28,17 +28,16 @@ class ConvertPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ConvertBloc(
         convertRepository: context.read<ConvertRepository>(),
+        frames: frames,
       ),
-      child: ConvertView(frames: frames),
+      child: const ConvertView(),
     );
   }
 }
 
 @visibleForTesting
 class ConvertView extends StatefulWidget {
-  const ConvertView({super.key, required this.frames});
-
-  final List<Frame> frames;
+  const ConvertView({super.key});
 
   @override
   State<ConvertView> createState() => _ConvertViewState();
@@ -49,9 +48,7 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context
-          .read<ConvertBloc>()
-          .add(GenerateVideoRequested(frames: widget.frames));
+      context.read<ConvertBloc>().add(const GenerateVideoRequested());
     });
   }
 
@@ -59,11 +56,13 @@ class _ConvertViewState extends State<ConvertView> {
   Widget build(BuildContext context) {
     return BlocListener<ConvertBloc, ConvertState>(
       listener: (context, state) {
-        if (state.status == ConvertStatus.error) {
+        if (state.status == ConvertStatus.error &&
+            state.shareType == ShareType.none) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
-        } else if (state.status == ConvertStatus.loadedFrames) {
+        } else if (state.status == ConvertStatus.loadedFrames &&
+            state.shareType == ShareType.none) {
           final convertBloc = context.read<ConvertBloc>();
           Navigator.of(context).push(SharePage.route(convertBloc: convertBloc));
         }
@@ -109,7 +108,7 @@ class ConvertBody extends StatelessWidget {
               if (state.status == ConvertStatus.error) {
                 return const ConvertErrorView();
               } else {
-                return CreatingVideoView();
+                return const CreatingVideoView();
               }
             },
           ),

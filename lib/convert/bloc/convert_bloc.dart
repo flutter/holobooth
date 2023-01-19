@@ -12,43 +12,39 @@ part 'convert_state.dart';
 class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ConvertBloc({
     required ConvertRepository convertRepository,
+    required List<Frame> frames,
   })  : _convertRepository = convertRepository,
+        _frames = frames,
         super(const ConvertState()) {
     on<GenerateVideoRequested>(_generateVideoRequested);
     on<ShareRequested>(_shareRequested);
   }
 
   final ConvertRepository _convertRepository;
+  final List<Frame> _frames;
 
   Future<void> _generateVideoRequested(
     GenerateVideoRequested event,
     Emitter<ConvertState> emit,
   ) async {
     if (state.maxTriesReached) return;
+
     emit(state.copyWith(status: ConvertStatus.loadingFrames));
-    var framesProcessed = <Uint8List>[];
+
     try {
-      final framesAsImages = event.frames.map((e) => e.image).toList();
-      framesProcessed = await _convertRepository.processFrames(framesAsImages);
+      final framesAsImages = _frames.map((e) => e.image).toList();
+      final framesProcessed =
+          await _convertRepository.processFrames(framesAsImages);
       emit(
         state.copyWith(
           status: ConvertStatus.loadedFrames,
           firstFrameProcessed: framesProcessed.first,
         ),
       );
-    } catch (error, stackTrace) {
-      addError(error, stackTrace);
-      emit(
-        state.copyWith(
-          status: ConvertStatus.error,
-        ),
-      );
-    }
 
-    emit(state.copyWith(status: ConvertStatus.creatingVideo));
+      emit(state.copyWith(status: ConvertStatus.creatingVideo));
 
-    try {
-      final result = await _convertRepository.generateVideo(framesProcessed);
+      final result = await _convertRepository.generateVideo();
       final isWaitingForVideo = state.shareStatus == ShareStatus.waiting;
       emit(
         state.copyWith(

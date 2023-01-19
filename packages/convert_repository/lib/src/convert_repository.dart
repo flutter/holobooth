@@ -80,20 +80,20 @@ class ConvertRepository {
   /// On success, returns the video path from the cloud storage.
   ///
   /// On error it throws a [GenerateVideoException].
-  Future<GenerateVideoResponse> generateVideo(
-    List<Uint8List> processedFrames,
-  ) async {
-    if (processedFrames.isEmpty) {
+  Future<GenerateVideoResponse> generateVideo() async {
+    throw Exception();
+
+    if (_processedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');
     }
 
     try {
       final multipartRequest = _multipartRequestBuilder();
-      for (var index = 0; index < processedFrames.length; index++) {
+      for (var index = 0; index < _processedFrames.length; index++) {
         multipartRequest.files.add(
           MultipartFile.fromBytes(
             'frames',
-            processedFrames[index],
+            _processedFrames[index],
             filename: 'frame_$index.png',
           ),
         );
@@ -105,7 +105,7 @@ class ConvertRepository {
         final json = jsonDecode(rawData) as Map<String, dynamic>;
         final videoResponse = GenerateVideoResponse.fromJson(
           json,
-          processedFrames.first,
+          _processedFrames.first,
         );
         final shareUrl = _getShareUrl(videoResponse.gifUrl);
         final shareText = Uri.encodeComponent('Hey from Social Media!');
