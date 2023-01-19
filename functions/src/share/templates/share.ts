@@ -77,6 +77,9 @@ export default `
           <a href="#" class="player-btn play-button">
             <img src={{assetUrls.playerPlay}} />
           </a>
+          <a href="#" class="player-btn pause-button">
+            <img src={{assetUrls.playerPause}} />
+          </a>
           <span class="time-counter">
             0:02 / 0:05
           </span>

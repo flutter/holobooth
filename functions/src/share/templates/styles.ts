@@ -311,16 +311,27 @@ footer .right a {
   align-items: center;
 }
 
-.video-pop-up-controls .left-side-controls {
-}
-
-.video-pop-up .play-button {
-  margin-right: 22px;
+.video-pop-up .play-button,.video-pop-up .pause-button {
+  margin-right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .video-pop-up .play-button img {
   width: 18px;
   height: 22px;
+}
+
+.video-pop-up .pause-button img {
+  width: 32px;
+  height: 32px;
+}
+
+.video-pop-up .pause-button {
+  display: none;
 }
 
 .video-pop-up .time-counter {
