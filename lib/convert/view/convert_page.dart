@@ -48,7 +48,7 @@ class _ConvertViewState extends State<ConvertView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      context.read<ConvertBloc>().add(const GenerateVideoRequested());
+      context.read<ConvertBloc>().add(const GenerateFramesRequested());
     });
   }
 
@@ -56,14 +56,13 @@ class _ConvertViewState extends State<ConvertView> {
   Widget build(BuildContext context) {
     return BlocListener<ConvertBloc, ConvertState>(
       listener: (context, state) {
-        if (state.status == ConvertStatus.error &&
-            state.shareType == ShareType.none) {
+        if (state.status == ConvertStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
-        } else if (state.status == ConvertStatus.loadedFrames &&
-            state.shareType == ShareType.none) {
-          final convertBloc = context.read<ConvertBloc>();
+        } else if (state.status == ConvertStatus.loadedFrames) {
+          final convertBloc = context.read<ConvertBloc>()
+            ..add(const GenerateVideoRequested());
           Navigator.of(context).push(SharePage.route(convertBloc: convertBloc));
         }
       },

@@ -18,10 +18,27 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
         super(const ConvertState()) {
     on<GenerateVideoRequested>(_generateVideoRequested);
     on<ShareRequested>(_shareRequested);
+    on<GenerateFramesRequested>(_generateFramesRequested);
   }
 
   final ConvertRepository _convertRepository;
   final List<Frame> _frames;
+
+  Future<void> _generateFramesRequested(
+    GenerateFramesRequested event,
+    Emitter<ConvertState> emit,
+  ) async {
+    emit(state.copyWith(status: ConvertStatus.loadingFrames));
+    final framesAsImages = _frames.map((e) => e.image).toList();
+    final framesProcessed =
+        await _convertRepository.processFrames(framesAsImages);
+    emit(
+      state.copyWith(
+        status: ConvertStatus.loadedFrames,
+        firstFrameProcessed: framesProcessed.first,
+      ),
+    );
+  }
 
   Future<void> _generateVideoRequested(
     GenerateVideoRequested event,
@@ -29,19 +46,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   ) async {
     if (state.maxTriesReached) return;
 
-    emit(state.copyWith(status: ConvertStatus.loadingFrames));
-
     try {
-      final framesAsImages = _frames.map((e) => e.image).toList();
-      final framesProcessed =
-          await _convertRepository.processFrames(framesAsImages);
-      emit(
-        state.copyWith(
-          status: ConvertStatus.loadedFrames,
-          firstFrameProcessed: framesProcessed.first,
-        ),
-      );
-
       emit(state.copyWith(status: ConvertStatus.creatingVideo));
 
       final result = await _convertRepository.generateVideo();
