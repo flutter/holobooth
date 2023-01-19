@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
@@ -86,19 +87,22 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
       );
     }
 
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 100),
-      child: child,
-      layoutBuilder: (currentChild, previousChildren) {
-        return Stack(
-          alignment: Alignment.center,
-          fit: StackFit.expand,
-          children: [
-            ...previousChildren,
-            if (currentChild != null) currentChild,
-          ],
-        );
-      },
+    return ColoredBox(
+      color: HoloBoothColors.background,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 100),
+        child: child,
+        layoutBuilder: (currentChild, previousChildren) {
+          return Stack(
+            alignment: Alignment.center,
+            fit: StackFit.expand,
+            children: [
+              ...previousChildren,
+              if (currentChild != null) currentChild,
+            ],
+          );
+        },
+      ),
     );
   }
 }

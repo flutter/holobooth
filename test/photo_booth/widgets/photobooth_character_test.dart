@@ -36,7 +36,7 @@ void main() {
     });
 
     testWidgets(
-      'renders DashCharacterAnimation if dash selected',
+      'renders CharacterAnimation with dash if dash selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state)
             .thenReturn(InExperienceSelectionState());
@@ -47,15 +47,25 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
 
+        await tester
+            .state<PhotoboothCharacterState>(find.byType(PhotoboothCharacter))
+            .charactersReady;
+        await tester.pump();
+
         expect(
-          find.byType(DashCharacterAnimation),
+          find.byWidgetPredicate(
+            (w) =>
+                w is CharacterAnimation &&
+                w.riveCharacter.riveFilePath ==
+                    RiveCharacter.dash().riveFilePath,
+          ),
           findsOneWidget,
         );
       },
     );
 
     testWidgets(
-      'renders SparkyCharacterAnimation if sparky selected',
+      'renders CharacterAnimation with sparky if sparky selected',
       (WidgetTester tester) async {
         when(() => inExperienceSelectionBloc.state).thenReturn(
           InExperienceSelectionState(character: Character.sparky),
@@ -67,8 +77,18 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
 
+        await tester
+            .state<PhotoboothCharacterState>(find.byType(PhotoboothCharacter))
+            .charactersReady;
+        await tester.pump();
+
         expect(
-          find.byType(SparkyCharacterAnimation),
+          find.byWidgetPredicate(
+            (w) =>
+                w is CharacterAnimation &&
+                w.riveCharacter.riveFilePath ==
+                    RiveCharacter.sparky().riveFilePath,
+          ),
           findsOneWidget,
         );
       },
@@ -102,11 +122,14 @@ void main() {
           inExperienceSelectionBloc: inExperienceSelectionBloc,
           avatarDetectorBloc: avatarDetectorBloc,
         );
-        await tester.pumpAndSettle();
+        await tester
+            .state<PhotoboothCharacterState>(find.byType(PhotoboothCharacter))
+            .charactersReady;
+        await tester.pump();
         expect(
           tester
-              .widget<DashCharacterAnimation>(
-                find.byType(DashCharacterAnimation),
+              .widget<CharacterAnimation>(
+                find.byType(CharacterAnimation),
               )
               .avatar,
           equals(avatar1),
@@ -130,8 +153,8 @@ void main() {
         await tester.pumpAndSettle();
         expect(
           tester
-              .widget<DashCharacterAnimation>(
-                find.byType(DashCharacterAnimation),
+              .widget<CharacterAnimation>(
+                find.byType(CharacterAnimation),
               )
               .avatar,
           equals(avatar1),
