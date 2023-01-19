@@ -366,13 +366,13 @@ packages:
     source: hosted
     version: "3.3.16"
   flame:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flame
-      sha256: "7a7db4875d8285234e46fb66920ba31cc53fd61d207340bfd886c43122a4ae06"
+      sha256: "0c55f8d704f09536125c811a19d9aab7407dce245b2bfb507e84296c1c996202"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.6.0"
   flutter:
     dependency: "direct main"
     description: flutter
