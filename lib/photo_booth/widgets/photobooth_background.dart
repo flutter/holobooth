@@ -89,6 +89,16 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),
       child: child,
+      layoutBuilder: (currentChild, previousChildren) {
+        return Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: [
+            ...previousChildren,
+            if (currentChild != null) currentChild,
+          ],
+        );
+      },
     );
   }
 }

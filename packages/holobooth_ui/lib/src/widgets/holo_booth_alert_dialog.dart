@@ -11,6 +11,7 @@ class HoloBoothAlertDialog extends StatelessWidget {
     required this.child,
     this.height,
     this.width,
+    this.borderRadius = 38,
   });
 
   /// Widget wrapped on the dialog.
@@ -22,12 +23,16 @@ class HoloBoothAlertDialog extends StatelessWidget {
   /// Width of the dialog.
   final double? width;
 
+  /// Border radius of the dialog.
+  final double borderRadius;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
       backgroundColor: HoloBoothColors.transparent,
       content: GradientFrame(
+        borderRadius: borderRadius,
         height: height,
         width: width,
         child: child,
