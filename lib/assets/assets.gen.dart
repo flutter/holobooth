@@ -264,6 +264,9 @@ class $AssetsIconsGen {
   AssetGenImage get classicPhotobooth =>
       const AssetGenImage('assets/icons/classic_photobooth.png');
 
+  /// File path: assets/icons/close.png
+  AssetGenImage get close => const AssetGenImage('assets/icons/close.png');
+
   /// File path: assets/icons/close_icon.png
   AssetGenImage get closeIcon =>
       const AssetGenImage('assets/icons/close_icon.png');
@@ -296,9 +299,20 @@ class $AssetsIconsGen {
   AssetGenImage get mediapipeIcon =>
       const AssetGenImage('assets/icons/mediapipe_icon.png');
 
+  /// File path: assets/icons/pause.png
+  AssetGenImage get pause => const AssetGenImage('assets/icons/pause.png');
+
   /// File path: assets/icons/play_icon.png
   AssetGenImage get playIcon =>
       const AssetGenImage('assets/icons/play_icon.png');
+
+  /// File path: assets/icons/player-fullscreen.png
+  AssetGenImage get playerFullscreen =>
+      const AssetGenImage('assets/icons/player-fullscreen.png');
+
+  /// File path: assets/icons/player-play.png
+  AssetGenImage get playerPlay =>
+      const AssetGenImage('assets/icons/player-play.png');
 
   /// File path: assets/icons/recording_button_icon.png
   AssetGenImage get recordingButtonIcon =>
@@ -320,6 +334,7 @@ class $AssetsIconsGen {
   List<AssetGenImage> get values => [
         cameraButtonIcon,
         classicPhotobooth,
+        close,
         closeIcon,
         facebookLogo,
         firebaseIcon,
@@ -328,7 +343,10 @@ class $AssetsIconsGen {
         loadingCircle,
         loadingFinish,
         mediapipeIcon,
+        pause,
         playIcon,
+        playerFullscreen,
+        playerPlay,
         recordingButtonIcon,
         retakeButtonIcon,
         tensorflowIcon,
