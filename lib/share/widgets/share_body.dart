@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -35,6 +37,7 @@ class SmallShareBody extends StatelessWidget {
             child: PortalAnimation(
               mode: PortalMode.portrait,
               imageBytes: thumbnail.buffer.asUint8List(),
+              onComplete: () {},
             ),
           ),
         const SizedBox(height: 48),
@@ -62,10 +65,7 @@ class LargeShareBody extends StatelessWidget {
                       width: 450,
                       height: 450,
                       child: Align(
-                        child: PortalAnimation(
-                          mode: PortalMode.landscape,
-                          imageBytes: thumbnail.buffer.asUint8List(),
-                        ),
+                        child: _PortalAnimation(thumbnail: thumbnail),
                       ),
                     )
                   : const SizedBox(),
@@ -77,6 +77,52 @@ class LargeShareBody extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _PortalAnimation extends StatefulWidget {
+  const _PortalAnimation({
+    required this.thumbnail,
+  });
+
+  final Uint8List thumbnail;
+
+  @override
+  State<_PortalAnimation> createState() => _PortalAnimationState();
+}
+
+class _PortalAnimationState extends State<_PortalAnimation> {
+  var _completed = false;
+  final _key = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = PortalAnimation(
+      key: _key,
+      mode: PortalMode.landscape,
+      imageBytes: widget.thumbnail.buffer.asUint8List(),
+      onComplete: () {
+        setState(() {
+          _completed = true;
+        });
+      },
+    );
+
+    return _completed
+        ? Clickable(
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (_) {
+                  // TODO check if it is loading.
+                  final videoPath = context.read<ConvertBloc>().state.videoPath;
+                  return VideoDialog(videoPath: videoPath);
+                },
+              );
+            },
+            child: animation,
+          )
+        : animation;
   }
 }
 
