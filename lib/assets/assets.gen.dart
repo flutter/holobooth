@@ -48,6 +48,14 @@ class $AssetsAnimationsGen {
   RiveGenImage get dashMobile =>
       const RiveGenImage('assets/animations/dash_mobile.riv');
 
+  /// File path: assets/animations/desktop-portal-spritesheet.png
+  AssetGenImage get desktopPortalSpritesheet =>
+      const AssetGenImage('assets/animations/desktop-portal-spritesheet.png');
+
+  /// File path: assets/animations/mobile-portal-spritesheet.png
+  AssetGenImage get mobilePortalSpritesheet =>
+      const AssetGenImage('assets/animations/mobile-portal-spritesheet.png');
+
   /// File path: assets/animations/sparky_desktop.riv
   RiveGenImage get sparkyDesktop =>
       const RiveGenImage('assets/animations/sparky_desktop.riv');
@@ -57,7 +65,7 @@ class $AssetsAnimationsGen {
       const RiveGenImage('assets/animations/sparky_mobile.riv');
 
   /// List of all assets
-  List<RiveGenImage> get values => [
+  List<dynamic> get values => [
         bg00,
         bg01,
         bg02,
@@ -69,6 +77,8 @@ class $AssetsAnimationsGen {
         bg08,
         dashDesktop,
         dashMobile,
+        desktopPortalSpritesheet,
+        mobilePortalSpritesheet,
         sparkyDesktop,
         sparkyMobile
       ];
