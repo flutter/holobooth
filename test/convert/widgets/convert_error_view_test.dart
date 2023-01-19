@@ -18,7 +18,7 @@ void main() {
     setUp(() {
       convertBloc = _MockConvertBloc();
       when(() => convertBloc.state)
-          .thenReturn(ConvertState(status: ConvertStatus.error));
+          .thenReturn(ConvertState(status: ConvertStatus.errorGeneratingVideo));
     });
 
     testWidgets(
@@ -46,7 +46,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => convertBloc.state).thenReturn(
           ConvertState(
-            status: ConvertStatus.error,
+            status: ConvertStatus.errorGeneratingVideo,
             triesCount: 3,
           ),
         );

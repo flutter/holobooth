@@ -29,15 +29,24 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     Emitter<ConvertState> emit,
   ) async {
     emit(state.copyWith(status: ConvertStatus.loadingFrames));
-    final framesAsImages = _frames.map((e) => e.image).toList();
-    final framesProcessed =
-        await _convertRepository.processFrames(framesAsImages);
-    emit(
-      state.copyWith(
-        status: ConvertStatus.loadedFrames,
-        firstFrameProcessed: framesProcessed.first,
-      ),
-    );
+    try {
+      final framesAsImages = _frames.map((e) => e.image).toList();
+      final framesProcessed =
+          await _convertRepository.processFrames(framesAsImages);
+      emit(
+        state.copyWith(
+          status: ConvertStatus.loadedFrames,
+          firstFrameProcessed: framesProcessed.first,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: ConvertStatus.errorLoadingFrames,
+          triesCount: state.triesCount + 1,
+        ),
+      );
+    }
   }
 
   Future<void> _generateVideoRequested(
@@ -66,7 +75,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
       addError(error, stackTrace);
       emit(
         state.copyWith(
-          status: ConvertStatus.error,
+          status: ConvertStatus.errorGeneratingVideo,
           triesCount: state.triesCount + 1,
         ),
       );

@@ -42,7 +42,12 @@ class ShareButton extends StatelessWidget {
               providers: [
                 BlocProvider.value(value: context.read<ConvertBloc>()),
               ],
-              child: HoloBoothAlertDialog(child: const ConvertErrorView()),
+              child: const HoloBoothAlertDialog(
+                height: 300,
+                child: ConvertErrorView(
+                  convertErrorOrigin: ConvertErrorOrigin.video,
+                ),
+              ),
             ),
           );
         }

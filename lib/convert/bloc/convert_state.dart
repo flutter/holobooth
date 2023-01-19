@@ -66,9 +66,10 @@ class ConvertState extends Equatable {
 enum ConvertStatus {
   loadingFrames,
   loadedFrames,
+  errorLoadingFrames,
   creatingVideo,
   videoCreated,
-  error,
+  errorGeneratingVideo,
 }
 
 enum ShareStatus {

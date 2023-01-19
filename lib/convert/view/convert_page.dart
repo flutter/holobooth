@@ -56,7 +56,7 @@ class _ConvertViewState extends State<ConvertView> {
   Widget build(BuildContext context) {
     return BlocListener<ConvertBloc, ConvertState>(
       listener: (context, state) {
-        if (state.status == ConvertStatus.error) {
+        if (state.status == ConvertStatus.errorLoadingFrames) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.convertErrorMessage)),
           );
@@ -104,11 +104,14 @@ class ConvertBody extends StatelessWidget {
           child: BlocBuilder<ConvertBloc, ConvertState>(
             buildWhen: (previous, current) => previous.status != current.status,
             builder: (context, state) {
-              if (state.status == ConvertStatus.error) {
-                return const ConvertErrorView();
-              } else {
+              if (state.status == ConvertStatus.errorLoadingFrames) {
+                return const ConvertErrorView(
+                  convertErrorOrigin: ConvertErrorOrigin.frames,
+                );
+              } else if (state.status == ConvertStatus.loadingFrames) {
                 return const CreatingVideoView();
               }
+              return const SizedBox();
             },
           ),
         ),

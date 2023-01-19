@@ -74,7 +74,7 @@ void main() {
           ConvertState(),
           ConvertState(frames: framesAsImages),
           ConvertState(
-            status: ConvertStatus.error,
+            status: ConvertStatus.errorGeneratingVideo,
             frames: framesAsImages,
             triesCount: 1,
           ),
@@ -95,7 +95,7 @@ void main() {
         },
         seed: () => ConvertState(
           frames: framesAsImages,
-          status: ConvertStatus.error,
+          status: ConvertStatus.errorGeneratingVideo,
         ),
         build: () => ConvertBloc(convertRepository: convertRepository),
         act: (bloc) => bloc.add(GenerateVideoRequested()),
@@ -127,7 +127,7 @@ void main() {
           ConvertState(),
           ConvertState(frames: framesAsImages),
           ConvertState(
-            status: ConvertStatus.error,
+            status: ConvertStatus.errorGeneratingVideo,
             frames: framesAsImages,
             triesCount: 1,
           ),
@@ -136,7 +136,7 @@ void main() {
             triesCount: 1,
           ),
           ConvertState(
-            status: ConvertStatus.error,
+            status: ConvertStatus.errorGeneratingVideo,
             frames: framesAsImages,
             triesCount: 2,
           ),
@@ -145,7 +145,7 @@ void main() {
             triesCount: 2,
           ),
           ConvertState(
-            status: ConvertStatus.error,
+            status: ConvertStatus.errorGeneratingVideo,
             frames: framesAsImages,
             triesCount: 3,
           ),

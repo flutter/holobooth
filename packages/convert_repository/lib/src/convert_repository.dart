@@ -71,6 +71,7 @@ class ConvertRepository {
 
   Future<List<Uint8List>> processFrames(List<Image> preProcessedFrames) async {
     _processedFrames.clear();
+
     final frames = await _processFrames(preProcessedFrames);
     return frames;
   }
@@ -81,11 +82,11 @@ class ConvertRepository {
   ///
   /// On error it throws a [GenerateVideoException].
   Future<GenerateVideoResponse> generateVideo() async {
-    throw Exception();
-
     if (_processedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');
     }
+
+    throw Exception();
 
     try {
       final multipartRequest = _multipartRequestBuilder();

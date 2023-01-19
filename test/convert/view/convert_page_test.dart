@@ -107,7 +107,7 @@ void main() {
     testWidgets('renders ConvertErrorView on ConvertStatus.error',
         (tester) async {
       when(() => convertBloc.state).thenReturn(
-        ConvertState(status: ConvertStatus.error),
+        ConvertState(status: ConvertStatus.errorGeneratingVideo),
       );
 
       await tester.pumpSubject(
@@ -122,7 +122,7 @@ void main() {
         (tester) async {
       whenListen(
         convertBloc,
-        Stream.value(ConvertState(status: ConvertStatus.error)),
+        Stream.value(ConvertState(status: ConvertStatus.errorGeneratingVideo)),
         initialState: ConvertState(),
       );
 
