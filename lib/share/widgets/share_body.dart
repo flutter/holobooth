@@ -37,7 +37,7 @@ class SmallShareBody extends StatelessWidget {
               imageBytes: thumbnail.buffer.asUint8List(),
             ),
           ),
-          const SizedBox(height: 48),
+        const SizedBox(height: 48),
         const _ShareBodyContent(isSmallScreen: true),
       ],
     );
@@ -59,15 +59,15 @@ class LargeShareBody extends StatelessWidget {
             Expanded(
               child: thumbnail != null
                   ? SizedBox(
-                    width: 450,
-                    height: 450,
-                    child: Align(
-                      child: PortalAnimation(
+                      width: 450,
+                      height: 450,
+                      child: Align(
+                        child: PortalAnimation(
                           mode: PortalMode.landscape,
                           imageBytes: thumbnail.buffer.asUint8List(),
                         ),
-                    ),
-                  )
+                      ),
+                    )
                   : const SizedBox(),
             ),
             const Expanded(
