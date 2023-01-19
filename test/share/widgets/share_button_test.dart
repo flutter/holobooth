@@ -21,6 +21,20 @@ void main() {
     });
 
     testWidgets(
+      'renders loading indicator if isLoading',
+      (WidgetTester tester) async {
+        when(() => convertBloc.state).thenReturn(
+          ConvertState(
+            shareStatus: ShareStatus.waiting,
+            shareType: ShareType.socialMedia,
+          ),
+        );
+        await tester.pumpSubject(ShareButton(), convertBloc);
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'opens ShareDialog on tap if ConvertStatus.videoCreated',
       (tester) async {
         when(() => convertBloc.state).thenReturn(
@@ -29,6 +43,25 @@ void main() {
 
         await tester.pumpSubject(ShareButton(), convertBloc);
         await tester.tap(find.byType(ShareButton));
+        await tester.pumpAndSettle();
+        expect(find.byType(ShareDialog), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'opens ShareDialog if ShareStatus.ready and ShareType.socialMedia',
+      (tester) async {
+        whenListen(
+          convertBloc,
+          Stream.value(
+            ConvertState(
+              shareStatus: ShareStatus.ready,
+              shareType: ShareType.socialMedia,
+            ),
+          ),
+          initialState: ConvertState(),
+        );
+        await tester.pumpSubject(ShareButton(), convertBloc);
         await tester.pumpAndSettle();
         expect(find.byType(ShareDialog), findsOneWidget);
       },

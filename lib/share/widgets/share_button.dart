@@ -11,7 +11,6 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
     final state = context.watch<ConvertBloc>().state;
     final isLoading = state.shareStatus == ShareStatus.waiting &&
         state.shareType == ShareType.socialMedia;

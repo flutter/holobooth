@@ -31,7 +31,25 @@ void main() {
       );
     });
 
-    testWidgets('renders a loading indicator when loading', (tester) async {
+    testWidgets(
+        'renders a loading indicator when '
+        'ShareStatus.waiting and  ShareType.download', (tester) async {
+      when(() => convertBloc.state).thenReturn(
+        ConvertState(
+          shareStatus: ShareStatus.waiting,
+          shareType: ShareType.download,
+        ),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('renders a loading indicator when DownloadStatus.fetching',
+        (tester) async {
       when(() => downloadBloc.state).thenReturn(
         const DownloadState(
           videoPath: 'https://storage/videoPath.mp4',
@@ -45,6 +63,28 @@ void main() {
         downloadBloc: downloadBloc,
       );
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets(
+        'opens DownloadOptionDialog if '
+        'ShareStatus.ready and ShareType.download', (tester) async {
+      whenListen(
+        convertBloc,
+        Stream.value(
+          ConvertState(
+            shareStatus: ShareStatus.ready,
+            shareType: ShareType.download,
+          ),
+        ),
+        initialState: ConvertState(),
+      );
+      await tester.pumpSubject(
+        DownloadButton(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(DownloadOptionDialog), findsOneWidget);
     });
 
     testWidgets(

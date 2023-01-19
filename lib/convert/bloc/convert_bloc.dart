@@ -94,12 +94,6 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           shareType: event.shareType,
         ),
       );
-    } else {
-      emit(
-        state.copyWith(
-          shareStatus: ShareStatus.ready,
-        ),
-      );
     }
   }
 }

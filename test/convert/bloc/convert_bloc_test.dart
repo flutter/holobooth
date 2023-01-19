@@ -197,5 +197,27 @@ void main() {
         ],
       );
     });
+
+    group('ShareRequested', () {
+      blocTest<ConvertBloc, ConvertState>(
+        'emits ShareStatus.waiting and shareType if '
+        'ConvertStatus.creatingVideo',
+        seed: () => ConvertState(
+          status: ConvertStatus.creatingVideo,
+        ),
+        build: () => ConvertBloc(
+          convertRepository: convertRepository,
+          frames: frames,
+        ),
+        act: (bloc) => bloc.add(ShareRequested(ShareType.download)),
+        expect: () => const <ConvertState>[
+          ConvertState(
+            status: ConvertStatus.creatingVideo,
+            shareStatus: ShareStatus.waiting,
+            shareType: ShareType.download,
+          ),
+        ],
+      );
+    });
   });
 }
