@@ -15,15 +15,16 @@ class ConvertRepository {
     required String shareUrl,
     required String assetBucketUrl,
     MultipartRequest Function()? multipartRequestBuilder,
+    List<Uint8List>? processedFrames,
   })  : _shareUrl = shareUrl,
-        _assetBucketUrl = assetBucketUrl {
+        _assetBucketUrl = assetBucketUrl,
+        _processedFrames = processedFrames ?? [] {
     _multipartRequestBuilder = multipartRequestBuilder ??
         () => MultipartRequest('POST', Uri.parse(url));
   }
 
   late final MultipartRequest Function() _multipartRequestBuilder;
-
-  final _processedFrames = <Uint8List>[];
+  final List<Uint8List> _processedFrames;
   final String _shareUrl;
   final String _assetBucketUrl;
 
@@ -38,7 +39,6 @@ class ConvertRepository {
     return bytesImage?.buffer.asUint8List();
   }
 
-  /// Process a list of [Image] and convert them to a list of [Uint8List].
   Future<List<Uint8List>> _processFrames(List<Image> preProcessedFrames) async {
     final bytes = await _getBytesFromImage(
       preProcessedFrames[_processedFrames.length],
@@ -55,18 +55,12 @@ class ConvertRepository {
     return _processedFrames;
   }
 
-  String _getShareUrl(String fullPath) {
-    // TODO(OSCAR): We could do the parsing on the cloud function
-    final assetName = fullPath.replaceAll(_assetBucketUrl, '');
-    return _shareUrl + assetName;
-  }
+  /// Process a list of [Image] and convert them to a list of [Uint8List].
+  Future<List<Uint8List>> processFrames(List<Image> preProcessedFrames) async {
+    _processedFrames.clear();
 
-  String _getTwitterShareUrl(String shareUrl, String shareText) {
-    return 'https://twitter.com/intent/tweet?url=$shareUrl&text=$shareText';
-  }
-
-  String _getFacebookShareUrl(String shareUrl, String shareText) {
-    return 'https://www.facebook.com/sharer.php?u=$shareUrl&quote=$shareText';
+    final frames = await _processFrames(preProcessedFrames);
+    return frames;
   }
 
   /// Converts a list of images to video using firebase functions.
@@ -74,22 +68,18 @@ class ConvertRepository {
   /// On success, returns the video path from the cloud storage.
   ///
   /// On error it throws a [GenerateVideoException].
-  Future<GenerateVideoResponse> generateVideo(
-    List<Image> preProcessedFrames,
-  ) async {
-    if (preProcessedFrames.isEmpty) {
+  Future<GenerateVideoResponse> generateVideo() async {
+    if (_processedFrames.isEmpty) {
       throw const GenerateVideoException('No frames to convert');
     }
 
     try {
-      _processedFrames.clear();
-      final frames = await _processFrames(preProcessedFrames);
       final multipartRequest = _multipartRequestBuilder();
-      for (var index = 0; index < frames.length; index++) {
+      for (var index = 0; index < _processedFrames.length; index++) {
         multipartRequest.files.add(
           MultipartFile.fromBytes(
             'frames',
-            frames[index],
+            _processedFrames[index],
             filename: 'frame_$index.png',
           ),
         );
@@ -101,7 +91,7 @@ class ConvertRepository {
         final json = jsonDecode(rawData) as Map<String, dynamic>;
         final videoResponse = GenerateVideoResponse.fromJson(
           json,
-          frames.first,
+          _processedFrames.first,
         );
         final shareUrl = _getShareUrl(videoResponse.gifUrl);
         final shareText = Uri.encodeComponent('Hey from Social Media!');
@@ -115,5 +105,19 @@ class ConvertRepository {
     } catch (error) {
       throw GenerateVideoException(error.toString());
     }
+  }
+
+  String _getShareUrl(String fullPath) {
+    // TODO(OSCAR): We could do the parsing on the cloud function
+    final assetName = fullPath.replaceAll(_assetBucketUrl, '');
+    return _shareUrl + assetName;
+  }
+
+  String _getTwitterShareUrl(String shareUrl, String shareText) {
+    return 'https://twitter.com/intent/tweet?url=$shareUrl&text=$shareText';
+  }
+
+  String _getFacebookShareUrl(String shareUrl, String shareText) {
+    return 'https://www.facebook.com/sharer.php?u=$shareUrl&quote=$shareText';
   }
 }

@@ -5,52 +5,24 @@ void main() {
   group('DownloadState', () {
     test('can be instantiated', () {
       expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ),
+        DownloadState(),
         isNotNull,
       );
     });
 
     test('supports equality', () {
       expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ),
+        DownloadState(),
         equals(
-          DownloadState(
-            videoPath: '',
-            status: DownloadStatus.idle,
-          ),
+          DownloadState(),
         ),
       );
 
       expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ),
+        DownloadState(),
         isNot(
           equals(
             DownloadState(
-              videoPath: 'a',
-              status: DownloadStatus.idle,
-            ),
-          ),
-        ),
-      );
-
-      expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ),
-        isNot(
-          equals(
-            DownloadState(
-              videoPath: '',
               status: DownloadStatus.fetching,
             ),
           ),
@@ -60,26 +32,16 @@ void main() {
 
     test('copyWith returns a new instance with the updated values', () {
       expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ).copyWith(videoPath: 'a'),
+        DownloadState().copyWith(),
         equals(
-          DownloadState(
-            videoPath: 'a',
-            status: DownloadStatus.idle,
-          ),
+          DownloadState(),
         ),
       );
 
       expect(
-        DownloadState(
-          videoPath: '',
-          status: DownloadStatus.idle,
-        ).copyWith(status: DownloadStatus.fetching),
+        DownloadState().copyWith(status: DownloadStatus.fetching),
         equals(
           DownloadState(
-            videoPath: '',
             status: DownloadStatus.fetching,
           ),
         ),

@@ -33,9 +33,7 @@ void main() {
           .thenReturn(ConvertState(firstFrameProcessed: thumbnail));
 
       downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state).thenReturn(
-        const DownloadState.initial(videoPath: ''),
-      );
+      when(() => downloadBloc.state).thenReturn(const DownloadState());
     });
 
     testWidgets(

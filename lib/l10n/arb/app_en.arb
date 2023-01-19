@@ -158,9 +158,9 @@
   "@convertInfo": {
     "description": "Information displayed on a convert screen"
   },
-  "convertErrorMessage": "Something went wrong converting the video.",
+  "convertErrorMessage": "Something went wrong generating the video.",
   "@convertErrorMessage": {
-    "description": "Information displayed when there is an error converting the video."
+    "description": "Information displayed when there is an error generating the video."
   },
   "getReady": "Get ready",
   "@getReady": {

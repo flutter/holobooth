@@ -4,12 +4,13 @@ class ConvertState extends Equatable {
   const ConvertState({
     this.videoPath = '',
     this.gifPath = '',
-    this.status = ConvertStatus.creatingVideo,
+    this.status = ConvertStatus.loadingFrames,
     this.firstFrameProcessed,
     this.twitterShareUrl = '',
     this.facebookShareUrl = '',
-    this.frames = const [],
     this.triesCount = 0,
+    this.shareStatus = ShareStatus.initial,
+    this.shareType = ShareType.none,
   });
 
   final String videoPath;
@@ -18,8 +19,9 @@ class ConvertState extends Equatable {
   final Uint8List? firstFrameProcessed;
   final String twitterShareUrl;
   final String facebookShareUrl;
-  final List<Image> frames;
   final int triesCount;
+  final ShareStatus shareStatus;
+  final ShareType shareType;
 
   bool get maxTriesReached => triesCount == 3;
 
@@ -30,8 +32,9 @@ class ConvertState extends Equatable {
     Uint8List? firstFrameProcessed,
     String? twitterShareUrl,
     String? facebookShareUrl,
-    List<Image>? frames,
     int? triesCount,
+    ShareStatus? shareStatus,
+    ShareType? shareType,
   }) {
     return ConvertState(
       videoPath: videoPath ?? this.videoPath,
@@ -40,8 +43,9 @@ class ConvertState extends Equatable {
       firstFrameProcessed: firstFrameProcessed ?? this.firstFrameProcessed,
       twitterShareUrl: twitterShareUrl ?? this.twitterShareUrl,
       facebookShareUrl: facebookShareUrl ?? this.facebookShareUrl,
-      frames: frames ?? this.frames,
       triesCount: triesCount ?? this.triesCount,
+      shareStatus: shareStatus ?? this.shareStatus,
+      shareType: shareType ?? this.shareType,
     );
   }
 
@@ -53,13 +57,29 @@ class ConvertState extends Equatable {
         firstFrameProcessed,
         twitterShareUrl,
         facebookShareUrl,
-        frames,
         triesCount,
+        shareStatus,
+        shareType,
       ];
 }
 
 enum ConvertStatus {
+  loadingFrames,
+  loadedFrames,
+  errorLoadingFrames,
   creatingVideo,
   videoCreated,
-  error,
+  errorGeneratingVideo,
+}
+
+enum ShareStatus {
+  initial,
+  waiting,
+  ready,
+}
+
+enum ShareType {
+  none,
+  socialMedia,
+  download,
 }

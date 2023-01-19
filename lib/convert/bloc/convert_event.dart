@@ -5,10 +5,24 @@ abstract class ConvertEvent extends Equatable {
 }
 
 class GenerateVideoRequested extends ConvertEvent {
-  const GenerateVideoRequested({this.frames});
-
-  final List<Frame>? frames;
+  const GenerateVideoRequested();
 
   @override
-  List<Object?> get props => [frames];
+  List<Object?> get props => [];
+}
+
+class GenerateFramesRequested extends ConvertEvent {
+  const GenerateFramesRequested();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ShareRequested extends ConvertEvent {
+  const ShareRequested(this.shareType);
+
+  final ShareType shareType;
+
+  @override
+  List<Object> get props => [shareType];
 }

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,15 +20,11 @@ void main() {
     late StreamedResponse streamedResponse;
     late ui.Image image;
     late List<ui.Image> frames;
+    late List<Uint8List> bytes;
 
-    setUp(() {
+    setUp(() async {
       multipartRequest = _MockMultipartRequest();
-      convertRepository = ConvertRepository(
-        multipartRequestBuilder: () => multipartRequest,
-        url: '',
-        assetBucketUrl: '',
-        shareUrl: '',
-      );
+
       streamedResponse = _MockStreamedResponse();
 
       when(() => multipartRequest.files).thenReturn([]);
@@ -42,6 +39,17 @@ void main() {
         image,
         image,
       ];
+
+      final bytesImage = await image.toByteData(format: ImageByteFormat.png);
+      bytes = [bytesImage!.buffer.asUint8List()];
+
+      convertRepository = ConvertRepository(
+        multipartRequestBuilder: () => multipartRequest,
+        url: '',
+        assetBucketUrl: '',
+        shareUrl: '',
+        processedFrames: bytes,
+      );
     });
 
     test('can be instantiated', () {
@@ -55,30 +63,34 @@ void main() {
       );
     });
 
+    group('processFrames', () {
+      test('does not skip frames during processing', () async {
+        final response = await convertRepository.processFrames(frames);
+        expect(response.length, frames.length);
+      });
+    });
+
     group('generateVideo', () {
-      test('throws exception if multipartRequest not set up', () {
+      test('throws ConvertException on empty frames', () async {
         final repository = ConvertRepository(
           url: 'url',
           assetBucketUrl: '',
           shareUrl: '',
         );
-        expect(repository.generateVideo(frames), throwsException);
-      });
-
-      test('throws ConvertException on empty frames', () async {
         await expectLater(
-          () async => convertRepository.generateVideo([]),
+          () async => repository.generateVideo(),
           throwsA(isA<GenerateVideoException>()),
         );
       });
 
-      test('throws ConvertException if toByteData fails', () async {
-        when(() => image.toByteData(format: ui.ImageByteFormat.png))
-            .thenThrow(Exception());
-        await expectLater(
-          () async => convertRepository.generateVideo([]),
-          throwsA(isA<GenerateVideoException>()),
+      test('throws exception if multipartRequest not set up', () {
+        final repository = ConvertRepository(
+          url: 'url',
+          assetBucketUrl: '',
+          shareUrl: '',
+          processedFrames: bytes,
         );
+        expect(repository.generateVideo(), throwsException);
       });
 
       test('return ConvertResponse with video, gif and first frame', () async {
@@ -88,8 +100,7 @@ void main() {
             '{"video_url": "video", "gif_url": "gif"}'.codeUnits,
           ),
         );
-
-        final response = await convertRepository.generateVideo(frames);
+        final response = await convertRepository.generateVideo();
 
         expect(response.videoUrl, equals('video'));
         expect(response.gifUrl, equals('gif'));
@@ -101,7 +112,7 @@ void main() {
         when(() => streamedResponse.statusCode).thenReturn(1);
 
         await expectLater(
-          () async => convertRepository.generateVideo(frames),
+          () async => convertRepository.generateVideo(),
           throwsA(isA<GenerateVideoException>()),
         );
       });
