@@ -37,8 +37,13 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
           child: ListView.separated(
             key: listviewKey,
             scrollDirection: isSmall ? Axis.horizontal : Axis.vertical,
-            itemCount: Background.values.length,
+            itemCount: Background.values.length + 1,
             itemBuilder: (context, index) {
+              /// Adds an extra separator at the end of the list.
+              if (index == Background.values.length) {
+                return const SizedBox.shrink();
+              }
+
               final background = Background.values[index];
               return Padding(
                 padding: isSmall
