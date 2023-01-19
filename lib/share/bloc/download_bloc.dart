@@ -7,10 +7,9 @@ part 'download_state.dart';
 
 class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
   DownloadBloc({
-    required String videoPath,
     required DownloadRepository downloadRepository,
   })  : _downloadRepository = downloadRepository,
-        super(DownloadState.initial(videoPath: videoPath)) {
+        super(const DownloadState()) {
     on<DownloadRequested>(_onDownloadEvent);
   }
 
@@ -21,9 +20,7 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     Emitter<DownloadState> emit,
   ) async {
     emit(state.copyWith(status: DownloadStatus.fetching));
-
-    final videoHash = state.videoPath.split('/').last.split('.').first;
-
+    final videoHash = event.path.split('/').last.split('.').first;
     final fileName = '$videoHash.${event.extension}';
     final mimeType = event.extension == 'mp4' ? 'video/mp4' : 'image/gif';
     await _downloadRepository.downloadFile(

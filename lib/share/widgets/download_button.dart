@@ -17,6 +17,7 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   void _showDownloadOptionsDialog() {
     final downloadBloc = context.read<DownloadBloc>();
+    final url = context.read<ConvertBloc>().state.videoPath;
     showDialog<void>(
       context: context,
       barrierColor: HoloBoothColors.transparent,
@@ -24,6 +25,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         value: downloadBloc,
         child: DownloadOptionDialog(
           layerLink: layerLink,
+          url: url,
         ),
       ),
     );
@@ -95,9 +97,11 @@ class DownloadOptionDialog extends StatelessWidget {
   const DownloadOptionDialog({
     super.key,
     required this.layerLink,
+    required this.url,
   });
 
   final LayerLink layerLink;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +116,13 @@ class DownloadOptionDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              DownloadAsAGifButton(),
-              DownloadAsAVideoButton(),
+            children: [
+              DownloadAsAGifButton(
+                url: url,
+              ),
+              DownloadAsAVideoButton(
+                url: url,
+              ),
             ],
           ),
         ),
@@ -124,7 +132,9 @@ class DownloadOptionDialog extends StatelessWidget {
 }
 
 class DownloadAsAGifButton extends StatelessWidget {
-  const DownloadAsAGifButton({super.key});
+  const DownloadAsAGifButton({super.key, required this.url});
+
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +144,7 @@ class DownloadAsAGifButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        context.read<DownloadBloc>().add(const DownloadRequested.gif());
+        context.read<DownloadBloc>().add(DownloadRequested.gif(url));
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {
@@ -154,7 +164,9 @@ class DownloadAsAGifButton extends StatelessWidget {
 }
 
 class DownloadAsAVideoButton extends StatelessWidget {
-  const DownloadAsAVideoButton({super.key});
+  const DownloadAsAVideoButton({super.key, required this.url});
+
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +176,7 @@ class DownloadAsAVideoButton extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).pop();
-        context.read<DownloadBloc>().add(const DownloadRequested.video());
+        context.read<DownloadBloc>().add(DownloadRequested.video(url));
       },
       icon: ShaderMask(
         shaderCallback: (bounds) {

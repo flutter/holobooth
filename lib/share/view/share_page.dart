@@ -26,7 +26,6 @@ class SharePage extends StatelessWidget {
         BlocProvider.value(value: convertBloc),
         BlocProvider(
           create: (_) => DownloadBloc(
-            videoPath: convertBloc.state.videoPath,
             downloadRepository: context.read<DownloadRepository>(),
           ),
         ),
