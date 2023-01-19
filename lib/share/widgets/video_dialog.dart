@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:holobooth/share/share.dart';
-import 'package:holobooth_ui/holobooth_ui.dart';
 
 class VideoDialog extends StatefulWidget {
   const VideoDialog({super.key, required this.videoPath});
@@ -18,15 +17,13 @@ class _VideoDialogState extends State<VideoDialog> {
     return AnimatedScale(
       scale: videoInitialized ? 1 : 0,
       duration: const Duration(milliseconds: 400),
-      child: HoloBoothAlertDialog(
-        child: VideoPlayerView(
-          url: widget.videoPath,
-          onInitialized: () {
-            setState(() {
-              videoInitialized = true;
-            });
-          },
-        ),
+      child: VideoPlayerView(
+        url: widget.videoPath,
+        onInitialized: () {
+          setState(() {
+            videoInitialized = true;
+          });
+        },
       ),
     );
   }

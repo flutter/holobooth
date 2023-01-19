@@ -76,6 +76,15 @@ abstract class HoloBoothColors {
 
   /// Dusk color.
   static const Color dusk = Color(0xff676AB6);
+
+  /// Background color for the video player progress bar.
+  static const Color progressBarBackground = Color(0xFF1E1E1E);
+
+  /// Color for the video player progress bar.
+  static const Color progressBarColor = Color(0xFF27F5DD);
+
+  /// Color for the video player close button.
+  static const Color closeIcon = Color(0xFF040522);
 }
 
 /// Defines the gradients for the Holobooth UI.
