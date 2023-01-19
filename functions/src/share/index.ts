@@ -9,7 +9,8 @@ import notFoundTmpl from './templates/notfound';
 import shareTmpl from './templates/share';
 import footerTmpl from './templates/footer';
 import stylesTmpl from './templates/styles';
-import scriptsTmpl from './templates/scripts';
+import videoPlayerControllerTmpl from './templates/video-player-controller';
+import portalAnimationControllerTmpl from './templates/portal-animation-controller';
 import gaTmpl from './templates/ga';
 
 
@@ -37,6 +38,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     playerVolume: bucketPathForFile('public/player-volume.png'),
     playerFullscreen: bucketPathForFile('public/player-fullscreen.png'),
     close: bucketPathForFile('public/close.png'),
+    desktopPortalSpritesheet: bucketPathForFile('public/desktop-portal-spritesheet.png'),
+    mobilePortalSpritesheet: bucketPathForFile('public/mobile-portal-spritesheet.png'),
   },
   meta: {
     title: 'Flutter Forward Holobooth',
@@ -48,7 +51,8 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   },
   ga: gaTmpl,
   styles: '',
-  scripts: '',
+  videoPlayerController: '',
+  portalAnimationController: '',
   footer: '',
 };
 
@@ -76,7 +80,8 @@ function renderTemplate(
   tmpl: string, context: Record<string, string | Record<string, string>>
 ): string {
   context.styles = mustache.render(stylesTmpl, context);
-  context.scripts = mustache.render(scriptsTmpl, context);
+  context.videoPlayerController = mustache.render(videoPlayerControllerTmpl, context);
+  context.portalAnimationController = mustache.render(portalAnimationControllerTmpl, context);
   context.footer = mustache.render(footerTmpl, context);
   return mustache.render(tmpl, context);
 }

@@ -37,6 +37,11 @@ main {
   flex-direction: row;
 }
 
+canvas#portal-animation {
+  width: 100%;
+  height: 100%;
+}
+
 .share-video {
   flex: 1;
   position: relative;
@@ -127,6 +132,7 @@ h2 {
   color: #C0C0C0;
 }
 
+/*
 .card-frame {
   width: 368px;
   height: 467px;
@@ -158,6 +164,7 @@ h2 {
   left: 50%;
   transform: translate(-50%, 0);
 }
+*/
 
 .holocard {
   width: 708px;
@@ -447,6 +454,7 @@ footer .right a {
     height: 464px;
   }
 
+  /*
   .card-frame {
     width: 218px;
     height: 217px;
@@ -464,6 +472,7 @@ footer .right a {
     height: 318px;
     position: absolute;
   }
+  */
 
   .holocard {
     width: 608px;
