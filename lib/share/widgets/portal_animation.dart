@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 import 'package:holobooth/assets/assets.dart';
 
 enum PortalMode {
@@ -48,39 +50,42 @@ class PortalAnimation extends StatelessWidget {
   const PortalAnimation({
     super.key,
     required this.mode,
-    //required this.image,
+    required this.imageBytes,
   });
 
   final PortalMode mode;
 
-  //final Image image;
+  final Uint8List imageBytes;
 
   @override
   Widget build(BuildContext context) {
     return GameWidget(
-      //game: _PortalGame(image),
-      game: _PortalGame(mode: mode),
+      game: PortalGame(
+        mode: mode,
+        imageBytes: imageBytes,
+      ),
     );
   }
 }
 
-class _PortalGame extends FlameGame {
-  //_PortalGame(this.image);
-  _PortalGame({
+@visibleForTesting
+class PortalGame extends FlameGame {
+  PortalGame({
     required this.mode,
+    required this.imageBytes,
   });
 
   final PortalMode mode;
 
-  //final Image image;
+  final Uint8List imageBytes;
 
   @override
   Future<void> onLoad() async {
     final data = mode.data;
     images.prefix = '';
 
-    // TODO receive thumb
-    final thumb = await loadSprite(Assets.backgrounds.bgThumbnail06.path);
+    final image = await decodeImageFromList(imageBytes);
+    final thumb = Sprite(image);
 
     final animation = await loadSpriteAnimation(
       data.texturePath,
@@ -93,34 +98,38 @@ class _PortalGame extends FlameGame {
       ),
     );
 
-    // 100x96
-    // 496x278
-
     final frameComponent = SpriteAnimationComponent(
       animation: animation,
       size: data.textureSize,
+      position: -data.textureSize / 2,
     );
 
     add(frameComponent);
 
     animation.onComplete = () {
       frameComponent.add(
-        _ThumbComponent(
+        ThumbComponent(
           sprite: thumb,
           data: data,
         ),
       );
     };
 
-    camera.zoom = .5;
+    final scaleX = size.x / data.textureSize.x;
+    final scaleY = size.x / data.textureSize.y;
+
+    camera
+      ..zoom = math.min(scaleX, scaleY)
+      ..followVector2(Vector2.zero());
   }
 
   @override
   Color backgroundColor() => Colors.transparent;
 }
 
-class _ThumbComponent extends PositionComponent with HasPaint {
-  _ThumbComponent({
+@visibleForTesting
+class ThumbComponent extends PositionComponent with HasPaint {
+  ThumbComponent({
     required this.sprite,
     required this.data,
   });
@@ -128,6 +137,7 @@ class _ThumbComponent extends PositionComponent with HasPaint {
   final Sprite sprite;
   final PortalModeData data;
   late final Rect clipRect;
+  late final Vector2 renderSize;
 
   @override
   Future<void> onLoad() async {
@@ -147,18 +157,17 @@ class _ThumbComponent extends PositionComponent with HasPaint {
       data.thumbSize.x,
       data.thumbSize.y,
     );
+
+    final rateX = data.thumbSize.x / size.x;
+    final rateY = data.thumbSize.y / size.y;
+
+    final rate = math.max(rateX, rateY);
+
+    renderSize = size * rate;
   }
 
   @override
   void render(Canvas canvas) {
-    final width = data.thumbSize.x > data.thumbSize.y;
-    final spriteValue = width ? size.x : size.y;
-    final frameValue = width ? data.thumbSize.x : data.thumbSize.y;
-
-    final rate = frameValue / spriteValue;
-
-    final renderSize = size * rate;
-
     canvas
       ..save()
       ..clipRect(clipRect);
@@ -166,7 +175,7 @@ class _ThumbComponent extends PositionComponent with HasPaint {
     sprite.render(
       canvas,
       size: renderSize,
-      position: renderSize / 2,
+      position: data.thumbSize / 2,
       anchor: Anchor.center,
       overridePaint: paint,
     );

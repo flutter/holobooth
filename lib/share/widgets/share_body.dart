@@ -27,13 +27,19 @@ class SmallShareBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          if (thumbnail != null) Image.memory(thumbnail.buffer.asUint8List()),
-          const _ShareBodyContent(isSmallScreen: true),
-        ],
-      ),
+    return Column(
+      children: [
+        if (thumbnail != null)
+          SizedBox(
+            height: 450,
+            child: PortalAnimation(
+              mode: PortalMode.portrait,
+              imageBytes: thumbnail.buffer.asUint8List(),
+            ),
+          ),
+          const SizedBox(height: 48),
+        const _ShareBodyContent(isSmallScreen: true),
+      ],
     );
   }
 }
@@ -45,13 +51,23 @@ class LargeShareBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
+
     return Column(
       children: [
         Row(
           children: [
             Expanded(
               child: thumbnail != null
-                  ? Image.memory(thumbnail.buffer.asUint8List())
+                  ? SizedBox(
+                    width: 450,
+                    height: 450,
+                    child: Align(
+                      child: PortalAnimation(
+                          mode: PortalMode.landscape,
+                          imageBytes: thumbnail.buffer.asUint8List(),
+                        ),
+                    ),
+                  )
                   : const SizedBox(),
             ),
             const Expanded(

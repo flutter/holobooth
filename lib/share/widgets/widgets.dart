@@ -1,6 +1,7 @@
 export 'download_button.dart';
 export 'facebook_button.dart';
 export 'play_button.dart';
+export 'portal_animation.dart';
 export 'retake_button.dart';
 export 'share_background.dart';
 export 'share_body.dart';
