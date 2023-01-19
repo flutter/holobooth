@@ -19,6 +19,7 @@ class BackgroundAnimationState extends State<BackgroundAnimation> {
   Widget build(BuildContext context) {
     return RiveAnimation.direct(
       widget.riveFile,
+      key: ValueKey(widget.riveFile),
       fit: BoxFit.cover,
       stateMachines: const ['State Machine 1'],
     );

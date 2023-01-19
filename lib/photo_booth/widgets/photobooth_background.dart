@@ -72,21 +72,23 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
 
     final riveFile = _backgrounds[backgroundSelected];
-
+    final Widget child;
     if (widget.platformHelper.isMobile || riveFile == null) {
-      return Image(
+      child = Image(
         key: Key(backgroundSelected.name),
         image: backgroundSelected.toImageProvider(),
         fit: BoxFit.cover,
       );
+    } else {
+      child = BackgroundAnimation(
+        key: Key(backgroundSelected.name),
+        riveFile: riveFile,
+      );
     }
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      child: BackgroundAnimation(
-        key: Key(backgroundSelected.name),
-        riveFile: riveFile,
-      ),
+      duration: const Duration(milliseconds: 100),
+      child: child,
     );
   }
 }
