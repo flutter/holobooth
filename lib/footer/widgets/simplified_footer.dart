@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
-import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/widgets/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SimplifiedFooter extends StatelessWidget {

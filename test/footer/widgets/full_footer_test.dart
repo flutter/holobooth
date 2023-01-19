@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/widgets/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 import '../../helpers/helpers.dart';
