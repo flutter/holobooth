@@ -26,7 +26,6 @@ class _MockUrlLauncher extends Mock
 void main() {
   group('SharePage', () {
     late Uint8List firstFrame;
-
     late ConvertBloc convertBloc;
     late DownloadBloc downloadBloc;
 
@@ -43,11 +42,7 @@ void main() {
 
     test('is routable', () {
       expect(
-        SharePage.route(
-          firstFrame: firstFrame,
-          videoPath: '',
-          convertBloc: convertBloc,
-        ),
+        SharePage.route(convertBloc: convertBloc),
         isA<AppPageRoute<void>>(),
       );
     });

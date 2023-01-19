@@ -34,8 +34,7 @@ class ShareButton extends StatelessWidget {
           context
               .read<ConvertBloc>()
               .add(const ShareRequested(ShareType.socialMedia));
-        } else {
-          /// Shows error screen
+        } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
           await showAppDialog<void>(
             context: context,
             child: MultiBlocProvider(

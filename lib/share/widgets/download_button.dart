@@ -51,8 +51,7 @@ class _DownloadButtonState extends State<DownloadButton> {
             context
                 .read<ConvertBloc>()
                 .add(const ShareRequested(ShareType.download));
-          } else {
-            /// Shows error screen
+          } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
             showAppDialog<void>(
               context: context,
               child: MultiBlocProvider(

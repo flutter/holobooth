@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
@@ -24,24 +25,27 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('ConvertPage', () {
-    late ui.Image image;
     late List<Frame> frames;
     const totalFrames = 10;
     late ConvertRepository convertRepository;
 
-    setUp(() {
+    setUp(() async {
+      final testImage = await createTestImage(height: 10, width: 10);
+      final bytesImage =
+          await testImage.toByteData(format: ImageByteFormat.png);
+      final bytes = bytesImage!.buffer.asUint8List();
       convertRepository = _MockConvertRepository();
-      when(() => convertRepository.generateVideo(any())).thenAnswer(
+      when(() => convertRepository.generateVideo()).thenAnswer(
         (_) async => GenerateVideoResponse(
           videoUrl: 'videoUrl',
           gifUrl: 'gifUrl',
-          firstFrame: Uint8List(1),
+          firstFrame: bytes,
         ),
       );
-      image = _MockImage();
-      when(() => image.toByteData(format: ui.ImageByteFormat.png))
-          .thenAnswer((_) async => ByteData(1));
-      frames = List.filled(totalFrames, Frame(Duration.zero, image));
+      when(() => convertRepository.processFrames(any()))
+          .thenAnswer((_) async => [bytes]);
+
+      frames = List.filled(totalFrames, Frame(Duration.zero, testImage));
     });
 
     test('is routable', () {
@@ -79,55 +83,37 @@ void main() {
       when(() => convertBloc.state).thenReturn(ConvertState());
 
       await tester.pumpSubject(
-        ConvertView(frames: frames),
+        ConvertView(),
         convertBloc,
       );
 
       expect(find.byType(CreatingVideoView), findsOneWidget);
     });
 
-    testWidgets('renders ConvertFinished ConvertStatus.videoCreated',
+    testWidgets('renders ConvertErrorView on ConvertStatus.errorLoadingFrames',
         (tester) async {
       when(() => convertBloc.state).thenReturn(
-        ConvertState(
-          gifPath: 'not-important',
-          videoPath: 'not-important',
-          status: ConvertStatus.videoCreated,
-        ),
+        ConvertState(status: ConvertStatus.errorLoadingFrames),
       );
 
       await tester.pumpSubject(
-        ConvertView(frames: frames),
-        convertBloc,
-      );
-
-      expect(find.byType(ConvertFinished), findsOneWidget);
-    });
-
-    testWidgets('renders ConvertErrorView on ConvertStatus.error',
-        (tester) async {
-      when(() => convertBloc.state).thenReturn(
-        ConvertState(status: ConvertStatus.errorGeneratingVideo),
-      );
-
-      await tester.pumpSubject(
-        ConvertView(frames: frames),
+        ConvertView(),
         convertBloc,
       );
 
       expect(find.byType(ConvertErrorView), findsOneWidget);
     });
 
-    testWidgets('shows snackbar with error if ConvertStatus.error',
+    testWidgets('shows snackbar with error if ConvertStatus.errorLoadingFrames',
         (tester) async {
       whenListen(
         convertBloc,
-        Stream.value(ConvertState(status: ConvertStatus.errorGeneratingVideo)),
+        Stream.value(ConvertState(status: ConvertStatus.errorLoadingFrames)),
         initialState: ConvertState(),
       );
 
       await tester.pumpSubject(
-        ConvertView(frames: frames),
+        ConvertView(),
         convertBloc,
       );
       await tester.pump(kThemeAnimationDuration);
@@ -136,15 +122,15 @@ void main() {
       expect(find.byType(SnackBar), findsOneWidget);
     });
 
-    testWidgets('adds GenerateVideoRequested after widget has been initialized',
+    testWidgets(
+        'adds GenerateFramesRequested after widget has been initialized',
         (tester) async {
       await tester.pumpSubject(
-        ConvertView(frames: frames),
+        ConvertView(),
         convertBloc,
       );
 
-      verify(() => convertBloc.add(GenerateVideoRequested(frames: frames)))
-          .called(1);
+      verify(() => convertBloc.add(GenerateFramesRequested())).called(1);
     });
   });
 }

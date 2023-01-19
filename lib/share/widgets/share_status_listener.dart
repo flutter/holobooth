@@ -33,6 +33,7 @@ class ShareStatusListener extends StatelessWidget {
               builder: (context) => BlocProvider.value(
                 value: context.read<DownloadBloc>(),
                 child: DownloadOptionDialog(
+                  // TODO(oscar): check this reference.
                   layerLink: LayerLink(),
                 ),
               ),
