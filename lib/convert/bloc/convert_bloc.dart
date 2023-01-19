@@ -39,7 +39,8 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           firstFrameProcessed: framesProcessed.first,
         ),
       );
-    } on Exception catch (e) {
+    } catch (error, stackTrace) {
+      addError(error, stackTrace);
       emit(
         state.copyWith(
           status: ConvertStatus.errorLoadingFrames,

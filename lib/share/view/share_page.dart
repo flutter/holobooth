@@ -41,20 +41,18 @@ class ShareView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShareStatusListener(
-      child: Stack(
-        children: [
-          const Positioned.fill(child: ShareBackground()),
-          Positioned.fill(
-            child: Column(
-              children: const [
-                Expanded(child: ShareBody()),
-                FullFooter(),
-              ],
-            ),
+    return Stack(
+      children: [
+        const Positioned.fill(child: ShareBackground()),
+        Positioned.fill(
+          child: Column(
+            children: const [
+              Expanded(child: ShareBody()),
+              FullFooter(),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

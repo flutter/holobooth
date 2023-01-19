@@ -66,8 +66,6 @@ void main() {
   group('ConvertView', () {
     late ConvertBloc convertBloc;
     late ui.Image image;
-    late List<Frame> frames;
-    const totalFrames = 10;
 
     setUp(() {
       convertBloc = _MockConvertBloc();
@@ -75,7 +73,6 @@ void main() {
       image = _MockImage();
       when(() => image.toByteData(format: ui.ImageByteFormat.png))
           .thenAnswer((_) async => ByteData(1));
-      frames = List.filled(totalFrames, Frame(Duration.zero, image));
     });
 
     testWidgets('renders CreatingVideoView on ConvertStatus.creatingVideo',

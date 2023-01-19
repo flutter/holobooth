@@ -18,7 +18,6 @@ void main() {
     late Image image;
     late List<Frame> frames;
     const totalFrames = 10;
-    late List<Image> framesAsImages;
 
     setUp(() {
       convertRepository = _MockConvertRepository();
@@ -27,7 +26,6 @@ void main() {
           .thenAnswer((_) async => ByteData(1));
 
       frames = List.filled(totalFrames, Frame(Duration.zero, image));
-      framesAsImages = frames.map((e) => e.image).toList();
     });
 
     group('GenerateFramesRequested', () {

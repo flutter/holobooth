@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,19 +22,10 @@ class _MockUrlLauncher extends Mock
 
 void main() {
   group('SharePage', () {
-    late Uint8List firstFrame;
     late ConvertBloc convertBloc;
-    late DownloadBloc downloadBloc;
 
     setUp(() async {
-      final image = await createTestImage(height: 10, width: 10);
-      final bytesImage = await image.toByteData(format: ImageByteFormat.png);
-      firstFrame = bytesImage!.buffer.asUint8List();
       convertBloc = _MockConvertBloc();
-
-      downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state)
-          .thenReturn(const DownloadState.initial(videoPath: ''));
     });
 
     test('is routable', () {

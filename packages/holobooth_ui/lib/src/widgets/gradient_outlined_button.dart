@@ -24,6 +24,7 @@ class GradientOutlinedButton extends StatelessWidget {
   /// The label for the button.
   final String label;
 
+  /// Whether the button has a loading state.
   final bool loading;
 
   @override

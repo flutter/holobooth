@@ -15,6 +15,37 @@ class DownloadButton extends StatefulWidget {
 class _DownloadButtonState extends State<DownloadButton> {
   final layerLink = LayerLink();
 
+  void _showDownloadOptionsDialog() {
+    final downloadBloc = context.read<DownloadBloc>();
+    showDialog<void>(
+      context: context,
+      barrierColor: HoloBoothColors.transparent,
+      builder: (context) => BlocProvider.value(
+        value: downloadBloc,
+        child: DownloadOptionDialog(
+          layerLink: layerLink,
+        ),
+      ),
+    );
+  }
+
+  void _showErrorView() {
+    showAppDialog<void>(
+      context: context,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: context.read<ConvertBloc>()),
+        ],
+        child: const HoloBoothAlertDialog(
+          height: 300,
+          child: ConvertErrorView(
+            convertErrorOrigin: ConvertErrorOrigin.video,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -24,50 +55,37 @@ class _DownloadButtonState extends State<DownloadButton> {
             convertState.shareType == ShareType.download) ||
         downloadState.status == DownloadStatus.fetching;
 
-    return CompositedTransformTarget(
-      link: layerLink,
-      child: GradientOutlinedButton(
-        loading: isLoading,
-        icon: const Icon(
-          Icons.file_download_rounded,
-          color: HoloBoothColors.white,
+    return BlocListener<ConvertBloc, ConvertState>(
+      listenWhen: (previous, current) =>
+          previous.shareStatus != current.shareStatus,
+      listener: (context, state) {
+        if (state.shareStatus == ShareStatus.ready &&
+            state.shareType == ShareType.download) {
+          _showDownloadOptionsDialog();
+        }
+      },
+      child: CompositedTransformTarget(
+        link: layerLink,
+        child: GradientOutlinedButton(
+          loading: isLoading,
+          icon: const Icon(
+            Icons.file_download_rounded,
+            color: HoloBoothColors.white,
+          ),
+          label: l10n.sharePageDownloadButtonText,
+          onPressed: () {
+            final convertStatus = context.read<ConvertBloc>().state.status;
+            if (convertStatus == ConvertStatus.videoCreated) {
+              _showDownloadOptionsDialog();
+            } else if (convertStatus == ConvertStatus.creatingVideo) {
+              context
+                  .read<ConvertBloc>()
+                  .add(const ShareRequested(ShareType.download));
+            } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
+              _showErrorView();
+            }
+          },
         ),
-        label: l10n.sharePageDownloadButtonText,
-        onPressed: () {
-          final downloadBloc = context.read<DownloadBloc>();
-          final convertStatus = context.read<ConvertBloc>().state.status;
-          if (convertStatus == ConvertStatus.videoCreated) {
-            showDialog<void>(
-              context: context,
-              barrierColor: HoloBoothColors.transparent,
-              builder: (context) => BlocProvider.value(
-                value: downloadBloc,
-                child: DownloadOptionDialog(
-                  layerLink: layerLink,
-                ),
-              ),
-            );
-          } else if (convertStatus == ConvertStatus.creatingVideo) {
-            context
-                .read<ConvertBloc>()
-                .add(const ShareRequested(ShareType.download));
-          } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
-            showAppDialog<void>(
-              context: context,
-              child: MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(value: context.read<ConvertBloc>()),
-                ],
-                child: const HoloBoothAlertDialog(
-                  height: 300,
-                  child: ConvertErrorView(
-                    convertErrorOrigin: ConvertErrorOrigin.video,
-                  ),
-                ),
-              ),
-            );
-          }
-        },
       ),
     );
   }

@@ -16,46 +16,64 @@ class ShareButton extends StatelessWidget {
     final isLoading = state.shareStatus == ShareStatus.waiting &&
         state.shareType == ShareType.socialMedia;
 
-    return GradientOutlinedButton(
-      loading: isLoading,
-      onPressed: () async {
-        final convertStatus = context.read<ConvertBloc>().state.status;
-        if (convertStatus == ConvertStatus.videoCreated) {
-          await showAppDialog<void>(
-            context: context,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<ConvertBloc>()),
-              ],
-              child: const ShareDialog(),
+    void showShareDialog() {
+      showAppDialog<void>(
+        context: context,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: context.read<ConvertBloc>()),
+          ],
+          child: const ShareDialog(),
+        ),
+      );
+    }
+
+    void showErrorView() {
+      showAppDialog<void>(
+        context: context,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: context.read<ConvertBloc>()),
+          ],
+          child: const HoloBoothAlertDialog(
+            height: 300,
+            child: ConvertErrorView(
+              convertErrorOrigin: ConvertErrorOrigin.video,
             ),
-          );
-        } else if (convertStatus == ConvertStatus.creatingVideo) {
-          context
-              .read<ConvertBloc>()
-              .add(const ShareRequested(ShareType.socialMedia));
-        } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
-          await showAppDialog<void>(
-            context: context,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: context.read<ConvertBloc>()),
-              ],
-              child: const HoloBoothAlertDialog(
-                height: 300,
-                child: ConvertErrorView(
-                  convertErrorOrigin: ConvertErrorOrigin.video,
-                ),
-              ),
-            ),
-          );
+          ),
+        ),
+      );
+    }
+
+    return BlocListener<ConvertBloc, ConvertState>(
+      listenWhen: (previous, current) =>
+          previous.shareStatus != current.shareStatus,
+      listener: (context, state) {
+        if (state.shareStatus == ShareStatus.ready &&
+            state.shareType == ShareType.socialMedia) {
+          showShareDialog();
         }
       },
-      icon: const Icon(
-        Icons.share,
-        color: HoloBoothColors.white,
+      child: GradientOutlinedButton(
+        loading: isLoading,
+        onPressed: () async {
+          final convertStatus = context.read<ConvertBloc>().state.status;
+          if (convertStatus == ConvertStatus.videoCreated) {
+            showShareDialog();
+          } else if (convertStatus == ConvertStatus.creatingVideo) {
+            context
+                .read<ConvertBloc>()
+                .add(const ShareRequested(ShareType.socialMedia));
+          } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
+            showErrorView();
+          }
+        },
+        icon: const Icon(
+          Icons.share,
+          color: HoloBoothColors.white,
+        ),
+        label: l10n.sharePageShareButtonText,
       ),
-      label: l10n.sharePageShareButtonText,
     );
   }
 }
