@@ -93,7 +93,7 @@ class PortalGame extends FlameGame {
         amount: 90,
         amountPerRow: 10,
         textureSize: data.textureSize,
-        stepTime: .01,
+        stepTime: .05,
         loop: false,
       ),
     );
