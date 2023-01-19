@@ -4,29 +4,36 @@ import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:platform_helper/platform_helper.dart';
+import 'package:rive/rive.dart';
 
-class PhotoboothBackground extends StatelessWidget {
+class PhotoboothBackground extends StatefulWidget {
   PhotoboothBackground({super.key, PlatformHelper? platformHelper})
       : platformHelper = platformHelper ?? PlatformHelper();
 
   final PlatformHelper platformHelper;
 
   @override
-  Widget build(BuildContext context) {
-    final backgroundSelected = context
-        .select((InExperienceSelectionBloc bloc) => bloc.state.background);
+  State<PhotoboothBackground> createState() => _PhotoboothBackgroundState();
+}
 
-    if (platformHelper.isMobile) {
-      return Image(
-        key: Key(backgroundSelected.name),
-        image: backgroundSelected.toImageProvider(),
-        fit: BoxFit.cover,
-      );
+class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
+  final Map<Background, RiveFile> _backgrounds = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!widget.platformHelper.isMobile) {
+      for (final background in Background.values) {
+        loadBackground(background)
+            .then((file) => setState(() => _backgrounds[background] = file));
+      }
     }
+  }
 
-    RiveGenImage riveAsset;
-
-    switch (backgroundSelected) {
+  Future<RiveFile> loadBackground(Background background) async {
+    final RiveGenImage riveAsset;
+    switch (background) {
       case Background.bg0:
         riveAsset = Assets.animations.bg00;
         break;
@@ -55,11 +62,30 @@ class PhotoboothBackground extends StatelessWidget {
         riveAsset = Assets.animations.bg08;
         break;
     }
+
+    return RiveFile.asset(riveAsset.keyName);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundSelected = context
+        .select((InExperienceSelectionBloc bloc) => bloc.state.background);
+
+    final riveFile = _backgrounds[backgroundSelected];
+
+    if (widget.platformHelper.isMobile || riveFile == null) {
+      return Image(
+        key: Key(backgroundSelected.name),
+        image: backgroundSelected.toImageProvider(),
+        fit: BoxFit.cover,
+      );
+    }
+
     return AnimatedSwitcher(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 500),
       child: BackgroundAnimation(
         key: Key(backgroundSelected.name),
-        riveGenImage: riveAsset,
+        riveFile: riveFile,
       ),
     );
   }

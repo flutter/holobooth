@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:holobooth/assets/assets.dart';
+import 'package:rive/rive.dart';
 
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({
     super.key,
-    required this.riveGenImage,
+    required this.riveFile,
   });
 
-  final RiveGenImage riveGenImage;
+  final RiveFile riveFile;
 
   @override
   State<BackgroundAnimation> createState() => BackgroundAnimationState();
@@ -17,7 +17,10 @@ class BackgroundAnimation extends StatefulWidget {
 class BackgroundAnimationState extends State<BackgroundAnimation> {
   @override
   Widget build(BuildContext context) {
-    return widget.riveGenImage
-        .rive(fit: BoxFit.cover, stateMachines: ['State Machine 1']);
+    return RiveAnimation.direct(
+      widget.riveFile,
+      fit: BoxFit.cover,
+      stateMachines: const ['State Machine 1'],
+    );
   }
 }
