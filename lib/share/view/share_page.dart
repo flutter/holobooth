@@ -17,11 +17,7 @@ class SharePage extends StatelessWidget {
   static Route<void> route({
     required ConvertBloc convertBloc,
   }) =>
-      AppPageRoute(
-        builder: (_) => SharePage(
-          convertBloc: convertBloc,
-        ),
-      );
+      AppPageRoute(builder: (_) => SharePage(convertBloc: convertBloc));
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,7 @@ class SharePage extends StatelessWidget {
           ),
         ),
       ],
-      child: const ShareView(),
+      child: const Scaffold(body: ShareView()),
     );
   }
 }
@@ -45,8 +41,8 @@ class ShareView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return ShareStatusListener(
+      child: Stack(
         children: [
           const Positioned.fill(child: ShareBackground()),
           Positioned.fill(
@@ -57,7 +53,6 @@ class ShareView extends StatelessWidget {
               ],
             ),
           ),
-          Positioned.fill(child: ShareStatusListener()),
         ],
       ),
     );

@@ -12,6 +12,7 @@ class GradientOutlinedButton extends StatelessWidget {
     this.onPressed,
     required this.icon,
     required this.label,
+    this.loading = false,
   });
 
   /// Called when the button is pressed.
@@ -23,23 +24,37 @@ class GradientOutlinedButton extends StatelessWidget {
   /// The label for the button.
   final String label;
 
+  final bool loading;
+
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: onPressed,
+      onPressed: loading ? null : onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (icon != null) ...[
-            ShaderMask(
-              shaderCallback: (bounds) {
-                return HoloBoothGradients.secondaryFour
-                    .createShader(Offset.zero & bounds.size);
-              },
-              child: icon,
+          if (loading)
+            const Padding(
+              padding: EdgeInsets.only(right: 19),
+              child: SizedBox(
+                width: 25,
+                height: 25,
+                child: CircularProgressIndicator(
+                  color: HoloBoothColors.convertLoading,
+                ),
+              ),
+            )
+          else if (icon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 19),
+              child: ShaderMask(
+                shaderCallback: (bounds) {
+                  return HoloBoothGradients.secondaryFour
+                      .createShader(Offset.zero & bounds.size);
+                },
+                child: icon,
+              ),
             ),
-            const SizedBox(width: 19),
-          ],
           Text(label),
         ],
       ),

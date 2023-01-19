@@ -12,12 +12,14 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    final state = context.watch<ConvertBloc>().state;
+    final isLoading = state.shareStatus == ShareStatus.waiting;
+
     return GradientOutlinedButton(
+      loading: isLoading,
       onPressed: () async {
         final convertStatus = context.read<ConvertBloc>().state.status;
         if (convertStatus == ConvertStatus.videoCreated) {
-          print('Open share dialog from share button');
-
           await showAppDialog<void>(
             context: context,
             child: MultiBlocProvider(

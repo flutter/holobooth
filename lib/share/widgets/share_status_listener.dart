@@ -5,11 +5,13 @@ import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareStatusListener extends StatelessWidget {
-  const ShareStatusListener({super.key});
+  const ShareStatusListener({super.key, required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ConvertBloc, ConvertState>(
+    return BlocListener<ConvertBloc, ConvertState>(
       listenWhen: (previous, current) =>
           previous.shareStatus != current.shareStatus,
       listener: (context, state) {
@@ -25,18 +27,7 @@ class ShareStatusListener extends StatelessWidget {
           );
         }
       },
-      builder: (context, state) {
-        if (state.shareStatus == ShareStatus.waiting) {
-          return Container(
-            color: Colors.black.withOpacity(0.2),
-            alignment: Alignment.center,
-            child: SizedBox.square(
-                dimension: 50, child: CircularProgressIndicator()),
-          );
-        } else {
-          return SizedBox();
-        }
-      },
+      child: child,
     );
   }
 }
