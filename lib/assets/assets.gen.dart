@@ -40,6 +40,9 @@ class $AssetsAnimationsGen {
   /// File path: assets/animations/bg_08.riv
   RiveGenImage get bg08 => const RiveGenImage('assets/animations/bg_08.riv');
 
+  /// File path: assets/animations/bg_09.riv
+  RiveGenImage get bg09 => const RiveGenImage('assets/animations/bg_09.riv');
+
   /// File path: assets/animations/dash_desktop.riv
   RiveGenImage get dashDesktop =>
       const RiveGenImage('assets/animations/dash_desktop.riv');
@@ -67,6 +70,7 @@ class $AssetsAnimationsGen {
         bg06,
         bg07,
         bg08,
+        bg09,
         dashDesktop,
         dashMobile,
         sparkyDesktop,
@@ -144,6 +148,9 @@ class $AssetsBackgroundsGen {
   /// File path: assets/backgrounds/bg_08.png
   AssetGenImage get bg08 => const AssetGenImage('assets/backgrounds/bg_08.png');
 
+  /// File path: assets/backgrounds/bg_09.png
+  AssetGenImage get bg09 => const AssetGenImage('assets/backgrounds/bg_09.png');
+
   /// File path: assets/backgrounds/bg_thumbnail_00.png
   AssetGenImage get bgThumbnail00 =>
       const AssetGenImage('assets/backgrounds/bg_thumbnail_00.png');
@@ -180,6 +187,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get bgThumbnail08 =>
       const AssetGenImage('assets/backgrounds/bg_thumbnail_08.png');
 
+  /// File path: assets/backgrounds/bg_thumbnail_09.png
+  AssetGenImage get bgThumbnail09 =>
+      const AssetGenImage('assets/backgrounds/bg_thumbnail_09.png');
+
   /// File path: assets/backgrounds/holobooth.png
   AssetGenImage get holobooth =>
       const AssetGenImage('assets/backgrounds/holobooth.png');
@@ -212,6 +223,7 @@ class $AssetsBackgroundsGen {
         bg06,
         bg07,
         bg08,
+        bg09,
         bgThumbnail00,
         bgThumbnail01,
         bgThumbnail02,
@@ -221,6 +233,7 @@ class $AssetsBackgroundsGen {
         bgThumbnail06,
         bgThumbnail07,
         bgThumbnail08,
+        bgThumbnail09,
         holobooth,
         landingBackground,
         loadingBackground,
