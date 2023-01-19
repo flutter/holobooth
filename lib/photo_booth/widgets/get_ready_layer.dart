@@ -12,7 +12,7 @@ class GetReadyLayer extends StatefulWidget {
 
   final VoidCallback onCountdownCompleted;
 
-  static const countdownDuration = Duration(seconds: 1);
+  static const countdownDuration = Duration(seconds: 3);
 
   @override
   State<GetReadyLayer> createState() => _GetReadyLayerState();
