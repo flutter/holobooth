@@ -10,7 +10,8 @@ import 'package:holobooth/assets/assets.dart';
 
 enum PortalMode {
   portrait,
-  landscape;
+  landscape,
+  mobile;
 
   PortalModeData get data {
     switch (this) {
@@ -20,6 +21,8 @@ enum PortalMode {
           textureSize: Vector2(650, 850),
           thumbSize: Vector2(322, 378),
           thumbOffset: Vector2(168, 104),
+          frameAmout: 90,
+          amountPerRow: 10,
         );
       case PortalMode.landscape:
         return PortalModeData(
@@ -27,6 +30,17 @@ enum PortalMode {
           textureSize: Vector2(710, 750),
           thumbSize: Vector2(498, 280),
           thumbOffset: Vector2(100, 96),
+          frameAmout: 90,
+          amountPerRow: 10,
+        );
+      case PortalMode.mobile:
+        return PortalModeData(
+          texturePath: Assets.animations.smallPortalAnimation.path,
+          textureSize: Vector2(325, 425),
+          thumbSize: Vector2(162, 190),
+          thumbOffset: Vector2(84, 52),
+          frameAmout: 72,
+          amountPerRow: 12,
         );
     }
   }
@@ -38,12 +52,16 @@ class PortalModeData {
     required this.textureSize,
     required this.thumbSize,
     required this.thumbOffset,
+    required this.frameAmout,
+    required this.amountPerRow,
   });
 
   final String texturePath;
   final Vector2 textureSize;
   final Vector2 thumbSize;
   final Vector2 thumbOffset;
+  final int frameAmout;
+  final int amountPerRow;
 }
 
 class PortalAnimation extends StatefulWidget {
@@ -102,8 +120,8 @@ class PortalGame extends FlameGame {
     final animation = await loadSpriteAnimation(
       data.texturePath,
       SpriteAnimationData.sequenced(
-        amount: 90,
-        amountPerRow: 10,
+        amount: data.frameAmout,
+        amountPerRow: data.amountPerRow,
         textureSize: data.textureSize,
         stepTime: .05,
         loop: false,
