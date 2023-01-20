@@ -19,7 +19,7 @@ void main() {
     });
 
     test('has an analytics event', () {
-      final blocEvent = DownloadRequested('');
+      final blocEvent = DownloadRequested('', '');
       expect(blocEvent.event, isA<AnalyticsEvent>());
     });
   });

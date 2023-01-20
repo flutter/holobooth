@@ -14,33 +14,28 @@ class AnimojiNextButton extends StatefulWidget {
   State<AnimojiNextButton> createState() => _AnimojiNextButtonState();
 }
 
-class _AnimojiNextButtonState extends State<AnimojiNextButton>
-    with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.buttonPress;
-
-  @override
-  void initState() {
-    super.initState();
-    loadAudio();
-  }
+class _AnimojiNextButtonState extends State<AnimojiNextButton> {
+  final _audioPlayerController = AudioPlayerController();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return GradientElevatedButton(
-      onPressed: () {
-        playAudio();
-        context.read<AnalyticsRepository>().trackEvent(
-              const AnalyticsEvent(
-                category: 'button',
-                action: 'click-start-holobooth',
-                label: 'start-holobooth',
-              ),
-            );
-        Navigator.of(context).push(PhotoBoothPage.route());
-      },
-      child: Text(l10n.nextButtonText),
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.buttonPress,
+      child: GradientElevatedButton(
+        onPressed: () {
+          _audioPlayerController.playAudio();
+          context.read<AnalyticsRepository>().trackEvent(
+                const AnalyticsEvent(
+                  category: 'button',
+                  action: 'click-start-holobooth',
+                  label: 'start-holobooth',
+                ),
+              );
+          Navigator.of(context).push(PhotoBoothPage.route());
+        },
+        child: Text(l10n.nextButtonText),
+      ),
     );
   }
 }
