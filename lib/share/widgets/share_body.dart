@@ -9,6 +9,11 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class ShareBody extends StatelessWidget {
   const ShareBody({super.key});
 
+  @visibleForTesting
+  static const portalVideoButtonKey = Key(
+    'portal_video_button_key',
+  );
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -34,11 +39,7 @@ class SmallShareBody extends StatelessWidget {
         if (thumbnail != null)
           SizedBox(
             height: 450,
-            child: PortalAnimation(
-              mode: PortalMode.portrait,
-              imageBytes: thumbnail.buffer.asUint8List(),
-              onComplete: () {},
-            ),
+            child: _PortalAnimation(thumbnail: thumbnail),
           ),
         const SizedBox(height: 48),
         const _ShareBodyContent(isSmallScreen: true),
@@ -110,13 +111,13 @@ class _PortalAnimationState extends State<_PortalAnimation> {
 
     return _completed
         ? Clickable(
+            key: ShareBody.portalVideoButtonKey,
             onPressed: () {
               showDialog<void>(
                 context: context,
                 builder: (_) {
-                  // TODO check if it is loading.
-                  final videoPath = context.read<ConvertBloc>().state.videoPath;
-                  return VideoDialog(videoPath: videoPath);
+                  final convertBloc = context.read<ConvertBloc>();
+                  return VideoDialogLauncher(convertBloc: convertBloc);
                 },
               );
             },
