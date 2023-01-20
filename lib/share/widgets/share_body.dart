@@ -5,9 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class ShareBody extends StatelessWidget {
-  const ShareBody({super.key});
+  ShareBody({
+    super.key,
+    PlatformHelper? platformHelper,
+  }) : _platformHelper = platformHelper ?? PlatformHelper();
+
+  final PlatformHelper _platformHelper;
 
   @visibleForTesting
   static const portalVideoButtonKey = Key(
@@ -16,11 +22,12 @@ class ShareBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = _platformHelper.isMobile;
     return Align(
       child: SingleChildScrollView(
         child: ResponsiveLayoutBuilder(
-          small: (context, _) => const SmallShareBody(),
-          large: (context, _) => const LargeShareBody(),
+          small: (context, _) => SmallShareBody(isMobile: isMobile),
+          large: (context, _) => LargeShareBody(isMobile: isMobile),
         ),
       ),
     );
@@ -29,17 +36,19 @@ class ShareBody extends StatelessWidget {
 
 @visibleForTesting
 class SmallShareBody extends StatelessWidget {
-  const SmallShareBody({super.key});
+  const SmallShareBody({super.key, required this.isMobile});
+
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
     return Column(
       children: [
-        if (thumbnail != null)
+        if (thumbnail != null && !isMobile)
           SizedBox(
             height: 450,
-            child: _PortalAnimation(
+            child: PortalAnimationView(
               thumbnail: thumbnail,
               mode: PortalMode.portrait,
             ),
@@ -53,7 +62,9 @@ class SmallShareBody extends StatelessWidget {
 
 @visibleForTesting
 class LargeShareBody extends StatelessWidget {
-  const LargeShareBody({super.key});
+  const LargeShareBody({super.key, required this.isMobile});
+
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +76,12 @@ class LargeShareBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: thumbnail != null
+            child: thumbnail != null && !isMobile
                 ? SizedBox(
                     width: 450,
                     height: 450,
                     child: Align(
-                      child: _PortalAnimation(
+                      child: PortalAnimationView(
                         thumbnail: thumbnail,
                         mode: PortalMode.landscape,
                       ),
@@ -87,8 +98,10 @@ class LargeShareBody extends StatelessWidget {
   }
 }
 
-class _PortalAnimation extends StatefulWidget {
-  const _PortalAnimation({
+@visibleForTesting
+class PortalAnimationView extends StatefulWidget {
+  const PortalAnimationView({
+    super.key,
     required this.thumbnail,
     required this.mode,
   });
@@ -97,10 +110,10 @@ class _PortalAnimation extends StatefulWidget {
   final PortalMode mode;
 
   @override
-  State<_PortalAnimation> createState() => _PortalAnimationState();
+  State<PortalAnimationView> createState() => _PortalAnimationViewState();
 }
 
-class _PortalAnimationState extends State<_PortalAnimation> {
+class _PortalAnimationViewState extends State<PortalAnimationView> {
   var _completed = false;
   final _key = GlobalKey();
 
