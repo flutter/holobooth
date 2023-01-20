@@ -294,6 +294,27 @@ void main() {
     );
 
     testWidgets(
+      'renders empty view if the recording has finished',
+      (WidgetTester tester) async {
+        final frame = Frame(Duration.zero, _MockImage());
+        when(() => photoBoothBloc.state)
+            .thenReturn(PhotoBoothState(frames: [frame]));
+        when(() => avatarDetectorBloc.state).thenReturn(
+          AvatarDetectorState(
+            status: AvatarDetectorStatus.estimating,
+          ),
+        );
+        await tester.pumpSubject(
+          PhotoboothBody(),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byKey(PhotoboothBody.emptyViewKey), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'renders HoloBoothCharacterError if recording and avatar not detected',
       (WidgetTester tester) async {
         when(() => photoBoothBloc.state)
