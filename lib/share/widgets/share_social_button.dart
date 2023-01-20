@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:holobooth/share/share.dart';
+import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SmallShareSocialButtons extends StatelessWidget {
   const SmallShareSocialButtons({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isSmall =
+        MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80),
+      padding: EdgeInsets.symmetric(horizontal: isSmall ? 24 : 80),
       child: Column(
         children: const [
           TwitterButton(),

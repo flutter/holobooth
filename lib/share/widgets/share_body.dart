@@ -59,30 +59,30 @@ class LargeShareBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: thumbnail != null
-                  ? SizedBox(
-                      width: 450,
-                      height: 450,
-                      child: Align(
-                        child: _PortalAnimation(
-                          thumbnail: thumbnail,
-                          mode: PortalMode.landscape,
-                        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: thumbnail != null
+                ? SizedBox(
+                    width: 450,
+                    height: 450,
+                    child: Align(
+                      child: _PortalAnimation(
+                        thumbnail: thumbnail,
+                        mode: PortalMode.landscape,
                       ),
-                    )
-                  : const SizedBox(),
-            ),
-            const Expanded(
-              child: _ShareBodyContent(isSmallScreen: false),
-            ),
-          ],
-        ),
-      ],
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+          const Expanded(
+            child: _ShareBodyContent(isSmallScreen: false),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -180,27 +180,23 @@ class _SmallShareBodyButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const buttonHeight = 60.0;
     const buttonWidth = 250.0;
     const buttonSpacing = 24.0;
     return Column(
-      children: const [
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: ShareButton(),
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const ShareButton(),
         ),
-        SizedBox(height: buttonSpacing),
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: DownloadButton(),
+        const SizedBox(height: buttonSpacing),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const DownloadButton(),
         ),
-        SizedBox(height: buttonSpacing),
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: RetakeButton(),
+        const SizedBox(height: buttonSpacing),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const RetakeButton(),
         ),
       ],
     );
