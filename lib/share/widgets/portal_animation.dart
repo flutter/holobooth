@@ -119,8 +119,7 @@ class PortalGame extends FlameGame {
 
     /// Play
 
-    final playImage = await images.load(Assets.icons.playIcon.path);
-    final platImageSprite = Sprite(playImage);
+    final platImageSprite = await loadSprite(Assets.icons.playIcon.path);
 
     animation.onComplete = () {
       onComplete();
