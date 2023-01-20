@@ -82,5 +82,6 @@ extension on WidgetTester {
           providers: [BlocProvider.value(value: bloc)],
           child: Scaffold(body: subject),
         ),
+        // analyticsRepository: _MockAnalyticsRepository(),
       );
 }

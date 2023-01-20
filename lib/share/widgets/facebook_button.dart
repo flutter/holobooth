@@ -1,3 +1,4 @@
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -19,9 +20,15 @@ class FacebookButton extends StatelessWidget {
     return GradientOutlinedButton(
       onPressed: () {
         if (sharingEnabled) {
+          context.read<AnalyticsRepository>().trackEvent(
+                const AnalyticsEvent(
+                  category: 'button',
+                  action: 'click-share-facebook',
+                  label: 'share-facebook',
+                ),
+              );
           final facebookShareUrl =
               context.read<ConvertBloc>().state.facebookShareUrl;
-
           openLink(facebookShareUrl);
         } else {
           ScaffoldMessenger.of(context)
