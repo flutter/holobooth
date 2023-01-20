@@ -39,7 +39,9 @@ main {
 
 .share-video {
   flex: 1;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .info {
@@ -125,38 +127,6 @@ h2 {
   font-size: 12px;
   line-height: 20px;
   color: #C0C0C0;
-}
-
-.card-frame {
-  width: 368px;
-  height: 467px;
-  position: absolute;
-  bottom: 206px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  cursor: pointer;
-}
-
-.card-frame img {
-  width: 100%;
-  position: absolute;
-}
-
-.card-frame .video-clip {
-  height: 318px;
-  width: 286px;
-  top: 48px;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, 0);
-  clip-path: inset(0);
-}
-
-.card-frame .video-clip video {
-  height: 318px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 .holocard {
@@ -445,24 +415,6 @@ footer .right a {
   .share-video {
     margin-top: 32px;
     height: 464px;
-  }
-
-  .card-frame {
-    width: 218px;
-    height: 217px;
-    position: absolute;
-    bottom: 256px;
-  }
-
-  .card-frame .video-clip {
-    height: 218px;
-    width: 186px;
-    top: 14px;
-  }
-
-  .card-frame .video-clip video {
-    height: 318px;
-    position: absolute;
   }
 
   .holocard {
