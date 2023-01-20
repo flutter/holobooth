@@ -97,7 +97,10 @@ class PortalGame extends FlameGame {
     images.prefix = '';
 
     final image = await decodeImageFromList(imageBytes);
+
+    final playIconImage = Assets.icons.playIcon.image();
     final thumb = Sprite(image);
+    final playSprite = Sprite(playIconImage);
 
     final animation = await loadSpriteAnimation(
       data.texturePath,
