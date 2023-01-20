@@ -234,20 +234,4 @@ position = parent.size / 2;
 
   }
 
-  @override
-  void render(Canvas canvas) {
-    canvas
-      ..save()
-      ..clipRect(clipRect);
-
-    sprite.render(
-      canvas,
-      size: Vector2(renderSize.x / 5, renderSize.y / 5),
-      position: data.thumbSize / 2,
-      anchor: Anchor.center,
-      overridePaint: paint,
-    );
-
-    canvas.restore();
-  }
 }
