@@ -31,12 +31,7 @@ export default `
     <div class="backdrop"></div>
     <main>
       <div class="share-video">
-        <img class="holocard" src={{assetUrls.holocard}} />
-        <div class="card-frame">
-          <div class="video-clip">
-            <video src="{{{shareVideoUrl}}}"></video>
-          </div>
-          <img src={{assetUrls.videoFrame}} />
+        <canvas id="portal-animation"></canvas>
         </div>
       </div>
       <div class="info">
@@ -102,7 +97,8 @@ export default `
     </div>
   </body>
   <script type="text/javascript">
-  {{{scripts}}}
+  {{{videoPlayerController}}}
+  {{{portalAnimationController}}}
   </script>
 </html>
 `;
