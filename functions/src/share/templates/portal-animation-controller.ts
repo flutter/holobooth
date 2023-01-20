@@ -1,11 +1,12 @@
 export default `
 (function() {
 
-  function MiniGameLoop(canvas, animation, [frameReference]) {
+  function MiniGameLoop(canvas, container, animation, [frameReference]) {
     let lastUpdated;
     let canvasContext;
     let scale = 1;
     this.objects = [];
+    const landscape = document.body.offsetWidth > document.body.offsetHeight;
 
     this.render = function() {
       this.objects.forEach(function(obj) {
@@ -53,25 +54,38 @@ export default `
       await Promise.all(this.objects.map((o) => o.load(canvas)));
 
       const observer = new ResizeObserver((_) => {
-        this.fitParent();
-        this.calculateZoom();
+        this.fixBounds();
       });
-      observer.observe(canvas);
+      observer.observe(container);
 
       this.update();
     }
 
-    this.fitParent = function() {
-      canvas.style.width ='90%';
-      canvas.style.backgroundColor = 'blue';
+    this.fixBounds = function() {
+      const animationSize = animation.size();
+      const [
+        animationW,
+        animationH,
+      ] = animationSize;
 
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
+      const aspect = animationW / animationH;
+      let canvasW;
+      let canvasH;
 
-    this.calculateZoom = function() {
-      const scaleX = canvas.width / animation.size()[0];
-      const scaleY = canvas.height / animation.size()[1];
+      if (landscape) {
+        canvasW = container.offsetWidth * .75;
+        canvasH = canvasW * aspect;
+      } else {
+        canvasH = container.offsetHeight * .75;
+        canvasW = canvasH * aspect;
+      }
+
+      canvas.width = canvasW;
+      canvas.height = canvasH;
+
+
+      const scaleX = canvas.width / animationW;
+      const scaleY = canvas.height / animationH;
 
       scale = Math.min(scaleX, scaleY);
     }
@@ -240,19 +254,22 @@ export default `
   }
 
   const portalCanvas = document.getElementById('portal-animation');
+  const container = document.querySelector('.share-video');
 
-  const mode = portalMode.landscape;
+  const mode = document.body.offsetWidth > document.body.offsetHeight
+    ? portalMode.landscape
+    : portalMode.portrait;
 
   const animation = new SpriteAnimation({
     texturePath: mode.texturePath,
     textureSize: mode.textureSize,
-    //stepTime: 0.05,
-    stepTime: 0.01,
+    stepTime: 0.05,
     onComplete: onComplete,
   });
 
   const game = new MiniGameLoop(
     portalCanvas,
+    container,
     animation,
     mode.textureSize,
   );

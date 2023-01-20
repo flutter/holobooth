@@ -39,6 +39,9 @@ main {
 
 .share-video {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .info {
