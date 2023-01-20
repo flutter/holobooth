@@ -80,11 +80,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
           builder: (context, constraints) {
             final double characterOffestY;
             if (constraints.maxWidth > HoloboothBreakpoints.medium) {
-              characterOffestY = constraints.maxHeight / 6;
+              characterOffestY = constraints.maxHeight / 5;
             } else if (constraints.maxWidth > HoloboothBreakpoints.small) {
-              characterOffestY = constraints.maxHeight / 10;
+              characterOffestY = constraints.maxHeight / 5;
             } else {
-              characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
+              characterOffestY = -300 + constraints.maxWidth / 6;
             }
 
             return Stack(
