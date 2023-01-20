@@ -255,7 +255,7 @@ class PlayComponent extends PositionComponent with HasPaint {
 
     sprite.render(
       canvas,
-      size: Vector2(50, 50),
+      size: Vector2(renderSize.x / 5, renderSize.y / 5),
       position: data.thumbSize / 2,
       anchor: Anchor.center,
       overridePaint: paint,
