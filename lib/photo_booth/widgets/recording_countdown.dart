@@ -12,7 +12,7 @@ class RecordingCountdown extends StatefulWidget {
 
   final VoidCallback onCountdownCompleted;
 
-  static const shutterCountdownDuration = Duration(seconds: 1);
+  static const shutterCountdownDuration = Duration(seconds: 5);
 
   @override
   State<RecordingCountdown> createState() => _RecordingCountdownState();
