@@ -8,17 +8,30 @@ import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
 class RiveCharacter {
-  RiveCharacter.dash([PlatformHelper? platformHelper])
-      : _riveImageSize = const Size(2400, 2100),
-        riveFilePath = (platformHelper ?? PlatformHelper()).isMobile
-            ? Assets.animations.dashMobile.path
-            : Assets.animations.dashDesktop.path;
+  RiveCharacter._({
+    required this.riveFilePath,
+    required Size riveImageSize,
+  }) : _riveImageSize = riveImageSize;
 
-  RiveCharacter.sparky([PlatformHelper? platformHelper])
-      : _riveImageSize = const Size(2500, 2100),
-        riveFilePath = (platformHelper ?? PlatformHelper()).isMobile
-            ? Assets.animations.sparkyMobile.path
-            : Assets.animations.sparkyDesktop.path;
+  factory RiveCharacter.dash([PlatformHelper? platformHelper]) {
+    final isMobile = (platformHelper ?? PlatformHelper()).isMobile;
+    return RiveCharacter._(
+      riveImageSize: isMobile ? const Size(1250, 1200) : const Size(2500, 2400),
+      riveFilePath: isMobile
+          ? Assets.animations.dashMobile.path
+          : Assets.animations.dashDesktop.path,
+    );
+  }
+
+  factory RiveCharacter.sparky([PlatformHelper? platformHelper]) {
+    final isMobile = (platformHelper ?? PlatformHelper()).isMobile;
+    return RiveCharacter._(
+      riveImageSize: isMobile ? const Size(1400, 1150) : const Size(2800, 2300),
+      riveFilePath: isMobile
+          ? Assets.animations.sparkyMobile.path
+          : Assets.animations.sparkyDesktop.path,
+    );
+  }
 
   @visibleForTesting
   final String riveFilePath;
