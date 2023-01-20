@@ -37,12 +37,12 @@ export default `
       <div class="info">
         <div class="info-content">
           <img class="flutter-forward-logo" src={{assetUrls.flutterForwardLogo}} />
-          <h1>Check it out my Flutter holocard!</h1>
+          <h1>Check out my Flutter holocard!</h1>
           <h2>
-            This video has been created with Flutter web app.
-            Create your unique video in a few steps:
+            This video has been created with Flutter on the web.
+            Create your unique video:
           </h2>
-          <a class="btn elevated-btn try-now-btn" href="http://holobooth.flutter.dev/">
+          <a class="btn elevated-btn try-now-btn" href="https://holobooth.flutter.dev/" target="_blank">
             <img src={{assetUrls.playArrowIcon}} />
             Try now
           </a>
