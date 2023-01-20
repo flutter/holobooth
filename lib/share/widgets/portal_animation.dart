@@ -123,22 +123,15 @@ class PortalGame extends FlameGame {
 
     animation.onComplete = () {
       onComplete();
-      frameComponent
-        ..add(
-          ThumbComponent(
-            sprite: thumb,
-            data: data,
-            children: PlayComponent(
-              sprite: platImageSprite,
-            ),
-          ),
-        )
-        ..add(
-          PlayComponent(
-            sprite: platImageSprite,
-            data: data,
-          ),
-        );
+      frameComponent.add(
+        ThumbComponent(
+          sprite: thumb,
+          data: data,
+          children: [
+            PlayComponent(sprite: platImageSprite),
+          ],
+        ),
+      );
     };
 
     final scaleX = size.x / data.textureSize.x;
@@ -158,6 +151,7 @@ class ThumbComponent extends PositionComponent with HasPaint {
   ThumbComponent({
     required this.sprite,
     required this.data,
+    super.children,
   });
 
   final Sprite sprite;
@@ -167,10 +161,7 @@ class ThumbComponent extends PositionComponent with HasPaint {
 
   @override
   Future<void> onLoad() async {
-    size = Vector2(
-      sprite.image.width.toDouble(),
-      sprite.image.height.toDouble(),
-    );
+    size = data.thumbSize;
 
     position = data.thumbOffset;
 
@@ -184,8 +175,8 @@ class ThumbComponent extends PositionComponent with HasPaint {
       data.thumbSize.y,
     );
 
-    final rateX = data.thumbSize.x / size.x;
-    final rateY = data.thumbSize.y / size.y;
+    final rateX = data.thumbSize.x / sprite.image.width;
+    final rateY = data.thumbSize.y / sprite.image.height;
 
     final rate = math.max(rateX, rateY);
 
@@ -211,22 +202,19 @@ class ThumbComponent extends PositionComponent with HasPaint {
 }
 
 @visibleForTesting
-class PlayComponent extends PositionComponent with HasPaint {
+class PlayComponent extends SpriteComponent with ParentIsA<PositionComponent> {
   PlayComponent({
     required super.sprite,
-    required this.data,
   });
 
   @override
   Future<void> onLoad() async {
     size = Vector2(
-      sprite.image.width.toDouble(),
-      sprite.image.height.toDouble(),
+      50,
+      50,
     );
 
-anchor = Anchor.center;
-position = parent.size / 2;
-
+    anchor = Anchor.center;
+    position = parent.size / 2;
   }
-
 }
