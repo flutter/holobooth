@@ -6,12 +6,14 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -39,6 +41,13 @@ class _MockAvatarDetectorBloc
 class _MockExporter extends Mock implements Exporter {}
 
 class _MockImage extends Mock implements ui.Image {}
+
+class _FakePlatformHelper extends Fake implements PlatformHelper {
+  _FakePlatformHelper({required this.isMobile});
+
+  @override
+  final bool isMobile;
+}
 
 void main() {
   group('PhotoboothBody', () {
@@ -227,6 +236,40 @@ void main() {
           avatarDetectorBloc: avatarDetectorBloc,
         );
         expect(find.byType(PhotoboothCharacter), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders MuteButton on a small display size',
+      (WidgetTester tester) async {
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
+
+        await tester.pumpSubject(
+          PhotoboothBody(
+            platformHelper: _FakePlatformHelper(isMobile: false),
+          ),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(MuteButton), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'renders MuteButton on mobile for a small display size',
+      (WidgetTester tester) async {
+        tester.setDisplaySize(Size(HoloboothBreakpoints.small, 800));
+
+        await tester.pumpSubject(
+          PhotoboothBody(
+            platformHelper: _FakePlatformHelper(isMobile: true),
+          ),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+        );
+        expect(find.byType(MuteButton), findsNothing);
       },
     );
 

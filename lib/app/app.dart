@@ -4,6 +4,7 @@ import 'package:convert_repository/convert_repository.dart';
 import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
@@ -31,11 +32,14 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: convertRepository),
         RepositoryProvider.value(value: downloadRepository),
       ],
-      child: AnimatedFadeIn(
-        child: ResponsiveLayoutBuilder(
-          small: (_, __) => _AppView(theme: HoloboothTheme.small),
-          medium: (_, __) => _AppView(theme: HoloboothTheme.medium),
-          large: (_, __) => _AppView(theme: HoloboothTheme.standard),
+      child: BlocProvider(
+        create: (context) => MuteSoundBloc(),
+        child: AnimatedFadeIn(
+          child: ResponsiveLayoutBuilder(
+            small: (_, __) => _AppView(theme: HoloboothTheme.small),
+            medium: (_, __) => _AppView(theme: HoloboothTheme.medium),
+            large: (_, __) => _AppView(theme: HoloboothTheme.standard),
+          ),
         ),
       ),
     );
