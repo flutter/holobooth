@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
-import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -33,19 +32,19 @@ void main() {
       expect(widget.sprites.asset, equals('holobooth_avatar.png'));
     });
 
-    testWidgets('renders next button', (tester) async {
+    testWidgets('renders AnimojiNextButton', (tester) async {
       await tester.pumpApp(const AnimojiIntroView());
-      expect(find.byType(NextButton), findsOneWidget);
+      expect(find.byType(AnimojiNextButton), findsOneWidget);
     });
 
-    testWidgets('tapping on next button navigates to PhotoBoothPage',
+    testWidgets('tapping on AnimojiNextButton navigates to PhotoBoothPage',
         (tester) async {
       await tester.pumpApp(const AnimojiIntroView());
-      await tester.ensureVisible(find.byType(NextButton));
+      await tester.ensureVisible(find.byType(AnimojiNextButton));
       await tester.pump();
       await tester.tap(
         find.byType(
-          NextButton,
+          AnimojiNextButton,
           skipOffstage: false,
         ),
       );

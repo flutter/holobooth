@@ -76,8 +76,8 @@ class _ConvertViewState extends State<ConvertView> {
             ),
             Positioned.fill(
               child: Column(
-                children: const [
-                  Expanded(child: ConvertBody()),
+                children: [
+                  const Expanded(child: ConvertBody()),
                   FullFooter(),
                 ],
               ),

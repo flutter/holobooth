@@ -102,9 +102,6 @@ class $AssetsAudioGen {
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
 
-  /// File path: assets/audio/loading_finished.mp3
-  String get loadingFinished => 'assets/audio/loading_finished.mp3';
-
   /// File path: assets/audio/tab_click.mp3
   String get tabClick => 'assets/audio/tab_click.mp3';
 
@@ -115,7 +112,6 @@ class $AssetsAudioGen {
         experienceAmbient,
         faceNotDetected,
         loading,
-        loadingFinished,
         tabClick
       ];
 }

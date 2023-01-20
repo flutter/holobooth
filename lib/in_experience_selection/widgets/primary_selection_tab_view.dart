@@ -1,3 +1,4 @@
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -24,12 +25,10 @@ class PrimarySelectionView extends StatefulWidget {
 }
 
 class _PrimarySelectionViewState extends State<PrimarySelectionView>
-    with TickerProviderStateMixin, AudioPlayerMixin {
+    with TickerProviderStateMixin {
+  final _audioPlayerController = AudioPlayerController();
   late final TabController _tabController;
   late int _indexSelected;
-
-  @override
-  String get audioAssetPath => Assets.audio.tabClick;
 
   @override
   void initState() {
@@ -48,7 +47,6 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
         _indexSelected = _tabController.index;
       });
     });
-    loadAudio();
   }
 
   @override
@@ -62,74 +60,100 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
     final isSmall =
         MediaQuery.of(context).size.width <= HoloboothBreakpoints.small;
     const buttonPadding = EdgeInsets.only(left: 15, right: 15, bottom: 15);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(12).copyWith(bottom: isSmall ? 12 : 24),
-          child: TabBar(
-            onTap: (_) {
-              playAudio();
-            },
-            controller: _tabController,
-            tabs: const [
-              PrimarySelectionTab(
-                iconData: Icons.face,
-              ),
-              PrimarySelectionTab(
-                iconData: Icons.wallpaper,
-              ),
-              PrimarySelectionTab(
-                iconData: Icons.color_lens,
-              ),
-            ],
-          ),
-        ),
-        if (!widget.collapsed)
-          Expanded(
-            child: TabBarView(
-              key: PrimarySelectionView.primaryTabBarViewKey,
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.tabClick,
+      controller: _audioPlayerController,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.all(12).copyWith(bottom: isSmall ? 12 : 24),
+            child: TabBar(
+              onTap: (_) {
+                _audioPlayerController.playAudio();
+              },
               controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                CharacterSelectionTabBarView(),
-                BackgroundSelectionTabBarView(),
-                PropsSelectionTabBarView(),
+              tabs: const [
+                PrimarySelectionTab(
+                  iconData: Icons.face,
+                ),
+                PrimarySelectionTab(
+                  iconData: Icons.wallpaper,
+                ),
+                PrimarySelectionTab(
+                  iconData: Icons.color_lens,
+                ),
               ],
             ),
           ),
-        if (_indexSelected == 0)
-          Padding(
-            padding: buttonPadding,
-            child: NextButton(
-              key: const Key('primarySelection_nextButton_character'),
-              onNextPressed: () {
-                _tabController.animateTo(1);
-              },
+          if (!widget.collapsed)
+            Expanded(
+              child: TabBarView(
+                key: PrimarySelectionView.primaryTabBarViewKey,
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  CharacterSelectionTabBarView(),
+                  BackgroundSelectionTabBarView(),
+                  PropsSelectionTabBarView(),
+                ],
+              ),
             ),
-          ),
-        if (_indexSelected == 1)
-          Padding(
-            padding: buttonPadding,
-            child: NextButton(
-              key: const Key('primarySelection_nextButton_background'),
-              onNextPressed: () {
-                _tabController.animateTo(2);
-              },
+          if (_indexSelected == 0)
+            Padding(
+              padding: buttonPadding,
+              child: NextButton(
+                key: const Key('primarySelection_nextButton_character'),
+                onNextPressed: () {
+                  context.read<AnalyticsRepository>().trackEvent(
+                        const AnalyticsEvent(
+                          category: 'button',
+                          action: 'click-next',
+                          label: 'next-from-characters',
+                        ),
+                      );
+                  _tabController.animateTo(1);
+                },
+              ),
             ),
-          ),
-        if (_indexSelected == 2)
-          Padding(
-            padding: buttonPadding,
-            child: RecordingButton(
-              onRecordingPressed: () {
-                context
-                    .read<PhotoBoothBloc>()
-                    .add(const PhotoBoothGetReadyStarted());
-              },
+          if (_indexSelected == 1)
+            Padding(
+              padding: buttonPadding,
+              child: NextButton(
+                key: const Key('primarySelection_nextButton_background'),
+                onNextPressed: () {
+                  context.read<AnalyticsRepository>().trackEvent(
+                        const AnalyticsEvent(
+                          category: 'button',
+                          action: 'click-next',
+                          label: 'next-from-background',
+                        ),
+                      );
+                  _tabController.animateTo(2);
+                },
+              ),
             ),
-          ),
-      ],
+          if (_indexSelected == 2)
+            Padding(
+              padding: buttonPadding,
+              child: RecordingButton(
+                onRecordingPressed: () {
+                  context.read<AnalyticsRepository>().trackEvent(
+                        const AnalyticsEvent(
+                          category: 'button',
+                          action: 'click-recording',
+                          label: 'start-recording',
+                        ),
+                      );
+                  context
+                      .read<PhotoBoothBloc>()
+                      .add(const PhotoBoothGetReadyStarted());
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

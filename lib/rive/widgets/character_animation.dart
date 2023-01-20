@@ -7,38 +7,30 @@ import 'package:holobooth/rive/rive.dart';
 import 'package:platform_helper/platform_helper.dart';
 import 'package:rive/rive.dart';
 
-class DashCharacterAnimation extends CharacterAnimation {
-  DashCharacterAnimation({
-    super.key,
-    required super.avatar,
-    required super.hat,
-    required super.glasses,
-    required super.clothes,
-    required super.handheldlLeft,
-    PlatformHelper? platformHelper,
-  }) : super(
-          riveGenImage: (platformHelper ?? PlatformHelper()).isMobile
-              ? Assets.animations.dashMobile
-              : Assets.animations.dashDesktop,
-          riveImageSize: const Size(2400, 2100),
-        );
-}
+class RiveCharacter {
+  RiveCharacter.dash([PlatformHelper? platformHelper])
+      : _riveImageSize = const Size(2400, 2100),
+        riveFilePath = (platformHelper ?? PlatformHelper()).isMobile
+            ? Assets.animations.dashMobile.path
+            : Assets.animations.dashDesktop.path;
 
-class SparkyCharacterAnimation extends CharacterAnimation {
-  SparkyCharacterAnimation({
-    super.key,
-    required super.avatar,
-    required super.hat,
-    required super.glasses,
-    required super.clothes,
-    required super.handheldlLeft,
-    PlatformHelper? platformHelper,
-  }) : super(
-          riveGenImage: (platformHelper ?? PlatformHelper()).isMobile
-              ? Assets.animations.sparkyMobile
-              : Assets.animations.sparkyDesktop,
-          riveImageSize: const Size(2500, 2100),
-        );
+  RiveCharacter.sparky([PlatformHelper? platformHelper])
+      : _riveImageSize = const Size(2500, 2100),
+        riveFilePath = (platformHelper ?? PlatformHelper()).isMobile
+            ? Assets.animations.sparkyMobile.path
+            : Assets.animations.sparkyDesktop.path;
+
+  @visibleForTesting
+  final String riveFilePath;
+  @visibleForTesting
+  RiveFile? riveFile;
+  final Size _riveImageSize;
+
+  bool get isLoaded => riveFile != null;
+
+  Future<void> load() async {
+    riveFile = await RiveFile.asset(riveFilePath);
+  }
 }
 
 @visibleForTesting
@@ -50,8 +42,7 @@ class CharacterAnimation extends StatefulWidget {
     required this.glasses,
     required this.clothes,
     required this.handheldlLeft,
-    required this.riveGenImage,
-    required this.riveImageSize,
+    required this.riveCharacter,
   });
 
   final Avatar avatar;
@@ -68,11 +59,8 @@ class CharacterAnimation extends StatefulWidget {
   /// The left handheld item the character should hold.
   final HandheldlLeft handheldlLeft;
 
-  /// The character's [RiveGenImage].
-  final RiveGenImage riveGenImage;
-
-  /// The size of the character's [RiveGenImage].
-  final Size riveImageSize;
+  /// The character's [RiveCharacter].
+  final RiveCharacter riveCharacter;
 
   @override
   State<CharacterAnimation> createState() => CharacterAnimationState();
@@ -123,35 +111,21 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @visibleForTesting
   CharacterStateMachineController? characterController;
 
-  late final AnimationController _rotationAnimationController =
-      AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 50),
-  );
+  bool _ready = false;
+
+  late final AnimationController _rotationAnimationController;
   final Tween<Vector3> _rotationTween =
       Tween(begin: Vector3.zero, end: Vector3.zero);
 
-  late final AnimationController _leftEyeAnimationController =
-      AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 150),
-  );
+  late final AnimationController _leftEyeAnimationController;
   final Tween<double> _leftEyeTween = Tween(begin: 0, end: 0);
   DateTime? _leftEyeClosureTimestamp;
 
-  late final AnimationController _rightEyeAnimationController =
-      AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 150),
-  );
+  late final AnimationController _rightEyeAnimationController;
   final Tween<double> _rightEyeTween = Tween(begin: 0, end: 0);
   DateTime? _rightEyeClosureTimestamp;
 
-  late final AnimationController _mouthAnimationController =
-      AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 50),
-  );
+  late final AnimationController _mouthAnimationController;
   final Tween<double> _mouthTween = Tween(begin: 0, end: 0);
 
   late double _scale;
@@ -163,6 +137,10 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
     _leftEyeAnimationController.addListener(_controlLeftEye);
     _rightEyeAnimationController.addListener(_controlRightEye);
     _mouthAnimationController.addListener(_controlMouth);
+
+    setState(() {
+      _ready = true;
+    });
   }
 
   void _controlDashRotation() {
@@ -203,6 +181,23 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   void initState() {
     super.initState();
     _scale = widget.avatar.distance.normalize(fromMax: 1, toMin: 0.8, toMax: 5);
+
+    _rotationAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 50),
+    );
+    _leftEyeAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _rightEyeAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _mouthAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 50),
+    );
   }
 
   @override
@@ -361,15 +356,22 @@ class CharacterAnimationState<T extends CharacterAnimation> extends State<T>
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: widget.riveImageSize.aspectRatio,
+      aspectRatio: widget.riveCharacter._riveImageSize.aspectRatio,
       child: AnimatedScale(
         scale: _scale,
         alignment: const Alignment(0, 5 / 6),
         duration: const Duration(milliseconds: 400),
-        child: widget.riveGenImage.rive(
-          onInit: onRiveInit,
-          fit: BoxFit.cover,
-        ),
+        child: widget.riveCharacter.isLoaded
+            ? AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: _ready ? 1 : 0,
+                child: RiveAnimation.direct(
+                  widget.riveCharacter.riveFile!,
+                  onInit: onRiveInit,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : const SizedBox.shrink(key: Key('characterAnimation_placeholder')),
       ),
     );
   }

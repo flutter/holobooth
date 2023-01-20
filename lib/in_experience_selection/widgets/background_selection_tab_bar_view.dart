@@ -58,8 +58,8 @@ class BackgroundSelectionTabBarView extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder: (context, index) => const SizedBox.square(
-              dimension: 32,
+            separatorBuilder: (context, index) => SizedBox.square(
+              dimension: isSmall ? 8 : 16,
             ),
           ),
         ),

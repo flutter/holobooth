@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -6,6 +8,11 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareBody extends StatelessWidget {
   const ShareBody({super.key});
+
+  @visibleForTesting
+  static const portalVideoButtonKey = Key(
+    'portal_video_button_key',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +39,9 @@ class SmallShareBody extends StatelessWidget {
         if (thumbnail != null)
           SizedBox(
             height: 450,
-            child: PortalAnimation(
+            child: _PortalAnimation(
+              thumbnail: thumbnail,
               mode: PortalMode.portrait,
-              imageBytes: thumbnail.buffer.asUint8List(),
             ),
           ),
         const SizedBox(height: 48),
@@ -52,31 +59,79 @@ class LargeShareBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: thumbnail != null
-                  ? SizedBox(
-                      width: 450,
-                      height: 450,
-                      child: Align(
-                        child: PortalAnimation(
-                          mode: PortalMode.landscape,
-                          imageBytes: thumbnail.buffer.asUint8List(),
-                        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: thumbnail != null
+                ? SizedBox(
+                    width: 450,
+                    height: 450,
+                    child: Align(
+                      child: _PortalAnimation(
+                        thumbnail: thumbnail,
+                        mode: PortalMode.landscape,
                       ),
-                    )
-                  : const SizedBox(),
-            ),
-            const Expanded(
-              child: _ShareBodyContent(isSmallScreen: false),
-            ),
-          ],
-        ),
-      ],
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+          const Expanded(
+            child: _ShareBodyContent(isSmallScreen: false),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+class _PortalAnimation extends StatefulWidget {
+  const _PortalAnimation({
+    required this.thumbnail,
+    required this.mode,
+  });
+
+  final Uint8List thumbnail;
+  final PortalMode mode;
+
+  @override
+  State<_PortalAnimation> createState() => _PortalAnimationState();
+}
+
+class _PortalAnimationState extends State<_PortalAnimation> {
+  var _completed = false;
+  final _key = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = PortalAnimation(
+      key: _key,
+      mode: widget.mode,
+      imageBytes: widget.thumbnail.buffer.asUint8List(),
+      onComplete: () {
+        setState(() {
+          _completed = true;
+        });
+      },
+    );
+
+    return _completed
+        ? Clickable(
+            key: ShareBody.portalVideoButtonKey,
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (_) {
+                  final convertBloc = context.read<ConvertBloc>();
+                  return VideoDialogLauncher(convertBloc: convertBloc);
+                },
+              );
+            },
+            child: animation,
+          )
+        : animation;
   }
 }
 
@@ -125,27 +180,23 @@ class _SmallShareBodyButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const buttonHeight = 60.0;
     const buttonWidth = 250.0;
     const buttonSpacing = 24.0;
     return Column(
-      children: const [
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: ShareButton(),
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const ShareButton(),
         ),
-        SizedBox(height: buttonSpacing),
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: DownloadButton(),
+        const SizedBox(height: buttonSpacing),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const DownloadButton(),
         ),
-        SizedBox(height: buttonSpacing),
-        SizedBox(
-          width: buttonWidth,
-          height: buttonHeight,
-          child: RetakeButton(),
+        const SizedBox(height: buttonSpacing),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: buttonWidth),
+          child: const RetakeButton(),
         ),
       ],
     );

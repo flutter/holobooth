@@ -1,0 +1,13 @@
+name: analytics_repository
+
+on:
+  pull_request:
+    paths:
+      - "packages/analytics_repository/**"
+      - ".github/workflows/analytics_repository.yaml"
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    with:
+      working_directory: packages/analytics_repository
