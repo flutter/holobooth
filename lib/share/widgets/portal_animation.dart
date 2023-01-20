@@ -213,7 +213,7 @@ class ThumbComponent extends PositionComponent with HasPaint {
 @visibleForTesting
 class PlayComponent extends PositionComponent with HasPaint {
   PlayComponent({
-    required this.sprite,
+    required super.sprite,
     required this.data,
   });
 
