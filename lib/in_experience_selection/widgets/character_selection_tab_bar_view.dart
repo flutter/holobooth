@@ -59,13 +59,13 @@ class _CharacterSelectionElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: 135,
+      height: 135,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected ? null : HoloBoothColors.darkBlue,
-        gradient: isSelected ? HoloBoothGradients.secondarySix : null,
+        gradient: isSelected ? HoloBoothGradients.secondaryOne : null,
       ),
       child: DecoratedBox(
         decoration: const BoxDecoration(
