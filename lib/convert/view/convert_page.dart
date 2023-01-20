@@ -9,6 +9,12 @@ import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
+@visibleForTesting
+typedef PrecacheImageFn = Future<void> Function(
+  ImageProvider provider,
+  BuildContext context,
+);
+
 class ConvertPage extends StatelessWidget {
   const ConvertPage({
     required this.frames,
@@ -37,7 +43,12 @@ class ConvertPage extends StatelessWidget {
 
 @visibleForTesting
 class ConvertView extends StatefulWidget {
-  const ConvertView({super.key});
+  const ConvertView({
+    super.key,
+    this.precacheImageFn = precacheImage,
+  });
+
+  final PrecacheImageFn precacheImageFn;
 
   @override
   State<ConvertView> createState() => _ConvertViewState();
@@ -49,6 +60,10 @@ class _ConvertViewState extends State<ConvertView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<ConvertBloc>().add(const GenerateFramesRequested());
+      await widget.precacheImageFn(
+        Assets.backgrounds.shareBackground.provider(),
+        context,
+      );
     });
   }
 

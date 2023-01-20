@@ -213,6 +213,50 @@ void main() {
         expect(find.byType(ConvertPage), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'precaches loading background when recording starts',
+      (tester) async {
+        ImageProvider? cachedImage;
+        Future<void> precacheImageFn(
+          ImageProvider provider,
+          BuildContext context,
+        ) async {
+          cachedImage = provider;
+        }
+
+        whenListen(
+          photoBoothBloc,
+          Stream.value(
+            PhotoBoothState(isRecording: true),
+          ),
+        );
+
+        await tester.pumpSubject(
+          PhotoBoothView(
+            precacheImageFn: precacheImageFn,
+          ),
+          photoBoothBloc: photoBoothBloc,
+          inExperienceSelectionBloc: inExperienceSelectionBloc,
+          avatarDetectorBloc: avatarDetectorBloc,
+          convertRepository: convertRepository,
+        );
+
+        await tester.pump();
+
+        expect(
+          (cachedImage! as AssetImage).keyName,
+          Assets.backgrounds.loadingBackground.keyName,
+        );
+      },
+    );
+
+    testWidgets('uses precacheImage function by default', (tester) async {
+      expect(
+        PhotoBoothView().precacheImageFn,
+        precacheImage,
+      );
+    });
   });
 }
 

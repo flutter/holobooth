@@ -5,8 +5,10 @@ import 'dart:ui';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -128,6 +130,37 @@ void main() {
       );
 
       verify(() => convertBloc.add(GenerateFramesRequested())).called(1);
+    });
+
+    testWidgets(
+        'precaches the share background after widget has been initialized',
+        (tester) async {
+      ImageProvider? cachedImage;
+      Future<void> precacheImageFn(
+        ImageProvider provider,
+        BuildContext context,
+      ) async {
+        cachedImage = provider;
+      }
+
+      await tester.pumpSubject(
+        ConvertView(
+          precacheImageFn: precacheImageFn,
+        ),
+        convertBloc,
+      );
+
+      expect(
+        (cachedImage! as AssetImage).keyName,
+        Assets.backgrounds.shareBackground.keyName,
+      );
+    });
+
+    testWidgets('uses precacheImage function by default', (tester) async {
+      expect(
+        ConvertView().precacheImageFn,
+        precacheImage,
+      );
     });
   });
 }
