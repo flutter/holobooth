@@ -94,7 +94,10 @@ class ConvertRepository {
           _processedFrames.first,
         );
         final shareUrl = _getShareUrl(videoResponse.gifUrl);
-        final shareText = Uri.encodeComponent('Hey from Social Media!');
+        final shareText = Uri.encodeComponent(
+          'A new reality awaits in the #FlutterHolobooth. '
+          'See you at #FlutterForward!',
+        );
         return videoResponse.copyWith(
           twitterShareUrl: _getTwitterShareUrl(shareUrl, shareText),
           facebookShareUrl: _getFacebookShareUrl(shareUrl, shareText),
