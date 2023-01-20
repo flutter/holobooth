@@ -70,6 +70,20 @@ void main() {
     );
 
     testWidgets(
+      'renders PortalAnimationView on SmallShareBody if desktop',
+      (WidgetTester tester) async {
+        tester.setSmallDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(false);
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'renders LargeShareBody in large layout',
       (WidgetTester tester) async {
         tester.setLargeDisplaySize();
@@ -94,6 +108,21 @@ void main() {
           downloadBloc: downloadBloc,
         );
         expect(find.byType(PortalAnimationView), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'renders PortalAnimationView on LargeShareBody if desktop',
+      (WidgetTester tester) async {
+        tester.setLargeDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsOneWidget);
       },
     );
 
