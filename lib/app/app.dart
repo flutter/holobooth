@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
-import 'package:holobooth/landing/view/landing_page.dart';
+import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class App extends StatelessWidget {
