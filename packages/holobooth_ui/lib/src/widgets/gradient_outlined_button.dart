@@ -56,7 +56,12 @@ class GradientOutlinedButton extends StatelessWidget {
                 child: icon,
               ),
             ),
-          Text(label),
+          Text(
+            label,
+            textHeightBehavior: const TextHeightBehavior(
+              applyHeightToFirstAscent: false,
+            ),
+          ),
         ],
       ),
     );

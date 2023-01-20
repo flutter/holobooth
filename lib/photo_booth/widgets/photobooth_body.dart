@@ -72,8 +72,10 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double characterOffestY;
-        if (constraints.maxWidth > HoloboothBreakpoints.small) {
+        if (constraints.maxWidth > HoloboothBreakpoints.medium) {
           characterOffestY = constraints.maxHeight / 6;
+        } else if (constraints.maxWidth > HoloboothBreakpoints.small) {
+          characterOffestY = constraints.maxHeight / 10;
         } else {
           characterOffestY = -300 + constraints.maxWidth / 1.15 / 6;
         }
@@ -123,8 +125,13 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 if (state.isRecording) {
                   return Align(
                     alignment: Alignment.bottomCenter,
-                    child: RecordingCountdown(
-                      onCountdownCompleted: _stopRecording,
+                    child: Padding(
+                      padding: constraints.maxWidth > HoloboothBreakpoints.small
+                          ? EdgeInsets.zero
+                          : const EdgeInsets.only(bottom: 80),
+                      child: RecordingCountdown(
+                        onCountdownCompleted: _stopRecording,
+                      ),
                     ),
                   );
                 } else if (state.gettingReady) {
