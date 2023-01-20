@@ -22,6 +22,7 @@ enum PortalMode {
           thumbSize: Vector2(322, 378),
           thumbOffset: Vector2(168, 104),
           frameAmout: 90,
+          amountPerRow: 10,
         );
       case PortalMode.landscape:
         return PortalModeData(
@@ -30,6 +31,7 @@ enum PortalMode {
           thumbSize: Vector2(498, 280),
           thumbOffset: Vector2(100, 96),
           frameAmout: 90,
+          amountPerRow: 10,
         );
       case PortalMode.mobile:
         return PortalModeData(
@@ -38,6 +40,7 @@ enum PortalMode {
           thumbSize: Vector2(162, 190),
           thumbOffset: Vector2(84, 52),
           frameAmout: 72,
+          amountPerRow: 12,
         );
     }
   }
@@ -50,6 +53,7 @@ class PortalModeData {
     required this.thumbSize,
     required this.thumbOffset,
     required this.frameAmout,
+    required this.amountPerRow,
   });
 
   final String texturePath;
@@ -57,6 +61,7 @@ class PortalModeData {
   final Vector2 thumbSize;
   final Vector2 thumbOffset;
   final int frameAmout;
+  final int amountPerRow;
 }
 
 class PortalAnimation extends StatefulWidget {
@@ -116,7 +121,7 @@ class PortalGame extends FlameGame {
       data.texturePath,
       SpriteAnimationData.sequenced(
         amount: data.frameAmout,
-        amountPerRow: 10,
+        amountPerRow: data.amountPerRow,
         textureSize: data.textureSize,
         stepTime: .05,
         loop: false,
