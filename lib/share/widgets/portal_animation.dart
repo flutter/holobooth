@@ -229,7 +229,8 @@ class PlayComponent extends PositionComponent with HasPaint {
       sprite.image.height.toDouble(),
     );
 
-    position = data.thumbOffset;
+anchor = Anchor.center;
+position = parent.size / 2;
 
   }
 
