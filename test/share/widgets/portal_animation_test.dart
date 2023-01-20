@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -15,23 +14,7 @@ void main() {
   late Uint8List imageBytes;
 
   setUpAll(() async {
-    // Create a random, yet consistent mock image for the thumb.
-    final random = Random(1);
-    final recorder = PictureRecorder();
-    final canvas = Canvas(recorder);
-
-    for (var y = 0; y < 8; y++) {
-      for (var x = 0; x < 8; x++) {
-        canvas.drawRect(
-          Rect.fromLTWH(x.toDouble(), y.toDouble(), 1, 1),
-          Paint()
-            ..color = Colors.accents[random.nextInt(Colors.accents.length)],
-        );
-      }
-    }
-
-    final picture = recorder.endRecording();
-    final image = await picture.toImage(8, 8);
+    final image = await createTestImage(height: 8, width: 8);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     imageBytes = byteData!.buffer.asUint8List();
   });
