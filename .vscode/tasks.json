@@ -24,7 +24,7 @@
         {
             "label": "flutter: Run coverage",
             "type": "shell",
-            "command": "cd ${input:flutterFolder} && very_good test --test-randomize-ordering-seed random --coverage && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html",
+            "command": "cd ${input:flutterFolder} && very_good test --no-optimization  --test-randomize-ordering-seed random --coverage && genhtml ./coverage/lcov.info -o coverage && open ./coverage/index.html",
             "problemMatcher": []
         },
         {
