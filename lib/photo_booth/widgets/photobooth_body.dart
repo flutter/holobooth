@@ -24,6 +24,8 @@ class PhotoboothBody extends StatefulWidget {
   final ValueGetter<Exporter> _exporter;
   final PlatformHelper _platformHelper;
 
+  static const emptyViewKey = Key('emptyView');
+
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
 }
@@ -145,10 +147,11 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                       return GetReadyLayer(
                         onCountdownCompleted: _startRecording,
                       );
-                    } else if (avatarStatus.hasLoadedModel) {
+                    } else if (avatarStatus.hasLoadedModel &&
+                        !state.isFinished) {
                       return const SelectionLayer();
                     }
-                    return const SizedBox();
+                    return const SizedBox(key: PhotoboothBody.emptyViewKey);
                   },
                 ),
               ],
