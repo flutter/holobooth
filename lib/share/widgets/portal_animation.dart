@@ -95,12 +95,8 @@ class PortalGame extends FlameGame {
   Future<void> onLoad() async {
     final data = mode.data;
     images.prefix = '';
-
     final image = await decodeImageFromList(imageBytes);
-
-    final playIconImage = Assets.icons.playIcon.image();
     final thumb = Sprite(image);
-    final playSprite = Sprite(playIconImage);
 
     final animation = await loadSpriteAnimation(
       data.texturePath,
@@ -121,14 +117,26 @@ class PortalGame extends FlameGame {
 
     add(frameComponent);
 
+    /// Play
+
+    final playImage = await images.load(Assets.icons.playIcon.path);
+    final platImageSprite = Sprite(playImage);
+
     animation.onComplete = () {
       onComplete();
-      frameComponent.add(
-        ThumbComponent(
-          sprite: thumb,
-          data: data,
-        ),
-      );
+      frameComponent
+        ..add(
+          ThumbComponent(
+            sprite: thumb,
+            data: data,
+          ),
+        )
+        ..add(
+          PlayComponent(
+            sprite: platImageSprite,
+            data: data,
+          ),
+        );
     };
 
     final scaleX = size.x / data.textureSize.x;
@@ -191,6 +199,63 @@ class ThumbComponent extends PositionComponent with HasPaint {
     sprite.render(
       canvas,
       size: renderSize,
+      position: data.thumbSize / 2,
+      anchor: Anchor.center,
+      overridePaint: paint,
+    );
+
+    canvas.restore();
+  }
+}
+
+@visibleForTesting
+class PlayComponent extends PositionComponent with HasPaint {
+  PlayComponent({
+    required this.sprite,
+    required this.data,
+  });
+
+  final Sprite sprite;
+  final PortalModeData data;
+  late final Rect clipRect;
+  late final Vector2 renderSize;
+
+  @override
+  Future<void> onLoad() async {
+    size = Vector2(
+      sprite.image.width.toDouble(),
+      sprite.image.height.toDouble(),
+    );
+
+    position = data.thumbOffset;
+
+    paint.color = Colors.white.withOpacity(0);
+    add(OpacityEffect.fadeIn(LinearEffectController(.5)));
+
+    clipRect = Rect.fromLTWH(
+      0,
+      0,
+      data.thumbSize.x,
+      data.thumbSize.y,
+    );
+
+    final rateX = data.thumbSize.x / size.x;
+    final rateY = data.thumbSize.y / size.y;
+
+    final rate = math.max(rateX, rateY);
+
+    renderSize = size * rate;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    canvas
+      ..save()
+      ..clipRect(clipRect);
+
+    sprite.render(
+      canvas,
+      size: Vector2(50, 50),
       position: data.thumbSize / 2,
       anchor: Anchor.center,
       overridePaint: paint,
