@@ -131,8 +131,9 @@ void main() {
     });
 
     testWidgets('displays a PortalAnimation', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(false);
       await tester.pumpSubject(
-        ShareBody(),
+        ShareBody(platformHelper: platformHelper),
         convertBloc: convertBloc,
         downloadBloc: downloadBloc,
       );
@@ -145,8 +146,9 @@ void main() {
     testWidgets(
       'PortalAnimation is Clickable when animation is completed',
       (tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpSubject(
-          ShareBody(),
+          ShareBody(platformHelper: platformHelper),
           convertBloc: convertBloc,
           downloadBloc: downloadBloc,
         );
@@ -164,8 +166,9 @@ void main() {
     testWidgets(
       'Open the video dialog upon clicking the Portal',
       (tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
         await tester.pumpSubject(
-          ShareBody(),
+          ShareBody(platformHelper: platformHelper),
           convertBloc: convertBloc,
           downloadBloc: downloadBloc,
         );
