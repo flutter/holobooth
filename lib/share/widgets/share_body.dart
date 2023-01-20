@@ -39,7 +39,10 @@ class SmallShareBody extends StatelessWidget {
         if (thumbnail != null)
           SizedBox(
             height: 450,
-            child: _PortalAnimation(thumbnail: thumbnail),
+            child: _PortalAnimation(
+              thumbnail: thumbnail,
+              mode: PortalMode.portrait,
+            ),
           ),
         const SizedBox(height: 48),
         const _ShareBodyContent(isSmallScreen: true),
@@ -66,7 +69,10 @@ class LargeShareBody extends StatelessWidget {
                       width: 450,
                       height: 450,
                       child: Align(
-                        child: _PortalAnimation(thumbnail: thumbnail),
+                        child: _PortalAnimation(
+                          thumbnail: thumbnail,
+                          mode: PortalMode.landscape,
+                        ),
                       ),
                     )
                   : const SizedBox(),
@@ -84,9 +90,11 @@ class LargeShareBody extends StatelessWidget {
 class _PortalAnimation extends StatefulWidget {
   const _PortalAnimation({
     required this.thumbnail,
+    required this.mode,
   });
 
   final Uint8List thumbnail;
+  final PortalMode mode;
 
   @override
   State<_PortalAnimation> createState() => _PortalAnimationState();
@@ -100,7 +108,7 @@ class _PortalAnimationState extends State<_PortalAnimation> {
   Widget build(BuildContext context) {
     final animation = PortalAnimation(
       key: _key,
-      mode: PortalMode.landscape,
+      mode: widget.mode,
       imageBytes: widget.thumbnail.buffer.asUint8List(),
       onComplete: () {
         setState(() {
