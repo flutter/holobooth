@@ -96,6 +96,7 @@ class PortalGame extends FlameGame {
     final data = mode.data;
     images.prefix = '';
     final image = await decodeImageFromList(imageBytes);
+
     final thumb = Sprite(image);
 
     final animation = await loadSpriteAnimation(
@@ -118,7 +119,6 @@ class PortalGame extends FlameGame {
     add(frameComponent);
 
     /// Play
-
     final platImageSprite = await loadSprite(Assets.icons.playIcon.path);
 
     animation.onComplete = () {
@@ -161,7 +161,12 @@ class ThumbComponent extends PositionComponent with HasPaint {
 
   @override
   Future<void> onLoad() async {
-    size = data.thumbSize;
+    size = data.thumbSize.clone();
+
+    final imageSize = Vector2(
+      sprite.image.width.toDouble(),
+      sprite.image.height.toDouble(),
+    );
 
     position = data.thumbOffset;
 
@@ -175,12 +180,12 @@ class ThumbComponent extends PositionComponent with HasPaint {
       data.thumbSize.y,
     );
 
-    final rateX = data.thumbSize.x / sprite.image.width;
-    final rateY = data.thumbSize.y / sprite.image.height;
+    final rateX = data.thumbSize.x / imageSize.x;
+    final rateY = data.thumbSize.y / imageSize.y;
 
     final rate = math.max(rateX, rateY);
 
-    renderSize = size * rate;
+    renderSize = imageSize * rate;
   }
 
   @override
@@ -209,10 +214,11 @@ class PlayComponent extends SpriteComponent with ParentIsA<PositionComponent> {
 
   @override
   Future<void> onLoad() async {
-    size = Vector2(
-      50,
-      50,
+    final dimension = math.max(
+      parent.size.x,
+      parent.size.y,
     );
+    size = Vector2.all(dimension * .4);
 
     anchor = Anchor.center;
     position = parent.size / 2;
