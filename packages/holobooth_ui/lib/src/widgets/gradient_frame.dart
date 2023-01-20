@@ -53,7 +53,10 @@ class GradientFrame extends StatelessWidget {
           color: backgroundColor ?? HoloBoothColors.modalSurface,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: child,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(borderRadius),
+          child: child,
+        ),
       ),
     );
   }
