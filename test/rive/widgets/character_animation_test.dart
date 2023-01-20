@@ -7,6 +7,7 @@ import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:platform_helper/platform_helper.dart';
+import 'package:rive/rive.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -16,11 +17,19 @@ class _MockRightEyeGeometry extends Mock implements RightEyeGeometry {}
 
 class _MockPlatformHelper extends Mock implements PlatformHelper {}
 
-Finder _findCharacterAnimation<T extends CharacterAnimation>(
-  String path,
+class _FakePlatformHelper extends Fake implements PlatformHelper {
+  _FakePlatformHelper({required this.isMobile});
+
+  @override
+  final bool isMobile;
+}
+
+Finder _findCharacterAnimation(
+  RiveCharacter riveCharacter,
 ) =>
     find.byWidgetPredicate(
-      (widget) => widget is T && widget.riveGenImage.path == path,
+      (widget) =>
+          widget is RiveAnimation && widget.file == riveCharacter.riveFile,
     );
 
 void main() {
@@ -28,27 +37,49 @@ void main() {
 
   setUp(() => platformHelper = _MockPlatformHelper());
 
-  group('DashCharacterAnimation', () {
+  testWidgets('renders placeholder', (tester) async {
+    when(() => platformHelper.isMobile).thenReturn(true);
+
+    await tester.pumpApp(
+      CharacterAnimation(
+        avatar: Avatar.zero,
+        hat: Hats.none,
+        glasses: Glasses.none,
+        clothes: Clothes.none,
+        handheldlLeft: HandheldlLeft.none,
+        riveCharacter: RiveCharacter.dash(platformHelper),
+      ),
+    );
+
+    expect(find.byKey(Key('characterAnimation_placeholder')), findsOneWidget);
+  });
+
+  group('with RiveCharacter.dash', () {
     testWidgets(
       'renders mobile asset',
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(true);
+        final character = RiveCharacter.dash(platformHelper);
+        await character.load();
 
         await tester.pumpApp(
-          DashCharacterAnimation(
+          CharacterAnimation(
             avatar: Avatar.zero,
             hat: Hats.none,
             glasses: Glasses.none,
             clothes: Clothes.none,
             handheldlLeft: HandheldlLeft.none,
-            platformHelper: platformHelper,
+            riveCharacter: character,
           ),
         );
 
-        final widgetFinder =
-            _findCharacterAnimation(Assets.animations.dashMobile.path);
+        final widgetFinder = _findCharacterAnimation(character);
 
         expect(widgetFinder, findsOneWidget);
+        expect(
+          character.riveFilePath,
+          equals(Assets.animations.dashMobile.path),
+        );
       },
     );
 
@@ -56,47 +87,57 @@ void main() {
       'renders desktop asset',
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(false);
+        final character = RiveCharacter.dash(platformHelper);
+        await character.load();
 
         await tester.pumpApp(
-          DashCharacterAnimation(
+          CharacterAnimation(
             avatar: Avatar.zero,
             hat: Hats.none,
             glasses: Glasses.none,
             clothes: Clothes.none,
             handheldlLeft: HandheldlLeft.none,
-            platformHelper: platformHelper,
+            riveCharacter: character,
           ),
         );
 
-        final widgetFinder =
-            _findCharacterAnimation(Assets.animations.dashDesktop.path);
+        final widgetFinder = _findCharacterAnimation(character);
 
         expect(widgetFinder, findsOneWidget);
+        expect(
+          character.riveFilePath,
+          equals(Assets.animations.dashDesktop.path),
+        );
       },
     );
   });
 
-  group('SparkyCharacterAnimation', () {
+  group('with RiveCharacter.sparky', () {
     testWidgets(
       'renders mobile asset',
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(true);
+        final character = RiveCharacter.sparky(platformHelper);
+        await character.load();
 
         await tester.pumpApp(
-          SparkyCharacterAnimation(
+          CharacterAnimation(
             avatar: Avatar.zero,
             hat: Hats.none,
             glasses: Glasses.none,
             clothes: Clothes.none,
             handheldlLeft: HandheldlLeft.none,
-            platformHelper: platformHelper,
+            riveCharacter: character,
           ),
         );
 
-        final widgetFinder =
-            _findCharacterAnimation(Assets.animations.sparkyMobile.path);
+        final widgetFinder = _findCharacterAnimation(character);
 
         expect(widgetFinder, findsOneWidget);
+        expect(
+          character.riveFilePath,
+          equals(Assets.animations.sparkyMobile.path),
+        );
       },
     );
 
@@ -104,33 +145,37 @@ void main() {
       'renders desktop asset',
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(false);
+        final character = RiveCharacter.sparky(platformHelper);
+        await character.load();
 
         await tester.pumpApp(
-          SparkyCharacterAnimation(
+          CharacterAnimation(
             avatar: Avatar.zero,
             hat: Hats.none,
             glasses: Glasses.none,
             clothes: Clothes.none,
             handheldlLeft: HandheldlLeft.none,
-            platformHelper: platformHelper,
+            riveCharacter: character,
           ),
         );
 
-        final widgetFinder =
-            _findCharacterAnimation(Assets.animations.sparkyDesktop.path);
+        final widgetFinder = _findCharacterAnimation(character);
 
         expect(widgetFinder, findsOneWidget);
+        expect(
+          character.riveFilePath,
+          equals(Assets.animations.sparkyDesktop.path),
+        );
       },
     );
   });
 
   group('CharacterAnimation', () {
-    late RiveGenImage riveGenImage;
-    late Size riveImageSize;
+    late RiveCharacter riveCharacter;
 
-    setUp(() {
-      riveGenImage = Assets.animations.dashMobile;
-      riveImageSize = Size(100, 100);
+    setUp(() async {
+      riveCharacter = RiveCharacter.dash(_FakePlatformHelper(isMobile: true));
+      await riveCharacter.load();
     });
 
     group('rotation', () {
@@ -157,8 +202,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -239,8 +283,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -306,8 +349,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -368,8 +410,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -462,8 +503,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    riveGenImage: riveGenImage,
-                    riveImageSize: riveImageSize,
+                    riveCharacter: riveCharacter,
                   );
                 },
               ),
@@ -529,8 +569,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    riveGenImage: riveGenImage,
-                    riveImageSize: riveImageSize,
+                    riveCharacter: riveCharacter,
                   );
                 },
               ),
@@ -632,8 +671,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    riveGenImage: riveGenImage,
-                    riveImageSize: riveImageSize,
+                    riveCharacter: riveCharacter,
                   );
                 },
               ),
@@ -698,8 +736,7 @@ void main() {
                     glasses: Glasses.none,
                     clothes: Clothes.none,
                     handheldlLeft: HandheldlLeft.none,
-                    riveGenImage: riveGenImage,
-                    riveImageSize: riveImageSize,
+                    riveCharacter: riveCharacter,
                   );
                 },
               ),
@@ -780,8 +817,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -841,8 +877,7 @@ void main() {
                   glasses: Glasses.none,
                   clothes: Clothes.none,
                   handheldlLeft: HandheldlLeft.none,
-                  riveGenImage: riveGenImage,
-                  riveImageSize: riveImageSize,
+                  riveCharacter: riveCharacter,
                 );
               },
             ),
@@ -893,8 +928,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                riveGenImage: riveGenImage,
-                riveImageSize: riveImageSize,
+                riveCharacter: riveCharacter,
               );
             },
           ),
@@ -930,8 +964,7 @@ void main() {
                 glasses: glasses,
                 clothes: Clothes.none,
                 handheldlLeft: HandheldlLeft.none,
-                riveGenImage: riveGenImage,
-                riveImageSize: riveImageSize,
+                riveCharacter: riveCharacter,
               );
             },
           ),
@@ -967,8 +1000,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: clothes,
                 handheldlLeft: HandheldlLeft.none,
-                riveGenImage: riveGenImage,
-                riveImageSize: riveImageSize,
+                riveCharacter: riveCharacter,
               );
             },
           ),
@@ -1004,8 +1036,7 @@ void main() {
                 glasses: Glasses.none,
                 clothes: Clothes.none,
                 handheldlLeft: handheldLeft,
-                riveGenImage: riveGenImage,
-                riveImageSize: riveImageSize,
+                riveCharacter: riveCharacter,
               );
             },
           ),

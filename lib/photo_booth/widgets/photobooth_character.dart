@@ -9,11 +9,32 @@ class PhotoboothCharacter extends StatefulWidget {
   const PhotoboothCharacter({super.key});
 
   @override
-  State<PhotoboothCharacter> createState() => _PhotoboothCharacterState();
+  State<PhotoboothCharacter> createState() => PhotoboothCharacterState();
 }
 
-class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
+@visibleForTesting
+class PhotoboothCharacterState extends State<PhotoboothCharacter> {
   Avatar _latestValidAvatar = Avatar.zero;
+  final _sparky = RiveCharacter.sparky();
+  final _dash = RiveCharacter.dash();
+
+  late final Future<void> charactersReady;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadCharacters();
+  }
+
+  Future<void> _loadCharacters() async {
+    charactersReady = Future.wait([
+      _sparky.load(),
+      _dash.load(),
+    ]);
+    await charactersReady;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,33 +56,36 @@ class _PhotoboothCharacterState extends State<PhotoboothCharacter> {
     final characterSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.character);
 
-    late final Widget character;
+    final RiveCharacter character;
     switch (characterSelected) {
       case Character.dash:
-        character = DashCharacterAnimation(
-          avatar: _latestValidAvatar,
-          hat: hat,
-          glasses: glasses,
-          clothes: clothes,
-          handheldlLeft: handheldlLeft,
-        );
+        character = _dash;
         break;
       case Character.sparky:
-        character = SparkyCharacterAnimation(
-          avatar: _latestValidAvatar,
-          hat: hat,
-          glasses: glasses,
-          clothes: clothes,
-          handheldlLeft: handheldlLeft,
-        );
+        character = _sparky;
         break;
+    }
+
+    if (!character.isLoaded) {
+      return const SizedBox.shrink();
     }
 
     return AnimatedOpacity(
       opacity: avatarStatus == AvatarDetectorStatus.notDetected ? 0.8 : 1,
       duration: const Duration(seconds: 1),
       curve: Curves.easeOutBack,
-      child: character,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: CharacterAnimation(
+          key: ValueKey(character),
+          riveCharacter: character,
+          avatar: _latestValidAvatar,
+          hat: hat,
+          glasses: glasses,
+          clothes: clothes,
+          handheldlLeft: handheldlLeft,
+        ),
+      ),
     );
   }
 }
