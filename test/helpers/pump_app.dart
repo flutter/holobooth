@@ -2,12 +2,14 @@ import 'dart:typed_data';
 
 import 'package:analytics_repository/analytics_repository.dart';
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
@@ -30,6 +32,13 @@ class _MockAvatarDetectorRepository extends Mock
   }
 }
 
+class _MockMuteSoundBloc extends MockBloc<MuteSoundEvent, MuteSoundState>
+    implements MuteSoundBloc {
+  _MockMuteSoundBloc() {
+    when(() => state).thenReturn(MuteSoundState(isMuted: false));
+  }
+}
+
 class _FakeAnalyticsEvent extends Fake implements AnalyticsEvent {}
 
 class _MockAnalyticsRepository extends Mock implements AnalyticsRepository {
@@ -47,6 +56,7 @@ extension PumpApp on WidgetTester {
     ConvertRepository? convertRepository,
     DownloadRepository? downloadRepository,
     AnalyticsRepository? analyticsRepository,
+    MuteSoundBloc? muteSoundBloc,
   }) async {
     return mockNetworkImages(() async {
       return pumpWidget(
@@ -66,13 +76,16 @@ extension PumpApp on WidgetTester {
               value: analyticsRepository ?? _MockAnalyticsRepository(),
             ),
           ],
-          child: MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: widget,
+          child: BlocProvider(
+            create: (context) => muteSoundBloc ?? _MockMuteSoundBloc(),
+            child: MaterialApp(
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: widget,
+            ),
           ),
         ),
       );

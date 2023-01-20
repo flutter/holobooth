@@ -7,7 +7,7 @@ import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as just_audio;
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
@@ -19,17 +19,17 @@ class _MockInExperienceSelectionBloc
 class _MockPhotoBoothBloc extends MockBloc<PhotoBoothEvent, PhotoBoothState>
     implements PhotoBoothBloc {}
 
-class _MockAudioPlayer extends Mock implements AudioPlayer {}
+class _MockAudioPlayer extends Mock implements just_audio.AudioPlayer {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(LoopMode.all);
+    registerFallbackValue(just_audio.LoopMode.all);
   });
 
   group('PropsSelectionTabBarView', () {
     late InExperienceSelectionBloc inExperienceSelectionBloc;
     late PhotoBoothBloc photoBoothBloc;
-    late AudioPlayer audioPlayer;
+    late just_audio.AudioPlayer audioPlayer;
 
     setUp(() {
       inExperienceSelectionBloc = _MockInExperienceSelectionBloc();
@@ -45,12 +45,12 @@ void main() {
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
       when(() => audioPlayer.setLoopMode(any())).thenAnswer((_) async {});
-      when(() => audioPlayer.loopMode).thenReturn(LoopMode.off);
+      when(() => audioPlayer.loopMode).thenReturn(just_audio.LoopMode.off);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
       when(() => audioPlayer.setAsset(any()))
           .thenAnswer((_) async => Duration.zero);
 
-      AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+      AudioPlayer.audioPlayerOverride = audioPlayer;
 
       const MethodChannel('com.ryanheise.audio_session')
           .setMockMethodCallHandler((call) async {
@@ -61,7 +61,7 @@ void main() {
     });
 
     tearDown(() {
-      AudioPlayerMixin.audioPlayerOverride = null;
+      AudioPlayer.audioPlayerOverride = null;
     });
 
     testWidgets(

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
+import 'package:holobooth/widgets/widgets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 class FullFooter extends StatelessWidget {
-  const FullFooter({
+  FullFooter({
     super.key,
     this.showIconsForSmall = true,
-  });
+    PlatformHelper? platformHelper,
+  }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   final bool showIconsForSmall;
+  final PlatformHelper _platformHelper;
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +45,23 @@ class FullFooter extends StatelessWidget {
                       color: HoloBoothColors.scrim,
                       borderRadius: BorderRadius.circular(16),
                     ),
-              child: showIconsForSmall
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (final icon in icons) ...[
-                          icon,
-                          if (icon != icons.last) gap,
-                        ],
-                      ],
-                    )
-                  : child,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (showIconsForSmall)
+                    for (final icon in icons) ...[
+                      icon,
+                      if (icon != icons.last) gap,
+                    ]
+                  else ...[
+                    if (child != null) Flexible(child: child),
+                    if (!_platformHelper.isMobile) ...[
+                      gap,
+                      const MuteButton(),
+                    ],
+                  ],
+                ],
+              ),
             ),
           );
         },
@@ -61,24 +72,28 @@ class FullFooter extends StatelessWidget {
               vertical: 24,
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 for (final icon in icons) ...[
                   icon,
-                  if (icon != icons.last) gap,
+                  gap,
                 ],
                 Expanded(
                   child: Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.centerRight,
                     child: child,
                   ),
-                )
+                ),
+                if (!_platformHelper.isMobile) ...[
+                  gap,
+                  const MuteButton(),
+                ],
               ],
             ),
           );
         },
         child: Wrap(
           alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           runSpacing: 8,
           children: const [
             FlutterForwardFooterLink(),

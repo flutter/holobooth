@@ -5,13 +5,15 @@ abstract class DownloadEvent extends Equatable {
 }
 
 class DownloadRequested extends DownloadEvent with AnalyticsEventMixin {
-  const DownloadRequested(this.extension);
+  const DownloadRequested(this.extension, this.path);
 
-  const DownloadRequested.video() : this('mp4');
+  const DownloadRequested.video(String path) : this('mp4', path);
 
-  const DownloadRequested.gif() : this('gif');
+  const DownloadRequested.gif(String path) : this('gif', path);
 
   final String extension;
+
+  final String path;
 
   @override
   AnalyticsEvent get event => AnalyticsEvent(

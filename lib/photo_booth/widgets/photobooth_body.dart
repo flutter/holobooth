@@ -1,23 +1,28 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/avatar_detector/avatar_detector.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
+import 'package:platform_helper/platform_helper.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 Exporter _getExporter() => Exporter();
 
 class PhotoboothBody extends StatefulWidget {
-  const PhotoboothBody({
+  PhotoboothBody({
     super.key,
     ValueGetter<Exporter>? exporter,
-  }) : _exporter = exporter ?? _getExporter;
+    PlatformHelper? platformHelper,
+  })  : _exporter = exporter ?? _getExporter,
+        _platformHelper = platformHelper ?? PlatformHelper();
 
   final ValueGetter<Exporter> _exporter;
+  final PlatformHelper _platformHelper;
 
   @override
   State<PhotoboothBody> createState() => _PhotoboothBodyState();
@@ -94,10 +99,19 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
                 ],
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomCenter,
               child: SimplifiedFooter(),
             ),
+            if (constraints.maxWidth <= HoloboothBreakpoints.small &&
+                !widget._platformHelper.isMobile)
+              const Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: MuteButton(),
+                ),
+              ),
             Align(child: CameraView(onCameraReady: _onCameraReady)),
             if (_isCameraAvailable)
               CameraStreamListener(cameraController: _cameraController!),

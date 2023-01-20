@@ -13,25 +13,22 @@ class NextButton extends StatefulWidget {
   State<NextButton> createState() => _NextButtonState();
 }
 
-class _NextButtonState extends State<NextButton> with AudioPlayerMixin {
-  @override
-  String get audioAssetPath => Assets.audio.buttonPress;
-
-  @override
-  void initState() {
-    super.initState();
-    loadAudio();
-  }
+class _NextButtonState extends State<NextButton> {
+  final _audioPlayerController = AudioPlayerController();
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return GradientElevatedButton(
-      onPressed: () {
-        playAudio();
-        widget.onNextPressed();
-      },
-      child: Text(l10n.nextButtonText),
+    return AudioPlayer(
+      audioAssetPath: Assets.audio.buttonPress,
+      controller: _audioPlayerController,
+      child: GradientElevatedButton(
+        onPressed: () {
+          _audioPlayerController.playAudio();
+          widget.onNextPressed();
+        },
+        child: Text(l10n.nextButtonText),
+      ),
     );
   }
 }

@@ -27,8 +27,8 @@ class LandingView extends StatelessWidget {
         ),
         Positioned.fill(
           child: Column(
-            children: const [
-              Expanded(child: LandingBody()),
+            children: [
+              const Expanded(child: LandingBody()),
               FullFooter(showIconsForSmall: false),
             ],
           ),

@@ -30,8 +30,8 @@ class AnimojiIntroView extends StatelessWidget {
         const Positioned.fill(child: AnimojiIntroBackground()),
         Positioned.fill(
           child: Column(
-            children: const [
-              Expanded(child: AnimojiIntroBody()),
+            children: [
+              const Expanded(child: AnimojiIntroBody()),
               FullFooter(),
             ],
           ),

@@ -33,9 +33,7 @@ void main() {
           .thenReturn(ConvertState(firstFrameProcessed: thumbnail));
 
       downloadBloc = _MockDownloadBloc();
-      when(() => downloadBloc.state).thenReturn(
-        const DownloadState.initial(videoPath: ''),
-      );
+      when(() => downloadBloc.state).thenReturn(const DownloadState());
     });
 
     testWidgets(
@@ -96,6 +94,59 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('displays a PortalAnimation', (tester) async {
+      await tester.pumpSubject(
+        ShareBody(),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      expect(
+        find.byType(PortalAnimation),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+      'PortalAnimation is Clickable when animation is completed',
+      (tester) async {
+        await tester.pumpSubject(
+          ShareBody(),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        final portalAnimation = tester.widget<PortalAnimation>(
+          find.byType(PortalAnimation),
+        );
+
+        portalAnimation.onComplete();
+        await tester.pump();
+
+        expect(find.byKey(ShareBody.portalVideoButtonKey), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Open the video dialog upon clicking the Portal',
+      (tester) async {
+        await tester.pumpSubject(
+          ShareBody(),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        final portalAnimation = tester.widget<PortalAnimation>(
+          find.byType(PortalAnimation),
+        );
+
+        portalAnimation.onComplete();
+        await tester.pump();
+
+        await tester.tap(find.byKey(ShareBody.portalVideoButtonKey));
+        await tester.pump();
+
+        expect(find.byType(VideoDialogLauncher), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'RetakeButton navigates to photobooth when pressed',
