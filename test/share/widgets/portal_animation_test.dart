@@ -70,6 +70,24 @@ void main() {
       },
     );
 
+    testWithGame(
+      'adds the play icon after the sprite animation has finished',
+      () => PortalGame(
+        mode: PortalMode.landscape,
+        imageBytes: imageBytes,
+        onComplete: () {},
+      ),
+      (game) async {
+        await game.ready();
+        game.update(10);
+        await game.ready();
+        expect(
+          game.descendants().whereType<PlayComponent>(),
+          isNotEmpty,
+        );
+      },
+    );
+
     group('ThumbComponent', () {
       testWithGame(
         'renders correctly',
@@ -79,6 +97,7 @@ void main() {
           final thumb = ThumbComponent(
             sprite: Sprite(image),
             data: PortalMode.portrait.data,
+            children: [PlayComponent(sprite: Sprite(image))],
           );
 
           await game.ensureAdd(thumb);
