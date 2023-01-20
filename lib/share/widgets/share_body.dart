@@ -45,12 +45,12 @@ class SmallShareBody extends StatelessWidget {
     final thumbnail = context.read<ConvertBloc>().state.firstFrameProcessed;
     return Column(
       children: [
-        if (thumbnail != null && !isMobile)
+        if (thumbnail != null)
           SizedBox(
             height: 450,
             child: PortalAnimationView(
               thumbnail: thumbnail,
-              mode: PortalMode.portrait,
+              mode: isMobile ? PortalMode.mobile : PortalMode.portrait,
             ),
           ),
         const SizedBox(height: 48),
@@ -76,14 +76,15 @@ class LargeShareBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: thumbnail != null && !isMobile
+            child: thumbnail != null
                 ? SizedBox(
                     width: 450,
                     height: 450,
                     child: Align(
                       child: PortalAnimationView(
                         thumbnail: thumbnail,
-                        mode: PortalMode.landscape,
+                        mode:
+                            isMobile ? PortalMode.mobile : PortalMode.landscape,
                       ),
                     ),
                   )

@@ -56,6 +56,10 @@ class $AssetsAnimationsGen {
   AssetGenImage get mobilePortalSpritesheet =>
       const AssetGenImage('assets/animations/mobile-portal-spritesheet.png');
 
+  /// File path: assets/animations/small-portal-animation.png
+  AssetGenImage get smallPortalAnimation =>
+      const AssetGenImage('assets/animations/small-portal-animation.png');
+
   /// File path: assets/animations/sparky_desktop.riv
   RiveGenImage get sparkyDesktop =>
       const RiveGenImage('assets/animations/sparky_desktop.riv');
@@ -79,6 +83,7 @@ class $AssetsAnimationsGen {
         dashMobile,
         desktopPortalSpritesheet,
         mobilePortalSpritesheet,
+        smallPortalAnimation,
         sparkyDesktop,
         sparkyMobile
       ];
