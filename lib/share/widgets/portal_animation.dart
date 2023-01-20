@@ -217,11 +217,6 @@ class PlayComponent extends PositionComponent with HasPaint {
     required this.data,
   });
 
-  final Sprite sprite;
-  final PortalModeData data;
-  late final Rect clipRect;
-  late final Vector2 renderSize;
-
   @override
   Future<void> onLoad() async {
     size = Vector2(
