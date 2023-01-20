@@ -128,6 +128,9 @@ class PortalGame extends FlameGame {
           ThumbComponent(
             sprite: thumb,
             data: data,
+            children: PlayComponent(
+              sprite: platImageSprite,
+            ),
           ),
         )
         ..add(
