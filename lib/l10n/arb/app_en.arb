@@ -146,7 +146,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "recordButtonText": "Record",
+  "recordButtonText": "Record video",
   "@recordButtonText": {
     "description": "Text displayed on a record button."
   },
