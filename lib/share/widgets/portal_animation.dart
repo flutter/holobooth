@@ -218,7 +218,7 @@ class PlayComponent extends SpriteComponent with ParentIsA<PositionComponent> {
       parent.size.x,
       parent.size.y,
     );
-    size = Vector2.all(dimension * .4);
+    size = Vector2.all(dimension * .22);
 
     anchor = Anchor.center;
     position = parent.size / 2;
