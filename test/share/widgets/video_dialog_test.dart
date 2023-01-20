@@ -1,5 +1,7 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -13,6 +15,9 @@ class _MockVideoPlayerPlatform extends Mock
     implements VideoPlayerPlatform {}
 
 class _FakeDataSource extends Fake implements DataSource {}
+
+class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
+    implements ConvertBloc {}
 
 void main() {
   group('VideoDialog', () {
@@ -230,5 +235,56 @@ void main() {
         expect(indicator.constraints?.maxWidth, equals(50));
       },
     );
+
+    group('VideoDialogLauncher', () {
+      testWidgets(
+        'render CircularProgressIndicator when video is not ready',
+        (tester) async {
+          final convertBloc = _MockConvertBloc();
+          final state = ConvertState(status: ConvertStatus.creatingVideo);
+          whenListen(
+            convertBloc,
+            Stream.value(state),
+            initialState: state,
+          );
+
+          await tester.pumpApp(
+            Material(
+              child: VideoDialogLauncher(
+                convertBloc: convertBloc,
+              ),
+            ),
+          );
+
+          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'render VideoDialog when video is ready',
+        (tester) async {
+          final convertBloc = _MockConvertBloc();
+          final state = ConvertState(
+            status: ConvertStatus.videoCreated,
+            videoPath: 'videoPath',
+          );
+          whenListen(
+            convertBloc,
+            Stream.value(state),
+            initialState: state,
+          );
+
+          await tester.pumpApp(
+            Material(
+              child: VideoDialogLauncher(
+                convertBloc: convertBloc,
+              ),
+            ),
+          );
+
+          expect(find.byType(VideoDialog), findsOneWidget);
+        },
+      );
+    });
   });
 }
