@@ -1,6 +1,6 @@
 export default `
 (function() {
-  const frame = document.querySelector('.card-frame');
+  const frame = document.querySelector('#portal-animation');
   const playButton = document.querySelector('.play-button');
   const pauseButton = document.querySelector('.pause-button');
   const closeButton = document.querySelector('.close-button');

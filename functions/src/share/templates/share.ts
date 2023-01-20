@@ -31,14 +31,8 @@ export default `
     <div class="backdrop"></div>
     <main>
       <div class="share-video">
-        <canvas class="card-frame" id="portal-animation"></canvas>
-        <!--img class="holocard" src={{assetUrls.holocard}} />
-        <div class="card-frame">
-          <div class="video-clip">
-            <video src="{{{shareVideoUrl}}}"></video>
-          </div>
-          <img src={{assetUrls.videoFrame}} />
-        </div-->
+        <canvas id="portal-animation"></canvas>
+        </div>
       </div>
       <div class="info">
         <div class="info-content">
