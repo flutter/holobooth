@@ -228,22 +228,6 @@ class PlayComponent extends PositionComponent with HasPaint {
 
     position = data.thumbOffset;
 
-    paint.color = Colors.white.withOpacity(0);
-    add(OpacityEffect.fadeIn(LinearEffectController(.5)));
-
-    clipRect = Rect.fromLTWH(
-      0,
-      0,
-      data.thumbSize.x,
-      data.thumbSize.y,
-    );
-
-    final rateX = data.thumbSize.x / size.x;
-    final rateY = data.thumbSize.y / size.y;
-
-    final rate = math.max(rateX, rateY);
-
-    renderSize = size * rate;
   }
 
   @override
