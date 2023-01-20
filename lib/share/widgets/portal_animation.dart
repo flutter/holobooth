@@ -95,8 +95,8 @@ class PortalGame extends FlameGame {
   Future<void> onLoad() async {
     final data = mode.data;
     images.prefix = '';
-
     final image = await decodeImageFromList(imageBytes);
+
     final thumb = Sprite(image);
 
     final animation = await loadSpriteAnimation(
@@ -118,12 +118,18 @@ class PortalGame extends FlameGame {
 
     add(frameComponent);
 
+    /// Play
+    final platImageSprite = await loadSprite(Assets.icons.playIcon.path);
+
     animation.onComplete = () {
       onComplete();
       frameComponent.add(
         ThumbComponent(
           sprite: thumb,
           data: data,
+          children: [
+            PlayComponent(sprite: platImageSprite),
+          ],
         ),
       );
     };
@@ -145,6 +151,7 @@ class ThumbComponent extends PositionComponent with HasPaint {
   ThumbComponent({
     required this.sprite,
     required this.data,
+    super.children,
   });
 
   final Sprite sprite;
@@ -154,7 +161,9 @@ class ThumbComponent extends PositionComponent with HasPaint {
 
   @override
   Future<void> onLoad() async {
-    size = Vector2(
+    size = data.thumbSize.clone();
+
+    final imageSize = Vector2(
       sprite.image.width.toDouble(),
       sprite.image.height.toDouble(),
     );
@@ -171,12 +180,12 @@ class ThumbComponent extends PositionComponent with HasPaint {
       data.thumbSize.y,
     );
 
-    final rateX = data.thumbSize.x / size.x;
-    final rateY = data.thumbSize.y / size.y;
+    final rateX = data.thumbSize.x / imageSize.x;
+    final rateY = data.thumbSize.y / imageSize.y;
 
     final rate = math.max(rateX, rateY);
 
-    renderSize = size * rate;
+    renderSize = imageSize * rate;
   }
 
   @override
@@ -194,5 +203,24 @@ class ThumbComponent extends PositionComponent with HasPaint {
     );
 
     canvas.restore();
+  }
+}
+
+@visibleForTesting
+class PlayComponent extends SpriteComponent with ParentIsA<PositionComponent> {
+  PlayComponent({
+    required super.sprite,
+  });
+
+  @override
+  Future<void> onLoad() async {
+    final dimension = math.max(
+      parent.size.x,
+      parent.size.y,
+    );
+    size = Vector2.all(dimension * .22);
+
+    anchor = Anchor.center;
+    position = parent.size / 2;
   }
 }
