@@ -33,8 +33,11 @@ class _SmallLandingBody extends StatelessWidget {
           const SizedBox(height: 34),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Assets.backgrounds.holobooth.image(
-              key: LandingBody.landingPageImageKey,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 500),
+              child: Assets.backgrounds.holobooth.image(
+                key: LandingBody.landingPageImageKey,
+              ),
             ),
           ),
         ],
@@ -56,8 +59,14 @@ class _LargeLandingBody extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Assets.backgrounds.holobooth.image(
-                    key: LandingBody.landingPageImageKey,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 850),
+                      child: Assets.backgrounds.holobooth.image(
+                        key: LandingBody.landingPageImageKey,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 32),
