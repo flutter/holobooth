@@ -106,20 +106,23 @@ export default `
     },
   };
 
-  function Sprite({
+  function ThumbSprite({
     spritePath,
+    playIconPath,
     position = [0, 0],
     size,
   }) {
     let image;
+    let playIconImage;
     let loaded = false;
+    let playIconLoaded = false;
 
     let x = position[0]; y = position[1];
 
     let renderOffset, renderSize;
 
     this.load = function(canvas) {
-      return new Promise((resolve, reject) => {
+      const thumbPromise = new Promise((resolve, reject) => {
         if (image && loaded) {
           resolve();
         } else {
@@ -144,6 +147,19 @@ export default `
           }
         }
       });
+
+      const playIconPromise = new Promise((resolve, reject) => {
+        if (playIconImage && playIconLoaded) {
+          resolve();
+        } else {
+          playIconImage = new Image();
+          playIconImage.src = playIconPath;
+          playIconImage.onload = function() {
+            resolve();
+          }
+        }
+      });
+      return Promise.all([thumbPromise, playIconPromise]);
     };
 
     this.update = function(_) {}
@@ -166,6 +182,14 @@ export default `
         y + offsetY, // dY
         renderWidth, // dWidth
         renderHeight, // dHeight
+      );
+
+      canvas.drawImage(
+        playIconImage,
+        x + thumbWidth / 2 - 75,
+        y + thumbHeight / 2 - 75,
+        140,
+        140,
       );
 
       canvas.restore();
@@ -274,8 +298,9 @@ export default `
     mode.textureSize,
   );
 
-  const thumb = new Sprite({
+  const thumb = new ThumbSprite({
     spritePath: '{{{thumbImageUrl}}}',
+    playIconPath: '{{{assetUrls.portalArrowIcon}}}',
     position: mode.thumbOffset,
     size: mode.thumbSize,
   });

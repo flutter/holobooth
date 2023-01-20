@@ -38,6 +38,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     playerVolume: bucketPathForFile('public/player-volume.png'),
     playerFullscreen: bucketPathForFile('public/player-fullscreen.png'),
     close: bucketPathForFile('public/close.png'),
+    portalArrowIcon: bucketPathForFile('public/portal-play-icon.png'),
     desktopPortalSpritesheet: bucketPathForFile('public/desktop-portal-spritesheet.png'),
     mobilePortalSpritesheet: bucketPathForFile('public/mobile-portal-spritesheet.png'),
   },
