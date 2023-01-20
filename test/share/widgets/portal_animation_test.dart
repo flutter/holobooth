@@ -42,6 +42,7 @@ void main() {
       () => PortalGame(
         mode: PortalMode.portrait,
         imageBytes: imageBytes,
+        onComplete: () {},
       ),
       (game) async {
         await game.ready();
@@ -57,6 +58,7 @@ void main() {
       () => PortalGame(
         mode: PortalMode.landscape,
         imageBytes: imageBytes,
+        onComplete: () {},
       ),
       (game) async {
         await game.ready();
@@ -72,6 +74,7 @@ void main() {
       () => PortalGame(
         mode: PortalMode.landscape,
         imageBytes: imageBytes,
+        onComplete: () {},
       ),
       (game) async {
         await game.ready();

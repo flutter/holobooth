@@ -1,4 +1,4 @@
-name: analytics
+name: firebase_analytics_client
 description: A Flutter package which adds analytics support
 
 environment:

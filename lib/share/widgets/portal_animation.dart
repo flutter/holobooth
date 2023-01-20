@@ -46,25 +46,34 @@ class PortalModeData {
   final Vector2 thumbOffset;
 }
 
-class PortalAnimation extends StatelessWidget {
+class PortalAnimation extends StatefulWidget {
   const PortalAnimation({
     super.key,
     required this.mode,
     required this.imageBytes,
+    required this.onComplete,
   });
 
   final PortalMode mode;
 
   final Uint8List imageBytes;
 
+  final VoidCallback onComplete;
+
+  @override
+  State<PortalAnimation> createState() => _PortalAnimationState();
+}
+
+class _PortalAnimationState extends State<PortalAnimation> {
+  late final _game = PortalGame(
+    mode: widget.mode,
+    imageBytes: widget.imageBytes,
+    onComplete: widget.onComplete,
+  );
+
   @override
   Widget build(BuildContext context) {
-    return GameWidget(
-      game: PortalGame(
-        mode: mode,
-        imageBytes: imageBytes,
-      ),
-    );
+    return GameWidget(game: _game);
   }
 }
 
@@ -73,11 +82,14 @@ class PortalGame extends FlameGame {
   PortalGame({
     required this.mode,
     required this.imageBytes,
+    required this.onComplete,
   });
 
   final PortalMode mode;
 
   final Uint8List imageBytes;
+
+  final VoidCallback onComplete;
 
   @override
   Future<void> onLoad() async {
@@ -107,6 +119,7 @@ class PortalGame extends FlameGame {
     add(frameComponent);
 
     animation.onComplete = () {
+      onComplete();
       frameComponent.add(
         ThumbComponent(
           sprite: thumb,

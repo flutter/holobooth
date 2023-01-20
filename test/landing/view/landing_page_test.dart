@@ -7,16 +7,16 @@ import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as just_audio;
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class _MockAudioPlayer extends Mock implements AudioPlayer {}
+class _MockAudioPlayer extends Mock implements just_audio.AudioPlayer {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(LoopMode.all);
+    registerFallbackValue(just_audio.LoopMode.all);
   });
 
   group('LandingPage', () {
@@ -27,7 +27,7 @@ void main() {
   });
 
   group('LandingView', () {
-    late AudioPlayer audioPlayer;
+    late just_audio.AudioPlayer audioPlayer;
 
     setUp(() {
       audioPlayer = _MockAudioPlayer();
@@ -36,12 +36,12 @@ void main() {
       when(audioPlayer.play).thenAnswer((_) async {});
       when(audioPlayer.dispose).thenAnswer((_) async {});
       when(() => audioPlayer.setLoopMode(any())).thenAnswer((_) async {});
-      when(() => audioPlayer.loopMode).thenReturn(LoopMode.off);
+      when(() => audioPlayer.loopMode).thenReturn(just_audio.LoopMode.off);
       when(() => audioPlayer.seek(any())).thenAnswer((_) async {});
       when(() => audioPlayer.setAsset(any()))
           .thenAnswer((_) async => Duration.zero);
 
-      AudioPlayerMixin.audioPlayerOverride = audioPlayer;
+      AudioPlayer.audioPlayerOverride = audioPlayer;
 
       const MethodChannel('com.ryanheise.audio_session')
           .setMockMethodCallHandler((call) async {
@@ -52,7 +52,7 @@ void main() {
     });
 
     tearDown(() {
-      AudioPlayerMixin.audioPlayerOverride = null;
+      AudioPlayer.audioPlayerOverride = null;
     });
 
     testWidgets('renders background', (tester) async {

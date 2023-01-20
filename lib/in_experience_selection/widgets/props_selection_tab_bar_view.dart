@@ -109,6 +109,7 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
             ],
           ),
         ),
+        const SizedBox(height: 10)
       ],
     );
   }

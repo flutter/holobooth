@@ -9,6 +9,7 @@ import 'package:holobooth/convert/convert.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth/share/share.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:platform_helper/platform_helper.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -18,11 +19,14 @@ class _MockConvertBloc extends MockBloc<ConvertEvent, ConvertState>
 class _MockDownloadBloc extends MockBloc<DownloadEvent, DownloadState>
     implements DownloadBloc {}
 
+class _MockPlatformHelper extends Mock implements PlatformHelper {}
+
 void main() {
   group('ShareBody', () {
     late ConvertBloc convertBloc;
     late DownloadBloc downloadBloc;
     late Uint8List thumbnail;
+    late PlatformHelper platformHelper;
 
     setUp(() async {
       convertBloc = _MockConvertBloc();
@@ -34,6 +38,8 @@ void main() {
 
       downloadBloc = _MockDownloadBloc();
       when(() => downloadBloc.state).thenReturn(const DownloadState());
+
+      platformHelper = _MockPlatformHelper();
     });
 
     testWidgets(
@@ -50,6 +56,34 @@ void main() {
     );
 
     testWidgets(
+      'does not render PortalAnimationView on SmallShareBody if mobile',
+      (WidgetTester tester) async {
+        tester.setSmallDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(true);
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'renders PortalAnimationView on SmallShareBody if desktop',
+      (WidgetTester tester) async {
+        tester.setSmallDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(false);
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'renders LargeShareBody in large layout',
       (WidgetTester tester) async {
         tester.setLargeDisplaySize();
@@ -59,6 +93,36 @@ void main() {
           downloadBloc: downloadBloc,
         );
         expect(find.byType(LargeShareBody), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'does not render PortalAnimationView on LargeShareBody if mobile',
+      (WidgetTester tester) async {
+        tester.setLargeDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(true);
+
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'renders PortalAnimationView on LargeShareBody if desktop',
+      (WidgetTester tester) async {
+        tester.setLargeDisplaySize();
+        when(() => platformHelper.isMobile).thenReturn(false);
+
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        expect(find.byType(PortalAnimationView), findsOneWidget);
       },
     );
 
@@ -94,6 +158,62 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('displays a PortalAnimation', (tester) async {
+      when(() => platformHelper.isMobile).thenReturn(false);
+      await tester.pumpSubject(
+        ShareBody(platformHelper: platformHelper),
+        convertBloc: convertBloc,
+        downloadBloc: downloadBloc,
+      );
+      expect(
+        find.byType(PortalAnimation),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+      'PortalAnimation is Clickable when animation is completed',
+      (tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        final portalAnimation = tester.widget<PortalAnimation>(
+          find.byType(PortalAnimation),
+        );
+
+        portalAnimation.onComplete();
+        await tester.pump();
+
+        expect(find.byKey(ShareBody.portalVideoButtonKey), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Open the video dialog upon clicking the Portal',
+      (tester) async {
+        when(() => platformHelper.isMobile).thenReturn(false);
+        await tester.pumpSubject(
+          ShareBody(platformHelper: platformHelper),
+          convertBloc: convertBloc,
+          downloadBloc: downloadBloc,
+        );
+        final portalAnimation = tester.widget<PortalAnimation>(
+          find.byType(PortalAnimation),
+        );
+
+        portalAnimation.onComplete();
+        await tester.pump();
+
+        await tester.tap(find.byKey(ShareBody.portalVideoButtonKey));
+        await tester.pump();
+
+        expect(find.byType(VideoDialogLauncher), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'RetakeButton navigates to photobooth when pressed',

@@ -29,17 +29,20 @@ class CharacterSelectionTabBarView extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Wrap(
-            direction: isSmall ? Axis.horizontal : Axis.vertical,
-            spacing: 24,
-            runSpacing: 1,
-            children: [
-              for (var i = 0; i < Character.values.length; i++)
-                _CharacterSelectionElement(
-                  character: Character.values[i],
-                  isSelected: characterSelected == Character.values[i],
-                )
-            ],
+          child: SingleChildScrollView(
+            child: Wrap(
+              direction: isSmall ? Axis.horizontal : Axis.vertical,
+              spacing: 24,
+              runSpacing: 1,
+              children: [
+                for (var i = 0; i < Character.values.length; i++)
+                  _CharacterSelectionElement(
+                    character: Character.values[i],
+                    isSelected: characterSelected == Character.values[i],
+                  ),
+                if (!isSmall) const SizedBox(height: 12),
+              ],
+            ),
           ),
         ),
       ],
@@ -59,13 +62,13 @@ class _CharacterSelectionElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 100,
+      width: 135,
+      height: 135,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected ? null : HoloBoothColors.darkBlue,
-        gradient: isSelected ? HoloBoothGradients.secondarySix : null,
+        gradient: isSelected ? HoloBoothGradients.secondaryOne : null,
       ),
       child: DecoratedBox(
         decoration: const BoxDecoration(

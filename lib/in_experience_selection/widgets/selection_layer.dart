@@ -4,8 +4,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 const _collapseButtonHeight = 50.0;
 const _collapseButtonWidth = 100.0;
-const _panelHeightCollapsed = 200.0;
-const _panelHeightNotCollapsed = 350.0;
+const _panelHeightCollapsed = 179.0;
+const _panelHeightNotCollapsed = 365.0;
 
 class SelectionLayer extends StatelessWidget {
   const SelectionLayer({super.key});

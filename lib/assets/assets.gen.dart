@@ -102,9 +102,6 @@ class $AssetsAudioGen {
   /// File path: assets/audio/loading.mp3
   String get loading => 'assets/audio/loading.mp3';
 
-  /// File path: assets/audio/loading_finished.mp3
-  String get loadingFinished => 'assets/audio/loading_finished.mp3';
-
   /// File path: assets/audio/tab_click.mp3
   String get tabClick => 'assets/audio/tab_click.mp3';
 
@@ -115,7 +112,6 @@ class $AssetsAudioGen {
         experienceAmbient,
         faceNotDetected,
         loading,
-        loadingFinished,
         tabClick
       ];
 }
@@ -256,10 +252,6 @@ class $AssetsCharactersGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  /// File path: assets/icons/camera_button_icon.png
-  AssetGenImage get cameraButtonIcon =>
-      const AssetGenImage('assets/icons/camera_button_icon.png');
-
   /// File path: assets/icons/classic_photobooth.png
   AssetGenImage get classicPhotobooth =>
       const AssetGenImage('assets/icons/classic_photobooth.png');
@@ -283,17 +275,9 @@ class $AssetsIconsGen {
   AssetGenImage get flutterIcon =>
       const AssetGenImage('assets/icons/flutter_icon.png');
 
-  /// File path: assets/icons/go_next_button_icon.png
-  AssetGenImage get goNextButtonIcon =>
-      const AssetGenImage('assets/icons/go_next_button_icon.png');
-
   /// File path: assets/icons/loading circle.png
   AssetGenImage get loadingCircle =>
       const AssetGenImage('assets/icons/loading circle.png');
-
-  /// File path: assets/icons/loading_finish.png
-  AssetGenImage get loadingFinish =>
-      const AssetGenImage('assets/icons/loading_finish.png');
 
   /// File path: assets/icons/mediapipe_icon.png
   AssetGenImage get mediapipeIcon =>
@@ -314,14 +298,6 @@ class $AssetsIconsGen {
   AssetGenImage get playerPlay =>
       const AssetGenImage('assets/icons/player-play.png');
 
-  /// File path: assets/icons/recording_button_icon.png
-  AssetGenImage get recordingButtonIcon =>
-      const AssetGenImage('assets/icons/recording_button_icon.png');
-
-  /// File path: assets/icons/retake_button_icon.png
-  AssetGenImage get retakeButtonIcon =>
-      const AssetGenImage('assets/icons/retake_button_icon.png');
-
   /// File path: assets/icons/tensorflow_icon.png
   AssetGenImage get tensorflowIcon =>
       const AssetGenImage('assets/icons/tensorflow_icon.png');
@@ -332,23 +308,18 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        cameraButtonIcon,
         classicPhotobooth,
         close,
         closeIcon,
         facebookLogo,
         firebaseIcon,
         flutterIcon,
-        goNextButtonIcon,
         loadingCircle,
-        loadingFinish,
         mediapipeIcon,
         pause,
         playIcon,
         playerFullscreen,
         playerPlay,
-        recordingButtonIcon,
-        retakeButtonIcon,
         tensorflowIcon,
         twitterLogo
       ];

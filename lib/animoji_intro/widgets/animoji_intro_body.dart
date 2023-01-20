@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:holobooth/in_experience_selection/in_experience_selection.dart';
+import 'package:holobooth/animoji_intro/animoji_intro.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class AnimojiIntroBody extends StatelessWidget {
-  const AnimojiIntroBody({
-    super.key,
-    required this.onNextPressed,
-  });
-
-  final VoidCallback onNextPressed;
+  const AnimojiIntroBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +60,7 @@ class AnimojiIntroBody extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 1),
-                      Expanded(
-                        child: _BottomContent(
-                          smallScreen: small,
-                          onNextPressed: onNextPressed,
-                        ),
-                      ),
+                      Expanded(child: _BottomContent(smallScreen: small)),
                     ],
                   ),
                 ),
@@ -86,11 +76,9 @@ class AnimojiIntroBody extends StatelessWidget {
 class _BottomContent extends StatelessWidget {
   const _BottomContent({
     required this.smallScreen,
-    required this.onNextPressed,
   });
 
   final bool smallScreen;
-  final VoidCallback onNextPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +117,7 @@ class _BottomContent extends StatelessWidget {
             ),
           ),
           if (smallScreen) const SizedBox(height: 16),
-          Flexible(
-            child: NextButton(
-              onNextPressed: onNextPressed,
-            ),
-          ),
+          const Flexible(child: AnimojiNextButton()),
         ],
       ),
     );

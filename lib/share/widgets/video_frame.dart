@@ -19,14 +19,25 @@ class VideoFrame extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           if (thumbnail != null)
-            Positioned.fill(
-              child: Image.memory(
-                thumbnail.buffer.asUint8List(),
-                fit: BoxFit.cover,
-              ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Padding(
+                  // These values are calculated from the image.
+                  padding: EdgeInsets.fromLTRB(
+                    104 / 1617 * constraints.maxWidth,
+                    105 / 2065 * constraints.maxHeight,
+                    93 / 1617 * constraints.maxWidth,
+                    381 / 2065 * constraints.maxHeight,
+                  ),
+                  child: Image.memory(
+                    thumbnail.buffer.asUint8List(),
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
             ),
-          Positioned.fill(child: Assets.backgrounds.videoFrame.image()),
-          const Align(child: PlayButton()),
+          Assets.backgrounds.videoFrame.image(),
+          const Center(child: PlayButton()),
         ],
       ),
     );

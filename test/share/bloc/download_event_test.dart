@@ -1,3 +1,4 @@
+import 'package:analytics_repository/analytics_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/share/share.dart';
 
@@ -15,6 +16,11 @@ void main() {
         DownloadRequested('', ''),
         isNot(equals(DownloadRequested('a', ''))),
       );
+    });
+
+    test('has an analytics event', () {
+      final blocEvent = DownloadRequested('', '');
+      expect(blocEvent.event, isA<AnalyticsEvent>());
     });
   });
 }
