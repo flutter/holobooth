@@ -56,7 +56,7 @@ void main() {
     );
 
     testWidgets(
-      'does not render PortalAnimationView on SmallShareBody if mobile',
+      'forces the small resolution animation on mobile on SmalleShareBody',
       (WidgetTester tester) async {
         tester.setSmallDisplaySize();
         when(() => platformHelper.isMobile).thenReturn(true);
@@ -65,7 +65,13 @@ void main() {
           convertBloc: convertBloc,
           downloadBloc: downloadBloc,
         );
-        expect(find.byType(PortalAnimationView), findsNothing);
+        expect(find.byType(PortalAnimationView), findsOneWidget);
+
+        final widget = tester.widget<PortalAnimationView>(
+          find.byType(PortalAnimationView),
+        );
+
+        expect(widget.mode, equals(PortalMode.mobile));
       },
     );
 
@@ -97,7 +103,7 @@ void main() {
     );
 
     testWidgets(
-      'does not render PortalAnimationView on LargeShareBody if mobile',
+      'forces the small resolution animation on mobile on LargeShareBody',
       (WidgetTester tester) async {
         tester.setLargeDisplaySize();
         when(() => platformHelper.isMobile).thenReturn(true);
@@ -107,7 +113,13 @@ void main() {
           convertBloc: convertBloc,
           downloadBloc: downloadBloc,
         );
-        expect(find.byType(PortalAnimationView), findsNothing);
+        expect(find.byType(PortalAnimationView), findsOneWidget);
+
+        final widget = tester.widget<PortalAnimationView>(
+          find.byType(PortalAnimationView),
+        );
+
+        expect(widget.mode, equals(PortalMode.mobile));
       },
     );
 
