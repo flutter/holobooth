@@ -31,7 +31,10 @@ void main() {
       );
 
       await repo.downloadFile(
-          fileId: 'file', fileName: 'file', mimeType: 'video/mp4');
+        fileId: 'file',
+        fileName: 'file',
+        mimeType: 'video/mp4',
+      );
 
       verify(() => file.saveTo('file')).called(1);
     });
