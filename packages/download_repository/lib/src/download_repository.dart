@@ -11,18 +11,23 @@ class DownloadRepository {
   /// {@macro download_repository}
   DownloadRepository({
     Future<http.Response> Function(Uri)? get,
-    XFile Function(Uint8List, {String? mimeType})? parseBytes,
+    XFile Function(Uint8List, {String? mimeType, String? name})? parseBytes,
   }) {
     _get = get ?? http.get;
     _parseBytes = parseBytes ?? XFile.fromData;
   }
 
   late final Future<http.Response> Function(Uri) _get;
-  late final XFile Function(Uint8List, {String? mimeType}) _parseBytes;
+  late final XFile Function(Uint8List, {String? mimeType, String? name})
+      _parseBytes;
 
   /// Fetches the given [fileName] and save it locally.
-  Future<void> downloadFile(String fileName, String mimeType) async {
-    final uri = Uri.parse('/download/$fileName');
+  Future<void> downloadFile({
+    required String fileId,
+    required String fileName,
+    required String mimeType,
+  }) async {
+    final uri = Uri.parse('/download/$fileId');
     final response = await _get(
       uri,
     );
@@ -30,6 +35,7 @@ class DownloadRepository {
     final file = _parseBytes(
       bytes,
       mimeType: mimeType,
+      name: fileName,
     );
     await file.saveTo(fileName);
   }

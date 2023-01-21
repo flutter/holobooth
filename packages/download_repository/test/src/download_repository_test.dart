@@ -27,10 +27,14 @@ void main() {
 
       final repo = DownloadRepository(
         get: (_) async => response,
-        parseBytes: (_, {String? mimeType}) => file,
+        parseBytes: (_, {String? mimeType, String? name}) => file,
       );
 
-      await repo.downloadFile('file', 'video/mp4');
+      await repo.downloadFile(
+        fileId: 'file',
+        fileName: 'file',
+        mimeType: 'video/mp4',
+      );
 
       verify(() => file.saveTo('file')).called(1);
     });
