@@ -17,6 +17,11 @@ export default `
               <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
             </a>
           </li>
+          <li>
+            <a href="https://developers.google.com/mediapipe">
+              <img class="tensorflow-icon" src={{assetUrls.mediapipeIcon}} />
+            </a>
+          </li>
         </ul>
       </div>
       <div class="right">

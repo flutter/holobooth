@@ -27,7 +27,9 @@ class SimplifiedFooter extends StatelessWidget {
                 SizedBox(width: _separationSize),
                 FirebaseIconLink(),
                 SizedBox(width: _separationSize),
-                TensorflowIconLink()
+                TensorflowIconLink(),
+                SizedBox(width: _separationSize),
+                MediapipeIconLink(),
               ],
             ),
           );
@@ -43,6 +45,8 @@ class SimplifiedFooter extends StatelessWidget {
                 const FirebaseIconLink(),
                 const SizedBox(width: _separationSize),
                 const TensorflowIconLink(),
+                const SizedBox(width: _separationSize),
+                const MediapipeIconLink(),
                 if (!_platformHelper.isMobile) ...[
                   const Spacer(),
                   const MuteButton(),

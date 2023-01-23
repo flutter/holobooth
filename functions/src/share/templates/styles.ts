@@ -172,6 +172,11 @@ footer ul li img.tensorflow-icon {
   height: 24px;
 }
 
+footer ul li img.mediapipe-icon {
+  width: 24px;
+  height: 24px;
+}
+
 footer .left a {
   margin-right: 16px;
 }
@@ -331,6 +336,12 @@ footer .right a {
 .right-side-controls .tensorflow-icon {
   width: 20px;
   height: 22px;
+  margin-right: 6px;
+}
+
+.right-side-controls .mediapipe-icon {
+  width: 20px;
+  height: 20px;
   margin-right: 18px;
 }
 

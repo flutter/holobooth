@@ -89,6 +89,9 @@ export default `
           <a href="https://www.tensorflow.org/js/" class="player-btn">
             <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
           </a>
+          <a href="https://developers.google.com/mediapipe" class="player-btn">
+            <img class="mediapipe-icon" src={{assetUrls.mediapipeIcon}} />
+          </a>
           <a href="#" class="player-btn fullscreen-button">
             <img class="tensorflow-icon" src={{assetUrls.playerFullscreen}} />
           </a>
