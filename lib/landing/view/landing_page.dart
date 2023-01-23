@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
