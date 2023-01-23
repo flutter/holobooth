@@ -14,7 +14,7 @@ import portalAnimationControllerTmpl from './templates/portal-animation-controll
 import gaTmpl from './templates/ga';
 
 
-const VALID_VIDEO_EXT = [ '.mp4', '.gif' ];
+const VALID_VIDEO_EXT = [ '.mp4' ];
 
 const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   appUrl: '',
