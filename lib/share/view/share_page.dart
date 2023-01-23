@@ -47,7 +47,7 @@ class ShareView extends StatelessWidget {
           child: Column(
             children: [
               Expanded(child: ShareBody()),
-              FullFooter(),
+              FullFooter(footerDecoration: true),
             ],
           ),
         ),

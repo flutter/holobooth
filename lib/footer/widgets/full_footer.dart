@@ -10,11 +10,13 @@ class FullFooter extends StatelessWidget {
   FullFooter({
     super.key,
     this.showIconsForSmall = true,
+    this.footerDecoration = false,
     PlatformHelper? platformHelper,
   }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   final bool showIconsForSmall;
   final PlatformHelper _platformHelper;
+  final bool footerDecoration;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,15 @@ class FullFooter extends StatelessWidget {
 
     return Container(
       height: 100,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(Assets.backgrounds.landingBackgroundFooter.path),
-          fit: BoxFit.fill,
-        ),
-      ),
+      decoration: footerDecoration
+          ? BoxDecoration(
+              image: DecorationImage(
+                image:
+                    AssetImage(Assets.backgrounds.landingBackgroundFooter.path),
+                fit: BoxFit.fill,
+              ),
+            )
+          : null,
       child: ResponsiveLayoutBuilder(
         small: (context, child) {
           return Container(
