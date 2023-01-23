@@ -73,28 +73,31 @@ class FullFooter extends StatelessWidget {
           );
         },
         large: (context, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 24,
-            ),
-            child: Row(
-              children: [
-                for (final icon in icons) ...[
-                  icon,
-                  gap,
-                ],
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: child,
+          return Align(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 24,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  for (final icon in icons) ...[
+                    icon,
+                    gap,
+                  ],
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: child,
+                    ),
                   ),
-                ),
-                if (!_platformHelper.isMobile) ...[
-                  gap,
-                  const MuteButton(),
+                  if (!_platformHelper.isMobile) ...[
+                    gap,
+                    const MuteButton(),
+                  ],
                 ],
-              ],
+              ),
             ),
           );
         },
