@@ -22,11 +22,13 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
   ) async {
     emit(state.copyWith(status: DownloadStatus.fetching));
     final videoHash = event.path.split('/').last.split('.').first;
-    final fileName = '$videoHash.${event.extension}';
+    final videoId = '$videoHash.${event.extension}';
+    final fileName = 'flutter_holobooth.${event.extension}';
     final mimeType = event.extension == 'mp4' ? 'video/mp4' : 'image/gif';
     await _downloadRepository.downloadFile(
-      fileName,
-      mimeType,
+      fileId: videoId,
+      fileName: fileName,
+      mimeType: mimeType,
     );
     emit(state.copyWith(status: DownloadStatus.completed));
   }
