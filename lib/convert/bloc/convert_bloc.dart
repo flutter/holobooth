@@ -67,6 +67,7 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
           gifPath: result.gifUrl,
           status: ConvertStatus.videoCreated,
           twitterShareUrl: result.twitterShareUrl,
+          facebookShareUrl: result.facebookShareUrl,
           triesCount: 0,
           shareStatus:
               isWaitingForVideo ? ShareStatus.ready : ShareStatus.initial,

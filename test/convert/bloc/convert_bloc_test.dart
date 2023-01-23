@@ -113,6 +113,8 @@ void main() {
               videoUrl: videoUrl,
               gifUrl: gifUrl,
               firstFrame: firstFrame,
+              twitterShareUrl: 'twitter',
+              facebookShareUrl: 'facebook',
             ),
           );
         },
@@ -127,6 +129,8 @@ void main() {
             status: ConvertStatus.videoCreated,
             gifPath: gifUrl,
             videoPath: videoUrl,
+            twitterShareUrl: 'twitter',
+            facebookShareUrl: 'facebook',
           ),
         ],
       );
