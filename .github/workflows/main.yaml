@@ -19,4 +19,3 @@ jobs:
       flutter_channel: "beta"
       flutter_version: 3.6.0-0.1.pre
       coverage_excludes: "**/*.g.dart"
-      test_optimization: false

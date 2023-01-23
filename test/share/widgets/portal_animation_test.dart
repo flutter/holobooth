@@ -4,9 +4,40 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_test/flame_test.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/share/share.dart';
+import 'package:mocktail/mocktail.dart';
+
+class _MockImage extends Mock implements Image {
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
+    return '';
+  }
+}
+
+class _MockSpriteAnimation extends Mock implements SpriteAnimation {
+  @override
+  VoidCallback? onComplete;
+
+  @override
+  void update(_) {
+    onComplete?.call();
+  }
+}
+
+Image _createMockImage() {
+  final image = _MockImage();
+  when(() => image.width).thenReturn(100);
+  when(() => image.height).thenReturn(100);
+  return image;
+}
+
+SpriteAnimation _createMockSpriteAnimation() {
+  final animation = _MockSpriteAnimation();
+
+  return animation;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +57,8 @@ void main() {
         mode: PortalMode.portrait,
         imageBytes: imageBytes,
         onComplete: () {},
+        decodeImage: (_) async => _createMockImage(),
+        loadAnimation: (_, __) async => _createMockSpriteAnimation(),
       ),
       (game) async {
         await game.ready();
@@ -42,6 +75,8 @@ void main() {
         mode: PortalMode.landscape,
         imageBytes: imageBytes,
         onComplete: () {},
+        decodeImage: (_) async => _createMockImage(),
+        loadAnimation: (_, __) async => _createMockSpriteAnimation(),
       ),
       (game) async {
         await game.ready();
@@ -58,6 +93,8 @@ void main() {
         mode: PortalMode.landscape,
         imageBytes: imageBytes,
         onComplete: () {},
+        decodeImage: (_) async => _createMockImage(),
+        loadAnimation: (_, __) async => _createMockSpriteAnimation(),
       ),
       (game) async {
         await game.ready();
@@ -76,6 +113,8 @@ void main() {
         mode: PortalMode.landscape,
         imageBytes: imageBytes,
         onComplete: () {},
+        decodeImage: (_) async => _createMockImage(),
+        loadAnimation: (_, __) async => _createMockSpriteAnimation(),
       ),
       (game) async {
         await game.ready();
