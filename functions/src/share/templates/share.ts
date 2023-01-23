@@ -86,7 +86,7 @@ export default `
           <a href="https://firebase.google.com/" class="player-btn">
             <img class="firebase-icon" src={{assetUrls.firebaseIcon}} />
           </a>
-          <a href="https://www.tensorflow.org/" class="player-btn">
+          <a href="https://www.tensorflow.org/js/" class="player-btn">
             <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
           </a>
           <a href="#" class="player-btn fullscreen-button">

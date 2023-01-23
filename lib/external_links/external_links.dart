@@ -6,8 +6,8 @@ const howItsMadeLink =
     'https://medium.com/flutter/how-its-made-holobooth-6473f3d018dd';
 const repositoryLink = 'https://github.com/flutter/holobooth';
 const firebaseExternalLink = 'https://firebase.google.com';
-const tensorFlowLink = 'https://tensorflow.org';
-const mediaPipeLink = 'https://mediapipe.dev/';
+const tensorFlowLink = 'https://www.tensorflow.org/js';
+const mediaPipeLink = 'https://developers.google.com/mediapipe';
 const photoboothEmail = 'mailto:flutter-photo-booth@google.com';
 const termsOfServiceLink = 'https://policies.google.com/terms';
 const privacyPolicyLink = 'https://policies.google.com/privacy';
