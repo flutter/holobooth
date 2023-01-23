@@ -2,10 +2,9 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 const flutterDevExternalLink = 'https://flutter.dev';
 const flutterForwardLink = 'https://flutter.dev/events/flutter-forward';
-// TODO(kirpal): replace with real link.
-const howItsMadeLink = '';
-// TODO(kirpal): replace with real link.
-const repositoryLink = '';
+const howItsMadeLink =
+    'https://medium.com/flutter/how-its-made-holobooth-6473f3d018dd';
+const repositoryLink = 'https://github.com/flutter/holobooth';
 const firebaseExternalLink = 'https://firebase.google.com';
 const tensorFlowLink = 'https://tensorflow.org';
 const mediaPipeLink = 'https://mediapipe.dev/';
