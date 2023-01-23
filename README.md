@@ -7,7 +7,7 @@
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
 
-A Holobooth built with [Flutter][flutter_link] and [Firebase][firebase_link] for [Flutter Forward][flutter_forward_link].
+A Holobooth built with [Flutter][flutter_link], [Firebase][firebase_link], and [TensorFlow][tensorflow_link] for [Flutter Forward][flutter_forward_link].
 
 [Try it now][holobooth_link] and [learn about how it's made][blog_link].
 
@@ -263,9 +263,10 @@ and the links from each individual image on the LICENSE file under that same fol
 [coverage_badge]: coverage_badge.svg
 [firebase_link]: https://firebase.google.com/
 [flutter_link]: https://flutter.dev
+[tensorflow_link]: https://tensorflow.org
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [flutter_forward_link]: https://flutter.dev/events/flutter-forward
-[blog_link]: https://medium.com/flutter/how-its-made-i-o-photo-booth-3b8355d35883
+[blog_link]: https://medium.com/flutter/how-its-made-holobooth-6473f3d018dd
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
