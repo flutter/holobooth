@@ -23,6 +23,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   assetUrls: {
     favicon: bucketPathForFile('public/favicon.png'),
     bg: bucketPathForFile('public/background.png'),
+    bgFooter: bucketPathForFile('public/background-footer.png'),
     playArrowIcon: bucketPathForFile('public/play-arrow.png'),
     shareIcon: bucketPathForFile('public/share.png'),
     flutterForwardLogo: bucketPathForFile('public/flutter-forward-logo.png'),

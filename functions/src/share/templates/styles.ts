@@ -141,8 +141,11 @@ h2 {
 footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  height: 80px;
   padding-right: 16px;
   padding-bottom: 16px;
+  background-image: url({{{assetUrls.bgFooter}}});
 }
 
 footer ul {
@@ -343,7 +346,7 @@ footer .right a {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-image: url("{{{assetUrls.notFoundBg}}}");
+  background-image: url("{{{assetUrls.bg}}}");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
