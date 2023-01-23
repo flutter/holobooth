@@ -55,6 +55,7 @@ class SmallShareBody extends StatelessWidget {
           ),
         const SizedBox(height: 48),
         const _ShareBodyContent(isSmallScreen: true),
+        const SizedBox(height: 32),
       ],
     );
   }

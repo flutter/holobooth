@@ -50,7 +50,10 @@ class _SmallLandingBody extends StatelessWidget {
                   key: LandingBody.landingPageImageKey,
                 ),
               ),
-              FullFooter(showIconsForSmall: false),
+              FullFooter(
+                showIconsForSmall: false,
+                footerDecoration: true,
+              ),
             ],
           ),
         ),
@@ -89,7 +92,10 @@ class _LargeLandingBody extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: FullFooter(showIconsForSmall: false),
+            child: FullFooter(
+              showIconsForSmall: false,
+              footerDecoration: true,
+            ),
           ),
         ],
       ),
