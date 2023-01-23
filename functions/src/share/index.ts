@@ -31,6 +31,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     flutterIcon: bucketPathForFile('public/flutter-icon.png'),
     firebaseIcon: bucketPathForFile('public/firebase-icon.png'),
     tensorflowIcon: bucketPathForFile('public/tensorflow-icon.png'),
+    mediapipeIcon: bucketPathForFile('public/mediapipe-icon.png'),
     holocard: bucketPathForFile('public/holocard.png'),
     notFoundBg: bucketPathForFile('public/not-found-bg.png'),
     notFoundMobileBg: bucketPathForFile('public/not-found-mobile-bg.png'),

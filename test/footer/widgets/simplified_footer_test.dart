@@ -25,6 +25,7 @@ void main() {
         expect(find.byType(FlutterIconLink), findsOneWidget);
         expect(find.byType(FirebaseIconLink), findsOneWidget);
         expect(find.byType(TensorflowIconLink), findsOneWidget);
+        expect(find.byType(MediapipeIconLink), findsOneWidget);
       },
     );
 
@@ -42,6 +43,7 @@ void main() {
         expect(find.byType(FlutterIconLink), findsOneWidget);
         expect(find.byType(FirebaseIconLink), findsOneWidget);
         expect(find.byType(TensorflowIconLink), findsOneWidget);
+        expect(find.byType(MediapipeIconLink), findsOneWidget);
         expect(find.byType(MuteButton), findsOneWidget);
       },
     );
