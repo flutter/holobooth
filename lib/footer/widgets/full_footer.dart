@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/widgets/widgets.dart';
@@ -25,8 +26,14 @@ class FullFooter extends StatelessWidget {
       MediapipeIconLink(),
     ];
 
-    return SizedBox(
+    return Container(
       height: 100,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(Assets.backgrounds.landingBackgroundFooter.path),
+          fit: BoxFit.fill,
+        ),
+      ),
       child: ResponsiveLayoutBuilder(
         small: (context, child) {
           return Container(

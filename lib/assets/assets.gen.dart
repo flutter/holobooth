@@ -199,6 +199,10 @@ class $AssetsBackgroundsGen {
   AssetGenImage get landingBackground =>
       const AssetGenImage('assets/backgrounds/landing_background.png');
 
+  /// File path: assets/backgrounds/landing_background_footer.png
+  AssetGenImage get landingBackgroundFooter =>
+      const AssetGenImage('assets/backgrounds/landing_background_footer.png');
+
   /// File path: assets/backgrounds/loading_background.png
   AssetGenImage get loadingBackground =>
       const AssetGenImage('assets/backgrounds/loading_background.png');
@@ -234,6 +238,7 @@ class $AssetsBackgroundsGen {
         bgThumbnail08,
         holobooth,
         landingBackground,
+        landingBackgroundFooter,
         loadingBackground,
         shareBackground,
         videoFrame
