@@ -13,7 +13,7 @@ export default `
             </a>
           </li>
           <li>
-            <a href="https://www.tensorflow.org/">
+            <a href="https://www.tensorflow.org/js/">
               <img class="tensorflow-icon" src={{assetUrls.tensorflowIcon}} />
             </a>
           </li>
@@ -23,8 +23,8 @@ export default `
         <ul>
           <li><a href="https://flutter.dev/">Flutter</a></li>
           <li><a href="https://firebase.google.com/">Firebase</a></li>
-          <li><a href="https://www.tensorflow.org/">TensorFlow</a></li>
-          <li><a href="https://mediapipe.dev/">MediaPipe</a></li>
+          <li><a href="https://www.tensorflow.org/js/">TensorFlow</a></li>
+          <li><a href="https://developers.google.com/mediapipe">MediaPipe</a></li>
           <li><a href="https://policies.google.com/terms">Terms of Service</a></li>
           <li><a href="https://policies.google.com/privacy">Privacy Policy</a></li>
         </ul>
