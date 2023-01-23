@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -21,19 +20,14 @@ class LandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
-        const Positioned.fill(
+      children: const [
+        Positioned.fill(
           child: LandingBackground(),
         ),
         Positioned.fill(
-          child: Column(
-            children: [
-              const Expanded(child: LandingBody()),
-              FullFooter(showIconsForSmall: false),
-            ],
-          ),
+          child: LandingBody(),
         ),
-        const Positioned(
+        Positioned(
           bottom: 100,
           right: 0,
           child: ClassicPhotoboothBanner(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holobooth/assets/assets.dart';
+import 'package:holobooth/footer/footer.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
@@ -24,21 +25,36 @@ class _SmallLandingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        children: [
-          const SizedBox(height: 46),
-          const _LandingBodyContent(smallScreen: true),
-          const SizedBox(height: 34),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Assets.backgrounds.holobooth.image(
-              key: LandingBody.landingPageImageKey,
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Column(
+              children: const [
+                SizedBox(height: 46),
+                _LandingBodyContent(smallScreen: true),
+                SizedBox(height: 34),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Assets.backgrounds.holobooth.image(
+                  key: LandingBody.landingPageImageKey,
+                ),
+              ),
+              FullFooter(showIconsForSmall: false),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -49,15 +65,16 @@ class _LargeLandingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+            flex: 7,
+            child: Row(
               children: [
                 Expanded(
                   child: Container(
-                    alignment: Alignment.center,
+                    alignment: Alignment.bottomCenter,
                     child: Assets.backgrounds.holobooth.image(
                       key: LandingBody.landingPageImageKey,
                     ),
@@ -69,8 +86,12 @@ class _LargeLandingBody extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 3,
+            child: FullFooter(showIconsForSmall: false),
+          ),
+        ],
       ),
     );
   }
