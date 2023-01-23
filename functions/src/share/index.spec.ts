@@ -38,7 +38,7 @@ describe('Share API', () => {
 
   test('Invalid file extension returns 404 and html', async () => {
     const req = Object.assign({}, baseReq, {
-      path: 'wrong.gif',
+      path: 'wrong.mp3',
     });
     const res = await getShareResponse(req);
     expect(res.status).toEqual(404);
