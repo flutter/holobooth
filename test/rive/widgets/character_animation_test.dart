@@ -24,6 +24,13 @@ class _FakePlatformHelper extends Fake implements PlatformHelper {
   final bool isMobile;
 }
 
+class _FakeRiveFileManager extends Fake implements RiveFileManager {
+  @override
+  Future<RiveFile> loadFile(String assetPath) {
+    return RiveFile.asset(assetPath);
+  }
+}
+
 Finder _findCharacterAnimation(
   RiveCharacter riveCharacter,
 ) =>
@@ -60,7 +67,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(true);
         final character = RiveCharacter.dash(platformHelper);
-        await character.load();
+        await character.load(_FakeRiveFileManager());
 
         await tester.pumpApp(
           CharacterAnimation(
@@ -88,7 +95,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(false);
         final character = RiveCharacter.dash(platformHelper);
-        await character.load();
+        await character.load(_FakeRiveFileManager());
 
         await tester.pumpApp(
           CharacterAnimation(
@@ -118,7 +125,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(true);
         final character = RiveCharacter.sparky(platformHelper);
-        await character.load();
+        await character.load(_FakeRiveFileManager());
 
         await tester.pumpApp(
           CharacterAnimation(
@@ -146,7 +153,7 @@ void main() {
       (WidgetTester tester) async {
         when(() => platformHelper.isMobile).thenReturn(false);
         final character = RiveCharacter.sparky(platformHelper);
-        await character.load();
+        await character.load(_FakeRiveFileManager());
 
         await tester.pumpApp(
           CharacterAnimation(
@@ -175,7 +182,7 @@ void main() {
 
     setUp(() async {
       riveCharacter = RiveCharacter.dash(_FakePlatformHelper(isMobile: true));
-      await riveCharacter.load();
+      await riveCharacter.load(_FakeRiveFileManager());
     });
 
     group('rotation', () {

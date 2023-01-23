@@ -28,12 +28,11 @@ class PhotoboothCharacterState extends State<PhotoboothCharacter> {
   }
 
   Future<void> _loadCharacters() async {
-    charactersReady = Future.wait([
-      _sparky.load(),
-      _dash.load(),
-    ]);
-    await charactersReady;
-    setState(() {});
+    final riveFileManager = context.read<RiveFileManager>();
+    final sparkyReady =
+        _sparky.load(riveFileManager).then((_) => setState(() {}));
+    final dashReady = _dash.load(riveFileManager).then((_) => setState(() {}));
+    charactersReady = Future.wait([dashReady, sparkyReady]);
   }
 
   @override

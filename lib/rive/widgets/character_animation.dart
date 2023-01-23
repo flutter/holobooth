@@ -41,8 +41,8 @@ class RiveCharacter {
 
   bool get isLoaded => riveFile != null;
 
-  Future<void> load() async {
-    riveFile = await RiveFile.asset(riveFilePath);
+  Future<void> load(RiveFileManager riveFileManager) async {
+    riveFile = await riveFileManager.loadFile(riveFilePath);
   }
 }
 
