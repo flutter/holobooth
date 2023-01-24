@@ -46,8 +46,11 @@ class _SmallLandingBody extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Assets.backgrounds.holobooth.image(
-                  key: LandingBody.landingPageImageKey,
+                child: Transform.translate(
+                  offset: const Offset(0, 10),
+                  child: Assets.backgrounds.holobooth.image(
+                    key: LandingBody.landingPageImageKey,
+                  ),
                 ),
               ),
               FullFooter(
@@ -76,10 +79,13 @@ class _LargeLandingBody extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    child: Assets.backgrounds.holobooth.image(
-                      key: LandingBody.landingPageImageKey,
+                  child: Transform.translate(
+                    offset: const Offset(0, 10),
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Assets.backgrounds.holobooth.image(
+                        key: LandingBody.landingPageImageKey,
+                      ),
                     ),
                   ),
                 ),
