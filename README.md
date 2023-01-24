@@ -263,7 +263,7 @@ and the links from each individual image on the LICENSE file under that same fol
 [coverage_badge]: coverage_badge.svg
 [firebase_link]: https://firebase.google.com/
 [flutter_link]: https://flutter.dev
-[tensorflow_link]: https://tensorflow.org
+[tensorflow_link]: https://www.tensorflow.org/js
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [flutter_forward_link]: https://flutter.dev/events/flutter-forward
 [blog_link]: https://medium.com/flutter/how-its-made-holobooth-6473f3d018dd

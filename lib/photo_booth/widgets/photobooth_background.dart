@@ -18,21 +18,29 @@ class PhotoboothBackground extends StatefulWidget {
 }
 
 class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
-  final Map<Background, RiveFile> _backgrounds = {};
-
   @override
   void initState() {
     super.initState();
 
     if (!widget.platformHelper.isMobile) {
       for (final background in Background.values) {
-        loadBackground(background)
-            .then((file) => setState(() => _backgrounds[background] = file));
+        loadBackground(background).then((file) => setState(() {}));
       }
     }
   }
 
   Future<RiveFile> loadBackground(Background background) async {
+    final backgroundPath = pathForBackground(background);
+    return context.read<RiveFileManager>().loadFile(backgroundPath);
+  }
+
+  RiveFile? getBackground(Background background) {
+    final riveFileManager = context.read<RiveFileManager>();
+    final backgroundPath = pathForBackground(background);
+    return riveFileManager.getFile(backgroundPath);
+  }
+
+  String pathForBackground(Background background) {
     final RiveGenImage riveAsset;
     switch (background) {
       case Background.bg0:
@@ -64,7 +72,7 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
         break;
     }
 
-    return RiveFile.asset(riveAsset.keyName);
+    return riveAsset.path;
   }
 
   @override
@@ -72,7 +80,7 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
     final backgroundSelected = context
         .select((InExperienceSelectionBloc bloc) => bloc.state.background);
 
-    final riveFile = _backgrounds[backgroundSelected];
+    final riveFile = getBackground(backgroundSelected);
     final Widget child;
     if (widget.platformHelper.isMobile || riveFile == null) {
       child = Image(
@@ -90,7 +98,7 @@ class _PhotoboothBackgroundState extends State<PhotoboothBackground> {
     return ColoredBox(
       color: HoloBoothColors.background,
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 300),
         child: child,
         layoutBuilder: (currentChild, previousChildren) {
           return Stack(

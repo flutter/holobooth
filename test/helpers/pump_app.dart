@@ -11,8 +11,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
+import 'package:rive/rive.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class _MockConvertRepository extends Mock implements ConvertRepository {}
@@ -49,6 +51,14 @@ class _MockAnalyticsRepository extends Mock implements AnalyticsRepository {
   }
 }
 
+class _FakeRiveFileManager extends Fake implements RiveFileManager {
+  @override
+  RiveFile? getFile(String assetPath) => null;
+
+  @override
+  Future<RiveFile> loadFile(String assetPath) => RiveFile.asset(assetPath);
+}
+
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
@@ -57,6 +67,7 @@ extension PumpApp on WidgetTester {
     DownloadRepository? downloadRepository,
     AnalyticsRepository? analyticsRepository,
     MuteSoundBloc? muteSoundBloc,
+    RiveFileManager? riveFileManager,
   }) async {
     return mockNetworkImages(() async {
       return pumpWidget(
@@ -74,6 +85,9 @@ extension PumpApp on WidgetTester {
             ),
             RepositoryProvider.value(
               value: analyticsRepository ?? _MockAnalyticsRepository(),
+            ),
+            RepositoryProvider.value(
+              value: riveFileManager ?? _FakeRiveFileManager(),
             ),
           ],
           child: BlocProvider(

@@ -93,7 +93,7 @@ class ConvertRepository {
           json,
           _processedFrames.first,
         );
-        final shareUrl = _getShareUrl(videoResponse.gifUrl);
+        final shareUrl = _getShareUrl(videoResponse.videoUrl);
         final shareText = Uri.encodeComponent(
           'A new reality awaits in the #FlutterHolobooth. '
           'See you at #FlutterForward!',

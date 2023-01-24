@@ -119,16 +119,6 @@ h2 {
   border: 1px solid #676AB6;
 }
 
-.disclaimer {
-  margin-top: 48px;
-  font-family: 'Google Sans';
-  font-style: italic;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 20px;
-  color: #C0C0C0;
-}
-
 .holocard {
   width: 708px;
   height: 716px;
@@ -141,8 +131,11 @@ h2 {
 footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  height: 80px;
   padding-right: 16px;
   padding-bottom: 16px;
+  background-image: url({{{assetUrls.bgFooter}}});
 }
 
 footer ul {
@@ -166,6 +159,11 @@ footer ul li img.firebase-icon {
 
 footer ul li img.tensorflow-icon {
   width: 22px;
+  height: 24px;
+}
+
+footer ul li img.mediapipe-icon {
+  width: 24px;
   height: 24px;
 }
 
@@ -328,6 +326,12 @@ footer .right a {
 .right-side-controls .tensorflow-icon {
   width: 20px;
   height: 22px;
+  margin-right: 6px;
+}
+
+.right-side-controls .mediapipe-icon {
+  width: 20px;
+  height: 20px;
   margin-right: 18px;
 }
 
@@ -343,7 +347,7 @@ footer .right a {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-image: url("{{{assetUrls.notFoundBg}}}");
+  background-image: url("{{{assetUrls.bg}}}");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -386,10 +390,6 @@ footer .right a {
 
   body.not-found-page {
     display: flex;
-  }
-
-  .not-found-backdrop {
-    background-image: url("{{{assetUrls.notFoundMobileBg}}}");
   }
 
   .not-found-panel {
@@ -452,10 +452,6 @@ footer .right a {
   .try-now-btn {
     margin-right: 0px;
     margin-bottom: 24px;
-  }
-
-  .disclaimer {
-    margin-bottom: 86px;
   }
 
   footer {

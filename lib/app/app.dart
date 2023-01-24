@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
+import 'package:holobooth/rive/rive.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class App extends StatelessWidget {
@@ -35,6 +36,10 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: convertRepository),
         RepositoryProvider.value(value: downloadRepository),
         RepositoryProvider.value(value: analyticsRepository),
+        RepositoryProvider(
+          lazy: false,
+          create: (context) => RiveFileManager()..loadAllAssets(),
+        ),
       ],
       child: BlocProvider(
         create: (context) => MuteSoundBloc(),

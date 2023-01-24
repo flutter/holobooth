@@ -23,6 +23,7 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
   assetUrls: {
     favicon: bucketPathForFile('public/favicon.png'),
     bg: bucketPathForFile('public/background.png'),
+    bgFooter: bucketPathForFile('public/background-footer.png'),
     playArrowIcon: bucketPathForFile('public/play-arrow.png'),
     shareIcon: bucketPathForFile('public/share.png'),
     flutterForwardLogo: bucketPathForFile('public/flutter-forward-logo.png'),
@@ -30,9 +31,9 @@ const BaseHTMLContext: Record<string, string | Record<string, string>> = {
     flutterIcon: bucketPathForFile('public/flutter-icon.png'),
     firebaseIcon: bucketPathForFile('public/firebase-icon.png'),
     tensorflowIcon: bucketPathForFile('public/tensorflow-icon.png'),
+    mediapipeIcon: bucketPathForFile('public/mediapipe-icon.png'),
+    metadataImage: bucketPathForFile('public/holobooth-metadata-image.jpeg'),
     holocard: bucketPathForFile('public/holocard.png'),
-    notFoundBg: bucketPathForFile('public/not-found-bg.png'),
-    notFoundMobileBg: bucketPathForFile('public/not-found-mobile-bg.png'),
     playerPlay: bucketPathForFile('public/player-play.png'),
     playerPause: bucketPathForFile('public/player-pause.png'),
     playerVolume: bucketPathForFile('public/player-volume.png'),
@@ -113,7 +114,6 @@ function renderSharePage(videoFileName: string, baseUrl: string): string {
     appUrl: baseUrl,
     shareUrl: `${baseUrl}/share/${videoFileName}`,
     shareVideoUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName}`),
-    thumbImageUrl: bucketPathForFile(`${UPLOAD_PATH}/${videoFileName.replace('mp4', 'png')}`),
   });
   return renderTemplate(shareTmpl, context);
 }

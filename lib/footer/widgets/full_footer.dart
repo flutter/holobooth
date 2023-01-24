@@ -10,11 +10,13 @@ class FullFooter extends StatelessWidget {
   FullFooter({
     super.key,
     this.showIconsForSmall = true,
+    this.footerDecoration = false,
     PlatformHelper? platformHelper,
   }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   final bool showIconsForSmall;
   final PlatformHelper _platformHelper;
+  final bool footerDecoration;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,15 @@ class FullFooter extends StatelessWidget {
 
     return Container(
       height: 100,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(Assets.backgrounds.landingBackgroundFooter.path),
-          fit: BoxFit.fill,
-        ),
-      ),
+      decoration: footerDecoration
+          ? BoxDecoration(
+              image: DecorationImage(
+                image:
+                    AssetImage(Assets.backgrounds.landingBackgroundFooter.path),
+                fit: BoxFit.fill,
+              ),
+            )
+          : null,
       child: ResponsiveLayoutBuilder(
         small: (context, child) {
           return Container(
@@ -73,28 +78,31 @@ class FullFooter extends StatelessWidget {
           );
         },
         large: (context, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 24,
-            ),
-            child: Row(
-              children: [
-                for (final icon in icons) ...[
-                  icon,
-                  gap,
-                ],
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: child,
+          return Align(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 24,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  for (final icon in icons) ...[
+                    icon,
+                    gap,
+                  ],
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: child,
+                    ),
                   ),
-                ),
-                if (!_platformHelper.isMobile) ...[
-                  gap,
-                  const MuteButton(),
+                  if (!_platformHelper.isMobile) ...[
+                    gap,
+                    const MuteButton(),
+                  ],
                 ],
-              ],
+              ),
             ),
           );
         },

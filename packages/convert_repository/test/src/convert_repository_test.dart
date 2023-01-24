@@ -93,19 +93,25 @@ void main() {
         expect(repository.generateVideo(), throwsException);
       });
 
-      test('return ConvertResponse with video, gif and first frame', () async {
-        when(() => streamedResponse.statusCode).thenReturn(200);
-        when(() => streamedResponse.stream).thenAnswer(
-          (_) => ByteStream.fromBytes(
-            '{"video_url": "video", "gif_url": "gif"}'.codeUnits,
-          ),
-        );
-        final response = await convertRepository.generateVideo();
+      test(
+        'return ConvertResponse with video, gif and first frame, and share '
+        'urls',
+        () async {
+          when(() => streamedResponse.statusCode).thenReturn(200);
+          when(() => streamedResponse.stream).thenAnswer(
+            (_) => ByteStream.fromBytes(
+              '{"video_url": "video", "gif_url": "gif"}'.codeUnits,
+            ),
+          );
+          final response = await convertRepository.generateVideo();
 
-        expect(response.videoUrl, equals('video'));
-        expect(response.gifUrl, equals('gif'));
-        expect(response.firstFrame, Uint8List(1));
-      });
+          expect(response.videoUrl, equals('video'));
+          expect(response.gifUrl, equals('gif'));
+          expect(response.firstFrame, Uint8List(1));
+          expect(response.twitterShareUrl, contains(response.videoUrl));
+          expect(response.facebookShareUrl, contains(response.videoUrl));
+        },
+      );
 
       test('throws ConvertException on status code different than 200',
           () async {
