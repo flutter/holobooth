@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
@@ -123,8 +124,8 @@ class PortalGame extends FlameGame {
 
   @override
   Future<void> onLoad() async {
+    images = Images(prefix: '');
     final data = mode.data;
-    images.prefix = '';
     final image = await _decodeImageFromList(imageBytes);
 
     final thumb = Sprite(image);
