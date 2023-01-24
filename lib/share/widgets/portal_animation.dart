@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
@@ -101,7 +103,13 @@ class PortalGame extends FlameGame {
     required this.mode,
     required this.imageBytes,
     required this.onComplete,
-  });
+    Future<Image> Function(Uint8List)? decodeImage,
+    Future<SpriteAnimation> Function(String, SpriteAnimationData)?
+        loadAnimation,
+  }) {
+    _decodeImageFromList = decodeImage ?? decodeImageFromList;
+    _loadAnimation = loadAnimation ?? loadSpriteAnimation;
+  }
 
   final PortalMode mode;
 
@@ -109,15 +117,20 @@ class PortalGame extends FlameGame {
 
   final VoidCallback onComplete;
 
+  late final Future<Image> Function(Uint8List) _decodeImageFromList;
+
+  late final Future<SpriteAnimation> Function(String, SpriteAnimationData)
+      _loadAnimation;
+
   @override
   Future<void> onLoad() async {
+    images = Images(prefix: '');
     final data = mode.data;
-    images.prefix = '';
-    final image = await decodeImageFromList(imageBytes);
+    final image = await _decodeImageFromList(imageBytes);
 
     final thumb = Sprite(image);
 
-    final animation = await loadSpriteAnimation(
+    final animation = await _loadAnimation(
       data.texturePath,
       SpriteAnimationData.sequenced(
         amount: data.frameAmout,
