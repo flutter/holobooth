@@ -14,13 +14,13 @@ export default `
     <meta property="og:title" content="{{meta.title}}">
     <meta property="og:description" content="{{meta.desc}}">
     <meta property="og:url" content="{{{shareUrl}}}">
-    <meta property="og:image" content="{{{thumbImageUrl}}}">
+    <meta property="og:image" content="{{{assetUrls.metadataImage}}}">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{meta.title}}">
     <meta name="twitter:text:title" content="{{meta.title}}">
     <meta name="twitter:description" content="{{meta.desc}}">
-    <meta name="twitter:image" content="{{{thumbImageUrl}}}">
+    <meta name="twitter:image" content="{{{assetUrls.metadataImage}}}">
     <meta name="twitter:site" content="@flutterdev">
 
     <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500" rel="stylesheet">
@@ -46,11 +46,6 @@ export default `
             <img src={{assetUrls.playArrowIcon}} />
             Try now
           </a>
-          <p class="disclaimer">
-          Your photo will be available at that URL for 30 days and then automatically deleted.
-          To request early deletion of your photo, please contact flutter-photo-booth@google.com and
-          be sure to include your unique URL in your request.
-          </p>
         </div>
       </div>
     </main>

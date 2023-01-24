@@ -119,16 +119,6 @@ h2 {
   border: 1px solid #676AB6;
 }
 
-.disclaimer {
-  margin-top: 48px;
-  font-family: 'Google Sans';
-  font-style: italic;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 20px;
-  color: #C0C0C0;
-}
-
 .holocard {
   width: 708px;
   height: 716px;
@@ -402,10 +392,6 @@ footer .right a {
     display: flex;
   }
 
-  .not-found-backdrop {
-    background-image: url("{{{assetUrls.notFoundMobileBg}}}");
-  }
-
   .not-found-panel {
     padding: 24px 0;
   }
@@ -466,10 +452,6 @@ footer .right a {
   .try-now-btn {
     margin-right: 0px;
     margin-bottom: 24px;
-  }
-
-  .disclaimer {
-    margin-bottom: 86px;
   }
 
   footer {
