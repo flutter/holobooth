@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/camera/bloc/camera_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
@@ -41,6 +42,14 @@ class _MockMuteSoundBloc extends MockBloc<MuteSoundEvent, MuteSoundState>
   }
 }
 
+class _MockCameraBloc
+    extends MockBloc<HoloboothCameraEvent, HoloboothCameraState>
+    implements CameraBloc {
+  _MockCameraBloc() {
+    when(() => state).thenReturn(HoloboothCameraState());
+  }
+}
+
 class _FakeAnalyticsEvent extends Fake implements AnalyticsEvent {}
 
 class _MockAnalyticsRepository extends Mock implements AnalyticsRepository {
@@ -67,6 +76,7 @@ extension PumpApp on WidgetTester {
     DownloadRepository? downloadRepository,
     AnalyticsRepository? analyticsRepository,
     MuteSoundBloc? muteSoundBloc,
+    CameraBloc? cameraBloc,
     RiveFileManager? riveFileManager,
   }) async {
     return mockNetworkImages(() async {
@@ -90,8 +100,15 @@ extension PumpApp on WidgetTester {
               value: riveFileManager ?? _FakeRiveFileManager(),
             ),
           ],
-          child: BlocProvider(
-            create: (context) => muteSoundBloc ?? _MockMuteSoundBloc(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => muteSoundBloc ?? _MockMuteSoundBloc(),
+              ),
+              BlocProvider(
+                create: (context) => cameraBloc ?? _MockCameraBloc(),
+              ),
+            ],
             child: MaterialApp(
               localizationsDelegates: const [
                 AppLocalizations.delegate,

@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:holobooth/camera/camera.dart';
 
 class CameraView extends StatefulWidget {
-  const CameraView({
-    super.key,
-    required this.onCameraReady,
-  });
+  const CameraView({super.key, required this.onCameraReady, this.camera});
 
   @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
@@ -20,6 +17,8 @@ class CameraView extends StatefulWidget {
   static const cameraPreviewKey = Key('cameraView_cameraPreview');
 
   final void Function(CameraController controller)? onCameraReady;
+
+  final CameraDescription? camera;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -47,7 +46,7 @@ class _CameraViewState extends State<CameraView> {
     try {
       final cameras = await availableCameras();
       _cameraController = CameraController(
-        cameras[0],
+        widget.camera ?? cameras[0],
         ResolutionPreset.high,
         enableAudio: false,
       );

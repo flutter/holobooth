@@ -4,34 +4,50 @@ import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class CameraErrorView extends StatelessWidget {
-  const CameraErrorView({super.key, required this.error});
+  const CameraErrorView({super.key, required this.error, this.textStyle});
 
   final CameraException error;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
+    final largeTextStyle = Theme.of(context)
+        .textTheme
+        .bodyLarge
+        ?.copyWith(color: HoloBoothColors.white);
     switch (error.code) {
       case 'CameraAccessDenied':
-        return const CameraAccessDeniedErrorView();
+        return CameraAccessDeniedErrorView(
+          textStyle: textStyle ?? largeTextStyle,
+        );
       default:
-        return const CameraNotFoundErrorView();
+        return CameraNotFoundErrorView(
+          textStyle: textStyle ?? largeTextStyle,
+        );
     }
   }
 }
 
 class CameraNotFoundErrorView extends StatelessWidget {
-  const CameraNotFoundErrorView({super.key});
+  const CameraNotFoundErrorView({super.key, required this.textStyle});
+
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return _CameraErrorViewContent(errorMessage: l10n.cameraNotFoundMessage);
+    return _CameraErrorViewContent(
+      errorMessage: l10n.cameraNotFoundMessage,
+      textStyle: textStyle,
+    );
   }
 }
 
 class CameraAccessDeniedErrorView extends StatelessWidget {
-  const CameraAccessDeniedErrorView({super.key});
+  const CameraAccessDeniedErrorView({super.key, required this.textStyle});
+
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +55,19 @@ class CameraAccessDeniedErrorView extends StatelessWidget {
 
     return _CameraErrorViewContent(
       errorMessage: l10n.cameraAccessDeniedMessage,
+      textStyle: textStyle,
     );
   }
 }
 
 class _CameraErrorViewContent extends StatelessWidget {
-  const _CameraErrorViewContent({required this.errorMessage});
+  const _CameraErrorViewContent({
+    required this.errorMessage,
+    required this.textStyle,
+  });
 
   final String errorMessage;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +86,7 @@ class _CameraErrorViewContent extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             errorMessage,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(color: HoloBoothColors.white),
+            style: textStyle,
           ),
         ],
       ),
