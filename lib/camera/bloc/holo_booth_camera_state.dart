@@ -5,14 +5,6 @@ class HoloboothCameraState extends Equatable {
 
   final CameraDescription? camera;
 
-  HoloboothCameraState copyWith({
-    CameraDescription? camera,
-  }) {
-    return HoloboothCameraState(
-      camera: camera ?? this.camera,
-    );
-  }
-
   @override
   List<Object?> get props => [camera];
 }

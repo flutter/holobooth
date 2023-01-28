@@ -140,6 +140,7 @@ class _CameraSelector extends StatelessWidget {
 
           if (cameras == null || cameras.isEmpty) {
             return const Icon(
+              key: Key('animojiIntro_no_camera_icon'),
               Icons.videocam_off,
               color: HoloBoothColors.white,
             );
@@ -178,6 +179,7 @@ class _CameraSelector extends StatelessWidget {
           final error = snapshot.error;
           if (error is CameraException) {
             return CameraErrorView(
+              key: const Key('animojiIntro_camera_error_view'),
               error: error,
               textStyle: Theme.of(context)
                   .textTheme

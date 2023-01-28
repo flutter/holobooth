@@ -14,7 +14,9 @@ class CameraBloc extends Bloc<HoloboothCameraEvent, HoloboothCameraState> {
   }
 
   FutureOr<void> _onCameraChangedEvent(
-      CameraChanged event, Emitter<HoloboothCameraState> emit) {
-    emit(state.copyWith(camera: event.camera));
+    CameraChanged event,
+    Emitter<HoloboothCameraState> emit,
+  ) {
+    emit(HoloboothCameraState(camera: event.camera));
   }
 }
