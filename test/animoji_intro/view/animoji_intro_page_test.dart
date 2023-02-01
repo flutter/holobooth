@@ -20,11 +20,9 @@ class _MockCameraBloc extends MockBloc<CameraEvent, CameraState>
     implements CameraBloc {}
 
 void main() {
-  final cameraPlatform = _MockCameraPlatform();
-  CameraPlatform.instance = cameraPlatform;
-
-  final cameraBloc = _MockCameraBloc();
-  final camerasStub = [
+  late _MockCameraPlatform cameraPlatform;
+  late _MockCameraBloc cameraBloc;
+  const camerasStub = [
     CameraDescription(
       name: 'Camera 1',
       lensDirection: CameraLensDirection.front,
@@ -36,6 +34,12 @@ void main() {
       sensorOrientation: 0,
     ),
   ];
+
+  setUp(() {
+    cameraBloc = _MockCameraBloc();
+    cameraPlatform = _MockCameraPlatform();
+    CameraPlatform.instance = cameraPlatform;
+  });
 
   group('AnimojiIntroPage', () {
     testWidgets('renders AnimojiIntroView', (tester) async {
