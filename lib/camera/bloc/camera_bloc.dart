@@ -4,19 +4,19 @@ import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 
-part 'holo_booth_camera_event.dart';
+part 'camera_event.dart';
 
-part 'holo_booth_camera_state.dart';
+part 'camera_state.dart';
 
-class CameraBloc extends Bloc<HoloboothCameraEvent, HoloboothCameraState> {
-  CameraBloc() : super(const HoloboothCameraState()) {
+class CameraBloc extends Bloc<CameraEvent, CameraState> {
+  CameraBloc() : super(const CameraState()) {
     on<CameraChanged>(_onCameraChangedEvent);
   }
 
   FutureOr<void> _onCameraChangedEvent(
     CameraChanged event,
-    Emitter<HoloboothCameraState> emit,
+    Emitter<CameraState> emit,
   ) {
-    emit(HoloboothCameraState(camera: event.camera));
+    emit(CameraState(camera: event.camera));
   }
 }

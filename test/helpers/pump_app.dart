@@ -42,11 +42,10 @@ class _MockMuteSoundBloc extends MockBloc<MuteSoundEvent, MuteSoundState>
   }
 }
 
-class _MockCameraBloc
-    extends MockBloc<HoloboothCameraEvent, HoloboothCameraState>
+class _MockCameraBloc extends MockBloc<CameraEvent, CameraState>
     implements CameraBloc {
   _MockCameraBloc() {
-    when(() => state).thenReturn(HoloboothCameraState());
+    when(() => state).thenReturn(CameraState());
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_platform_interface/camera_platform_interface.dart'
+    hide CameraEvent;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
@@ -15,8 +16,7 @@ class _MockCameraPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements CameraPlatform {}
 
-class _MockCameraBloc
-    extends MockBloc<HoloboothCameraEvent, HoloboothCameraState>
+class _MockCameraBloc extends MockBloc<CameraEvent, CameraState>
     implements CameraBloc {}
 
 void main() {
@@ -118,7 +118,7 @@ void main() {
         when(cameraPlatform.availableCameras)
             .thenAnswer((_) async => camerasStub);
         when(() => cameraBloc.state)
-            .thenReturn(HoloboothCameraState(camera: camerasStub[0]));
+            .thenReturn(CameraState(camera: camerasStub[0]));
       });
 
       testWidgets('displays dropdown button with the list of available cameras',

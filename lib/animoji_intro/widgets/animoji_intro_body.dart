@@ -163,7 +163,7 @@ class _CameraSelector extends StatelessWidget {
 
           context.read<CameraBloc>().add(CameraChanged(cameras[0]));
 
-          return BlocBuilder<CameraBloc, HoloboothCameraState>(
+          return BlocBuilder<CameraBloc, CameraState>(
             builder: (context, state) => DropdownButton<CameraDescription>(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               value: state.camera,

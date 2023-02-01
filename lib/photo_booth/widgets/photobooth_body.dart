@@ -75,7 +75,7 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     return Stack(
       children: [
         Align(
-          child: BlocBuilder<CameraBloc, HoloboothCameraState>(
+          child: BlocBuilder<CameraBloc, CameraState>(
             builder: (context, state) => CameraView(
               camera: state.camera,
               onCameraReady: _onCameraReady,

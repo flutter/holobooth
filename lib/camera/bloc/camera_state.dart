@@ -1,7 +1,7 @@
 part of 'camera_bloc.dart';
 
-class HoloboothCameraState extends Equatable {
-  const HoloboothCameraState({this.camera});
+class CameraState extends Equatable {
+  const CameraState({this.camera});
 
   final CameraDescription? camera;
 

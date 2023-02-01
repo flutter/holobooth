@@ -1,10 +1,10 @@
 part of 'camera_bloc.dart';
 
-abstract class HoloboothCameraEvent extends Equatable {
-  const HoloboothCameraEvent();
+abstract class CameraEvent extends Equatable {
+  const CameraEvent();
 }
 
-class CameraChanged extends HoloboothCameraEvent {
+class CameraChanged extends CameraEvent {
   const CameraChanged(this.camera);
 
   final CameraDescription? camera;

@@ -6,7 +6,7 @@ import 'package:holobooth/camera/bloc/camera_bloc.dart';
 void main() {
   group('CameraBloc', () {
     test('initial camera is null', () {
-      expect(HoloboothCameraState().camera, isNull);
+      expect(CameraState().camera, isNull);
     });
 
     final cameraDesc = CameraDescription(
@@ -15,13 +15,11 @@ void main() {
       sensorOrientation: 0,
     );
 
-    blocTest<CameraBloc, HoloboothCameraState>(
+    blocTest<CameraBloc, CameraState>(
       'emits state with new camera when camera is changed',
       build: CameraBloc.new,
       act: (bloc) => bloc.add(CameraChanged(cameraDesc)),
-      expect: () => [
-        HoloboothCameraState(camera: cameraDesc),
-      ],
+      expect: () => [CameraState(camera: cameraDesc)],
     );
   });
 }
