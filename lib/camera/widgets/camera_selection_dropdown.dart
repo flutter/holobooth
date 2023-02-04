@@ -15,51 +15,13 @@ class CameraSelectionDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: availableCameras(),
-      builder: (_, snapshot) {
-        if (snapshot.hasData) {
-          final cameras = snapshot.data;
-
-          if (cameras == null || cameras.isEmpty) {
-            return const Icon(
-              key: noCameraIconKey,
-              Icons.videocam_off,
-              color: HoloBoothColors.white,
-            );
-          }
-
-          final dropdownItems = cameras
-              .map(
-                (camera) => DropdownMenuItem(
-                  value: camera,
-                  child: Text(
-                    camera.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: HoloBoothColors.white),
-                  ),
-                ),
-              )
-              .toList();
-
-          context.read<CameraBloc>().add(CameraChanged(cameras[0]));
-
-          return BlocBuilder<CameraBloc, CameraState>(
-            builder: (context, state) => DropdownButton<CameraDescription>(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              value: state.camera,
-              dropdownColor: HoloBoothColors.darkPurple,
-              items: dropdownItems,
-              onChanged: (value) =>
-                  context.read<CameraBloc>().add(CameraChanged(value!)),
-            ),
-          );
-        }
-
-        if (snapshot.hasError) {
-          final error = snapshot.error;
+    return BlocBuilder<CameraBloc, CameraState>(
+      buildWhen: (previous, current) =>
+          previous.availableCameras != current.availableCameras ||
+          previous.cameraError != current.cameraError,
+      builder: (_, state) {
+        if (state.cameraError != null) {
+          final error = state.cameraError;
           if (error is CameraException) {
             return CameraErrorView(
               key: cameraErrorViewKey,
@@ -72,10 +34,47 @@ class CameraSelectionDropdown extends StatelessWidget {
           }
         }
 
-        return const Padding(
-          padding: EdgeInsets.all(16),
-          child: CircularProgressIndicator(
-            color: HoloBoothColors.convertLoading,
+        if (state.availableCameras == null) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: CircularProgressIndicator(
+              color: HoloBoothColors.convertLoading,
+            ),
+          );
+        }
+
+        final cameras = state.availableCameras;
+        if (cameras == null || cameras.isEmpty) {
+          return const Icon(
+            key: noCameraIconKey,
+            Icons.videocam_off,
+            color: HoloBoothColors.white,
+          );
+        }
+
+        final dropdownItems = cameras
+            .map(
+              (camera) => DropdownMenuItem(
+                value: camera,
+                child: Text(
+                  camera.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: HoloBoothColors.white),
+                ),
+              ),
+            )
+            .toList();
+
+        return BlocBuilder<CameraBloc, CameraState>(
+          builder: (context, state) => DropdownButton<CameraDescription>(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            value: state.camera,
+            dropdownColor: HoloBoothColors.darkPurple,
+            items: dropdownItems,
+            onChanged: (value) =>
+                context.read<CameraBloc>().add(CameraChanged(value!)),
           ),
         );
       },

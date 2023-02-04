@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart'
     hide CameraEvent;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
 import 'package:holobooth/camera/camera.dart';
@@ -103,9 +104,13 @@ void main() {
 
     testWidgets('renders no camera icon when available cameras list is empty',
         (tester) async {
-      when(cameraPlatform.availableCameras).thenAnswer((_) async => []);
+      when(() => cameraBloc.state)
+          .thenReturn(CameraState(availableCameras: const []));
 
-      await tester.pumpSubject(const AnimojiIntroView());
+      await tester.pumpSubject(
+        const AnimojiIntroView(),
+        cameraBloc: cameraBloc,
+      );
       await tester.pump();
 
       expect(
@@ -114,11 +119,15 @@ void main() {
       );
     });
 
-    testWidgets('renders error view when availableCameras throws an error',
+    testWidgets('renders error view when there is camera error',
         (tester) async {
-      when(cameraPlatform.availableCameras).thenThrow(CameraException('', ''));
+      when(() => cameraBloc.state)
+          .thenReturn(CameraState(cameraError: CameraException('', '')));
 
-      await tester.pumpSubject(const AnimojiIntroView());
+      await tester.pumpSubject(
+        const AnimojiIntroView(),
+        cameraBloc: cameraBloc,
+      );
       await tester.pump();
 
       expect(
@@ -131,13 +140,20 @@ void main() {
       setUp(() {
         when(cameraPlatform.availableCameras)
             .thenAnswer((_) async => camerasStub);
-        when(() => cameraBloc.state)
-            .thenReturn(CameraState(camera: camerasStub[0]));
+        when(() => cameraBloc.state).thenReturn(
+          CameraState(
+            camera: camerasStub[0],
+            availableCameras: camerasStub,
+          ),
+        );
       });
 
       testWidgets('displays dropdown button with the list of available cameras',
           (tester) async {
-        await tester.pumpSubject(const AnimojiIntroView());
+        await tester.pumpSubject(
+          const AnimojiIntroView(),
+          cameraBloc: cameraBloc,
+        );
         await tester.pump();
 
         expect(find.byType(DropdownButton<CameraDescription>), findsOneWidget);
@@ -145,18 +161,6 @@ void main() {
         for (var i = 0; i < camerasStub.length; i++) {
           expect(find.text(camerasStub[i].name), findsOneWidget);
         }
-      });
-
-      testWidgets(
-          'emits camera change event with '
-          'the first available camera by default', (tester) async {
-        await tester.pumpSubject(
-          const AnimojiIntroView(),
-          cameraBloc: cameraBloc,
-        );
-        await tester.pump();
-
-        verify(() => cameraBloc.add(CameraChanged(camerasStub[0]))).called(1);
       });
 
       testWidgets('emits camera change event when dropdown value changes',
@@ -174,6 +178,28 @@ void main() {
         await tester.pumpAndSettle();
 
         verify(() => cameraBloc.add(CameraChanged(camerasStub[1]))).called(1);
+      });
+
+      testWidgets('does not rebuild when camera changed', (tester) async {
+        await tester.pumpSubject(
+          const AnimojiIntroView(),
+          cameraBloc: cameraBloc,
+        );
+        await tester.pump();
+
+        final blocBuilder = find
+            .byType(BlocBuilder<CameraBloc, CameraState>)
+            .evaluate()
+            .first
+            .widget as BlocBuilder<CameraBloc, CameraState>;
+
+        expect(
+          blocBuilder.buildWhen!(
+            cameraBloc.state,
+            cameraBloc.state.copyWith(camera: camerasStub[1]),
+          ),
+          equals(false),
+        );
       });
     });
   });

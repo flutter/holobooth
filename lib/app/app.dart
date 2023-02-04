@@ -45,7 +45,9 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => MuteSoundBloc()),
-          BlocProvider(create: (context) => CameraBloc()),
+          BlocProvider(
+            create: (context) => CameraBloc()..add(CameraStarted()),
+          ),
         ],
         child: AnimatedFadeIn(
           child: ResponsiveLayoutBuilder(
