@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:holobooth/camera/bloc/camera_bloc.dart';
+import 'package:holobooth/camera/camera.dart';
 
 void main() {
   group('CameraBloc', () {

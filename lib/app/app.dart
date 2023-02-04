@@ -6,7 +6,7 @@ import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
-import 'package:holobooth/camera/bloc/camera_bloc.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth/rive/rive.dart';

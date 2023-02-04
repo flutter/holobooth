@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
-import 'package:holobooth/camera/bloc/camera_bloc.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/rive/rive.dart';
 import 'package:mocktail/mocktail.dart';
