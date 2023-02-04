@@ -117,7 +117,7 @@ class _BottomContent extends StatelessWidget {
               textAlign: smallScreen ? TextAlign.center : TextAlign.left,
             ),
           ),
-          const CameraSelector(),
+          const CameraSelectionDropdown(),
           const Flexible(child: AnimojiNextButton()),
         ],
       ),

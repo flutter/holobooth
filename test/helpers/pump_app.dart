@@ -114,7 +114,7 @@ extension PumpApp on WidgetTester {
                 GlobalMaterialLocalizations.delegate,
               ],
               supportedLocales: AppLocalizations.supportedLocales,
-              home: Scaffold(body: widget),
+              home: widget,
             ),
           ),
         ),

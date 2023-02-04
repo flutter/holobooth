@@ -4,7 +4,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
-import 'package:holobooth/camera/bloc/camera_bloc.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -20,8 +20,8 @@ class _MockCameraBloc extends MockBloc<CameraEvent, CameraState>
     implements CameraBloc {}
 
 void main() {
-  late _MockCameraPlatform cameraPlatform;
-  late _MockCameraBloc cameraBloc;
+  late CameraPlatform cameraPlatform;
+  late CameraBloc cameraBloc;
   const camerasStub = [
     CameraDescription(
       name: 'Camera 1',
@@ -41,6 +41,10 @@ void main() {
     CameraPlatform.instance = cameraPlatform;
   });
 
+  tearDown(() {
+    CameraPlatform.instance = _MockCameraPlatform();
+  });
+
   group('AnimojiIntroPage', () {
     testWidgets('renders AnimojiIntroView', (tester) async {
       await tester.pumpApp(AnimojiIntroPage());
@@ -50,30 +54,30 @@ void main() {
 
   group('AnimojiIntroView', () {
     testWidgets('renders background', (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       expect(find.byType(AnimojiIntroBackground), findsOneWidget);
     });
 
     testWidgets('renders subheading', (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       expect(find.byKey(Key('animojiIntro_subheading_text')), findsOneWidget);
     });
 
     testWidgets('renders animation', (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       expect(find.byType(AnimatedSprite), findsOneWidget);
       final widget = tester.widget<AnimatedSprite>(find.byType(AnimatedSprite));
       expect(widget.sprites.asset, equals('holobooth_avatar.png'));
     });
 
     testWidgets('renders AnimojiNextButton', (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       expect(find.byType(AnimojiNextButton), findsOneWidget);
     });
 
     testWidgets('tapping on AnimojiNextButton navigates to PhotoBoothPage',
         (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       await tester.ensureVisible(find.byType(AnimojiNextButton));
       await tester.pump();
       await tester.tap(
@@ -93,7 +97,7 @@ void main() {
     testWidgets(
         'renders CircularProgressIndicator while availableCameras() is running',
         (tester) async {
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
@@ -101,23 +105,29 @@ void main() {
         (tester) async {
       when(cameraPlatform.availableCameras).thenAnswer((_) async => []);
 
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       await tester.pump();
 
-      expect(find.byKey(Key('animojiIntro_no_camera_icon')), findsOneWidget);
+      expect(
+        find.byKey(CameraSelectionDropdown.noCameraIconKey),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders error view when availableCameras throws an error',
         (tester) async {
       when(cameraPlatform.availableCameras).thenThrow(CameraException('', ''));
 
-      await tester.pumpApp(const AnimojiIntroView());
+      await tester.pumpSubject(const AnimojiIntroView());
       await tester.pump();
 
-      expect(find.byKey(Key('animojiIntro_camera_error_view')), findsOneWidget);
+      expect(
+        find.byKey(CameraSelectionDropdown.cameraErrorViewKey),
+        findsOneWidget,
+      );
     });
 
-    group('Cameras dropdown', () {
+    group('CameraSelectionDropdown', () {
       setUp(() {
         when(cameraPlatform.availableCameras)
             .thenAnswer((_) async => camerasStub);
@@ -127,7 +137,7 @@ void main() {
 
       testWidgets('displays dropdown button with the list of available cameras',
           (tester) async {
-        await tester.pumpApp(const AnimojiIntroView());
+        await tester.pumpSubject(const AnimojiIntroView());
         await tester.pump();
 
         expect(find.byType(DropdownButton<CameraDescription>), findsOneWidget);
@@ -139,7 +149,10 @@ void main() {
 
       testWidgets('emits camera change event when dropdown value changes',
           (tester) async {
-        await tester.pumpApp(const AnimojiIntroView(), cameraBloc: cameraBloc);
+        await tester.pumpSubject(
+          const AnimojiIntroView(),
+          cameraBloc: cameraBloc,
+        );
         await tester.pump();
 
         await tester.tap(find.byType(DropdownButton<CameraDescription>));
@@ -152,4 +165,12 @@ void main() {
       });
     });
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpSubject(
+    AnimojiIntroView subject, {
+    CameraBloc? cameraBloc,
+  }) =>
+      pumpApp(Scaffold(body: subject), cameraBloc: cameraBloc);
 }

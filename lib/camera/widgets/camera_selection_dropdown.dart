@@ -4,8 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
-class CameraSelector extends StatelessWidget {
-  const CameraSelector({super.key});
+class CameraSelectionDropdown extends StatelessWidget {
+  const CameraSelectionDropdown({super.key});
+
+  @visibleForTesting
+  static const noCameraIconKey = Key('no_camera_icon');
+
+  @visibleForTesting
+  static const cameraErrorViewKey = Key('camera_error_view');
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class CameraSelector extends StatelessWidget {
 
           if (cameras == null || cameras.isEmpty) {
             return const Icon(
-              key: Key('animojiIntro_no_camera_icon'),
+              key: noCameraIconKey,
               Icons.videocam_off,
               color: HoloBoothColors.white,
             );
@@ -47,7 +53,7 @@ class CameraSelector extends StatelessWidget {
               dropdownColor: HoloBoothColors.darkPurple,
               items: dropdownItems,
               onChanged: (value) =>
-                  context.read<CameraBloc>().add(CameraChanged(value)),
+                  context.read<CameraBloc>().add(CameraChanged(value!)),
             ),
           );
         }
@@ -56,7 +62,7 @@ class CameraSelector extends StatelessWidget {
           final error = snapshot.error;
           if (error is CameraException) {
             return CameraErrorView(
-              key: const Key('animojiIntro_camera_error_view'),
+              key: cameraErrorViewKey,
               error: error,
               textStyle: Theme.of(context)
                   .textTheme

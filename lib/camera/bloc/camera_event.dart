@@ -7,7 +7,7 @@ abstract class CameraEvent extends Equatable {
 class CameraChanged extends CameraEvent {
   const CameraChanged(this.camera);
 
-  final CameraDescription? camera;
+  final CameraDescription camera;
 
   @override
   List<Object?> get props => [camera];
