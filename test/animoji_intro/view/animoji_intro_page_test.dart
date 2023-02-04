@@ -147,6 +147,18 @@ void main() {
         }
       });
 
+      testWidgets(
+          'emits camera change event with '
+          'the first available camera by default', (tester) async {
+        await tester.pumpSubject(
+          const AnimojiIntroView(),
+          cameraBloc: cameraBloc,
+        );
+        await tester.pump();
+
+        verify(() => cameraBloc.add(CameraChanged(camerasStub[0]))).called(1);
+      });
+
       testWidgets('emits camera change event when dropdown value changes',
           (tester) async {
         await tester.pumpSubject(

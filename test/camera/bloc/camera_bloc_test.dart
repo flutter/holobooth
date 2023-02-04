@@ -21,5 +21,13 @@ void main() {
       act: (bloc) => bloc.add(CameraChanged(cameraDesc)),
       expect: () => [CameraState(camera: cameraDesc)],
     );
+
+    blocTest<CameraBloc, CameraState>(
+      'emits nothing if changed camera is the same as before',
+      build: CameraBloc.new,
+      seed: () => CameraState(camera: cameraDesc),
+      act: (bloc) => bloc.add(CameraChanged(cameraDesc)),
+      expect: () => <CameraState>[],
+    );
   });
 }
