@@ -88,6 +88,10 @@
   "@cameraNotFoundMessage": {
     "description": "Text displayed when camera is not found."
   },
+  "unknownCameraErrorMessage": "Unknown camera error",
+  "@unknownCameraErrorMessage": {
+    "description": "Text displayed when unknown camera error occurred"
+  },
   "sharePageLearnMoreAboutTextPart1": "Learn ",
   "@sharePageLearnMoreAboutTextPart1": {
     "description": "Part 1 text shown on the share page which mentions technologies used to build the app."

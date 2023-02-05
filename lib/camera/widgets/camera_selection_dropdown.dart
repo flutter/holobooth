@@ -2,13 +2,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/camera/camera.dart';
+import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class CameraSelectionDropdown extends StatelessWidget {
   const CameraSelectionDropdown({super.key});
-
-  @visibleForTesting
-  static const noCameraIconKey = Key('no_camera_icon');
 
   @visibleForTesting
   static const cameraErrorViewKey = Key('camera_error_view');
@@ -21,17 +19,10 @@ class CameraSelectionDropdown extends StatelessWidget {
           previous.cameraError != current.cameraError,
       builder: (_, state) {
         if (state.cameraError != null) {
-          final error = state.cameraError;
-          if (error is CameraException) {
-            return CameraErrorView(
-              key: cameraErrorViewKey,
-              error: error,
-              textStyle: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: HoloBoothColors.white),
-            );
-          }
+          return _CameraErrorView(
+            key: cameraErrorViewKey,
+            error: state.cameraError!,
+          );
         }
 
         if (state.availableCameras == null) {
@@ -45,10 +36,9 @@ class CameraSelectionDropdown extends StatelessWidget {
 
         final cameras = state.availableCameras;
         if (cameras == null || cameras.isEmpty) {
-          return const Icon(
-            key: noCameraIconKey,
-            Icons.videocam_off,
-            color: HoloBoothColors.white,
+          return _CameraErrorView(
+            key: cameraErrorViewKey,
+            error: CameraException('cameraNotFound', 'Camera not found'),
           );
         }
 
@@ -78,6 +68,49 @@ class CameraSelectionDropdown extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _CameraErrorView extends StatelessWidget {
+  const _CameraErrorView({super.key, required this.error});
+
+  final Object error;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = HoloBoothColors.red;
+    final l10n = context.l10n;
+
+    var errorMessage = l10n.unknownCameraErrorMessage;
+    if (error is CameraException) {
+      final cameraException = error as CameraException;
+      switch (cameraException.code) {
+        case 'CameraAccessDenied':
+          errorMessage = l10n.cameraAccessDeniedMessage;
+          break;
+        default:
+          errorMessage = l10n.cameraNotFoundMessage;
+      }
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(
+          Icons.videocam_off,
+          color: color,
+        ),
+        const SizedBox(width: 12),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 200),
+          child: Text(
+            errorMessage,
+            style:
+                Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
+          ),
+        ),
+      ],
     );
   }
 }

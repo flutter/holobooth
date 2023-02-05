@@ -102,7 +102,7 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('renders no camera icon when available cameras list is empty',
+    testWidgets('renders error view when available cameras list is empty',
         (tester) async {
       when(() => cameraBloc.state)
           .thenReturn(CameraState(availableCameras: const []));
@@ -114,15 +114,16 @@ void main() {
       await tester.pump();
 
       expect(
-        find.byKey(CameraSelectionDropdown.noCameraIconKey),
+        find.byKey(CameraSelectionDropdown.cameraErrorViewKey),
         findsOneWidget,
       );
     });
 
     testWidgets('renders error view when there is camera error',
         (tester) async {
-      when(() => cameraBloc.state)
-          .thenReturn(CameraState(cameraError: CameraException('', '')));
+      when(() => cameraBloc.state).thenReturn(
+        CameraState(cameraError: CameraException('CameraAccessDenied', '')),
+      );
 
       await tester.pumpSubject(
         const AnimojiIntroView(),
