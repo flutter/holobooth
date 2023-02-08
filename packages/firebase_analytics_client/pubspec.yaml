@@ -2,7 +2,7 @@ name: firebase_analytics_client
 description: A Flutter package which adds analytics support
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
   meta: ^1.7.0
