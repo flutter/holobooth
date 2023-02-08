@@ -19,7 +19,7 @@ void main() {
     late RiveFile riveFile;
 
     setUp(() async {
-      loadRiveFile = _MockLoadRiveFile();
+      loadRiveFile = _MockLoadRiveFile().call;
       riveFile = await RiveFile.asset(Assets.animations.dashMobile.path);
 
       when(() => loadRiveFile.call(any())).thenAnswer((_) async => riveFile);
