@@ -1,7 +1,7 @@
-/// GENERATED CODE - DO NOT MODIFY BY HAND
-/// *****************************************************
-///  FlutterGen
-/// *****************************************************
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// *****************************************************
+//  FlutterGen
+// *****************************************************
 import 'package:flutter/widgets.dart';
 import 'package:rive/rive.dart';
 

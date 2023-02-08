@@ -1,11 +1,7 @@
-/// Collection of equivalent Dart types matching TensorFlow's TypeScript
-/// implementation.
-///
-/// See also:
-///
-/// * [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts)
-import 'dart:collection';
+// This file is a collection of equivalent Dart types matching TensorFlow's
+// [TypeScript types implementation](https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection/src/types.ts).
 
+import 'dart:collection';
 import 'package:meta/meta.dart';
 import 'package:tensorflow_models_platform_interface/tensorflow_models_platform_interface.dart';
 
