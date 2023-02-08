@@ -11,7 +11,10 @@ enum ConvertErrorOrigin {
 }
 
 class ConvertErrorView extends StatelessWidget {
-  const ConvertErrorView({super.key, required this.convertErrorOrigin});
+  const ConvertErrorView({
+    required this.convertErrorOrigin,
+    super.key,
+  });
 
   final ConvertErrorOrigin convertErrorOrigin;
 

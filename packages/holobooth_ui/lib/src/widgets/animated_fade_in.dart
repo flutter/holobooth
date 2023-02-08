@@ -8,8 +8,8 @@ const _defaultFadeInDuration = Duration(seconds: 1);
 class AnimatedFadeIn extends StatefulWidget {
   /// {@macro animated_fade_in}
   const AnimatedFadeIn({
-    super.key,
     required this.child,
+    super.key,
     this.duration = _defaultFadeInDuration,
   });
 

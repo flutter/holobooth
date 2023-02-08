@@ -3,9 +3,9 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class PropsScrollView extends StatelessWidget {
   const PropsScrollView({
-    super.key,
     required this.itemBuilder,
     required this.itemCount,
+    super.key,
   });
 
   final Widget? Function(BuildContext context, int index) itemBuilder;

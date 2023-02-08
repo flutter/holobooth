@@ -3,7 +3,10 @@ import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareDialogCloseButton extends StatelessWidget {
-  const ShareDialogCloseButton({super.key, required this.size});
+  const ShareDialogCloseButton({
+    required this.size,
+    super.key,
+  });
 
   final double size;
 

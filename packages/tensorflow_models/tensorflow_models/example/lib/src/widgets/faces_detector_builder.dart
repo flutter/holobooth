@@ -7,9 +7,9 @@ import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class FacesDetectorBuilder extends StatefulWidget {
   const FacesDetectorBuilder({
-    Key? key,
     required this.cameraController,
     required this.builder,
+    Key? key,
   }) : super(key: key);
 
   final CameraController cameraController;

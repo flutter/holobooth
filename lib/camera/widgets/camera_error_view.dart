@@ -4,7 +4,10 @@ import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class CameraErrorView extends StatelessWidget {
-  const CameraErrorView({super.key, required this.error});
+  const CameraErrorView({
+    required this.error,
+    super.key,
+  });
 
   final CameraException error;
 

@@ -5,8 +5,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ConvertLoadingAnimation extends StatelessWidget {
   const ConvertLoadingAnimation({
-    super.key,
     required this.dimension,
+    super.key,
   });
 
   final double dimension;

@@ -107,10 +107,10 @@ extension NormalizeKeypoint on tf.Keypoint {
 extension NormalizeNum on num {
   /// {@macro normalize_number}
   double normalize({
-    num fromMin = 0,
     required num fromMax,
-    num toMin = 0,
     required num toMax,
+    num fromMin = 0,
+    num toMin = 0,
   }) {
     return (toMax - toMin) * ((this - fromMin) / (fromMax - fromMin)) + toMin;
   }

@@ -50,8 +50,8 @@ enum AnimationMode {
 class AnimatedSprite extends StatefulWidget {
   /// {@macro animated_sprite}
   const AnimatedSprite({
-    super.key,
     required this.sprites,
+    super.key,
     this.mode = AnimationMode.loop,
     this.showLoadingIndicator = true,
     this.loadingIndicatorColor = HoloBoothColors.orange,

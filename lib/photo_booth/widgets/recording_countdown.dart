@@ -6,8 +6,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RecordingCountdown extends StatefulWidget {
   const RecordingCountdown({
-    super.key,
     required this.onCountdownCompleted,
+    super.key,
   });
 
   final VoidCallback onCountdownCompleted;
@@ -65,7 +65,10 @@ class _RecordingCountdownState extends State<RecordingCountdown>
 
 @visibleForTesting
 class CountdownTimer extends StatelessWidget {
-  const CountdownTimer({super.key, required this.controller});
+  const CountdownTimer({
+    required this.controller,
+    super.key,
+  });
 
   final AnimationController controller;
 

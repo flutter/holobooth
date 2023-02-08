@@ -6,8 +6,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class VideoDialogLauncher extends StatelessWidget {
   const VideoDialogLauncher({
-    super.key,
     required this.convertBloc,
+    super.key,
   });
 
   final ConvertBloc convertBloc;
@@ -35,7 +35,10 @@ class VideoDialogLauncher extends StatelessWidget {
 }
 
 class VideoDialog extends StatefulWidget {
-  const VideoDialog({super.key, required this.videoPath});
+  const VideoDialog({
+    required this.videoPath,
+    super.key,
+  });
 
   final String videoPath;
 

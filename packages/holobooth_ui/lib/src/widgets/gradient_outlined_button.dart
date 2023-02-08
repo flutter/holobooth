@@ -8,10 +8,10 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class GradientOutlinedButton extends StatelessWidget {
   /// {@macro gradient_outlined_button}
   const GradientOutlinedButton({
-    super.key,
-    this.onPressed,
     required this.icon,
     required this.label,
+    super.key,
+    this.onPressed,
     this.loading = false,
   });
 

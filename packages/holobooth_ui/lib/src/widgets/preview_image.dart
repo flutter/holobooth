@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class PreviewImage extends StatelessWidget {
   /// {@macro preview_image}
   const PreviewImage({
-    super.key,
     required this.data,
+    super.key,
     this.height,
     this.width,
   });

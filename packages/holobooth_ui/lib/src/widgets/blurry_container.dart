@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 class BlurryContainer extends StatelessWidget {
   /// {@macro blurry_container}
   const BlurryContainer({
-    super.key,
     required this.child,
+    super.key,
     this.height,
     this.width,
     this.blur = 4,

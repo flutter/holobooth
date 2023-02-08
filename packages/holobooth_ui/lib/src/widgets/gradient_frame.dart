@@ -7,8 +7,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class GradientFrame extends StatelessWidget {
   /// {@macro gradient_frame}
   const GradientFrame({
-    super.key,
     required this.child,
+    super.key,
     this.height,
     this.width,
     this.borderWidth = 1,

@@ -8,8 +8,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class SharePage extends StatelessWidget {
   const SharePage({
-    super.key,
     required this.convertBloc,
+    super.key,
   });
 
   final ConvertBloc convertBloc;

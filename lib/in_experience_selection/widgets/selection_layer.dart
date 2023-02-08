@@ -82,9 +82,9 @@ class _MobileSelectionLayerState extends State<MobileSelectionLayer> {
 @visibleForTesting
 class CollapseButton extends StatelessWidget {
   const CollapseButton({
-    super.key,
     required this.onPressed,
     required this.collapsed,
+    super.key,
   });
 
   final VoidCallback onPressed;

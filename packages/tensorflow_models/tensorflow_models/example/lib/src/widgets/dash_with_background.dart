@@ -5,8 +5,8 @@ import 'package:rive/rive.dart';
 
 class DashWithBackground extends StatefulWidget {
   const DashWithBackground({
-    Key? key,
     required this.faceGeometry,
+    Key? key,
   }) : super(key: key);
 
   final FaceGeometry? faceGeometry;

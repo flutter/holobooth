@@ -90,8 +90,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
 
 class _Dash extends StatefulWidget {
   const _Dash({
-    Key? key,
     required this.faceGeometry,
+    Key? key,
   }) : super(key: key);
 
   final FaceGeometry faceGeometry;
