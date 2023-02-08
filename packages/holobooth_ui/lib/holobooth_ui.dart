@@ -1,3 +1,4 @@
+/// UI Toolkit for the Holobooth Flutter Application.
 library holobooth_ui;
 
 export 'package:flame/flame.dart' show Flame;
