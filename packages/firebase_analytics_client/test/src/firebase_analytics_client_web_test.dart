@@ -1,4 +1,5 @@
 @TestOn('chrome')
+library firebase_analytics_client;
 
 import 'dart:js';
 
