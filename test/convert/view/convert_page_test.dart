@@ -51,12 +51,12 @@ void main() {
     });
 
     test('is routable', () {
-      expect(ConvertPage.route([]), isA<AppPageRoute<void>>());
+      expect(ConvertPage.route([], null), isA<AppPageRoute<void>>());
     });
 
     testWidgets('renders ConvertView', (tester) async {
       await tester.pumpApp(
-        ConvertPage(frames: frames),
+        ConvertPage(frames: frames, camera: null),
         convertRepository: convertRepository,
       );
 

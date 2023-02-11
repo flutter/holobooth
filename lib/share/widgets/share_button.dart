@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -6,7 +7,9 @@ import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class ShareButton extends StatelessWidget {
-  const ShareButton({super.key});
+  const ShareButton({super.key, this.camera});
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +37,11 @@ class ShareButton extends StatelessWidget {
           providers: [
             BlocProvider.value(value: context.read<ConvertBloc>()),
           ],
-          child: const HoloBoothAlertDialog(
+          child: HoloBoothAlertDialog(
             height: 300,
             child: ConvertErrorView(
               convertErrorOrigin: ConvertErrorOrigin.video,
+              camera: camera,
             ),
           ),
         ),

@@ -18,11 +18,14 @@ class PhotoboothBody extends StatefulWidget {
     super.key,
     ValueGetter<Exporter>? exporter,
     PlatformHelper? platformHelper,
+    CameraDescription? camera,
   })  : _exporter = exporter ?? _getExporter,
-        _platformHelper = platformHelper ?? PlatformHelper();
+        _platformHelper = platformHelper ?? PlatformHelper(),
+        _camera = camera;
 
   final ValueGetter<Exporter> _exporter;
   final PlatformHelper _platformHelper;
+  final CameraDescription? _camera;
 
   static const emptyViewKey = Key('emptyView');
 
@@ -74,11 +77,9 @@ class _PhotoboothBodyState extends State<PhotoboothBody> {
     return Stack(
       children: [
         Align(
-          child: BlocBuilder<CameraBloc, CameraState>(
-            builder: (context, state) => CameraView(
-              camera: state.camera,
-              onCameraReady: _onCameraReady,
-            ),
+          child: CameraView(
+            camera: widget._camera,
+            onCameraReady: _onCameraReady,
           ),
         ),
         LayoutBuilder(

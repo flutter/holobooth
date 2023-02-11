@@ -6,7 +6,6 @@ import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
-import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/landing/landing.dart';
 import 'package:holobooth/rive/rive.dart';
@@ -42,13 +41,8 @@ class App extends StatelessWidget {
           create: (context) => RiveFileManager()..loadAllAssets(),
         ),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => MuteSoundBloc()),
-          BlocProvider(
-            create: (context) => CameraBloc()..add(CameraStarted()),
-          ),
-        ],
+      child: BlocProvider(
+        create: (context) => MuteSoundBloc(),
         child: AnimatedFadeIn(
           child: ResponsiveLayoutBuilder(
             small: (_, __) => _AppView(theme: HoloboothTheme.small),

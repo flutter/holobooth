@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
 import 'package:holobooth/audio_player/audio_player.dart';
+import 'package:holobooth/camera/bloc/camera_bloc.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
@@ -32,7 +33,9 @@ class _AnimojiNextButtonState extends State<AnimojiNextButton> {
                   label: 'start-holobooth',
                 ),
               );
-          Navigator.of(context).push(PhotoBoothPage.route());
+          Navigator.of(context).push(
+            PhotoBoothPage.route(context.read<CameraBloc>().state.camera),
+          );
         },
         child: Text(l10n.nextButtonText),
       ),
