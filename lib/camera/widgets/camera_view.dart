@@ -8,6 +8,7 @@ class CameraView extends StatefulWidget {
   const CameraView({
     super.key,
     required this.onCameraReady,
+    this.camera,
   });
 
   @visibleForTesting
@@ -20,6 +21,8 @@ class CameraView extends StatefulWidget {
   static const cameraPreviewKey = Key('cameraView_cameraPreview');
 
   final void Function(CameraController controller)? onCameraReady;
+
+  final CameraDescription? camera;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -45,9 +48,9 @@ class _CameraViewState extends State<CameraView> {
     _cameraControllerCompleter = Completer<void>();
 
     try {
-      final cameras = await availableCameras();
+      final camera = widget.camera ?? (await availableCameras())[0];
       _cameraController = CameraController(
-        cameras[0],
+        camera,
         ResolutionPreset.high,
         enableAudio: false,
       );

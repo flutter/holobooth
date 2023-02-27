@@ -30,7 +30,7 @@ void main() {
 
     test('is routable', () {
       expect(
-        SharePage.route(convertBloc: convertBloc),
+        SharePage.route(convertBloc: convertBloc, camera: null),
         isA<AppPageRoute<void>>(),
       );
     });

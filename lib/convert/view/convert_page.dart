@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:convert_repository/convert_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,15 +19,23 @@ typedef PrecacheImageFn = Future<void> Function(
 class ConvertPage extends StatelessWidget {
   const ConvertPage({
     required this.frames,
+    required this.camera,
     super.key,
   });
 
   final List<Frame> frames;
+  final CameraDescription? camera;
 
   static Route<void> route(
     List<Frame> frames,
+    CameraDescription? camera,
   ) {
-    return AppPageRoute(builder: (_) => ConvertPage(frames: frames));
+    return AppPageRoute(
+      builder: (_) => ConvertPage(
+        frames: frames,
+        camera: camera,
+      ),
+    );
   }
 
   @override
@@ -36,7 +45,7 @@ class ConvertPage extends StatelessWidget {
         convertRepository: context.read<ConvertRepository>(),
         frames: frames,
       ),
-      child: const ConvertView(),
+      child: ConvertView(camera: camera),
     );
   }
 }
@@ -46,9 +55,11 @@ class ConvertView extends StatefulWidget {
   const ConvertView({
     super.key,
     this.precacheImageFn = precacheImage,
+    this.camera,
   });
 
   final PrecacheImageFn precacheImageFn;
+  final CameraDescription? camera;
 
   @override
   State<ConvertView> createState() => _ConvertViewState();
@@ -78,7 +89,12 @@ class _ConvertViewState extends State<ConvertView> {
         } else if (state.status == ConvertStatus.loadedFrames) {
           final convertBloc = context.read<ConvertBloc>()
             ..add(const GenerateVideoRequested());
-          Navigator.of(context).push(SharePage.route(convertBloc: convertBloc));
+          Navigator.of(context).push(
+            SharePage.route(
+              convertBloc: convertBloc,
+              camera: widget.camera,
+            ),
+          );
         }
       },
       child: Scaffold(
@@ -92,7 +108,7 @@ class _ConvertViewState extends State<ConvertView> {
             Positioned.fill(
               child: Column(
                 children: [
-                  const Expanded(child: ConvertBody()),
+                  Expanded(child: ConvertBody(camera: widget.camera)),
                   FullFooter(),
                 ],
               ),
@@ -106,7 +122,9 @@ class _ConvertViewState extends State<ConvertView> {
 
 @visibleForTesting
 class ConvertBody extends StatelessWidget {
-  const ConvertBody({super.key});
+  const ConvertBody({super.key, required this.camera});
+
+  final CameraDescription? camera;
 
   static const errorViewKey = Key('errorView');
 
@@ -120,8 +138,9 @@ class ConvertBody extends StatelessWidget {
             buildWhen: (previous, current) => previous.status != current.status,
             builder: (context, state) {
               if (state.status == ConvertStatus.errorLoadingFrames) {
-                return const ConvertErrorView(
+                return ConvertErrorView(
                   convertErrorOrigin: ConvertErrorOrigin.frames,
+                  camera: camera,
                 );
               } else if (state.status == ConvertStatus.loadingFrames) {
                 return const CreatingVideoView();

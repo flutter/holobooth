@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -54,6 +55,11 @@ void main() {
 
       expect(find.byType(PhotoBoothPage), findsOneWidget);
       expect(find.byType(AnimojiIntroPage), findsNothing);
+    });
+
+    testWidgets('renders CameraSelectionDropdown', (tester) async {
+      await tester.pumpApp(const AnimojiIntroView());
+      expect(find.byType(CameraSelectionDropdown), findsOneWidget);
     });
   });
 }

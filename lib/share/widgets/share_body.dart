@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -11,9 +12,11 @@ class ShareBody extends StatelessWidget {
   ShareBody({
     super.key,
     PlatformHelper? platformHelper,
+    this.camera,
   }) : _platformHelper = platformHelper ?? PlatformHelper();
 
   final PlatformHelper _platformHelper;
+  final CameraDescription? camera;
 
   @visibleForTesting
   static const portalVideoButtonKey = Key(
@@ -26,8 +29,10 @@ class ShareBody extends StatelessWidget {
     return Align(
       child: SingleChildScrollView(
         child: ResponsiveLayoutBuilder(
-          small: (context, _) => SmallShareBody(isMobile: isMobile),
-          large: (context, _) => LargeShareBody(isMobile: isMobile),
+          small: (context, _) =>
+              SmallShareBody(isMobile: isMobile, camera: camera),
+          large: (context, _) =>
+              LargeShareBody(isMobile: isMobile, camera: camera),
         ),
       ),
     );
@@ -36,9 +41,14 @@ class ShareBody extends StatelessWidget {
 
 @visibleForTesting
 class SmallShareBody extends StatelessWidget {
-  const SmallShareBody({super.key, required this.isMobile});
+  const SmallShareBody({
+    super.key,
+    required this.isMobile,
+    required this.camera,
+  });
 
   final bool isMobile;
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +64,7 @@ class SmallShareBody extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 48),
-        const _ShareBodyContent(isSmallScreen: true),
+        _ShareBodyContent(isSmallScreen: true, camera: camera),
         const SizedBox(height: 32),
       ],
     );
@@ -63,9 +73,14 @@ class SmallShareBody extends StatelessWidget {
 
 @visibleForTesting
 class LargeShareBody extends StatelessWidget {
-  const LargeShareBody({super.key, required this.isMobile});
+  const LargeShareBody({
+    super.key,
+    required this.isMobile,
+    required this.camera,
+  });
 
   final bool isMobile;
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +106,8 @@ class LargeShareBody extends StatelessWidget {
                   )
                 : const SizedBox(),
           ),
-          const Expanded(
-            child: _ShareBodyContent(isSmallScreen: false),
+          Expanded(
+            child: _ShareBodyContent(isSmallScreen: false, camera: camera),
           ),
         ],
       ),
@@ -151,9 +166,10 @@ class _PortalAnimationViewState extends State<PortalAnimationView> {
 }
 
 class _ShareBodyContent extends StatelessWidget {
-  const _ShareBodyContent({required this.isSmallScreen});
+  const _ShareBodyContent({required this.isSmallScreen, required this.camera});
 
   final bool isSmallScreen;
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +187,7 @@ class _ShareBodyContent extends StatelessWidget {
           const SizedBox(height: 32),
           const ShareSubheading(),
           const SizedBox(height: 54),
-          _ShareBodyButtons(isSmallScreen: isSmallScreen),
+          _ShareBodyButtons(isSmallScreen: isSmallScreen, camera: camera),
         ],
       ),
     );
@@ -179,19 +195,22 @@ class _ShareBodyContent extends StatelessWidget {
 }
 
 class _ShareBodyButtons extends StatelessWidget {
-  const _ShareBodyButtons({required this.isSmallScreen});
+  const _ShareBodyButtons({required this.isSmallScreen, required this.camera});
 
   final bool isSmallScreen;
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
-    if (isSmallScreen) return const _SmallShareBodyButtons();
-    return const _LargeShareBodyButtons();
+    if (isSmallScreen) return _SmallShareBodyButtons(camera: camera);
+    return _LargeShareBodyButtons(camera: camera);
   }
 }
 
 class _SmallShareBodyButtons extends StatelessWidget {
-  const _SmallShareBodyButtons();
+  const _SmallShareBodyButtons({required this.camera});
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -201,17 +220,17 @@ class _SmallShareBodyButtons extends StatelessWidget {
       children: [
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: buttonWidth),
-          child: const ShareButton(),
+          child: ShareButton(camera: camera),
         ),
         const SizedBox(height: buttonSpacing),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: buttonWidth),
-          child: const DownloadButton(),
+          child: DownloadButton(camera: camera),
         ),
         const SizedBox(height: buttonSpacing),
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: buttonWidth),
-          child: const RetakeButton(),
+          child: RetakeButton(camera: camera),
         ),
       ],
     );
@@ -219,7 +238,9 @@ class _SmallShareBodyButtons extends StatelessWidget {
 }
 
 class _LargeShareBodyButtons extends StatelessWidget {
-  const _LargeShareBodyButtons();
+  const _LargeShareBodyButtons({required this.camera});
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -229,18 +250,18 @@ class _LargeShareBodyButtons extends StatelessWidget {
       runSpacing: 16,
       spacing: buttonSpacing,
       alignment: WrapAlignment.center,
-      children: const [
+      children: [
         SizedBox(
           width: buttonWidth,
-          child: ShareButton(),
+          child: ShareButton(camera: camera),
         ),
         SizedBox(
           width: buttonWidth,
-          child: DownloadButton(),
+          child: DownloadButton(camera: camera),
         ),
         SizedBox(
           width: buttonWidth,
-          child: RetakeButton(),
+          child: RetakeButton(camera: camera),
         ),
       ],
     );

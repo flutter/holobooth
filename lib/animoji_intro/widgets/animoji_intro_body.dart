@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/animoji_intro/animoji_intro.dart';
+import 'package:holobooth/camera/camera.dart';
 import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
@@ -85,40 +87,43 @@ class _BottomContent extends StatelessWidget {
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      color: HoloBoothColors.modalSurface,
-      padding: const EdgeInsets.all(20),
-      child: Flex(
-        direction: smallScreen ? Axis.vertical : Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            child: ShaderMask(
-              shaderCallback: (bounds) {
-                return HoloBoothGradients.secondaryFive
-                    .createShader(Offset.zero & bounds.size);
-              },
-              child: const Icon(
-                Icons.videocam_rounded,
-                size: 40,
-                color: HoloBoothColors.white,
+    return BlocProvider(
+      create: (context) => CameraBloc()..add(CameraStarted()),
+      child: Container(
+        color: HoloBoothColors.modalSurface,
+        padding: const EdgeInsets.all(20),
+        child: Flex(
+          direction: smallScreen ? Axis.vertical : Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Flexible(
+              child: ShaderMask(
+                shaderCallback: (bounds) {
+                  return HoloBoothGradients.secondaryFive
+                      .createShader(Offset.zero & bounds.size);
+                },
+                child: const Icon(
+                  Icons.videocam_rounded,
+                  size: 40,
+                  color: HoloBoothColors.white,
+                ),
               ),
             ),
-          ),
-          Flexible(
-            flex: smallScreen ? 0 : 3,
-            child: SelectableText(
-              l10n.animojiIntroPageSubheading,
-              key: const Key('animojiIntro_subheading_text'),
-              style: textTheme.bodyLarge?.copyWith(
-                color: HoloBoothColors.white,
+            Flexible(
+              flex: smallScreen ? 0 : 3,
+              child: SelectableText(
+                l10n.animojiIntroPageSubheading,
+                key: const Key('animojiIntro_subheading_text'),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: HoloBoothColors.white,
+                ),
+                textAlign: smallScreen ? TextAlign.center : TextAlign.left,
               ),
-              textAlign: smallScreen ? TextAlign.center : TextAlign.left,
             ),
-          ),
-          if (smallScreen) const SizedBox(height: 16),
-          const Flexible(child: AnimojiNextButton()),
-        ],
+            const CameraSelectionDropdown(),
+            const Flexible(child: AnimojiNextButton()),
+          ],
+        ),
       ),
     );
   }

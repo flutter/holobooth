@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -11,9 +12,14 @@ enum ConvertErrorOrigin {
 }
 
 class ConvertErrorView extends StatelessWidget {
-  const ConvertErrorView({super.key, required this.convertErrorOrigin});
+  const ConvertErrorView({
+    super.key,
+    required this.convertErrorOrigin,
+    this.camera,
+  });
 
   final ConvertErrorOrigin convertErrorOrigin;
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,10 @@ class ConvertErrorView extends StatelessWidget {
               child: TryAgainVideoGenerationButton(),
             ),
           const SizedBox(height: 24),
-          const SizedBox(width: buttonWidth, child: RetakeExperienceButton()),
+          SizedBox(
+            width: buttonWidth,
+            child: RetakeExperienceButton(camera: camera),
+          ),
         ],
       ),
     );
@@ -84,14 +93,18 @@ class TryAgainFrameProcessingButton extends StatelessWidget {
 
 @visibleForTesting
 class RetakeExperienceButton extends StatelessWidget {
-  const RetakeExperienceButton({super.key});
+  const RetakeExperienceButton({super.key, required this.camera});
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return OutlinedButton(
       onPressed: () {
-        Navigator.of(context).pushReplacement(PhotoBoothPage.route());
+        Navigator.of(context).pushReplacement(
+          PhotoBoothPage.route(camera),
+        );
       },
       child: Text(l10n.retakeVideoGeneration),
     );

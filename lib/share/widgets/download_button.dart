@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/convert/convert.dart';
@@ -6,7 +7,9 @@ import 'package:holobooth/share/share.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class DownloadButton extends StatefulWidget {
-  const DownloadButton({super.key});
+  const DownloadButton({super.key, this.camera});
+
+  final CameraDescription? camera;
 
   @override
   State<DownloadButton> createState() => _DownloadButtonState();
@@ -31,17 +34,18 @@ class _DownloadButtonState extends State<DownloadButton> {
     );
   }
 
-  void _showErrorView() {
+  void _showErrorView(CameraDescription? camera) {
     showAppDialog<void>(
       context: context,
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: context.read<ConvertBloc>()),
         ],
-        child: const HoloBoothAlertDialog(
+        child: HoloBoothAlertDialog(
           height: 300,
           child: ConvertErrorView(
             convertErrorOrigin: ConvertErrorOrigin.video,
+            camera: camera,
           ),
         ),
       ),
@@ -84,7 +88,7 @@ class _DownloadButtonState extends State<DownloadButton> {
                   .read<ConvertBloc>()
                   .add(const ShareRequested(ShareType.download));
             } else if (convertStatus == ConvertStatus.errorGeneratingVideo) {
-              _showErrorView();
+              _showErrorView(widget.camera);
             }
           },
         ),

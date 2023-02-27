@@ -138,7 +138,7 @@ void main() {
   group('PhotoBoothPage', () {
     test('is routable', () {
       expect(
-        PhotoBoothPage.route(),
+        PhotoBoothPage.route(null),
         isA<MaterialPageRoute<void>>(),
       );
     });

@@ -1,4 +1,5 @@
 import 'package:avatar_detector_repository/avatar_detector_repository.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holobooth/assets/assets.dart';
@@ -16,10 +17,12 @@ typedef PrecacheImageFn = Future<void> Function(
 );
 
 class PhotoBoothPage extends StatelessWidget {
-  const PhotoBoothPage({super.key});
+  const PhotoBoothPage({super.key, this.camera});
 
-  static Route<void> route() =>
-      AppPageRoute<void>(builder: (_) => const PhotoBoothPage());
+  static Route<void> route(CameraDescription? camera) =>
+      AppPageRoute<void>(builder: (_) => PhotoBoothPage(camera: camera));
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class PhotoBoothPage extends StatelessWidget {
           )..add(const AvatarDetectorInitialized()),
         ),
       ],
-      child: const PhotoBoothView(),
+      child: PhotoBoothView(camera: camera),
     );
   }
 }
@@ -42,9 +45,11 @@ class PhotoBoothView extends StatefulWidget {
   const PhotoBoothView({
     super.key,
     this.precacheImageFn = precacheImage,
+    this.camera,
   });
 
   final PrecacheImageFn precacheImageFn;
+  final CameraDescription? camera;
 
   @override
   State<PhotoBoothView> createState() => _PhotoBoothViewState();
@@ -72,11 +77,11 @@ class _PhotoBoothViewState extends State<PhotoBoothView> {
             _audioPlayerController.stopAudio();
 
             Navigator.of(context).pushReplacement(
-              ConvertPage.route(state.frames),
+              ConvertPage.route(state.frames, widget.camera),
             );
           }
         },
-        child: Scaffold(body: PhotoboothBody()),
+        child: Scaffold(body: PhotoboothBody(camera: widget.camera)),
       ),
     );
   }

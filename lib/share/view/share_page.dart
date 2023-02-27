@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:download_repository/download_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,14 +11,22 @@ class SharePage extends StatelessWidget {
   const SharePage({
     super.key,
     required this.convertBloc,
+    this.camera,
   });
 
   final ConvertBloc convertBloc;
+  final CameraDescription? camera;
 
   static Route<void> route({
     required ConvertBloc convertBloc,
+    required CameraDescription? camera,
   }) =>
-      AppPageRoute(builder: (_) => SharePage(convertBloc: convertBloc));
+      AppPageRoute(
+        builder: (_) => SharePage(
+          convertBloc: convertBloc,
+          camera: camera,
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +39,15 @@ class SharePage extends StatelessWidget {
           ),
         ),
       ],
-      child: const Scaffold(body: ShareView()),
+      child: Scaffold(body: ShareView(camera: camera)),
     );
   }
 }
 
 class ShareView extends StatelessWidget {
-  const ShareView({super.key});
+  const ShareView({super.key, this.camera});
+
+  final CameraDescription? camera;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +57,7 @@ class ShareView extends StatelessWidget {
         Positioned.fill(
           child: Column(
             children: [
-              Expanded(child: ShareBody()),
+              Expanded(child: ShareBody(camera: camera)),
               FullFooter(footerDecoration: true),
             ],
           ),
