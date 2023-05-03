@@ -6,8 +6,8 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class GetReadyLayer extends StatefulWidget {
   const GetReadyLayer({
-    super.key,
     required this.onCountdownCompleted,
+    super.key,
   });
 
   final VoidCallback onCountdownCompleted;
@@ -61,8 +61,8 @@ class _GetReadyLayerState extends State<GetReadyLayer>
 @visibleForTesting
 class GetReadyCountdown extends StatelessWidget {
   const GetReadyCountdown({
-    super.key,
     required this.controller,
+    super.key,
   });
 
   final AnimationController controller;

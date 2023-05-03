@@ -5,7 +5,7 @@ import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RecordingButton extends StatefulWidget {
-  const RecordingButton({super.key, required this.onRecordingPressed});
+  const RecordingButton({required this.onRecordingPressed, super.key});
 
   final VoidCallback onRecordingPressed;
 

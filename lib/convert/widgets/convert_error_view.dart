@@ -13,9 +13,9 @@ enum ConvertErrorOrigin {
 
 class ConvertErrorView extends StatelessWidget {
   const ConvertErrorView({
-    super.key,
     required this.convertErrorOrigin,
     this.camera,
+    super.key,
   });
 
   final ConvertErrorOrigin convertErrorOrigin;
@@ -93,7 +93,7 @@ class TryAgainFrameProcessingButton extends StatelessWidget {
 
 @visibleForTesting
 class RetakeExperienceButton extends StatelessWidget {
-  const RetakeExperienceButton({super.key, required this.camera});
+  const RetakeExperienceButton({required this.camera, super.key});
 
   final CameraDescription? camera;
 

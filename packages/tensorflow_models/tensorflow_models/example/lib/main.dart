@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(const MaterialApp(home: _App()));
 
 class _App extends StatelessWidget {
-  const _App({Key? key}) : super(key: key);
+  const _App();
 
   static final _pages = <String, Route<void> Function()>{
     'Landmarks Video Stream': LandmarksVideoStreamPage.route,

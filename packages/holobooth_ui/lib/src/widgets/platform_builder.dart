@@ -7,9 +7,9 @@ import 'package:platform_helper/platform_helper.dart';
 class PlatformBuilder extends StatelessWidget {
   /// {@macro platform_builder}
   PlatformBuilder({
-    super.key,
     required this.mobile,
     required this.desktop,
+    super.key,
     PlatformHelper? platformHelper,
   }) : _platformHelper = platformHelper ?? PlatformHelper();
 

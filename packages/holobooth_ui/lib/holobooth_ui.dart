@@ -1,4 +1,3 @@
-library holobooth_ui;
 
 export 'package:flame/flame.dart' show Flame;
 

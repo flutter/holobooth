@@ -117,8 +117,8 @@ class _PropsSelectionTabBarViewState extends State<PropsSelectionTabBarView>
 
 class _PropSelectionTab extends StatefulWidget {
   const _PropSelectionTab({
-    super.key,
     required this.assetGenImage,
+    super.key,
   });
 
   final AssetGenImage assetGenImage;

@@ -8,7 +8,7 @@ import 'package:rive/rive.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDashPage extends StatelessWidget {
-  const LandmarksDashPage({Key? key}) : super(key: key);
+  const LandmarksDashPage({super.key});
 
   static Route<void> route() =>
       MaterialPageRoute(builder: (_) => const LandmarksDashPage());
@@ -18,7 +18,7 @@ class LandmarksDashPage extends StatelessWidget {
 }
 
 class _LandmarksDashView extends StatefulWidget {
-  const _LandmarksDashView({Key? key}) : super(key: key);
+  const _LandmarksDashView();
 
   @override
   State<_LandmarksDashView> createState() => _LandmarksDashViewState();
@@ -90,9 +90,8 @@ class _LandmarksDashViewState extends State<_LandmarksDashView> {
 
 class _Dash extends StatefulWidget {
   const _Dash({
-    Key? key,
     required this.faceGeometry,
-  }) : super(key: key);
+  });
 
   final FaceGeometry faceGeometry;
 

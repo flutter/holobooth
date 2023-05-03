@@ -1,4 +1,6 @@
 @TestOn('!chrome')
+library firebase_analytics_client_io_test;
+
 import 'package:firebase_analytics_client/firebase_analytics_client.dart';
 import 'package:test/test.dart';
 

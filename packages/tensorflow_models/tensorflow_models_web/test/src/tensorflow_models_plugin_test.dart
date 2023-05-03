@@ -12,10 +12,10 @@ import '../test_assets/real_face.jpg.dart' as real_face;
 
 class AppTester extends StatefulWidget {
   const AppTester({
-    super.key,
     required this.imagePath,
     required this.encodedAsset,
     required this.imageSize,
+    super.key,
   });
 
   final String imagePath;

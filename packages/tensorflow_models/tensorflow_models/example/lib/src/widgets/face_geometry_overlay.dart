@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 
 class FaceGeometryOverlay extends StatelessWidget {
   const FaceGeometryOverlay({
-    Key? key,
     required this.faceGeometry,
-  }) : super(key: key);
+    super.key,
+  });
 
   final FaceGeometry faceGeometry;
 

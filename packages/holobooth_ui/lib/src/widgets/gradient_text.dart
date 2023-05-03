@@ -8,11 +8,11 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class GradientText extends StatelessWidget {
   /// {@macro gradient_text}
   const GradientText({
-    super.key,
     required this.text,
     this.style,
     this.textAlign,
     this.gradient = HoloBoothGradients.secondaryFour,
+    super.key,
   });
 
   /// The text.

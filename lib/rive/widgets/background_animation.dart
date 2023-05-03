@@ -3,8 +3,8 @@ import 'package:rive/rive.dart';
 
 class BackgroundAnimation extends StatefulWidget {
   const BackgroundAnimation({
-    super.key,
     required this.riveFile,
+    super.key,
   });
 
   final RiveFile riveFile;

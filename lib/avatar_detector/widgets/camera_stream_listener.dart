@@ -5,8 +5,8 @@ import 'package:holobooth/avatar_detector/avatar_detector.dart';
 
 class CameraStreamListener extends StatefulWidget {
   const CameraStreamListener({
-    super.key,
     required this.cameraController,
+    super.key,
   });
 
   final CameraController cameraController;

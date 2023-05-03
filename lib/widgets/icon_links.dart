@@ -5,9 +5,9 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class IconLink extends StatelessWidget {
   const IconLink({
-    super.key,
     required this.icon,
     required this.link,
+    super.key,
   });
 
   final Widget icon;

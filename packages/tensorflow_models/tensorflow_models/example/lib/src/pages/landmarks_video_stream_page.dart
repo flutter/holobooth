@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksVideoStreamPage extends StatelessWidget {
-  const LandmarksVideoStreamPage({Key? key}) : super(key: key);
+  const LandmarksVideoStreamPage({super.key});
 
   static Route<void> route() =>
       MaterialPageRoute(builder: (_) => const LandmarksVideoStreamPage());
@@ -15,7 +15,7 @@ class LandmarksVideoStreamPage extends StatelessWidget {
 }
 
 class _LandmarksVideoStreamView extends StatefulWidget {
-  const _LandmarksVideoStreamView({Key? key}) : super(key: key);
+  const _LandmarksVideoStreamView();
 
   @override
   State<_LandmarksVideoStreamView> createState() =>
