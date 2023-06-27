@@ -7,7 +7,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksOpenMouthPage extends StatelessWidget {
-  const LandmarksOpenMouthPage({Key? key}) : super(key: key);
+  const LandmarksOpenMouthPage({super.key});
 
   static Route<void> route() =>
       MaterialPageRoute(builder: (_) => const LandmarksOpenMouthPage());
@@ -17,7 +17,7 @@ class LandmarksOpenMouthPage extends StatelessWidget {
 }
 
 class _LandmarksOpenMouthPage extends StatefulWidget {
-  const _LandmarksOpenMouthPage({Key? key}) : super(key: key);
+  const _LandmarksOpenMouthPage();
 
   @override
   State<_LandmarksOpenMouthPage> createState() =>

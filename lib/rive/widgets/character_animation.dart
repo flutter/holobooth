@@ -49,13 +49,13 @@ class RiveCharacter {
 @visibleForTesting
 class CharacterAnimation extends StatefulWidget {
   const CharacterAnimation({
-    super.key,
     required this.avatar,
     required this.hat,
     required this.glasses,
     required this.clothes,
     required this.handheldlLeft,
     required this.riveCharacter,
+    super.key,
   });
 
   final Avatar avatar;

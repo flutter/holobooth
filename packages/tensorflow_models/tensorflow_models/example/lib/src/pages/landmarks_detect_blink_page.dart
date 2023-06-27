@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tensorflow_models/tensorflow_models.dart' as tf;
 
 class LandmarksDetectBlinkPage extends StatelessWidget {
-  const LandmarksDetectBlinkPage({Key? key}) : super(key: key);
+  const LandmarksDetectBlinkPage({super.key});
 
   static Route<void> route() =>
       MaterialPageRoute(builder: (_) => const LandmarksDetectBlinkPage());
@@ -15,7 +15,7 @@ class LandmarksDetectBlinkPage extends StatelessWidget {
 }
 
 class _LandmarksDetectBlinkView extends StatefulWidget {
-  const _LandmarksDetectBlinkView({Key? key}) : super(key: key);
+  const _LandmarksDetectBlinkView();
 
   @override
   State<_LandmarksDetectBlinkView> createState() =>

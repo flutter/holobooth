@@ -5,9 +5,9 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class FooterLink extends StatelessWidget {
   const FooterLink({
-    super.key,
     required this.text,
     required this.link,
+    super.key,
   });
 
   final String text;

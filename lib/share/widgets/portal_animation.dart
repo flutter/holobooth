@@ -68,10 +68,10 @@ class PortalModeData {
 
 class PortalAnimation extends StatefulWidget {
   const PortalAnimation({
-    super.key,
     required this.mode,
     required this.imageBytes,
     required this.onComplete,
+    super.key,
   });
 
   final PortalMode mode;

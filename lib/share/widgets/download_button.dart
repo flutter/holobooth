@@ -99,9 +99,9 @@ class _DownloadButtonState extends State<DownloadButton> {
 
 class DownloadOptionDialog extends StatelessWidget {
   const DownloadOptionDialog({
-    super.key,
     required this.layerLink,
     required this.url,
+    super.key,
   });
 
   final LayerLink layerLink;
@@ -136,7 +136,7 @@ class DownloadOptionDialog extends StatelessWidget {
 }
 
 class DownloadAsAGifButton extends StatelessWidget {
-  const DownloadAsAGifButton({super.key, required this.url});
+  const DownloadAsAGifButton({required this.url, super.key});
 
   final String url;
 
@@ -168,7 +168,7 @@ class DownloadAsAGifButton extends StatelessWidget {
 }
 
 class DownloadAsAVideoButton extends StatelessWidget {
-  const DownloadAsAVideoButton({super.key, required this.url});
+  const DownloadAsAVideoButton({required this.url, super.key});
 
   final String url;
 

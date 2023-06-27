@@ -6,9 +6,9 @@ import 'package:holobooth/camera/camera.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({
-    super.key,
     required this.onCameraReady,
     this.camera,
+    super.key,
   });
 
   @visibleForTesting

@@ -161,8 +161,8 @@ class _PrimarySelectionViewState extends State<PrimarySelectionView>
 @visibleForTesting
 class PrimarySelectionTab extends StatefulWidget {
   const PrimarySelectionTab({
-    super.key,
     required this.iconData,
+    super.key,
   });
 
   final IconData iconData;

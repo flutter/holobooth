@@ -7,11 +7,11 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class HoloBoothAlertDialog extends StatelessWidget {
   /// {@macro holo_booth_alert_dialog}
   const HoloBoothAlertDialog({
-    super.key,
     required this.child,
     this.height,
     this.width,
     this.borderRadius = 38,
+    super.key,
   });
 
   /// Widget wrapped on the dialog.

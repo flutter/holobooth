@@ -3,7 +3,7 @@ description: Repository which manages user authentication using Firebase Authent
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
   equatable: ^2.0.5
@@ -16,4 +16,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^0.1.1
-  very_good_analysis: ^3.1.0
+  very_good_analysis: ^4.0.0

@@ -73,7 +73,10 @@ class CameraSelectionDropdown extends StatelessWidget {
 }
 
 class _CameraErrorView extends StatelessWidget {
-  const _CameraErrorView({super.key, required this.error});
+  const _CameraErrorView({
+    required this.error,
+    super.key,
+  });
 
   final Object error;
 

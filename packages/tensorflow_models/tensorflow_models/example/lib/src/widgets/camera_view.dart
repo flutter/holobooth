@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraView extends StatefulWidget {
-  const CameraView({Key? key, this.onCameraReady}) : super(key: key);
+  const CameraView({super.key, this.onCameraReady});
 
   /// Callback called once the camera has been initialized.
   ///

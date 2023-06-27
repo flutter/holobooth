@@ -6,9 +6,9 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerView extends StatefulWidget {
   const VideoPlayerView({
-    super.key,
     required this.url,
     this.onInitialized,
+    super.key,
   });
 
   final String url;
@@ -240,9 +240,9 @@ class _Controls extends StatelessWidget {
 
 class VideoProgressBar extends StatelessWidget {
   const VideoProgressBar({
-    super.key,
     required this.currentPosition,
     required this.totalDuration,
+    super.key,
   });
 
   final Duration currentPosition;

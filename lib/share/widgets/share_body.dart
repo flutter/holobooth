@@ -42,9 +42,9 @@ class ShareBody extends StatelessWidget {
 @visibleForTesting
 class SmallShareBody extends StatelessWidget {
   const SmallShareBody({
-    super.key,
     required this.isMobile,
     required this.camera,
+    super.key,
   });
 
   final bool isMobile;
@@ -74,9 +74,9 @@ class SmallShareBody extends StatelessWidget {
 @visibleForTesting
 class LargeShareBody extends StatelessWidget {
   const LargeShareBody({
-    super.key,
     required this.isMobile,
     required this.camera,
+    super.key,
   });
 
   final bool isMobile;
@@ -118,9 +118,9 @@ class LargeShareBody extends StatelessWidget {
 @visibleForTesting
 class PortalAnimationView extends StatefulWidget {
   const PortalAnimationView({
-    super.key,
     required this.thumbnail,
     required this.mode,
+    super.key,
   });
 
   final Uint8List thumbnail;

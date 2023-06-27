@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class BlurryContainer extends StatelessWidget {
   /// {@macro blurry_container}
   const BlurryContainer({
-    super.key,
     required this.child,
     this.height,
     this.width,
@@ -17,6 +16,7 @@ class BlurryContainer extends StatelessWidget {
     this.color = Colors.transparent,
     this.padding = EdgeInsets.zero,
     this.borderRadius = BorderRadius.zero,
+    super.key,
   });
 
   /// The child shown in top of the container.

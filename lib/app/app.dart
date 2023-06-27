@@ -13,12 +13,12 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 
 class App extends StatelessWidget {
   const App({
-    super.key,
     required this.authenticationRepository,
     required this.avatarDetectorRepository,
     required this.convertRepository,
     required this.downloadRepository,
     required this.analyticsRepository,
+    super.key,
   });
 
   final AuthenticationRepository authenticationRepository;

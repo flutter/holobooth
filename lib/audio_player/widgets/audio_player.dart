@@ -18,13 +18,13 @@ class AudioPlayerController {
 
 class AudioPlayer extends StatefulWidget {
   const AudioPlayer({
-    super.key,
     required this.audioAssetPath,
     required this.child,
     this.controller,
     this.loop = false,
     this.autoplay = false,
     this.onAudioFinished,
+    super.key,
   });
 
   final String audioAssetPath;

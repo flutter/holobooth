@@ -5,7 +5,7 @@ import 'package:holobooth/l10n/l10n.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class NextButton extends StatefulWidget {
-  const NextButton({super.key, required this.onNextPressed});
+  const NextButton({required this.onNextPressed, super.key});
 
   final VoidCallback onNextPressed;
 

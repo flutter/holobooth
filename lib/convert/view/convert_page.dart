@@ -122,7 +122,7 @@ class _ConvertViewState extends State<ConvertView> {
 
 @visibleForTesting
 class ConvertBody extends StatelessWidget {
-  const ConvertBody({super.key, required this.camera});
+  const ConvertBody({required this.camera, super.key});
 
   final CameraDescription? camera;
 

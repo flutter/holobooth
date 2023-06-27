@@ -10,9 +10,9 @@ import 'package:holobooth_ui/holobooth_ui.dart';
 class GradientElevatedButton extends StatelessWidget {
   /// {@macro gradient_evelevated_button}
   const GradientElevatedButton({
-    super.key,
     required this.child,
     required this.onPressed,
+    super.key,
   });
 
   /// Button's child.

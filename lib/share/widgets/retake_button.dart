@@ -5,7 +5,7 @@ import 'package:holobooth/photo_booth/photo_booth.dart';
 import 'package:holobooth_ui/holobooth_ui.dart';
 
 class RetakeButton extends StatelessWidget {
-  const RetakeButton({super.key, required this.camera});
+  const RetakeButton({required this.camera, super.key});
 
   final CameraDescription? camera;
 
